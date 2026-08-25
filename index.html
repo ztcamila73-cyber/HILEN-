@@ -227,6 +227,10 @@ img,svg,canvas{max-width:100%}
 .cloud-backup-panel{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:15px;background:#fafafa}.cloud-backup-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.cloud-backup-row:last-child{border-bottom:0}.cloud-backup-actions{display:flex;gap:7px;flex-wrap:wrap}
 .inventory-kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))!important}
 @media(max-width:1366px){.history-month-grid,.history-client-month-grid{gap:4px}.history-month-col,.history-client-month-col{min-width:42px}.history-bar,.history-client-bar{width:5px}}
+
+.app-version{margin-top:10px;display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#f3f3f5;color:#666;font-size:11px;font-weight:700}
+.google-auth-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 14px;border:1px solid #dadce0;border-radius:12px;background:#fff;color:#1f1f1f;font-weight:750;font-size:14px;cursor:pointer;transition:.18s ease}.google-auth-btn:hover{background:#f8f9fa;border-color:#c9cdd2}.google-auth-btn:disabled{opacity:.6;cursor:not-allowed}.google-g{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:#4285f4}.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:#8a8a8a;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}.auth-divider:before,.auth-divider:after{content:"";height:1px;background:#e5e5e7;flex:1}
+.cloud-required{margin-top:12px;padding:10px 12px;border-radius:12px;background:#fff6e7;color:#7b560d;font-size:12px;line-height:1.35}
 </style>
 </head>
 <body>
@@ -235,6 +239,8 @@ img,svg,canvas{max-width:100%}
     <div class="logo-row"><div class="logo-mark">H</div><div class="logo">HILEN</div></div>
     <p class="muted">Ventas, clientes, crédito y flujo de caja.</p>
     <div id="loginBox">
+      <button id="googleLoginBtn" class="google-auth-btn" type="button" onclick="googleSignIn()"><span class="google-g">G</span><span>Continuar con Google</span></button>
+      <div class="auth-divider">o con correo</div>
       <label class="label">Correo</label><input id="loginEmail" class="input" type="email" placeholder="correo@ejemplo.com">
       <label class="label">Contraseña</label><input id="loginPass" class="input" type="password" placeholder="••••••••">
       <div class="auth-links"><button class="link-btn" onclick="showForgot()">¿Olvidaste tu contraseña?</button></div>
@@ -242,6 +248,8 @@ img,svg,canvas{max-width:100%}
       <button class="secondary full" style="margin-top:10px" onclick="showRegister()">Crear cuenta</button>
     </div>
     <div id="registerBox" class="hidden">
+      <button id="googleRegisterBtn" class="google-auth-btn" type="button" onclick="googleSignIn()"><span class="google-g">G</span><span>Registrarme con Google</span></button>
+      <div class="auth-divider">o crear cuenta con correo</div>
       <label class="label">Nombre</label><input id="regName" class="input" placeholder="Tu nombre">
       <label class="label">Correo</label><input id="regEmail" class="input" type="email" placeholder="correo@ejemplo.com">
       <label class="label">Contraseña</label><input id="regPass" class="input" type="password">
@@ -254,16 +262,19 @@ img,svg,canvas{max-width:100%}
       <label class="label">Correo</label><input id="forgotEmail" class="input" type="email" placeholder="correo@ejemplo.com">
       <button class="primary full" onclick="resetPassword()">Enviar enlace de recuperación</button>
       <button class="secondary full" style="margin-top:10px" onclick="showLogin()">Volver</button>
-      <div class="auth-help">La recuperación por correo funciona cuando HILEN está conectado a Supabase.</div>
+      <div class="auth-help">La recuperación por correo funciona cuando HILEN está conectado a Firebase.</div>
     </div>
     <p id="storageModeNote" class="small muted" style="margin-top:16px">HILEN puede guardar y sincronizar tus datos en la nube para abrirlos con la misma cuenta desde otros dispositivos.</p>
+    <div id="authCloudRequirement" class="cloud-required">Para proteger la información del negocio, inicia con Google o crea la cuenta por correo únicamente cuando Firebase esté listo. La primera entrada con Google crea la cuenta del dueño automáticamente.</div>
+    <div class="app-version">HILEN · versión nube 8.1 · Google</div>
   </div>
 </div>
 
 <div id="app" class="app hidden">
   <aside id="side" class="side">
     <div class="brand"><div class="logo-mark">H</div> HILEN</div>
-    <div id="cloudStatus" class="small muted" style="padding:0 12px 12px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
+    <div id="cloudStatus" class="small muted" style="padding:0 12px 6px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
+    <div class="small muted" style="padding:0 12px 12px">v8.1 · Firebase + Google + Excel</div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('day',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>Ventas</button>
@@ -452,6 +463,7 @@ img,svg,canvas{max-width:100%}
             <div><label class="label">Año</label><input id="historyYear" class="input" type="number" min="2000" max="2100" onchange="renderHistory()"></div>
             <button class="secondary" onclick="changeHistoryYear(-1)">← Año anterior</button>
             <button class="secondary" onclick="changeHistoryYear(1)">Año siguiente →</button>
+            <button class="primary" onclick="exportAllToExcel()">Excel completo</button>
           </div>
         </div>
         <div id="historyAvailableYears" class="history-note" style="margin-top:12px"></div>
@@ -461,7 +473,7 @@ img,svg,canvas{max-width:100%}
         <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Movimiento financiero por mes</h2><div class="muted small">Todos los meses visibles: ventas, abonos, ingresos y egresos.</div></div></div><div id="historyChart"></div></div>
         <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Clientes por mes</h2><div class="muted small">Nuevos, recurrentes, mujeres y hombres activos en cada mes.</div></div></div><div id="historyClientChart"></div></div>
       </div>
-      <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div><div class="history-backup" style="margin-top:16px"><button class="secondary" onclick="downloadBackup()">Descargar respaldo</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar respaldo<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div><div class="muted small" style="margin-top:10px">La nube mantiene tu historial entre dispositivos. El respaldo JSON es una copia adicional que puedes guardar cuando quieras.</div><div id="cloudBackupPanel" class="cloud-backup-panel"></div></div>
+      <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div><div class="history-backup" style="margin-top:16px"><button class="primary" onclick="exportAllToExcel()">Descargar Excel completo</button><button class="secondary" onclick="downloadBackup()">Descargar respaldo JSON</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar respaldo<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div><div class="muted small" style="margin-top:10px">El Excel incluye clientes, ventas, productos vendidos, abonos, flujo de caja, productos y demanda y resúmenes anuales. El respaldo JSON sirve para restaurar HILEN completo.</div><div id="cloudBackupPanel" class="cloud-backup-panel"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Mes a mes</h2><div class="muted small">Detalle completo del año seleccionado.</div></div></div><div id="historyMonthTable"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Comparativo de todos los años</h2><div class="muted small">Los registros de 2026, 2027 y los años siguientes permanecen separados por fecha.</div></div></div><div id="historyYearsTable"></div></div>
       <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Historial de clientes del año</h2><div class="muted small">Al final del historial: qué compró cada cliente, cuánto abonó, su estado y si terminó el año sin deuda.</div></div></div><div id="historyClientsTable"></div></div>
@@ -479,7 +491,10 @@ img,svg,canvas{max-width:100%}
 
 <div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div class="modal-card"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-database-compat.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
 const KEY="HILEN_DEMO_V2";
 const OLD_KEY="HILEN_DEMO_V1";
@@ -497,20 +512,31 @@ db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cash
 let currentUser=null;
 
 /* ==========================================================
-   HILEN CLOUD · SUPABASE
-   1) Crea un proyecto en Supabase.
-   2) Ejecuta el archivo supabase_setup.sql en SQL Editor.
-   3) Reemplaza SOLO estos dos valores por Project URL y Publishable key.
-   IMPORTANTE: nunca pegues aquí una Secret key / service_role.
+   HILEN CLOUD · FIREBASE REALTIME DATABASE
+   1) Crea un proyecto en Firebase y registra una app Web.
+   2) Activa Authentication > Email/Password.
+   3) Crea Realtime Database y pega las reglas de firebase_database_rules.json.
+   4) Copia el objeto firebaseConfig que te entrega Firebase y reemplaza los valores siguientes.
+   IMPORTANTE: la configuración web de Firebase no es una contraseña. La seguridad real está en Authentication + Database Rules.
    ========================================================== */
-const HILEN_SUPABASE_URL="https://TU-PROYECTO.supabase.co";
-const HILEN_SUPABASE_PUBLISHABLE_KEY="PEGA_AQUI_TU_PUBLISHABLE_KEY";
-const CLOUD_OWNER_KEY="HILEN_CLOUD_OWNER_V1";
-const CLOUD_DIRTY_KEY="HILEN_CLOUD_DIRTY_V1";
-const CLOUD_LOCAL_UPDATED_KEY="HILEN_LOCAL_UPDATED_V1";
-const CLOUD_LAST_BACKUP_DAY_KEY="HILEN_LAST_CLOUD_BACKUP_DAY_V1";
-const cloudConfigured=()=>/^https:\/\/.+\.supabase\.co$/i.test(HILEN_SUPABASE_URL)&&!HILEN_SUPABASE_PUBLISHABLE_KEY.includes('PEGA_AQUI')&&HILEN_SUPABASE_PUBLISHABLE_KEY.length>20;
-let cloudClient=null,cloudLoading=false,cloudSaveTimer=null,cloudSaveInFlight=false;
+const HILEN_FIREBASE_CONFIG={
+  apiKey:"AIzaSyD1gJ6dn0eqiWPFvSxDdc46cdxIgYLf5xs",
+  authDomain:"hilen-sistema.firebaseapp.com",
+  databaseURL:"https://hilen-sistema-default-rtdb.firebaseio.com",
+  projectId:"hilen-sistema",
+  storageBucket:"hilen-sistema.firebasestorage.app",
+  messagingSenderId:"600139879243",
+  appId:"1:600139879243:web:9a482d49f6909a3ec88ece"
+};
+const CLOUD_OWNER_KEY="HILEN_CLOUD_OWNER_FIREBASE_V1";
+const CLOUD_DIRTY_KEY="HILEN_CLOUD_DIRTY_FIREBASE_V1";
+const CLOUD_LOCAL_UPDATED_KEY="HILEN_LOCAL_UPDATED_FIREBASE_V1";
+const CLOUD_LAST_BACKUP_DAY_KEY="HILEN_LAST_CLOUD_BACKUP_DAY_FIREBASE_V1";
+const cloudConfigured=()=>{
+  const c=HILEN_FIREBASE_CONFIG||{};
+  return !!(c.apiKey&&c.authDomain&&c.databaseURL&&c.projectId&&c.appId&&!String(c.apiKey).includes('PEGA_AQUI')&&!String(c.authDomain).includes('TU-PROYECTO')&&!String(c.databaseURL).includes('TU-PROYECTO'));
+};
+let firebaseApp=null,cloudAuth=null,cloudDb=null,cloudLoading=false,cloudSaveTimer=null,cloudSaveInFlight=false;
 
 function setCloudStatus(kind,text){
   const dot=document.getElementById('cloudDot'),label=document.getElementById('cloudStatusText');
@@ -519,17 +545,22 @@ function setCloudStatus(kind,text){
 }
 function initCloud(){
   if(!cloudConfigured()){
-    setCloudStatus('off','Nube sin configurar');
-    const n=document.getElementById('storageModeNote');if(n)n.textContent='Modo local activo. Configura Supabase para sincronizar la misma cuenta y los mismos datos entre dispositivos.';
+    setCloudStatus('off','Firebase sin configurar');
+    const n=document.getElementById('storageModeNote');if(n)n.textContent='Configura Firebase para guardar la misma información de HILEN en todos tus dispositivos.';
     return false;
   }
-  if(!window.supabase?.createClient){setCloudStatus('error','No se pudo cargar Supabase');return false}
-  cloudClient=window.supabase.createClient(HILEN_SUPABASE_URL,HILEN_SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-  setCloudStatus('work','Conectando a la nube…');
-  return true;
+  if(!window.firebase?.initializeApp){setCloudStatus('error','No se pudo cargar Firebase');return false}
+  try{
+    firebaseApp=window.firebase.apps?.length?window.firebase.app():window.firebase.initializeApp(HILEN_FIREBASE_CONFIG);
+    cloudAuth=window.firebase.auth();
+    cloudDb=window.firebase.database();
+    cloudAuth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
+    setCloudStatus('work','Conectando a Firebase…');
+    return true;
+  }catch(err){console.error('Firebase init:',err);setCloudStatus('error','Error configurando Firebase');return false}
 }
 function businessState(){
-  return {version:6,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[]};
+  return {version:7,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[]};
 }
 function hasBusinessData(state=businessState()){return (state.clients?.length||0)+(state.sales?.length||0)+(state.payments?.length||0)+(state.cashMovements?.length||0)>0}
 function applyBusinessState(state){
@@ -537,64 +568,66 @@ function applyBusinessState(state){
   db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[]};
   syncDataRelations();
 }
+function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
 let cloudDirty=false;
 let cloudRetryTimer=null;
 async function cloudSaveNow(){
-  if(!cloudClient||!currentUser?.id||cloudLoading)return;
+  if(!cloudDb||!currentUser?.id||cloudLoading)return;
   if(cloudSaveInFlight){cloudDirty=true;return}
   clearTimeout(cloudSaveTimer);clearTimeout(cloudRetryTimer);cloudSaveInFlight=true;
   try{
     do{
       cloudDirty=false;const snapshot=businessState(),nowIso=new Date().toISOString();setCloudStatus('work','Guardando…');
-      const {error}=await cloudClient.from('app_state').upsert({user_id:currentUser.id,data:snapshot,updated_at:nowIso},{onConflict:'user_id'});if(error)throw error;
+      await cloudDb.ref(userCloudPath(currentUser.id,'state')).set({data:snapshot,updated_at:nowIso});
       localStorage.setItem(CLOUD_OWNER_KEY,currentUser.id);localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);
       await maybeDailyCloudBackup(snapshot);
     }while(cloudDirty);
     setCloudStatus('ok','Nube sincronizada');
-  }catch(err){console.error('HILEN cloud save:',err);cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');setCloudStatus('error','Sincronización pendiente');cloudRetryTimer=setTimeout(()=>cloudSaveNow(),1800)}
+  }catch(err){console.error('HILEN Firebase save:',err);cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');setCloudStatus('error','Sincronización pendiente');cloudRetryTimer=setTimeout(()=>cloudSaveNow(),1800)}
   finally{cloudSaveInFlight=false;if(cloudDirty&&!cloudRetryTimer)cloudRetryTimer=setTimeout(()=>cloudSaveNow(),250)}
 }
 function queueCloudSave(){
-  if(!cloudClient||!currentUser?.id||cloudLoading)return;
-  cloudDirty=true;
-  clearTimeout(cloudSaveTimer);
-  cloudSaveTimer=setTimeout(()=>cloudSaveNow(),120);
+  if(!cloudDb||!currentUser?.id||cloudLoading)return;
+  cloudDirty=true;clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(()=>cloudSaveNow(),150);
 }
 async function loadCloudState(userId){
-  if(!cloudClient||!userId)return;cloudLoading=true;setCloudStatus('work','Cargando datos…');
+  if(!cloudDb||!userId)return;cloudLoading=true;setCloudStatus('work','Cargando datos…');
   try{
     const localCandidate=businessState(),localOwner=localStorage.getItem(CLOUD_OWNER_KEY),localDirty=localStorage.getItem(CLOUD_DIRTY_KEY)==='1',localUpdated=localStorage.getItem(CLOUD_LOCAL_UPDATED_KEY)||'';
-    const {data,error}=await cloudClient.from('app_state').select('data,updated_at').eq('user_id',userId).maybeSingle();if(error)throw error;
+    const snap=await cloudDb.ref(userCloudPath(userId,'state')).once('value');const data=snap.val();
     const cloudUpdated=data?.updated_at||'',canUseLocal=hasBusinessData(localCandidate)&&(!localOwner||localOwner===userId);
     if(localDirty&&canUseLocal&&(!cloudUpdated||localUpdated>=cloudUpdated)){
-      applyBusinessState(localCandidate);const nowIso=new Date().toISOString();const {error:upErr}=await cloudClient.from('app_state').upsert({user_id:userId,data:businessState(),updated_at:nowIso},{onConflict:'user_id'});if(upErr)throw upErr;localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);await cloudCreateBackup('recuperación de cambios locales',businessState());
+      applyBusinessState(localCandidate);const nowIso=new Date().toISOString();await cloudDb.ref(userCloudPath(userId,'state')).set({data:businessState(),updated_at:nowIso});localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);await cloudCreateBackup('recuperación de cambios locales',businessState());
     }else if(data?.data){applyBusinessState(data.data);localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,cloudUpdated||new Date().toISOString())}
-    else if(canUseLocal){applyBusinessState(localCandidate);const nowIso=new Date().toISOString();const {error:upErr}=await cloudClient.from('app_state').upsert({user_id:userId,data:businessState(),updated_at:nowIso},{onConflict:'user_id'});if(upErr)throw upErr;localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);await cloudCreateBackup('migración inicial',businessState())}
+    else if(canUseLocal){applyBusinessState(localCandidate);const nowIso=new Date().toISOString();await cloudDb.ref(userCloudPath(userId,'state')).set({data:businessState(),updated_at:nowIso});localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);await cloudCreateBackup('migración inicial',businessState())}
     else{applyBusinessState({})}
     localStorage.setItem(CLOUD_OWNER_KEY,userId);localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));setCloudStatus('ok','Nube sincronizada');
-  }catch(err){console.error('HILEN cloud load:',err);setCloudStatus('error','No se pudo cargar la nube');throw err}finally{cloudLoading=false}
+  }catch(err){console.error('HILEN Firebase load:',err);setCloudStatus('error','No se pudo cargar la nube');throw err}finally{cloudLoading=false}
 }
 async function cloudCreateBackup(reason='automático',snapshot=null){
-  if(!cloudClient||!currentUser?.id)return false;
-  try{const {error}=await cloudClient.from('app_state_backups').insert({user_id:currentUser.id,data:snapshot||businessState(),reason,created_at:new Date().toISOString()});if(error)throw error;return true}catch(err){console.warn('HILEN cloud backup:',err);return false}
+  if(!cloudDb||!currentUser?.id)return false;
+  try{const ref=cloudDb.ref(userCloudPath(currentUser.id,'backups')).push();await ref.set({data:snapshot||businessState(),reason,created_at:new Date().toISOString()});return true}catch(err){console.warn('HILEN Firebase backup:',err);return false}
 }
 async function maybeDailyCloudBackup(snapshot){
-  if(!cloudClient||!currentUser?.id)return;const key=CLOUD_LAST_BACKUP_DAY_KEY+'_'+currentUser.id,day=today();if(localStorage.getItem(key)===day)return;
-  if(await cloudCreateBackup('respaldo diario',snapshot)){localStorage.setItem(key,day);try{const {data}=await cloudClient.from('app_state_backups').select('id').eq('user_id',currentUser.id).order('created_at',{ascending:false}).range(14,200);const ids=(data||[]).map(x=>x.id);if(ids.length)await cloudClient.from('app_state_backups').delete().in('id',ids)}catch(e){console.warn('No se pudieron depurar respaldos antiguos',e)}}
+  if(!cloudDb||!currentUser?.id)return;const key=CLOUD_LAST_BACKUP_DAY_KEY+'_'+currentUser.id,day=today();if(localStorage.getItem(key)===day)return;
+  if(await cloudCreateBackup('respaldo diario',snapshot)){
+    localStorage.setItem(key,day);
+    try{const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups')).once('value');const rows=Object.entries(s.val()||{}).map(([id,v])=>({id,...v})).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')));await Promise.all(rows.slice(14).map(x=>cloudDb.ref(userCloudPath(currentUser.id,'backups/'+x.id)).remove()))}catch(e){console.warn('No se pudieron depurar respaldos antiguos',e)}
+  }
 }
 async function backupBeforeDestructive(reason){return cloudCreateBackup('antes de '+reason,structuredClone(businessState()))}
 async function renderCloudBackups(){
   const box=$('cloudBackupPanel');if(!box)return;
-  if(!cloudConfigured()||!cloudClient||!currentUser?.id){box.innerHTML='<div class="small muted">Configura Supabase para disponer de respaldos automáticos en la nube.</div>';return}
+  if(!cloudConfigured()||!cloudDb||!currentUser?.id){box.innerHTML='<div class="small muted">Configura Firebase para disponer de respaldos automáticos en la nube.</div>';return}
   box.innerHTML='<div class="small muted">Cargando respaldos…</div>';
-  try{const {data,error}=await cloudClient.from('app_state_backups').select('id,reason,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(8);if(error)throw error;box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><b>Respaldos automáticos en la nube</b><div class="small muted">Uno al día y otro antes de eliminaciones. Se conservan los 14 más recientes para cuidar el espacio del plan gratuito.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${(data||[]).length?(data||[]).map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup(${x.id})">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos.</div>'}`}
-  catch(err){box.innerHTML='<div class="small kpi-down">No se pudieron consultar los respaldos. Ejecuta el SQL actualizado de HILEN en Supabase.</div>'}
+  try{const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups')).once('value');const rows=Object.entries(s.val()||{}).map(([id,v])=>({id,...v})).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''))).slice(0,8);box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><b>Respaldos automáticos en Firebase</b><div class="small muted">Uno al día y otro antes de eliminaciones. Se conservan los 14 más recientes.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${rows.length?rows.map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup('${x.id}')">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos.</div>'}`}
+  catch(err){console.error(err);box.innerHTML='<div class="small kpi-down">No se pudieron consultar los respaldos. Revisa Firebase y las reglas de Realtime Database.</div>'}
 }
 async function restoreCloudBackup(backupId){
-  if(!cloudClient||!currentUser?.id)return;confirmAction('Restaurar respaldo','La información actual será reemplazada por la copia seleccionada. Antes se guardará otro respaldo de lo que tienes ahora.',async()=>{await backupBeforeDestructive('restaurar respaldo');const {data,error}=await cloudClient.from('app_state_backups').select('data').eq('user_id',currentUser.id).eq('id',backupId).single();if(error||!data?.data)throw error||new Error('Respaldo no encontrado');applyBusinessState(data.data);saveDB();await cloudSaveNow();refreshAll();renderHistory();showToast('Respaldo restaurado','La información volvió al estado seleccionado.')},{confirmText:'Restaurar',workingText:'Restaurando…'})
+  if(!cloudDb||!currentUser?.id)return;confirmAction('Restaurar respaldo','La información actual será reemplazada por la copia seleccionada. Antes se guardará otro respaldo de lo que tienes ahora.',async()=>{await backupBeforeDestructive('restaurar respaldo');const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups/'+backupId)).once('value');const data=s.val();if(!data?.data)throw new Error('Respaldo no encontrado');applyBusinessState(data.data);saveDB();await cloudSaveNow();refreshAll();renderHistory();showToast('Respaldo restaurado','La información volvió al estado seleccionado.')},{confirmText:'Restaurar',workingText:'Restaurando…'})
 }
-function cloudUserModel(user){return {id:user.id,email:user.email||'',name:user.user_metadata?.name||user.user_metadata?.full_name||(user.email||'HILEN').split('@')[0]}}
-async function startCloudSession(user){currentUser=cloudUserModel(user);await loadCloudState(user.id);await openApp(user)}
+function cloudUserModel(user){return {id:user.uid,email:user.email||'',name:user.displayName||(user.email||'HILEN').split('@')[0]}}
+async function startCloudSession(user){currentUser=cloudUserModel(user);await loadCloudState(user.uid);await openApp(user)}
 
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",maximumFractionDigits:0}).format(Number(n)||0);
@@ -649,51 +682,75 @@ function showLogin(){$('registerBox').classList.add('hidden');$('forgotBox')?.cl
 async function resetPassword(){
   const email=$('forgotEmail').value.trim().toLowerCase();
   if(!email)return showToast('Escribe tu correo','','error');
-  if(!cloudConfigured()||!cloudClient)return showToast('Base de datos sin configurar','Conecta HILEN a Supabase para recuperar la contraseña por correo.','error');
-  const redirectTo=location.origin+location.pathname;
-  const {error}=await cloudClient.auth.resetPasswordForEmail(email,{redirectTo});
-  if(error)return showToast('No se pudo enviar el enlace',error.message,'error');
-  showLogin();showToast('Revisa tu correo','Te enviamos un enlace para crear una contraseña nueva.');
+  if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Conecta HILEN a Firebase para recuperar la contraseña por correo.','error');
+  try{await cloudAuth.sendPasswordResetEmail(email,{url:location.origin+location.pathname});showLogin();showToast('Revisa tu correo','Firebase te envió un enlace para cambiar la contraseña.')}
+  catch(error){showToast('No se pudo enviar el enlace',firebaseErrorText(error),'error')}
 }
-function showRecoveryPasswordModal(){
-  if(!$('modalContent'))return;
-  $('modalContent').innerHTML=`<h2>Nueva contraseña</h2><p class="muted">Escribe la contraseña nueva para tu cuenta HILEN.</p><label class="label">Nueva contraseña</label><input id="recoveryPass" class="input" type="password" placeholder="Mínimo 6 caracteres"><label class="label">Confirmar contraseña</label><input id="recoveryPass2" class="input" type="password" placeholder="Repite la contraseña"><button class="primary full" onclick="saveRecoveredPassword()">Guardar contraseña</button>`;
-  $('modal').classList.remove('hidden');
+function showRecoveryPasswordModal(){showToast('Recuperación por correo','Usa el enlace enviado por Firebase para crear tu contraseña nueva.')}
+async function saveRecoveredPassword(){return}
+function getLegacyLocalUser(email,pass){
+  try{const raw=JSON.parse(localStorage.getItem(KEY)||'null'),users=Array.isArray(raw?.users)?raw.users:[];return users.find(u=>String(u.email||'').toLowerCase()===email&&String(u.pass||'')===pass)||null}catch(e){return null}
 }
-async function saveRecoveredPassword(){
-  const a=$('recoveryPass').value,b=$('recoveryPass2').value;if(a.length<6)return showToast('Contraseña muy corta','Usa al menos 6 caracteres.','error');if(a!==b)return showToast('Las contraseñas no coinciden','','error');
-  const {error}=await cloudClient.auth.updateUser({password:a});if(error)return showToast('No se pudo cambiar la contraseña',error.message,'error');closeModal();showToast('Contraseña actualizada','Ya puedes seguir usando tu cuenta HILEN.');
+function firebaseErrorText(error){
+  const code=String(error?.code||'');
+  if(code.includes('invalid-credential')||code.includes('wrong-password')||code.includes('user-not-found'))return 'Correo o contraseña incorrectos.';
+  if(code.includes('email-already-in-use'))return 'Ese correo ya tiene una cuenta.';
+  if(code.includes('invalid-email'))return 'El correo no es válido.';
+  if(code.includes('weak-password'))return 'La contraseña debe tener al menos 6 caracteres.';
+  if(code.includes('too-many-requests'))return 'Hubo demasiados intentos. Espera un momento y vuelve a intentar.';
+  if(code.includes('network-request-failed'))return 'No hay conexión con Internet.';
+  if(code.includes('account-exists-with-different-credential'))return 'Ese correo ya existe con otro método de acceso. Entra primero con el método que usaste originalmente para no crear una cuenta separada.';
+  if(code.includes('unauthorized-domain'))return 'Este dominio todavía no está autorizado en Firebase Authentication.';
+  return error?.message||'Ocurrió un error con Firebase.';
+}
+async function migrateLegacyLocalAccount(email,pass){
+  const oldUser=getLegacyLocalUser(email,pass);if(!oldUser||!cloudConfigured()||!cloudAuth)return false;
+  try{
+    setCloudStatus('work','Migrando cuenta anterior…');
+    const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);await cred.user.updateProfile({displayName:oldUser.name||'HILEN'});await startCloudSession(cred.user);showToast('Cuenta migrada a Firebase','Conservamos los datos locales y ya podrás entrar desde otros dispositivos.');return true
+  }catch(error){if(String(error?.code||'').includes('email-already-in-use'))return false;showToast('No se pudo migrar la cuenta',firebaseErrorText(error),'error');return true}
+}
+async function googleSignIn(){
+  if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Configura Firebase antes de iniciar sesión con Google.','error');
+  const buttons=[$('googleLoginBtn'),$('googleRegisterBtn')].filter(Boolean);buttons.forEach(b=>b.disabled=true);
+  try{
+    setCloudStatus('work','Abriendo Google…');
+    const provider=new window.firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({prompt:'select_account'});
+    const cred=await cloudAuth.signInWithPopup(provider);
+    await startCloudSession(cred.user);
+    showToast('Sesión iniciada con Google','La cuenta y los datos de HILEN quedan ligados a este usuario de Firebase.');
+  }catch(error){
+    const code=String(error?.code||'');
+    if(code.includes('popup-closed-by-user')||code.includes('cancelled-popup-request'))showToast('Inicio con Google cancelado','','error');
+    else if(code.includes('popup-blocked')){
+      try{const provider=new window.firebase.auth.GoogleAuthProvider();provider.setCustomParameters({prompt:'select_account'});await cloudAuth.signInWithRedirect(provider)}catch(e){showToast('No se pudo abrir Google',firebaseErrorText(e),'error')}
+    }else showToast('No se pudo iniciar con Google',firebaseErrorText(error),'error');
+  }finally{buttons.forEach(b=>b.disabled=false)}
 }
 async function register(){
   const name=$('regName').value.trim(),email=$('regEmail').value.trim().toLowerCase(),pass=$('regPass').value;
   if(!name||!email||pass.length<6)return showToast('Revisa los datos','Escribe nombre, correo y una contraseña de al menos 6 caracteres.','error');
-  if(!cloudConfigured()||!cloudClient){
-    if(db.users.some(u=>u.email===email))return showToast('Correo ya registrado','Usa ese correo para iniciar sesión.','error');
-    db.users.push({id:id(),name,email,pass});db.session=email;localStorage.setItem(KEY,JSON.stringify(db));return openApp();
-  }
-  setCloudStatus('work','Creando cuenta…');
-  const {data,error}=await cloudClient.auth.signUp({email,password:pass,options:{data:{name}}});
-  if(error)return showToast('No se pudo crear la cuenta',error.message,'error');
-  if(data.session&&data.user){await startCloudSession(data.user);showToast('Cuenta creada','Tus datos se guardarán en la nube.');}
-  else{showLogin();$('loginEmail').value=email;showToast('Confirma tu correo','Abre el mensaje de Supabase y confirma la cuenta antes de entrar.');}
+  if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Primero conecta Firebase. HILEN no creará cuentas que existan solo en este navegador.','error');
+  try{setCloudStatus('work','Creando cuenta…');const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);await cred.user.updateProfile({displayName:name});await startCloudSession(cred.user);showToast('Cuenta creada','La cuenta y los datos ya están ligados a Firebase.')}
+  catch(error){showToast('No se pudo crear la cuenta',firebaseErrorText(error),'error')}
 }
 async function login(){
   const email=$('loginEmail').value.trim().toLowerCase(),pass=$('loginPass').value;
   if(!email||!pass)return showToast('Completa correo y contraseña','','error');
-  if(!cloudConfigured()||!cloudClient){
-    const u=db.users.find(x=>x.email===email&&x.pass===pass);if(!u)return showToast('No se pudo iniciar sesión','Correo o contraseña incorrectos.','error');db.session=email;localStorage.setItem(KEY,JSON.stringify(db));return openApp();
-  }
-  setCloudStatus('work','Iniciando sesión…');
-  const {data,error}=await cloudClient.auth.signInWithPassword({email,password:pass});
-  if(error)return showToast('No se pudo iniciar sesión','Revisa el correo, la contraseña o la confirmación del correo.','error');
-  await startCloudSession(data.user);
+  if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Configura Firebase antes de iniciar sesión.','error');
+  try{setCloudStatus('work','Iniciando sesión…');const cred=await cloudAuth.signInWithEmailAndPassword(email,pass);await startCloudSession(cred.user)}
+  catch(error){if(await migrateLegacyLocalAccount(email,pass))return;showToast('No se pudo iniciar sesión',firebaseErrorText(error),'error')}
 }
 async function logout(ev){
   if(ev){ev.preventDefault();ev.stopPropagation()}
-  clearTimeout(cloudSaveTimer);if(cloudConfigured()&&cloudClient&&currentUser?.id){await cloudSaveNow();await cloudClient.auth.signOut()}
-  db.session=null;currentUser=null;$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Sesión cerrada':'Nube sin configurar');window.scrollTo(0,0)
+  clearTimeout(cloudSaveTimer);if(cloudConfigured()&&cloudDb&&currentUser?.id)await cloudSaveNow();if(cloudAuth)await cloudAuth.signOut();
+  db.session=null;currentUser=null;$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Sesión cerrada':'Firebase sin configurar');window.scrollTo(0,0)
 }
-async function openApp(userOverride=null){if(cloudConfigured()&&cloudClient){if(userOverride)currentUser=cloudUserModel(userOverride);if(!currentUser){const {data:{user}}=await cloudClient.auth.getUser();if(!user)return;currentUser=cloudUserModel(user);await loadCloudState(user.id)}}else{currentUser=db.users.find(u=>u.email===db.session);if(!currentUser)return}$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});['dayDate','saleDate','payDate','cfDate','cfEnd','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});['cfStart','stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear'))$('historyYear').value=getDefaultHistoryYear();if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();$('saleTime').value=nowTime();if(!$('products').children.length)addProduct();refreshAll()}
+async function openApp(userOverride=null){
+  if(cloudConfigured()&&cloudAuth){if(userOverride)currentUser=cloudUserModel(userOverride);if(!currentUser){const user=cloudAuth.currentUser;if(!user)return;currentUser=cloudUserModel(user);await loadCloudState(user.uid)}}else return;
+  $('auth').classList.add('hidden');$('app').classList.remove('hidden');$('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});['dayDate','saleDate','payDate','cfDate','cfEnd','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});['cfStart','stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear'))$('historyYear').value=getDefaultHistoryYear();if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();$('saleTime').value=nowTime();if(!$('products').children.length)addProduct();refreshAll()
+}
 function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial'};$('pageTitle').textContent=names[name];$('side').classList.remove('open');if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){$('side').classList.toggle('open')}
@@ -967,6 +1024,26 @@ function renderInventory(){
   const top3=[...all].filter(r=>r.units>0).slice(0,3),slow=[...all].filter(r=>r.units>0).sort((a,b)=>a.units-b.units||a.revenue-b.revenue).slice(0,3),wantedNoSale=[...all].filter(r=>r.inquiries>0&&r.units===0).sort((a,b)=>b.inquiries-a.inquiries).slice(0,3);$('inventoryInsights').innerHTML=all.length?`<div class="notice good"><b>Prioridad de reposición:</b> ${top3.length?top3.map(r=>esc(r.name)+' ('+r.units+')').join(' · '):'Sin ventas suficientes'}</div><div class="notice warn" style="margin-top:10px"><b>Baja rotación:</b> ${slow.length?slow.map(r=>esc(r.name)+' ('+r.units+')').join(' · '):'Sin datos'}</div><div class="notice blue" style="margin-top:10px"><b>Preguntados pero todavía sin venta:</b> ${wantedNoSale.length?wantedNoSale.map(r=>esc(r.name)+' ('+r.inquiries+' consultas)').join(' · '):'Ninguno'}</div>`:'<div class="notice">Registra ventas o productos de interés para generar recomendaciones.</div>';
   $('inventoryTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Producto</th><th>Unidades</th><th>Consultas</th><th>Clientes compradores</th><th>Ingresos</th><th>Precio promedio</th><th>Última venta</th><th>Señal</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.name)}</b></td><td>${r.units}</td><td>${r.inquiries}</td><td>${r.clientsCount}</td><td>${money(r.revenue)}</td><td>${money(r.avgPrice)}</td><td>${r.last||'—'}</td><td><span class="demand-badge ${r.demand==='Alta'?'demand-high':r.demand==='Baja'||r.demand==='Interés sin venta'?'demand-low':'demand-mid'}">${r.demand}</span></td></tr>`).join('')}</tbody></table></div>`:'<div class="notice">No hay resultados.</div>'
 }
+function excelDate(v){return v||''}
+function exportAllToExcel(){
+  if(!window.XLSX)return showToast('No se pudo cargar Excel','Verifica tu conexión a Internet y vuelve a intentar.','error');
+  try{
+    syncDataRelations();
+    const wb=XLSX.utils.book_new();
+    const add=(name,rows)=>{const safe=rows?.length?rows:[{Mensaje:'Sin registros'}];const ws=XLSX.utils.json_to_sheet(safe);ws['!cols']=Object.keys(safe[0]||{}).map(k=>({wch:Math.min(42,Math.max(12,k.length+3,...safe.slice(0,150).map(r=>String(r[k]??'').length+2)))}));XLSX.utils.book_append_sheet(wb,ws,name.slice(0,31))};
+    const clients=(db.clients||[]).map(c=>{const sales=clientSales(c.id),first=sales[0]?.date||'',last=sales.at(-1)?.date||'',b=clientBalance(c.id);return {ID:c.id,Nombre:c.name||'',Telefono:c.phone||'',Sexo:c.gender==='female'?'Mujer':c.gender==='male'?'Hombre':'',Correo:c.email||'',Estado:clientLifecycle(c)==='potential'?'Potencial':sales.length>1?'Recurrente':'Cliente',Fecha_registro:c.registeredDate||String(c.createdAt||'').slice(0,10),Primera_compra:first,Ultima_compra:last,Producto_interes:c.interest||'',Notas:c.notes||'',Numero_compras:sales.length,Total_comprado:sales.reduce((a,s)=>a+(Number(s.total)||0),0),Compras_credito:b.purchases,Abonos:b.paid,Saldo_pendiente:b.balance}});
+    const sales=(db.sales||[]).map(s=>({ID:s.id,Fecha:excelDate(s.date),Hora:s.time||'',Cliente:clientNameById(s.clientId),Sexo:s.clientGender==='female'?'Mujer':s.clientGender==='male'?'Hombre':'',Tipo:s.type==='credit'?'Crédito':'Pagada',Destino:s.type==='credit'?'':s.destination==='bank'?'Nequi':'Efectivo',Productos:(s.items||[]).map(i=>`${i.name} x${i.qty}`).join(' | '),Total:Number(s.total)||0}));
+    const products=[];(db.sales||[]).forEach(s=>(s.items||[]).forEach(i=>products.push({Venta_ID:s.id,Fecha:s.date,Cliente:clientNameById(s.clientId),Producto:i.name,Cantidad:Number(i.qty)||0,Precio_unitario:Number(i.price)||0,Total:(Number(i.qty)||0)*(Number(i.price)||0),Tipo_venta:s.type==='credit'?'Crédito':'Pagada'})));
+    const pays=(db.payments||[]).map(p=>({ID:p.id,Fecha:p.date,Hora:p.time||'',Cliente:clientNameById(p.clientId),Valor:Number(p.amount)||0,Recibido_en:p.destination==='bank'?'Nequi':'Efectivo'}));
+    const cash=cashEvents().map(e=>({Fecha:e.date,Hora:e.time||'',Tipo:e.type==='income'?'Ingreso':e.type==='expense'?'Egreso':'Transferencia',Concepto:e.note||'',Desde:e.from==='bank'?'Nequi':e.from==='cash'?'Efectivo':'',Hacia:e.to==='bank'?'Nequi':e.to==='cash'?'Efectivo':'',Cuenta:e.account==='bank'?'Nequi':e.account==='cash'?'Efectivo':'',Valor:Number(e.amount)||0,Origen:e.source||''}));
+    const years=historyYears().map(y=>{const s=annualStats(y);return {Año:y,Ventas:s.totalSales,Numero_ventas:s.sales.length,Clientes_activos:s.clients.filter(x=>x.active).length,Clientes_nuevos:s.newClients,Clientes_recurrentes:s.returningClients,Mujeres:s.women,Hombres:s.men,Abonos:s.paymentTotal,Ingresos:s.income,Egresos:s.expense,Neto:s.net,Ventas_credito:s.creditSales}});
+    const invYears=historyYears();const inv=[];invYears.forEach(y=>inventoryAnalytics(y).forEach(r=>inv.push({Año:y,Producto:r.name,Unidades_vendidas:r.units,Consultas_interes:r.inquiries,Clientes_compradores:r.clientsCount,Ingresos:r.revenue,Precio_promedio:Math.round(r.avgPrice||0),Ultima_venta:r.last||'',Demanda:r.demand})));
+    const summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Dinero en efectivo',Valor:getBalances().cash},{Indicador:'Dinero en Nequi',Valor:getBalances().bank},{Indicador:'Disponible total',Valor:getBalances().total}];
+    add('Resumen',summary);add('Clientes',clients);add('Ventas',sales);add('Productos vendidos',products);add('Abonos',pays);add('Flujo de caja',cash);add('Productos y demanda',inv);add('Resumen por año',years);
+    XLSX.writeFile(wb,`HILEN_respaldo_${today()}.xlsx`,{compression:true});showToast('Excel descargado','Se incluyeron todos los registros principales de HILEN.')
+  }catch(err){console.error(err);showToast('No se pudo generar el Excel','Intenta nuevamente.','error')}
+}
+
 function refreshAll(){
   syncDataRelations();saveDB();
   [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas-dia',renderDay],['inicio',renderHome],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
@@ -975,12 +1052,13 @@ function closeModal(){$('modal').classList.add('hidden')}
 async function bootstrapApp(){
   const cloudReady=initCloud();
   if(cloudReady){
-    cloudClient.auth.onAuthStateChange((event,session)=>{
-      if(event==='PASSWORD_RECOVERY')setTimeout(showRecoveryPasswordModal,0);
-      if(event==='SIGNED_OUT'&&!$('app').classList.contains('hidden')){currentUser=null;$('app').classList.add('hidden');$('auth').classList.remove('hidden');showLogin()}
+    cloudAuth.onAuthStateChanged(async user=>{
+      try{
+        if(user){if(!currentUser||currentUser.id!==user.uid)await startCloudSession(user);else setCloudStatus('ok','Nube sincronizada')}
+        else{currentUser=null;if(!$('app').classList.contains('hidden')){$('app').classList.add('hidden');$('auth').classList.remove('hidden');showLogin()}setCloudStatus('ok','Firebase listo · inicia sesión')}
+      }catch(e){console.error(e);setCloudStatus('error','Error de conexión')}
     });
-    try{const {data:{session}}=await cloudClient.auth.getSession();if(session?.user)await startCloudSession(session.user);else setCloudStatus('ok','Nube lista · inicia sesión')}catch(e){console.error(e);setCloudStatus('error','Error de conexión')}
-  }else if(db.session){openApp()}
+  }
 }
 window.addEventListener('online',()=>{if(cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');cloudSaveNow()}});
 bootstrapApp();
