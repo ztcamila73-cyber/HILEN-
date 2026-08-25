@@ -22,7 +22,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 .app{min-height:100vh}.side{position:fixed;inset:0 auto 0 0;width:260px;background:rgba(255,255,255,.9);backdrop-filter:blur(24px);border-right:1px solid var(--line);padding:20px 14px;z-index:30}.brand{display:flex;align-items:center;gap:10px;font-size:27px;font-weight:850;letter-spacing:-1px;padding:8px 12px 22px}.brand .logo-mark{width:38px;height:38px;border-radius:12px;font-size:18px}
 .nav{display:flex;flex-direction:column;gap:3px}.nav button{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:12px;color:#555;font-weight:650}.nav button:hover{background:#f2f2f4;color:#111}.nav button.active{background:#111;color:#fff;box-shadow:0 8px 22px #0002}.nav .ico{width:21px;height:21px;display:grid;place-items:center;flex:0 0 21px}.nav svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .logout{position:absolute;left:14px;bottom:18px;width:calc(100% - 28px)!important;color:#b33!important}.main{margin-left:260px;padding:28px;max-width:1600px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:22px}.top-left{display:flex;align-items:flex-start;gap:12px}.title{font-size:34px;line-height:1.05;letter-spacing:-1.6px;margin:0}.mobile{display:none}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}.stat-label{font-size:13px;color:var(--muted);margin-bottom:9px}.stat{font-size:27px;font-weight:820;letter-spacing:-1px}.stat-sub{font-size:12px;color:var(--muted);margin-top:6px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.section{display:none}.section.active{display:block}.section h2{margin-top:0;letter-spacing:-.5px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}.fullcol{grid-column:1/-1}.toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.toolbar>div{min-width:160px}.table-wrap{overflow:auto;border-radius:14px}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:12px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}.table th{color:#666;font-size:12px;font-weight:750;background:#fafafa}.table tr:last-child td{border-bottom:0}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;white-space:nowrap}.cash{background:var(--green-soft);color:var(--green)}.bank{background:var(--blue-soft);color:var(--blue)}.credit{background:var(--orange-soft);color:var(--orange)}.paid{background:var(--green-soft);color:var(--green)}.debt{background:var(--red-soft);color:var(--red)}.income{background:var(--green-soft);color:var(--green)}.expense{background:var(--red-soft);color:var(--red)}.transfer{background:var(--purple-soft);color:var(--purple)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}.stat-label{font-size:13px;color:var(--muted);margin-bottom:9px}.stat{font-size:clamp(20px,2vw,27px);font-weight:820;letter-spacing:-1px;white-space:nowrap;min-width:0}.stat-sub{font-size:12px;color:var(--muted);margin-top:6px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.section{display:none}.section.active{display:block}.section h2{margin-top:0;letter-spacing:-.5px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}.fullcol{grid-column:1/-1}.toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.toolbar>div{min-width:160px}.table-wrap{overflow:auto;border-radius:14px}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:12px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}.table th{color:#666;font-size:12px;font-weight:750;background:#fafafa}.table tr:last-child td{border-bottom:0}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;white-space:nowrap}.cash{background:var(--green-soft);color:var(--green)}.bank{background:var(--blue-soft);color:var(--blue)}.credit{background:var(--orange-soft);color:var(--orange)}.paid{background:var(--green-soft);color:var(--green)}.debt{background:var(--red-soft);color:var(--red)}.income{background:var(--green-soft);color:var(--green)}.expense{background:var(--red-soft);color:var(--red)}.transfer{background:var(--purple-soft);color:var(--purple)}
 .notice{padding:12px 14px;border-radius:13px;background:#f2f2f4;color:#555;font-size:13px}.notice.good{background:#eef9f3;color:#236345}.notice.warn{background:#fff6e7;color:#7b560d}.notice.blue{background:#edf3ff;color:#2d56ad}.product-row{display:grid;grid-template-columns:minmax(180px,2fr) 90px 130px 130px 44px;gap:8px;align-items:center;margin-bottom:8px}.product-row .input{margin:0}.ptotal{font-weight:750}.row-actions{display:flex;gap:7px;flex-wrap:wrap}.customer-head{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}.big-balance{font-size:38px;font-weight:850;letter-spacing:-2px}.tabs{display:flex;gap:8px;margin:15px 0}.tab{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 13px}.tab.active{background:#111;color:#fff}.modal{position:fixed;inset:0;background:#0007;display:grid;place-items:center;padding:20px;z-index:50}.modal-card{width:min(820px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:24px;padding:24px;box-shadow:0 30px 90px #0004}.close{float:right;border:0;background:#eee;border-radius:50%;width:36px;height:36px;font-size:19px}.receipt{background:#fff;padding:28px;border:1px solid #ddd;border-radius:15px}
 .cash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}.balance-card{padding:20px;border:1px solid var(--line);background:#fff;border-radius:20px}.balance-card .icon-box{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;margin-bottom:14px}.balance-card .icon-box svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.8}.balance-card.cash-b .icon-box{background:var(--green-soft);color:var(--green)}.balance-card.bank-b .icon-box{background:var(--blue-soft);color:var(--blue)}.balance-card.total-b .icon-box{background:#f0f0f2;color:#111}.balance-title{font-size:13px;color:var(--muted)}.balance-value{font-size:31px;font-weight:850;letter-spacing:-1.5px;margin-top:6px}.split{display:grid;grid-template-columns:380px minmax(0,1fr);gap:18px}.segmented{display:flex;gap:7px;background:#f3f3f5;padding:5px;border-radius:13px}.segmented button{border:0;background:transparent;padding:9px 12px;border-radius:9px;font-weight:700;color:#666}.segmented button.active{background:#fff;color:#111;box-shadow:0 2px 8px #0001}
 .icon-title{display:flex;align-items:center;gap:9px}.icon-title svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.kpi-up{color:var(--green)}.kpi-down{color:var(--red)}
@@ -119,16 +119,80 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 
 
 /* ===== Resumen mensual de inicio y gráfica de clientes ===== */
-.home-month-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.home-month-box{padding:13px 14px;border:1px solid var(--line);border-radius:15px;background:#fff}
-.home-month-box .hm-label{font-size:12px;color:var(--muted);margin-bottom:5px}.home-month-box .hm-value{font-size:20px;font-weight:850;letter-spacing:-.5px}
+.home-month-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.home-month-box{padding:14px 15px;border:1px solid var(--line);border-radius:15px;background:#fff;min-width:0;overflow:hidden}
+.home-month-box .hm-label{font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.15}.home-month-box .hm-value{font-size:clamp(16px,1.45vw,22px);font-weight:850;letter-spacing:-.6px;white-space:nowrap;line-height:1.05}
 .home-month-box.in .hm-value{color:var(--green)}.home-month-box.out .hm-value{color:var(--red)}.home-month-box.net .hm-value{color:var(--blue)}
 .client-chart-head{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap;margin-bottom:10px}.client-chart-head>div:last-child{min-width:130px}
 .client-chart-wrap{overflow-x:auto;padding-top:8px}.client-chart-grid{min-width:900px;display:grid;grid-template-columns:repeat(12,1fr);gap:9px;align-items:end;border-bottom:1px solid var(--line);padding:12px 8px 0;height:255px}
 .client-month-col{height:220px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.client-bars{height:180px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px}
 .client-bar{width:12px;min-height:3px;border-radius:6px 6px 2px 2px}.client-bar.new{background:#356cff}.client-bar.returning{background:#7255c7}.client-bar.women{background:#d85c9d}.client-bar.men{background:#20a37a}
 .client-month-label{font-size:11px;color:#666;font-weight:700}.client-chart-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:14px;font-size:12px;color:#555}.client-chart-legend span{display:flex;align-items:center;gap:6px}.client-dot{width:9px;height:9px;border-radius:50%}.client-dot.new{background:#356cff}.client-dot.returning{background:#7255c7}.client-dot.women{background:#d85c9d}.client-dot.men{background:#20a37a}
-@media(max-width:700px){.home-month-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.home-month-summary{grid-template-columns:1fr}.home-month-box .hm-value{font-size:21px}}
+
+.auth-links{display:flex;justify-content:flex-end;margin:-4px 0 14px}.link-btn{border:0;background:transparent;padding:0;color:#555;font-size:13px;font-weight:650;text-decoration:none}.link-btn:hover{color:#111;text-decoration:underline}.auth-help{margin-top:12px;padding:10px 12px;border-radius:12px;background:#f5f5f6;color:#666;font-size:12px;line-height:1.4}
+
+
+/* ===== Optimización para portátiles / escritorio desde 13 pulgadas ===== */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.main{width:auto;max-width:none;min-width:0}
+.card,.kpi-card,.quick-action,.balance-card,.client-kpi,.payment-kpi,.home-month-box{min-width:0}
+.table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table{min-width:680px}
+img,svg,canvas{max-width:100%}
+
+/* Pantallas típicas de portátil: 1366x768, 1440x900 y similares */
+@media (min-width:901px) and (max-width:1500px){
+  .side{width:220px;padding:14px 10px}
+  .brand{font-size:24px;padding:6px 10px 15px}
+  .brand .logo-mark{width:34px;height:34px;border-radius:11px;font-size:16px}
+  .nav{gap:1px}
+  .nav button{padding:9px 10px;gap:9px;border-radius:10px;font-size:14px}
+  .nav .ico{width:19px;height:19px;flex-basis:19px}.nav svg{width:18px;height:18px}
+  .logout{left:10px!important;bottom:12px!important;width:calc(100% - 20px)!important;min-height:42px!important;padding:9px 13px!important}
+  .main{margin-left:220px;padding:18px 20px 24px}
+  .top{margin-bottom:16px}.title{font-size:30px}
+  .home-kpis{gap:10px;margin-bottom:18px}
+  .kpi-card{padding:14px;min-height:104px;gap:10px;border-radius:18px}
+  .kpi-icon{width:39px;height:39px;flex-basis:39px;border-radius:12px}.kpi-icon svg{width:20px;height:20px}
+  .kpi-value{font-size:clamp(19px,1.7vw,24px);white-space:normal;overflow-wrap:anywhere;line-height:1.02}
+  .kpi-caption,.kpi-sub{font-size:11px}
+  .welcome-row{margin:4px 0 16px}.welcome h2{font-size:29px}.date-pill{padding:8px 11px;font-size:12px}
+  .home-layout{gap:14px}.home-left,.home-right{gap:14px}
+  .quick-grid{gap:10px}.quick-action{min-height:118px;padding:15px 10px;gap:7px;border-radius:17px}.quick-action svg{width:29px;height:29px}.quick-action b{font-size:14px}
+  .card{padding:16px;border-radius:18px}.panel-head{margin-bottom:10px}.panel-head h2{font-size:18px}
+  .summary-row,.movement-row{padding:9px 0}
+  .home-month-box{padding:11px 12px}.home-month-box .hm-value{font-size:clamp(16px,1.55vw,21px);white-space:normal;overflow-wrap:anywhere}
+  .form-grid{gap:8px 10px}.input{padding:11px 12px;margin:5px 0 11px}
+  .primary,.secondary,.danger-btn{padding:9px 12px}
+  .client-kpi,.payment-kpi{padding:12px;border-radius:15px}.client-kpi .value2{font-size:23px}.payment-kpi .pk-value{font-size:20px}
+  .sales-bars,.client-chart-grid,.payment-bars,.cash-chart-grid{max-width:100%}
+}
+
+/* Ajuste extra para 13 pulgadas con resolución 1366/1280 */
+@media (min-width:901px) and (max-width:1380px){
+  .side{width:205px}
+  .main{margin-left:205px;padding:15px 16px 22px}
+  .brand{font-size:22px}.nav button{font-size:13.5px;padding:8px 9px}
+  .home-kpis{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .kpi-card{padding:11px;min-height:96px}.kpi-icon{width:34px;height:34px;flex-basis:34px}.kpi-value{font-size:clamp(17px,1.55vw,21px)}
+  .quick-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.quick-action{min-height:108px;padding:12px 8px}
+  .home-layout{grid-template-columns:minmax(0,1.45fr) minmax(285px,.75fr);gap:12px}.home-right{grid-template-columns:1fr;gap:12px}
+  .home-month-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.home-month-box{padding:9px 10px}.home-month-box .hm-label{font-size:10.5px}.home-month-box .hm-value{font-size:clamp(14px,1.35vw,18px)}
+  .stats{gap:9px}.period-summary,.cash-period-summary,.payment-kpis{gap:8px}
+  .table th,.table td{padding:9px 10px;font-size:12.5px}.table th{font-size:11px}
+  .client-kpis{gap:8px}.client-kpi{padding:10px}.client-kpi .value2{font-size:21px}
+}
+
+/* Si el portátil tiene una altura baja (ej. 1366x768), compactar verticalmente */
+@media (min-width:901px) and (max-height:820px){
+  .side{padding-top:10px}.brand{padding-bottom:10px}.nav button{padding-top:7px;padding-bottom:7px}
+  .main{padding-top:12px}.top{margin-bottom:10px}.welcome-row{margin-bottom:12px}
+  .home-kpis{margin-bottom:13px}.kpi-card{min-height:88px}
+  .quick-action{min-height:98px}
+  .card{padding-top:13px;padding-bottom:13px}
+}
+
 </style>
 </head>
 <body>
@@ -139,8 +203,9 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
     <div id="loginBox">
       <label class="label">Correo</label><input id="loginEmail" class="input" type="email" placeholder="correo@ejemplo.com">
       <label class="label">Contraseña</label><input id="loginPass" class="input" type="password" placeholder="••••••••">
+      <div class="auth-links"><button class="link-btn" onclick="showForgot()">¿Olvidaste tu contraseña?</button></div>
       <button class="primary full" onclick="login()">Entrar</button>
-      <button class="secondary full" style="margin-top:10px" onclick="showRegister()">Crear cuenta local</button>
+      <button class="secondary full" style="margin-top:10px" onclick="showRegister()">Crear cuenta</button>
     </div>
     <div id="registerBox" class="hidden">
       <label class="label">Nombre</label><input id="regName" class="input" placeholder="Tu nombre">
@@ -149,7 +214,16 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
       <button class="primary full" onclick="register()">Crear cuenta</button>
       <button class="secondary full" style="margin-top:10px" onclick="showLogin()">Volver</button>
     </div>
-    <p class="small muted" style="margin-top:16px">Los datos se guardan en este navegador. Para una versión multiusuario se requiere una base de datos.</p>
+    <div id="forgotBox" class="hidden">
+      <h3 style="margin:4px 0 8px">Cambiar contraseña</h3>
+      <p class="muted small" style="margin-top:0">Escribe el correo con el que creaste tu cuenta y una contraseña nueva.</p>
+      <label class="label">Correo</label><input id="forgotEmail" class="input" type="email" placeholder="correo@ejemplo.com">
+      <label class="label">Nueva contraseña</label><input id="forgotPass" class="input" type="password" placeholder="Mínimo 4 caracteres">
+      <button class="primary full" onclick="resetPassword()">Guardar nueva contraseña</button>
+      <button class="secondary full" style="margin-top:10px" onclick="showLogin()">Volver</button>
+      <div class="auth-help">Esta versión guarda las cuentas en este navegador. Por eso el cambio de contraseña se realiza directamente aquí.</div>
+    </div>
+    <p class="small muted" style="margin-top:16px">Tus datos se guardan en este navegador. Para sincronizarlos entre varios dispositivos se requiere una base de datos.</p>
   </div>
 </div>
 
@@ -358,8 +432,10 @@ function showToast(title,text='',type='success'){
   const t=document.createElement('div');t.className='toast '+type;t.innerHTML=`<div class="toast-icon">${type==='success'?'✓':'!'}</div><div><div class="toast-title">${esc(title)}</div>${text?`<div class="toast-text">${esc(text)}</div>`:''}</div>`;stack.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(-6px)';setTimeout(()=>t.remove(),220)},2600)
 }
 function normalizeDateLabel(d){if(!d)return '';return new Date(d+'T12:00:00').toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})}
-function showRegister(){$('loginBox').classList.add('hidden');$('registerBox').classList.remove('hidden')}
-function showLogin(){$('registerBox').classList.add('hidden');$('loginBox').classList.remove('hidden')}
+function showRegister(){$('loginBox').classList.add('hidden');$('forgotBox')?.classList.add('hidden');$('registerBox').classList.remove('hidden')}
+function showForgot(){$('loginBox').classList.add('hidden');$('registerBox').classList.add('hidden');$('forgotBox').classList.remove('hidden');if($('loginEmail').value)$('forgotEmail').value=$('loginEmail').value}
+function showLogin(){$('registerBox').classList.add('hidden');$('forgotBox')?.classList.add('hidden');$('loginBox').classList.remove('hidden')}
+function resetPassword(){const email=$('forgotEmail').value.trim().toLowerCase(),pass=$('forgotPass').value;if(!email||pass.length<4)return showToast('Revisa los datos','Escribe tu correo y una contraseña de mínimo 4 caracteres.','error');const u=db.users.find(x=>x.email===email);if(!u)return showToast('Correo no encontrado','No existe una cuenta creada con ese correo en este navegador.','error');u.pass=pass;saveDB();$('loginEmail').value=email;$('loginPass').value='';showLogin();showToast('Contraseña actualizada','Ya puedes iniciar sesión con tu nueva contraseña.')}
 function register(){const name=$('regName').value.trim(),email=$('regEmail').value.trim().toLowerCase(),pass=$('regPass').value;if(!name||!email||pass.length<4)return alert('Completa los datos. La contraseña debe tener al menos 4 caracteres.');if(db.users.some(u=>u.email===email))return alert('Ese correo ya está registrado.');db.users.push({id:id(),name,email,pass});db.session=email;saveDB();openApp()}
 function login(){const email=$('loginEmail').value.trim().toLowerCase(),pass=$('loginPass').value;const u=db.users.find(x=>x.email===email&&x.pass===pass);if(!u)return alert('Correo o contraseña incorrectos.');db.session=email;saveDB();openApp()}
 function logout(){db.session=null;saveDB();location.reload()}
