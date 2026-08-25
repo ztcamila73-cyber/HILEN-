@@ -47,6 +47,16 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 @media(max-width:700px){.customer-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.customer-statement-toolbar>div{min-width:130px}}
 @media print{body *{visibility:hidden}.print-area,.print-area *{visibility:visible}.print-area{position:absolute;left:0;top:0;width:100%;border:0!important;box-shadow:none!important;padding:18px!important}.customer-print-actions,.close,.customer-statement-toolbar{display:none!important}.statement-brand{display:block!important;margin-bottom:20px}.modal-card{overflow:visible!important;max-height:none!important}.table-wrap{overflow:visible!important}.customer-summary-card,.customer-credit-box{break-inside:avoid}}
 
+
+/* ===== Estado de cuenta para enviar ===== */
+.statement-send{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+.statement-send-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px}
+.statement-send-brand{font-size:30px;font-weight:900;letter-spacing:-1.5px}.statement-send-title{font-size:18px;font-weight:800;margin-top:4px}.statement-meta{font-size:13px;color:var(--muted);line-height:1.55}
+.statement-balance-box{min-width:220px;border-radius:17px;padding:16px 18px;background:#fff8ea;border:1px solid #efd7a6}.statement-balance-box.ok{background:#eef9f3;border-color:#cdebdc}.statement-balance-label{font-size:12px;color:var(--muted)}.statement-balance-value{font-size:30px;font-weight:900;letter-spacing:-1.2px;margin-top:4px}
+.statement-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 20px}.statement-grid>div{border:1px solid var(--line);border-radius:15px;padding:14px}.statement-grid span{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.statement-grid b{font-size:19px;letter-spacing:-.5px}.statement-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+@media(max-width:800px){.statement-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{.statement-actions{display:none!important}.statement-send{border:0!important;box-shadow:none!important;padding:10px!important}}
+
 /* ===== HILEN 2026 · Inicio refinado ===== */
 :root{--gold:#b27a18;--gold-soft:#f7edda;--gold-line:#ead8b4}
 .side{background:rgba(255,255,255,.96)}
@@ -261,8 +271,8 @@ img,svg,canvas{max-width:100%}
       <button onclick="section('customers',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span>Clientes</button>
       <button onclick="section('payments',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 15h4"/></svg></span>Abonos</button>
       <button onclick="section('cashflow',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M7 7V5h10v2M8 13h8"/><circle cx="12" cy="13" r="2.5"/></svg></span>Flujo de caja</button>
-      <button onclick="section('inventory',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7 12 3l8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></svg></span>Inventario</button>
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estados de cuenta</button>
+      <button onclick="section('inventory',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7 12 3l8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></svg></span>Productos y demanda</button>
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial</button>
     </nav>
     <button type="button" id="logoutBtn" class="logout" onclick="logout(event)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span class="logout-label">Cerrar sesión</span></button>
@@ -418,13 +428,13 @@ img,svg,canvas{max-width:100%}
     <section id="inventory" class="section">
       <div class="card">
         <div class="history-head">
-          <div><h2 style="margin-bottom:4px">Inventario · Demanda de productos</h2><div class="muted small">Analiza qué productos se venden más, cuáles se mueven poco y qué conviene revisar para tus próximas compras. Se calcula automáticamente con las ventas registradas.</div></div>
+          <div><h2 style="margin-bottom:4px">Productos y demanda</h2><div class="muted small">Muestra qué compran tus clientes, qué productos preguntan los clientes potenciales y cuáles tienen mayor o menor demanda. Se calcula automáticamente con las ventas y las fichas de clientes.</div></div>
           <div class="history-head-actions">
             <div><label class="label">Año</label><input id="inventoryYear" class="input" type="number" min="2000" max="2100" onchange="renderInventory()"></div>
             <div><label class="label">Buscar producto</label><input id="inventorySearch" class="input" placeholder="Nombre del producto" oninput="renderInventory()"></div>
           </div>
         </div>
-        <div class="notice blue" style="margin-top:12px">Esta pestaña analiza <b>demanda por ventas</b> y los <b>productos de interés</b> anotados en clientes potenciales. No representa existencias físicas disponibles; sirve para decidir qué referencias reponer, impulsar o revisar.</div>
+        <div class="notice blue" style="margin-top:12px">Esta sección cruza <b>las compras reales de los clientes</b> con los <b>productos de interés de clientes potenciales</b>. No es un conteo de existencias físicas: sirve para saber qué referencias se venden, cuáles preguntan y qué conviene comprar o impulsar.</div>
       </div>
       <div id="inventoryKpis" class="inventory-kpis"></div>
       <div class="inventory-two">
@@ -458,7 +468,11 @@ img,svg,canvas{max-width:100%}
     </section>
 
     <section id="statements" class="section">
-      <div class="card"><h2>Estado de cuenta por cliente</h2><div class="toolbar"><div><label class="label">Nombre del cliente</label><input id="statementClientName" class="input" list="statementClientList" placeholder="Escribe el nombre"><datalist id="statementClientList"></datalist></div><div><label class="label">Desde</label><input id="stStart" class="input" type="date"></div><div><label class="label">Hasta</label><input id="stEnd" class="input" type="date"></div><button class="primary" onclick="generateStatement()">Generar</button></div></div><br><div id="statementResult"></div>
+      <div class="card">
+        <div class="panel-head"><div><h2 style="margin-bottom:4px">Estado de cuenta para enviar al cliente</h2><div class="muted small">Selecciona el cliente y el período. HILEN mostrará las compras a crédito, los abonos y el saldo pendiente de forma clara para imprimir o guardar como PDF.</div></div></div>
+        <div class="toolbar"><div><label class="label">Nombre del cliente</label><input id="statementClientName" class="input" list="statementClientList" placeholder="Escribe el nombre completo"><datalist id="statementClientList"></datalist></div><div><label class="label">Desde</label><input id="stStart" class="input" type="date"></div><div><label class="label">Hasta</label><input id="stEnd" class="input" type="date"></div><button class="primary" onclick="generateStatement()">Generar estado de cuenta</button></div>
+        <div class="notice blue" style="margin-top:10px">El <b>saldo pendiente</b> se calcula hasta la fecha final seleccionada, aunque la deuda haya comenzado antes del período.</div>
+      </div><br><div id="statementResult"></div>
     </section>
   </main>
 </div>
@@ -566,14 +580,14 @@ async function cloudCreateBackup(reason='automático',snapshot=null){
 }
 async function maybeDailyCloudBackup(snapshot){
   if(!cloudClient||!currentUser?.id)return;const key=CLOUD_LAST_BACKUP_DAY_KEY+'_'+currentUser.id,day=today();if(localStorage.getItem(key)===day)return;
-  if(await cloudCreateBackup('respaldo diario',snapshot)){localStorage.setItem(key,day);try{const {data}=await cloudClient.from('app_state_backups').select('id').eq('user_id',currentUser.id).order('created_at',{ascending:false}).range(40,200);const ids=(data||[]).map(x=>x.id);if(ids.length)await cloudClient.from('app_state_backups').delete().in('id',ids)}catch(e){console.warn('No se pudieron depurar respaldos antiguos',e)}}
+  if(await cloudCreateBackup('respaldo diario',snapshot)){localStorage.setItem(key,day);try{const {data}=await cloudClient.from('app_state_backups').select('id').eq('user_id',currentUser.id).order('created_at',{ascending:false}).range(14,200);const ids=(data||[]).map(x=>x.id);if(ids.length)await cloudClient.from('app_state_backups').delete().in('id',ids)}catch(e){console.warn('No se pudieron depurar respaldos antiguos',e)}}
 }
 async function backupBeforeDestructive(reason){return cloudCreateBackup('antes de '+reason,structuredClone(businessState()))}
 async function renderCloudBackups(){
   const box=$('cloudBackupPanel');if(!box)return;
   if(!cloudConfigured()||!cloudClient||!currentUser?.id){box.innerHTML='<div class="small muted">Configura Supabase para disponer de respaldos automáticos en la nube.</div>';return}
   box.innerHTML='<div class="small muted">Cargando respaldos…</div>';
-  try{const {data,error}=await cloudClient.from('app_state_backups').select('id,reason,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(8);if(error)throw error;box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><b>Respaldos automáticos en la nube</b><div class="small muted">Uno al día y otro antes de eliminaciones. Se conservan los 40 más recientes.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${(data||[]).length?(data||[]).map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup(${x.id})">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos.</div>'}`}
+  try{const {data,error}=await cloudClient.from('app_state_backups').select('id,reason,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(8);if(error)throw error;box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><b>Respaldos automáticos en la nube</b><div class="small muted">Uno al día y otro antes de eliminaciones. Se conservan los 14 más recientes para cuidar el espacio del plan gratuito.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${(data||[]).length?(data||[]).map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup(${x.id})">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos.</div>'}`}
   catch(err){box.innerHTML='<div class="small kpi-down">No se pudieron consultar los respaldos. Ejecuta el SQL actualizado de HILEN en Supabase.</div>'}
 }
 async function restoreCloudBackup(backupId){
@@ -680,7 +694,7 @@ async function logout(ev){
   db.session=null;currentUser=null;$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Sesión cerrada':'Nube sin configurar');window.scrollTo(0,0)
 }
 async function openApp(userOverride=null){if(cloudConfigured()&&cloudClient){if(userOverride)currentUser=cloudUserModel(userOverride);if(!currentUser){const {data:{user}}=await cloudClient.auth.getUser();if(!user)return;currentUser=cloudUserModel(user);await loadCloudState(user.id)}}else{currentUser=db.users.find(u=>u.email===db.session);if(!currentUser)return}$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});['dayDate','saleDate','payDate','cfDate','cfEnd','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});['cfStart','stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear'))$('historyYear').value=getDefaultHistoryYear();if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();$('saleTime').value=nowTime();if(!$('products').children.length)addProduct();refreshAll()}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Inventario',statements:'Estados de cuenta',history:'Historial'};$('pageTitle').textContent=names[name];$('side').classList.remove('open');if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial'};$('pageTitle').textContent=names[name];$('side').classList.remove('open');if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){$('side').classList.toggle('open')}
 let activeCustomerId=null;
@@ -831,6 +845,24 @@ function customerShareText(){
   return lines.join('\n');
 }
 async function shareCustomerStatement(){const text=customerShareText();if(!text)return;try{if(navigator.share){await navigator.share({title:'HILEN · Estado de cuenta',text})}else{await navigator.clipboard.writeText(text);alert('Resumen copiado. Puedes pegarlo en WhatsApp o donde quieras.') }}catch(e){if(e?.name!=='AbortError')alert('No fue posible compartir desde este navegador. Usa “Imprimir / Guardar PDF” y comparte el PDF guardado.')}}
+function findClientByTypedName(name){
+  const n=normalizeClientName(name);if(!n)return null;
+  return db.clients.find(c=>normalizeClientName(c.name)===n)||null;
+}
+function generateStatement(){
+  const typed=$('statementClientName')?.value?.trim()||'',c=findClientByTypedName(typed),a=$('stStart')?.value,z=$('stEnd')?.value;
+  if(!typed)return showToast('Escribe el nombre del cliente','','error');
+  if(!c)return showToast('Cliente no encontrado','El nombre debe coincidir con un cliente registrado.','error');
+  if(!a||!z||a>z)return showToast('Rango de fechas inválido','Revisa las fechas seleccionadas.','error');
+  const creditSales=db.sales.filter(s=>s.clientId===c.id&&s.type==='credit'&&s.date>=a&&s.date<=z).sort((x,y)=>x.date.localeCompare(y.date)||String(x.time).localeCompare(String(y.time)));
+  const pays=db.payments.filter(p=>p.clientId===c.id&&p.date>=a&&p.date<=z).sort((x,y)=>x.date.localeCompare(y.date)||String(x.time).localeCompare(String(y.time)));
+  const creditPeriod=creditSales.reduce((n,s)=>n+s.total,0),paidPeriod=pays.reduce((n,p)=>n+p.amount,0),bal=clientBalance(c.id,z),isPaid=bal.balance<=0;
+  const purchaseRows=creditSales.length?creditSales.map(s=>`<tr><td>${s.date}<div class="small muted">${s.time||''}</div></td><td>${(s.items||[]).map(i=>`${esc(i.name)} × ${i.qty}`).join(', ')}</td><td><b>${money(s.total)}</b></td></tr>`).join(''):'<tr><td colspan="3">No hay compras a crédito en este período.</td></tr>';
+  const payRows=pays.length?pays.map(p=>`<tr><td>${p.date}<div class="small muted">${p.time||''}</div></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td></tr>`).join(''):'<tr><td colspan="3">No hay abonos en este período.</td></tr>';
+  $('statementResult').innerHTML=`<div id="statementPrintArea" class="statement-send"><div class="statement-send-head"><div><div class="statement-send-brand">HILEN</div><div class="statement-send-title">Estado de cuenta del cliente</div><div class="statement-meta" style="margin-top:10px"><b>Cliente:</b> ${esc(c.name)}${c.phone?` · ${esc(c.phone)}`:''}<br><b>Período consultado:</b> ${a} → ${z}<br><b>Saldo calculado hasta:</b> ${z}</div></div><div class="statement-balance-box ${isPaid?'ok':''}"><div class="statement-balance-label">${isPaid?'Estado de la cuenta':'Saldo pendiente'}</div><div class="statement-balance-value">${isPaid?'CUENTA AL DÍA':money(bal.balance)}</div>${isPaid?'<div class="small muted" style="margin-top:4px">No tiene saldo pendiente a la fecha seleccionada.</div>':''}</div></div><div class="statement-grid"><div><span>Crédito del período</span><b>${money(creditPeriod)}</b></div><div><span>Abonos del período</span><b>${money(paidPeriod)}</b></div><div><span>Crédito acumulado</span><b>${money(bal.purchases)}</b></div><div><span>Abonos acumulados</span><b>${money(bal.paid)}</b></div></div><h3>Compras a crédito del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Productos</th><th>Valor</th></tr></thead><tbody>${purchaseRows}</tbody></table></div><h3 style="margin-top:22px">Abonos del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Valor</th><th>Recibido en</th></tr></thead><tbody>${payRows}</tbody></table></div><div class="notice ${isPaid?'good':'warn'}" style="margin-top:18px">${isPaid?`<b>${esc(c.name)} está al día</b> hasta el ${z}.`:`Saldo pendiente de <b>${esc(c.name)}</b> al ${z}: <b>${money(bal.balance)}</b>.`}</div><div class="statement-actions"><button class="primary" onclick="printGeneratedStatement()">Imprimir / Guardar PDF</button></div></div>`;
+}
+function printGeneratedStatement(){const a=$('statementPrintArea');if(!a)return;a.classList.add('print-area');window.print();setTimeout(()=>a.classList.remove('print-area'),300)}
+
 let paymentPeriodMode='month';
 function setPaymentPeriod(mode,btn){paymentPeriodMode=mode;document.querySelectorAll('#paymentPeriodTabs button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.toggle('hidden',mode!=='month');if($('paymentYearWrap'))$('paymentYearWrap').classList.toggle('hidden',mode!=='year');renderPayments()}
 function paymentPeriodRange(){if(paymentPeriodMode==='month'){const m=$('paymentMonth')?.value||today().slice(0,7);const [y,mo]=m.split('-').map(Number),last=new Date(y,mo,0).getDate();return [m+'-01',`${m}-${String(last).padStart(2,'0')}`]}if(paymentPeriodMode==='year'){const y=String($('paymentYear')?.value||new Date().getFullYear());return [y+'-01-01',y+'-12-31']}return ['0000-01-01','9999-12-31']}
