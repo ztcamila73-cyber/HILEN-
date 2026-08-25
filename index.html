@@ -240,7 +240,8 @@ img,svg,canvas{max-width:100%}
     <div class="logo-row"><div class="logo-mark">H</div><div class="logo">HILEN</div></div>
     <p class="muted">Ventas, clientes, crédito y flujo de caja.</p>
     <div id="loginBox">
-      <div class="auth-diagnostic" id="firebaseAuthDiagnostic">Comprobando Firebase Authentication…</div>
+      <div class="auth-diagnostic" id="firebaseAuthDiagnostic">Comprobando Firebase Authentication… Esta prueba ya no bloqueará el acceso por correo.</div>
+      <button class="secondary full" type="button" style="margin:10px 0 4px" onclick="retryFirebaseAuth()">Volver a comprobar Firebase</button>
       <label class="label">Correo</label><input id="loginEmail" class="input" type="email" placeholder="correo@ejemplo.com">
       <label class="label">Contraseña</label><input id="loginPass" class="input" type="password" placeholder="••••••••">
       <div class="auth-links"><button class="link-btn" onclick="showForgot()">¿Olvidaste tu contraseña?</button></div>
@@ -265,8 +266,8 @@ img,svg,canvas{max-width:100%}
       <div class="auth-help">La recuperación por correo funciona cuando HILEN está conectado a Firebase.</div>
     </div>
     <p id="storageModeNote" class="small muted" style="margin-top:16px">HILEN puede guardar y sincronizar tus datos en la nube para abrirlos con la misma cuenta desde otros dispositivos.</p>
-    <div id="authCloudRequirement" class="cloud-required">Google queda desactivado por ahora. Estamos usando correo/contraseña para la nube y un modo local de respaldo para que HILEN nunca quede bloqueado.</div>
-    <div class="app-version">HILEN · versión nube 8.2 · Firebase seguro + respaldo local</div>
+    <div id="authCloudRequirement" class="cloud-required">Google queda desactivado por ahora. El acceso por correo/contraseña se probará directamente contra Firebase. Si falla, HILEN mostrará el error real y podrás seguir usando el modo local sin perder datos.</div>
+    <div class="app-version">HILEN · versión nube 8.3 · Firebase Auth directo + respaldo local</div>
   </div>
 </div>
 
@@ -557,15 +558,16 @@ async function verifyFirebaseAuthHealth(){
     const data=await res.json().catch(()=>({}));
     if(res.ok){firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication está respondiendo. Ya puedes entrar o crear la cuenta por correo.');return true}
     const msg=String(data?.error?.message||'');
-    if(/API_KEY_INVALID|API key not valid/i.test(msg)){firebaseAuthReady=false;setAuthDiagnostic('error','Firebase está rechazando la API key del proyecto. HILEN seguirá funcionando en modo local y conservará tus datos hasta corregir esa clave.');setCloudStatus('error','Firebase Auth pendiente');return false}
-    firebaseAuthReady=null;setAuthDiagnostic('','Firebase respondió, pero falta completar una configuración de Authentication. Puedes seguir usando el modo local mientras la revisamos.');return false;
+    if(/API_KEY_INVALID|API key not valid/i.test(msg)){firebaseAuthReady=false;setAuthDiagnostic('error','La comprobación previa de Firebase rechazó la API key. Esto ya NO bloqueará Crear cuenta ni Entrar: HILEN intentará la autenticación real y te mostrará el error exacto que devuelva Firebase.');setCloudStatus('error','Firebase Auth requiere prueba');return false}
+    firebaseAuthReady=null;setAuthDiagnostic('','Firebase respondió con una configuración incompleta o distinta. Puedes intentar Crear cuenta o Entrar igualmente; HILEN mostrará el error real.');return false;
   }catch(e){firebaseAuthReady=null;setAuthDiagnostic('','No se pudo comprobar Authentication ahora. Si estás sin conexión, puedes usar HILEN en este equipo y sincronizar después.');return false}
 }
 function firebaseAuthErrorText(error){
   const msg=String(error?.message||''),code=String(error?.code||'');
-  if(code.includes('api-key-not-valid')||/API[_ -]?KEY[_ -]?INVALID|API key not valid/i.test(msg)){firebaseAuthReady=false;setAuthDiagnostic('error','La API key de Firebase Authentication está siendo rechazada. Tus datos locales siguen protegidos; la nube no se usará hasta corregirla.');setCloudStatus('error','Firebase Auth pendiente');return 'Firebase está rechazando la API key del proyecto. No es un problema de tu correo ni de tu contraseña.'}
+  if(code.includes('api-key-not-valid')||/API[_ -]?KEY[_ -]?INVALID|API key not valid/i.test(msg)){firebaseAuthReady=false;setAuthDiagnostic('error','Firebase rechazó la API key durante la autenticación real. El código sí llegó a Firebase; hay que corregir la clave o sus restricciones en Google Cloud. Tus datos locales siguen intactos.');setCloudStatus('error','Firebase API key rechazada');return 'Firebase rechazó la API key del proyecto (auth/api-key-not-valid). No es un problema de tu correo ni de tu contraseña.'}
   return firebaseErrorText(error);
 }
+function retryFirebaseAuth(){setAuthDiagnostic('','Comprobando Firebase Authentication…');setCloudStatus('work','Comprobando Firebase…');verifyFirebaseAuthHealth().then(ok=>{if(ok)showToast('Firebase responde','Puedes crear la cuenta o iniciar sesión.');else showToast('Diagnóstico completado','Si el diagnóstico marca error, intenta Crear cuenta para ver el error real de Firebase.','error')})}
 function initCloud(){
   if(!cloudConfigured()){
     setCloudStatus('off','Firebase sin configurar');
@@ -727,6 +729,9 @@ function firebaseErrorText(error){
   if(code.includes('network-request-failed'))return 'No hay conexión con Internet.';
   if(code.includes('account-exists-with-different-credential'))return 'Ese correo ya existe con otro método de acceso. Entra primero con el método que usaste originalmente para no crear una cuenta separada.';
   if(code.includes('unauthorized-domain'))return 'Este dominio todavía no está autorizado en Firebase Authentication.';
+  if(code.includes('operation-not-allowed'))return 'El acceso por correo/contraseña no está habilitado en Firebase Authentication.';
+  if(code.includes('configuration-not-found'))return 'Firebase Authentication todavía no está configurado completamente para este proyecto.';
+  if(code.includes('invalid-api-key'))return 'La API key configurada en HILEN no es válida para este proyecto.';
   return error?.message||'Ocurrió un error con Firebase.';
 }
 async function migrateLegacyLocalAccount(email,pass){
@@ -758,16 +763,14 @@ async function register(){
   const name=$('regName').value.trim(),email=$('regEmail').value.trim().toLowerCase(),pass=$('regPass').value;
   if(!name||!email||pass.length<6)return showToast('Revisa los datos','Escribe nombre, correo y una contraseña de al menos 6 caracteres.','error');
   if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Primero conecta Firebase. HILEN no creará cuentas que existan solo en este navegador.','error');
-  if(firebaseAuthReady===false)return showToast('Authentication pendiente','Firebase está rechazando la API key del proyecto. Usa el modo local por ahora; tus datos no se perderán.','error');
-  try{setCloudStatus('work','Creando cuenta…');const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);await cred.user.updateProfile({displayName:name});await startCloudSession(cred.user);showToast('Cuenta creada','La cuenta y los datos ya están ligados a Firebase.')}
+  try{setCloudStatus('work','Creando cuenta…');const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication funciona correctamente.');await cred.user.updateProfile({displayName:name});await startCloudSession(cred.user);showToast('Cuenta creada','La cuenta y los datos ya están ligados a Firebase.')}
   catch(error){showToast('No se pudo crear la cuenta',firebaseAuthErrorText(error),'error')}
 }
 async function login(){
   const email=$('loginEmail').value.trim().toLowerCase(),pass=$('loginPass').value;
   if(!email||!pass)return showToast('Completa correo y contraseña','','error');
   if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Configura Firebase antes de iniciar sesión.','error');
-  if(firebaseAuthReady===false)return showToast('Authentication pendiente','Firebase está rechazando la API key del proyecto. Usa el modo local por ahora; tus datos no se perderán.','error');
-  try{setCloudStatus('work','Iniciando sesión…');const cred=await cloudAuth.signInWithEmailAndPassword(email,pass);await startCloudSession(cred.user)}
+  try{setCloudStatus('work','Iniciando sesión…');const cred=await cloudAuth.signInWithEmailAndPassword(email,pass);firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication funciona correctamente.');await startCloudSession(cred.user)}
   catch(error){if(await migrateLegacyLocalAccount(email,pass))return;showToast('No se pudo iniciar sesión',firebaseAuthErrorText(error),'error')}
 }
 async function logout(ev){
@@ -1097,7 +1100,7 @@ async function bootstrapApp(){
     cloudAuth.onAuthStateChanged(async user=>{
       try{
         if(user){if(!currentUser||currentUser.id!==user.uid)await startCloudSession(user);else setCloudStatus('ok','Nube sincronizada')}
-        else{currentUser=null;if(!$('app').classList.contains('hidden')){$('app').classList.add('hidden');$('auth').classList.remove('hidden');showLogin()}setCloudStatus(firebaseAuthReady===false?'error':'ok',firebaseAuthReady===false?'Firebase Auth pendiente':'Firebase listo · inicia sesión')}
+        else{currentUser=null;if(!$('app').classList.contains('hidden')){$('app').classList.add('hidden');$('auth').classList.remove('hidden');showLogin()}setCloudStatus(firebaseAuthReady===false?'error':'ok',firebaseAuthReady===false?'Firebase Auth requiere prueba':'Firebase listo · inicia sesión')}
       }catch(e){console.error(e);setCloudStatus('error','Error de conexión')}
     });
   }
