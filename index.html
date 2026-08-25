@@ -229,7 +229,6 @@ img,svg,canvas{max-width:100%}
 @media(max-width:1366px){.history-month-grid,.history-client-month-grid{gap:4px}.history-month-col,.history-client-month-col{min-width:42px}.history-bar,.history-client-bar{width:5px}}
 
 .app-version{margin-top:10px;display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#f3f3f5;color:#666;font-size:11px;font-weight:700}
-.google-auth-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 14px;border:1px solid #dadce0;border-radius:12px;background:#fff;color:#1f1f1f;font-weight:750;font-size:14px;cursor:pointer;transition:.18s ease}.google-auth-btn:hover{background:#f8f9fa;border-color:#c9cdd2}.google-auth-btn:disabled{opacity:.6;cursor:not-allowed}.google-g{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:#4285f4}.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:#8a8a8a;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}.auth-divider:before,.auth-divider:after{content:"";height:1px;background:#e5e5e7;flex:1}
 .cloud-required{margin-top:12px;padding:10px 12px;border-radius:12px;background:#fff6e7;color:#7b560d;font-size:12px;line-height:1.35}
 .auth-diagnostic{margin-top:12px;padding:11px 12px;border:1px solid #f0d5a3;border-radius:12px;background:#fffaf0;color:#72500b;font-size:12px;line-height:1.4}.auth-diagnostic.ok{border-color:#bfe6d5;background:#f2fbf7;color:#176545}.auth-diagnostic.error{border-color:#f0b9b9;background:#fff5f5;color:#a12f2f}.local-mode-btn{margin-top:10px}.local-mode-note{font-size:11px;color:#777;line-height:1.35;margin-top:7px}
 </style>
@@ -266,8 +265,8 @@ img,svg,canvas{max-width:100%}
       <div class="auth-help">La recuperación por correo funciona cuando HILEN está conectado a Firebase.</div>
     </div>
     <p id="storageModeNote" class="small muted" style="margin-top:16px">HILEN puede guardar y sincronizar tus datos en la nube para abrirlos con la misma cuenta desde otros dispositivos.</p>
-    <div id="authCloudRequirement" class="cloud-required">Google queda desactivado por ahora. El acceso por correo/contraseña se probará directamente contra Firebase. Si falla, HILEN mostrará el error real y podrás seguir usando el modo local sin perder datos.</div>
-    <div class="app-version">HILEN · versión nube 8.3 · Firebase Auth directo + respaldo local</div>
+    <div id="authCloudRequirement" class="cloud-required">HILEN usará únicamente correo y contraseña para iniciar sesión. El acceso con Google fue eliminado. Si Firebase todavía rechaza la API key, podrás seguir usando el modo local sin perder datos mientras corregimos la conexión.</div>
+    <div class="app-version">HILEN · versión nube 8.4 · acceso solo por correo + respaldo local</div>
   </div>
 </div>
 
@@ -275,7 +274,7 @@ img,svg,canvas{max-width:100%}
   <aside id="side" class="side">
     <div class="brand"><div class="logo-mark">H</div> HILEN</div>
     <div id="cloudStatus" class="small muted" style="padding:0 12px 6px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
-    <div class="small muted" style="padding:0 12px 12px">v8.2 · Firebase + Excel + respaldo local</div>
+    <div class="small muted" style="padding:0 12px 12px">v8.4 · Firebase · solo correo · Excel</div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('day',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>Ventas</button>
@@ -727,7 +726,6 @@ function firebaseErrorText(error){
   if(code.includes('weak-password'))return 'La contraseña debe tener al menos 6 caracteres.';
   if(code.includes('too-many-requests'))return 'Hubo demasiados intentos. Espera un momento y vuelve a intentar.';
   if(code.includes('network-request-failed'))return 'No hay conexión con Internet.';
-  if(code.includes('account-exists-with-different-credential'))return 'Ese correo ya existe con otro método de acceso. Entra primero con el método que usaste originalmente para no crear una cuenta separada.';
   if(code.includes('unauthorized-domain'))return 'Este dominio todavía no está autorizado en Firebase Authentication.';
   if(code.includes('operation-not-allowed'))return 'El acceso por correo/contraseña no está habilitado en Firebase Authentication.';
   if(code.includes('configuration-not-found'))return 'Firebase Authentication todavía no está configurado completamente para este proyecto.';
@@ -741,36 +739,18 @@ async function migrateLegacyLocalAccount(email,pass){
     const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);await cred.user.updateProfile({displayName:oldUser.name||'HILEN'});await startCloudSession(cred.user);showToast('Cuenta migrada a Firebase','Conservamos los datos locales y ya podrás entrar desde otros dispositivos.');return true
   }catch(error){if(String(error?.code||'').includes('email-already-in-use'))return false;showToast('No se pudo migrar la cuenta',firebaseAuthErrorText(error),'error');return true}
 }
-async function googleSignIn(){
-  if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Configura Firebase antes de iniciar sesión con Google.','error');
-  const buttons=[$('googleLoginBtn'),$('googleRegisterBtn')].filter(Boolean);buttons.forEach(b=>b.disabled=true);
-  try{
-    setCloudStatus('work','Abriendo Google…');
-    const provider=new window.firebase.auth.GoogleAuthProvider();
-    provider.setCustomParameters({prompt:'select_account'});
-    const cred=await cloudAuth.signInWithPopup(provider);
-    await startCloudSession(cred.user);
-    showToast('Sesión iniciada con Google','La cuenta y los datos de HILEN quedan ligados a este usuario de Firebase.');
-  }catch(error){
-    const code=String(error?.code||'');
-    if(code.includes('popup-closed-by-user')||code.includes('cancelled-popup-request'))showToast('Inicio con Google cancelado','','error');
-    else if(code.includes('popup-blocked')){
-      try{const provider=new window.firebase.auth.GoogleAuthProvider();provider.setCustomParameters({prompt:'select_account'});await cloudAuth.signInWithRedirect(provider)}catch(e){showToast('No se pudo abrir Google',firebaseAuthErrorText(e),'error')}
-    }else showToast('No se pudo iniciar con Google',firebaseAuthErrorText(error),'error');
-  }finally{buttons.forEach(b=>b.disabled=false)}
-}
 async function register(){
   const name=$('regName').value.trim(),email=$('regEmail').value.trim().toLowerCase(),pass=$('regPass').value;
   if(!name||!email||pass.length<6)return showToast('Revisa los datos','Escribe nombre, correo y una contraseña de al menos 6 caracteres.','error');
   if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Primero conecta Firebase. HILEN no creará cuentas que existan solo en este navegador.','error');
-  try{setCloudStatus('work','Creando cuenta…');const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication funciona correctamente.');await cred.user.updateProfile({displayName:name});await startCloudSession(cred.user);showToast('Cuenta creada','La cuenta y los datos ya están ligados a Firebase.')}
+  try{setCloudStatus('work','Creando cuenta…');const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication por correo funciona correctamente.');await cred.user.updateProfile({displayName:name});await startCloudSession(cred.user);showToast('Cuenta creada','La cuenta por correo y los datos ya están ligados a Firebase.')}
   catch(error){showToast('No se pudo crear la cuenta',firebaseAuthErrorText(error),'error')}
 }
 async function login(){
   const email=$('loginEmail').value.trim().toLowerCase(),pass=$('loginPass').value;
   if(!email||!pass)return showToast('Completa correo y contraseña','','error');
   if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','Configura Firebase antes de iniciar sesión.','error');
-  try{setCloudStatus('work','Iniciando sesión…');const cred=await cloudAuth.signInWithEmailAndPassword(email,pass);firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication funciona correctamente.');await startCloudSession(cred.user)}
+  try{setCloudStatus('work','Iniciando sesión…');const cred=await cloudAuth.signInWithEmailAndPassword(email,pass);firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication por correo funciona correctamente.');await startCloudSession(cred.user)}
   catch(error){if(await migrateLegacyLocalAccount(email,pass))return;showToast('No se pudo iniciar sesión',firebaseAuthErrorText(error),'error')}
 }
 async function logout(ev){
