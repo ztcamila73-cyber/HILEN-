@@ -202,6 +202,21 @@ img,svg,canvas{max-width:100%}
 @media(max-width:1180px){.history-kpis{grid-template-columns:repeat(2,1fr)}.history-two{grid-template-columns:1fr}}
 @media(max-width:620px){.history-kpis{grid-template-columns:1fr}.history-head-actions{width:100%}.history-head-actions>div{flex:1;min-width:120px}}
 
+/* ===== Inventario y analítica de demanda ===== */
+.inventory-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.inventory-kpi{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}.inventory-kpi .ik-label{font-size:12px;color:var(--muted);margin-bottom:7px}.inventory-kpi .ik-value{font-size:23px;font-weight:900;letter-spacing:-.7px;overflow-wrap:anywhere}.inventory-two{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;margin-bottom:18px}.inventory-chart{height:230px;display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid var(--line);padding:12px 8px 0;overflow-x:auto}.inventory-bar-col{height:205px;min-width:62px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}.inventory-bar{width:28px;min-height:3px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#4d83ff,#315fd6)}.inventory-label{font-size:10px;color:#666;font-weight:700;max-width:72px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.inventory-value{font-size:10px;font-weight:800;color:#444}.demand-badge{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800}.demand-high{background:#e8f7f0;color:#18885c}.demand-mid{background:#edf3ff;color:#315fd6}.demand-low{background:#fff2dc;color:#ad6a00}.history-client-settled{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:850;background:#e8f7f0;color:#18885c}.history-client-open{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:850;background:#ffe9e9;color:#b73333}.history-client-none{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;background:#f2f2f4;color:#666}
+/* Historial y clientes: 12 meses visibles incluso en portátiles de 13 pulgadas */
+.history-month-chart,.client-chart-wrap{overflow:visible}.history-month-grid{min-width:0;width:100%;height:205px;gap:4px;padding:8px 2px 0}.history-month-col{height:185px;gap:5px}.history-month-bars{height:148px;gap:2px}.history-bar{width:7px}.client-chart-grid{min-width:0;width:100%;height:205px;gap:4px;padding:8px 2px 0}.client-month-col{height:184px}.client-bars{height:145px;gap:2px}.client-bar{width:7px}.history-client-chart-grid{width:100%;height:205px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;align-items:end;border-bottom:1px solid var(--line);padding:8px 2px 0}.history-client-month-col{height:184px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px}.history-client-bars{height:145px;display:flex;align-items:flex-end;justify-content:center;gap:2px;width:100%}.history-client-bar{width:7px;min-height:3px;border-radius:5px 5px 2px 2px}.history-client-bar.new{background:#356cff}.history-client-bar.returning{background:#7255c7}.history-client-bar.women{background:#d85c9d}.history-client-bar.men{background:#20a37a}.history-client-month-label{font-size:10px;color:#666;font-weight:750}
+@media(max-width:1180px){.inventory-kpis{grid-template-columns:repeat(2,1fr)}.inventory-two{grid-template-columns:1fr}.history-bar,.client-bar,.history-client-bar{width:6px}}
+@media(max-width:620px){.inventory-kpis{grid-template-columns:1fr}.history-month-chart,.client-chart-wrap{overflow-x:auto}.history-month-grid,.client-chart-grid,.history-client-chart-grid{min-width:720px}}
+
+
+/* HILEN · clientes potenciales y paneles de seguridad */
+.client-kpis{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))!important}
+.client-type-potential{background:#f0ebff;color:#7255c7}.client-status-buyer{background:#e8f7f0;color:#18885c}
+.profile-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.profile-pill{display:inline-flex;padding:6px 10px;border-radius:999px;background:#f3f3f5;font-size:12px;font-weight:750;color:#555}.profile-pill.potential{background:#f0ebff;color:#7255c7}.profile-pill.customer{background:#e8f7f0;color:#18885c}
+.cloud-backup-panel{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:15px;background:#fafafa}.cloud-backup-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.cloud-backup-row:last-child{border-bottom:0}.cloud-backup-actions{display:flex;gap:7px;flex-wrap:wrap}
+.inventory-kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))!important}
+@media(max-width:1366px){.history-month-grid,.history-client-month-grid{gap:4px}.history-month-col,.history-client-month-col{min-width:42px}.history-bar,.history-client-bar{width:5px}}
 </style>
 </head>
 <body>
@@ -246,8 +261,9 @@ img,svg,canvas{max-width:100%}
       <button onclick="section('customers',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span>Clientes</button>
       <button onclick="section('payments',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 15h4"/></svg></span>Abonos</button>
       <button onclick="section('cashflow',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M7 7V5h10v2M8 13h8"/><circle cx="12" cy="13" r="2.5"/></svg></span>Flujo de caja</button>
-      <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial</button>
+      <button onclick="section('inventory',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7 12 3l8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></svg></span>Inventario</button>
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estados de cuenta</button>
+      <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial</button>
     </nav>
     <button type="button" id="logoutBtn" class="logout" onclick="logout(event)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span class="logout-label">Cerrar sesión</span></button>
   </aside>
@@ -348,6 +364,7 @@ img,svg,canvas{max-width:100%}
         <div class="client-kpi"><div class="label2">Recurrentes del período</div><div id="clientKpiReturning" class="value2">0</div></div>
         <div class="client-kpi"><div class="label2">Mujeres del período</div><div id="clientKpiWomen" class="value2">0</div></div>
         <div class="client-kpi"><div class="label2">Hombres del período</div><div id="clientKpiMen" class="value2">0</div></div>
+        <div class="client-kpi"><div class="label2">Potenciales registrados</div><div id="clientKpiPotential" class="value2">0</div></div>
       </div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Clientes que compraron en el período</h2><div class="muted small">Aquí aparecen únicamente los clientes con al menos una venta entre las fechas seleccionadas.</div></div></div><div id="periodCustomersTable"></div></div>
       <div class="card" style="margin-bottom:18px">
@@ -357,7 +374,7 @@ img,svg,canvas{max-width:100%}
         </div>
         <div id="clientChart"></div>
       </div>
-      <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Registro general de clientes</h2><div class="muted small">Todos los clientes guardados en HILEN. Los que escribes al registrar una venta se agregan aquí automáticamente y conservan su historial año tras año.</div></div></div><div id="customersTable"></div></div>
+      <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Registro general de clientes</h2><div class="muted small">Todos los clientes guardados en HILEN, incluso quienes solo preguntaron por un producto. Cuando compran, el mismo registro se convierte automáticamente en cliente comprador y conserva todos sus datos.</div></div></div><div id="customersTable"></div></div>
     </section>
 
     <section id="payments" class="section">
@@ -398,6 +415,25 @@ img,svg,canvas{max-width:100%}
     </section>
 
 
+    <section id="inventory" class="section">
+      <div class="card">
+        <div class="history-head">
+          <div><h2 style="margin-bottom:4px">Inventario · Demanda de productos</h2><div class="muted small">Analiza qué productos se venden más, cuáles se mueven poco y qué conviene revisar para tus próximas compras. Se calcula automáticamente con las ventas registradas.</div></div>
+          <div class="history-head-actions">
+            <div><label class="label">Año</label><input id="inventoryYear" class="input" type="number" min="2000" max="2100" onchange="renderInventory()"></div>
+            <div><label class="label">Buscar producto</label><input id="inventorySearch" class="input" placeholder="Nombre del producto" oninput="renderInventory()"></div>
+          </div>
+        </div>
+        <div class="notice blue" style="margin-top:12px">Esta pestaña analiza <b>demanda por ventas</b> y los <b>productos de interés</b> anotados en clientes potenciales. No representa existencias físicas disponibles; sirve para decidir qué referencias reponer, impulsar o revisar.</div>
+      </div>
+      <div id="inventoryKpis" class="inventory-kpis"></div>
+      <div class="inventory-two">
+        <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Productos más solicitados</h2><div class="muted small">Top 10 por unidades vendidas.</div></div></div><div id="inventoryChart"></div></div>
+        <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Recomendaciones para comprar</h2><div class="muted small">Señales automáticas basadas en rotación y ventas.</div></div></div><div id="inventoryInsights"></div></div>
+      </div>
+      <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Detalle por producto</h2><div class="muted small">Unidades, clientes, ingresos, frecuencia y última venta durante el año seleccionado.</div></div></div><div id="inventoryTable"></div></div>
+    </section>
+
     <section id="history" class="section">
       <div class="card">
         <div class="history-head">
@@ -412,12 +448,13 @@ img,svg,canvas{max-width:100%}
       </div>
       <div id="historyKpis" class="history-kpis"></div>
       <div class="history-two">
-        <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Movimiento mensual del año</h2><div class="muted small">Azul: ventas · Morado: abonos · Verde: ingresos · Rojo: egresos.</div></div></div><div id="historyChart"></div></div>
-        <div class="card"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div><div class="history-backup" style="margin-top:16px"><button class="secondary" onclick="downloadBackup()">Descargar respaldo</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar respaldo<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div><div class="muted small" style="margin-top:10px">La nube mantiene tu historial entre dispositivos. El respaldo JSON es una copia adicional que puedes guardar cuando quieras.</div></div>
+        <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Movimiento financiero por mes</h2><div class="muted small">Todos los meses visibles: ventas, abonos, ingresos y egresos.</div></div></div><div id="historyChart"></div></div>
+        <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Clientes por mes</h2><div class="muted small">Nuevos, recurrentes, mujeres y hombres activos en cada mes.</div></div></div><div id="historyClientChart"></div></div>
       </div>
+      <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div><div class="history-backup" style="margin-top:16px"><button class="secondary" onclick="downloadBackup()">Descargar respaldo</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar respaldo<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div><div class="muted small" style="margin-top:10px">La nube mantiene tu historial entre dispositivos. El respaldo JSON es una copia adicional que puedes guardar cuando quieras.</div><div id="cloudBackupPanel" class="cloud-backup-panel"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Mes a mes</h2><div class="muted small">Detalle completo del año seleccionado.</div></div></div><div id="historyMonthTable"></div></div>
-      <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Clientes del año</h2><div class="muted small">Qué compró cada cliente, cuánto abonó y si fue nuevo o recurrente en ese año.</div></div></div><div id="historyClientsTable"></div></div>
-      <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Comparativo de todos los años</h2><div class="muted small">Los registros de 2026, 2027 y los años siguientes permanecen separados por fecha.</div></div></div><div id="historyYearsTable"></div></div>
+      <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Comparativo de todos los años</h2><div class="muted small">Los registros de 2026, 2027 y los años siguientes permanecen separados por fecha.</div></div></div><div id="historyYearsTable"></div></div>
+      <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Historial de clientes del año</h2><div class="muted small">Al final del historial: qué compró cada cliente, cuánto abonó, su estado y si terminó el año sin deuda.</div></div></div><div id="historyClientsTable"></div></div>
     </section>
 
     <section id="statements" class="section">
@@ -455,6 +492,9 @@ let currentUser=null;
 const HILEN_SUPABASE_URL="https://TU-PROYECTO.supabase.co";
 const HILEN_SUPABASE_PUBLISHABLE_KEY="PEGA_AQUI_TU_PUBLISHABLE_KEY";
 const CLOUD_OWNER_KEY="HILEN_CLOUD_OWNER_V1";
+const CLOUD_DIRTY_KEY="HILEN_CLOUD_DIRTY_V1";
+const CLOUD_LOCAL_UPDATED_KEY="HILEN_LOCAL_UPDATED_V1";
+const CLOUD_LAST_BACKUP_DAY_KEY="HILEN_LAST_CLOUD_BACKUP_DAY_V1";
 const cloudConfigured=()=>/^https:\/\/.+\.supabase\.co$/i.test(HILEN_SUPABASE_URL)&&!HILEN_SUPABASE_PUBLISHABLE_KEY.includes('PEGA_AQUI')&&HILEN_SUPABASE_PUBLISHABLE_KEY.length>20;
 let cloudClient=null,cloudLoading=false,cloudSaveTimer=null,cloudSaveInFlight=false;
 
@@ -475,7 +515,7 @@ function initCloud(){
   return true;
 }
 function businessState(){
-  return {version:5,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[]};
+  return {version:6,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[]};
 }
 function hasBusinessData(state=businessState()){return (state.clients?.length||0)+(state.sales?.length||0)+(state.payments?.length||0)+(state.cashMovements?.length||0)>0}
 function applyBusinessState(state){
@@ -488,27 +528,17 @@ let cloudRetryTimer=null;
 async function cloudSaveNow(){
   if(!cloudClient||!currentUser?.id||cloudLoading)return;
   if(cloudSaveInFlight){cloudDirty=true;return}
-  clearTimeout(cloudSaveTimer);clearTimeout(cloudRetryTimer);
-  cloudSaveInFlight=true;
+  clearTimeout(cloudSaveTimer);clearTimeout(cloudRetryTimer);cloudSaveInFlight=true;
   try{
     do{
-      cloudDirty=false;
-      const snapshot=businessState();
-      setCloudStatus('work','Guardando…');
-      const {error}=await cloudClient.from('app_state').upsert({user_id:currentUser.id,data:snapshot,updated_at:new Date().toISOString()},{onConflict:'user_id'});
-      if(error)throw error;
-      localStorage.setItem(CLOUD_OWNER_KEY,currentUser.id);
+      cloudDirty=false;const snapshot=businessState(),nowIso=new Date().toISOString();setCloudStatus('work','Guardando…');
+      const {error}=await cloudClient.from('app_state').upsert({user_id:currentUser.id,data:snapshot,updated_at:nowIso},{onConflict:'user_id'});if(error)throw error;
+      localStorage.setItem(CLOUD_OWNER_KEY,currentUser.id);localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);
+      await maybeDailyCloudBackup(snapshot);
     }while(cloudDirty);
     setCloudStatus('ok','Nube sincronizada');
-  }catch(err){
-    console.error('HILEN cloud save:',err);
-    cloudDirty=true;
-    setCloudStatus('error','Sincronización pendiente');
-    cloudRetryTimer=setTimeout(()=>cloudSaveNow(),1600);
-  }finally{
-    cloudSaveInFlight=false;
-    if(cloudDirty&&!cloudRetryTimer)cloudRetryTimer=setTimeout(()=>cloudSaveNow(),200);
-  }
+  }catch(err){console.error('HILEN cloud save:',err);cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');setCloudStatus('error','Sincronización pendiente');cloudRetryTimer=setTimeout(()=>cloudSaveNow(),1800)}
+  finally{cloudSaveInFlight=false;if(cloudDirty&&!cloudRetryTimer)cloudRetryTimer=setTimeout(()=>cloudSaveNow(),250)}
 }
 function queueCloudSave(){
   if(!cloudClient||!currentUser?.id||cloudLoading)return;
@@ -517,27 +547,37 @@ function queueCloudSave(){
   cloudSaveTimer=setTimeout(()=>cloudSaveNow(),120);
 }
 async function loadCloudState(userId){
-  if(!cloudClient||!userId)return;
-  cloudLoading=true;setCloudStatus('work','Cargando datos…');
+  if(!cloudClient||!userId)return;cloudLoading=true;setCloudStatus('work','Cargando datos…');
   try{
-    const localCandidate=businessState(),localOwner=localStorage.getItem(CLOUD_OWNER_KEY);
-    const {data,error}=await cloudClient.from('app_state').select('data,updated_at').eq('user_id',userId).maybeSingle();
-    if(error)throw error;
-    if(data?.data){
-      applyBusinessState(data.data);
-    }else if(hasBusinessData(localCandidate)&&(!localOwner||localOwner===userId)){
-      // Migración automática de la versión anterior que guardaba datos solo en este navegador.
-      applyBusinessState(localCandidate);
-      const {error:upErr}=await cloudClient.from('app_state').upsert({user_id:userId,data:businessState(),updated_at:new Date().toISOString()},{onConflict:'user_id'});
-      if(upErr)throw upErr;
-    }else{
-      applyBusinessState({});
-    }
-    localStorage.setItem(CLOUD_OWNER_KEY,userId);
-    localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));
-    setCloudStatus('ok','Nube sincronizada');
-  }catch(err){console.error('HILEN cloud load:',err);setCloudStatus('error','No se pudo cargar la nube');throw err}
-  finally{cloudLoading=false}
+    const localCandidate=businessState(),localOwner=localStorage.getItem(CLOUD_OWNER_KEY),localDirty=localStorage.getItem(CLOUD_DIRTY_KEY)==='1',localUpdated=localStorage.getItem(CLOUD_LOCAL_UPDATED_KEY)||'';
+    const {data,error}=await cloudClient.from('app_state').select('data,updated_at').eq('user_id',userId).maybeSingle();if(error)throw error;
+    const cloudUpdated=data?.updated_at||'',canUseLocal=hasBusinessData(localCandidate)&&(!localOwner||localOwner===userId);
+    if(localDirty&&canUseLocal&&(!cloudUpdated||localUpdated>=cloudUpdated)){
+      applyBusinessState(localCandidate);const nowIso=new Date().toISOString();const {error:upErr}=await cloudClient.from('app_state').upsert({user_id:userId,data:businessState(),updated_at:nowIso},{onConflict:'user_id'});if(upErr)throw upErr;localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);await cloudCreateBackup('recuperación de cambios locales',businessState());
+    }else if(data?.data){applyBusinessState(data.data);localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,cloudUpdated||new Date().toISOString())}
+    else if(canUseLocal){applyBusinessState(localCandidate);const nowIso=new Date().toISOString();const {error:upErr}=await cloudClient.from('app_state').upsert({user_id:userId,data:businessState(),updated_at:nowIso},{onConflict:'user_id'});if(upErr)throw upErr;localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);await cloudCreateBackup('migración inicial',businessState())}
+    else{applyBusinessState({})}
+    localStorage.setItem(CLOUD_OWNER_KEY,userId);localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));setCloudStatus('ok','Nube sincronizada');
+  }catch(err){console.error('HILEN cloud load:',err);setCloudStatus('error','No se pudo cargar la nube');throw err}finally{cloudLoading=false}
+}
+async function cloudCreateBackup(reason='automático',snapshot=null){
+  if(!cloudClient||!currentUser?.id)return false;
+  try{const {error}=await cloudClient.from('app_state_backups').insert({user_id:currentUser.id,data:snapshot||businessState(),reason,created_at:new Date().toISOString()});if(error)throw error;return true}catch(err){console.warn('HILEN cloud backup:',err);return false}
+}
+async function maybeDailyCloudBackup(snapshot){
+  if(!cloudClient||!currentUser?.id)return;const key=CLOUD_LAST_BACKUP_DAY_KEY+'_'+currentUser.id,day=today();if(localStorage.getItem(key)===day)return;
+  if(await cloudCreateBackup('respaldo diario',snapshot)){localStorage.setItem(key,day);try{const {data}=await cloudClient.from('app_state_backups').select('id').eq('user_id',currentUser.id).order('created_at',{ascending:false}).range(40,200);const ids=(data||[]).map(x=>x.id);if(ids.length)await cloudClient.from('app_state_backups').delete().in('id',ids)}catch(e){console.warn('No se pudieron depurar respaldos antiguos',e)}}
+}
+async function backupBeforeDestructive(reason){return cloudCreateBackup('antes de '+reason,structuredClone(businessState()))}
+async function renderCloudBackups(){
+  const box=$('cloudBackupPanel');if(!box)return;
+  if(!cloudConfigured()||!cloudClient||!currentUser?.id){box.innerHTML='<div class="small muted">Configura Supabase para disponer de respaldos automáticos en la nube.</div>';return}
+  box.innerHTML='<div class="small muted">Cargando respaldos…</div>';
+  try{const {data,error}=await cloudClient.from('app_state_backups').select('id,reason,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(8);if(error)throw error;box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><b>Respaldos automáticos en la nube</b><div class="small muted">Uno al día y otro antes de eliminaciones. Se conservan los 40 más recientes.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${(data||[]).length?(data||[]).map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup(${x.id})">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos.</div>'}`}
+  catch(err){box.innerHTML='<div class="small kpi-down">No se pudieron consultar los respaldos. Ejecuta el SQL actualizado de HILEN en Supabase.</div>'}
+}
+async function restoreCloudBackup(backupId){
+  if(!cloudClient||!currentUser?.id)return;confirmAction('Restaurar respaldo','La información actual será reemplazada por la copia seleccionada. Antes se guardará otro respaldo de lo que tienes ahora.',async()=>{await backupBeforeDestructive('restaurar respaldo');const {data,error}=await cloudClient.from('app_state_backups').select('data').eq('user_id',currentUser.id).eq('id',backupId).single();if(error||!data?.data)throw error||new Error('Respaldo no encontrado');applyBusinessState(data.data);saveDB();await cloudSaveNow();refreshAll();renderHistory();showToast('Respaldo restaurado','La información volvió al estado seleccionado.')},{confirmText:'Restaurar',workingText:'Restaurando…'})
 }
 function cloudUserModel(user){return {id:user.id,email:user.email||'',name:user.user_metadata?.name||user.user_metadata?.full_name||(user.email||'HILEN').split('@')[0]}}
 async function startCloudSession(user){currentUser=cloudUserModel(user);await loadCloudState(user.id);await openApp(user)}
@@ -552,45 +592,30 @@ const nowTime=()=>new Date().toLocaleTimeString("es-CO",{hour:"2-digit",minute:"
 const id=()=>crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 syncDataRelations();
-function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));queueCloudSave()}
+function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_DIRTY_KEY,'1');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());queueCloudSave()}
 function syncDataRelations(){
   db.clients ||= []; db.sales ||= []; db.payments ||= [];
   const canonicalByName=new Map(),duplicateIds=new Map();
   const sorted=[...db.clients].sort((a,b)=>String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
   for(const c of sorted){
-    const norm=normalizeClientName(c.name); if(!norm)continue;
+    c.phone ||= '';c.gender ||= '';c.email ||= '';c.notes ||= '';c.interest ||= '';
+    c.registeredDate ||= String(c.createdAt||'').slice(0,10)||'';
+    const norm=normalizeClientName(c.name);if(!norm)continue;
     const existing=canonicalByName.get(norm);
     if(!existing){canonicalByName.set(norm,c);continue}
-    if(!existing.phone&&c.phone)existing.phone=c.phone;
-    if(!existing.gender&&c.gender)existing.gender=c.gender;
+    if(!existing.phone&&c.phone)existing.phone=c.phone;if(!existing.gender&&c.gender)existing.gender=c.gender;if(!existing.email&&c.email)existing.email=c.email;if(!existing.notes&&c.notes)existing.notes=c.notes;if(!existing.interest&&c.interest)existing.interest=c.interest;if(!existing.registeredDate&&c.registeredDate)existing.registeredDate=c.registeredDate;if(!existing.convertedAt&&c.convertedAt)existing.convertedAt=c.convertedAt;
     if(c.createdAt&&(!existing.createdAt||c.createdAt<existing.createdAt))existing.createdAt=c.createdAt;
     duplicateIds.set(c.id,existing.id);
   }
-  if(duplicateIds.size){
-    db.sales.forEach(s=>{if(duplicateIds.has(s.clientId))s.clientId=duplicateIds.get(s.clientId)});
-    db.payments.forEach(p=>{if(duplicateIds.has(p.clientId))p.clientId=duplicateIds.get(p.clientId)});
-    db.clients=db.clients.filter(c=>!duplicateIds.has(c.id));
-  }
+  if(duplicateIds.size){db.sales.forEach(x=>{if(duplicateIds.has(x.clientId))x.clientId=duplicateIds.get(x.clientId)});db.payments.forEach(x=>{if(duplicateIds.has(x.clientId))x.clientId=duplicateIds.get(x.clientId)});db.clients=db.clients.filter(c=>!duplicateIds.has(c.id))}
   canonicalByName.clear();db.clients.forEach(c=>{const n=normalizeClientName(c.name);if(n)canonicalByName.set(n,c)});
-  for(const s of db.sales){
-    let c=db.clients.find(x=>x.id===s.clientId);
-    if(!c&&s.clientName)c=canonicalByName.get(normalizeClientName(s.clientName));
-    if(!c&&s.clientName){
-      c={id:s.clientId||id(),name:String(s.clientName).trim(),phone:s.clientPhone||'',gender:s.clientGender||'',createdAt:s.createdAt||new Date().toISOString()};
-      db.clients.push(c);canonicalByName.set(normalizeClientName(c.name),c);
-    }
-    if(c){
-      s.clientId=c.id;
-      if(!c.phone&&s.clientPhone)c.phone=s.clientPhone;
-      if(!c.gender&&s.clientGender)c.gender=s.clientGender;
-      s.clientName=c.name;s.clientPhone=c.phone||'';s.clientGender=c.gender||'';
-    }
+  for(const sale of db.sales){
+    let c=db.clients.find(x=>x.id===sale.clientId);if(!c&&sale.clientName)c=canonicalByName.get(normalizeClientName(sale.clientName));
+    if(!c&&sale.clientName){c={id:sale.clientId||id(),name:String(sale.clientName).trim(),phone:sale.clientPhone||'',gender:sale.clientGender||'',email:'',notes:'',interest:'',registeredDate:sale.date||String(sale.createdAt||'').slice(0,10),convertedAt:sale.date||'',createdAt:sale.createdAt||new Date().toISOString()};db.clients.push(c);canonicalByName.set(normalizeClientName(c.name),c)}
+    if(c){sale.clientId=c.id;if(!c.phone&&sale.clientPhone)c.phone=sale.clientPhone;if(!c.gender&&sale.clientGender)c.gender=sale.clientGender;sale.clientName=c.name;sale.clientPhone=c.phone||'';sale.clientGender=c.gender||''}
   }
-  for(const p of db.payments){
-    let c=db.clients.find(x=>x.id===p.clientId);
-    if(!c&&p.clientName)c=canonicalByName.get(normalizeClientName(p.clientName));
-    if(c){p.clientId=c.id;p.clientName=c.name}
-  }
+  for(const c of db.clients){const first=db.sales.filter(s=>s.clientId===c.id&&s.date).sort((a,b)=>a.date.localeCompare(b.date))[0];if(first&&!c.convertedAt)c.convertedAt=first.date;if(!c.registeredDate)c.registeredDate=first?.date||String(c.createdAt||'').slice(0,10)||today()}
+  for(const pay of db.payments){let c=db.clients.find(x=>x.id===pay.clientId);if(!c&&pay.clientName)c=canonicalByName.get(normalizeClientName(pay.clientName));if(c){pay.clientId=c.id;pay.clientName=c.name}}
 }
 function syncClientsFromSales(){syncDataRelations()}
 function confirmAction(title,message,onConfirm,opts={}){
@@ -654,15 +679,15 @@ async function logout(ev){
   clearTimeout(cloudSaveTimer);if(cloudConfigured()&&cloudClient&&currentUser?.id){await cloudSaveNow();await cloudClient.auth.signOut()}
   db.session=null;currentUser=null;$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Sesión cerrada':'Nube sin configurar');window.scrollTo(0,0)
 }
-async function openApp(userOverride=null){if(cloudConfigured()&&cloudClient){if(userOverride)currentUser=cloudUserModel(userOverride);if(!currentUser){const {data:{user}}=await cloudClient.auth.getUser();if(!user)return;currentUser=cloudUserModel(user);await loadCloudState(user.id)}}else{currentUser=db.users.find(u=>u.email===db.session);if(!currentUser)return}$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});['dayDate','saleDate','payDate','cfDate','cfEnd','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});['cfStart','stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear'))$('historyYear').value=getDefaultHistoryYear();$('saleTime').value=nowTime();if(!$('products').children.length)addProduct();refreshAll()}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',history:'Historial',statements:'Estados de cuenta'};$('pageTitle').textContent=names[name];$('side').classList.remove('open');if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,history:renderHistory,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+async function openApp(userOverride=null){if(cloudConfigured()&&cloudClient){if(userOverride)currentUser=cloudUserModel(userOverride);if(!currentUser){const {data:{user}}=await cloudClient.auth.getUser();if(!user)return;currentUser=cloudUserModel(user);await loadCloudState(user.id)}}else{currentUser=db.users.find(u=>u.email===db.session);if(!currentUser)return}$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});['dayDate','saleDate','payDate','cfDate','cfEnd','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});['cfStart','stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear'))$('historyYear').value=getDefaultHistoryYear();if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();$('saleTime').value=nowTime();if(!$('products').children.length)addProduct();refreshAll()}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Inventario',statements:'Estados de cuenta',history:'Historial'};$('pageTitle').textContent=names[name];$('side').classList.remove('open');if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){$('side').classList.toggle('open')}
 let activeCustomerId=null;
 function clientSales(cid){return db.sales.filter(s=>s.clientId===cid&&s.date).sort((a,b)=>a.date.localeCompare(b.date)||String(a.time||'').localeCompare(String(b.time||'')))}
 function clientFirstSaleDate(cid){const rows=clientSales(cid);return rows.length?rows[0].date:''}
 function clientLastSaleDate(cid){const rows=clientSales(cid);return rows.length?rows[rows.length-1].date:''}
-function customerFirstDate(cid){const first=clientFirstSaleDate(cid);if(first)return first;const c=db.clients.find(x=>x.id===cid);const created=String(c?.createdAt||'').slice(0,10);return /^\d{4}-\d{2}-\d{2}$/.test(created)?created:today()}
+function customerFirstDate(cid){const first=clientFirstSaleDate(cid);if(first)return first;const c=db.clients.find(x=>x.id===cid);const registered=c?.registeredDate||String(c?.createdAt||'').slice(0,10);return /^\d{4}-\d{2}-\d{2}$/.test(registered)?registered:today()}
 function paymentTypeChanged(){$('saleDestinationWrap').classList.toggle('hidden',$('paymentType').value==='credit')}
 function cashTypeChanged(){const transfer=$('cfType').value==='transfer';$('cfAccountWrap').classList.toggle('hidden',transfer);$('cfTransferWrap').classList.toggle('hidden',!transfer)}
 function addProduct(){const div=document.createElement('div');div.className='product-row';div.innerHTML=`<input class="input pname" placeholder="Producto"><input class="input pqty" type="number" min="1" value="1"><input class="input pprice money-input" type="text" inputmode="numeric" placeholder="Precio" oninput="formatMoneyField(this);calcTotal()"><div class="ptotal">$0</div><button class="secondary" title="Eliminar" onclick="this.parentElement.remove();calcTotal()">×</button>`;$('products').appendChild(div);div.querySelector('.pname').addEventListener('input',calcTotal);div.querySelector('.pqty').addEventListener('input',calcTotal);calcTotal()}
@@ -670,24 +695,16 @@ function calcTotal(){let t=0;document.querySelectorAll('.product-row').forEach(r
 function clientNameById(cid){return db.clients.find(c=>c.id===cid)?.name||db.sales.find(s=>s.clientId===cid&&s.clientName)?.clientName||'Cliente'}
 function refreshClientsSelects(){const opts=db.clients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone):''}</option>`).join('');if($('statementClientList'))$('statementClientList').innerHTML=opts;if($('saleClientList'))$('saleClientList').innerHTML=opts;const creditClients=db.clients.filter(c=>clientBalance(c.id).balance>0);if($('payClientList'))$('payClientList').innerHTML=creditClients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone)+' · ':''}Saldo ${money(clientBalance(c.id).balance)}</option>`).join('')}
 function normalizeClientName(v){return String(v||'').trim().toLocaleLowerCase('es').replace(/\s+/g,' ')}
+let saleMatchedClientId=null;
+function clientLifecycle(c){const n=clientSales(c.id).length;return n===0?'potential':n===1?'new':'returning'}
+function clientLifecycleLabel(c){const t=clientLifecycle(c);return t==='potential'?'Potencial':t==='new'?'Cliente nuevo':'Cliente recurrente'}
 function updateSaleClientFromName(){
   const input=$('newClientName'),hint=$('saleClientSyncHint');if(!input||!hint)return;
   const c=db.clients.find(x=>normalizeClientName(x.name)===normalizeClientName(input.value));
-  if(c){
-    if($('newClientPhone')&&!$('newClientPhone').value)$('newClientPhone').value=c.phone||'';
-    if($('newClientGender')&&c.gender)$('newClientGender').value=c.gender;
-    hint.className='notice good';hint.innerHTML=`Cliente existente: <b>${esc(c.name)}</b>. Esta venta quedará unida a su historial, créditos y abonos.`;
-  }else{
-    hint.className='notice blue';hint.textContent='Nombre nuevo: al guardar la venta se creará automáticamente el cliente y quedará sincronizado con Clientes e Historial.';
-  }
+  if(c){saleMatchedClientId=c.id;if($('newClientPhone'))$('newClientPhone').value=c.phone||'';if($('newClientGender'))$('newClientGender').value=c.gender||'';const extra=clientLifecycle(c)==='potential'&&c.interest?` · Interés previo: ${esc(c.interest)}`:'';hint.className='notice good';hint.innerHTML=`${clientLifecycleLabel(c)} encontrado: <b>${esc(c.name)}</b>. Se usarán sus datos guardados y esta venta quedará en la misma ficha${extra}.`}
+  else{if(saleMatchedClientId){if($('newClientPhone'))$('newClientPhone').value='';if($('newClientGender'))$('newClientGender').value='';saleMatchedClientId=null}hint.className='notice blue';hint.textContent='Nombre nuevo: al guardar la venta se creará automáticamente el cliente y quedará sincronizado con Clientes, Historial y la nube.'}
 }
-function ensureClientFromSaleForm(name,phone,gender){
-  const normalized=normalizeClientName(name);
-  let c=db.clients.find(x=>normalizeClientName(x.name)===normalized);
-  if(!c){c={id:id(),name:name.trim(),phone:phone.trim(),gender,createdAt:new Date().toISOString()};db.clients.push(c)}
-  else{if(phone.trim())c.phone=phone.trim();if(gender)c.gender=gender}
-  return c;
-}
+function ensureClientFromSaleForm(name,phone,gender,date){const normalized=normalizeClientName(name);let c=db.clients.find(x=>normalizeClientName(x.name)===normalized);if(!c){c={id:id(),name:name.trim(),phone:phone.trim(),gender,email:'',notes:'',interest:'',registeredDate:date,convertedAt:date,createdAt:new Date().toISOString()};db.clients.push(c)}else{if(phone.trim())c.phone=phone.trim();if(gender)c.gender=gender;if(!c.convertedAt)c.convertedAt=date;c.registeredDate ||= String(c.createdAt||'').slice(0,10)||date}return c}
 function saveSale(){
   const date=$('saleDate').value,type=$('paymentType').value;
   if(!date)return showToast('Selecciona la fecha','Debes indicar la fecha de la venta.','error');
@@ -695,7 +712,7 @@ function saveSale(){
   const phone=$('newClientPhone').value.trim(),gender=$('newClientGender').value;if(!gender)return showToast('Selecciona el sexo','Indica si el cliente es mujer u hombre.','error');
   const items=[...document.querySelectorAll('.product-row')].map(r=>({name:r.querySelector('.pname').value.trim(),qty:+r.querySelector('.pqty').value||0,price:parseMoneyInput(r.querySelector('.pprice').value)})).filter(x=>x.name&&x.qty&&x.price);
   if(!items.length)return showToast('Faltan productos','Agrega al menos un producto con nombre, cantidad y precio.','error');
-  const c=ensureClientFromSaleForm(name,phone,gender),total=items.reduce((a,i)=>a+i.qty*i.price,0),destination=type==='paid'?$('saleDestination').value:null;
+  const c=ensureClientFromSaleForm(name,phone,gender,date),total=items.reduce((a,i)=>a+i.qty*i.price,0),destination=type==='paid'?$('saleDestination').value:null;
   db.sales.push({id:id(),date,time:nowTime(),clientId:c.id,clientName:c.name,clientPhone:c.phone||'',clientGender:c.gender||'',type,destination,total,items,createdAt:new Date().toISOString()});
   syncDataRelations();saveDB();refreshAfterChange();
   showToast('Venta guardada exitosamente',`${c.name} quedó registrado y la compra se agregó a su historial.`);
@@ -755,43 +772,15 @@ function editSaleProductRow(i={name:'',qty:1,price:0}){return `<div class="edit-
 function addEditSaleProduct(){const d=document.createElement('div');d.innerHTML=editSaleProductRow();$('editSaleProducts').appendChild(d.firstElementChild);calcEditSaleTotal()}
 function calcEditSaleTotal(){let t=0;document.querySelectorAll('#editSaleProducts .edit-sale-grid').forEach(r=>{const q=+r.querySelector('.es-qty').value||0,p=parseMoneyInput(r.querySelector('.es-price').value),v=q*p;t+=v;r.querySelector('.es-total').textContent=money(v)});if($('editSaleTotal'))$('editSaleTotal').textContent=money(t);return t}
 function saveSaleEdits(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;const name=$('esClient').value.trim();if(!name)return showToast('Escribe el cliente','','error');let c=db.clients.find(x=>normalizeClientName(x.name)===normalizeClientName(name));if(!c){c={id:id(),name,phone:'',gender:'',createdAt:new Date().toISOString()};db.clients.push(c)}const items=[...document.querySelectorAll('#editSaleProducts .edit-sale-grid')].map(r=>({name:r.querySelector('.es-name').value.trim(),qty:+r.querySelector('.es-qty').value||0,price:parseMoneyInput(r.querySelector('.es-price').value)})).filter(i=>i.name&&i.qty&&i.price);if(!items.length)return showToast('Agrega productos válidos','','error');s.date=$('esDate').value;s.clientId=c.id;s.clientName=c.name;s.clientPhone=c.phone||'';s.clientGender=c.gender||'';s.type=$('esType').value;s.destination=s.type==='paid'?$('esDest').value:null;s.items=items;s.total=items.reduce((a,i)=>a+i.qty*i.price,0);saveDB();closeModal();refreshAfterChange();showToast('Venta actualizada exitosamente',money(s.total))}
-function deleteSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;if(s.type==='credit'){const otherCredit=db.sales.filter(x=>x.clientId===s.clientId&&x.type==='credit'&&x.id!==sid).reduce((a,x)=>a+x.total,0),paid=db.payments.filter(p=>p.clientId===s.clientId).reduce((a,p)=>a+p.amount,0);if(paid>otherCredit)return showToast('No se puede eliminar esta venta','Los abonos del cliente superarían el crédito restante. Corrige primero los abonos.','error')}return confirmAction('Eliminar venta','Vas a eliminar permanentemente esta venta de '+money(s.total)+'. Esta acción actualizará también los totales y el historial del cliente.',()=>{db.sales=db.sales.filter(x=>x.id!==sid);syncClientsFromSales();saveDB();refreshAfterChange();showToast('Venta eliminada exitosamente',money(s.total))},{red:true,confirmText:'Eliminar venta'})}
+function deleteSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;if(s.type==='credit'){const otherCredit=db.sales.filter(x=>x.clientId===s.clientId&&x.type==='credit'&&x.id!==sid).reduce((a,x)=>a+x.total,0),paid=db.payments.filter(p=>p.clientId===s.clientId).reduce((a,p)=>a+p.amount,0);if(paid>otherCredit)return showToast('No se puede eliminar esta venta','Los abonos del cliente superarían el crédito restante. Corrige primero los abonos.','error')}return confirmAction('Eliminar venta','Vas a eliminar permanentemente esta venta de '+money(s.total)+'. Antes se guardará un respaldo en la nube.',async()=>{await backupBeforeDestructive('eliminar venta '+sid);db.sales=db.sales.filter(x=>x.id!==sid);syncClientsFromSales();saveDB();refreshAfterChange();showToast('Venta eliminada exitosamente',money(s.total))},{red:true,confirmText:'Eliminar venta'})}
 function renderCustomers(){
-  // La relación principal es Venta -> Cliente. Si existe una venta antigua con datos del cliente,
-  // syncDataRelations() reconstruye el cliente antes de calcular cualquier métrica.
-  syncDataRelations();
-  const q=($('customerSearch')?.value||'').trim().toLocaleLowerCase('es');
-  const a=$('clientStart')?.value||monthStart(),z=$('clientEnd')?.value||today();
-  if(a>z){
-    if($('periodCustomersTable'))$('periodCustomersTable').innerHTML='<div class="notice warn">La fecha inicial no puede ser posterior a la fecha final.</div>';
-    if($('customersTable'))$('customersTable').innerHTML='';return;
-  }
-  const matchesSearch=c=>(c.name+' '+(c.phone||'')).toLocaleLowerCase('es').includes(q);
-  const salesIn=db.sales.filter(s=>s.date>=a&&s.date<=z);
-  const byClient=new Map();
-  salesIn.forEach(s=>{if(!byClient.has(s.clientId))byClient.set(s.clientId,[]);byClient.get(s.clientId).push(s)});
-  const meta=db.clients.map(c=>{
-    const first=clientFirstSaleDate(c.id),last=clientLastSaleDate(c.id),periodSales=byClient.get(c.id)||[],isActive=periodSales.length>0;
-    const isNew=isActive&&!!first&&first>=a&&first<=z,isReturning=isActive&&!!first&&first<a;
-    const total=periodSales.reduce((n,s)=>n+(Number(s.total)||0),0),allSales=clientSales(c.id);
-    return {c,first,last,periodSales,isActive,isNew,isReturning,total,allSales,allTotal:allSales.reduce((n,s)=>n+(Number(s.total)||0),0)};
-  });
-  const active=meta.filter(x=>x.isActive),newCount=active.filter(x=>x.isNew).length,returningCount=active.filter(x=>x.isReturning).length;
-  const women=active.filter(x=>x.c.gender==='female').length,men=active.filter(x=>x.c.gender==='male').length;
-  if($('clientKpiTotal'))$('clientKpiTotal').textContent=db.clients.length;
-  if($('clientKpiActive'))$('clientKpiActive').textContent=active.length;
-  if($('clientKpiNew'))$('clientKpiNew').textContent=newCount;
-  if($('clientKpiReturning'))$('clientKpiReturning').textContent=returningCount;
-  if($('clientKpiWomen'))$('clientKpiWomen').textContent=women;
-  if($('clientKpiMen'))$('clientKpiMen').textContent=men;
-  if($('clientPeriodNote'))$('clientPeriodNote').innerHTML=`Período seleccionado: <b>${normalizeDateLabel(a)}</b> a <b>${normalizeDateLabel(z)}</b>. Los clientes se crean automáticamente al guardar una venta.`;
-
-  const periodRows=active.filter(x=>matchesSearch(x.c)).sort((x,y)=>y.total-x.total||x.c.name.localeCompare(y.c.name,'es'));
-  if($('periodCustomersTable'))$('periodCustomersTable').innerHTML=periodRows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Sexo</th><th>Estado</th><th>Compras</th><th>Total del período</th><th>Primera compra</th><th>Saldo crédito</th><th>Acciones</th></tr></thead><tbody>${periodRows.map(x=>{const b=clientBalance(x.c.id,z),type=x.isNew?'<span class="badge client-type-new">Nuevo</span>':'<span class="badge client-type-return">Recurrente</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${esc(x.c.phone||'')}</div></td><td>${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}</td><td>${type}</td><td>${x.periodSales.length}</td><td><b>${money(x.total)}</b></td><td>${x.first||'—'}</td><td><span class="badge ${b.balance>0?'debt':'paid'}">${money(b.balance)}</span></td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes con compras dentro de este período.</div>';
-
-  const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>x.c.name.localeCompare(y.c.name,'es'));
-  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Teléfono</th><th>Sexo</th><th>Primera compra</th><th>Última compra</th><th>Compras históricas</th><th>Total histórico</th><th>Saldo crédito</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const b=clientBalance(x.c.id);return `<tr><td><b>${esc(x.c.name)}</b></td><td>${esc(x.c.phone||'—')}</td><td>${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}</td><td>${x.first||'—'}</td><td>${x.last||'—'}</td><td>${x.allSales.length}</td><td><b>${money(x.allTotal)}</b></td><td><span class="badge ${b.balance>0?'debt':'paid'}">${money(b.balance)}</span></td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
-  renderClientChart();
+  syncDataRelations();const q=($('customerSearch')?.value||'').trim().toLocaleLowerCase('es'),a=$('clientStart')?.value||'0000-01-01',z=$('clientEnd')?.value||'9999-12-31';const matchesSearch=c=>!q||[c.name,c.phone,c.email,c.interest,c.notes].some(v=>String(v||'').toLocaleLowerCase('es').includes(q));
+  const meta=db.clients.map(c=>{const first=clientFirstSaleDate(c.id),last=clientLastSaleDate(c.id),periodSales=clientSales(c.id).filter(s=>s.date>=a&&s.date<=z),isActive=periodSales.length>0,isNew=!!first&&first>=a&&first<=z,isReturning=!!first&&first<a&&isActive,total=periodSales.reduce((n,s)=>n+(Number(s.total)||0),0),allSales=clientSales(c.id);return {c,first,last,periodSales,isActive,isNew,isReturning,total,allSales,allTotal:allSales.reduce((n,s)=>n+(Number(s.total)||0),0),lifecycle:clientLifecycle(c)}});
+  const active=meta.filter(x=>x.isActive),newCount=active.filter(x=>x.isNew).length,returningCount=active.filter(x=>x.isReturning).length,potentials=meta.filter(x=>x.lifecycle==='potential').length,women=active.filter(x=>x.c.gender==='female').length,men=active.filter(x=>x.c.gender==='male').length;
+  if($('clientKpiTotal'))$('clientKpiTotal').textContent=db.clients.length;if($('clientKpiActive'))$('clientKpiActive').textContent=active.length;if($('clientKpiNew'))$('clientKpiNew').textContent=newCount;if($('clientKpiReturning'))$('clientKpiReturning').textContent=returningCount;if($('clientKpiWomen'))$('clientKpiWomen').textContent=women;if($('clientKpiMen'))$('clientKpiMen').textContent=men;if($('clientKpiPotential'))$('clientKpiPotential').textContent=potentials;
+  if($('clientPeriodNote'))$('clientPeriodNote').innerHTML=`Período seleccionado: <b>${normalizeDateLabel(a)}</b> a <b>${normalizeDateLabel(z)}</b>. Los potenciales se conservan en el registro general y solo se cuentan como nuevos o recurrentes cuando realizan una compra.`;
+  const periodRows=active.filter(x=>matchesSearch(x.c)).sort((x,y)=>y.total-x.total||x.c.name.localeCompare(y.c.name,'es'));if($('periodCustomersTable'))$('periodCustomersTable').innerHTML=periodRows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Sexo</th><th>Estado</th><th>Compras</th><th>Total del período</th><th>Primera compra</th><th>Saldo crédito</th><th>Acciones</th></tr></thead><tbody>${periodRows.map(x=>{const b=clientBalance(x.c.id,z),type=x.isNew?'<span class="badge client-type-new">Nuevo</span>':'<span class="badge client-type-return">Recurrente</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${esc(x.c.phone||'')}</div></td><td>${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}</td><td>${type}</td><td>${x.periodSales.length}</td><td><b>${money(x.total)}</b></td><td>${x.first||'—'}</td><td><span class="badge ${b.balance>0?'debt':'paid'}">${money(b.balance)}</span></td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes con compras dentro de este período.</div>';
+  const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>x.c.name.localeCompare(y.c.name,'es'));if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Estado</th><th>Contacto</th><th>Producto de interés</th><th>Registrado</th><th>Primera compra</th><th>Compras</th><th>Total histórico</th><th>Saldo crédito</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const b=clientBalance(x.c.id),status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div></td><td>${status}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td>${esc(x.c.interest||'—')}</td><td>${x.c.registeredDate||String(x.c.createdAt||'').slice(0,10)||'—'}</td><td>${x.first||'—'}</td><td>${x.allSales.length}</td><td><b>${money(x.allTotal)}</b></td><td><span class="badge ${b.balance>0?'debt':'paid'}">${money(b.balance)}</span></td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';renderClientChart()
 }
 function renderClientChart(){
   if(!$('clientChart'))return;
@@ -805,18 +794,14 @@ function renderClientChart(){
   const max=Math.max(1,...monthly.flatMap(x=>[x.newC,x.returning,x.women,x.men]));
   $('clientChart').innerHTML=`<div class="client-chart-wrap"><div class="client-chart-grid">${monthly.map((x,i)=>{const h=v=>Math.max(3,Math.round(v/max*175));return `<div class="client-month-col" title="${names[i]} ${year} · Nuevos ${x.newC} · Recurrentes ${x.returning} · Mujeres ${x.women} · Hombres ${x.men}"><div class="client-bars"><div class="client-bar new" style="height:${h(x.newC)}px;opacity:${x.newC?1:.13}"></div><div class="client-bar returning" style="height:${h(x.returning)}px;opacity:${x.returning?1:.13}"></div><div class="client-bar women" style="height:${h(x.women)}px;opacity:${x.women?1:.13}"></div><div class="client-bar men" style="height:${h(x.men)}px;opacity:${x.men?1:.13}"></div></div><div class="client-month-label">${names[i]}</div></div>`}).join('')}</div></div><div class="client-chart-legend"><span><i class="client-dot new"></i>Nuevos</span><span><i class="client-dot returning"></i>Recurrentes</span><span><i class="client-dot women"></i>Mujeres</span><span><i class="client-dot men"></i>Hombres</span><b style="margin-left:auto">Año ${year}</b></div>`;
 }
-function openCustomerForm(){$('modalContent').innerHTML=`<h2>Nuevo cliente</h2><label class="label">Nombre</label><input id="mName" class="input"><label class="label">Teléfono</label><input id="mPhone" class="input"><label class="label">Sexo</label><select id="mGender" class="input"><option value="female">Mujer</option><option value="male">Hombre</option></select><button class="primary" onclick="createClient()">Guardar cliente</button>`;$('modal').classList.remove('hidden')}
-function createClient(){const name=$('mName').value.trim();if(!name)return showToast('Nombre obligatorio','','error');const norm=normalizeClientName(name);if(db.clients.some(c=>normalizeClientName(c.name)===norm))return showToast('Cliente ya registrado','Puedes buscarlo por su nombre.','error');db.clients.push({id:id(),name,phone:$('mPhone').value.trim(),gender:$('mGender').value,createdAt:new Date().toISOString()});saveDB();closeModal();refreshAfterChange();showToast('Cliente registrado exitosamente',name)}
-function editCustomer(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;$('modalContent').innerHTML=`<h2>Editar cliente</h2><label class="label">Nombre</label><input id="editCName" class="input" value="${esc(c.name)}"><label class="label">Teléfono</label><input id="editCPhone" class="input" value="${esc(c.phone||'')}"><label class="label">Sexo</label><select id="editCGender" class="input"><option value="female" ${c.gender==='female'?'selected':''}>Mujer</option><option value="male" ${c.gender==='male'?'selected':''}>Hombre</option></select><button class="primary" onclick="saveCustomerEdit('${cid}')">Guardar cambios</button>`;$('modal').classList.remove('hidden')}
-function saveCustomerEdit(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;const name=$('editCName').value.trim();if(!name)return showToast('Nombre obligatorio','','error');const dup=db.clients.find(x=>x.id!==cid&&normalizeClientName(x.name)===normalizeClientName(name));if(dup)return showToast('Ya existe otro cliente con ese nombre','','error');c.name=name;c.phone=$('editCPhone').value.trim();c.gender=$('editCGender').value;db.sales.filter(s=>s.clientId===cid).forEach(s=>{s.clientName=c.name;s.clientPhone=c.phone||'';s.clientGender=c.gender||''});db.payments.filter(p=>p.clientId===cid).forEach(p=>p.clientName=c.name);saveDB();closeModal();refreshAfterChange();showToast('Cliente actualizado exitosamente',name)}
-function deleteCustomer(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;const saleCount=db.sales.filter(s=>s.clientId===cid).length,payCount=db.payments.filter(p=>p.clientId===cid).length;confirmAction('Eliminar cliente',`Se eliminará a ${c.name}, junto con ${saleCount} venta(s) y ${payCount} abono(s) asociados. Esta acción no se puede deshacer.`,()=>{db.clients=db.clients.filter(x=>x.id!==cid);db.sales=db.sales.filter(x=>x.clientId!==cid);db.payments=db.payments.filter(x=>x.clientId!==cid);saveDB();refreshAfterChange();showToast('Cliente eliminado',c.name)},{red:true,confirmText:'Eliminar cliente'})}
-function openCustomer(cid){
-  activeCustomerId=cid;
-  const c=db.clients.find(x=>x.id===cid);if(!c)return;
-  const hasCredit=customerHasCredit(cid),start=customerFirstDate(cid),end=today();
-  $('modalContent').innerHTML=`<div id="customerPrintArea"><div class="statement-brand"><h1 style="margin:0">HILEN</h1><div class="muted">Estado de cuenta del cliente</div></div><div class="customer-head"><div><h1 style="margin-bottom:5px">${esc(c.name)}</h1><p class="muted" style="margin:0">${esc(c.phone||'')} ${c.gender?'· '+(c.gender==='male'?'Hombre':'Mujer'):''}</p></div>${hasCredit?`<div><div class="muted">Saldo pendiente</div><div id="customerHeaderBalance" class="big-balance">${money(clientBalance(cid,end).balance)}</div></div>`:''}</div><div class="customer-statement-toolbar"><div><label class="label">Desde</label><input id="customerStart" class="input" type="date" value="${start}"></div><div><label class="label">Hasta</label><input id="customerEnd" class="input" type="date" value="${end}"></div><button class="secondary" onclick="renderCustomerStatement()">Actualizar período</button></div><div id="customerStatementBody"></div></div>`;
-  $('modal').classList.remove('hidden');renderCustomerStatement();
+function openCustomerForm(){
+  $('modalContent').innerHTML=`<h2>Nuevo cliente potencial</h2><p class="muted">Puedes guardar a una persona aunque todavía no compre. Cuando haga su primera compra, HILEN conservará esta misma ficha automáticamente.</p><div class="form-grid"><div><label class="label">Nombre</label><input id="mName" class="input"></div><div><label class="label">Teléfono</label><input id="mPhone" class="input"></div><div><label class="label">Sexo</label><select id="mGender" class="input"><option value="">Sin especificar</option><option value="female">Mujer</option><option value="male">Hombre</option></select></div><div><label class="label">Correo</label><input id="mEmail" class="input" type="email" placeholder="Opcional"></div><div><label class="label">Fecha de registro</label><input id="mRegisteredDate" class="input" type="date" value="${today()}"></div><div><label class="label">Producto de interés</label><input id="mInterest" class="input" placeholder="Ej. bolso negro, reloj, cadena"></div><div class="fullcol"><label class="label">Notas</label><textarea id="mNotes" class="input" rows="3" placeholder="Ej. preguntó por disponibilidad, color, presupuesto o talla"></textarea></div></div><button class="primary" onclick="createClient()">Guardar cliente potencial</button>`;$('modal').classList.remove('hidden')
 }
+function createClient(){const name=$('mName').value.trim();if(!name)return showToast('Nombre obligatorio','','error');const norm=normalizeClientName(name);if(db.clients.some(c=>normalizeClientName(c.name)===norm))return showToast('Cliente ya registrado','Puedes buscarlo por su nombre y editar su ficha.','error');db.clients.push({id:id(),name,phone:$('mPhone').value.trim(),gender:$('mGender').value,email:$('mEmail').value.trim(),interest:$('mInterest').value.trim(),notes:$('mNotes').value.trim(),registeredDate:$('mRegisteredDate').value||today(),createdAt:new Date().toISOString()});saveDB();closeModal();refreshAfterChange();showToast('Cliente potencial registrado',`${name} quedó guardado aunque todavía no haya comprado.`)}
+function editCustomer(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;$('modalContent').innerHTML=`<h2>Editar cliente</h2><div class="profile-meta"><span class="profile-pill ${clientLifecycle(c)==='potential'?'potential':'customer'}">${clientLifecycleLabel(c)}</span></div><div class="form-grid" style="margin-top:14px"><div><label class="label">Nombre</label><input id="editCName" class="input" value="${esc(c.name)}"></div><div><label class="label">Teléfono</label><input id="editCPhone" class="input" value="${esc(c.phone||'')}"></div><div><label class="label">Sexo</label><select id="editCGender" class="input"><option value="" ${!c.gender?'selected':''}>Sin especificar</option><option value="female" ${c.gender==='female'?'selected':''}>Mujer</option><option value="male" ${c.gender==='male'?'selected':''}>Hombre</option></select></div><div><label class="label">Correo</label><input id="editCEmail" class="input" type="email" value="${esc(c.email||'')}" placeholder="Opcional"></div><div><label class="label">Fecha de registro</label><input id="editCRegisteredDate" class="input" type="date" value="${esc(c.registeredDate||String(c.createdAt||'').slice(0,10)||today())}"></div><div><label class="label">Producto de interés</label><input id="editCInterest" class="input" value="${esc(c.interest||'')}" placeholder="Opcional"></div><div class="fullcol"><label class="label">Notas del cliente</label><textarea id="editCNotes" class="input" rows="3">${esc(c.notes||'')}</textarea></div></div><button class="primary" onclick="saveCustomerEdit('${cid}')">Guardar cambios</button>`;$('modal').classList.remove('hidden')}
+function saveCustomerEdit(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;const name=$('editCName').value.trim();if(!name)return showToast('Nombre obligatorio','','error');const dup=db.clients.find(x=>x.id!==cid&&normalizeClientName(x.name)===normalizeClientName(name));if(dup)return showToast('Ya existe otro cliente con ese nombre','','error');c.name=name;c.phone=$('editCPhone').value.trim();c.gender=$('editCGender').value;c.email=$('editCEmail').value.trim();c.registeredDate=$('editCRegisteredDate').value||c.registeredDate||today();c.interest=$('editCInterest').value.trim();c.notes=$('editCNotes').value.trim();db.sales.filter(s=>s.clientId===cid).forEach(s=>{s.clientName=c.name;s.clientPhone=c.phone||'';s.clientGender=c.gender||''});db.payments.filter(p=>p.clientId===cid).forEach(p=>p.clientName=c.name);saveDB();closeModal();refreshAfterChange();showToast('Cliente actualizado exitosamente',name)}
+function deleteCustomer(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;const saleCount=db.sales.filter(s=>s.clientId===cid).length,payCount=db.payments.filter(p=>p.clientId===cid).length;confirmAction('Eliminar cliente',`Se eliminará a ${c.name}, junto con ${saleCount} venta(s) y ${payCount} abono(s) asociados. Antes se guardará un respaldo en la nube.`,async()=>{await backupBeforeDestructive('eliminar cliente '+c.name);db.clients=db.clients.filter(x=>x.id!==cid);db.sales=db.sales.filter(x=>x.clientId!==cid);db.payments=db.payments.filter(x=>x.clientId!==cid);saveDB();refreshAfterChange();showToast('Cliente eliminado',c.name)},{red:true,confirmText:'Eliminar cliente'})}
+function openCustomer(cid){activeCustomerId=cid;const c=db.clients.find(x=>x.id===cid);if(!c)return;const hasCredit=customerHasCredit(cid),start=customerFirstDate(cid),end=today(),life=clientLifecycle(c);const profile=`<div class="profile-meta"><span class="profile-pill ${life==='potential'?'potential':'customer'}">${clientLifecycleLabel(c)}</span>${c.interest?`<span class="profile-pill">Interés: ${esc(c.interest)}</span>`:''}<span class="profile-pill">Registrado: ${esc(c.registeredDate||String(c.createdAt||'').slice(0,10)||'—')}</span></div>`;$('modalContent').innerHTML=`<div id="customerPrintArea"><div class="statement-brand"><h1 style="margin:0">HILEN</h1><div class="muted">Ficha e historial del cliente</div></div><div class="customer-head"><div><h1 style="margin-bottom:5px">${esc(c.name)}</h1><p class="muted" style="margin:0">${esc(c.phone||'')} ${c.gender?'· '+(c.gender==='male'?'Hombre':'Mujer'):''}${c.email?' · '+esc(c.email):''}</p>${profile}${c.notes?`<div class="notice" style="margin-top:10px"><b>Notas:</b> ${esc(c.notes)}</div>`:''}</div>${hasCredit?`<div><div class="muted">Saldo pendiente</div><div id="customerHeaderBalance" class="big-balance">${money(clientBalance(cid,end).balance)}</div></div>`:''}</div>${life==='potential'?'<div class="notice blue" style="margin-top:14px">Este cliente todavía no tiene compras. Cuando registres una venta con el mismo nombre, HILEN conservará esta ficha y añadirá la compra automáticamente.</div>':''}<div class="customer-statement-toolbar"><div><label class="label">Desde</label><input id="customerStart" class="input" type="date" value="${start}"></div><div><label class="label">Hasta</label><input id="customerEnd" class="input" type="date" value="${end}"></div><button class="secondary" onclick="renderCustomerStatement()">Actualizar período</button></div><div id="customerStatementBody"></div></div>`;$('modal').classList.remove('hidden');renderCustomerStatement()}
 function openCustomerYear(cid,year){
   openCustomer(cid);setTimeout(()=>{if($('customerStart'))$('customerStart').value=`${year}-01-01`;if($('customerEnd'))$('customerEnd').value=`${year}-12-31`;renderCustomerStatement()},0)
 }
@@ -893,6 +878,7 @@ function renderCashflowChart(){if(!$('cashflowChart'))return;const year=Number($
 function historyYears(){
   const years=new Set([new Date().getFullYear()]);
   [...db.sales,...db.payments,...db.cashMovements].forEach(r=>{const y=Number(String(r.date||'').slice(0,4));if(y>=2000&&y<=2100)years.add(y)});
+  db.clients.forEach(c=>{const d=c.registeredDate||String(c.createdAt||'').slice(0,10),y=Number(String(d).slice(0,4));if(y>=2000&&y<=2100)years.add(y)});
   return [...years].sort((a,b)=>a-b);
 }
 function getDefaultHistoryYear(){const ys=historyYears();return ys.includes(new Date().getFullYear())?new Date().getFullYear():ys[ys.length-1]||new Date().getFullYear()}
@@ -900,12 +886,12 @@ function changeHistoryYear(delta){if(!$('historyYear'))return;$('historyYear').v
 function yearRange(y){return [`${y}-01-01`,`${y}-12-31`]}
 function annualClientMeta(y){
   const [a,z]=yearRange(y),sales=db.sales.filter(s=>s.date>=a&&s.date<=z),byClient=new Map();sales.forEach(s=>{if(!byClient.has(s.clientId))byClient.set(s.clientId,[]);byClient.get(s.clientId).push(s)});
-  return db.clients.map(c=>{const ys=byClient.get(c.id)||[],first=clientFirstSaleDate(c.id),active=ys.length>0,isNew=active&&first>=a&&first<=z,isReturning=active&&first<a;const pays=db.payments.filter(p=>p.clientId===c.id&&p.date>=a&&p.date<=z);return {c,ys,first,active,isNew,isReturning,total:ys.reduce((n,s)=>n+s.total,0),credit:ys.filter(s=>s.type==='credit').reduce((n,s)=>n+s.total,0),payments:pays.reduce((n,p)=>n+p.amount,0),payCount:pays.length,balance:clientBalance(c.id,z).balance}}).filter(x=>x.active||x.payCount>0)
+  return db.clients.map(c=>{const ys=byClient.get(c.id)||[],first=clientFirstSaleDate(c.id),active=ys.length>0,isNew=active&&first>=a&&first<=z,isReturning=active&&first<a;const pays=db.payments.filter(p=>p.clientId===c.id&&p.date>=a&&p.date<=z),creditToClose=db.sales.filter(s=>s.clientId===c.id&&s.type==='credit'&&s.date<=z).reduce((n,s)=>n+s.total,0),paidToClose=db.payments.filter(p=>p.clientId===c.id&&p.date<=z).reduce((n,p)=>n+p.amount,0),balance=Math.max(0,creditToClose-paidToClose);return {c,ys,first,active,isNew,isReturning,total:ys.reduce((n,s)=>n+s.total,0),credit:ys.filter(s=>s.type==='credit').reduce((n,s)=>n+s.total,0),payments:pays.reduce((n,p)=>n+p.amount,0),payCount:pays.length,balance,creditToClose,paidToClose}}).filter(x=>x.active||x.payCount>0)
 }
 function annualStats(y){
   const [a,z]=yearRange(y),sales=db.sales.filter(s=>s.date>=a&&s.date<=z),pays=db.payments.filter(p=>p.date>=a&&p.date<=z),events=cashEvents().filter(e=>e.date>=a&&e.date<=z),clients=annualClientMeta(y);
   const income=events.filter(e=>e.type==='income').reduce((n,e)=>n+e.amount,0),expense=events.filter(e=>e.type==='expense').reduce((n,e)=>n+e.amount,0);
-  return {sales,pays,events,clients,totalSales:sales.reduce((n,s)=>n+s.total,0),paidSales:sales.filter(s=>s.type==='paid').reduce((n,s)=>n+s.total,0),creditSales:sales.filter(s=>s.type==='credit').reduce((n,s)=>n+s.total,0),paymentTotal:pays.reduce((n,p)=>n+p.amount,0),income,expense,net:income-expense,newClients:clients.filter(x=>x.isNew).length,returningClients:clients.filter(x=>x.isReturning).length,women:clients.filter(x=>x.c.gender==='female').length,men:clients.filter(x=>x.c.gender==='male').length}
+  const potentialRegistered=db.clients.filter(c=>{const d=c.registeredDate||String(c.createdAt||'').slice(0,10);return d>=a&&d<=z&&clientLifecycle(c)==='potential'}).length;return {sales,pays,events,clients,totalSales:sales.reduce((n,s)=>n+s.total,0),paidSales:sales.filter(s=>s.type==='paid').reduce((n,s)=>n+s.total,0),creditSales:sales.filter(s=>s.type==='credit').reduce((n,s)=>n+s.total,0),paymentTotal:pays.reduce((n,p)=>n+p.amount,0),income,expense,net:income-expense,newClients:clients.filter(x=>x.isNew).length,returningClients:clients.filter(x=>x.isReturning).length,women:clients.filter(x=>x.c.gender==='female').length,men:clients.filter(x=>x.c.gender==='male').length,potentialRegistered}
 }
 function renderHistory(){
   if(!$('historyYear'))return;
@@ -913,44 +899,45 @@ function renderHistory(){
   const y=Number($('historyYear').value)||getDefaultHistoryYear();$('historyYear').value=y;
   const st=annualStats(y),ys=historyYears();
   $('historyAvailableYears').innerHTML=`Años con registros: <b>${ys.join(', ')}</b>. Puedes consultar también años futuros cuando empieces a registrar ventas en ellos.`;
-  $('historyKpis').innerHTML=`<div class="history-kpi blue"><div class="hk-label">Ventas ${y}</div><div class="hk-value">${money(st.totalSales)}</div><div class="small muted">${st.sales.length} venta(s)</div></div><div class="history-kpi"><div class="hk-label">Clientes activos</div><div class="hk-value">${st.clients.filter(x=>x.active).length}</div><div class="small muted">${st.newClients} nuevos · ${st.returningClients} recurrentes</div></div><div class="history-kpi purple"><div class="hk-label">Abonos recibidos</div><div class="hk-value">${money(st.paymentTotal)}</div><div class="small muted">${st.pays.length} abono(s)</div></div><div class="history-kpi green"><div class="hk-label">Ingresos</div><div class="hk-value">${money(st.income)}</div></div><div class="history-kpi red"><div class="hk-label">Egresos</div><div class="hk-value">${money(st.expense)}</div></div><div class="history-kpi green"><div class="hk-label">Neto del año</div><div class="hk-value">${money(st.net)}</div></div><div class="history-kpi"><div class="hk-label">Ventas a crédito</div><div class="hk-value">${money(st.creditSales)}</div></div><div class="history-kpi"><div class="hk-label">Mujeres / Hombres activos</div><div class="hk-value">${st.women} / ${st.men}</div></div>`;
+  renderCloudBackups();
+  $('historyKpis').innerHTML=`<div class="history-kpi blue"><div class="hk-label">Ventas ${y}</div><div class="hk-value">${money(st.totalSales)}</div><div class="small muted">${st.sales.length} venta(s)</div></div><div class="history-kpi"><div class="hk-label">Clientes activos</div><div class="hk-value">${st.clients.filter(x=>x.active).length}</div><div class="small muted">${st.newClients} nuevos · ${st.returningClients} recurrentes</div></div><div class="history-kpi purple"><div class="hk-label">Abonos recibidos</div><div class="hk-value">${money(st.paymentTotal)}</div><div class="small muted">${st.pays.length} abono(s)</div></div><div class="history-kpi green"><div class="hk-label">Ingresos</div><div class="hk-value">${money(st.income)}</div></div><div class="history-kpi red"><div class="hk-label">Egresos</div><div class="hk-value">${money(st.expense)}</div></div><div class="history-kpi green"><div class="hk-label">Neto del año</div><div class="hk-value">${money(st.net)}</div></div><div class="history-kpi"><div class="hk-label">Ventas a crédito</div><div class="hk-value">${money(st.creditSales)}</div></div><div class="history-kpi"><div class="hk-label">Mujeres / Hombres activos</div><div class="hk-value">${st.women} / ${st.men}</div></div><div class="history-kpi"><div class="hk-label">Potenciales registrados</div><div class="hk-value">${st.potentialRegistered}</div></div>`;
   $('historyClientSummary').innerHTML=`<div class="notice good"><b>${st.clients.filter(x=>x.active).length}</b> clientes compraron en ${y}. De ellos, <b>${st.newClients}</b> fueron nuevos y <b>${st.returningClients}</b> recurrentes.</div><div style="margin-top:12px" class="notice"><b>Mujeres:</b> ${st.women} · <b>Hombres:</b> ${st.men}<br><b>Crédito vendido:</b> ${money(st.creditSales)} · <b>Abonos:</b> ${money(st.paymentTotal)}</div>`;
   const names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],monthly=[];
   for(let m=1;m<=12;m++){
     const mm=String(m).padStart(2,'0'),start=`${y}-${mm}-01`,last=String(new Date(y,m,0).getDate()).padStart(2,'0'),end=`${y}-${mm}-${last}`;
     const sales=db.sales.filter(s=>s.date>=start&&s.date<=end),pays=db.payments.filter(p=>p.date>=start&&p.date<=end),ev=cashEvents().filter(e=>e.date>=start&&e.date<=end),activeIds=[...new Set(sales.map(s=>s.clientId))];
-    let n=0,r=0;activeIds.forEach(cid=>{const first=clientFirstSaleDate(cid);if(first>=start&&first<=end)n++;else if(first<start)r++});
+    let n=0,r=0,women=0,men=0;activeIds.forEach(cid=>{const first=clientFirstSaleDate(cid),c=db.clients.find(x=>x.id===cid);if(first>=start&&first<=end)n++;else if(first<start)r++;if(c?.gender==='female')women++;if(c?.gender==='male')men++});
     const inc=ev.filter(e=>e.type==='income').reduce((x,e)=>x+e.amount,0),exp=ev.filter(e=>e.type==='expense').reduce((x,e)=>x+e.amount,0);
-    monthly.push({m,name:names[m-1],sales:sales.reduce((x,s)=>x+s.total,0),salesCount:sales.length,pays:pays.reduce((x,p)=>x+p.amount,0),payCount:pays.length,clients:activeIds.length,newC:n,returning:r,income:inc,expense:exp,net:inc-exp});
+    monthly.push({m,name:names[m-1],sales:sales.reduce((x,s)=>x+s.total,0),salesCount:sales.length,pays:pays.reduce((x,p)=>x+p.amount,0),payCount:pays.length,clients:activeIds.length,newC:n,returning:r,women,men,income:inc,expense:exp,net:inc-exp});
   }
   const max=Math.max(1,...monthly.flatMap(x=>[x.sales,x.pays,x.income,x.expense]));
-  $('historyChart').innerHTML=`<div class="history-month-chart"><div class="history-month-grid">${monthly.map(x=>{const h=v=>Math.max(3,Math.round(v/max*175));return `<div class="history-month-col" title="${x.name} ${y} · Ventas ${money(x.sales)} · Abonos ${money(x.pays)} · Ingresos ${money(x.income)} · Egresos ${money(x.expense)}"><div class="history-month-bars"><div class="history-bar sales" style="height:${h(x.sales)}px;opacity:${x.sales?1:.12}"></div><div class="history-bar payments" style="height:${h(x.pays)}px;opacity:${x.pays?1:.12}"></div><div class="history-bar income" style="height:${h(x.income)}px;opacity:${x.income?1:.12}"></div><div class="history-bar expense" style="height:${h(x.expense)}px;opacity:${x.expense?1:.12}"></div></div><div class="history-month-label">${x.name}</div></div>`}).join('')}</div><div class="history-legend"><span><i class="sales"></i>Ventas</span><span><i class="payments"></i>Abonos</span><span><i class="income"></i>Ingresos</span><span><i class="expense"></i>Egresos</span></div></div>`;
-  $('historyMonthTable').innerHTML=`<div class="table-wrap"><table class="table history-year-table"><thead><tr><th>Mes</th><th>Ventas</th><th># ventas</th><th>Clientes activos</th><th>Nuevos</th><th>Recurrentes</th><th>Abonos</th><th>Ingresos</th><th>Egresos</th><th>Neto</th></tr></thead><tbody>${monthly.map(x=>`<tr><td><b>${x.name}</b></td><td>${money(x.sales)}</td><td>${x.salesCount}</td><td>${x.clients}</td><td>${x.newC}</td><td>${x.returning}</td><td>${money(x.pays)}</td><td class="kpi-up">${money(x.income)}</td><td class="kpi-down">${money(x.expense)}</td><td><b>${money(x.net)}</b></td></tr>`).join('')}</tbody></table></div>`;
+  $('historyChart').innerHTML=`<div class="history-month-chart"><div class="history-month-grid">${monthly.map(x=>{const h=v=>Math.max(3,Math.round(v/max*140));return `<div class="history-month-col" title="${x.name} ${y} · Ventas ${money(x.sales)} · Abonos ${money(x.pays)} · Ingresos ${money(x.income)} · Egresos ${money(x.expense)}"><div class="history-month-bars"><div class="history-bar sales" style="height:${h(x.sales)}px;opacity:${x.sales?1:.12}"></div><div class="history-bar payments" style="height:${h(x.pays)}px;opacity:${x.pays?1:.12}"></div><div class="history-bar income" style="height:${h(x.income)}px;opacity:${x.income?1:.12}"></div><div class="history-bar expense" style="height:${h(x.expense)}px;opacity:${x.expense?1:.12}"></div></div><div class="history-month-label">${x.name}</div></div>`}).join('')}</div><div class="history-legend"><span><i class="sales"></i>Ventas</span><span><i class="payments"></i>Abonos</span><span><i class="income"></i>Ingresos</span><span><i class="expense"></i>Egresos</span></div></div>`;
+  const clientMax=Math.max(1,...monthly.flatMap(x=>[x.newC,x.returning,x.women,x.men]));
+  $('historyClientChart').innerHTML=`<div class="history-client-month-grid">${monthly.map(x=>{const h=v=>Math.max(3,Math.round(v/clientMax*140));return `<div class="history-client-month-col" title="${x.name} ${y} · Nuevos ${x.newC} · Recurrentes ${x.returning} · Mujeres ${x.women} · Hombres ${x.men}"><div class="history-client-bars"><div class="history-client-bar new" style="height:${h(x.newC)}px;opacity:${x.newC?1:.12}"></div><div class="history-client-bar returning" style="height:${h(x.returning)}px;opacity:${x.returning?1:.12}"></div><div class="history-client-bar women" style="height:${h(x.women)}px;opacity:${x.women?1:.12}"></div><div class="history-client-bar men" style="height:${h(x.men)}px;opacity:${x.men?1:.12}"></div></div><div class="history-client-month-label">${x.name}</div></div>`}).join('')}</div><div class="client-chart-legend"><span><i class="client-dot new"></i>Nuevos</span><span><i class="client-dot returning"></i>Recurrentes</span><span><i class="client-dot women"></i>Mujeres</span><span><i class="client-dot men"></i>Hombres</span></div>`;
+  $('historyMonthTable').innerHTML=`<div class="table-wrap"><table class="table history-year-table"><thead><tr><th>Mes</th><th>Ventas</th><th># ventas</th><th>Clientes activos</th><th>Nuevos</th><th>Recurrentes</th><th>Mujeres</th><th>Hombres</th><th>Abonos</th><th>Ingresos</th><th>Egresos</th><th>Neto</th></tr></thead><tbody>${monthly.map(x=>`<tr><td><b>${x.name}</b></td><td>${money(x.sales)}</td><td>${x.salesCount}</td><td>${x.clients}</td><td>${x.newC}</td><td>${x.returning}</td><td>${x.women}</td><td>${x.men}</td><td>${money(x.pays)}</td><td class="kpi-up">${money(x.income)}</td><td class="kpi-down">${money(x.expense)}</td><td><b>${money(x.net)}</b></td></tr>`).join('')}</tbody></table></div>`;
   const clients=st.clients.sort((a,b)=>b.total-a.total||a.c.name.localeCompare(b.c.name,'es'));
-  $('historyClientsTable').innerHTML=clients.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Sexo</th><th>Estado ${y}</th><th>Compras</th><th>Total comprado</th><th>Crédito</th><th>Abonos</th><th>Saldo al cierre</th><th></th></tr></thead><tbody>${clients.map(x=>`<tr><td><b>${esc(x.c.name)}</b></td><td>${x.c.gender==='female'?'Mujer':x.c.gender==='male'?'Hombre':'—'}</td><td><span class="history-client-status ${x.isNew?'new':'returning'}">${x.isNew?'Nuevo':'Recurrente'}</span></td><td>${x.ys.length}</td><td>${money(x.total)}</td><td>${money(x.credit)}</td><td>${money(x.payments)}</td><td><b>${money(x.balance)}</b></td><td><button class="action-mini" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">No hay clientes con actividad en este año.</p>';
+  $('historyClientsTable').innerHTML=clients.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Sexo</th><th>Estado ${y}</th><th>Compras</th><th>Total comprado</th><th>Crédito</th><th>Abonos</th><th>Estado al cierre</th><th></th></tr></thead><tbody>${clients.map(x=>{const close=x.creditToClose<=0?'<span class="history-client-none">Sin crédito</span>':x.balance<=0?'<span class="history-client-settled">✓ Canceló todo</span>':`<span class="history-client-open">Debe ${money(x.balance)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b>${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td>${x.c.gender==='female'?'Mujer':x.c.gender==='male'?'Hombre':'—'}</td><td><span class="history-client-status ${x.isNew?'new':'returning'}">${x.isNew?'Nuevo':'Recurrente'}</span></td><td>${x.ys.length}</td><td>${money(x.total)}</td><td>${money(x.credit)}</td><td>${money(x.payments)}</td><td>${close}</td><td><button class="action-mini" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay clientes con actividad en este año.</p>';
   const yearly=historyYears().map(yy=>({y:yy,...annualStats(yy)})).sort((a,b)=>b.y-a.y);
   $('historyYearsTable').innerHTML=`<div class="table-wrap"><table class="table history-year-table"><thead><tr><th>Año</th><th>Ventas</th><th># ventas</th><th>Clientes</th><th>Nuevos</th><th>Recurrentes</th><th>Abonos</th><th>Ingresos</th><th>Egresos</th><th>Neto</th></tr></thead><tbody>${yearly.map(x=>`<tr><td><b>${x.y}</b></td><td>${money(x.totalSales)}</td><td>${x.sales.length}</td><td>${x.clients.filter(c=>c.active).length}</td><td>${x.newClients}</td><td>${x.returningClients}</td><td>${money(x.paymentTotal)}</td><td>${money(x.income)}</td><td>${money(x.expense)}</td><td><b>${money(x.net)}</b></td></tr>`).join('')}</tbody></table></div>`;
 }
-function downloadBackup(){
-  const payload={app:'HILEN',version:3,exportedAt:new Date().toISOString(),data:db};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`HILEN_respaldo_${today()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);showToast('Respaldo descargado','Guárdalo en un lugar seguro.')
+function normalizeProductName(name){return String(name||'').trim().toLocaleLowerCase('es').replace(/\s+/g,' ')}
+function inventoryAnalytics(year){
+  const start=`${year}-01-01`,end=`${year}-12-31`,map=new Map();
+  const ensure=(name)=>{const key=normalizeProductName(name);if(!key)return null;if(!map.has(key))map.set(key,{name:String(name||'').trim(),units:0,revenue:0,sales:0,clients:new Set(),last:'',prices:[],inquiries:0,interestedClients:new Set()});return map.get(key)};
+  db.sales.filter(s=>s.date>=start&&s.date<=end).forEach(s=>(s.items||[]).forEach(i=>{const r=ensure(i.name);if(!r)return;const qty=Number(i.qty)||0,price=Number(i.price)||0;r.units+=qty;r.revenue+=qty*price;r.sales++;r.clients.add(s.clientId);r.last=!r.last||s.date>r.last?s.date:r.last;if(price)r.prices.push(price)}));
+  db.clients.forEach(c=>{const d=c.registeredDate||String(c.createdAt||'').slice(0,10);if(!(d>=start&&d<=end)||!c.interest)return;String(c.interest).split(/[,;/]+/).map(x=>x.trim()).filter(Boolean).forEach(name=>{const r=ensure(name);if(r){r.inquiries++;r.interestedClients.add(c.id)}})});
+  const rows=[...map.values()].map(r=>({...r,clientsCount:r.clients.size,interestedCount:r.interestedClients.size,avgPrice:r.prices.length?r.prices.reduce((a,b)=>a+b,0)/r.prices.length:0})).sort((a,b)=>b.units-a.units||b.inquiries-a.inquiries||b.revenue-a.revenue);const maxUnits=Math.max(1,...rows.map(r=>r.units));rows.forEach(r=>{const ratio=r.units/maxUnits;r.demand=r.units===0&&r.inquiries>0?'Interés sin venta':ratio>=.6?'Alta':ratio>=.25?'Media':'Baja'});return rows
 }
-function restoreBackup(file){
-  if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result),incoming=parsed.data||parsed;if(!incoming||!Array.isArray(incoming.sales)||!Array.isArray(incoming.clients))throw new Error('Formato');confirmAction('Restaurar respaldo','Esto reemplazará los datos actuales de HILEN por los del archivo seleccionado.',()=>{db={...structuredClone(emptyDB),...incoming};db.users||=[];db.clients||=[];db.sales||=[];db.payments||=[];db.cashMovements||=[];syncDataRelations();saveDB();refreshAll();if($('historyYear'))$('historyYear').value=getDefaultHistoryYear();renderHistory();showToast('Respaldo restaurado exitosamente',file.name)},{red:true,confirmText:'Restaurar respaldo'})}catch(e){showToast('Archivo no válido','Selecciona un respaldo JSON generado por HILEN.','error')}finally{if($('backupFile'))$('backupFile').value=''}};reader.readAsText(file)
-}
-
-function generateStatement(){const name=$('statementClientName')?.value.trim()||'',a=$('stStart').value,b=$('stEnd').value;if(!name)return showToast('Escribe el nombre del cliente','','error');const c=db.clients.find(x=>normalizeClientName(x.name)===normalizeClientName(name));if(!c)return showToast('Cliente no encontrado','Revisa el nombre e inténtalo de nuevo.','error');const cid=c.id,sales=db.sales.filter(s=>s.clientId===cid&&s.date>=a&&s.date<=b),pays=db.payments.filter(p=>p.clientId===cid&&p.date>=a&&p.date<=b);const purchases=sales.filter(s=>s.type==='credit').reduce((x,s)=>x+s.total,0),paid=pays.reduce((x,p)=>x+p.amount,0);$('statementResult').innerHTML=`<div class="card print-area"><h1>HILEN</h1><h2>Estado de cuenta</h2><p><b>Cliente:</b> ${esc(c.name)}</p><p><b>Período:</b> ${a} → ${b}</p><h3>Compras a crédito</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Productos</th><th>Valor</th></tr></thead><tbody>${sales.filter(s=>s.type==='credit').map(s=>`<tr><td>${s.date}</td><td>${s.items.map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td>${money(s.total)}</td></tr>`).join('')||'<tr><td colspan="3">Sin compras a crédito.</td></tr>'}</tbody></table></div><h3>Abonos</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Valor</th><th>Recibido en</th></tr></thead><tbody>${pays.map(p=>`<tr><td>${p.date}</td><td>${money(p.amount)}</td><td>${p.destination==='bank'?'Nequi':'Efectivo'}</td></tr>`).join('')||'<tr><td colspan="3">Sin abonos.</td></tr>'}</tbody></table></div><br><div class="notice">Compras a crédito: <b>${money(purchases)}</b> · Abonos: <b>${money(paid)}</b> · Saldo del período: <b>${money(purchases-paid)}</b></div></div>`}
-function safeRender(name,fn){try{fn()}catch(err){console.error('HILEN · '+name,err)}}
-function refreshAfterChange(){
-  syncDataRelations();
-  refreshClientsSelects();
-  safeRender('inicio',renderHome);
-  const active=document.querySelector('.section.active')?.id;
-  const map={day:renderSalesView,customers:renderCustomers,payments:renderPayments,cashflow:renderCashflow,history:renderHistory};
-  if(active&&active!=='home'&&map[active])safeRender(active,map[active]);
+function renderInventory(){
+  if(!$('inventoryYear'))return;const year=Number($('inventoryYear').value)||getDefaultHistoryYear();$('inventoryYear').value=year;const q=normalizeProductName($('inventorySearch')?.value||''),all=inventoryAnalytics(year),rows=all.filter(r=>!q||normalizeProductName(r.name).includes(q));const units=all.reduce((a,r)=>a+r.units,0),revenue=all.reduce((a,r)=>a+r.revenue,0),inquiries=all.reduce((a,r)=>a+r.inquiries,0),top=all.find(r=>r.units>0),topInterest=[...all].sort((a,b)=>b.inquiries-a.inquiries)[0];
+  $('inventoryKpis').innerHTML=`<div class="inventory-kpi"><div class="ik-label">Productos distintos</div><div class="ik-value">${all.length}</div></div><div class="inventory-kpi"><div class="ik-label">Unidades vendidas</div><div class="ik-value">${units}</div></div><div class="inventory-kpi"><div class="ik-label">Más vendido</div><div class="ik-value">${top?esc(top.name):'—'}</div><div class="small muted">${top?top.units+' unidad(es)':'Sin ventas'}</div></div><div class="inventory-kpi"><div class="ik-label">Consultas / intereses</div><div class="ik-value">${inquiries}</div><div class="small muted">${topInterest&&topInterest.inquiries?`Más preguntado: ${esc(topInterest.name)}`:'Sin intereses registrados'}</div></div><div class="inventory-kpi"><div class="ik-label">Ingresos por productos</div><div class="ik-value">${money(revenue)}</div></div>`;
+  const top10=[...all].sort((a,b)=>b.units-a.units||b.inquiries-a.inquiries).slice(0,10),max=Math.max(1,...top10.map(r=>Math.max(r.units,r.inquiries)));$('inventoryChart').innerHTML=top10.length?`<div class="inventory-chart">${top10.map(r=>`<div class="inventory-bar-col" title="${esc(r.name)} · ${r.units} vendidas · ${r.inquiries} consultas · ${money(r.revenue)}"><div class="inventory-value">${r.units}v / ${r.inquiries}i</div><div class="inventory-bar" style="height:${Math.max(4,Math.round(Math.max(r.units,r.inquiries)/max*165))}px"></div><div class="inventory-label">${esc(r.name)}</div></div>`).join('')}</div>`:'<div class="notice">No hay productos vendidos ni intereses registrados en este año.</div>';
+  const top3=[...all].filter(r=>r.units>0).slice(0,3),slow=[...all].filter(r=>r.units>0).sort((a,b)=>a.units-b.units||a.revenue-b.revenue).slice(0,3),wantedNoSale=[...all].filter(r=>r.inquiries>0&&r.units===0).sort((a,b)=>b.inquiries-a.inquiries).slice(0,3);$('inventoryInsights').innerHTML=all.length?`<div class="notice good"><b>Prioridad de reposición:</b> ${top3.length?top3.map(r=>esc(r.name)+' ('+r.units+')').join(' · '):'Sin ventas suficientes'}</div><div class="notice warn" style="margin-top:10px"><b>Baja rotación:</b> ${slow.length?slow.map(r=>esc(r.name)+' ('+r.units+')').join(' · '):'Sin datos'}</div><div class="notice blue" style="margin-top:10px"><b>Preguntados pero todavía sin venta:</b> ${wantedNoSale.length?wantedNoSale.map(r=>esc(r.name)+' ('+r.inquiries+' consultas)').join(' · '):'Ninguno'}</div>`:'<div class="notice">Registra ventas o productos de interés para generar recomendaciones.</div>';
+  $('inventoryTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Producto</th><th>Unidades</th><th>Consultas</th><th>Clientes compradores</th><th>Ingresos</th><th>Precio promedio</th><th>Última venta</th><th>Señal</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.name)}</b></td><td>${r.units}</td><td>${r.inquiries}</td><td>${r.clientsCount}</td><td>${money(r.revenue)}</td><td>${money(r.avgPrice)}</td><td>${r.last||'—'}</td><td><span class="demand-badge ${r.demand==='Alta'?'demand-high':r.demand==='Baja'||r.demand==='Interés sin venta'?'demand-low':'demand-mid'}">${r.demand}</span></td></tr>`).join('')}</tbody></table></div>`:'<div class="notice">No hay resultados.</div>'
 }
 function refreshAll(){
   syncDataRelations();saveDB();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas-dia',renderDay],['inicio',renderHome],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas-dia',renderDay],['inicio',renderHome],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
 }
 function closeModal(){$('modal').classList.add('hidden')}
 async function bootstrapApp(){
