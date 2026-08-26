@@ -231,6 +231,21 @@ img,svg,canvas{max-width:100%}
 .app-version{margin-top:10px;display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#f3f3f5;color:#666;font-size:11px;font-weight:700}
 .cloud-required{margin-top:12px;padding:10px 12px;border-radius:12px;background:#fff6e7;color:#7b560d;font-size:12px;line-height:1.35}
 .auth-diagnostic{margin-top:12px;padding:11px 12px;border:1px solid #f0d5a3;border-radius:12px;background:#fffaf0;color:#72500b;font-size:12px;line-height:1.4}.auth-diagnostic.ok{border-color:#bfe6d5;background:#f2fbf7;color:#176545}.auth-diagnostic.error{border-color:#f0b9b9;background:#fff5f5;color:#a12f2f}.local-mode-btn{margin-top:10px}.local-mode-note{font-size:11px;color:#777;line-height:1.35;margin-top:7px}
+
+/* HILEN v8.8 · tablas y filtros estables */
+.table-fit-wrap{max-width:100%;overflow-x:hidden}
+.table-fit{width:100%;table-layout:fixed}
+.table-fit th,.table-fit td{white-space:normal;overflow-wrap:anywhere;word-break:normal}
+.table-fit .action-group{display:flex;gap:5px;flex-wrap:wrap}
+.table-fit .action-mini{padding:6px 8px}
+.statement-toolbar{display:grid;grid-template-columns:minmax(250px,1fr) 180px 180px auto;gap:10px;align-items:end}
+.statement-toolbar>div{min-width:0}
+.customer-filter-grid{grid-template-columns:minmax(260px,1fr) 180px 180px}
+.payment-filter-fields{display:grid;grid-template-columns:180px minmax(220px,1fr);gap:10px;align-items:end}
+.payment-filter-fields>div{min-width:0}
+@media(max-width:900px){.statement-toolbar{grid-template-columns:1fr 1fr}.statement-toolbar>div:first-child{grid-column:1/-1}.statement-toolbar>button{grid-column:1/-1}.customer-filter-grid{grid-template-columns:1fr 1fr}.customer-filter-grid>div:first-child{grid-column:1/-1}.payment-filter-fields{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.statement-toolbar,.customer-filter-grid,.payment-filter-fields{grid-template-columns:1fr}.statement-toolbar>div:first-child,.statement-toolbar>button,.customer-filter-grid>div:first-child{grid-column:auto}.table-fit-wrap{overflow-x:auto}.table-fit{min-width:680px}}
+
 </style>
 </head>
 <body>
@@ -266,7 +281,7 @@ img,svg,canvas{max-width:100%}
     </div>
     <p id="storageModeNote" class="small muted" style="margin-top:16px">HILEN puede guardar y sincronizar tus datos en la nube para abrirlos con la misma cuenta desde otros dispositivos.</p>
     <div id="authCloudRequirement" class="cloud-required">HILEN usa únicamente correo y contraseña. Si Firebase rechaza la API key, el problema está en la configuración de esa clave del proyecto; el modo local seguirá disponible para proteger tus datos mientras se corrige.</div>
-    <div class="app-version">HILEN · versión nube 8.7 · nube verificada + respaldo local</div>
+    <div class="app-version">HILEN · versión nube 8.8 · ventas/clientes/abonos corregidos + nube verificada</div>
   </div>
 </div>
 
@@ -276,7 +291,7 @@ img,svg,canvas{max-width:100%}
     <div id="cloudStatus" class="small muted" style="padding:0 12px 4px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
     <div id="cloudStatusDetail" class="small muted" style="padding:0 12px 6px;line-height:1.35">Sin verificación de escritura todavía.</div>
     <div style="padding:0 12px 10px"><button type="button" class="secondary" style="width:100%;padding:7px 10px;font-size:12px" onclick="verifyCloudNow(true)">Verificar nube ahora</button></div>
-    <div class="small muted" style="padding:0 12px 12px">v8.7 · Firebase · verificación real · Excel</div>
+    <div class="small muted" style="padding:0 12px 12px">v8.8 · Firebase · datos en vivo · Excel</div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('day',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>Ventas</button>
@@ -404,8 +419,8 @@ img,svg,canvas{max-width:100%}
       <div class="grid">
         <div class="card"><h2>Registrar abono</h2><div class="notice">Escribe manualmente el nombre del cliente que tiene crédito. El sistema buscará su historial y descontará el abono del saldo pendiente.</div><br><label class="label">Nombre del cliente</label><input id="payClientName" class="input" list="payClientList" placeholder="Escribe el nombre" autocomplete="off" oninput="updatePaymentClientHint()"><datalist id="payClientList"></datalist><div id="payClientHint" class="notice good hidden" style="margin-top:-6px;margin-bottom:14px"></div><label class="label">Fecha</label><input id="payDate" class="input" type="date"><label class="label">Valor</label><input id="payAmount" class="input money-input" type="text" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"><label class="label">Recibido en</label><select id="payDestination" class="input"><option value="cash">Efectivo</option><option value="bank">Nequi</option></select><button class="primary" onclick="savePayment()">Guardar abono</button></div>
         <div class="card">
-          <div class="payment-filterbar"><div><h2 style="margin-bottom:4px">Historial de abonos</h2><div class="muted small">Consulta por mes, año o todo el historial.</div></div><div class="segmented" id="paymentPeriodTabs"><button class="active" onclick="setPaymentPeriod('month',this)">Mes</button><button onclick="setPaymentPeriod('year',this)">Año</button><button onclick="setPaymentPeriod('all',this)">Todo</button></div></div>
-          <div class="payment-filter-fields"><div id="paymentMonthWrap"><label class="label">Mes</label><input id="paymentMonth" class="input" type="month" onchange="renderPayments()"></div><div id="paymentYearWrap" class="hidden"><label class="label">Año</label><input id="paymentYear" class="input" type="number" min="2000" max="2100" onchange="renderPayments()"></div><div style="flex:1;min-width:190px"><label class="label">Buscar cliente</label><input id="paymentSearch" class="input" placeholder="Nombre del cliente" oninput="renderPayments()"></div></div>
+          <div class="payment-filterbar"><div><h2 style="margin-bottom:4px">Historial de abonos</h2><div class="muted small">Consulta los abonos por día, mes o año.</div></div><div class="segmented" id="paymentPeriodTabs"><button class="active" data-payment-period="day" onclick="setPaymentPeriod('day',this)">Día</button><button data-payment-period="month" onclick="setPaymentPeriod('month',this)">Mes</button><button data-payment-period="year" onclick="setPaymentPeriod('year',this)">Año</button></div></div>
+          <div class="payment-filter-fields"><div id="paymentDayWrap"><label class="label">Día</label><input id="paymentDay" class="input" type="date" onchange="renderPayments()"></div><div id="paymentMonthWrap" class="hidden"><label class="label">Mes</label><input id="paymentMonth" class="input" type="month" onchange="renderPayments()"></div><div id="paymentYearWrap" class="hidden"><label class="label">Año</label><input id="paymentYear" class="input" type="number" min="2000" max="2100" onchange="renderPayments()"></div><div><label class="label">Buscar cliente</label><input id="paymentSearch" class="input" placeholder="Nombre del cliente" oninput="renderPayments()"></div></div>
           <div id="paymentSummary" class="payment-kpis"></div><div id="paymentsTable"></div>
         </div>
       </div>
@@ -484,7 +499,7 @@ img,svg,canvas{max-width:100%}
     <section id="statements" class="section">
       <div class="card">
         <div class="panel-head"><div><h2 style="margin-bottom:4px">Estado de cuenta para enviar al cliente</h2><div class="muted small">Selecciona el cliente y el período. HILEN mostrará las compras a crédito, los abonos y el saldo pendiente de forma clara para imprimir o guardar como PDF.</div></div></div>
-        <div class="toolbar"><div><label class="label">Nombre del cliente</label><input id="statementClientName" class="input" list="statementClientList" placeholder="Escribe el nombre completo"><datalist id="statementClientList"></datalist></div><div><label class="label">Desde</label><input id="stStart" class="input" type="date"></div><div><label class="label">Hasta</label><input id="stEnd" class="input" type="date"></div><button class="primary" onclick="generateStatement()">Generar estado de cuenta</button></div>
+        <div class="statement-toolbar"><div><label class="label">Nombre del cliente</label><input id="statementClientName" class="input" list="statementClientList" placeholder="Escribe el nombre completo"><datalist id="statementClientList"></datalist></div><div><label class="label">Desde</label><input id="stStart" class="input" type="date"></div><div><label class="label">Hasta</label><input id="stEnd" class="input" type="date"></div><button class="primary" onclick="generateStatement()">Generar estado de cuenta</button></div>
         <div class="notice blue" style="margin-top:10px">El <b>saldo pendiente</b> se calcula hasta la fecha final seleccionada, aunque la deuda haya comenzado antes del período.</div>
       </div><br><div id="statementResult"></div>
     </section>
@@ -725,6 +740,10 @@ const monthStart=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.g
 const nowTime=()=>new Date().toLocaleTimeString("es-CO",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
 const id=()=>crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function safeRender(name,fn){
+  try{return fn()}catch(err){console.error('HILEN · error al actualizar '+name,err);return null}
+}
+
 syncDataRelations();
 function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_DIRTY_KEY,'1');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());queueCloudSave()}
 function syncDataRelations(){
@@ -821,7 +840,7 @@ async function logout(ev){
 function finishOpenApp(){
   $('auth').classList.add('hidden');$('app').classList.remove('hidden');
   $('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  ['dayDate','saleDate','payDate','cfDate','cfEnd','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});
+  ['dayDate','saleDate','payDate','paymentDay','cfDate','cfEnd','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['cfStart','stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear'))$('historyYear').value=getDefaultHistoryYear();if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
   $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();refreshAll();
@@ -865,6 +884,20 @@ function updateSaleClientFromName(){
   else{if(saleMatchedClientId){if($('newClientPhone'))$('newClientPhone').value='';if($('newClientGender'))$('newClientGender').value='';saleMatchedClientId=null}hint.className='notice blue';hint.textContent='Nombre nuevo: al guardar la venta se creará automáticamente el cliente y quedará sincronizado con Clientes, Historial y la nube.'}
 }
 function ensureClientFromSaleForm(name,phone,gender,date){const normalized=normalizeClientName(name);let c=db.clients.find(x=>normalizeClientName(x.name)===normalized);if(!c){c={id:id(),name:name.trim(),phone:phone.trim(),gender,email:'',notes:'',interest:'',registeredDate:date,convertedAt:date,createdAt:new Date().toISOString()};db.clients.push(c)}else{if(phone.trim())c.phone=phone.trim();if(gender)c.gender=gender;if(!c.convertedAt)c.convertedAt=date;c.registeredDate ||= String(c.createdAt||'').slice(0,10)||date}return c}
+function resetSaleForm(){
+  if($('saleDate'))$('saleDate').value=today();
+  if($('saleTime'))$('saleTime').value=nowTime();
+  if($('newClientName'))$('newClientName').value='';
+  if($('newClientPhone'))$('newClientPhone').value='';
+  if($('newClientGender'))$('newClientGender').value='';
+  if($('paymentType'))$('paymentType').value='paid';
+  if($('saleDestination'))$('saleDestination').value='cash';
+  paymentTypeChanged();
+  if($('products')){$('products').innerHTML='';addProduct()}
+  saleMatchedClientId=null;
+  updateSaleClientFromName();
+  calcTotal();
+}
 async function saveSale(){
   const date=$('saleDate').value,type=$('paymentType').value;
   if(!date)return showToast('Selecciona la fecha','Debes indicar la fecha de la venta.','error');
@@ -873,36 +906,54 @@ async function saveSale(){
   const items=[...document.querySelectorAll('.product-row')].map(r=>({name:r.querySelector('.pname').value.trim(),qty:+r.querySelector('.pqty').value||0,price:parseMoneyInput(r.querySelector('.pprice').value)})).filter(x=>x.name&&x.qty&&x.price);
   if(!items.length)return showToast('Faltan productos','Agrega al menos un producto con nombre, cantidad y precio.','error');
   const c=ensureClientFromSaleForm(name,phone,gender,date),total=items.reduce((a,i)=>a+i.qty*i.price,0),destination=type==='paid'?$('saleDestination').value:null;
-  db.sales.push({id:id(),date,time:nowTime(),clientId:c.id,clientName:c.name,clientPhone:c.phone||'',clientGender:c.gender||'',type,destination,total,items,createdAt:new Date().toISOString()});
-  syncDataRelations();saveDB();refreshAfterChange();
+  const sale={id:id(),date,time:nowTime(),clientId:c.id,clientName:c.name,clientPhone:c.phone||'',clientGender:c.gender||'',type,destination,total,items,createdAt:new Date().toISOString()};
+  db.sales.push(sale);
+  syncDataRelations();
+  // Deja los filtros apuntando a la venta recién guardada para que aparezca inmediatamente.
+  if($('dayDate'))$('dayDate').value=date;
+  if($('salesMonth'))$('salesMonth').value=date.slice(0,7);
+  if($('salesYear'))$('salesYear').value=date.slice(0,4);
+  saveDB();
+  refreshAfterChange();
+  resetSaleForm();
   const cloudOk=localMode?false:await cloudSaveNow();
-  if(cloudOk)showToast('Venta guardada y verificada en la nube',`${c.name} · ${money(total)} · Firebase confirmó la escritura.`);
+  if(cloudOk)showToast('Venta guardada y verificada en la nube',`${c.name} · ${money(total)} · ya aparece en Ventas, Clientes e Inicio.`);
   else showToast('Venta guardada en este equipo',localMode?'La nube está pendiente porque estás en modo local.':'Firebase no confirmó el guardado. HILEN conservará la venta localmente e intentará sincronizar de nuevo.','error');
-  $('products').innerHTML='';addProduct();$('newClientName').value='';$('newClientPhone').value='';$('newClientGender').value='';$('saleTime').value=nowTime();updateSaleClientFromName();
 }
 
 function findClientByWrittenName(name){const n=normalizeClientName(name);return db.clients.find(c=>normalizeClientName(c.name)===n)}
 function updatePaymentClientHint(){const input=$('payClientName'),box=$('payClientHint');if(!input||!box)return;const c=findClientByWrittenName(input.value.trim());if(!c){box.classList.add('hidden');box.textContent='';return}const b=clientBalance(c.id);box.classList.remove('hidden');box.className='notice '+(b.balance>0?'good':'warn');box.innerHTML=b.balance>0?`Cliente encontrado · Saldo pendiente: <b>${money(b.balance)}</b>`:'Cliente encontrado, pero no tiene saldo de crédito pendiente.'}
-function savePayment(){const name=$('payClientName').value.trim(),amount=parseMoneyInput($('payAmount').value);if(!name)return showToast('Escribe el nombre del cliente','Debes indicar a qué cliente corresponde el abono.','error');if(!amount)return showToast('Escribe el valor del abono','El valor debe ser mayor que $0.','error');const c=findClientByWrittenName(name);if(!c)return showToast('Cliente no encontrado','No existe un cliente registrado con ese nombre. Revisa cómo está escrito.','error');const b=clientBalance(c.id);if(b.balance<=0)return showToast('Sin saldo pendiente','Este cliente no tiene crédito pendiente para abonar.','error');if(amount>b.balance)return showToast('Abono demasiado alto','El abono no puede ser mayor al saldo pendiente de '+money(b.balance)+'.','error');db.payments.push({id:id(),date:$('payDate').value,time:nowTime(),clientId:c.id,clientName:c.name,amount,destination:$('payDestination').value,createdAt:new Date().toISOString()});saveDB();$('payAmount').value='';$('payClientName').value='';$('payClientHint').classList.add('hidden');showToast('Abono registrado exitosamente','El saldo de '+c.name+' fue actualizado.');refreshAfterChange()}
-function clientBalance(cid,endDate='9999-99-99'){const purchases=db.sales.filter(s=>s.clientId===cid&&s.type==='credit'&&s.date<=endDate).reduce((a,s)=>a+s.total,0);const paid=db.payments.filter(p=>p.clientId===cid&&p.date<=endDate).reduce((a,p)=>a+p.amount,0);const rawBalance=purchases-paid;return {purchases,paid,balance:Math.max(0,rawBalance),credit:Math.max(0,-rawBalance),rawBalance}}
-function customerHasCredit(cid){return db.sales.some(s=>s.clientId===cid&&s.type==='credit')}
+async function savePayment(){
+  const name=$('payClientName').value.trim(),amount=parseMoneyInput($('payAmount').value),date=$('payDate').value||today();
+  if(!name)return showToast('Escribe el nombre del cliente','Debes indicar a qué cliente corresponde el abono.','error');
+  if(!amount)return showToast('Escribe el valor del abono','El valor debe ser mayor que $0.','error');
+  const c=findClientByWrittenName(name);if(!c)return showToast('Cliente no encontrado','No existe un cliente registrado con ese nombre. Revisa cómo está escrito.','error');
+  const b=clientBalance(c.id);if(b.balance<=0)return showToast('Sin saldo pendiente','Este cliente no tiene crédito pendiente para abonar.','error');
+  if(amount>b.balance)return showToast('Abono demasiado alto','El abono no puede ser mayor al saldo pendiente de '+money(b.balance)+'.','error');
+  db.payments.push({id:id(),date,time:nowTime(),clientId:c.id,clientName:c.name,amount,destination:$('payDestination').value,createdAt:new Date().toISOString()});
+  if($('paymentDay'))$('paymentDay').value=date;if($('paymentMonth'))$('paymentMonth').value=date.slice(0,7);if($('paymentYear'))$('paymentYear').value=date.slice(0,4);
+  saveDB();refreshAfterChange();
+  $('payAmount').value='';$('payClientName').value='';$('payDate').value=today();$('payDestination').value='cash';$('payClientHint').classList.add('hidden');
+  const cloudOk=localMode?false:await cloudSaveNow();
+  showToast(cloudOk?'Abono guardado y verificado':'Abono registrado',cloudOk?`${c.name} · ${money(amount)} · nube confirmada.`:`El saldo de ${c.name} fue actualizado.` ,cloudOk?'':'');
+}
+
 let salesPeriod='day';
 function setSalesPeriod(period,btn){salesPeriod=period;document.querySelectorAll('#salesPeriodTabs button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');$('salesDayWrap').classList.toggle('hidden',period!=='day');$('salesMonthWrap').classList.toggle('hidden',period!=='month');$('salesYearWrap').classList.toggle('hidden',period!=='year');renderSalesView()}
 function renderSalesView(){
-  let rows=[...db.sales],label='Todo el historial';
-  if(salesPeriod==='day'){const d=$('dayDate').value;rows=rows.filter(s=>s.date===d);label='Ventas del '+new Date(d+'T12:00:00').toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'})}
-  else if(salesPeriod==='month'){const m=$('salesMonth').value;rows=rows.filter(s=>s.date.startsWith(m));const [y,mo]=m.split('-');label='Ventas de '+new Date(+y,+mo-1,1).toLocaleDateString('es-CO',{month:'long',year:'numeric'})}
-  else if(salesPeriod==='year'){const y=String($('salesYear').value||new Date().getFullYear());rows=rows.filter(s=>s.date.startsWith(y+'-'));label='Ventas del año '+y}
-  rows.sort((a,b)=>b.date.localeCompare(a.date)||String(b.time).localeCompare(String(a.time)));$('dayTitle').textContent=label;
-  const total=rows.reduce((a,s)=>a+s.total,0),paid=rows.filter(s=>s.type==='paid').reduce((a,s)=>a+s.total,0),credit=rows.filter(s=>s.type==='credit').reduce((a,s)=>a+s.total,0);
-  $('dayTable').innerHTML=`<div class="period-summary"><div class="card"><div class="stat-label">Total vendido</div><div class="stat">${money(total)}</div></div><div class="card"><div class="stat-label">Pagado</div><div class="stat">${money(paid)}</div></div><div class="card"><div class="stat-label">Crédito</div><div class="stat">${money(credit)}</div></div><div class="card"><div class="stat-label">Ventas</div><div class="stat">${rows.length}</div></div></div>`+(rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Hora</th><th>Cliente</th><th>Productos</th><th>Pago</th><th>Destino</th><th>Total</th><th></th></tr></thead><tbody>${rows.map(s=>`<tr><td>${s.date}</td><td>${s.time}</td><td>${esc(clientNameById(s.clientId))}</td><td>${s.items.map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span></td><td>${s.type==='credit'?'—':accountBadge(s.destination||'cash')}</td><td><b>${money(s.total)}</b></td><td><div class="action-group"><button class="action-mini" onclick="showSale('${s.id}')">Ver</button><button class="action-mini" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">No hay ventas en este período.</p>');renderSalesChart()
+  let rows=[...db.sales],label='Ventas';
+  if(salesPeriod==='day'){const d=$('dayDate').value||today();rows=rows.filter(s=>s.date===d);label='Ventas del '+normalizeDateLabel(d)}
+  else if(salesPeriod==='month'){const m=$('salesMonth').value||today().slice(0,7);rows=rows.filter(s=>String(s.date||'').startsWith(m));const [y,mo]=m.split('-');label='Ventas de '+new Date(+y,+mo-1,1).toLocaleDateString('es-CO',{month:'long',year:'numeric'})}
+  else if(salesPeriod==='year'){const y=String($('salesYear').value||new Date().getFullYear());rows=rows.filter(s=>String(s.date||'').startsWith(y+'-'));label='Ventas del año '+y}
+  rows.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.time||'').localeCompare(String(a.time||'')));
+  $('dayTitle').textContent=label;
+  const total=rows.reduce((a,s)=>a+(Number(s.total)||0),0),paid=rows.filter(s=>s.type==='paid').reduce((a,s)=>a+(Number(s.total)||0),0),credit=rows.filter(s=>s.type==='credit').reduce((a,s)=>a+(Number(s.total)||0),0);
+  const summary=`<div class="period-summary"><div class="card"><div class="stat-label">Total vendido</div><div class="stat">${money(total)}</div></div><div class="card"><div class="stat-label">Pagado</div><div class="stat">${money(paid)}</div></div><div class="card"><div class="stat-label">Crédito</div><div class="stat">${money(credit)}</div></div><div class="card"><div class="stat-label">Ventas</div><div class="stat">${rows.length}</div></div></div>`;
+  const table=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${rows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(s.total)}</b></td><td><div class="action-group"><button class="action-mini" onclick="showSale('${s.id}')">Ver</button><button class="action-mini" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">No hay ventas en este período.</p>';
+  $('dayTable').innerHTML=summary+table;
+  renderSalesChart();
 }
-function salesWeekRange(dateStr){
-  const d=new Date((dateStr||today())+'T12:00:00');
-  const day=d.getDay()||7;
-  const monday=new Date(d);monday.setDate(d.getDate()-day+1);
-  return Array.from({length:7},(_,i)=>{const x=new Date(monday);x.setDate(monday.getDate()+i);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`});
-}
+
 function renderSalesChart(){
   if(!$('salesChart'))return;
   let points=[],title='',subtitle='',bestLabel='Mejor período',lowLabel='Período más bajo',totalLabel='Total';
@@ -936,14 +987,20 @@ function calcEditSaleTotal(){let t=0;document.querySelectorAll('#editSaleProduct
 function saveSaleEdits(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;const name=$('esClient').value.trim();if(!name)return showToast('Escribe el cliente','','error');let c=db.clients.find(x=>normalizeClientName(x.name)===normalizeClientName(name));if(!c){c={id:id(),name,phone:'',gender:'',createdAt:new Date().toISOString()};db.clients.push(c)}const items=[...document.querySelectorAll('#editSaleProducts .edit-sale-grid')].map(r=>({name:r.querySelector('.es-name').value.trim(),qty:+r.querySelector('.es-qty').value||0,price:parseMoneyInput(r.querySelector('.es-price').value)})).filter(i=>i.name&&i.qty&&i.price);if(!items.length)return showToast('Agrega productos válidos','','error');s.date=$('esDate').value;s.clientId=c.id;s.clientName=c.name;s.clientPhone=c.phone||'';s.clientGender=c.gender||'';s.type=$('esType').value;s.destination=s.type==='paid'?$('esDest').value:null;s.items=items;s.total=items.reduce((a,i)=>a+i.qty*i.price,0);saveDB();closeModal();refreshAfterChange();showToast('Venta actualizada exitosamente',money(s.total))}
 function deleteSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;if(s.type==='credit'){const otherCredit=db.sales.filter(x=>x.clientId===s.clientId&&x.type==='credit'&&x.id!==sid).reduce((a,x)=>a+x.total,0),paid=db.payments.filter(p=>p.clientId===s.clientId).reduce((a,p)=>a+p.amount,0);if(paid>otherCredit)return showToast('No se puede eliminar esta venta','Los abonos del cliente superarían el crédito restante. Corrige primero los abonos.','error')}return confirmAction('Eliminar venta','Vas a eliminar permanentemente esta venta de '+money(s.total)+'. Antes se guardará un respaldo en la nube.',async()=>{await backupBeforeDestructive('eliminar venta '+sid);db.sales=db.sales.filter(x=>x.id!==sid);syncClientsFromSales();saveDB();refreshAfterChange();showToast('Venta eliminada exitosamente',money(s.total))},{red:true,confirmText:'Eliminar venta'})}
 function renderCustomers(){
-  syncDataRelations();const q=($('customerSearch')?.value||'').trim().toLocaleLowerCase('es'),a=$('clientStart')?.value||'0000-01-01',z=$('clientEnd')?.value||'9999-12-31';const matchesSearch=c=>!q||[c.name,c.phone,c.email,c.interest,c.notes].some(v=>String(v||'').toLocaleLowerCase('es').includes(q));
+  syncDataRelations();
+  const q=($('customerSearch')?.value||'').trim().toLocaleLowerCase('es'),a=$('clientStart')?.value||'0000-01-01',z=$('clientEnd')?.value||'9999-12-31';
+  const matchesSearch=c=>!q||[c.name,c.phone,c.email,c.interest,c.notes].some(v=>String(v||'').toLocaleLowerCase('es').includes(q));
   const meta=db.clients.map(c=>{const first=clientFirstSaleDate(c.id),last=clientLastSaleDate(c.id),periodSales=clientSales(c.id).filter(s=>s.date>=a&&s.date<=z),isActive=periodSales.length>0,isNew=!!first&&first>=a&&first<=z,isReturning=!!first&&first<a&&isActive,total=periodSales.reduce((n,s)=>n+(Number(s.total)||0),0),allSales=clientSales(c.id);return {c,first,last,periodSales,isActive,isNew,isReturning,total,allSales,allTotal:allSales.reduce((n,s)=>n+(Number(s.total)||0),0),lifecycle:clientLifecycle(c)}});
   const active=meta.filter(x=>x.isActive),newCount=active.filter(x=>x.isNew).length,returningCount=active.filter(x=>x.isReturning).length,potentials=meta.filter(x=>x.lifecycle==='potential').length,women=active.filter(x=>x.c.gender==='female').length,men=active.filter(x=>x.c.gender==='male').length;
   if($('clientKpiTotal'))$('clientKpiTotal').textContent=db.clients.length;if($('clientKpiActive'))$('clientKpiActive').textContent=active.length;if($('clientKpiNew'))$('clientKpiNew').textContent=newCount;if($('clientKpiReturning'))$('clientKpiReturning').textContent=returningCount;if($('clientKpiWomen'))$('clientKpiWomen').textContent=women;if($('clientKpiMen'))$('clientKpiMen').textContent=men;if($('clientKpiPotential'))$('clientKpiPotential').textContent=potentials;
-  if($('clientPeriodNote'))$('clientPeriodNote').innerHTML=`Período seleccionado: <b>${normalizeDateLabel(a)}</b> a <b>${normalizeDateLabel(z)}</b>. Los potenciales se conservan en el registro general y solo se cuentan como nuevos o recurrentes cuando realizan una compra.`;
-  const periodRows=active.filter(x=>matchesSearch(x.c)).sort((x,y)=>y.total-x.total||x.c.name.localeCompare(y.c.name,'es'));if($('periodCustomersTable'))$('periodCustomersTable').innerHTML=periodRows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Sexo</th><th>Estado</th><th>Compras</th><th>Total del período</th><th>Primera compra</th><th>Saldo crédito</th><th>Acciones</th></tr></thead><tbody>${periodRows.map(x=>{const b=clientBalance(x.c.id,z),type=x.isNew?'<span class="badge client-type-new">Nuevo</span>':'<span class="badge client-type-return">Recurrente</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${esc(x.c.phone||'')}</div></td><td>${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}</td><td>${type}</td><td>${x.periodSales.length}</td><td><b>${money(x.total)}</b></td><td>${x.first||'—'}</td><td><span class="badge ${b.balance>0?'debt':'paid'}">${money(b.balance)}</span></td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes con compras dentro de este período.</div>';
-  const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>x.c.name.localeCompare(y.c.name,'es'));if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Estado</th><th>Contacto</th><th>Producto de interés</th><th>Registrado</th><th>Primera compra</th><th>Compras</th><th>Total histórico</th><th>Saldo crédito</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const b=clientBalance(x.c.id),status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div></td><td>${status}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td>${esc(x.c.interest||'—')}</td><td>${x.c.registeredDate||String(x.c.createdAt||'').slice(0,10)||'—'}</td><td>${x.first||'—'}</td><td>${x.allSales.length}</td><td><b>${money(x.allTotal)}</b></td><td><span class="badge ${b.balance>0?'debt':'paid'}">${money(b.balance)}</span></td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';renderClientChart()
+  if($('clientPeriodNote'))$('clientPeriodNote').innerHTML=`Período seleccionado: <b>${normalizeDateLabel(a)}</b> a <b>${normalizeDateLabel(z)}</b>. Los clientes potenciales siempre permanecen en el registro general.`;
+  const periodRows=active.filter(x=>matchesSearch(x.c)).sort((x,y)=>y.total-x.total||x.c.name.localeCompare(y.c.name,'es'));
+  if($('periodCustomersTable'))$('periodCustomersTable').innerHTML=periodRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:21%">Cliente</th><th style="width:13%">Estado</th><th style="width:11%">Compras</th><th style="width:15%">Total</th><th style="width:15%">Primera compra</th><th style="width:13%">Saldo</th><th style="width:12%">Acciones</th></tr></thead><tbody>${periodRows.map(x=>{const b=clientBalance(x.c.id,z),type=x.isNew?'<span class="badge client-type-new">Nuevo</span>':'<span class="badge client-type-return">Recurrente</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}${x.c.phone?' · '+esc(x.c.phone):''}</div></td><td>${type}</td><td>${x.periodSales.length}</td><td><b>${money(x.total)}</b></td><td>${x.first?normalizeDateLabel(x.first):'—'}</td><td><span class="badge ${b.balance>0?'debt':'paid'}">${money(b.balance)}</span></td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes con compras dentro de este período.</div>';
+  const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>x.c.name.localeCompare(y.c.name,'es'));
+  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:18%">Cliente</th><th style="width:12%">Estado</th><th style="width:15%">Contacto</th><th style="width:14%">Interés</th><th style="width:14%">Fechas</th><th style="width:12%">Compras</th><th style="width:8%">Saldo</th><th style="width:7%">Acciones</th></tr></thead><tbody>${allRows.map(x=>{const b=clientBalance(x.c.id),status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div></td><td>${status}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td>${esc(x.c.interest||'—')}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.c.registeredDate||String(x.c.createdAt||'').slice(0,10))||'—'}</div><div class="small muted"><b>1ª compra:</b> ${x.first?normalizeDateLabel(x.first):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td><span class="badge ${b.balance>0?'debt':'paid'}">${money(b.balance)}</span></td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
+  renderClientChart();
 }
+
 function renderClientChart(){
   if(!$('clientChart'))return;
   const year=Number($('clientChartYear')?.value)||new Date().getFullYear(),names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -959,7 +1016,15 @@ function renderClientChart(){
 function openCustomerForm(){
   $('modalContent').innerHTML=`<h2>Nuevo cliente potencial</h2><p class="muted">Puedes guardar a una persona aunque todavía no compre. Cuando haga su primera compra, HILEN conservará esta misma ficha automáticamente.</p><div class="form-grid"><div><label class="label">Nombre</label><input id="mName" class="input"></div><div><label class="label">Teléfono</label><input id="mPhone" class="input"></div><div><label class="label">Sexo</label><select id="mGender" class="input"><option value="">Sin especificar</option><option value="female">Mujer</option><option value="male">Hombre</option></select></div><div><label class="label">Correo</label><input id="mEmail" class="input" type="email" placeholder="Opcional"></div><div><label class="label">Fecha de registro</label><input id="mRegisteredDate" class="input" type="date" value="${today()}"></div><div><label class="label">Producto de interés</label><input id="mInterest" class="input" placeholder="Ej. bolso negro, reloj, cadena"></div><div class="fullcol"><label class="label">Notas</label><textarea id="mNotes" class="input" rows="3" placeholder="Ej. preguntó por disponibilidad, color, presupuesto o talla"></textarea></div></div><button class="primary" onclick="createClient()">Guardar cliente potencial</button>`;$('modal').classList.remove('hidden')
 }
-function createClient(){const name=$('mName').value.trim();if(!name)return showToast('Nombre obligatorio','','error');const norm=normalizeClientName(name);if(db.clients.some(c=>normalizeClientName(c.name)===norm))return showToast('Cliente ya registrado','Puedes buscarlo por su nombre y editar su ficha.','error');db.clients.push({id:id(),name,phone:$('mPhone').value.trim(),gender:$('mGender').value,email:$('mEmail').value.trim(),interest:$('mInterest').value.trim(),notes:$('mNotes').value.trim(),registeredDate:$('mRegisteredDate').value||today(),createdAt:new Date().toISOString()});saveDB();closeModal();refreshAfterChange();showToast('Cliente potencial registrado',`${name} quedó guardado aunque todavía no haya comprado.`)}
+async function createClient(){
+  const name=$('mName').value.trim();if(!name)return showToast('Nombre obligatorio','','error');
+  const norm=normalizeClientName(name);if(db.clients.some(c=>normalizeClientName(c.name)===norm))return showToast('Cliente ya registrado','Puedes buscarlo por su nombre y editar su ficha.','error');
+  const c={id:id(),name,phone:$('mPhone').value.trim(),gender:$('mGender').value,email:$('mEmail').value.trim(),interest:$('mInterest').value.trim(),notes:$('mNotes').value.trim(),registeredDate:$('mRegisteredDate').value||today(),createdAt:new Date().toISOString()};
+  db.clients.push(c);saveDB();closeModal();refreshAfterChange();
+  const cloudOk=localMode?false:await cloudSaveNow();
+  showToast(cloudOk?'Cliente guardado y verificado':'Cliente potencial registrado',cloudOk?`${name} ya aparece en el registro general y quedó confirmado en Firebase.`:`${name} quedó guardado aunque todavía no haya comprado.`);
+}
+
 function editCustomer(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;$('modalContent').innerHTML=`<h2>Editar cliente</h2><div class="profile-meta"><span class="profile-pill ${clientLifecycle(c)==='potential'?'potential':'customer'}">${clientLifecycleLabel(c)}</span></div><div class="form-grid" style="margin-top:14px"><div><label class="label">Nombre</label><input id="editCName" class="input" value="${esc(c.name)}"></div><div><label class="label">Teléfono</label><input id="editCPhone" class="input" value="${esc(c.phone||'')}"></div><div><label class="label">Sexo</label><select id="editCGender" class="input"><option value="" ${!c.gender?'selected':''}>Sin especificar</option><option value="female" ${c.gender==='female'?'selected':''}>Mujer</option><option value="male" ${c.gender==='male'?'selected':''}>Hombre</option></select></div><div><label class="label">Correo</label><input id="editCEmail" class="input" type="email" value="${esc(c.email||'')}" placeholder="Opcional"></div><div><label class="label">Fecha de registro</label><input id="editCRegisteredDate" class="input" type="date" value="${esc(c.registeredDate||String(c.createdAt||'').slice(0,10)||today())}"></div><div><label class="label">Producto de interés</label><input id="editCInterest" class="input" value="${esc(c.interest||'')}" placeholder="Opcional"></div><div class="fullcol"><label class="label">Notas del cliente</label><textarea id="editCNotes" class="input" rows="3">${esc(c.notes||'')}</textarea></div></div><button class="primary" onclick="saveCustomerEdit('${cid}')">Guardar cambios</button>`;$('modal').classList.remove('hidden')}
 function saveCustomerEdit(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;const name=$('editCName').value.trim();if(!name)return showToast('Nombre obligatorio','','error');const dup=db.clients.find(x=>x.id!==cid&&normalizeClientName(x.name)===normalizeClientName(name));if(dup)return showToast('Ya existe otro cliente con ese nombre','','error');c.name=name;c.phone=$('editCPhone').value.trim();c.gender=$('editCGender').value;c.email=$('editCEmail').value.trim();c.registeredDate=$('editCRegisteredDate').value||c.registeredDate||today();c.interest=$('editCInterest').value.trim();c.notes=$('editCNotes').value.trim();db.sales.filter(s=>s.clientId===cid).forEach(s=>{s.clientName=c.name;s.clientPhone=c.phone||'';s.clientGender=c.gender||''});db.payments.filter(p=>p.clientId===cid).forEach(p=>p.clientName=c.name);saveDB();closeModal();refreshAfterChange();showToast('Cliente actualizado exitosamente',name)}
 function deleteCustomer(cid){const c=db.clients.find(x=>x.id===cid);if(!c)return;const saleCount=db.sales.filter(s=>s.clientId===cid).length,payCount=db.payments.filter(p=>p.clientId===cid).length;confirmAction('Eliminar cliente',`Se eliminará a ${c.name}, junto con ${saleCount} venta(s) y ${payCount} abono(s) asociados. Antes se guardará un respaldo en la nube.`,async()=>{await backupBeforeDestructive('eliminar cliente '+c.name);db.clients=db.clients.filter(x=>x.id!==cid);db.sales=db.sales.filter(x=>x.clientId!==cid);db.payments=db.payments.filter(x=>x.clientId!==cid);saveDB();refreshAfterChange();showToast('Cliente eliminado',c.name)},{red:true,confirmText:'Eliminar cliente'})}
@@ -1011,10 +1076,31 @@ function generateStatement(){
 }
 function printGeneratedStatement(){const a=$('statementPrintArea');if(!a)return;a.classList.add('print-area');window.print();setTimeout(()=>a.classList.remove('print-area'),300)}
 
-let paymentPeriodMode='month';
-function setPaymentPeriod(mode,btn){paymentPeriodMode=mode;document.querySelectorAll('#paymentPeriodTabs button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.toggle('hidden',mode!=='month');if($('paymentYearWrap'))$('paymentYearWrap').classList.toggle('hidden',mode!=='year');renderPayments()}
-function paymentPeriodRange(){if(paymentPeriodMode==='month'){const m=$('paymentMonth')?.value||today().slice(0,7);const [y,mo]=m.split('-').map(Number),last=new Date(y,mo,0).getDate();return [m+'-01',`${m}-${String(last).padStart(2,'0')}`]}if(paymentPeriodMode==='year'){const y=String($('paymentYear')?.value||new Date().getFullYear());return [y+'-01-01',y+'-12-31']}return ['0000-01-01','9999-12-31']}
-function renderPayments(){const [a,z]=paymentPeriodRange(),q=($('paymentSearch')?.value||'').trim().toLowerCase();let rows=[...db.payments].filter(p=>p.date>=a&&p.date<=z&&clientNameById(p.clientId).toLowerCase().includes(q)).sort((x,y)=>y.date.localeCompare(x.date)||String(y.time).localeCompare(String(x.time)));const total=rows.reduce((n,p)=>n+p.amount,0),cash=rows.filter(p=>(p.destination||'cash')==='cash').reduce((n,p)=>n+p.amount,0),bank=rows.filter(p=>p.destination==='bank').reduce((n,p)=>n+p.amount,0),clients=new Set(rows.map(p=>p.clientId)).size;if($('paymentSummary'))$('paymentSummary').innerHTML=`<div class="payment-kpi"><div class="pk-label">Abonos del período</div><div class="pk-value">${rows.length}</div></div><div class="payment-kpi green"><div class="pk-label">Total abonado</div><div class="pk-value">${money(total)}</div></div><div class="payment-kpi"><div class="pk-label">Clientes que abonaron</div><div class="pk-value">${clients}</div></div><div class="payment-kpi blue"><div class="pk-label">Efectivo / Nequi</div><div class="pk-value" style="font-size:16px">${money(cash)} / ${money(bank)}</div></div>`;$('paymentsTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th></tr></thead><tbody>${rows.map(p=>`<tr><td>${p.date}<div class="small muted">${p.time||''}</div></td><td>${esc(clientNameById(p.clientId))}</td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">No hay abonos en este período.</p>';renderPaymentChart()}
+let paymentPeriodMode='day';
+function setPaymentPeriod(mode,btn){
+  paymentPeriodMode=mode;
+  document.querySelectorAll('#paymentPeriodTabs button').forEach(x=>x.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  if($('paymentDayWrap'))$('paymentDayWrap').classList.toggle('hidden',mode!=='day');
+  if($('paymentMonthWrap'))$('paymentMonthWrap').classList.toggle('hidden',mode!=='month');
+  if($('paymentYearWrap'))$('paymentYearWrap').classList.toggle('hidden',mode!=='year');
+  renderPayments();
+}
+function paymentPeriodRange(){
+  if(paymentPeriodMode==='day'){const d=$('paymentDay')?.value||today();return [d,d]}
+  if(paymentPeriodMode==='month'){const m=$('paymentMonth')?.value||today().slice(0,7);const [y,mo]=m.split('-').map(Number),last=new Date(y,mo,0).getDate();return [m+'-01',`${m}-${String(last).padStart(2,'0')}`]}
+  const y=String($('paymentYear')?.value||new Date().getFullYear());return [y+'-01-01',y+'-12-31'];
+}
+
+function renderPayments(){
+  const [a,z]=paymentPeriodRange(),q=($('paymentSearch')?.value||'').trim().toLocaleLowerCase('es');
+  let rows=[...db.payments].filter(p=>String(p.date||'')>=a&&String(p.date||'')<=z&&clientNameById(p.clientId).toLocaleLowerCase('es').includes(q)).sort((x,y)=>String(y.date||'').localeCompare(String(x.date||''))||String(y.time||'').localeCompare(String(x.time||'')));
+  const total=rows.reduce((n,p)=>n+(Number(p.amount)||0),0),cash=rows.filter(p=>(p.destination||'cash')==='cash').reduce((n,p)=>n+(Number(p.amount)||0),0),bank=rows.filter(p=>p.destination==='bank').reduce((n,p)=>n+(Number(p.amount)||0),0),clients=new Set(rows.map(p=>p.clientId)).size;
+  if($('paymentSummary'))$('paymentSummary').innerHTML=`<div class="payment-kpi"><div class="pk-label">Abonos del período</div><div class="pk-value">${rows.length}</div></div><div class="payment-kpi green"><div class="pk-label">Total abonado</div><div class="pk-value">${money(total)}</div></div><div class="payment-kpi"><div class="pk-label">Clientes que abonaron</div><div class="pk-value">${clients}</div></div><div class="payment-kpi blue"><div class="pk-label">Efectivo / Nequi</div><div class="pk-value" style="font-size:16px">${money(cash)} / ${money(bank)}</div></div>`;
+  $('paymentsTable').innerHTML=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:24%">Fecha</th><th style="width:32%">Cliente</th><th style="width:22%">Abono</th><th style="width:22%">Recibido en</th></tr></thead><tbody>${rows.map(p=>`<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td>${esc(clientNameById(p.clientId))}</td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">No hay abonos en este período.</p>';
+  renderPaymentChart();
+}
+
 function renderPaymentChart(){if(!$('paymentChart'))return;const year=Number($('paymentChartYear')?.value)||new Date().getFullYear(),totals=Array(12).fill(0);db.payments.filter(p=>Number(p.date.slice(0,4))===year).forEach(p=>totals[Number(p.date.slice(5,7))-1]+=p.amount);const max=Math.max(...totals,0),names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];$('paymentChart').innerHTML=`<div class="payment-chart-wrap"><div class="payment-bars">${totals.map((v,i)=>{const h=max?Math.max(3,Math.round(v/max*170)):3;return `<div class="payment-bar-col" title="${names[i]} ${year}: ${money(v)}"><div class="payment-bar-value">${v?money(v):'$0'}</div><div class="payment-bar" style="height:${h}px;opacity:${v?1:.14}"></div><div class="payment-bar-label">${names[i]}</div></div>`}).join('')}</div><div class="chart-legend"><span><i class="legend-dot purple"></i>Abonos mensuales</span><b>Total ${year}: ${money(totals.reduce((a,b)=>a+b,0))}</b></div></div>`}
 function accountBadge(a){return `<span class="badge ${a==='bank'?'bank':'cash'}">${a==='bank'?'Nequi':'Efectivo'}</span>`}
 function renderHome(){
@@ -1136,9 +1222,10 @@ function exportAllToExcel(){
 }
 
 function refreshAll(){
-  syncDataRelations();saveDB();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas-dia',renderDay],['inicio',renderHome],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
+  syncDataRelations();
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
 }
+
 function closeModal(){$('modal').classList.add('hidden')}
 async function bootstrapApp(){
   const cloudReady=initCloud();
