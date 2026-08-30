@@ -492,7 +492,7 @@ img,svg,canvas{max-width:100%}
         <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Movimiento financiero por mes</h2><div class="muted small">Todos los meses visibles: ventas, abonos, ingresos y egresos.</div></div></div><div id="historyChart"></div></div>
         <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Clientes por mes</h2><div class="muted small">Nuevos, recurrentes, potenciales, mujeres y hombres en cada mes.</div></div></div><div id="historyClientChart"></div></div>
       </div>
-      <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div><div class="history-backup" style="margin-top:16px"><button class="primary" onclick="exportAllToExcel()">Descargar Excel completo</button><button class="secondary" onclick="downloadBackup()">Descargar respaldo JSON</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar respaldo<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div><div class="muted small" style="margin-top:10px">El Excel incluye clientes, ventas, productos vendidos, abonos, flujo de caja, productos y demanda y resúmenes anuales. El respaldo JSON sirve para restaurar HILEN completo.</div><div class="google-sheets-backup"><div class="google-sheets-backup-head"><div><b>Respaldo en Google Sheets</b><div class="small muted">Usa el mismo contenido y las mismas pestañas del Excel. Cuando está activo, cada cambio de HILEN se envía automáticamente al mismo archivo de Google Sheets.</div></div><div class="google-sheets-actions"><button class="secondary" onclick="openGoogleSheetsSetup()">Configurar</button><button class="secondary" onclick="syncGoogleSheetsNow(true)">Sincronizar ahora</button><button class="secondary" onclick="openGoogleSheetBackup()">Abrir Sheet</button></div></div><div id="googleSheetsStatus" class="google-sheets-status"></div></div><div id="cloudBackupPanel" class="cloud-backup-panel"></div></div>
+      <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div><div class="history-backup" style="margin-top:16px"><button class="primary" onclick="exportAllToExcel()">Descargar Excel completo</button><button class="secondary" onclick="downloadBackup()">Descargar respaldo JSON</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar respaldo<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div><div class="muted small" style="margin-top:10px">El Excel incluye clientes, ventas, productos vendidos, abonos, flujo de caja, productos y demanda y resúmenes anuales. El respaldo JSON sirve para restaurar HILEN completo.</div><div class="google-sheets-backup"><div class="google-sheets-backup-head"><div><b>Respaldo en Google Sheets</b><div class="small muted">Conecta tu cuenta de Google una sola vez. HILEN crea automáticamente el archivo de respaldo y sus pestañas; no necesitas crear documentos, copiar enlaces ni usar Apps Script.</div></div><div class="google-sheets-actions"><button class="primary" onclick="openGoogleSheetsSetup()">Conectar con Google Sheets</button><button class="secondary" onclick="syncGoogleSheetsNow(true)">Sincronizar ahora</button><button class="secondary" onclick="openGoogleSheetBackup()">Abrir Sheet</button></div></div><div id="googleSheetsStatus" class="google-sheets-status"></div></div><div id="cloudBackupPanel" class="cloud-backup-panel"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Mes a mes</h2><div class="muted small">Detalle completo del año seleccionado.</div></div></div><div id="historyMonthTable"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Comparativo de todos los años</h2><div class="muted small">Los registros de 2026, 2027 y los años siguientes permanecen separados por fecha.</div></div></div><div id="historyYearsTable"></div></div>
       <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Historial de clientes del año</h2><div class="muted small">Al final del historial: qué compró cada cliente, cuánto abonó, su estado y si terminó el año sin deuda.</div></div></div><div id="historyClientsTable"></div></div>
@@ -514,6 +514,7 @@ img,svg,canvas{max-width:100%}
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 const KEY="HILEN_DEMO_V2";
 const OLD_KEY="HILEN_DEMO_V1";
@@ -529,9 +530,14 @@ if(!db){
 if(!db) db=structuredClone(emptyDB);
 db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; if(!('session' in db))db.session=null;
 let currentUser=null;
-const GOOGLE_SHEETS_SYNC_KEY="HILEN_GOOGLE_SHEETS_SYNC_V1";
-let googleSheetsSyncTimer=null,googleSheetsSyncInFlight=false;
-let googleSheetsConfig={enabled:false,webAppUrl:'',sheetUrl:'',token:'',lastSentAt:''};
+const GOOGLE_SHEETS_SYNC_KEY="HILEN_GOOGLE_SHEETS_SYNC_V2";
+// CONFIGURACIÓN ÚNICA DEL ADMINISTRADOR DE HILEN:
+// Crea un OAuth Client ID tipo "Aplicación web" en Google Cloud y pégalo aquí.
+// Los usuarios NO tendrán que copiar URLs, crear Sheets ni usar Apps Script.
+const HILEN_GOOGLE_OAUTH_CLIENT_ID="PEGA_AQUI_TU_CLIENT_ID.apps.googleusercontent.com";
+const HILEN_GOOGLE_SCOPES="https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file";
+let googleSheetsSyncTimer=null,googleSheetsSyncInFlight=false,googleSheetsTokenClient=null,googleSheetsAccessToken='';
+let googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};
 try{googleSheetsConfig={...googleSheetsConfig,...JSON.parse(localStorage.getItem(GOOGLE_SHEETS_SYNC_KEY)||'{}')}}catch(e){}
 
 /* ==========================================================
@@ -711,25 +717,50 @@ async function loadCloudState(userId){
     localStorage.setItem(CLOUD_OWNER_KEY,userId);localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));const cc=stateCounts(businessState());setCloudStatus('ok','Nube cargada',`${cc.sales} venta(s) · ${cc.clients} cliente(s) leídos desde Firebase o preparados para migración.`);
   }catch(err){console.error('HILEN Firebase load:',err);setCloudStatus('error','No se pudo cargar la nube');throw err}finally{cloudLoading=false}
 }
+async function pruneCloudBackups(){
+  if(localMode||!cloudDb||!currentUser?.id)return;
+  try{
+    const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups')).once('value');
+    const rows=Object.entries(s.val()||{}).map(([id,v])=>({id,...v})).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')));
+    const daily=rows.filter(x=>x.reason==='respaldo diario').slice(14);
+    const manual=rows.filter(x=>x.reason==='respaldo manual').slice(5);
+    const safety=rows.filter(x=>String(x.reason||'').startsWith('antes de ')).slice(5);
+    const system=rows.filter(x=>['recuperación de cambios locales','migración inicial'].includes(x.reason)).slice(2);
+    const remove=[...new Map([...daily,...manual,...safety,...system].map(x=>[x.id,x])).values()];
+    await Promise.all(remove.map(x=>cloudDb.ref(userCloudPath(currentUser.id,'backups/'+x.id)).remove()));
+  }catch(e){console.warn('No se pudieron depurar respaldos antiguos',e)}
+}
 async function cloudCreateBackup(reason='automático',snapshot=null){
   if(localMode||!cloudDb||!currentUser?.id)return false;
-  try{const ref=cloudDb.ref(userCloudPath(currentUser.id,'backups')).push();await ref.set({data:snapshot||businessState(),reason,created_at:new Date().toISOString()});return true}catch(err){console.warn('HILEN Firebase backup:',err);return false}
+  try{
+    const now=new Date();
+    if(reason==='recuperación de cambios locales'){
+      const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups')).orderByChild('created_at').limitToLast(6).once('value');
+      const recent=Object.values(s.val()||{}).find(v=>v?.reason===reason && Math.abs(now-new Date(v.created_at))<10*60*1000);
+      if(recent)return true;
+    }
+    const ref=cloudDb.ref(userCloudPath(currentUser.id,'backups')).push();
+    await ref.set({data:snapshot||businessState(),reason,created_at:now.toISOString()});
+    await pruneCloudBackups();
+    return true
+  }catch(err){console.warn('HILEN Firebase backup:',err);return false}
 }
 async function maybeDailyCloudBackup(snapshot){
   if(localMode||!cloudDb||!currentUser?.id)return;const key=CLOUD_LAST_BACKUP_DAY_KEY+'_'+currentUser.id,day=today();if(localStorage.getItem(key)===day)return;
-  if(await cloudCreateBackup('respaldo diario',snapshot)){
-    localStorage.setItem(key,day);
-    try{const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups')).once('value');const rows=Object.entries(s.val()||{}).map(([id,v])=>({id,...v})).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')));await Promise.all(rows.slice(14).map(x=>cloudDb.ref(userCloudPath(currentUser.id,'backups/'+x.id)).remove()))}catch(e){console.warn('No se pudieron depurar respaldos antiguos',e)}
-  }
+  if(await cloudCreateBackup('respaldo diario',snapshot))localStorage.setItem(key,day)
 }
 async function backupBeforeDestructive(reason){return cloudCreateBackup('antes de '+reason,structuredClone(businessState()))}
 async function renderCloudBackups(){
   const box=$('cloudBackupPanel');if(!box)return;
-  if(localMode){box.innerHTML='<div class="small muted">Estás trabajando en modo local. Usa Excel completo o Descargar respaldo para tener una copia adicional mientras terminamos Firebase.</div>';return}
+  if(localMode){box.innerHTML='<div class="small muted">Estás trabajando en modo local. Usa Excel completo o Descargar respaldo para tener una copia adicional.</div>';return}
   if(!cloudConfigured()||!cloudDb||!currentUser?.id){box.innerHTML='<div class="small muted">Configura Firebase para disponer de respaldos automáticos en la nube.</div>';return}
   box.innerHTML='<div class="small muted">Cargando respaldos…</div>';
-  try{const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups')).once('value');const rows=Object.entries(s.val()||{}).map(([id,v])=>({id,...v})).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''))).slice(0,8);box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><b>Respaldos automáticos en Firebase</b><div class="small muted">Uno al día y otro antes de eliminaciones. Se conservan los 14 más recientes.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${rows.length?rows.map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup('${x.id}')">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos.</div>'}`}
-  catch(err){console.error(err);box.innerHTML='<div class="small kpi-down">No se pudieron consultar los respaldos. Revisa Firebase y las reglas de Realtime Database.</div>'}
+  try{
+    const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups')).once('value');
+    const all=Object.entries(s.val()||{}).map(([id,v])=>({id,...v})).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')));
+    const rows=all.filter(x=>x.reason==='respaldo diario'||x.reason==='respaldo manual'||String(x.reason||'').startsWith('antes de ')).slice(0,10);
+    box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><b>Respaldos de recuperación en Firebase</b><div class="small muted">HILEN guarda 1 respaldo diario, hasta 5 manuales y copias de seguridad antes de eliminaciones. Las recuperaciones técnicas se conservan internamente y no se muestran aquí.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${rows.length?rows.map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup('${x.id}')">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos visibles.</div>'}`
+  }catch(err){console.error(err);box.innerHTML='<div class="small kpi-down">No se pudieron consultar los respaldos. Revisa Firebase y las reglas de Realtime Database.</div>'}
 }
 async function restoreCloudBackup(backupId){
   if(!cloudDb||!currentUser?.id)return;confirmAction('Restaurar respaldo','La información actual será reemplazada por la copia seleccionada. Antes se guardará otro respaldo de lo que tienes ahora.',async()=>{await backupBeforeDestructive('restaurar respaldo');const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups/'+backupId)).once('value');const data=s.val();if(!data?.data)throw new Error('Respaldo no encontrado');applyBusinessState(data.data);saveDB();await cloudSaveNow();refreshAll();renderHistory();showToast('Respaldo restaurado','La información volvió al estado seleccionado.')},{confirmText:'Restaurar',workingText:'Restaurando…'})
@@ -1233,16 +1264,83 @@ function exportAllToExcel(){
     XLSX.writeFile(wb,`HILEN_respaldo_${today()}.xlsx`,{compression:true});showToast('Excel descargado','Se incluyeron todos los registros principales de HILEN.')
   }catch(err){console.error(err);showToast('No se pudo generar el Excel','Intenta nuevamente.','error')}
 }
-function newGoogleSheetsToken(){return (crypto.randomUUID?crypto.randomUUID().replace(/-/g,''):Math.random().toString(36).slice(2)+Date.now().toString(36))}
-function renderGoogleSheetsStatus(){const el=$('googleSheetsStatus');if(!el)return;if(!googleSheetsConfig.enabled||!googleSheetsConfig.webAppUrl){el.className='google-sheets-status warn';el.textContent='No configurado. El Excel y Firebase siguen funcionando normalmente.';return}el.className='google-sheets-status ok';el.textContent=`Activo · respaldo automático al mismo Google Sheet${googleSheetsConfig.lastSentAt?' · último envío '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):''}.`}
-async function loadGoogleSheetsConfigFromCloud(){try{if(cloudDb&&currentUser?.id){const s=await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleSheetsBackup')).once('value'),v=s.val();if(v){googleSheetsConfig={...googleSheetsConfig,...v};localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig))}}}catch(e){console.warn('No se pudo cargar configuración de Google Sheets',e)}renderGoogleSheetsStatus()}
-async function persistGoogleSheetsConfig(){localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));try{if(cloudDb&&currentUser?.id)await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleSheetsBackup')).set({enabled:!!googleSheetsConfig.enabled,webAppUrl:googleSheetsConfig.webAppUrl||'',sheetUrl:googleSheetsConfig.sheetUrl||'',token:googleSheetsConfig.token||''})}catch(e){console.warn('No se pudo guardar configuración de Google Sheets en Firebase',e)}renderGoogleSheetsStatus()}
-function openGoogleSheetsSetup(){const token=googleSheetsConfig.token||newGoogleSheetsToken();$('modalContent').innerHTML=`<h2>Respaldo automático en Google Sheets</h2><p class="muted">Esto no activa inicio de sesión con Google en HILEN. Solo envía una copia de respaldo al Google Sheet que tú configures mediante Apps Script.</p><div class="notice blue">El Google Sheet tendrá las mismas pestañas del Excel: Resumen, Clientes, Ventas, Productos vendidos, Abonos, Flujo de caja, Productos y demanda y Resumen por año.</div><br><label class="label">URL de la aplicación web de Apps Script</label><input id="gsWebAppUrl" class="input" value="${esc(googleSheetsConfig.webAppUrl||'')}" placeholder="https://script.google.com/macros/s/.../exec"><label class="label">URL del Google Sheet</label><input id="gsSheetUrl" class="input" value="${esc(googleSheetsConfig.sheetUrl||'')}" placeholder="https://docs.google.com/spreadsheets/d/..."><label class="label">Código de respaldo</label><input id="gsToken" class="input" value="${esc(token)}"><div class="small muted" style="margin-top:-8px;margin-bottom:14px">Usa este mismo código en el archivo Apps Script que te entregué. No uses tu contraseña de Google.</div><label style="display:flex;gap:9px;align-items:center;margin-bottom:16px"><input id="gsEnabled" type="checkbox" ${googleSheetsConfig.enabled?'checked':''}> Activar sincronización automática después de cada cambio</label><div class="action-group"><button class="primary" onclick="saveGoogleSheetsSetup()">Guardar configuración</button><button class="secondary" onclick="document.getElementById('gsToken').value=newGoogleSheetsToken()">Generar otro código</button></div>`;$('modal').classList.remove('hidden')}
-async function saveGoogleSheetsSetup(){const webAppUrl=$('gsWebAppUrl').value.trim(),sheetUrl=$('gsSheetUrl').value.trim(),token=$('gsToken').value.trim(),enabled=$('gsEnabled').checked;if(enabled&&(!/^https:\/\/script\.google\.com\/macros\/s\//.test(webAppUrl)||!token))return showToast('Falta configurar Google Sheets','Pega la URL /exec de Apps Script y el código de respaldo.','error');googleSheetsConfig={...googleSheetsConfig,enabled,webAppUrl,sheetUrl,token};await persistGoogleSheetsConfig();closeModal();showToast('Google Sheets configurado',enabled?'Los próximos cambios se enviarán automáticamente al mismo archivo.':'La sincronización automática quedó desactivada.');if(enabled)syncGoogleSheetsNow(false)}
-function openGoogleSheetBackup(){if(!googleSheetsConfig.sheetUrl)return showToast('Falta la URL del Google Sheet','Entra en Configurar y pega el enlace del archivo.','error');window.open(googleSheetsConfig.sheetUrl,'_blank','noopener')}
-function queueGoogleSheetsSync(){if(!googleSheetsConfig.enabled||!googleSheetsConfig.webAppUrl)return;clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=setTimeout(()=>syncGoogleSheetsNow(false),900)}
-async function syncGoogleSheetsNow(showResult=false){if(!googleSheetsConfig.enabled||!googleSheetsConfig.webAppUrl){if(showResult)showToast('Google Sheets no está configurado','Pulsa Configurar en Historial para activar el segundo respaldo.','error');return false}if(!navigator.onLine){if(showResult)showToast('Sin conexión','El respaldo de Google Sheets se enviará cuando vuelvas a tener Internet.','error');return false}if(googleSheetsSyncInFlight)return false;googleSheetsSyncInFlight=true;try{const payload={token:googleSheetsConfig.token,app:'HILEN',version:'8.9',updatedAt:new Date().toISOString(),userId:currentUser?.id||'local-device',tables:buildBackupTables()};await fetch(googleSheetsConfig.webAppUrl,{method:'POST',mode:'no-cors',cache:'no-store',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});googleSheetsConfig.lastSentAt=new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();if(showResult)showToast('Respaldo enviado a Google Sheets','Abre el Sheet y revisa la pestaña CONTROL para confirmar la hora de actualización.');return true}catch(err){console.error('Google Sheets backup:',err);const el=$('googleSheetsStatus');if(el){el.className='google-sheets-status error';el.textContent='No se pudo enviar el respaldo a Google Sheets: '+(err.message||'error de conexión')}if(showResult)showToast('No se pudo enviar a Google Sheets','Revisa la URL de Apps Script y tu conexión.','error');return false}finally{googleSheetsSyncInFlight=false}}
-
+function googleOAuthConfigured(){return HILEN_GOOGLE_OAUTH_CLIENT_ID&&HILEN_GOOGLE_OAUTH_CLIENT_ID.includes('.apps.googleusercontent.com')&&!HILEN_GOOGLE_OAUTH_CLIENT_ID.startsWith('PEGA_AQUI')}
+function renderGoogleSheetsStatus(){
+  const el=$('googleSheetsStatus');if(!el)return;
+  if(!googleOAuthConfigured()){el.className='google-sheets-status warn';el.textContent='Pendiente de activación por el administrador de HILEN. Firebase y Excel siguen funcionando normalmente.';return}
+  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){el.className='google-sheets-status warn';el.textContent='No conectado. Pulsa “Conectar con Google Sheets” y HILEN creará el respaldo automáticamente.';return}
+  if(googleSheetsConfig.pendingAt){el.className='google-sheets-status warn';el.textContent=`Google Sheets conectado · cambios pendientes de respaldar${googleSheetsConfig.lastSentAt?' · último respaldo '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):''}.`;return}
+  el.className='google-sheets-status ok';el.textContent=`Google Sheets conectado · sincronización automática${googleSheetsConfig.lastSentAt?' · último respaldo '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):' · pendiente del primer respaldo'}.`;
+}
+async function loadGoogleSheetsConfigFromCloud(){
+  try{if(cloudDb&&currentUser?.id){const s=await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleSheetsBackup')).once('value'),v=s.val();if(v){googleSheetsConfig={...googleSheetsConfig,...v};localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig))}}}catch(e){console.warn('No se pudo cargar configuración de Google Sheets',e)}renderGoogleSheetsStatus()
+}
+async function persistGoogleSheetsConfig(){
+  localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));
+  try{if(cloudDb&&currentUser?.id)await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleSheetsBackup')).set({enabled:!!googleSheetsConfig.enabled,sheetId:googleSheetsConfig.sheetId||'',sheetUrl:googleSheetsConfig.sheetUrl||'',connectedAt:googleSheetsConfig.connectedAt||'',lastSentAt:googleSheetsConfig.lastSentAt||'',pendingAt:googleSheetsConfig.pendingAt||''})}catch(e){console.warn('No se pudo guardar configuración de Google Sheets en Firebase',e)}
+  renderGoogleSheetsStatus()
+}
+function openGoogleSheetsSetup(){
+  const connected=!!(googleSheetsConfig.enabled&&googleSheetsConfig.sheetId);
+  $('modalContent').innerHTML=`<h2>Respaldo automático en Google Sheets</h2><p class="muted">HILEN puede crear y mantener tu archivo de respaldo automáticamente. No necesitas crear una hoja, copiar enlaces ni entrar a Apps Script.</p><div class="notice blue">El archivo tendrá estas pestañas: Resumen, Clientes, Ventas, Productos vendidos, Abonos, Flujo de caja, Productos y demanda, Resumen por año y CONTROL.</div><br>${connected?`<div class="notice green"><b>Google Sheets está conectado.</b><br><span class="small">Los cambios de HILEN se enviarán al archivo vinculado.</span></div><br><div class="action-group"><button class="primary" onclick="syncGoogleSheetsNow(true)">Sincronizar ahora</button><button class="secondary" onclick="openGoogleSheetBackup()">Abrir Sheet</button><button class="secondary" onclick="disconnectGoogleSheets()">Desconectar</button></div>`:`<div class="action-group"><button class="primary" onclick="connectGoogleSheets()">Conectar con Google Sheets</button></div><div class="small muted" style="margin-top:12px">Google te pedirá permiso para crear y actualizar únicamente los archivos de HILEN.</div>`}`;
+  $('modal').classList.remove('hidden')
+}
+function requestGoogleAccessToken(){
+  return new Promise((resolve,reject)=>{
+    if(!googleOAuthConfigured())return reject(new Error('Falta configurar el Client ID de Google en HILEN.'));
+    if(!window.google?.accounts?.oauth2)return reject(new Error('Google todavía no terminó de cargar. Intenta nuevamente en unos segundos.'));
+    googleSheetsTokenClient=google.accounts.oauth2.initTokenClient({client_id:HILEN_GOOGLE_OAUTH_CLIENT_ID,scope:HILEN_GOOGLE_SCOPES,callback:(resp)=>{if(resp?.error)return reject(new Error(resp.error_description||resp.error));googleSheetsAccessToken=resp.access_token||'';if(!googleSheetsAccessToken)return reject(new Error('Google no entregó autorización.'));resolve(googleSheetsAccessToken)}});
+    googleSheetsTokenClient.requestAccessToken({prompt:googleSheetsAccessToken?'':'consent'});
+  })
+}
+async function googleApi(url,options={}){
+  if(!googleSheetsAccessToken)await requestGoogleAccessToken();
+  const headers={...(options.headers||{}),Authorization:`Bearer ${googleSheetsAccessToken}`};
+  if(options.body&&!headers['Content-Type'])headers['Content-Type']='application/json';
+  let res=await fetch(url,{...options,headers});
+  if(res.status===401){googleSheetsAccessToken='';await requestGoogleAccessToken();headers.Authorization=`Bearer ${googleSheetsAccessToken}`;res=await fetch(url,{...options,headers})}
+  if(!res.ok){let msg='Error de Google';try{const j=await res.json();msg=j?.error?.message||msg}catch(_){msg=await res.text()||msg}throw new Error(msg)}
+  if(res.status===204)return null;return res.json()
+}
+async function connectGoogleSheets(){
+  try{
+    showToast('Conectando con Google','Autoriza a HILEN en la ventana de Google.');
+    await requestGoogleAccessToken();
+    if(!googleSheetsConfig.sheetId){
+      const titles=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','CONTROL'];
+      const created=await googleApi('https://sheets.googleapis.com/v4/spreadsheets',{method:'POST',body:JSON.stringify({properties:{title:'HILEN - Respaldo'},sheets:titles.map(title=>({properties:{title}}))})});
+      googleSheetsConfig.sheetId=created.spreadsheetId;
+      googleSheetsConfig.sheetUrl=created.spreadsheetUrl||`https://docs.google.com/spreadsheets/d/${created.spreadsheetId}/edit`;
+    }
+    googleSheetsConfig.enabled=true;googleSheetsConfig.connectedAt=new Date().toISOString();await persistGoogleSheetsConfig();closeModal();
+    const ok=await syncGoogleSheetsNow(false);showToast(ok?'Google Sheets conectado':'Google Sheets conectado',ok?'HILEN creó el archivo y realizó el primer respaldo.':'El archivo fue creado. Pulsa “Sincronizar ahora” para completar el respaldo.',ok?'success':'error')
+  }catch(err){console.error(err);showToast('No se pudo conectar con Google Sheets',err.message||'Revisa la autorización de Google.','error')}
+}
+async function disconnectGoogleSheets(){
+  if(googleSheetsAccessToken&&window.google?.accounts?.oauth2){try{google.accounts.oauth2.revoke(googleSheetsAccessToken,()=>{})}catch(_){}}
+  googleSheetsAccessToken='';googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};await persistGoogleSheetsConfig();closeModal();showToast('Google Sheets desconectado','El archivo existente no se elimina de tu Google Drive.')
+}
+function openGoogleSheetBackup(){if(!googleSheetsConfig.sheetUrl)return showToast('Google Sheets no está conectado','Pulsa “Conectar con Google Sheets”.','error');window.open(googleSheetsConfig.sheetUrl,'_blank','noopener')}
+function queueGoogleSheetsSync(){if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId)return;googleSheetsConfig.pendingAt=new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=setTimeout(()=>syncGoogleSheetsNow(false),900)}
+function backupRowsToValues(rows){
+  const safe=Array.isArray(rows)&&rows.length?rows:[{Mensaje:'Sin registros'}];const headers=[];safe.forEach(r=>Object.keys(r||{}).forEach(k=>{if(!headers.includes(k))headers.push(k)}));
+  const norm=v=>{if(v===null||v===undefined)return '';if(typeof v==='object')return JSON.stringify(v);return v};return [headers,...safe.map(r=>headers.map(h=>norm(r?.[h])))]
+}
+async function syncGoogleSheetsNow(showResult=false){
+  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){if(showResult)showToast('Google Sheets no está conectado','Pulsa “Conectar con Google Sheets” y HILEN creará el archivo automáticamente.','error');return false}
+  if(!navigator.onLine){if(showResult)showToast('Sin conexión','HILEN intentará respaldar cuando vuelvas a tener Internet.','error');return false}
+  if(googleSheetsSyncInFlight)return false;googleSheetsSyncInFlight=true;
+  try{
+    if(!googleSheetsAccessToken)await requestGoogleAccessToken();
+    const tables=buildBackupTables(),names=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año'];
+    const ranges=names.map(n=>`'${n.replace(/'/g,"''")}'!A:ZZ`).concat(["'CONTROL'!A:ZZ"]);
+    await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchClear`,{method:'POST',body:JSON.stringify({ranges})});
+    const data=names.map(n=>({range:`'${n.replace(/'/g,"''")}'!A1`,majorDimension:'ROWS',values:backupRowsToValues(tables[n]||[])}));
+    data.push({range:"'CONTROL'!A1",majorDimension:'ROWS',values:[['Campo','Valor'],['Aplicación','HILEN'],['Última actualización',new Date().toLocaleString('es-CO')],['Usuario',currentUser?.email||currentUser?.id||'HILEN'],['Estado','Respaldo recibido correctamente']]});
+    await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchUpdate`,{method:'POST',body:JSON.stringify({valueInputOption:'USER_ENTERED',data})});
+    googleSheetsConfig.lastSentAt=new Date().toISOString();googleSheetsConfig.pendingAt='';await persistGoogleSheetsConfig();if(showResult)showToast('Google Sheets actualizado','El respaldo quedó sincronizado correctamente.');return true
+  }catch(err){console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Vuelve a conectar tu cuenta de Google.','error');return false}finally{googleSheetsSyncInFlight=false}
+}
 function refreshAll(){
   syncDataRelations();
   [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
