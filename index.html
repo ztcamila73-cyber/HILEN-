@@ -248,6 +248,9 @@ img,svg,canvas{max-width:100%}
 @media(max-width:900px){.statement-toolbar{grid-template-columns:1fr 1fr}.statement-toolbar>div:first-child{grid-column:1/-1}.statement-toolbar>button{grid-column:1/-1}.customer-filter-grid{grid-template-columns:1fr 1fr}.customer-filter-grid>div:first-child{grid-column:1/-1}.payment-filter-fields{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.statement-toolbar,.customer-filter-grid,.payment-filter-fields{grid-template-columns:1fr}.statement-toolbar>div:first-child,.statement-toolbar>button,.customer-filter-grid>div:first-child{grid-column:auto}.table-fit-wrap{overflow-x:auto}.table-fit{min-width:680px}}
 
+/* ===== Configuración y protección de datos ===== */
+.settings-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:18px;margin-bottom:18px}.settings-status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.settings-status-card{border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff}.settings-status-card .status-title{display:flex;align-items:center;gap:9px;font-weight:850;margin-bottom:5px}.settings-status-icon{width:34px;height:34px;border-radius:10px;background:#f3f6fb;display:grid;place-items:center;flex:0 0 auto}.settings-status-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.drive-connect-btn{display:inline-flex;align-items:center;gap:8px}.drive-connect-btn svg{width:18px;height:18px;flex:0 0 auto}.settings-account{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.settings-account-box{padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#fafafa}.settings-account-box .small{display:block;margin-bottom:4px}.backup-onboarding-hero{text-align:center;padding:4px 0 8px}.backup-onboarding-icon{width:62px;height:62px;margin:0 auto 12px;border-radius:18px;background:#f2f7ff;display:grid;place-items:center}.backup-onboarding-icon svg{width:34px;height:34px;fill:none;stroke:#315fd6;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.backup-simple-list{display:grid;gap:8px;margin:14px 0}.backup-simple-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:#fafafa;border:1px solid var(--line);border-radius:12px}.backup-simple-item b{display:block;margin-bottom:2px}.settings-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}@media(max-width:900px){.settings-grid,.settings-status-grid{grid-template-columns:1fr}}@media(max-width:620px){.settings-account{grid-template-columns:1fr}.settings-actions>*{width:100%}}
+
 </style>
 </head>
 <body>
@@ -293,7 +296,7 @@ img,svg,canvas{max-width:100%}
     <div id="cloudStatus" class="small muted" style="padding:0 12px 4px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
     <div id="cloudStatusDetail" class="small muted" style="padding:0 12px 6px;line-height:1.35">Sin verificación de escritura todavía.</div>
     <div style="padding:0 12px 10px"><button type="button" class="secondary" style="width:100%;padding:7px 10px;font-size:12px" onclick="verifyCloudNow(true)">Verificar nube ahora</button></div>
-    <div class="small muted" style="padding:0 12px 12px">v8.9 · Firebase · Google Sheets · Excel</div>
+    <div class="small muted" style="padding:0 12px 12px">v9.0 · Firebase · Google Drive · protección automática</div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('day',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>Ventas</button>
@@ -303,7 +306,8 @@ img,svg,canvas{max-width:100%}
       <button onclick="section('cashflow',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M7 7V5h10v2M8 13h8"/><circle cx="12" cy="13" r="2.5"/></svg></span>Flujo de caja</button>
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estados de cuenta</button>
       <button onclick="section('inventory',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7 12 3l8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></svg></span>Productos y demanda</button>
-      <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial</button>
+      <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
+      <button onclick="section('settings',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H10v-.08a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V10h.08A1.7 1.7 0 0 0 4.66 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3H14v.08A1.7 1.7 0 0 0 15.1 4.66a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.38.36.72.6 1 .3.3.7.45 1.1.4H21V14h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span>Configuración</button>
     </nav>
     <button type="button" id="logoutBtn" class="logout" onclick="logout(event)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span class="logout-label">Cerrar sesión</span></button>
   </aside>
@@ -477,12 +481,11 @@ img,svg,canvas{max-width:100%}
     <section id="history" class="section">
       <div class="card">
         <div class="history-head">
-          <div><h2 style="margin-bottom:4px">Historial del negocio</h2><div class="muted small">Consulta año por año las ventas, clientes, abonos, ingresos, egresos y el comportamiento de cada cliente.</div></div>
+          <div><h2 style="margin-bottom:4px">Historial por años</h2><div class="muted small">Consulta año por año las ventas, clientes, abonos, ingresos, egresos y el comportamiento de cada cliente.</div></div>
           <div class="history-head-actions">
             <div><label class="label">Año</label><input id="historyYear" class="input" type="number" min="2000" max="2100" onchange="renderHistory()"></div>
             <button class="secondary" onclick="changeHistoryYear(-1)">← Año anterior</button>
             <button class="secondary" onclick="changeHistoryYear(1)">Año siguiente →</button>
-            <button class="primary" onclick="exportAllToExcel()">Excel completo</button>
           </div>
         </div>
         <div id="historyAvailableYears" class="history-note" style="margin-top:12px"></div>
@@ -492,10 +495,45 @@ img,svg,canvas{max-width:100%}
         <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Movimiento financiero por mes</h2><div class="muted small">Todos los meses visibles: ventas, abonos, ingresos y egresos.</div></div></div><div id="historyChart"></div></div>
         <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Clientes por mes</h2><div class="muted small">Nuevos, recurrentes, potenciales, mujeres y hombres en cada mes.</div></div></div><div id="historyClientChart"></div></div>
       </div>
-      <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div><div class="history-backup" style="margin-top:16px"><button class="primary" onclick="exportAllToExcel()">Descargar Excel completo</button><button class="secondary" onclick="downloadBackup()">Descargar respaldo JSON</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar respaldo<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div><div class="muted small" style="margin-top:10px">El Excel incluye clientes, ventas, productos vendidos, abonos, flujo de caja, productos y demanda y resúmenes anuales. El respaldo JSON sirve para restaurar HILEN completo.</div><div class="google-sheets-backup"><div class="google-sheets-backup-head"><div><b>Protección de tus datos</b><div class="small muted">Conecta tu cuenta de Google una sola vez y HILEN se encarga de mantener copias de seguridad de tu información.</div></div><div class="google-sheets-actions"><button class="primary" onclick="openGoogleSheetsSetup()">Conectar con Google</button><button class="secondary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button><button class="secondary" onclick="openGoogleSheetBackup()">Ver copia en Sheets</button><button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button></div></div><div class="notice blue" style="margin-top:12px"><b>🛡️ ¿Para qué sirve el respaldo?</b><br>HILEN guarda copias de la información que registras para que, si algún día ocurre un problema o se elimina algo por error, puedas recuperar tus <b>ventas, clientes, abonos, movimientos de caja, productos y demás datos</b>.<br><br><b>No tienes que hacer nada todos los días:</b> mientras uses HILEN con Internet y mantengas Google conectado, las copias se actualizan automáticamente. El botón <b>“Respaldar ahora”</b> solo sirve si deseas crear una copia inmediatamente.<br><br>Tus copias de Google quedan juntas dentro de la carpeta <b>HILEN - Respaldos</b>. Para mantenerlas seguras, evita borrar esa carpeta.</div><div id="googleSheetsStatus" class="google-sheets-status"></div><div id="googleDriveStatus" class="google-sheets-status"></div></div><div id="cloudBackupPanel" class="cloud-backup-panel"></div></div>
+      <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Mes a mes</h2><div class="muted small">Detalle completo del año seleccionado.</div></div></div><div id="historyMonthTable"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Comparativo de todos los años</h2><div class="muted small">Los registros de 2026, 2027 y los años siguientes permanecen separados por fecha.</div></div></div><div id="historyYearsTable"></div></div>
       <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Historial de clientes del año</h2><div class="muted small">Al final del historial: qué compró cada cliente, cuánto abonó, su estado y si terminó el año sin deuda.</div></div></div><div id="historyClientsTable"></div></div>
+    </section>
+
+    <section id="settings" class="section">
+      <div class="card" style="margin-bottom:18px">
+        <div class="panel-head"><div><h2 style="margin-bottom:4px">Configuración de tu cuenta</h2><div class="muted small">Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.</div></div></div>
+        <div class="settings-account" style="margin-top:14px">
+          <div class="settings-account-box"><span class="small muted">Usuario</span><b id="settingsUserName">HILEN</b></div>
+          <div class="settings-account-box"><span class="small muted">Correo de la cuenta</span><b id="settingsUserEmail">—</b></div>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <div class="card">
+          <div class="panel-head"><div><h2 style="margin-bottom:4px">🛡️ Protección de tus datos</h2><div class="muted small">Esta protección pertenece únicamente a tu cuenta de HILEN.</div></div></div>
+          <div class="notice blue" style="margin-top:12px"><b>¿Para qué sirve?</b><br>HILEN guarda copias de lo que registras para que, si algún día ocurre un problema o algo se elimina por error, podamos recuperar tus <b>ventas, clientes, abonos, movimientos de caja, productos y demás información</b>.<br><br><b>No tienes que hacer nada todos los días.</b> Después de conectar tu Google Drive una sola vez, HILEN mantiene las copias automáticamente mientras utilizas el sistema con Internet.<br><br>Todo queda organizado en tu propia cuenta de Google dentro de la carpeta <b>HILEN - Respaldos</b>. Evita borrar esa carpeta.</div>
+          <div class="settings-status-grid">
+            <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M7 10h10M7 14h7"/></svg></span><span>Copia organizada</span></div><div id="googleSheetsStatus" class="google-sheets-status"></div></div>
+            <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.4 4.5 4.5 0 0 0 7 18Z"/><path d="M12 11v5M9.8 13.2 12 11l2.2 2.2"/></svg></span><span>Copia de recuperación</span></div><div id="googleDriveStatus" class="google-sheets-status"></div></div>
+          </div>
+          <div class="settings-actions" style="margin-top:14px">
+            <button class="primary drive-connect-btn" onclick="openGoogleSheetsSetup()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button>
+            <button class="secondary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button>
+            <button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button>
+            <button class="secondary" onclick="openGoogleSheetBackup()">Ver copia organizada</button>
+          </div>
+        </div>
+
+        <div class="card"><div id="cloudBackupPanel" class="cloud-backup-panel" style="margin-top:0"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="panel-head"><div><h2 style="margin-bottom:4px">Descargar o recuperar información</h2><div class="muted small">Estas opciones son adicionales. El respaldo automático de Google funciona sin que tengas que descargar archivos todos los días.</div></div></div>
+        <div class="history-backup" style="margin-top:14px"><button class="primary" onclick="exportAllToExcel()">Descargar Excel completo</button><button class="secondary" onclick="downloadBackup()">Descargar copia JSON</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar una copia<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div>
+        <div class="muted small" style="margin-top:10px">Usa “Restaurar una copia” solamente cuando necesites recuperar información desde un archivo de respaldo anterior.</div>
+      </div>
     </section>
 
     <section id="statements" class="section">
@@ -875,7 +913,8 @@ async function login(){
 }
 async function logout(ev){
   if(ev){ev.preventDefault();ev.stopPropagation()}
-  const wasLocal=localMode;clearTimeout(cloudSaveTimer);if(!wasLocal&&cloudConfigured()&&cloudDb&&currentUser?.id)await cloudSaveNow();if(!wasLocal&&cloudAuth)await cloudAuth.signOut();
+  const wasLocal=localMode,leavingUserId=currentUser?.id||'';clearTimeout(cloudSaveTimer);if(!wasLocal&&cloudConfigured()&&cloudDb&&currentUser?.id)await cloudSaveNow();if(!wasLocal&&cloudAuth)await cloudAuth.signOut();
+  if(leavingUserId)sessionStorage.removeItem(`HILEN_GOOGLE_BACKUP_PROMPT_${leavingUserId}`);
   localMode=false;db.session=null;currentUser=null;$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Firebase listo · inicia sesión':'Firebase sin configurar');window.scrollTo(0,0);setTimeout(()=>verifyFirebaseAuthHealth(),50)
 }
 function finishOpenApp(){
@@ -884,7 +923,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cfEnd','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['cfStart','stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear'))$('historyYear').value=getDefaultHistoryYear();if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();maybePromptGoogleBackupOnboarding();
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -896,7 +935,7 @@ async function openApp(userOverride=null){
   if(cloudConfigured()&&cloudAuth){if(userOverride)currentUser=cloudUserModel(userOverride);if(!currentUser){const user=cloudAuth.currentUser;if(!user)return;currentUser=cloudUserModel(user);await loadCloudState(user.uid)}}else return;
   finishOpenApp();
 }
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial'};$('pageTitle').textContent=names[name];$('side').classList.remove('open');if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial anual',settings:'Configuración'};$('pageTitle').textContent=names[name];$('side').classList.remove('open');if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){$('side').classList.toggle('open')}
 let activeCustomerId=null;
@@ -1210,7 +1249,6 @@ function renderHistory(){
   const y=Number($('historyYear').value)||getDefaultHistoryYear();$('historyYear').value=y;
   const st=annualStats(y),ys=historyYears();
   $('historyAvailableYears').innerHTML=`Años con registros: <b>${ys.join(', ')}</b>. Puedes consultar también años futuros cuando empieces a registrar ventas en ellos.`;
-  renderCloudBackups();renderGoogleSheetsStatus();renderGoogleDriveStatus();
   $('historyKpis').innerHTML=`<div class="history-kpi blue"><div class="hk-label">Ventas ${y}</div><div class="hk-value">${money(st.totalSales)}</div><div class="small muted">${st.sales.length} venta(s)</div></div><div class="history-kpi"><div class="hk-label">Clientes activos</div><div class="hk-value">${st.clients.filter(x=>x.active).length}</div><div class="small muted">${st.newClients} nuevos · ${st.returningClients} recurrentes</div></div><div class="history-kpi purple"><div class="hk-label">Abonos recibidos</div><div class="hk-value">${money(st.paymentTotal)}</div><div class="small muted">${st.pays.length} abono(s)</div></div><div class="history-kpi green"><div class="hk-label">Ingresos</div><div class="hk-value">${money(st.income)}</div></div><div class="history-kpi red"><div class="hk-label">Egresos</div><div class="hk-value">${money(st.expense)}</div></div><div class="history-kpi green"><div class="hk-label">Neto del año</div><div class="hk-value">${money(st.net)}</div></div><div class="history-kpi"><div class="hk-label">Ventas a crédito</div><div class="hk-value">${money(st.creditSales)}</div></div><div class="history-kpi"><div class="hk-label">Mujeres / Hombres activos</div><div class="hk-value">${st.women} / ${st.men}</div></div><div class="history-kpi"><div class="hk-label">Potenciales registrados</div><div class="hk-value">${st.potentialRegistered}</div></div>`;
   $('historyClientSummary').innerHTML=`<div class="notice good"><b>${st.clients.filter(x=>x.active).length}</b> clientes compraron en ${y}. De ellos, <b>${st.newClients}</b> fueron nuevos y <b>${st.returningClients}</b> recurrentes.</div><div style="margin-top:12px" class="notice"><b>Mujeres:</b> ${st.women} · <b>Hombres:</b> ${st.men}<br><b>Crédito vendido:</b> ${money(st.creditSales)} · <b>Abonos:</b> ${money(st.paymentTotal)}</div>`;
   const names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],monthly=[];
@@ -1268,35 +1306,54 @@ function exportAllToExcel(){
     XLSX.writeFile(wb,`HILEN_respaldo_${today()}.xlsx`,{compression:true});showToast('Excel descargado','Se incluyeron todos los registros principales de HILEN.')
   }catch(err){console.error(err);showToast('No se pudo generar el Excel','Intenta nuevamente.','error')}
 }
+function googleBackupConnected(){return !!(googleDriveConfig.enabled&&googleDriveConfig.folderId&&googleSheetsConfig.enabled&&googleSheetsConfig.sheetId)}
+function renderSettings(){
+  if($('settingsUserName'))$('settingsUserName').textContent=currentUser?.name||'HILEN';
+  if($('settingsUserEmail'))$('settingsUserEmail').textContent=currentUser?.email||'—';
+  renderGoogleSheetsStatus();renderGoogleDriveStatus();
+  if($('cloudBackupPanel')&&$('settings')?.classList.contains('active'))renderCloudBackups();
+}
+function showGoogleBackupOnboarding(){
+  if(localMode||!currentUser?.id||googleBackupConnected()||!googleOAuthConfigured())return;
+  $('modalContent').innerHTML=`<div class="backup-onboarding-hero"><div class="backup-onboarding-icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.4 4.5 4.5 0 0 0 7 18Z"/><path d="M12 11v5M9.8 13.2 12 11l2.2 2.2"/></svg></div><h2>Protege tus datos desde el inicio</h2><p class="muted">Conecta tu Google Drive una sola vez. HILEN guardará copias adicionales de tu información para poder recuperarla si algún día ocurre un problema o se elimina algo por error.</p></div><div class="backup-simple-list"><div class="backup-simple-item"><span>✓</span><div><b>No tienes que hacerlo todos los días</b><span class="small muted">Las copias se mantienen automáticamente mientras usas HILEN con Internet.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Protege lo que registras</b><span class="small muted">Ventas, clientes, abonos, caja, productos y demás información de tu cuenta.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Las copias quedan en tu Google Drive</b><span class="small muted">HILEN crea y organiza una carpeta llamada “HILEN - Respaldos”.</span></div></div></div><div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button><button class="secondary" onclick="closeModal()">Ahora no</button></div><div class="small muted" style="margin-top:12px">Si eliges “Ahora no”, podrás conectarlo después desde <b>Configuración → Protección de tus datos</b>.</div>`;
+  $('modal').classList.remove('hidden');
+}
+function maybePromptGoogleBackupOnboarding(){
+  if(localMode||!currentUser?.id||googleBackupConnected()||!googleOAuthConfigured())return;
+  const key=`HILEN_GOOGLE_BACKUP_PROMPT_${currentUser.id}`;
+  if(sessionStorage.getItem(key))return;
+  sessionStorage.setItem(key,'1');
+  setTimeout(()=>{if(!googleBackupConnected()&&$('modal').classList.contains('hidden'))showGoogleBackupOnboarding()},700);
+}
 function googleOAuthConfigured(){return HILEN_GOOGLE_OAUTH_CLIENT_ID&&HILEN_GOOGLE_OAUTH_CLIENT_ID.includes('.apps.googleusercontent.com')&&!HILEN_GOOGLE_OAUTH_CLIENT_ID.startsWith('PEGA_AQUI')}
 function renderGoogleSheetsStatus(){
   const el=$('googleSheetsStatus');if(!el)return;
   if(!googleOAuthConfigured()){el.className='google-sheets-status warn';el.textContent='Pendiente de activación por el administrador de HILEN. Firebase y Excel siguen funcionando normalmente.';return}
-  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){el.className='google-sheets-status warn';el.textContent='Copia de consulta: todavía no conectada. Pulsa “Conectar con Google” para activar la protección automática.';return}
-  if(googleSheetsConfig.pendingAt){el.className='google-sheets-status warn';el.textContent=`Copia de consulta: hay cambios pendientes${googleSheetsConfig.lastSentAt?' · última copia '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):''}.`;return}
-  el.className='google-sheets-status ok';el.textContent=`Copia de consulta: protegida automáticamente${googleSheetsConfig.lastSentAt?' · última copia '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):' · pendiente de la primera copia'}.`;
+  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){el.className='google-sheets-status warn';el.textContent='Copia organizada: todavía no conectada. Conecta Google Drive para activar la protección automática.';return}
+  if(googleSheetsConfig.pendingAt){el.className='google-sheets-status warn';el.textContent=`Copia organizada: guardando cambios${googleSheetsConfig.lastSentAt?' · última copia '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):''}.`;return}
+  el.className='google-sheets-status ok';el.textContent=`Copia organizada: actualizada automáticamente${googleSheetsConfig.lastSentAt?' · última copia '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):' · pendiente de la primera copia'}.`;
 }
 async function loadGoogleSheetsConfigFromCloud(){
-  try{if(cloudDb&&currentUser?.id){const s=await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleSheetsBackup')).once('value'),v=s.val();if(v){googleSheetsConfig={...googleSheetsConfig,...v};localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig))}}}catch(e){console.warn('No se pudo cargar configuración de Google Sheets',e)}renderGoogleSheetsStatus()
+  try{if(cloudDb&&currentUser?.id){const s=await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleSheetsBackup')).once('value'),v=s.val();if(v){googleSheetsConfig={...googleSheetsConfig,...v};localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig))}}}catch(e){console.warn('No se pudo cargar configuración de Google Sheets',e)}renderGoogleSheetsStatus();if($('settings'))renderSettings()
 }
 async function persistGoogleSheetsConfig(){
   localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));
   try{if(cloudDb&&currentUser?.id)await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleSheetsBackup')).set({enabled:!!googleSheetsConfig.enabled,sheetId:googleSheetsConfig.sheetId||'',sheetUrl:googleSheetsConfig.sheetUrl||'',connectedAt:googleSheetsConfig.connectedAt||'',lastSentAt:googleSheetsConfig.lastSentAt||'',pendingAt:googleSheetsConfig.pendingAt||''})}catch(e){console.warn('No se pudo guardar configuración de Google Sheets en Firebase',e)}
-  renderGoogleSheetsStatus()
+  renderGoogleSheetsStatus();if($('settings'))renderSettings()
 }
 function renderGoogleDriveStatus(){
   const el=$('googleDriveStatus');if(!el)return;
-  if(!googleDriveConfig.enabled||!googleDriveConfig.folderId){el.className='google-sheets-status warn';el.textContent='Copia de recuperación: todavía no conectada. Al conectar Google, HILEN creará tu carpeta de respaldos automáticamente.';return}
-  if(googleDriveConfig.pendingAt){el.className='google-sheets-status warn';el.textContent=`Copia de recuperación: hay cambios pendientes${googleDriveConfig.lastSentAt?' · última copia '+new Date(googleDriveConfig.lastSentAt).toLocaleString('es-CO'):''}.`;return}
-  el.className='google-sheets-status ok';el.textContent=`Copia de recuperación: protegida automáticamente${googleDriveConfig.lastSentAt?' · última copia '+new Date(googleDriveConfig.lastSentAt).toLocaleString('es-CO'):' · pendiente de la primera copia'}.`;
+  if(!googleDriveConfig.enabled||!googleDriveConfig.folderId){el.className='google-sheets-status warn';el.textContent='Google Drive: todavía no conectado. Al conectarlo, HILEN creará tu carpeta de respaldos automáticamente.';return}
+  if(googleDriveConfig.pendingAt){el.className='google-sheets-status warn';el.textContent=`Google Drive: guardando cambios${googleDriveConfig.lastSentAt?' · última copia '+new Date(googleDriveConfig.lastSentAt).toLocaleString('es-CO'):''}.`;return}
+  el.className='google-sheets-status ok';el.textContent=`Google Drive: respaldo actualizado automáticamente${googleDriveConfig.lastSentAt?' · última copia '+new Date(googleDriveConfig.lastSentAt).toLocaleString('es-CO'):' · pendiente de la primera copia'}.`;
 }
 async function loadGoogleDriveConfigFromCloud(){
-  try{if(cloudDb&&currentUser?.id){const s=await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleDriveBackup')).once('value'),v=s.val();if(v){googleDriveConfig={...googleDriveConfig,...v};localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig))}}}catch(e){console.warn('No se pudo cargar configuración de Google Drive',e)}renderGoogleDriveStatus()
+  try{if(cloudDb&&currentUser?.id){const s=await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleDriveBackup')).once('value'),v=s.val();if(v){googleDriveConfig={...googleDriveConfig,...v};localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig))}}}catch(e){console.warn('No se pudo cargar configuración de Google Drive',e)}renderGoogleDriveStatus();if($('settings'))renderSettings()
 }
 async function persistGoogleDriveConfig(){
   localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));
   try{if(cloudDb&&currentUser?.id)await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleDriveBackup')).set({enabled:!!googleDriveConfig.enabled,folderId:googleDriveConfig.folderId||'',folderUrl:googleDriveConfig.folderUrl||'',latestFileId:googleDriveConfig.latestFileId||'',lastSentAt:googleDriveConfig.lastSentAt||'',lastDailyDay:googleDriveConfig.lastDailyDay||'',connectedAt:googleDriveConfig.connectedAt||'',pendingAt:googleDriveConfig.pendingAt||''})}catch(e){console.warn('No se pudo guardar configuración de Google Drive en Firebase',e)}
-  renderGoogleDriveStatus()
+  renderGoogleDriveStatus();if($('settings'))renderSettings()
 }
 function buildJsonBackupPayload(){return {app:'HILEN',backupVersion:1,createdAt:new Date().toISOString(),userId:currentUser?.id||'',data:businessState()}}
 function backupJsonText(){return JSON.stringify(buildJsonBackupPayload(),null,2)}
@@ -1349,12 +1406,12 @@ async function syncGoogleDriveNow(showResult=false){
 function queueGoogleDriveSync(){
   if(!googleDriveConfig.enabled||!googleDriveConfig.folderId)return;googleDriveConfig.pendingAt=new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();clearTimeout(googleDriveSyncTimer);googleDriveSyncTimer=setTimeout(()=>syncGoogleDriveNow(false),300000)
 }
-function openGoogleDriveBackup(){if(!googleDriveConfig.folderUrl)return showToast('Google Drive no está conectado','Pulsa “Conectar con Google”.','error');window.open(googleDriveConfig.folderUrl,'_blank','noopener')}
+function openGoogleDriveBackup(){if(!googleDriveConfig.folderUrl)return showToast('Google Drive no está conectado','Ve a Configuración y pulsa “Conectar Google Drive”.','error');window.open(googleDriveConfig.folderUrl,'_blank','noopener')}
 async function syncGoogleBackupNow(showResult=false){const a=await syncGoogleSheetsNow(false),b=await syncGoogleDriveNow(false);if(showResult)showToast(a&&b?'Respaldos actualizados':'Respaldo incompleto',a&&b?'Google Sheets y Google Drive quedaron actualizados.':'Revisa la conexión con Google e intenta nuevamente.',a&&b?'success':'error');return a&&b}
 
 function openGoogleSheetsSetup(){
-  const connected=!!((googleSheetsConfig.enabled&&googleSheetsConfig.sheetId)||(googleDriveConfig.enabled&&googleDriveConfig.folderId));
-  $('modalContent').innerHTML=`<h2>Protección de tus datos</h2><div class="notice blue"><b>Tu información es lo más importante.</b><br>HILEN guarda copias de lo que registras para que puedas recuperar tus datos si algún día ocurre un problema o algo se elimina por error.</div><br><p class="muted"><b>¿Tengo que hacer algo?</b><br>No. Después de conectar Google una sola vez, HILEN mantiene los respaldos automáticamente mientras utilizas el sistema con Internet.</p><p class="muted"><b>¿Qué se protege?</b><br>Ventas, clientes, abonos, caja, productos y demás información registrada en HILEN.</p><p class="muted"><b>¿Dónde quedan las copias?</b><br>Dentro de tu propia cuenta de Google, en una sola carpeta llamada <b>HILEN - Respaldos</b>.</p>${connected?`<div class="notice good"><b>✓ Google está conectado.</b><br><span class="small">HILEN seguirá actualizando tus copias automáticamente. Usa <b>Respaldar ahora</b> solamente cuando quieras crear una copia de inmediato.</span></div><br><div class="action-group"><button class="primary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button><button class="secondary" onclick="openGoogleSheetBackup()">Ver copia en Sheets</button><button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button><button class="secondary" onclick="disconnectGoogleSheets()">Desconectar Google</button></div>`:`<div class="action-group"><button class="primary" onclick="connectGoogleSheets()">Conectar con Google</button></div><div class="small muted" style="margin-top:12px">Solo debes elegir tu cuenta de Google y aceptar el acceso. HILEN hará el resto.</div>`}`;
+  const connected=googleBackupConnected();
+  $('modalContent').innerHTML=`<h2>Protección de tus datos</h2><div class="notice blue"><b>Tu información es lo más importante.</b><br>Conecta tu Google Drive para que HILEN mantenga copias adicionales de lo que registras y podamos recuperarlo si algún día ocurre un problema.</div><br><p class="muted"><b>¿Tengo que hacer algo todos los días?</b><br>No. Después de conectarlo una sola vez, HILEN se encarga de las copias automáticamente mientras utilizas el sistema con Internet.</p><p class="muted"><b>¿Qué se protege?</b><br>Ventas, clientes, abonos, caja, productos y demás información registrada en tu cuenta.</p><p class="muted"><b>¿Dónde quedan las copias?</b><br>Dentro de tu propia cuenta de Google, en una carpeta llamada <b>HILEN - Respaldos</b>.</p>${connected?`<div class="notice good"><b>✓ Google Drive está conectado.</b><br><span class="small">Tus copias seguirán actualizándose automáticamente. Usa <b>Respaldar ahora</b> solo cuando quieras forzar una copia inmediata.</span></div><br><div class="action-group"><button class="primary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button><button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button><button class="secondary" onclick="openGoogleSheetBackup()">Ver copia organizada</button><button class="secondary" onclick="disconnectGoogleSheets()">Desconectar Google Drive</button></div>`:`<div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button></div><div class="small muted" style="margin-top:12px">Solo debes elegir tu cuenta de Google y aceptar el acceso. HILEN creará la carpeta y organizará las copias automáticamente.</div>`}`;
   $('modal').classList.remove('hidden')
 }
 function requestGoogleAccessToken(){
@@ -1388,13 +1445,13 @@ async function connectGoogleSheets(){
     googleSheetsConfig.enabled=true;googleSheetsConfig.connectedAt=new Date().toISOString();await persistGoogleSheetsConfig();
     await ensureGoogleSheetInBackupFolder(folderId);googleDriveConfig.enabled=true;googleDriveConfig.connectedAt=googleDriveConfig.connectedAt||new Date().toISOString();await persistGoogleDriveConfig();closeModal();
     const ok=await syncGoogleBackupNow(false);showToast(ok?'Google conectado':'Google conectado',ok?'Tus copias de seguridad quedaron creadas dentro de “HILEN - Respaldos”.':'La conexión quedó creada. Pulsa “Respaldar ahora” para completar la primera copia.',ok?'success':'error')
-  }catch(err){console.error(err);showToast('No se pudo conectar con Google Sheets',err.message||'Revisa la autorización de Google.','error')}
+  }catch(err){console.error(err);showToast('No se pudo conectar con Google Drive',err.message||'Revisa la autorización de Google.','error')}
 }
 async function disconnectGoogleSheets(){
   if(googleSheetsAccessToken&&window.google?.accounts?.oauth2){try{google.accounts.oauth2.revoke(googleSheetsAccessToken,()=>{})}catch(_){}}
   googleSheetsAccessToken='';googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};googleDriveConfig={enabled:false,folderId:'',folderUrl:'',latestFileId:'',lastSentAt:'',lastDailyDay:'',connectedAt:'',pendingAt:''};await persistGoogleSheetsConfig();await persistGoogleDriveConfig();closeModal();showToast('Google desconectado','Los archivos existentes no se eliminan de tu Google Drive.')
 }
-function openGoogleSheetBackup(){if(!googleSheetsConfig.sheetUrl)return showToast('Google Sheets no está conectado','Pulsa “Conectar con Google Sheets”.','error');window.open(googleSheetsConfig.sheetUrl,'_blank','noopener')}
+function openGoogleSheetBackup(){if(!googleSheetsConfig.sheetUrl)return showToast('La copia organizada todavía no está disponible','Conecta Google Drive primero.','error');window.open(googleSheetsConfig.sheetUrl,'_blank','noopener')}
 function queueGoogleSheetsSync(){if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId)return;googleSheetsConfig.pendingAt=new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=setTimeout(()=>syncGoogleSheetsNow(false),45000)}
 function backupRowsToValues(rows){
   const safe=Array.isArray(rows)&&rows.length?rows:[{Mensaje:'Sin registros'}];const headers=[];safe.forEach(r=>Object.keys(r||{}).forEach(k=>{if(!headers.includes(k))headers.push(k)}));
