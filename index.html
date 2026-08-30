@@ -240,6 +240,11 @@ img,svg,canvas{max-width:100%}
 .table-fit th,.table-fit td{white-space:normal;overflow-wrap:anywhere;word-break:normal}
 .table-fit .action-group{display:flex;gap:5px;flex-wrap:wrap}
 .table-fit .action-mini{padding:6px 8px}
+#paymentsTable .table-fit-wrap{overflow-x:auto}
+#paymentsTable .table-fit{table-layout:auto;min-width:920px}
+#paymentsTable .table th:nth-child(5),#paymentsTable .table td:nth-child(5){min-width:175px;white-space:nowrap}
+#paymentsTable .table th:nth-child(6),#paymentsTable .table td:nth-child(6){min-width:165px}
+#paymentsTable .badge{white-space:nowrap;max-width:none}
 .statement-toolbar{display:grid;grid-template-columns:minmax(250px,1fr) 180px 180px auto;gap:10px;align-items:end}
 .statement-toolbar>div{min-width:0}
 .customer-filter-grid{grid-template-columns:minmax(260px,1fr) 180px 180px}
@@ -499,6 +504,7 @@ img,svg,canvas{max-width:100%}
       </div>
       <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Abonos de clientes recurrentes a crédito</h2><div class="muted small">Muestra los abonos realizados durante el año por clientes recurrentes que han comprado a crédito. Puedes abrir su historial completo.</div></div></div><div id="historyRecurrentCreditPayments"></div></div>
+      <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Historial de abonos del año</h2><div class="muted small">Aquí aparecen todos los abonos registrados en el año seleccionado, con su cliente, valor, forma de ingreso y estado actual de la cuenta.</div></div></div><div id="historyAnnualPayments"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Mes a mes</h2><div class="muted small">Detalle completo del año seleccionado.</div></div></div><div id="historyMonthTable"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Comparativo de todos los años</h2><div class="muted small">Los registros de 2026, 2027 y los años siguientes permanecen separados por fecha.</div></div></div><div id="historyYearsTable"></div></div>
       <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Historial de clientes del año</h2><div class="muted small">Al final del historial: qué compró cada cliente, cuánto abonó, su estado y si terminó el año sin deuda.</div></div></div><div id="historyClientsTable"></div></div>
@@ -586,6 +592,7 @@ const GOOGLE_DRIVE_BACKUP_KEY="HILEN_GOOGLE_DRIVE_BACKUP_V1";
 const HILEN_GOOGLE_OAUTH_CLIENT_ID="600139879243-daqofgrmd5m18v0qr35t618khfibuis6.apps.googleusercontent.com";
 const HILEN_GOOGLE_SCOPES="https://www.googleapis.com/auth/drive.file";
 let googleSheetsSyncTimer=null,googleSheetsSyncInFlight=false,googleSheetsTokenClient=null,googleSheetsAccessToken='';
+let googleAuthMayPrompt=false;
 let googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};
 let googleDriveSyncTimer=null,googleDriveSyncInFlight=false;
 let googleDriveConfig={enabled:false,folderId:'',folderUrl:'',latestFileId:'',lastSentAt:'',lastDailyDay:'',connectedAt:'',pendingAt:''};
@@ -1371,6 +1378,8 @@ function renderHistory(){
   $('historyClientSummary').innerHTML=`<div class="notice good"><b>${st.clients.filter(x=>x.active).length}</b> clientes compraron en ${y}. De ellos, <b>${st.newClients}</b> fueron nuevos y <b>${st.returningClients}</b> recurrentes.</div><div style="margin-top:12px" class="notice"><b>Mujeres:</b> ${st.women} · <b>Hombres:</b> ${st.men}<br><b>Crédito vendido:</b> ${money(st.creditSales)} · <b>Abonos:</b> ${money(st.paymentTotal)}</div>`;
   const recurrentCredit=st.clients.filter(x=>x.isReturning&&x.creditToClose>0&&(x.credit>0||x.payCount>0)).sort((a,b)=>b.payments-a.payments||b.credit-a.credit||a.c.name.localeCompare(b.c.name,'es'));
   if($('historyRecurrentCreditPayments'))$('historyRecurrentCreditPayments').innerHTML=recurrentCredit.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Compras del año</th><th>Crédito del año</th><th># abonos</th><th>Abonos del año</th><th>Saldo al cierre</th><th>Estado</th><th></th></tr></thead><tbody>${recurrentCredit.map(x=>{const state=x.balance<=0?'<span class="history-client-settled">✓ Cuenta cancelada</span>':`<span class="history-client-open">Debe ${money(x.balance)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">Cliente recurrente</div></td><td>${x.ys.length}</td><td><b>${money(x.credit)}</b></td><td>${x.payCount}</td><td><b>${money(x.payments)}</b></td><td>${money(x.balance)}</td><td>${state}</td><td><button class="action-mini" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes recurrentes con compras a crédito o abonos registrados en este año.</div>';
+  const annualPays=[...st.pays].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.time||'').localeCompare(String(a.time||'')));
+  if($('historyAnnualPayments'))$('historyAnnualPayments').innerHTML=annualPays.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado actual</th><th>Acciones</th></tr></thead><tbody>${annualPays.map(p=>{const bal=clientBalance(p.clientId),state=bal.balance>0?`<span class="badge debt">Debe ${money(bal.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${state}</td><td><div class="action-group"><button class="action-mini" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini" onclick="editPayment('${p.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay abonos registrados en este año.</div>';
   const names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],monthly=[];
   for(let m=1;m<=12;m++){
     const mm=String(m).padStart(2,'0'),start=`${y}-${mm}-01`,last=String(new Date(y,m,0).getDate()).padStart(2,'0'),end=`${y}-${mm}-${last}`;
@@ -1525,18 +1534,30 @@ async function syncGoogleDriveNow(showResult=false){
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','El respaldo de Google Drive se hará cuando vuelva Internet.','error');return false}
   if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;
   try{
-    if(!googleSheetsAccessToken)await requestGoogleAccessToken();const folderId=await ensureGoogleDriveFolder(),content=backupJsonText(),latestMeta={name:'HILEN_ultimo_respaldo.json',mimeType:'application/json',parents:googleDriveConfig.latestFileId?undefined:[folderId],appProperties:{hilenBackup:'latest'}};
+    const folderId=await ensureGoogleDriveFolder(),content=backupJsonText(),latestMeta={name:'HILEN_ultimo_respaldo.json',mimeType:'application/json',parents:googleDriveConfig.latestFileId?undefined:[folderId],appProperties:{hilenBackup:'latest'}};
     if(latestMeta.parents===undefined)delete latestMeta.parents;
     const latest=await driveMultipartUpload(latestMeta,content,googleDriveConfig.latestFileId||'');googleDriveConfig.latestFileId=latest.id;
     const day=today();if(googleDriveConfig.lastDailyDay!==day){const q=encodeURIComponent(`'${folderId}' in parents and (name='HILEN_${day}.json' or name='HILEN_${day}.json') and trashed=false`),existing=await googleApi(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name)&pageSize=2`);if(!(existing?.files||[]).length)await driveMultipartUpload({name:`HILEN_${day}.json`,mimeType:'application/json',parents:[folderId],appProperties:{hilenBackup:'daily',day}},content);googleDriveConfig.lastDailyDay=day;cleanupOldDriveDailyBackups()}
     googleDriveConfig.enabled=true;googleDriveConfig.lastSentAt=new Date().toISOString();googleDriveConfig.pendingAt='';await persistGoogleDriveConfig();if(showResult)showToast('Google Drive actualizado','Se guardó el respaldo JSON más reciente y la copia diaria.');return true
-  }catch(err){console.error('Google Drive backup:',err);if(showResult)showToast('No se pudo respaldar en Google Drive',err.message||'Vuelve a conectar Google.','error');return false}finally{googleDriveSyncInFlight=false}
+  }catch(err){
+    if(err?.message==='GOOGLE_AUTH_REQUIRED'){
+      googleDriveConfig.pendingAt=googleDriveConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();return false
+    }
+    console.error('Google Drive backup:',err);if(showResult)showToast('No se pudo respaldar en Google Drive',err.message||'Vuelve a conectar Google.','error');return false
+  }finally{googleDriveSyncInFlight=false}
 }
 function queueGoogleDriveSync(){
   if(!googleDriveConfig.enabled||!googleDriveConfig.folderId)return;googleDriveConfig.pendingAt=new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();clearTimeout(googleDriveSyncTimer);googleDriveSyncTimer=setTimeout(()=>syncGoogleDriveNow(false),300000)
 }
 function openGoogleDriveBackup(){if(!googleDriveConfig.folderUrl)return showToast('Google Drive no está conectado','Ve a Configuración y pulsa “Conectar Google Drive”.','error');window.open(googleDriveConfig.folderUrl,'_blank','noopener')}
-async function syncGoogleBackupNow(showResult=false){const a=await syncGoogleSheetsNow(false),b=await syncGoogleDriveNow(false);if(showResult)showToast(a&&b?'Respaldos actualizados':'Respaldo incompleto',a&&b?'Google Sheets y Google Drive quedaron actualizados.':'Revisa la conexión con Google e intenta nuevamente.',a&&b?'success':'error');return a&&b}
+async function syncGoogleBackupNow(showResult=false){
+  const previousGooglePromptState=googleAuthMayPrompt;if(showResult)googleAuthMayPrompt=true;
+  try{
+    const a=await syncGoogleSheetsNow(false),b=await syncGoogleDriveNow(false);
+    if(showResult)showToast(a&&b?'Respaldos actualizados':'Respaldo incompleto',a&&b?'Google Sheets y Google Drive quedaron actualizados.':'Revisa la conexión con Google e intenta nuevamente.',a&&b?'success':'error');
+    return a&&b
+  }finally{googleAuthMayPrompt=previousGooglePromptState}
+}
 
 function openGoogleSheetsSetup(){
   const connected=googleBackupConnected();
@@ -1552,15 +1573,23 @@ function requestGoogleAccessToken(){
   })
 }
 async function googleApi(url,options={}){
-  if(!googleSheetsAccessToken)await requestGoogleAccessToken();
+  if(!googleSheetsAccessToken){
+    if(!googleAuthMayPrompt)throw new Error('GOOGLE_AUTH_REQUIRED');
+    await requestGoogleAccessToken();
+  }
   const headers={...(options.headers||{}),Authorization:`Bearer ${googleSheetsAccessToken}`};
   if(options.body&&!headers['Content-Type'])headers['Content-Type']='application/json';
   let res=await fetch(url,{...options,headers});
-  if(res.status===401){googleSheetsAccessToken='';await requestGoogleAccessToken();headers.Authorization=`Bearer ${googleSheetsAccessToken}`;res=await fetch(url,{...options,headers})}
+  if(res.status===401){
+    googleSheetsAccessToken='';
+    if(!googleAuthMayPrompt)throw new Error('GOOGLE_AUTH_REQUIRED');
+    await requestGoogleAccessToken();headers.Authorization=`Bearer ${googleSheetsAccessToken}`;res=await fetch(url,{...options,headers})
+  }
   if(!res.ok){let msg='Error de Google';try{const j=await res.json();msg=j?.error?.message||msg}catch(_){msg=await res.text()||msg}throw new Error(msg)}
   if(res.status===204)return null;return res.json()
 }
 async function connectGoogleSheets(){
+  const previousGooglePromptState=googleAuthMayPrompt;googleAuthMayPrompt=true;
   try{
     showToast('Conectando con Google','Autoriza a HILEN en la ventana de Google.');
     await requestGoogleAccessToken();
@@ -1575,6 +1604,7 @@ async function connectGoogleSheets(){
     await ensureGoogleSheetInBackupFolder(folderId);googleDriveConfig.enabled=true;googleDriveConfig.connectedAt=googleDriveConfig.connectedAt||new Date().toISOString();await persistGoogleDriveConfig();closeModal();
     const ok=await syncGoogleBackupNow(false);showToast(ok?'Google conectado':'Google conectado',ok?'Tus copias de seguridad quedaron creadas dentro de “HILEN - Respaldos”.':'La conexión quedó creada. Pulsa “Respaldar ahora” para completar la primera copia.',ok?'success':'error')
   }catch(err){console.error(err);showToast('No se pudo conectar con Google Drive',err.message||'Revisa la autorización de Google.','error')}
+  finally{googleAuthMayPrompt=previousGooglePromptState}
 }
 async function disconnectGoogleSheets(){
   if(googleSheetsAccessToken&&window.google?.accounts?.oauth2){try{google.accounts.oauth2.revoke(googleSheetsAccessToken,()=>{})}catch(_){}}
@@ -1591,7 +1621,6 @@ async function syncGoogleSheetsNow(showResult=false){
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','HILEN intentará respaldar cuando vuelvas a tener Internet.','error');return false}
   if(googleSheetsSyncInFlight)return false;googleSheetsSyncInFlight=true;
   try{
-    if(!googleSheetsAccessToken)await requestGoogleAccessToken();
     await ensureGoogleSheetInBackupFolder();
     const tables=buildBackupTables(),names=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año'];
     const ranges=names.map(n=>`'${n.replace(/'/g,"''")}'!A:ZZ`).concat(["'CONTROL'!A:ZZ"]);
@@ -1600,7 +1629,12 @@ async function syncGoogleSheetsNow(showResult=false){
     data.push({range:"'CONTROL'!A1",majorDimension:'ROWS',values:[['Campo','Valor'],['Aplicación','HILEN'],['Última actualización',new Date().toLocaleString('es-CO')],['Usuario',currentUser?.email||currentUser?.id||'HILEN'],['Estado','Respaldo recibido correctamente']]});
     await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchUpdate`,{method:'POST',body:JSON.stringify({valueInputOption:'USER_ENTERED',data})});
     googleSheetsConfig.lastSentAt=new Date().toISOString();googleSheetsConfig.pendingAt='';await persistGoogleSheetsConfig();if(showResult)showToast('Google Sheets actualizado','El respaldo quedó sincronizado correctamente.');return true
-  }catch(err){console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Vuelve a conectar tu cuenta de Google.','error');return false}finally{googleSheetsSyncInFlight=false}
+  }catch(err){
+    if(err?.message==='GOOGLE_AUTH_REQUIRED'){
+      googleSheetsConfig.pendingAt=googleSheetsConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();return false
+    }
+    console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Vuelve a conectar tu cuenta de Google.','error');return false
+  }finally{googleSheetsSyncInFlight=false}
 }
 function refreshAll(){
   syncDataRelations();
