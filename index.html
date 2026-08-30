@@ -498,6 +498,7 @@ img,svg,canvas{max-width:100%}
         <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Clientes por mes</h2><div class="muted small">Nuevos, recurrentes, potenciales, mujeres y hombres en cada mes.</div></div></div><div id="historyClientChart"></div></div>
       </div>
       <div class="card" style="margin-bottom:18px"><h2>Resumen de clientes del año</h2><div id="historyClientSummary"></div></div>
+      <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Abonos de clientes recurrentes a crédito</h2><div class="muted small">Muestra los abonos realizados durante el año por clientes recurrentes que han comprado a crédito. Puedes abrir su historial completo.</div></div></div><div id="historyRecurrentCreditPayments"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Mes a mes</h2><div class="muted small">Detalle completo del año seleccionado.</div></div></div><div id="historyMonthTable"></div></div>
       <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Comparativo de todos los años</h2><div class="muted small">Los registros de 2026, 2027 y los años siguientes permanecen separados por fecha.</div></div></div><div id="historyYearsTable"></div></div>
       <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Historial de clientes del año</h2><div class="muted small">Al final del historial: qué compró cada cliente, cuánto abonó, su estado y si terminó el año sin deuda.</div></div></div><div id="historyClientsTable"></div></div>
@@ -1368,6 +1369,8 @@ function renderHistory(){
   $('historyAvailableYears').innerHTML=`<div class="small muted" style="margin-bottom:8px">Años con registros. Pulsa un año para abrir todo lo que pasó en ese período:</div><div class="action-group">${ys.slice().sort((a,b)=>b-a).map(yy=>`<button class="${yy===y?'primary':'secondary'}" onclick="selectHistoryYear(${yy})">${yy}</button>`).join('')}</div>`;
   $('historyKpis').innerHTML=`<div class="history-kpi blue"><div class="hk-label">Ventas ${y}</div><div class="hk-value">${money(st.totalSales)}</div><div class="small muted">${st.sales.length} venta(s)</div></div><div class="history-kpi"><div class="hk-label">Clientes activos</div><div class="hk-value">${st.clients.filter(x=>x.active).length}</div><div class="small muted">${st.newClients} nuevos · ${st.returningClients} recurrentes</div></div><div class="history-kpi purple"><div class="hk-label">Abonos recibidos</div><div class="hk-value">${money(st.paymentTotal)}</div><div class="small muted">${st.pays.length} abono(s)</div></div><div class="history-kpi green"><div class="hk-label">Ingresos</div><div class="hk-value">${money(st.income)}</div></div><div class="history-kpi red"><div class="hk-label">Egresos</div><div class="hk-value">${money(st.expense)}</div></div><div class="history-kpi green"><div class="hk-label">Neto del año</div><div class="hk-value">${money(st.net)}</div></div><div class="history-kpi"><div class="hk-label">Ventas a crédito</div><div class="hk-value">${money(st.creditSales)}</div></div><div class="history-kpi"><div class="hk-label">Mujeres / Hombres activos</div><div class="hk-value">${st.women} / ${st.men}</div></div><div class="history-kpi"><div class="hk-label">Potenciales registrados</div><div class="hk-value">${st.potentialRegistered}</div></div>`;
   $('historyClientSummary').innerHTML=`<div class="notice good"><b>${st.clients.filter(x=>x.active).length}</b> clientes compraron en ${y}. De ellos, <b>${st.newClients}</b> fueron nuevos y <b>${st.returningClients}</b> recurrentes.</div><div style="margin-top:12px" class="notice"><b>Mujeres:</b> ${st.women} · <b>Hombres:</b> ${st.men}<br><b>Crédito vendido:</b> ${money(st.creditSales)} · <b>Abonos:</b> ${money(st.paymentTotal)}</div>`;
+  const recurrentCredit=st.clients.filter(x=>x.isReturning&&x.creditToClose>0&&(x.credit>0||x.payCount>0)).sort((a,b)=>b.payments-a.payments||b.credit-a.credit||a.c.name.localeCompare(b.c.name,'es'));
+  if($('historyRecurrentCreditPayments'))$('historyRecurrentCreditPayments').innerHTML=recurrentCredit.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Compras del año</th><th>Crédito del año</th><th># abonos</th><th>Abonos del año</th><th>Saldo al cierre</th><th>Estado</th><th></th></tr></thead><tbody>${recurrentCredit.map(x=>{const state=x.balance<=0?'<span class="history-client-settled">✓ Cuenta cancelada</span>':`<span class="history-client-open">Debe ${money(x.balance)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">Cliente recurrente</div></td><td>${x.ys.length}</td><td><b>${money(x.credit)}</b></td><td>${x.payCount}</td><td><b>${money(x.payments)}</b></td><td>${money(x.balance)}</td><td>${state}</td><td><button class="action-mini" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes recurrentes con compras a crédito o abonos registrados en este año.</div>';
   const names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],monthly=[];
   for(let m=1;m<=12;m++){
     const mm=String(m).padStart(2,'0'),start=`${y}-${mm}-01`,last=String(new Date(y,m,0).getDate()).padStart(2,'0'),end=`${y}-${mm}-${last}`;
@@ -1423,11 +1426,12 @@ function exportAllToExcel(){
     XLSX.writeFile(wb,`HILEN_respaldo_${today()}.xlsx`,{compression:true});showToast('Excel descargado','Se incluyeron todos los registros principales de HILEN.')
   }catch(err){console.error(err);showToast('No se pudo generar el Excel','Intenta nuevamente.','error')}
 }
-function googleBackupConnected(){return !!(googleDriveConfig.enabled&&googleDriveConfig.folderId&&googleSheetsConfig.enabled&&googleSheetsConfig.sheetId)}
+function googleDriveConnected(){return !!(googleDriveConfig.enabled&&googleDriveConfig.folderId)}
+function googleBackupConnected(){return !!(googleDriveConnected()&&googleSheetsConfig.enabled&&googleSheetsConfig.sheetId)}
 function renderSettings(){
   if($('settingsUserName'))$('settingsUserName').textContent=currentUser?.name||'HILEN';
   if($('settingsUserEmail'))$('settingsUserEmail').textContent=currentUser?.email||'—';
-  const driveConnected=!!(googleDriveConfig.enabled&&googleDriveConfig.folderId);
+  const driveConnected=googleDriveConnected();
   if($('settingsGoogleDriveText'))$('settingsGoogleDriveText').textContent=driveConnected?'Google Drive conectado':'Google Drive no conectado';
   if($('settingsGoogleDriveHelp'))$('settingsGoogleDriveHelp').textContent=driveConnected?'Tus copias automáticas están activas para esta cuenta de HILEN.':'Conéctalo una sola vez para activar las copias automáticas.';
   if($('settingsGoogleDriveState')){
@@ -1438,16 +1442,16 @@ function renderSettings(){
   if($('cloudBackupPanel')&&$('settings')?.classList.contains('active'))renderCloudBackups();
 }
 function showGoogleBackupOnboarding(){
-  if(localMode||!currentUser?.id||googleBackupConnected()||!googleOAuthConfigured())return;
+  if(localMode||!currentUser?.id||googleDriveConnected()||!googleOAuthConfigured())return;
   $('modalContent').innerHTML=`<div class="backup-onboarding-hero"><div class="backup-onboarding-icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.4 4.5 4.5 0 0 0 7 18Z"/><path d="M12 11v5M9.8 13.2 12 11l2.2 2.2"/></svg></div><h2>Protege tus datos desde el inicio</h2><p class="muted">Conecta tu Google Drive una sola vez. HILEN guardará copias adicionales de tu información para poder recuperarla si algún día ocurre un problema o se elimina algo por error.</p></div><div class="backup-simple-list"><div class="backup-simple-item"><span>✓</span><div><b>No tienes que hacerlo todos los días</b><span class="small muted">Las copias se mantienen automáticamente mientras usas HILEN con Internet.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Protege lo que registras</b><span class="small muted">Ventas, clientes, abonos, caja, productos y demás información de tu cuenta.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Las copias quedan en tu Google Drive</b><span class="small muted">HILEN crea y organiza una carpeta llamada “HILEN - Respaldos”.</span></div></div></div><div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button><button class="secondary" onclick="closeModal()">Ahora no</button></div><div class="small muted" style="margin-top:12px">Si eliges “Ahora no”, podrás conectarlo después desde <b>Configuración → Protección de tus datos</b>.</div>`;
   $('modal').classList.remove('hidden');
 }
 function maybePromptGoogleBackupOnboarding(){
-  if(localMode||!currentUser?.id||googleBackupConnected()||!googleOAuthConfigured())return;
+  if(localMode||!currentUser?.id||googleDriveConnected()||!googleOAuthConfigured())return;
   const key=`HILEN_GOOGLE_BACKUP_PROMPT_${currentUser.id}`;
   if(sessionStorage.getItem(key))return;
   sessionStorage.setItem(key,'1');
-  setTimeout(()=>{if(!googleBackupConnected()&&$('modal').classList.contains('hidden'))showGoogleBackupOnboarding()},700);
+  setTimeout(()=>{if(!googleDriveConnected()&&$('modal').classList.contains('hidden'))showGoogleBackupOnboarding()},700);
 }
 function googleOAuthConfigured(){return HILEN_GOOGLE_OAUTH_CLIENT_ID&&HILEN_GOOGLE_OAUTH_CLIENT_ID.includes('.apps.googleusercontent.com')&&!HILEN_GOOGLE_OAUTH_CLIENT_ID.startsWith('PEGA_AQUI')}
 function renderGoogleSheetsStatus(){
