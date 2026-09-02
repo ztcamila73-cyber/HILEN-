@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
 <title>HILEN · Gestión de ventas y caja</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTYiIGZpbGw9IiMxMTExMTEiLz48cGF0aCBkPSJNMTkgMTZoOXYxMmg4VjE2aDl2MzJoLTlWMzZoLTh2MTJoLTl6IiBmaWxsPSIjRTVCODRGIi8+PC9zdmc+">
 <style>
 :root{
   --bg:#f7f7f8;--card:#fff;--ink:#161616;--muted:#787878;--line:#e7e7ea;
@@ -609,6 +610,7 @@ try{googleDriveConfig={...googleDriveConfig,...JSON.parse(localStorage.getItem(G
    4) Copia el objeto firebaseConfig que te entrega Firebase y reemplaza los valores siguientes.
    IMPORTANTE: la configuración web de Firebase no es una contraseña. La seguridad real está en Authentication + Database Rules.
    ========================================================== */
+const HILEN_PUBLIC_URL="https://hilen-programa.vercel.app/";
 const HILEN_FIREBASE_CONFIG={
   apiKey:"AIzaSyBMKv1F6Y4Nz2s0NdddgnswadqCx7UEC7c",
   authDomain:"hilen-sistema.firebaseapp.com",
@@ -892,7 +894,7 @@ async function resetPassword(){
   const email=$('forgotEmail').value.trim().toLowerCase();
   if(!email)return showToast('Escribe tu correo','','error');
   if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','No se pudo conectar al servicio de cuenta. Intenta nuevamente con Internet.','error');
-  try{await cloudAuth.sendPasswordResetEmail(email,{url:location.origin+location.pathname});showLogin();showToast('Revisa tu correo','Firebase te envió un enlace para cambiar la contraseña.')}
+  try{await cloudAuth.sendPasswordResetEmail(email,{url:HILEN_PUBLIC_URL});showLogin();showToast('Revisa tu correo','Firebase te envió un enlace para cambiar la contraseña.')}
   catch(error){showToast('No se pudo enviar el enlace',firebaseAuthErrorText(error),'error')}
 }
 function showRecoveryPasswordModal(){showToast('Recuperación por correo','Usa el enlace enviado por Firebase para crear tu contraseña nueva.')}
