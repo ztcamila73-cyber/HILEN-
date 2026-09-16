@@ -1176,7 +1176,16 @@ async function restoreCloudBackup(backupId){
   if(!cloudDb||!currentUser?.id)return;confirmAction('Restaurar respaldo','La información actual será reemplazada por la copia seleccionada. Antes se guardará otro respaldo de lo que tienes ahora.',async()=>{await backupBeforeDestructive('restaurar respaldo');const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups/'+backupId)).once('value');const data=s.val();if(!data?.data)throw new Error('Respaldo no encontrado');applyBusinessState(data.data);saveDB();await cloudSaveNow();refreshAll();renderHistory();showToast('Respaldo restaurado','La información volvió al estado seleccionado.')},{confirmText:'Restaurar',workingText:'Restaurando…'})
 }
 function cloudUserModel(user){return {id:user.uid,email:user.email||'',name:user.displayName||(user.email||'HILEN').split('@')[0]}}
-async function startCloudSession(user){currentUser=cloudUserModel(user);await loadCloudState(user.uid);await loadGoogleSheetsConfigFromCloud();await loadGoogleDriveConfigFromCloud();await openApp(user);setTimeout(()=>{if(googleDriveConfig.enabled&&googleDriveConfig.folderId&&googleDriveConfig.lastDailyDay!==today())syncGoogleDriveNow(false)},1200)}
+async function startCloudSession(user){
+  currentUser=cloudUserModel(user);
+  // Al iniciar sesión HILEN solo carga la configuración guardada.
+  // NO llama a Google, NO solicita autorización y NO abre ninguna ventana externa.
+  googleAuthMayPrompt=false;
+  await loadCloudState(user.uid);
+  await loadGoogleSheetsConfigFromCloud();
+  await loadGoogleDriveConfigFromCloud();
+  await openApp(user);
+}
 
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",maximumFractionDigits:0}).format(Number(n)||0);
