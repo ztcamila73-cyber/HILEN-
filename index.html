@@ -547,6 +547,11 @@ button,.tab,.segmented button,.nav button,.action-mini,.link-btn{-webkit-tap-hig
   .tablet-menu-fab{display:inline-flex;position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));width:52px;height:52px;border:0;border-radius:17px;background:#111;color:#fff;z-index:48;align-items:center;justify-content:center;font-size:22px;box-shadow:0 13px 34px rgba(0,0,0,.22)}
 }
 
+
+/* HILEN · menú tablet: un solo botón.
+   El botón superior queda dentro de la cabecera sticky y permanece accesible al desplazarse. */
+.tablet-menu-fab{display:none!important}
+
 </style>
 </head>
 <body>
@@ -602,8 +607,6 @@ button,.tab,.segmented button,.nav button,.action-mini,.link-btn{-webkit-tap-hig
     <button type="button" id="logoutBtn" class="logout" onclick="logout(event)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span class="logout-label">Cerrar sesión</span></button>
   </aside>
   <div id="sideBackdrop" class="side-backdrop" onclick="closeSide()" aria-hidden="true"></div>
-  <button type="button" class="tablet-menu-fab" onclick="toggleSide()" aria-label="Abrir menú" title="Abrir menú">☰</button>
-
   <main class="main">
     <div class="top"><div class="top-left"><button class="secondary mobile" onclick="toggleSide()">☰</button><div><h1 id="pageTitle" class="title">Inicio</h1><div id="todayLabel" class="muted"></div></div></div></div>
     <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
@@ -887,6 +890,8 @@ let googleBackupReconnectNeeded=false;
 let googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};
 let googleDriveSyncTimer=null,googleDriveSyncInFlight=false;
 let googleBackupManualRun=false,backupHealthTimer=null;
+let backupOnboardingJustCreated=false;
+let googleSilentAuthInFlight=null;
 const BACKUP_CHANGE_NOTICE_MS=30*60*1000;
 const BACKUP_RECONNECT_NOTICE_MS=15*60*1000;
 const BACKUP_HEALTH_NOTICE_MS=30*60*1000;
@@ -1220,8 +1225,9 @@ async function register(){
   const name=$('regName').value.trim(),email=$('regEmail').value.trim().toLowerCase(),pass=$('regPass').value;
   if(!name||!email||pass.length<6)return showToast('Revisa los datos','Escribe nombre, correo y una contraseña de al menos 6 caracteres.','error');
   if(!cloudConfigured()||!cloudAuth)return showToast('Firebase sin configurar','No se pudo conectar al servicio de cuenta. Intenta nuevamente.','error');
-  try{setCloudStatus('work','Creando cuenta…');const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication por correo funciona correctamente.');await cred.user.updateProfile({displayName:name});await startCloudSession(cred.user);showToast('Cuenta creada','La cuenta por correo y los datos ya están ligados a Firebase.')}
-  catch(error){showToast('No se pudo crear la cuenta',firebaseAuthErrorText(error),'error')}
+  backupOnboardingJustCreated=true;
+  try{setCloudStatus('work','Creando cuenta…');const cred=await cloudAuth.createUserWithEmailAndPassword(email,pass);firebaseAuthReady=true;setAuthDiagnostic('ok','Firebase Authentication por correo funciona correctamente.');await cred.user.updateProfile({displayName:name});await startCloudSession(cred.user);showToast('Cuenta creada','Tu cuenta quedó lista. Ahora puedes conectar la copia de seguridad de Google Drive.')}
+  catch(error){backupOnboardingJustCreated=false;showToast('No se pudo crear la cuenta',firebaseAuthErrorText(error),'error')}
 }
 async function login(){
   const email=$('loginEmail').value.trim().toLowerCase(),pass=$('loginPass').value;
@@ -1242,7 +1248,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();setTimeout(notifyBackupStatusOnStart,1100);
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();setTimeout(()=>tryRestoreGoogleAuthorization(false),1200);
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -1787,55 +1793,65 @@ function canShowBackupNotice(kind,intervalMs){
 }
 function notifyBackupAfterChange(){
   if(localMode||!currentUser?.id)return;
-  if(!googleDriveConnected()){
-    if(canShowBackupNotice('sin_drive',BACKUP_CHANGE_NOTICE_MS))showToast('Cambio guardado en HILEN','Google Drive no está conectado. Tus datos siguen guardados en HILEN, pero conecta Google Drive desde Configuración para tener una copia adicional.','warning',6500);
+
+  // Si la cuenta nunca ha conectado Google, no molestamos con avisos repetidos.
+  // El recordatorio inicial se muestra únicamente al crear una cuenta nueva.
+  if(!googleDriveConnected())return;
+
+  // Solo avisamos de reconexión cuando Google ya confirmó un problema real.
+  if(googleBackupReconnectNeeded){
+    if(canShowBackupNotice('reconectar',BACKUP_RECONNECT_NOTICE_MS))showToast('Copia de seguridad pendiente','Google Drive necesita volver a conectarse para continuar con las copias externas. Tus datos dentro de HILEN siguen guardados.','warning',7000);
     return;
   }
-  if(googleBackupReconnectNeeded||!googleSheetsAccessToken){
-    setGoogleBackupReconnectNeeded(true);
-    if(canShowBackupNotice('reconectar',BACKUP_RECONNECT_NOTICE_MS))showToast('Cambio guardado · copia pendiente','Tus cambios están guardados en HILEN. Reconecta Google para que también se actualice la copia de seguridad externa.','warning',6500);
+
+  // Si la página fue recargada y todavía no hay token temporal, intentamos recuperarlo
+  // sin mostrar selector de cuenta. La ausencia del token por sí sola NO significa desconexión.
+  if(!googleSheetsAccessToken){
+    tryRestoreGoogleAuthorization(true);
     return;
   }
-  if(canShowBackupNotice('cambio',BACKUP_CHANGE_NOTICE_MS))showToast('Cambios guardados','HILEN actualizará la copia de seguridad automáticamente en unos minutos. No necesitas pulsar “Respaldar ahora”.','info',5600);
+
+  if(canShowBackupNotice('cambio',BACKUP_CHANGE_NOTICE_MS))showToast('Cambios guardados','HILEN actualizará la copia de seguridad automáticamente. No necesitas volver a conectar Google ni pulsar “Respaldar ahora”.','info',5200);
 }
+
 function notifyBackupStatusOnStart(){
   if(localMode||!currentUser?.id)return;
-  if(!googleDriveConnected()){
-    showToast('Copia adicional no activada','Tus datos se guardan en HILEN. Para tener una copia externa de seguridad, conecta Google Drive desde Configuración.','warning',7000);
-    return;
+  // Al iniciar no mostramos mensajes por el simple hecho de recargar la página.
+  // Solo mostramos una advertencia si antes se detectó una desconexión real de Google.
+  if(googleDriveConnected()&&googleBackupReconnectNeeded){
+    showToast('Copia de seguridad pendiente','Google Drive necesita volver a conectarse para continuar con las copias externas.','warning',7000);
   }
-  if(!googleSheetsAccessToken){
-    setGoogleBackupReconnectNeeded(true);
-    showToast('Revisa tu copia de seguridad','Google Drive está vinculado, pero esta sesión necesita autorización para que las copias automáticas continúen. Pulsa “Reconectar Google”.','warning',7500);
-    return;
-  }
-  const last=googleDriveConfig.lastSentAt?new Date(googleDriveConfig.lastSentAt).toLocaleString('es-CO'):'';
-  showToast('Copias automáticas activas',last?`HILEN hará los respaldos automáticamente. Última copia: ${last}.`:'HILEN hará los respaldos automáticamente mientras uses el sistema con Internet.','success',6500);
 }
+
 function startBackupHealthMonitor(){
   if(backupHealthTimer)return;
   backupHealthTimer=setInterval(()=>{
     if(document.visibilityState!=='visible'||localMode||!currentUser?.id)return;
-    if(!googleDriveConnected()){
-      if(canShowBackupNotice('salud_sin_drive',60*60*1000))showToast('Copia de seguridad no activada','Conecta Google Drive desde Configuración si quieres mantener una copia externa de tus datos.','warning',6500);
+    if(!googleDriveConnected())return;
+
+    if(googleBackupReconnectNeeded){
+      if(canShowBackupNotice('salud_reconectar',BACKUP_HEALTH_NOTICE_MS))showToast('Copia de seguridad pendiente','Google Drive se desconectó o retiró la autorización. Reconecta la cuenta para volver a proteger las copias externas.','warning',7000);
       return;
     }
-    if(googleBackupReconnectNeeded||!googleSheetsAccessToken){
-      setGoogleBackupReconnectNeeded(true);
-      if(canShowBackupNotice('salud_reconectar',BACKUP_HEALTH_NOTICE_MS))showToast('Copia de seguridad pendiente','Google necesita que reconectes la cuenta para seguir actualizando tus respaldos. Tus datos dentro de HILEN siguen guardados.','warning',7000);
+
+    if(!googleSheetsAccessToken){
+      tryRestoreGoogleAuthorization(false);
       return;
     }
+
     const pending=googleDriveConfig.pendingAt?Date.parse(googleDriveConfig.pendingAt):0;
     if(pending&&Date.now()-pending>10*60*1000&&canShowBackupNotice('salud_pendiente',BACKUP_HEALTH_NOTICE_MS))showToast('Hay cambios pendientes de respaldo','HILEN sigue intentando actualizar la copia de seguridad. Revisa tu conexión a Internet si el aviso continúa.','info',6500);
   },5*60*1000);
 }
+
 function googleBackupConnected(){return !!(googleDriveConnected()&&googleSheetsConfig.enabled&&googleSheetsConfig.sheetId)}
+
 function renderSettings(){
   if($('settingsUserName'))$('settingsUserName').textContent=currentUser?.name||'HILEN';
   if($('settingsUserEmail'))$('settingsUserEmail').textContent=currentUser?.email||'—';
   const driveConnected=googleDriveConnected();
   if($('settingsGoogleDriveText'))$('settingsGoogleDriveText').textContent=driveConnected?'Google Drive conectado':'Google Drive no conectado';
-  if($('settingsGoogleDriveHelp'))$('settingsGoogleDriveHelp').textContent=driveConnected?'Tus copias automáticas están activas para esta cuenta de HILEN.':'Conéctalo una sola vez para activar las copias automáticas.';
+  if($('settingsGoogleDriveHelp'))$('settingsGoogleDriveHelp').textContent=driveConnected?'Tu cuenta permanece vinculada. HILEN mantiene las copias automáticamente.':'Conéctalo una sola vez para activar las copias automáticas.';
   if($('settingsGoogleDriveState')){
     $('settingsGoogleDriveState').className='google-account-state '+(driveConnected?'connected':'disconnected');
     $('settingsGoogleDriveState').innerHTML=`<span class="dot"></span>${driveConnected?'Conectada':'No conectada'}`;
@@ -1843,9 +1859,10 @@ function renderSettings(){
   renderGoogleSheetsStatus();renderGoogleDriveStatus();renderGoogleBackupReconnectAlert();
   if($('cloudBackupPanel')&&$('settings')?.classList.contains('active'))renderCloudBackups();
 }
+
 function showGoogleBackupOnboarding(){
   if(localMode||!currentUser?.id||googleDriveConnected()||!googleOAuthConfigured())return;
-  $('modalContent').innerHTML=`<div class="backup-onboarding-hero"><div class="backup-onboarding-icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.4 4.5 4.5 0 0 0 7 18Z"/><path d="M12 11v5M9.8 13.2 12 11l2.2 2.2"/></svg></div><h2>Protege tus datos desde el inicio</h2><p class="muted">Conecta tu Google Drive una sola vez. HILEN guardará copias adicionales de tu información para poder recuperarla si algún día ocurre un problema o se elimina algo por error.</p></div><div class="backup-simple-list"><div class="backup-simple-item"><span>✓</span><div><b>No tienes que hacerlo todos los días</b><span class="small muted">Las copias se mantienen automáticamente mientras usas HILEN con Internet.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Protege lo que registras</b><span class="small muted">Ventas, clientes, abonos, caja, productos y demás información de tu cuenta.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Las copias quedan en tu Google Drive</b><span class="small muted">HILEN crea y organiza una carpeta llamada “HILEN - Respaldos”.</span></div></div></div><div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button><button class="secondary" onclick="closeModal()">Ahora no</button></div><div class="small muted" style="margin-top:12px">Si eliges “Ahora no”, podrás conectarlo después desde <b>Configuración → Protección de tus datos</b>.</div>`;
+  $('modalContent').innerHTML=`<div class="backup-onboarding-hero"><div class="backup-onboarding-icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.4 4.5 4.5 0 0 0 7 18Z"/><path d="M12 11v5M9.8 13.2 12 11l2.2 2.2"/></svg></div><h2>Activa tu copia de seguridad</h2><p class="muted">Conecta tu Google Drive una sola vez para mantener una copia adicional de los datos de tu cuenta.</p></div><div class="backup-simple-list"><div class="backup-simple-item"><span>✓</span><div><b>Solo se conecta una vez</b><span class="small muted">Después HILEN mantiene la cuenta vinculada y realiza las copias automáticamente.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Protege lo que registras</b><span class="small muted">Ventas, clientes, abonos, caja, productos y demás información de HILEN.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Todo queda en tu Google Drive</b><span class="small muted">HILEN crea una carpeta llamada “HILEN - Respaldos”.</span></div></div></div><div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button><button class="secondary" onclick="closeModal()">Ahora no</button></div><div class="small muted" style="margin-top:12px">Si eliges “Ahora no”, podrás hacerlo después desde <b>Configuración → Protección de tus datos</b>.</div>`;
   $('modal').classList.remove('hidden');
 }
 
@@ -1853,6 +1870,7 @@ function setGoogleBackupReconnectNeeded(needed){
   googleBackupReconnectNeeded=!!needed;
   renderGoogleBackupReconnectAlert();
 }
+
 function renderGoogleBackupReconnectAlert(){
   const el=$('googleBackupReconnectAlert');if(!el)return;
   const shouldShow=!localMode&&googleDriveConnected()&&googleBackupReconnectNeeded;
@@ -1860,12 +1878,13 @@ function renderGoogleBackupReconnectAlert(){
 }
 
 function maybePromptGoogleBackupOnboarding(){
+  // Este popup aparece únicamente justo después de crear una cuenta nueva.
+  if(!backupOnboardingJustCreated)return;
+  backupOnboardingJustCreated=false;
   if(localMode||!currentUser?.id||googleDriveConnected()||!googleOAuthConfigured())return;
-  const key=`HILEN_GOOGLE_BACKUP_PROMPT_${currentUser.id}`;
-  if(sessionStorage.getItem(key))return;
-  sessionStorage.setItem(key,'1');
-  setTimeout(()=>{if(!googleDriveConnected()&&$('modal').classList.contains('hidden'))showGoogleBackupOnboarding()},700);
+  setTimeout(()=>{if(!googleDriveConnected()&&$('modal').classList.contains('hidden'))showGoogleBackupOnboarding()},650);
 }
+
 function googleOAuthConfigured(){return HILEN_GOOGLE_OAUTH_CLIENT_ID&&HILEN_GOOGLE_OAUTH_CLIENT_ID.includes('.apps.googleusercontent.com')&&!HILEN_GOOGLE_OAUTH_CLIENT_ID.startsWith('PEGA_AQUI')}
 function renderGoogleSheetsStatus(){
   const el=$('googleSheetsStatus');if(!el)return;
@@ -1989,7 +2008,10 @@ async function syncGoogleDriveNow(showResult=false){
       setGoogleBackupReconnectNeeded(true);
       googleDriveConfig.pendingAt=googleDriveConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();return false
     }
-    console.error('Google Drive backup:',err);if(showResult)showToast('No se pudo respaldar en Google Drive',err.message||'Vuelve a conectar Google.','error');return false
+    if(err?.message==='GOOGLE_TOKEN_UNAVAILABLE'){
+      googleDriveConfig.pendingAt=googleDriveConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();return false
+    }
+    console.error('Google Drive backup:',err);if(showResult)showToast('No se pudo respaldar en Google Drive',err.message||'Revisa tu conexión e intenta nuevamente.','error');return false
   }finally{googleDriveSyncInFlight=false}
 }
 function queueGoogleDriveSync(){
@@ -2010,35 +2032,111 @@ function openGoogleSheetsSetup(){
   $('modalContent').innerHTML=`<h2>Protección de tus datos</h2><div class="notice blue"><b>Tu información es lo más importante.</b><br>Conecta tu Google Drive para que HILEN mantenga copias adicionales de lo que registras y podamos recuperarlo si algún día ocurre un problema.</div><br><p class="muted"><b>¿Tengo que hacer algo todos los días?</b><br>No. Después de conectarlo una sola vez, HILEN se encarga de las copias automáticamente mientras utilizas el sistema con Internet.</p><p class="muted"><b>¿Qué se protege?</b><br>Ventas, clientes, abonos, caja, productos y demás información registrada en tu cuenta.</p><p class="muted"><b>¿Dónde quedan las copias?</b><br>Dentro de tu propia cuenta de Google, en una carpeta llamada <b>HILEN - Respaldos</b>.</p>${connected?`<div class="notice good"><b>✓ Google Drive está conectado.</b><br><span class="small">Tus copias seguirán actualizándose automáticamente. Usa <b>Respaldar ahora</b> solo cuando quieras forzar una copia inmediata.</span></div><br><div class="action-group"><button class="primary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button><button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button><button class="secondary" onclick="openGoogleSheetBackup()">Ver copia organizada</button><button class="secondary" onclick="disconnectGoogleSheets()">Desconectar Google Drive</button></div>`:`<div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button></div><div class="small muted" style="margin-top:12px">Solo debes elegir tu cuenta de Google y aceptar el acceso. HILEN creará la carpeta y organizará las copias automáticamente.</div>`}`;
   $('modal').classList.remove('hidden')
 }
-function requestGoogleAccessToken(){
+function googleAuthErrorNeedsReconnect(err){
+  const msg=String(err?.message||err||'').toLowerCase();
+  return /access_denied|interaction_required|login_required|consent_required|invalid_grant|unauthorized_client|invalid_token|token.*revok|revoked/.test(msg);
+}
+
+function requestGoogleAccessToken(interactive=true){
   return new Promise((resolve,reject)=>{
-    if(!googleOAuthConfigured())return reject(new Error('Falta configurar la conexión de Google en HILEN.'));
-    if(!window.google?.accounts?.oauth2)return reject(new Error('Google todavía no terminó de cargar. Intenta nuevamente en unos segundos.'));
-    googleSheetsTokenClient=google.accounts.oauth2.initTokenClient({client_id:HILEN_GOOGLE_OAUTH_CLIENT_ID,scope:HILEN_GOOGLE_SCOPES,callback:(resp)=>{if(resp?.error)return reject(new Error(resp.error_description||resp.error));googleSheetsAccessToken=resp.access_token||'';if(!googleSheetsAccessToken)return reject(new Error('Google no entregó autorización.'));resolve(googleSheetsAccessToken)}});
-    googleSheetsTokenClient.requestAccessToken({prompt:googleSheetsAccessToken?'':'consent'});
+    if(!googleOAuthConfigured())return reject(new Error('GOOGLE_OAUTH_NOT_CONFIGURED'));
+    if(!window.google?.accounts?.oauth2)return reject(new Error('GOOGLE_LIBRARY_NOT_READY'));
+
+    let settled=false;
+    const done=(fn,value)=>{if(settled)return;settled=true;clearTimeout(timer);fn(value)};
+    const timer=setTimeout(()=>done(reject,new Error('GOOGLE_TOKEN_UNAVAILABLE')),8000);
+
+    googleSheetsTokenClient=google.accounts.oauth2.initTokenClient({
+      client_id:HILEN_GOOGLE_OAUTH_CLIENT_ID,
+      scope:HILEN_GOOGLE_SCOPES,
+      callback:(resp)=>{
+        if(resp?.error)return done(reject,new Error(resp.error_description||resp.error));
+        googleSheetsAccessToken=resp?.access_token||'';
+        if(!googleSheetsAccessToken)return done(reject,new Error('GOOGLE_TOKEN_UNAVAILABLE'));
+        done(resolve,googleSheetsAccessToken);
+      },
+      error_callback:(err)=>{
+        const type=String(err?.type||'');
+        // Un popup bloqueado/cerrado no significa que Drive se haya desconectado.
+        if(type==='popup_failed_to_open'||type==='popup_closed')return done(reject,new Error('GOOGLE_TOKEN_UNAVAILABLE'));
+        done(reject,new Error(type||'GOOGLE_TOKEN_UNAVAILABLE'));
+      }
+    });
+
+    // Primera conexión: consentimiento visible.
+    // Cuenta ya vinculada: intentamos recuperar un token sin mostrar pantallas.
+    googleSheetsTokenClient.requestAccessToken({prompt:interactive?'consent':'none'});
   })
 }
+
+async function tryRestoreGoogleAuthorization(fromUserAction=false){
+  if(localMode||!currentUser?.id||!googleDriveConnected()||googleSheetsAccessToken)return !!googleSheetsAccessToken;
+  if(googleSilentAuthInFlight)return googleSilentAuthInFlight;
+
+  googleSilentAuthInFlight=(async()=>{
+    try{
+      await requestGoogleAccessToken(false);
+      setGoogleBackupReconnectNeeded(false);
+      // Si había cambios pendientes, los dejamos seguir automáticamente.
+      if(googleSheetsConfig.pendingAt)queueGoogleSheetsSync();
+      if(googleDriveConfig.pendingAt)queueGoogleDriveSync();
+      return true;
+    }catch(err){
+      // Solo una respuesta real de Google que exija nueva autorización activa la alerta.
+      if(googleAuthErrorNeedsReconnect(err))setGoogleBackupReconnectNeeded(true);
+      return false;
+    }finally{
+      googleSilentAuthInFlight=null;
+    }
+  })();
+
+  return googleSilentAuthInFlight;
+}
+
 async function googleApi(url,options={}){
   if(!googleSheetsAccessToken){
-    if(!googleAuthMayPrompt)throw new Error('GOOGLE_AUTH_REQUIRED');
-    await requestGoogleAccessToken();
+    if(googleAuthMayPrompt){
+      await requestGoogleAccessToken(true);
+    }else{
+      const restored=await tryRestoreGoogleAuthorization(false);
+      if(!restored){
+        if(googleBackupReconnectNeeded)throw new Error('GOOGLE_AUTH_REQUIRED');
+        throw new Error('GOOGLE_TOKEN_UNAVAILABLE');
+      }
+    }
   }
+
   const headers={...(options.headers||{}),Authorization:`Bearer ${googleSheetsAccessToken}`};
   if(options.body&&!headers['Content-Type'])headers['Content-Type']='application/json';
+
   let res=await fetch(url,{...options,headers});
-  if(res.status===401){
+  if(res.status===401||res.status===403){
     googleSheetsAccessToken='';
-    if(!googleAuthMayPrompt)throw new Error('GOOGLE_AUTH_REQUIRED');
-    await requestGoogleAccessToken();headers.Authorization=`Bearer ${googleSheetsAccessToken}`;res=await fetch(url,{...options,headers})
+    if(googleAuthMayPrompt){
+      await requestGoogleAccessToken(true);
+      headers.Authorization=`Bearer ${googleSheetsAccessToken}`;
+      res=await fetch(url,{...options,headers});
+    }else{
+      // Un 401/403 de la API sí indica que la autorización dejó de ser válida.
+      setGoogleBackupReconnectNeeded(true);
+      throw new Error('GOOGLE_AUTH_REQUIRED');
+    }
   }
-  if(!res.ok){let msg='Error de Google';try{const j=await res.json();msg=j?.error?.message||msg}catch(_){msg=await res.text()||msg}throw new Error(msg)}
-  if(res.status===204)return null;return res.json()
+
+  if(!res.ok){
+    let msg='Error de Google';
+    try{const j=await res.json();msg=j?.error?.message||msg}catch(_){msg=await res.text()||msg}
+    throw new Error(msg)
+  }
+  if(res.status===204)return null;
+  return res.json()
 }
+
 async function connectGoogleSheets(){
   const previousGooglePromptState=googleAuthMayPrompt;googleAuthMayPrompt=true;
   try{
     showToast('Conectando con Google','Autoriza a HILEN en la ventana de Google.');
-    await requestGoogleAccessToken();
+    await requestGoogleAccessToken(true);
     setGoogleBackupReconnectNeeded(false);
     const folderId=await ensureGoogleDriveFolder();
     if(!googleSheetsConfig.sheetId){
@@ -2092,7 +2190,10 @@ async function syncGoogleSheetsNow(showResult=false){
       setGoogleBackupReconnectNeeded(true);
       googleSheetsConfig.pendingAt=googleSheetsConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();return false
     }
-    console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Vuelve a conectar tu cuenta de Google.','error');return false
+    if(err?.message==='GOOGLE_TOKEN_UNAVAILABLE'){
+      googleSheetsConfig.pendingAt=googleSheetsConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();return false
+    }
+    console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Revisa tu conexión e intenta nuevamente.','error');return false
   }finally{googleSheetsSyncInFlight=false}
 }
 function refreshAll(){
