@@ -2,8 +2,11 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
 <title>HILEN · Gestión de ventas y caja</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTYiIGZpbGw9IiMxMTExMTEiLz48cGF0aCBkPSJNMTkgMTZoOXYxMmg4VjE2aDl2MzJoLTlWMzZoLTh2MTJoLTl6IiBmaWxsPSIjRTVCODRGIi8+PC9zdmc+">
 <style>
@@ -264,6 +267,168 @@ img,svg,canvas{max-width:100%}
 .auth-card .logo-row{justify-content:center;flex-direction:column;gap:10px;margin-bottom:8px}.auth-card .logo-mark{width:58px;height:58px;border-radius:18px;font-size:25px;box-shadow:0 10px 25px rgba(0,0,0,.12)}
 .auth-card .logo{font-size:34px;letter-spacing:-1.8px}.auth-tagline{text-align:center;font-size:14px;color:#6f6f74;margin:0 0 26px}.auth-tagline b{color:#1d1d1f;font-weight:760}.auth-card .label{font-size:12px;font-weight:700;color:#6e6e73;margin-left:2px}.auth-card .input{border-radius:14px;padding:14px 15px;background:#f8f8fa;border-color:#e5e5ea}.auth-card .input:focus{background:#fff;border-color:#b6b6bb;box-shadow:0 0 0 4px rgba(0,0,0,.035)}
 .auth-card .primary{min-height:46px;border-radius:14px}.auth-card .secondary{min-height:44px;border-radius:14px}.auth-links{display:flex;justify-content:flex-end;margin-top:-8px;margin-bottom:10px}.auth-mini-note{text-align:center;margin-top:18px;font-size:11px;color:#8a8a8f}.auth-divider{height:1px;background:#ededf0;margin:20px 0}.auth-icon-label{display:flex;align-items:center;gap:6px}.auth-icon-label svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+
+/* ===== HILEN · optimización específica para tablets y escritorio =====
+   Mantiene el diseño de escritorio y adapta navegación, tarjetas, tablas,
+   formularios y zonas táctiles para iPad/Android en vertical y horizontal. */
+:root{--touch-target:44px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-height:100dvh}
+button,.tab,.segmented button,.nav button,.action-mini,.link-btn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.table-wrap,.history-month-chart,.client-chart-wrap{overscroll-behavior-inline:contain;scrollbar-gutter:stable}
+.modal{padding:max(14px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+
+/* Tablet en horizontal: conservar menú lateral, pero ganar espacio útil. */
+@media (min-width:901px) and (max-width:1180px){
+  .side{width:190px;padding:12px 9px}
+  .main{margin-left:190px;padding:14px 16px 22px}
+  .brand{font-size:21px;padding:5px 9px 13px}.brand .logo-mark{width:34px;height:34px}
+  .nav button{font-size:13px;padding:8px 9px;gap:8px}.nav .ico{width:18px;height:18px;flex-basis:18px}.nav svg{width:18px;height:18px}
+  .logout{left:9px!important;width:calc(100% - 18px)!important}
+  .top{margin-bottom:12px}.title{font-size:28px}
+  .home-kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px}
+  .quick-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:9px}
+  .home-layout{grid-template-columns:1fr!important}.home-right{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .settings-grid{grid-template-columns:1fr!important}.settings-status-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .history-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}.history-two{grid-template-columns:1fr!important}
+  .card{padding:15px}.kpi-card{padding:13px;min-height:98px}.quick-action{min-height:104px}
+  .table{min-width:760px}.table th,.table td{padding:10px 9px}
+  .statement-toolbar{grid-template-columns:minmax(220px,1fr) 150px 150px auto}
+  .customer-filter-grid{grid-template-columns:minmax(220px,1fr) 150px 150px}
+  .payment-filter-fields{grid-template-columns:150px minmax(200px,1fr)}
+}
+
+/* Tablet en vertical: navegación tipo panel deslizable y contenido a ancho completo. */
+@media (min-width:700px) and (max-width:900px){
+  .side{width:min(330px,82vw);padding:18px 14px;padding-left:max(14px,env(safe-area-inset-left))}
+  .main{margin-left:0;padding:18px max(18px,env(safe-area-inset-right)) 26px max(18px,env(safe-area-inset-left))}
+  .top{position:sticky;top:0;z-index:20;background:rgba(247,247,248,.92);backdrop-filter:blur(18px);padding:10px 0;margin-top:-8px}
+  .title{font-size:30px}
+  .home-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .home-right{grid-template-columns:1fr!important}
+  .stats,.cash-grid,.client-kpis,.payment-kpis,.history-kpis,.inventory-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .settings-grid,.settings-status-grid{grid-template-columns:1fr!important}
+  .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .modal-card{width:min(760px,96vw);max-height:88dvh}
+  .table{min-width:760px}
+}
+
+/* Mejor experiencia táctil en tablets (iPad, Galaxy Tab, Lenovo, etc.). */
+@media (pointer:coarse) and (min-width:700px){
+  button,.primary,.secondary,.danger-btn,.tab,.segmented button,.action-mini{min-height:var(--touch-target)}
+  .nav button{min-height:46px}
+  .input,select,textarea{min-height:46px;font-size:16px}
+  input[type="date"],input[type="month"],input[type="number"],input[type="email"],input[type="password"],input[type="text"]{font-size:16px}
+  .action-group{gap:8px}.action-mini{padding:8px 11px}
+  .badge{padding:7px 10px;font-size:12px}
+  .close{width:44px;height:44px}
+  .table th,.table td{font-size:13px}
+}
+
+/* iPad/tablets de 10–13 pulgadas en vertical. */
+@media (orientation:portrait) and (min-width:700px) and (max-width:1100px){
+  .welcome-row{align-items:flex-start}.welcome h2{font-size:30px}
+  .period-summary,.cash-period-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .statement-toolbar,.customer-filter-grid,.payment-filter-fields{grid-template-columns:1fr 1fr!important}
+  .statement-toolbar>div:first-child,.customer-filter-grid>div:first-child{grid-column:1/-1}
+  .statement-toolbar>button{grid-column:1/-1}
+  .history-head-actions{width:100%}.history-head-actions>div{min-width:150px}
+}
+
+/* Tablets grandes en horizontal: evitar tarjetas demasiado pequeñas. */
+@media (orientation:landscape) and (min-width:1024px) and (max-width:1366px){
+  .home-kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .kpi-value{font-size:clamp(19px,2vw,24px)}
+  .home-month-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .history-month-grid,.client-chart-grid,.history-client-month-grid{min-width:820px}
+}
+
+/* Evita animaciones innecesarias en dispositivos que solicitan menos movimiento. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+
+
+/* ===== HILEN · ajuste final responsivo para PC + tablets 10–13\" =====
+   Breakpoints reforzados para 768–1366 px sin alterar la lógica del sistema. */
+@media (min-width:1367px){
+  .side{width:260px}
+  .main{margin-left:260px;padding:28px 30px 34px;max-width:1600px}
+  .home-kpis{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .quick-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .home-layout{grid-template-columns:minmax(0,1.55fr) minmax(300px,.72fr)}
+}
+
+/* Tablets grandes / portátiles compactos: 1181–1366 px */
+@media (min-width:1181px) and (max-width:1366px){
+  .side{width:220px;padding:16px 11px}
+  .main{margin-left:220px;padding:18px 20px 26px;max-width:none}
+  .brand{font-size:23px;padding:6px 10px 16px}.brand .logo-mark{width:35px;height:35px}
+  .nav button{font-size:13px;padding:9px 10px;gap:9px}
+  .logout{left:11px!important;width:calc(100% - 22px)!important}
+  .title{font-size:30px}
+  .home-kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:11px}
+  .quick-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:11px}
+  .home-layout{grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:14px}
+  .card{padding:17px}.kpi-card{padding:14px;min-height:104px}
+  .stats,.cash-grid,.client-kpis,.payment-kpis,.inventory-kpis{gap:11px}
+  .table-wrap,.table-fit-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .modal-card{max-width:min(900px,94vw);max-height:88dvh}
+}
+
+/* Refuerzo para tablets medianas 901–1180 px en horizontal. */
+@media (min-width:901px) and (max-width:1180px){
+  .main{max-width:none}
+  .top{align-items:flex-start}
+  .welcome-row{gap:10px}
+  .welcome h2{font-size:clamp(25px,3vw,31px)}
+  .period-summary,.cash-period-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .customer-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .table-wrap,.table-fit-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .modal-card{width:min(820px,95vw);max-height:88dvh}
+}
+
+/* Tablet vertical: prioriza lectura y toque, sin comprimir contenido. */
+@media (min-width:700px) and (max-width:900px){
+  .mobile{display:inline-flex}
+  .main{width:100%;max-width:none;box-sizing:border-box}
+  .top-left{align-items:center}
+  .card{padding:17px}
+  .home-kpis,.stats,.cash-grid,.client-kpis,.payment-kpis,.history-kpis,.inventory-kpis{gap:11px}
+  .home-layout{grid-template-columns:1fr!important}
+  .quick-action{min-height:120px;padding:18px 12px}
+  .period-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .table-wrap,.table-fit-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table{min-width:720px}
+  .toast-stack{left:18px;right:18px;top:18px}.toast{min-width:0;max-width:none;width:100%}
+}
+
+/* Ajustes por orientación en tablets de 10–13 pulgadas. */
+@media (orientation:portrait) and (min-width:700px) and (max-width:1100px){
+  .auth-card{width:min(430px,92vw)}
+  .history-two,.inventory-two{grid-template-columns:1fr!important}
+  .settings-account{grid-template-columns:1fr 1fr}
+  .settings-google-account{grid-column:1/-1}
+  .sales-chart-wrap,.history-month-chart,.client-chart-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media (orientation:landscape) and (min-width:1024px) and (max-width:1366px){
+  .main{min-height:100dvh}
+  .home-right{align-content:start}
+  .statement-toolbar{grid-template-columns:minmax(220px,1fr) 150px 150px auto}
+  .customer-filter-grid{grid-template-columns:minmax(220px,1fr) 150px 150px}
+  .payment-filter-fields{grid-template-columns:150px minmax(200px,1fr)}
+}
+
+/* El contenido no desborda el ancho del dispositivo. */
+@media (min-width:700px){
+  .section,.card,.panel-head,.home-layout,.home-left,.home-right,.settings-grid{min-width:0}
+  img,svg,canvas{max-width:100%}
+}
+
 </style>
 </head>
 <body>
