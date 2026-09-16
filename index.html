@@ -105,7 +105,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 /* ===== Clientes por período + mensajes elegantes ===== */
 .toast-stack{position:fixed;top:22px;right:22px;z-index:120;display:grid;gap:10px;pointer-events:none}
 .toast{min-width:280px;max-width:420px;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border:1px solid #dfe9e2;border-radius:17px;padding:14px 16px;box-shadow:0 18px 55px rgba(0,0,0,.16);display:flex;align-items:center;gap:11px;animation:toastIn .22s ease both;pointer-events:auto}
-.toast.success{border-color:#cfe9da}.toast.error{border-color:#f1caca}.toast-icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;flex:0 0 34px}.toast.success .toast-icon{background:#e5f6ec;color:#168347}.toast.error .toast-icon{background:#fde8e8;color:#c93434}.toast-title{font-weight:850;font-size:14px}.toast-text{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}@keyframes toastIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+.toast.success{border-color:#cfe9da}.toast.error{border-color:#f1caca}.toast.warning{border-color:#f1dfb8}.toast.info{border-color:#cfdcf4}.toast-icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;flex:0 0 34px}.toast.success .toast-icon{background:#e5f6ec;color:#168347}.toast.error .toast-icon{background:#fde8e8;color:#c93434}.toast.warning .toast-icon{background:#fff4df;color:#a56b00}.toast.info .toast-icon{background:#eaf1ff;color:#315fd6}.toast-title{font-weight:850;font-size:14px}.toast-text{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}@keyframes toastIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
 .customer-filter-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;flex-wrap:wrap}.customer-filter-grid{display:grid;grid-template-columns:minmax(220px,1.5fr) repeat(2,minmax(150px,.55fr));gap:12px;align-items:end;flex:1}.customer-filter-actions{display:flex;gap:8px;flex-wrap:wrap}.chip-btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;font-weight:750;color:#555}.chip-btn:hover,.chip-btn.active{background:#111;color:#fff;border-color:#111}.client-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.client-kpi{border:1px solid var(--line);background:#fff;border-radius:18px;padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.035)}.client-kpi .label2{font-size:12px;color:var(--muted)}.client-kpi .value2{font-size:27px;font-weight:900;letter-spacing:-1px;margin-top:6px}.client-type-new{background:#e8f7f0;color:#18885c}.client-type-return{background:#fff2dc;color:#9a6509}.client-period-note{font-size:12px;color:var(--muted);margin-top:8px}
 @media(max-width:950px){.customer-filter-grid{grid-template-columns:1fr 1fr}.customer-filter-grid>div:first-child{grid-column:1/-1}.client-kpis{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.customer-filter-grid,.client-kpis{grid-template-columns:1fr}.customer-filter-grid>div:first-child{grid-column:auto}.toast-stack{left:12px;right:12px;top:12px}.toast{min-width:0;max-width:none}}
@@ -429,6 +429,124 @@ button,.tab,.segmented button,.nav button,.action-mini,.link-btn{-webkit-tap-hig
   img,svg,canvas{max-width:100%}
 }
 
+
+/* ===== HILEN · cierre visible del menú en tablet ===== */
+.side-close{
+  display:none;
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  background:rgba(255,255,255,.96);
+  color:#111;
+  font-size:26px;
+  line-height:1;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  z-index:3;
+}
+.side-backdrop{display:none}
+@media(max-width:900px){
+  .side{z-index:60;box-shadow:18px 0 45px rgba(0,0,0,.13)}
+  .side.open .side-close{display:inline-flex}
+  .side.open .brand{padding-right:54px}
+  .side-backdrop{
+    display:block;
+    position:fixed;
+    inset:0;
+    background:rgba(17,17,17,.20);
+    backdrop-filter:blur(1.5px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease;
+    z-index:55;
+  }
+  .side-backdrop.open{opacity:1;pointer-events:auto}
+}
+
+
+
+/* ===== HILEN · acciones estilo app + tablet 2026-09 ===== */
+.action-mini{
+  border-radius:999px;
+  padding:7px 11px;
+  min-height:34px;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:-.05px;
+  border:1px solid #e3e5e9;
+  background:#f8f9fb;
+  color:#30343b;
+  box-shadow:0 1px 2px rgba(0,0,0,.025);
+  transition:transform .15s ease,box-shadow .15s ease,background .15s ease,border-color .15s ease;
+}
+.action-mini:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(0,0,0,.07)}
+.action-mini.view{background:#eef4ff;border-color:#d5e2ff;color:#2f5fc7}
+.action-mini.edit{background:#fff6df;border-color:#f3dfaa;color:#9a6900}
+.action-mini.danger{background:#fff0f0;border-color:#f4cccc;color:#c13c3c}
+.action-mini.history-action-btn{background:#171717;border-color:#171717;color:#fff;padding-inline:13px;box-shadow:0 5px 14px rgba(0,0,0,.10)}
+.action-group{gap:7px;align-items:center}
+
+/* Menú flotante: siempre accesible cuando la tablet usa menú deslizable. */
+.tablet-menu-fab{display:none}
+@media (min-width:700px) and (max-width:900px){
+  .tablet-menu-fab{
+    display:inline-flex;position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));
+    width:52px;height:52px;border:0;border-radius:17px;background:#111;color:#fff;z-index:48;
+    align-items:center;justify-content:center;font-size:22px;box-shadow:0 13px 34px rgba(0,0,0,.22)
+  }
+  .tablet-menu-fab:active{transform:scale(.96)}
+  .top .mobile{position:sticky;top:10px;z-index:22}
+}
+
+/* Historial anual: que las acciones no desaparezcan y que horizontal no se recorte. */
+#history .table-wrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain}
+#history .history-action-table{min-width:840px}
+#history .history-action-table th:last-child,
+#history .history-action-table td:last-child{position:sticky;right:0;background:#fff;z-index:2;box-shadow:-10px 0 16px -16px rgba(0,0,0,.55)}
+#history .history-action-table th:last-child{background:#fafafa;z-index:3}
+@media (orientation:landscape) and (min-width:900px) and (max-width:1366px){
+  #history .card{padding:15px}
+  #history .table th,#history .table td{padding:8px 7px;font-size:11px;line-height:1.25}
+  #history .table th{font-size:10px}
+  #history .history-action-table{min-width:760px;width:100%}
+  #history .history-kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  #history .history-two{grid-template-columns:1fr!important}
+  #history .history-month-grid,#history .history-client-month-grid{min-width:760px}
+}
+
+/* Aviso visible si la copia de Google necesita volver a autorizarse. */
+.backup-reconnect-alert{
+  margin:0 0 16px;padding:14px 16px;border:1px solid #efc6c6;border-radius:16px;background:#fff2f2;color:#7d2525;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 8px 24px rgba(150,40,40,.07)
+}
+.backup-reconnect-main{display:flex;gap:11px;align-items:flex-start;min-width:0}
+.backup-reconnect-icon{width:36px;height:36px;flex:0 0 36px;border-radius:11px;background:#ffe1e1;display:grid;place-items:center;font-weight:900;color:#b43131}
+.backup-reconnect-alert b{display:block;margin-bottom:3px}
+.backup-reconnect-alert .small{color:#8c4c4c;line-height:1.4}
+.backup-reconnect-alert button{white-space:nowrap;border:0;border-radius:999px;background:#b43131;color:#fff;padding:9px 13px;font-weight:850}
+@media(max-width:760px){.backup-reconnect-alert{align-items:stretch;flex-direction:column}.backup-reconnect-alert button{width:100%}}
+
+
+
+/* Tablet horizontal 901–1180 px: menú como cajón para ganar ancho útil. */
+@media (min-width:901px) and (max-width:1180px){
+  .side{transform:translateX(-100%);transition:.22s ease;z-index:60;width:min(330px,72vw);box-shadow:18px 0 45px rgba(0,0,0,.13)}
+  .side.open{transform:none}
+  .side.open .side-close{display:inline-flex}
+  .side.open .brand{padding-right:54px}
+  .main{margin-left:0;padding:18px 20px 28px;max-width:none}
+  .mobile{display:inline-flex}
+  .top{position:sticky;top:0;z-index:20;background:rgba(247,247,248,.94);backdrop-filter:blur(18px);padding:10px 0;margin-top:-8px}
+  .side-backdrop{display:block;position:fixed;inset:0;background:rgba(17,17,17,.20);backdrop-filter:blur(1.5px);opacity:0;pointer-events:none;transition:opacity .22s ease;z-index:55}
+  .side-backdrop.open{opacity:1;pointer-events:auto}
+  .tablet-menu-fab{display:inline-flex;position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));width:52px;height:52px;border:0;border-radius:17px;background:#111;color:#fff;z-index:48;align-items:center;justify-content:center;font-size:22px;box-shadow:0 13px 34px rgba(0,0,0,.22)}
+}
+
 </style>
 </head>
 <body>
@@ -465,6 +583,7 @@ button,.tab,.segmented button,.nav button,.action-mini,.link-btn{-webkit-tap-hig
 
 <div id="app" class="app hidden">
   <aside id="side" class="side">
+    <button type="button" class="side-close" onclick="closeSide()" aria-label="Cerrar menú" title="Cerrar menú">×</button>
     <div class="brand"><div class="logo-mark">H</div> HILEN</div>
     <div id="cloudStatus" class="small muted" style="padding:0 12px 4px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
     <div id="cloudStatusDetail" class="small muted" style="padding:0 12px 12px;line-height:1.35">Tus datos se guardan automáticamente.</div>
@@ -482,9 +601,12 @@ button,.tab,.segmented button,.nav button,.action-mini,.link-btn{-webkit-tap-hig
     </nav>
     <button type="button" id="logoutBtn" class="logout" onclick="logout(event)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span class="logout-label">Cerrar sesión</span></button>
   </aside>
+  <div id="sideBackdrop" class="side-backdrop" onclick="closeSide()" aria-hidden="true"></div>
+  <button type="button" class="tablet-menu-fab" onclick="toggleSide()" aria-label="Abrir menú" title="Abrir menú">☰</button>
 
   <main class="main">
     <div class="top"><div class="top-left"><button class="secondary mobile" onclick="toggleSide()">☰</button><div><h1 id="pageTitle" class="title">Inicio</h1><div id="todayLabel" class="muted"></div></div></div></div>
+    <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
 
     <section id="home" class="section active">
       <div class="home-kpis">
@@ -761,8 +883,13 @@ const HILEN_GOOGLE_OAUTH_CLIENT_ID="600139879243-daqofgrmd5m18v0qr35t618khfibuis
 const HILEN_GOOGLE_SCOPES="https://www.googleapis.com/auth/drive.file";
 let googleSheetsSyncTimer=null,googleSheetsSyncInFlight=false,googleSheetsTokenClient=null,googleSheetsAccessToken='';
 let googleAuthMayPrompt=false;
+let googleBackupReconnectNeeded=false;
 let googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};
 let googleDriveSyncTimer=null,googleDriveSyncInFlight=false;
+let googleBackupManualRun=false,backupHealthTimer=null;
+const BACKUP_CHANGE_NOTICE_MS=30*60*1000;
+const BACKUP_RECONNECT_NOTICE_MS=15*60*1000;
+const BACKUP_HEALTH_NOTICE_MS=30*60*1000;
 let googleDriveConfig={enabled:false,folderId:'',folderUrl:'',latestFileId:'',lastSentAt:'',lastDailyDay:'',lastAnnualArchiveYear:'',connectedAt:'',pendingAt:''};
 try{googleSheetsConfig={...googleSheetsConfig,...JSON.parse(localStorage.getItem(GOOGLE_SHEETS_SYNC_KEY)||'{}')}}catch(e){}
 try{googleDriveConfig={...googleDriveConfig,...JSON.parse(localStorage.getItem(GOOGLE_DRIVE_BACKUP_KEY)||'{}')}}catch(e){}
@@ -1015,7 +1142,7 @@ function safeRender(name,fn){
 }
 
 syncDataRelations();
-function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_DIRTY_KEY,'1');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());queueCloudSave();queueGoogleSheetsSync();queueGoogleDriveSync()}
+function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_DIRTY_KEY,'1');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());queueCloudSave();queueGoogleSheetsSync();queueGoogleDriveSync();notifyBackupAfterChange()}
 function syncDataRelations(){
   db.clients ||= []; db.sales ||= []; db.payments ||= [];
   const canonicalByName=new Map(),duplicateIds=new Map();
@@ -1047,9 +1174,10 @@ function confirmAction(title,message,onConfirm,opts={}){
   requestAnimationFrame(()=>{const b=$('confirmActionBtn');if(!b)return;b.onclick=async()=>{if(b.disabled)return;b.disabled=true;const original=b.textContent;b.textContent=opts.workingText||'Eliminando…';try{closeModal();await Promise.resolve(onConfirm())}catch(err){console.error(err);showToast('No se pudo completar la acción','Intenta nuevamente.','error')}finally{b.disabled=false;b.textContent=original}}});
 }
 
-function showToast(title,text='',type='success'){
+function showToast(title,text='',type='success',duration=4600){
   let stack=document.querySelector('.toast-stack');if(!stack){stack=document.createElement('div');stack.className='toast-stack';document.body.appendChild(stack)}
-  const t=document.createElement('div');t.className='toast '+type;t.innerHTML=`<div class="toast-icon">${type==='success'?'✓':'!'}</div><div><div class="toast-title">${esc(title)}</div>${text?`<div class="toast-text">${esc(text)}</div>`:''}</div>`;stack.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(-6px)';setTimeout(()=>t.remove(),220)},2600)
+  const icon=type==='success'?'✓':type==='info'?'i':'!';
+  const t=document.createElement('div');t.className='toast '+type;t.innerHTML=`<div class="toast-icon">${icon}</div><div><div class="toast-title">${esc(title)}</div>${text?`<div class="toast-text">${esc(text)}</div>`:''}</div>`;stack.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(-6px)';setTimeout(()=>t.remove(),220)},Math.max(2600,Number(duration)||4600))
 }
 function normalizeDateLabel(d){if(!d)return '';return new Date(d+'T12:00:00').toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})}
 function showRegister(){$('loginBox').classList.add('hidden');$('forgotBox')?.classList.add('hidden');$('registerBox').classList.remove('hidden')}
@@ -1114,7 +1242,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();maybePromptGoogleBackupOnboarding();
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();setTimeout(notifyBackupStatusOnStart,1100);
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -1126,9 +1254,11 @@ async function openApp(userOverride=null){
   if(cloudConfigured()&&cloudAuth){if(userOverride)currentUser=cloudUserModel(userOverride);if(!currentUser){const user=cloudAuth.currentUser;if(!user)return;currentUser=cloudUserModel(user);await loadCloudState(user.uid)}}else return;
   finishOpenApp();
 }
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial anual',settings:'Configuración'};$('pageTitle').textContent=names[name];$('side').classList.remove('open');if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial anual',settings:'Configuración'};$('pageTitle').textContent=names[name];closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
-function toggleSide(){$('side').classList.toggle('open')}
+function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
 let activeCustomerId=null;
 function clientSales(cid){return db.sales.filter(s=>s.clientId===cid&&s.date).sort((a,b)=>a.date.localeCompare(b.date)||String(a.time||'').localeCompare(String(b.time||'')))}
 function clientFirstSaleDate(cid){const rows=clientSales(cid);return rows.length?rows[0].date:''}
@@ -1225,7 +1355,7 @@ function renderSalesView(){
   $('dayTitle').textContent=label;
   const total=rows.reduce((a,s)=>a+(Number(s.total)||0),0),paid=rows.filter(s=>s.type==='paid').reduce((a,s)=>a+(Number(s.total)||0),0),credit=rows.filter(s=>s.type==='credit').reduce((a,s)=>a+(Number(s.total)||0),0);
   const summary=`<div class="period-summary"><div class="card"><div class="stat-label">Total vendido</div><div class="stat">${money(total)}</div></div><div class="card"><div class="stat-label">Pagado</div><div class="stat">${money(paid)}</div></div><div class="card"><div class="stat-label">Crédito</div><div class="stat">${money(credit)}</div></div><div class="card"><div class="stat-label">Ventas</div><div class="stat">${rows.length}</div></div></div>`;
-  const table=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${rows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(s.total)}</b></td><td><div class="action-group"><button class="action-mini" onclick="showSale('${s.id}')">Ver</button><button class="action-mini" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">No hay ventas en este período.</p>';
+  const table=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${rows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(s.total)}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">No hay ventas en este período.</p>';
   $('dayTable').innerHTML=summary+table;
   renderSalesChart();
 }
@@ -1273,9 +1403,9 @@ function renderCustomers(){
   if($('clientPeriodNote'))$('clientPeriodNote').innerHTML=`Período seleccionado: <b>${normalizeDateLabel(a)}</b> a <b>${normalizeDateLabel(z)}</b>. Se muestran compradores del período y potenciales registrados dentro del rango; el registro general conserva a todos.`;
   const purchaseBadge=type=>type==='Crédito'?'<span class="badge credit">Crédito</span>':type==='Pagadas'?'<span class="badge paid">Pagadas</span>':type==='Mixto'?'<span class="badge bank">Mixto</span>':'<span class="badge">Sin compras</span>';
   const periodRows=meta.filter(x=>x.isActive||x.potentialInPeriod).filter(x=>matchesSearch(x.c)).sort((x,y)=>{const rank=v=>v.potentialInPeriod?2:v.isReturning?1:0;return rank(x)-rank(y)||y.total-x.total||x.c.name.localeCompare(y.c.name,'es')});
-  if($('periodCustomersTable'))$('periodCustomersTable').innerHTML=periodRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Compras</th><th>Total</th><th>Fecha clave</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${periodRows.map(x=>{const type=x.potentialInPeriod?'<span class="badge client-type-potential">Potencial</span>':x.isNew?'<span class="badge client-type-new">Nuevo</span>':'<span class="badge client-type-return">Recurrente</span>',keyDate=x.potentialInPeriod?`Registro: ${normalizeDateLabel(x.registered)}`:`1ª compra: ${x.first?normalizeDateLabel(x.first):'—'}`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}${x.c.phone?' · '+esc(x.c.phone):''}</div>${x.potentialInPeriod&&x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${type}</td><td>${purchaseBadge(x.periodType)}</td><td>${x.periodSales.length}</td><td><b>${money(x.total)}</b></td><td>${keyDate}</td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes nuevos, recurrentes ni potenciales registrados dentro de este período.</div>';
+  if($('periodCustomersTable'))$('periodCustomersTable').innerHTML=periodRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Compras</th><th>Total</th><th>Fecha clave</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${periodRows.map(x=>{const type=x.potentialInPeriod?'<span class="badge client-type-potential">Potencial</span>':x.isNew?'<span class="badge client-type-new">Nuevo</span>':'<span class="badge client-type-return">Recurrente</span>',keyDate=x.potentialInPeriod?`Registro: ${normalizeDateLabel(x.registered)}`:`1ª compra: ${x.first?normalizeDateLabel(x.first):'—'}`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}${x.c.phone?' · '+esc(x.c.phone):''}</div>${x.potentialInPeriod&&x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${type}</td><td>${purchaseBadge(x.periodType)}</td><td>${x.periodSales.length}</td><td><b>${money(x.total)}</b></td><td>${keyDate}</td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes nuevos, recurrentes ni potenciales registrados dentro de este período.</div>';
   const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>x.c.name.localeCompare(y.c.name,'es'));
-  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
+  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
   renderClientChart();
 }
 
@@ -1338,7 +1468,7 @@ function renderCustomerStatement(){
   const purchasesRows=sales.map(s=>`<tr><td>${s.date}<div class="small muted">${s.time||''}</div></td><td>${s.items.map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span></td><td>${s.type==='paid'?accountBadge(s.destination||'cash'):'—'}</td><td><b>${money(s.total)}</b></td></tr>`).join('')||'<tr><td colspan="5">Sin compras en este período.</td></tr>';
   const status=balance.balance>0?`<span class="badge debt">Debe ${money(balance.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';
   const adjustment=Number(balance.adjustment)||0;
-  const creditSection=hasCredit?`<div class="customer-credit-box"><div class="customer-credit-head"><div><div class="small muted">Crédito acumulado hasta ${z}</div><div><b>Compras a crédito:</b> ${money(balance.purchases)} &nbsp;·&nbsp; <b>Abonos acumulados:</b> ${money(balance.paid)}${adjustment?` &nbsp;·&nbsp; <b>Ajuste:</b> ${money(adjustment)}`:''}</div></div><div><div class="small muted">Estado de la cuenta</div><div style="margin-top:7px">${status}</div></div></div>${c.balanceAdjustmentNote&&adjustment?`<div class="notice warn" style="margin-top:12px"><b>Ajuste manual de saldo:</b> ${esc(c.balanceAdjustmentNote)}</div>`:''}</div><h3>Abonos del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Valor</th><th>Recibido en</th><th></th></tr></thead><tbody>${pays.map(p=>`<tr><td>${p.date}<div class="small muted">${p.time||''}</div></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td><button class="action-mini" onclick="openPaymentDetail('${p.id}')">Ver</button></td></tr>`).join('')||'<tr><td colspan="4">Sin abonos en este período.</td></tr>'}</tbody></table></div>`:'';
+  const creditSection=hasCredit?`<div class="customer-credit-box"><div class="customer-credit-head"><div><div class="small muted">Crédito acumulado hasta ${z}</div><div><b>Compras a crédito:</b> ${money(balance.purchases)} &nbsp;·&nbsp; <b>Abonos acumulados:</b> ${money(balance.paid)}${adjustment?` &nbsp;·&nbsp; <b>Ajuste:</b> ${money(adjustment)}`:''}</div></div><div><div class="small muted">Estado de la cuenta</div><div style="margin-top:7px">${status}</div></div></div>${c.balanceAdjustmentNote&&adjustment?`<div class="notice warn" style="margin-top:12px"><b>Ajuste manual de saldo:</b> ${esc(c.balanceAdjustmentNote)}</div>`:''}</div><h3>Abonos del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Valor</th><th>Recibido en</th><th></th></tr></thead><tbody>${pays.map(p=>`<tr><td>${p.date}<div class="small muted">${p.time||''}</div></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td><button class="action-mini view" onclick="openPaymentDetail('${p.id}')">Ver</button></td></tr>`).join('')||'<tr><td colspan="4">Sin abonos en este período.</td></tr>'}</tbody></table></div>`:'';
   $('customerStatementBody').innerHTML=`<div class="small muted">Período: <b>${a}</b> → <b>${z}</b></div><div class="customer-summary-grid"><div class="customer-summary-card"><div class="cs-label">Total comprado</div><div class="cs-value">${money(totalSales)}</div></div><div class="customer-summary-card"><div class="cs-label">Pagado al instante</div><div class="cs-value">${money(paidSales)}</div></div><div class="customer-summary-card"><div class="cs-label">Compras a crédito</div><div class="cs-value">${money(creditSales)}</div></div>${hasCredit?`<div class="customer-summary-card"><div class="cs-label">Abonos del período</div><div class="cs-value">${money(periodPaid)}</div></div>`:`<div class="customer-summary-card"><div class="cs-label">Compras registradas</div><div class="cs-value">${sales.length}</div></div>`}</div><h3>Detalle de compras</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Productos</th><th>Tipo</th><th>Pago / destino</th><th>Total</th></tr></thead><tbody>${purchasesRows}</tbody></table></div>${creditSection}`;
 }
 
@@ -1421,7 +1551,7 @@ function renderPayments(){
   let rows=[...db.payments].filter(p=>String(p.date||'')>=a&&String(p.date||'')<=z&&clientNameById(p.clientId).toLocaleLowerCase('es').includes(q)).sort((x,y)=>String(y.date||'').localeCompare(String(x.date||''))||String(y.time||'').localeCompare(String(x.time||'')));
   const total=rows.reduce((n,p)=>n+(Number(p.amount)||0),0),cash=rows.filter(p=>(p.destination||'cash')==='cash').reduce((n,p)=>n+(Number(p.amount)||0),0),bank=rows.filter(p=>p.destination==='bank').reduce((n,p)=>n+(Number(p.amount)||0),0),clients=new Set(rows.map(p=>p.clientId)).size;
   if($('paymentSummary'))$('paymentSummary').innerHTML=`<div class="payment-kpi"><div class="pk-label">Abonos del período</div><div class="pk-value">${rows.length}</div></div><div class="payment-kpi green"><div class="pk-label">Total abonado</div><div class="pk-value">${money(total)}</div></div><div class="payment-kpi"><div class="pk-label">Clientes que abonaron</div><div class="pk-value">${clients}</div></div><div class="payment-kpi blue"><div class="pk-label">Efectivo / Nequi</div><div class="pk-value" style="font-size:16px">${money(cash)} / ${money(bank)}</div></div>`;
-  $('paymentsTable').innerHTML=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado actual</th><th>Acciones</th></tr></thead><tbody>${rows.map(p=>{const b=clientBalance(p.clientId),status=b.balance>0?`<span class="badge debt">Debe ${money(b.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${status}</td><td><div class="action-group"><button class="action-mini" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini" onclick="editPayment('${p.id}')">Editar</button><button class="action-mini danger" onclick="deletePayment('${p.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay abonos en este período.</p>';
+  $('paymentsTable').innerHTML=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado actual</th><th>Acciones</th></tr></thead><tbody>${rows.map(p=>{const b=clientBalance(p.clientId),status=b.balance>0?`<span class="badge debt">Debe ${money(b.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${status}</td><td><div class="action-group"><button class="action-mini view" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini edit" onclick="editPayment('${p.id}')">Editar</button><button class="action-mini danger" onclick="deletePayment('${p.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay abonos en este período.</p>';
   const chartYear=Number(String(a).slice(0,4));if($('paymentChartYear')&&chartYear)$('paymentChartYear').value=chartYear;renderPaymentChart();
 }
 
@@ -1499,7 +1629,7 @@ function renderCashflow(){
   const [a,z,label]=cashflowPeriodRange(),rows=cashEvents().filter(e=>e.date>=a&&e.date<=z).sort((x,y)=>y.date.localeCompare(x.date)||String(y.time).localeCompare(String(x.time))),inc=rows.filter(e=>e.type==='income').reduce((x,e)=>x+e.amount,0),exp=rows.filter(e=>e.type==='expense').reduce((x,e)=>x+e.amount,0),transfers=rows.filter(e=>e.type==='transfer').length;
   if($('cashflowPeriodNote'))$('cashflowPeriodNote').innerHTML=`Período seleccionado: <b>${esc(label)}</b>.`;
   $('cashflowSummary').innerHTML=`<div class="cash-summary-card"><div class="csl">Movimientos</div><div class="csv">${rows.length}</div></div><div class="cash-summary-card in"><div class="csl">Total ingresos</div><div class="csv">${money(inc)}</div></div><div class="cash-summary-card out"><div class="csl">Total egresos</div><div class="csv">${money(exp)}</div></div><div class="cash-summary-card"><div class="csl">Neto del período</div><div class="csv">${money(inc-exp)}</div><div class="small muted">${transfers} transferencia(s)</div></div>`;
-  $('cashflowTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Movimiento</th><th>Valor</th><th>Origen</th><th>Acciones</th></tr></thead><tbody>${rows.map(e=>{let typeLabel,move;if(e.type==='income'){typeLabel='<span class="badge income">Ingreso</span>';move='→ '+(e.account==='bank'?'Nequi':'Efectivo')}else if(e.type==='expense'){typeLabel='<span class="badge expense">Egreso</span>';move='← '+(e.account==='bank'?'Nequi':'Efectivo')}else{typeLabel='<span class="badge transfer">Transferencia</span>';move=(e.from==='cash'?'Efectivo':'Nequi')+' → '+(e.to==='cash'?'Efectivo':'Nequi')}const actions=e.source==='Manual'?`<button class="action-mini" onclick="editCashMovement('${e.sourceId}')">Editar</button><button class="action-mini danger" onclick="deleteCashMovement('${e.sourceId}')">Eliminar</button>`:e.source==='Abono'?`<button class="action-mini" onclick="editPayment('${e.sourceId}')">Editar abono</button><button class="action-mini danger" onclick="deletePayment('${e.sourceId}')">Eliminar</button>`:`<button class="action-mini" onclick="editSale('${e.sourceId}')">Editar venta</button><button class="action-mini danger" onclick="deleteSale('${e.sourceId}')">Eliminar</button>`;return `<tr><td>${e.date}<div class="small muted">${e.time||''}</div></td><td>${typeLabel}</td><td>${esc(e.note||'')}</td><td>${move}</td><td><b class="${e.type==='expense'?'kpi-down':e.type==='income'?'kpi-up':''}">${e.type==='expense'?'-':e.type==='income'?'+':''}${money(e.amount)}</b></td><td><span class="badge">${esc(e.source)}</span></td><td><div class="action-group">${actions}</div></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay movimientos en este período.</p>';
+  $('cashflowTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Movimiento</th><th>Valor</th><th>Origen</th><th>Acciones</th></tr></thead><tbody>${rows.map(e=>{let typeLabel,move;if(e.type==='income'){typeLabel='<span class="badge income">Ingreso</span>';move='→ '+(e.account==='bank'?'Nequi':'Efectivo')}else if(e.type==='expense'){typeLabel='<span class="badge expense">Egreso</span>';move='← '+(e.account==='bank'?'Nequi':'Efectivo')}else{typeLabel='<span class="badge transfer">Transferencia</span>';move=(e.from==='cash'?'Efectivo':'Nequi')+' → '+(e.to==='cash'?'Efectivo':'Nequi')}const actions=e.source==='Manual'?`<button class="action-mini edit" onclick="editCashMovement('${e.sourceId}')">Editar</button><button class="action-mini danger" onclick="deleteCashMovement('${e.sourceId}')">Eliminar</button>`:e.source==='Abono'?`<button class="action-mini edit" onclick="editPayment('${e.sourceId}')">Editar abono</button><button class="action-mini danger" onclick="deletePayment('${e.sourceId}')">Eliminar</button>`:`<button class="action-mini edit" onclick="editSale('${e.sourceId}')">Editar venta</button><button class="action-mini danger" onclick="deleteSale('${e.sourceId}')">Eliminar</button>`;return `<tr><td>${e.date}<div class="small muted">${e.time||''}</div></td><td>${typeLabel}</td><td>${esc(e.note||'')}</td><td>${move}</td><td><b class="${e.type==='expense'?'kpi-down':e.type==='income'?'kpi-up':''}">${e.type==='expense'?'-':e.type==='income'?'+':''}${money(e.amount)}</b></td><td><span class="badge">${esc(e.source)}</span></td><td><div class="action-group">${actions}</div></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay movimientos en este período.</p>';
   const chartYear=Number(String(a).slice(0,4));if($('cashflowChartYear')&&chartYear)$('cashflowChartYear').value=chartYear;renderCashflowChart();renderClientChart();
 }
 function editCashMovement(mid){
@@ -1588,12 +1718,12 @@ function renderHistory(){
   const carried=carriedDebtRows(y);
   if($('historyCarriedDebts')){
     const carryNote=`<div class="notice blue" style="margin-bottom:12px"><b>¿Qué pasa al cambiar de año?</b><br>Si un cliente terminó ${y-1} debiendo dinero, esa deuda continúa en ${y}. Los pagos que haga en ${y} reducen su deuda. Si vuelve a comprar <b>a crédito</b>, esa nueva compra se suma a lo que todavía debe. Si compra <b>pagado</b>, la venta queda registrada pero no aumenta su deuda.</div>`;
-    $('historyCarriedDebts').innerHTML=carryNote+(carried.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Lo que debía al comenzar ${y}</th><th>Pagos realizados en ${y}</th><th>Nuevas compras a crédito</th><th>Lo que quedó debiendo</th><th>Estado de la cuenta</th><th></th></tr></thead><tbody>${carried.map(x=>{const state=x.closing<=0?'<span class="history-client-settled">✓ Cuenta cancelada</span>':`<span class="history-client-open">Debe ${money(x.closing)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.newPaid>0?`Además compró pagado: ${money(x.newPaid)}`:''}</div></td><td><b>${money(x.opening)}</b><div class="small muted">Viene de ${y-1} o años anteriores</div></td><td>${money(x.yearPayments)}<div class="small muted">${x.pays.length} pago(s)</div></td><td>${money(x.newCredit)}<div class="small muted">${x.creditSales.length} compra(s) a crédito</div></td><td><b>${money(x.closing)}</b></td><td>${state}</td><td><button class="action-mini" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:`<div class="notice good">Ningún cliente comenzó ${y} con una deuda pendiente de años anteriores.</div>`);
+    $('historyCarriedDebts').innerHTML=carryNote+(carried.length?`<div class="table-wrap"><table class="table history-action-table"><thead><tr><th>Cliente</th><th>Lo que debía al comenzar ${y}</th><th>Pagos realizados en ${y}</th><th>Nuevas compras a crédito</th><th>Lo que quedó debiendo</th><th>Estado de la cuenta</th><th></th></tr></thead><tbody>${carried.map(x=>{const state=x.closing<=0?'<span class="history-client-settled">✓ Cuenta cancelada</span>':`<span class="history-client-open">Debe ${money(x.closing)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.newPaid>0?`Además compró pagado: ${money(x.newPaid)}`:''}</div></td><td><b>${money(x.opening)}</b><div class="small muted">Viene de ${y-1} o años anteriores</div></td><td>${money(x.yearPayments)}<div class="small muted">${x.pays.length} pago(s)</div></td><td>${money(x.newCredit)}<div class="small muted">${x.creditSales.length} compra(s) a crédito</div></td><td><b>${money(x.closing)}</b></td><td>${state}</td><td><button class="action-mini history-action-btn" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:`<div class="notice good">Ningún cliente comenzó ${y} con una deuda pendiente de años anteriores.</div>`);
   }
   const recurrentCredit=st.clients.filter(x=>x.isReturning&&x.creditToClose>0&&(x.credit>0||x.payCount>0)).sort((a,b)=>b.payments-a.payments||b.credit-a.credit||a.c.name.localeCompare(b.c.name,'es'));
-  if($('historyRecurrentCreditPayments'))$('historyRecurrentCreditPayments').innerHTML=recurrentCredit.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Compras del año</th><th>Crédito del año</th><th># abonos</th><th>Abonos del año</th><th>Saldo al cierre</th><th>Estado</th><th></th></tr></thead><tbody>${recurrentCredit.map(x=>{const state=x.balance<=0?'<span class="history-client-settled">✓ Cuenta cancelada</span>':`<span class="history-client-open">Debe ${money(x.balance)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">Cliente recurrente</div></td><td>${x.ys.length}</td><td><b>${money(x.credit)}</b></td><td>${x.payCount}</td><td><b>${money(x.payments)}</b></td><td>${money(x.balance)}</td><td>${state}</td><td><button class="action-mini" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes recurrentes con compras a crédito o abonos registrados en este año.</div>';
+  if($('historyRecurrentCreditPayments'))$('historyRecurrentCreditPayments').innerHTML=recurrentCredit.length?`<div class="table-wrap"><table class="table history-action-table"><thead><tr><th>Cliente</th><th>Compras del año</th><th>Crédito del año</th><th># abonos</th><th>Abonos del año</th><th>Saldo al cierre</th><th>Estado</th><th></th></tr></thead><tbody>${recurrentCredit.map(x=>{const state=x.balance<=0?'<span class="history-client-settled">✓ Cuenta cancelada</span>':`<span class="history-client-open">Debe ${money(x.balance)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">Cliente recurrente</div></td><td>${x.ys.length}</td><td><b>${money(x.credit)}</b></td><td>${x.payCount}</td><td><b>${money(x.payments)}</b></td><td>${money(x.balance)}</td><td>${state}</td><td><button class="action-mini history-action-btn" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes recurrentes con compras a crédito o abonos registrados en este año.</div>';
   const annualPays=[...st.pays].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.time||'').localeCompare(String(a.time||'')));
-  if($('historyAnnualPayments'))$('historyAnnualPayments').innerHTML=annualPays.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado al cierre</th><th>Acciones</th></tr></thead><tbody>${annualPays.map(p=>{const bal=clientBalance(p.clientId,`${y}-12-31`),state=bal.balance>0?`<span class="badge debt">Debe ${money(bal.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${state}</td><td><div class="action-group"><button class="action-mini" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini" onclick="editPayment('${p.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay abonos registrados en este año.</div>';
+  if($('historyAnnualPayments'))$('historyAnnualPayments').innerHTML=annualPays.length?`<div class="table-wrap"><table class="table history-action-table"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado al cierre</th><th>Acciones</th></tr></thead><tbody>${annualPays.map(p=>{const bal=clientBalance(p.clientId,`${y}-12-31`),state=bal.balance>0?`<span class="badge debt">Debe ${money(bal.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${state}</td><td><div class="action-group"><button class="action-mini view" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini edit" onclick="editPayment('${p.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay abonos registrados en este año.</div>';
   const names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],monthly=[];
   for(let m=1;m<=12;m++){
     const mm=String(m).padStart(2,'0'),start=`${y}-${mm}-01`,last=String(new Date(y,m,0).getDate()).padStart(2,'0'),end=`${y}-${mm}-${last}`;
@@ -1608,7 +1738,7 @@ function renderHistory(){
   $('historyClientChart').innerHTML=`<div class="history-client-month-grid">${monthly.map(x=>{const h=v=>Math.max(3,Math.round(v/clientMax*140));return `<div class="history-client-month-col" title="${x.name} ${y} · Nuevos ${x.newC} · Recurrentes ${x.returning} · Potenciales ${x.potential} · Mujeres ${x.women} · Hombres ${x.men}"><div class="history-client-bars"><div class="history-client-bar new" style="height:${h(x.newC)}px;opacity:${x.newC?1:.12}"></div><div class="history-client-bar returning" style="height:${h(x.returning)}px;opacity:${x.returning?1:.12}"></div><div class="history-client-bar potential" style="height:${h(x.potential)}px;opacity:${x.potential?1:.12}"></div><div class="history-client-bar women" style="height:${h(x.women)}px;opacity:${x.women?1:.12}"></div><div class="history-client-bar men" style="height:${h(x.men)}px;opacity:${x.men?1:.12}"></div></div><div class="history-client-month-label">${x.name}</div></div>`}).join('')}</div><div class="client-chart-legend"><span><i class="client-dot new"></i>Nuevos</span><span><i class="client-dot returning"></i>Recurrentes</span><span><i class="client-dot potential"></i>Potenciales</span><span><i class="client-dot women"></i>Mujeres</span><span><i class="client-dot men"></i>Hombres</span></div>`;
   $('historyMonthTable').innerHTML=`<div class="table-wrap"><table class="table history-year-table"><thead><tr><th>Mes</th><th>Ventas</th><th># ventas</th><th>Clientes activos</th><th>Nuevos</th><th>Recurrentes</th><th>Potenciales</th><th>Mujeres</th><th>Hombres</th><th>Abonos</th><th>Ingresos</th><th>Egresos</th><th>Neto</th></tr></thead><tbody>${monthly.map(x=>`<tr><td><b>${x.name}</b></td><td>${money(x.sales)}</td><td>${x.salesCount}</td><td>${x.clients}</td><td>${x.newC}</td><td>${x.returning}</td><td>${x.potential}</td><td>${x.women}</td><td>${x.men}</td><td>${money(x.pays)}</td><td class="kpi-up">${money(x.income)}</td><td class="kpi-down">${money(x.expense)}</td><td><b>${money(x.net)}</b></td></tr>`).join('')}</tbody></table></div>`;
   const clients=st.clients.sort((a,b)=>b.total-a.total||a.c.name.localeCompare(b.c.name,'es'));
-  $('historyClientsTable').innerHTML=clients.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Sexo</th><th>Estado ${y}</th><th>Compras</th><th>Total comprado</th><th>Crédito</th><th>Abonos</th><th>Estado al cierre</th><th></th></tr></thead><tbody>${clients.map(x=>{const close=x.creditToClose<=0?'<span class="history-client-none">Sin crédito</span>':x.balance<=0?'<span class="history-client-settled">✓ Canceló todo</span>':`<span class="history-client-open">Debe ${money(x.balance)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b>${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td>${x.c.gender==='female'?'Mujer':x.c.gender==='male'?'Hombre':'—'}</td><td><span class="history-client-status ${x.isNew?'new':'returning'}">${x.isNew?'Nuevo':'Recurrente'}</span></td><td>${x.ys.length}</td><td>${money(x.total)}</td><td>${money(x.credit)}</td><td>${money(x.payments)}</td><td>${close}</td><td><button class="action-mini" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay clientes con actividad en este año.</p>';
+  $('historyClientsTable').innerHTML=clients.length?`<div class="table-wrap"><table class="table history-action-table"><thead><tr><th>Cliente</th><th>Sexo</th><th>Estado ${y}</th><th>Compras</th><th>Total comprado</th><th>Crédito</th><th>Abonos</th><th>Estado al cierre</th><th></th></tr></thead><tbody>${clients.map(x=>{const close=x.creditToClose<=0?'<span class="history-client-none">Sin crédito</span>':x.balance<=0?'<span class="history-client-settled">✓ Canceló todo</span>':`<span class="history-client-open">Debe ${money(x.balance)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b>${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td>${x.c.gender==='female'?'Mujer':x.c.gender==='male'?'Hombre':'—'}</td><td><span class="history-client-status ${x.isNew?'new':'returning'}">${x.isNew?'Nuevo':'Recurrente'}</span></td><td>${x.ys.length}</td><td>${money(x.total)}</td><td>${money(x.credit)}</td><td>${money(x.payments)}</td><td>${close}</td><td><button class="action-mini history-action-btn" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay clientes con actividad en este año.</p>';
   const yearly=historyYears().map(yy=>({y:yy,...annualStats(yy)})).sort((a,b)=>b.y-a.y);
   $('historyYearsTable').innerHTML=`<div class="table-wrap"><table class="table history-year-table"><thead><tr><th>Año</th><th>Ventas</th><th># ventas</th><th>Clientes</th><th>Nuevos</th><th>Recurrentes</th><th>Abonos</th><th>Ingresos</th><th>Egresos</th><th>Neto</th></tr></thead><tbody>${yearly.map(x=>`<tr><td><b>${x.y}</b></td><td>${money(x.totalSales)}</td><td>${x.sales.length}</td><td>${x.clients.filter(c=>c.active).length}</td><td>${x.newClients}</td><td>${x.returningClients}</td><td>${money(x.paymentTotal)}</td><td>${money(x.income)}</td><td>${money(x.expense)}</td><td><b>${money(x.net)}</b></td></tr>`).join('')}</tbody></table></div>`;
 }
@@ -1651,6 +1781,54 @@ function exportAllToExcel(){
   }catch(err){console.error(err);showToast('No se pudo generar el Excel','Intenta nuevamente.','error')}
 }
 function googleDriveConnected(){return !!(googleDriveConfig.enabled&&googleDriveConfig.folderId)}
+function backupNoticeKey(kind){return `HILEN_BACKUP_NOTICE_${kind}_${currentUser?.id||'sin_usuario'}`}
+function canShowBackupNotice(kind,intervalMs){
+  try{const key=backupNoticeKey(kind),last=Number(localStorage.getItem(key)||0),now=Date.now();if(last&&now-last<intervalMs)return false;localStorage.setItem(key,String(now));return true}catch(_){return true}
+}
+function notifyBackupAfterChange(){
+  if(localMode||!currentUser?.id)return;
+  if(!googleDriveConnected()){
+    if(canShowBackupNotice('sin_drive',BACKUP_CHANGE_NOTICE_MS))showToast('Cambio guardado en HILEN','Google Drive no está conectado. Tus datos siguen guardados en HILEN, pero conecta Google Drive desde Configuración para tener una copia adicional.','warning',6500);
+    return;
+  }
+  if(googleBackupReconnectNeeded||!googleSheetsAccessToken){
+    setGoogleBackupReconnectNeeded(true);
+    if(canShowBackupNotice('reconectar',BACKUP_RECONNECT_NOTICE_MS))showToast('Cambio guardado · copia pendiente','Tus cambios están guardados en HILEN. Reconecta Google para que también se actualice la copia de seguridad externa.','warning',6500);
+    return;
+  }
+  if(canShowBackupNotice('cambio',BACKUP_CHANGE_NOTICE_MS))showToast('Cambios guardados','HILEN actualizará la copia de seguridad automáticamente en unos minutos. No necesitas pulsar “Respaldar ahora”.','info',5600);
+}
+function notifyBackupStatusOnStart(){
+  if(localMode||!currentUser?.id)return;
+  if(!googleDriveConnected()){
+    showToast('Copia adicional no activada','Tus datos se guardan en HILEN. Para tener una copia externa de seguridad, conecta Google Drive desde Configuración.','warning',7000);
+    return;
+  }
+  if(!googleSheetsAccessToken){
+    setGoogleBackupReconnectNeeded(true);
+    showToast('Revisa tu copia de seguridad','Google Drive está vinculado, pero esta sesión necesita autorización para que las copias automáticas continúen. Pulsa “Reconectar Google”.','warning',7500);
+    return;
+  }
+  const last=googleDriveConfig.lastSentAt?new Date(googleDriveConfig.lastSentAt).toLocaleString('es-CO'):'';
+  showToast('Copias automáticas activas',last?`HILEN hará los respaldos automáticamente. Última copia: ${last}.`:'HILEN hará los respaldos automáticamente mientras uses el sistema con Internet.','success',6500);
+}
+function startBackupHealthMonitor(){
+  if(backupHealthTimer)return;
+  backupHealthTimer=setInterval(()=>{
+    if(document.visibilityState!=='visible'||localMode||!currentUser?.id)return;
+    if(!googleDriveConnected()){
+      if(canShowBackupNotice('salud_sin_drive',60*60*1000))showToast('Copia de seguridad no activada','Conecta Google Drive desde Configuración si quieres mantener una copia externa de tus datos.','warning',6500);
+      return;
+    }
+    if(googleBackupReconnectNeeded||!googleSheetsAccessToken){
+      setGoogleBackupReconnectNeeded(true);
+      if(canShowBackupNotice('salud_reconectar',BACKUP_HEALTH_NOTICE_MS))showToast('Copia de seguridad pendiente','Google necesita que reconectes la cuenta para seguir actualizando tus respaldos. Tus datos dentro de HILEN siguen guardados.','warning',7000);
+      return;
+    }
+    const pending=googleDriveConfig.pendingAt?Date.parse(googleDriveConfig.pendingAt):0;
+    if(pending&&Date.now()-pending>10*60*1000&&canShowBackupNotice('salud_pendiente',BACKUP_HEALTH_NOTICE_MS))showToast('Hay cambios pendientes de respaldo','HILEN sigue intentando actualizar la copia de seguridad. Revisa tu conexión a Internet si el aviso continúa.','info',6500);
+  },5*60*1000);
+}
 function googleBackupConnected(){return !!(googleDriveConnected()&&googleSheetsConfig.enabled&&googleSheetsConfig.sheetId)}
 function renderSettings(){
   if($('settingsUserName'))$('settingsUserName').textContent=currentUser?.name||'HILEN';
@@ -1662,7 +1840,7 @@ function renderSettings(){
     $('settingsGoogleDriveState').className='google-account-state '+(driveConnected?'connected':'disconnected');
     $('settingsGoogleDriveState').innerHTML=`<span class="dot"></span>${driveConnected?'Conectada':'No conectada'}`;
   }
-  renderGoogleSheetsStatus();renderGoogleDriveStatus();
+  renderGoogleSheetsStatus();renderGoogleDriveStatus();renderGoogleBackupReconnectAlert();
   if($('cloudBackupPanel')&&$('settings')?.classList.contains('active'))renderCloudBackups();
 }
 function showGoogleBackupOnboarding(){
@@ -1670,6 +1848,17 @@ function showGoogleBackupOnboarding(){
   $('modalContent').innerHTML=`<div class="backup-onboarding-hero"><div class="backup-onboarding-icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.4 4.5 4.5 0 0 0 7 18Z"/><path d="M12 11v5M9.8 13.2 12 11l2.2 2.2"/></svg></div><h2>Protege tus datos desde el inicio</h2><p class="muted">Conecta tu Google Drive una sola vez. HILEN guardará copias adicionales de tu información para poder recuperarla si algún día ocurre un problema o se elimina algo por error.</p></div><div class="backup-simple-list"><div class="backup-simple-item"><span>✓</span><div><b>No tienes que hacerlo todos los días</b><span class="small muted">Las copias se mantienen automáticamente mientras usas HILEN con Internet.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Protege lo que registras</b><span class="small muted">Ventas, clientes, abonos, caja, productos y demás información de tu cuenta.</span></div></div><div class="backup-simple-item"><span>✓</span><div><b>Las copias quedan en tu Google Drive</b><span class="small muted">HILEN crea y organiza una carpeta llamada “HILEN - Respaldos”.</span></div></div></div><div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button><button class="secondary" onclick="closeModal()">Ahora no</button></div><div class="small muted" style="margin-top:12px">Si eliges “Ahora no”, podrás conectarlo después desde <b>Configuración → Protección de tus datos</b>.</div>`;
   $('modal').classList.remove('hidden');
 }
+
+function setGoogleBackupReconnectNeeded(needed){
+  googleBackupReconnectNeeded=!!needed;
+  renderGoogleBackupReconnectAlert();
+}
+function renderGoogleBackupReconnectAlert(){
+  const el=$('googleBackupReconnectAlert');if(!el)return;
+  const shouldShow=!localMode&&googleDriveConnected()&&googleBackupReconnectNeeded;
+  el.classList.toggle('hidden',!shouldShow);
+}
+
 function maybePromptGoogleBackupOnboarding(){
   if(localMode||!currentUser?.id||googleDriveConnected()||!googleOAuthConfigured())return;
   const key=`HILEN_GOOGLE_BACKUP_PROMPT_${currentUser.id}`;
@@ -1787,16 +1976,17 @@ async function cleanupOldDriveDailyBackups(){
 }
 async function syncGoogleDriveNow(showResult=false){
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','El respaldo de Google Drive se hará cuando vuelva Internet.','error');return false}
-  if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;
+  if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;const hadPending=!!googleDriveConfig.pendingAt;
   try{
     const folderId=await ensureGoogleDriveFolder(),content=backupJsonText(),latestMeta={name:'HILEN_ultimo_respaldo.json',mimeType:'application/json',parents:googleDriveConfig.latestFileId?undefined:[folderId],appProperties:{hilenBackup:'latest'}};
     if(latestMeta.parents===undefined)delete latestMeta.parents;
     const latest=await driveMultipartUpload(latestMeta,content,googleDriveConfig.latestFileId||'');googleDriveConfig.latestFileId=latest.id;
-    const day=today();if(googleDriveConfig.lastDailyDay!==day){const q=encodeURIComponent(`'${folderId}' in parents and (name='HILEN_${day}.json' or name='HILEN_${day}.json') and trashed=false`),existing=await googleApi(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name)&pageSize=2`);if(!(existing?.files||[]).length)await driveMultipartUpload({name:`HILEN_${day}.json`,mimeType:'application/json',parents:[folderId],appProperties:{hilenBackup:'daily',day}},content);googleDriveConfig.lastDailyDay=day;cleanupOldDriveDailyBackups()}
+    const day=today(),dailyDue=googleDriveConfig.lastDailyDay!==day;if(dailyDue){const q=encodeURIComponent(`'${folderId}' in parents and (name='HILEN_${day}.json' or name='HILEN_${day}.json') and trashed=false`),existing=await googleApi(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name)&pageSize=2`);if(!(existing?.files||[]).length)await driveMultipartUpload({name:`HILEN_${day}.json`,mimeType:'application/json',parents:[folderId],appProperties:{hilenBackup:'daily',day}},content);googleDriveConfig.lastDailyDay=day;cleanupOldDriveDailyBackups()}
     await ensurePendingYearEndArchive(folderId);
-    googleDriveConfig.enabled=true;googleDriveConfig.lastSentAt=new Date().toISOString();googleDriveConfig.pendingAt='';await persistGoogleDriveConfig();if(showResult)showToast('Google Drive actualizado','Se guardó el respaldo JSON más reciente y la copia diaria.');return true
+    googleDriveConfig.enabled=true;googleDriveConfig.lastSentAt=new Date().toISOString();googleDriveConfig.pendingAt='';setGoogleBackupReconnectNeeded(false);await persistGoogleDriveConfig();if(showResult)showToast('Google Drive actualizado','Se guardó el respaldo JSON más reciente y la copia diaria.','success',5600);else if(hadPending&&!googleBackupManualRun)showToast('Copia de seguridad actualizada',dailyDue?'Tus cambios quedaron protegidos en Google Drive y también se guardó la copia diaria.':'Tus cambios ya quedaron protegidos en Google Drive.','success',5600);return true
   }catch(err){
     if(err?.message==='GOOGLE_AUTH_REQUIRED'){
+      setGoogleBackupReconnectNeeded(true);
       googleDriveConfig.pendingAt=googleDriveConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();return false
     }
     console.error('Google Drive backup:',err);if(showResult)showToast('No se pudo respaldar en Google Drive',err.message||'Vuelve a conectar Google.','error');return false
@@ -1807,12 +1997,12 @@ function queueGoogleDriveSync(){
 }
 function openGoogleDriveBackup(){if(!googleDriveConfig.folderUrl)return showToast('Google Drive no está conectado','Ve a Configuración y pulsa “Conectar Google Drive”.','error');window.open(googleDriveConfig.folderUrl,'_blank','noopener')}
 async function syncGoogleBackupNow(showResult=false){
-  const previousGooglePromptState=googleAuthMayPrompt;if(showResult)googleAuthMayPrompt=true;
+  const previousGooglePromptState=googleAuthMayPrompt,previousManualRun=googleBackupManualRun;if(showResult)googleAuthMayPrompt=true;googleBackupManualRun=!!showResult;
   try{
     const a=await syncGoogleSheetsNow(false),b=await syncGoogleDriveNow(false);
-    if(showResult)showToast(a&&b?'Respaldos actualizados':'Respaldo incompleto',a&&b?'Google Sheets y Google Drive quedaron actualizados.':'Revisa la conexión con Google e intenta nuevamente.',a&&b?'success':'error');
+    if(showResult)showToast(a&&b?'Respaldos actualizados':'Respaldo incompleto',a&&b?'Google Sheets y Google Drive quedaron actualizados.':'Revisa la conexión con Google e intenta nuevamente.',a&&b?'success':'error',6200);
     return a&&b
-  }finally{googleAuthMayPrompt=previousGooglePromptState}
+  }finally{googleAuthMayPrompt=previousGooglePromptState;googleBackupManualRun=previousManualRun}
 }
 
 function openGoogleSheetsSetup(){
@@ -1849,6 +2039,7 @@ async function connectGoogleSheets(){
   try{
     showToast('Conectando con Google','Autoriza a HILEN en la ventana de Google.');
     await requestGoogleAccessToken();
+    setGoogleBackupReconnectNeeded(false);
     const folderId=await ensureGoogleDriveFolder();
     if(!googleSheetsConfig.sheetId){
       const titles=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','CONTROL'];
@@ -1864,7 +2055,7 @@ async function connectGoogleSheets(){
 }
 async function disconnectGoogleSheets(){
   if(googleSheetsAccessToken&&window.google?.accounts?.oauth2){try{google.accounts.oauth2.revoke(googleSheetsAccessToken,()=>{})}catch(_){}}
-  googleSheetsAccessToken='';googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};googleDriveConfig={enabled:false,folderId:'',folderUrl:'',latestFileId:'',lastSentAt:'',lastDailyDay:'',lastAnnualArchiveYear:'',connectedAt:'',pendingAt:''};await persistGoogleSheetsConfig();await persistGoogleDriveConfig();closeModal();showToast('Google desconectado','Los archivos existentes no se eliminan de tu Google Drive.')
+  googleSheetsAccessToken='';setGoogleBackupReconnectNeeded(false);googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};googleDriveConfig={enabled:false,folderId:'',folderUrl:'',latestFileId:'',lastSentAt:'',lastDailyDay:'',lastAnnualArchiveYear:'',connectedAt:'',pendingAt:''};await persistGoogleSheetsConfig();await persistGoogleDriveConfig();closeModal();showToast('Google desconectado','Los archivos existentes no se eliminan de tu Google Drive.')
 }
 function openGoogleSheetBackup(){if(!googleSheetsConfig.sheetUrl)return showToast('La copia organizada todavía no está disponible','Conecta Google Drive primero.','error');window.open(googleSheetsConfig.sheetUrl,'_blank','noopener')}
 function queueGoogleSheetsSync(){if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId)return;googleSheetsConfig.pendingAt=new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=setTimeout(()=>syncGoogleSheetsNow(false),45000)}
@@ -1895,9 +2086,10 @@ async function syncGoogleSheetsNow(showResult=false){
     const data=names.map(n=>({range:`'${n.replace(/'/g,"''")}'!A1`,majorDimension:'ROWS',values:backupRowsToValues(tables[n]||[])}));
     data.push({range:"'CONTROL'!A1",majorDimension:'ROWS',values:[['Campo','Valor'],['Aplicación','HILEN'],['Última actualización',new Date().toLocaleString('es-CO')],['Usuario',currentUser?.email||currentUser?.id||'HILEN'],['Estado','Respaldo recibido correctamente'],['Nota sobre deudas','Una deuda pendiente al terminar un año continúa en el siguiente. Los pagos reducen el saldo y las nuevas compras a crédito se suman a la deuda; las compras pagadas no aumentan el saldo pendiente.']]});
     await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchUpdate`,{method:'POST',body:JSON.stringify({valueInputOption:'USER_ENTERED',data})});
-    googleSheetsConfig.lastSentAt=new Date().toISOString();googleSheetsConfig.pendingAt='';await persistGoogleSheetsConfig();if(showResult)showToast('Google Sheets actualizado','El respaldo quedó sincronizado correctamente.');return true
+    googleSheetsConfig.lastSentAt=new Date().toISOString();googleSheetsConfig.pendingAt='';setGoogleBackupReconnectNeeded(false);await persistGoogleSheetsConfig();if(showResult)showToast('Google Sheets actualizado','El respaldo quedó sincronizado correctamente.');return true
   }catch(err){
     if(err?.message==='GOOGLE_AUTH_REQUIRED'){
+      setGoogleBackupReconnectNeeded(true);
       googleSheetsConfig.pendingAt=googleSheetsConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();return false
     }
     console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Vuelve a conectar tu cuenta de Google.','error');return false
