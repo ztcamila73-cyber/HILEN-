@@ -552,6 +552,51 @@ button,.tab,.segmented button,.nav button,.action-mini,.link-btn{-webkit-tap-hig
    El botón superior queda dentro de la cabecera sticky y permanece accesible al desplazarse. */
 .tablet-menu-fab{display:none!important}
 
+
+/* HILEN · Historial anual de abonos adaptable a tablet y computador */
+.history-annual-payments-table{table-layout:fixed;width:100%}
+.history-annual-payments-table th,.history-annual-payments-table td{padding:10px 9px;vertical-align:middle;overflow-wrap:anywhere}
+.history-annual-payments-table th:nth-child(1){width:20%}
+.history-annual-payments-table th:nth-child(2){width:14%}
+.history-annual-payments-table th:nth-child(3){width:14%}
+.history-annual-payments-table th:nth-child(4){width:16%}
+.history-annual-payments-table th:nth-child(5){width:21%}
+.history-annual-payments-table th:nth-child(6){width:15%}
+.history-annual-payments-table .badge{max-width:100%;white-space:normal;line-height:1.2;text-align:center;justify-content:center}
+.history-annual-payments-table .action-group{gap:5px;flex-wrap:wrap}
+.history-annual-payments-table .action-mini{padding:6px 8px;min-height:34px}
+@media (min-width:781px) and (max-width:1180px){
+  .history-annual-payments-table th,.history-annual-payments-table td{padding:8px 6px;font-size:12px}
+  .history-annual-payments-table th{font-size:10.5px;line-height:1.15}
+  .history-annual-payments-table .badge{font-size:10px;padding:5px 7px}
+  .history-annual-payments-table .action-mini{font-size:11px;padding:5px 7px;min-height:32px}
+}
+@media (max-width:780px){
+  .history-annual-payments-wrap{overflow:visible}
+  .history-annual-payments-table,.history-annual-payments-table tbody{display:block;width:100%}
+  .history-annual-payments-table thead{display:none}
+  .history-annual-payments-table tr{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:14px;margin:0 0 10px;background:#fff;overflow:hidden}
+  .history-annual-payments-table td{display:flex;flex-direction:column;gap:4px;min-width:0;padding:10px 12px;border-bottom:1px solid var(--line);font-size:12px}
+  .history-annual-payments-table td:nth-child(odd){border-right:1px solid var(--line)}
+  .history-annual-payments-table td:nth-last-child(-n+2){border-bottom:0}
+  .history-annual-payments-table td::before{font-size:9px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:#7a7a7a;line-height:1.1}
+  .history-annual-payments-table td:nth-child(1)::before{content:'Fecha'}
+  .history-annual-payments-table td:nth-child(2)::before{content:'Cliente'}
+  .history-annual-payments-table td:nth-child(3)::before{content:'Abono'}
+  .history-annual-payments-table td:nth-child(4)::before{content:'Recibido en'}
+  .history-annual-payments-table td:nth-child(5)::before{content:'Estado al cierre'}
+  .history-annual-payments-table td:nth-child(6)::before{content:'Acciones'}
+  .history-annual-payments-table td:nth-child(5){background:#fffdfd}
+  .history-annual-payments-table .badge{align-self:flex-start;max-width:100%;white-space:normal;text-align:left;justify-content:flex-start}
+  .history-annual-payments-table .action-group{display:flex;gap:6px;flex-wrap:nowrap}
+  .history-annual-payments-table .action-mini{flex:1;min-width:0;border-radius:10px}
+}
+@media (max-width:480px){
+  .history-annual-payments-table tr{grid-template-columns:1fr}
+  .history-annual-payments-table td,.history-annual-payments-table td:nth-child(odd){border-right:0;border-bottom:1px solid var(--line)}
+  .history-annual-payments-table td:last-child{border-bottom:0}
+}
+
 </style>
 </head>
 <body>
@@ -1729,7 +1774,7 @@ function renderHistory(){
   const recurrentCredit=st.clients.filter(x=>x.isReturning&&x.creditToClose>0&&(x.credit>0||x.payCount>0)).sort((a,b)=>b.payments-a.payments||b.credit-a.credit||a.c.name.localeCompare(b.c.name,'es'));
   if($('historyRecurrentCreditPayments'))$('historyRecurrentCreditPayments').innerHTML=recurrentCredit.length?`<div class="table-wrap"><table class="table history-action-table"><thead><tr><th>Cliente</th><th>Compras del año</th><th>Crédito del año</th><th># abonos</th><th>Abonos del año</th><th>Saldo al cierre</th><th>Estado</th><th></th></tr></thead><tbody>${recurrentCredit.map(x=>{const state=x.balance<=0?'<span class="history-client-settled">✓ Cuenta cancelada</span>':`<span class="history-client-open">Debe ${money(x.balance)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">Cliente recurrente</div></td><td>${x.ys.length}</td><td><b>${money(x.credit)}</b></td><td>${x.payCount}</td><td><b>${money(x.payments)}</b></td><td>${money(x.balance)}</td><td>${state}</td><td><button class="action-mini history-action-btn" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes recurrentes con compras a crédito o abonos registrados en este año.</div>';
   const annualPays=[...st.pays].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.time||'').localeCompare(String(a.time||'')));
-  if($('historyAnnualPayments'))$('historyAnnualPayments').innerHTML=annualPays.length?`<div class="table-wrap"><table class="table history-action-table"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado al cierre</th><th>Acciones</th></tr></thead><tbody>${annualPays.map(p=>{const bal=clientBalance(p.clientId,`${y}-12-31`),state=bal.balance>0?`<span class="badge debt">Debe ${money(bal.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${state}</td><td><div class="action-group"><button class="action-mini view" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini edit" onclick="editPayment('${p.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay abonos registrados en este año.</div>';
+  if($('historyAnnualPayments'))$('historyAnnualPayments').innerHTML=annualPays.length?`<div class="table-wrap history-annual-payments-wrap"><table class="table history-action-table history-annual-payments-table"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado al cierre</th><th>Acciones</th></tr></thead><tbody>${annualPays.map(p=>{const bal=clientBalance(p.clientId,`${y}-12-31`),state=bal.balance>0?`<span class="badge debt">Debe ${money(bal.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${state}</td><td><div class="action-group"><button class="action-mini view" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini edit" onclick="editPayment('${p.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay abonos registrados en este año.</div>';
   const names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],monthly=[];
   for(let m=1;m<=12;m++){
     const mm=String(m).padStart(2,'0'),start=`${y}-${mm}-01`,last=String(new Date(y,m,0).getDate()).padStart(2,'0'),end=`${y}-${mm}-${last}`;
