@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="format-detection" content="telephone=no">
-<title>HILEN · Gestión de ventas y caja</title>
+<title>HILEN · Gestión de ventas y caja · Visual V3</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTYiIGZpbGw9IiMxMTExMTEiLz48cGF0aCBkPSJNMTkgMTZoOXYxMmg4VjE2aDl2MzJoLTlWMzZoLTh2MTJoLTl6IiBmaWxsPSIjRTVCODRGIi8+PC9zdmc+">
 <style>
 :root{
@@ -1807,9 +1807,49 @@ body{background:linear-gradient(180deg,#fcfbf8 0,#f7f6f3 100%)!important;color:v
   .side-help{position:static;margin:14px 8px 70px}.main{margin-left:0!important}.section-subtitle{margin-top:-5px}.sale-layout-pro{grid-template-columns:1fr!important;grid-template-areas:"data" "client" "details" "products" "total"}.sale-two-fields,.sale-client-grid,.payment-form-fields{grid-template-columns:1fr!important}.sale-total-bar{grid-template-columns:1fr!important;gap:10px}.sale-total-value{padding:0;border-left:0;border-top:1px solid #e2e8ef;padding-top:10px}.save-sale-btn,.save-payment-btn{width:100%}.product-headings{display:none}.product-row{grid-template-columns:minmax(150px,1fr) 70px 95px 95px 38px!important;overflow-x:auto}.client-kpis-pro{grid-template-columns:repeat(2,minmax(0,1fr))!important}.client-kpis-pro .client-kpi{min-height:76px}.registry-head{flex-direction:column}.new-client-btn{width:100%}.registry-filters{grid-template-columns:1fr!important}.registry-filters>div:first-child{grid-column:auto!important}.payments-layout-pro{grid-template-columns:1fr!important}.payment-filter-pro{grid-template-columns:1fr!important}.payment-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}.year-inline .input{width:105px!important}.table{min-width:700px!important}.action-mini.view,.action-mini.edit,.action-mini.danger{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;flex-basis:32px!important}
 }
 
+
+
+/* Ventas · ajuste visual */
+.sales-toolbar-card,.sales-summary-card,.sales-chart-card,.inventory-hero-card,.inventory-chart-card,.inventory-insights-card,.inventory-table-card,.settings-account-card,.settings-protection-card,.settings-backups-card,.settings-download-card{border-radius:18px!important;box-shadow:var(--ui-shadow)!important;border:1px solid #edf0f5!important}
+.sales-toolbar-card .sales-filterbar{align-items:flex-start!important}.sales-toolbar-card h2,.sales-summary-card h2,#inventory .panel-head h2,#settings .panel-head h2{letter-spacing:-.6px}
+.sales-toolbar-card .period-fields{margin-top:18px!important}.sales-toolbar-card .period-fields>div{min-width:230px}.sales-toolbar-card .segmented{margin-left:auto}
+.sales-summary-card #dayTitle{font-size:18px!important;margin-bottom:4px}.sales-summary-card{padding-bottom:18px!important}
+.period-summary{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin:18px 0!important}
+.period-summary .card{padding:18px!important;border:1px solid #edf0f5!important;border-radius:18px!important;display:flex!important;align-items:center!important;gap:14px!important;box-shadow:none!important;background:#fff!important}
+.sales-kpi-icon{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:28px;font-weight:900;flex:0 0 auto}.sales-kpi-icon.green{background:#e8f6ec;color:#16a34a}.sales-kpi-icon.blue{background:#eaf2ff;color:#2563eb}.sales-kpi-icon.gold{background:#fff5e5;color:#b7791f}.sales-kpi-icon.purple{background:#f3ebff;color:#8b5cf6}.period-summary .stat-wrap{min-width:0}.period-summary .stat-label{font-size:12px!important;color:#6f7c94!important;margin-bottom:7px!important}.period-summary .stat{font-size:24px!important;font-weight:900!important;letter-spacing:-.8px;color:#0c1730!important}.sales-empty-state,.sales-chart-empty{display:grid;place-items:center;text-align:center;min-height:136px;border-radius:18px;border:1px dashed #eeddbd;background:linear-gradient(180deg,#fff,#fffaf1);padding:24px}.sales-empty-state .icon,.sales-chart-empty .icon{font-size:44px;opacity:.65;margin-bottom:10px}.sales-empty-state b,.sales-chart-empty b{display:block;font-size:16px;margin-bottom:5px}.sales-chart-card{margin-top:18px!important}.sales-chart-wrap{border-radius:18px!important;border:1px solid #edf0f5!important;background:#fff!important}
+@media (max-width:900px){.period-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sales-toolbar-card .segmented{margin-left:0}}
+@media (max-width:560px){.period-summary{grid-template-columns:1fr!important}.sales-toolbar-card .period-fields>div{min-width:100%!important}}
+
+/* Productos y demanda */
+#inventory .history-head{align-items:flex-end!important}#inventory .history-head-actions{display:grid;grid-template-columns:180px minmax(230px,320px);gap:12px;align-items:end}#inventory .notice.blue{background:#eef4ff!important;border-color:#d8e5ff!important;color:#2757c7!important}#inventoryKpis{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:12px!important}.inventory-kpi{display:flex;align-items:center;gap:14px;padding:18px!important;border:1px solid #edf0f5!important;border-radius:18px!important}.inventory-kpi .ik-badge{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:24px;font-weight:900;flex:0 0 auto}.inventory-kpi .ik-badge.gold{background:#fff5e5;color:#b7791f}.inventory-kpi .ik-badge.green{background:#e8f6ec;color:#16a34a}.inventory-kpi .ik-badge.blue{background:#eaf2ff;color:#2563eb}.inventory-kpi .ik-badge.mint{background:#ecfaf3;color:#12a150}.inventory-kpi .ik-badge.purple{background:#f3ebff;color:#8b5cf6}.inventory-kpi .ik-text{min-width:0}.inventory-kpi .ik-label{margin-bottom:6px!important;font-size:12px!important;color:#6f7c94!important}.inventory-kpi .ik-value{font-size:22px!important;line-height:1.05!important}.inventory-chart-card .inventory-chart{padding-top:12px!important}.inventory-insights-card .notice{border-radius:14px!important;padding:14px 16px!important}.inventory-table-card .panel-head{margin-bottom:12px!important}
+@media (max-width:1220px){#inventoryKpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}#inventory .history-head-actions{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){#inventoryKpis{grid-template-columns:1fr!important}#inventory .history-head-actions{grid-template-columns:1fr!important}}
+
+/* Configuración */
+.settings-account-card .settings-account{gap:14px!important}.settings-account-card .settings-account-box{border-radius:16px!important;background:#fff!important;border:1px solid #edf0f5!important;padding:14px 16px!important}.settings-account-card .settings-google-account{padding:12px 14px!important}.settings-protection-card .notice.blue{background:#eef4ff!important;border-color:#d8e5ff!important;color:#274ea5!important}.settings-status-grid{gap:14px!important}.settings-status-card{border-radius:16px!important;background:#fff!important;border:1px solid #edf0f5!important;padding:16px!important}.settings-actions{gap:10px!important}.settings-actions .primary{background:#111!important;color:#fff!important;border-color:#111!important}.settings-actions .secondary{background:#fff!important}.settings-backups-card .cloud-backup-panel{padding:0!important;background:transparent!important;border:0!important}.settings-backups-card .cloud-backup-header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:10px}.settings-backups-card .cloud-backup-row{padding:12px 0!important}.settings-backups-card .cloud-backup-row .action-mini{min-width:96px;border-radius:12px}.settings-download-card .history-backup{display:flex;gap:10px;flex-wrap:wrap}.settings-download-card .history-backup .primary{background:#111!important;border-color:#111!important}.settings-download-card .history-backup .secondary{background:#fff!important}@media (max-width:900px){.settings-backups-card .cloud-backup-header{align-items:stretch}.settings-download-card .history-backup>*{width:100%}}
+
+
+/* ============================================================
+   HILEN VISUAL CORRECTION V3 - direct section structure
+   ============================================================ */
+.page-heading-copy{min-width:0}.page-subtitle{color:#71809c;font-size:13px;margin-top:2px}.top-title-line{align-items:flex-end!important}.top-title-line .date-shell{margin-left:auto}
+
+/* Sales */
+#day{display:none}#day.active{display:block}.hilen-sales{gap:0}.hilen-sales .sales-toolbar-card{padding:22px!important;margin-bottom:18px!important}.sales-filter-copy h2{font-size:21px!important;margin:0 0 4px!important}.sales-period-fields{margin-top:16px!important}.sales-tabs{min-width:245px;display:grid!important;grid-template-columns:repeat(3,1fr)!important}.sales-tabs button{height:38px!important;font-weight:760!important}.sales-tabs button.active{background:linear-gradient(180deg,#ffe7b6,#ffd890)!important;color:#5f3a00!important;box-shadow:inset 0 0 0 1px #f4c973!important}.sales-summary-card{padding:22px!important;margin-bottom:18px!important}.sales-section-heading h2{font-size:22px!important;margin:0 0 4px!important}.period-summary{margin:18px 0!important}.period-summary .card{min-height:92px!important}.sales-kpi-icon{border-radius:17px!important}.sales-empty-state{min-height:150px!important}.sales-chart-card{padding:22px!important;margin-top:0!important}.sales-chart-card .sales-chart-head h2{font-size:21px!important}.sales-chart-empty{min-height:170px!important;background:#fff!important;border-color:#e7ebf1!important}
+
+/* Inventory */
+.hilen-inventory .inventory-hero-card{padding:22px!important;margin-bottom:14px!important}.inventory-hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:22px}.inventory-hero-copy{max-width:760px}.inventory-hero-copy h2{font-size:23px!important;margin:0 0 5px!important}.inventory-controls{display:grid;grid-template-columns:150px minmax(260px,340px);gap:12px;align-items:end;min-width:430px}.inventory-info-banner{display:flex;gap:10px;align-items:flex-start;margin-top:16px!important}.search-field-wrap,.inventory-table-search{position:relative}.search-field-wrap>span,.inventory-table-search>span{position:absolute;left:13px;top:50%;transform:translateY(-50%);z-index:2;color:#22314d;font-size:18px}.search-field-wrap .input,.inventory-table-search .input{padding-left:38px!important}.inventory-kpis-reference{margin:0 0 14px!important}.inventory-kpis-reference .inventory-kpi{min-height:95px;background:#fff!important}.inventory-two-reference{gap:14px!important;margin-bottom:14px!important}.inventory-chart-card,.inventory-insights-card,.inventory-table-card{padding:20px!important}.inventory-two-reference .panel-head{align-items:flex-start!important}.panel-head-icon{width:42px;height:42px;border-radius:12px;background:#fff4df;color:#b97700;display:grid;place-items:center;font-size:21px}.inventory-insights-card .notice{margin-top:0!important;margin-bottom:10px!important}.inventory-insights-card .notice:last-child{margin-bottom:0!important}.inventory-table-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:14px}.inventory-table-head h2{margin:0 0 4px!important;font-size:20px!important}.inventory-table-search{width:min(300px,42%)}
+
+/* Settings */
+.hilen-settings .settings-account-card{padding:20px!important;margin-bottom:16px!important}.settings-account-title{margin-bottom:14px!important}.settings-account-title h2{font-size:19px!important}.hilen-settings .settings-account{margin-top:0!important}.settings-google-account{min-height:66px}.google-drive-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#38b66b,#f4c542 50%,#4285f4 51%);color:#fff;display:grid;place-items:center;font-size:22px;font-weight:900;flex:0 0 40px}.settings-grid-reference{grid-template-columns:minmax(0,1.45fr) minmax(330px,.95fr)!important;gap:16px!important}.settings-protection-card,.settings-backups-card{padding:20px!important}.settings-explain{margin:14px 0!important;border-radius:14px!important;line-height:1.55!important}.settings-status-grid{margin-top:12px!important}.settings-status-card{min-height:82px}.settings-actions{margin-top:14px!important}.settings-actions button,.settings-download-card .history-backup>*{min-height:42px!important;border-radius:11px!important}.settings-backups-card .cloud-backup-panel{margin:0!important}.settings-backups-card .cloud-backup-header>b,.settings-backups-card .cloud-backup-header>div>b{font-size:17px}.settings-backups-card .cloud-backup-row{padding:10px 2px!important}.settings-backups-card .cloud-backup-row .action-mini{background:#fff3df!important;color:#9a6100!important;height:34px!important;min-height:34px!important;font-size:11px!important;text-indent:0!important;width:auto!important;max-width:none!important;padding:0 15px!important}.settings-download-card{padding:18px 20px!important}.settings-download-card .history-backup{margin-top:12px!important}.restore-label{cursor:pointer;margin:0!important;display:inline-flex;align-items:center;justify-content:center}.settings-download-help{margin-top:8px!important}
+
+@media (max-width:1100px){.inventory-hero-head{flex-direction:column}.inventory-controls{min-width:0;width:100%;grid-template-columns:160px 1fr}.settings-grid-reference{grid-template-columns:1fr!important}.inventory-table-search{width:300px;max-width:45%}}
+@media (max-width:819px){.page-subtitle{font-size:11.5px}.top-title-line{align-items:flex-start!important}.sales-tabs{min-width:0;width:100%}.sales-filterbar{flex-direction:column;align-items:stretch!important}.inventory-controls{grid-template-columns:1fr}.inventory-table-head{flex-direction:column}.inventory-table-search{width:100%;max-width:none}.settings-account{grid-template-columns:1fr!important}.settings-google-account{grid-column:auto!important}.settings-actions>*{width:100%}.settings-download-card .history-backup>*{width:100%}}
+
 </style>
 </head>
 <body>
+<!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
 <div id="auth" class="auth">
   <div class="auth-shell">
     <section class="auth-form-panel">
@@ -1912,7 +1952,7 @@ body{background:linear-gradient(180deg,#fcfbf8 0,#f7f6f3 100%)!important;color:v
         <span id="shellUserInitial" class="shell-avatar">H</span><span class="shell-user-copy"><b id="shellUserName">HILEN</b><small>Administrador</small></span><span class="shell-chevron">⌄</span>
       </button>
     </header>
-    <div class="top"><div class="top-title-line"><h1 id="pageTitle" class="title">Inicio</h1><div id="todayLabel" class="date-shell"></div></div></div>
+    <div class="top"><div class="top-title-line"><div class="page-heading-copy"><h1 id="pageTitle" class="title">Inicio</h1><div id="pageSubtitle" class="page-subtitle">Resumen general de tu negocio.</div></div><div id="todayLabel" class="date-shell"></div></div></div>
     <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
 
     <section id="home" class="section active">
@@ -1942,23 +1982,28 @@ body{background:linear-gradient(180deg,#fcfbf8 0,#f7f6f3 100%)!important;color:v
       </div>
     </section>
 
-    <section id="day" class="section">
-      <div class="card">
+    <section id="day" class="section hilen-view hilen-sales">
+      <div class="card sales-toolbar-card">
         <div class="sales-filterbar">
-          <div><h2 style="margin-bottom:4px">Movimientos de ventas</h2><div class="muted small">Consulta exactamente qué pasó en ventas por día, mes o año.</div></div>
-          <div class="segmented" id="salesPeriodTabs">
+          <div class="sales-filter-copy"><h2>Movimientos de ventas</h2><div class="muted small">Selecciona un período para ver la información.</div></div>
+          <div class="segmented sales-tabs" id="salesPeriodTabs" aria-label="Periodo de ventas">
             <button class="active" data-period="day" onclick="setSalesPeriod('day',this)">Día</button>
             <button data-period="month" onclick="setSalesPeriod('month',this)">Mes</button>
             <button data-period="year" onclick="setSalesPeriod('year',this)">Año</button>
           </div>
         </div>
-        <div class="period-fields" style="margin-top:16px">
+        <div class="period-fields sales-period-fields">
           <div id="salesDayWrap"><label class="label">Día</label><input id="dayDate" class="input" type="date" onchange="renderSalesView()"></div>
           <div id="salesMonthWrap" class="hidden"><label class="label">Mes</label><input id="salesMonth" class="input" type="month" onchange="renderSalesView()"></div>
           <div id="salesYearWrap" class="hidden"><label class="label">Año</label><input id="salesYear" class="input" type="number" min="2000" max="2100" onchange="renderSalesView()"></div>
         </div>
-      </div><br>
-      <div class="card"><h2 id="dayTitle">Ventas</h2><div id="dayTable"></div></div>
+      </div>
+
+      <div class="card sales-summary-card">
+        <div class="sales-section-heading"><h2 id="dayTitle">Ventas</h2><div class="muted small">Resumen general de ventas en el período seleccionado.</div></div>
+        <div id="dayTable"></div>
+      </div>
+
       <div class="card sales-chart-card">
         <div class="sales-chart-head">
           <div><h2 id="salesChartTitle">Comportamiento de ventas</h2><div id="salesChartSubtitle" class="muted small">La gráfica cambia automáticamente según selecciones Día, Mes o Año.</div></div>
@@ -2106,23 +2151,29 @@ body{background:linear-gradient(180deg,#fcfbf8 0,#f7f6f3 100%)!important;color:v
     </section>
 
 
-    <section id="inventory" class="section">
-      <div class="card">
-        <div class="history-head">
-          <div><h2 style="margin-bottom:4px">Productos y demanda</h2><div class="muted small">Muestra qué compran tus clientes, qué productos preguntan los clientes potenciales y cuáles tienen mayor o menor demanda. Se calcula automáticamente con las ventas y las fichas de clientes.</div></div>
-          <div class="history-head-actions">
+    <section id="inventory" class="section hilen-view hilen-inventory">
+      <div class="card inventory-hero-card">
+        <div class="inventory-hero-head">
+          <div class="inventory-hero-copy"><h2>Productos y demanda</h2><div class="muted small">Muestra qué compran tus clientes, qué productos preguntan los clientes potenciales y cuáles tienen mayor o menor demanda. Se calcula automáticamente con las ventas y las fichas de clientes.</div></div>
+          <div class="inventory-controls">
             <div><label class="label">Año</label><input id="inventoryYear" class="input" type="number" min="2000" max="2100" onchange="renderInventory()"></div>
-            <div><label class="label">Buscar producto</label><input id="inventorySearch" class="input" placeholder="Nombre del producto" oninput="renderInventory()"></div>
+            <div><label class="label">Buscar producto</label><div class="search-field-wrap"><span>⌕</span><input id="inventorySearch" class="input" placeholder="Nombre del producto..." oninput="syncInventorySearchMirror();renderInventory()"></div></div>
           </div>
         </div>
-        <div class="notice blue" style="margin-top:12px">Esta sección cruza <b>las compras reales de los clientes</b> con los <b>productos de interés de clientes potenciales</b>. No es un conteo de existencias físicas: sirve para saber qué referencias se venden, cuáles preguntan y qué conviene comprar o impulsar.</div>
+        <div class="notice blue inventory-info-banner">ⓘ <span>Esta sección cruza <b>las compras reales de los clientes</b> con los <b>productos de interés de clientes potenciales</b>. No es un conteo de existencias físicas: sirve para saber qué referencias se venden, cuáles preguntan y qué conviene comprar o impulsar.</span></div>
       </div>
-      <div id="inventoryKpis" class="inventory-kpis"></div>
-      <div class="inventory-two">
-        <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Productos más solicitados</h2><div class="muted small">Top 10 por unidades vendidas.</div></div></div><div id="inventoryChart"></div></div>
-        <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Recomendaciones para comprar</h2><div class="muted small">Señales automáticas basadas en rotación y ventas.</div></div></div><div id="inventoryInsights"></div></div>
+
+      <div id="inventoryKpis" class="inventory-kpis inventory-kpis-reference"></div>
+
+      <div class="inventory-two inventory-two-reference">
+        <div class="card inventory-chart-card"><div class="panel-head"><div><h2>Productos más solicitados</h2><div class="muted small">Top 10 por unidades vendidas.</div></div><span class="panel-head-icon">▥</span></div><div id="inventoryChart"></div></div>
+        <div class="card inventory-insights-card"><div class="panel-head"><div><h2>Recomendaciones para comprar</h2><div class="muted small">Señales automáticas basadas en rotación y ventas.</div></div></div><div id="inventoryInsights"></div></div>
       </div>
-      <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Detalle por producto</h2><div class="muted small">Unidades, clientes, ingresos, frecuencia y última venta durante el año seleccionado.</div></div></div><div id="inventoryTable"></div></div>
+
+      <div class="card inventory-table-card">
+        <div class="inventory-table-head"><div><h2>Detalle por producto</h2><div class="muted small">Unidades, clientes, ingresos, frecuencia y última venta durante el año seleccionado.</div></div><div class="inventory-table-search"><span>⌕</span><input id="inventorySearchMirror" class="input" placeholder="Buscar producto..." oninput="syncInventorySearchMain();renderInventory()"></div></div>
+        <div id="inventoryTable"></div>
+      </div>
     </section>
 
     <section id="history" class="section">
@@ -2155,45 +2206,45 @@ body{background:linear-gradient(180deg,#fcfbf8 0,#f7f6f3 100%)!important;color:v
       <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Historial de clientes del año</h2><div class="muted small">Al final del historial: qué compró cada cliente, cuánto abonó, su estado y si terminó el año sin deuda.</div></div></div><div id="historyClientsTable"></div></div>
     </section>
 
-    <section id="settings" class="section">
-      <div class="card" style="margin-bottom:18px">
-        <div class="panel-head"><div><h2 style="margin-bottom:4px">Configuración de tu cuenta</h2><div class="muted small">Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.</div></div></div>
-        <div class="settings-account" style="margin-top:14px">
+    <section id="settings" class="section hilen-view hilen-settings">
+      <div class="card settings-account-card">
+        <div class="pro-card-head compact settings-account-title"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 21c.7-5 3-7 7-7s6.3 2 7 7"/></svg></span><div><h2>Configuración de tu cuenta</h2></div></div>
+        <div class="settings-account">
           <div class="settings-account-box"><span class="small muted">Usuario</span><b id="settingsUserName">HILEN</b></div>
           <div class="settings-account-box"><span class="small muted">Correo de la cuenta</span><b id="settingsUserEmail">—</b></div>
           <div class="settings-account-box settings-google-account">
             <div class="settings-google-account-main">
-              <span class="settings-google-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5"/></svg></span>
-              <div><span class="small muted">Cuenta de Google Drive</span><b id="settingsGoogleDriveText">No conectada</b><div id="settingsGoogleDriveHelp" class="small muted" style="margin-top:3px">Conéctala para activar las copias automáticas.</div></div>
+              <span class="google-drive-mark" aria-hidden="true">▲</span>
+              <div><span class="small muted">Cuenta de Google Drive</span><b id="settingsGoogleDriveText">No conectada</b><div id="settingsGoogleDriveHelp" class="small muted">Conéctala para activar las copias automáticas.</div></div>
             </div>
             <span id="settingsGoogleDriveState" class="google-account-state disconnected"><span class="dot"></span>No conectada</span>
           </div>
         </div>
       </div>
 
-      <div class="settings-grid">
-        <div class="card">
-          <div class="panel-head"><div><h2 style="margin-bottom:4px">🛡️ Protección de tus datos</h2><div class="muted small">Esta protección pertenece únicamente a tu cuenta de HILEN.</div></div></div>
-          <div class="notice blue" style="margin-top:12px"><b>¿Para qué sirve?</b><br>HILEN guarda copias de lo que registras para que, si algún día ocurre un problema o algo se elimina por error, podamos recuperar tus <b>ventas, clientes, abonos, movimientos de caja, productos y demás información</b>.<br><br><b>No tienes que hacer nada todos los días.</b> Después de conectar tu Google Drive una sola vez, HILEN mantiene las copias automáticamente mientras utilizas el sistema con Internet.<br><br>Todo queda organizado en tu propia cuenta de Google dentro de la carpeta <b>HILEN - Respaldos</b>. Al cerrar cada año, HILEN conserva además <b>una copia final única de ese año</b> para que el historial anterior quede protegido. Evita borrar esa carpeta.</div>
+      <div class="settings-grid settings-grid-reference">
+        <div class="card settings-protection-card">
+          <div class="pro-card-head compact"><span class="pro-icon gold">♢</span><div><h2>Protección de tus datos</h2><p>Esta protección pertenece únicamente a tu cuenta de HILEN.</p></div></div>
+          <div class="notice blue settings-explain"><b>¿Para qué sirve?</b><br>HILEN guarda copias de lo que registras para que, si algún día ocurre un problema o algo se elimina por error, podamos recuperar tus <b>ventas, clientes, abonos, movimientos de caja, productos y demás información</b>.<br><br><b>No tienes que hacer nada todos los días.</b> Después de conectar tu Google Drive una sola vez, HILEN mantiene las copias automáticamente mientras utilizas el sistema con Internet.<br><br>Todo queda organizado en tu propia cuenta de Google dentro de la carpeta <b>HILEN - Respaldos</b>. Al cerrar cada año, HILEN conserva además <b>una copia final única de ese año</b> para que el historial anterior quede protegido. Evita borrar esa carpeta.</div>
           <div class="settings-status-grid">
-            <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M7 10h10M7 14h7"/></svg></span><span>Copia organizada</span></div><div id="googleSheetsStatus" class="google-sheets-status"></div></div>
-            <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.4 4.5 4.5 0 0 0 7 18Z"/><path d="M12 11v5M9.8 13.2 12 11l2.2 2.2"/></svg></span><span>Copia de recuperación</span></div><div id="googleDriveStatus" class="google-sheets-status"></div></div>
+            <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">▤</span><span>Copia organizada</span></div><div id="googleSheetsStatus" class="google-sheets-status"></div></div>
+            <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">☁</span><span>Copia de recuperación</span></div><div id="googleDriveStatus" class="google-sheets-status"></div></div>
           </div>
-          <div class="settings-actions" style="margin-top:14px">
-            <button class="primary drive-connect-btn" onclick="openGoogleSheetsSetup()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button>
+          <div class="settings-actions">
+            <button class="primary drive-connect-btn" onclick="openGoogleSheetsSetup()">▲&nbsp; Conectar Google Drive</button>
             <button class="secondary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button>
             <button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button>
             <button class="secondary" onclick="openGoogleSheetBackup()">Ver copia organizada</button>
           </div>
         </div>
 
-        <div class="card"><div id="cloudBackupPanel" class="cloud-backup-panel" style="margin-top:0"></div></div>
+        <div class="card settings-backups-card"><div id="cloudBackupPanel" class="cloud-backup-panel"></div></div>
       </div>
 
-      <div class="card">
-        <div class="panel-head"><div><h2 style="margin-bottom:4px">Descargar o recuperar información</h2><div class="muted small">Estas opciones son adicionales. El respaldo automático de Google funciona sin que tengas que descargar archivos todos los días.</div></div></div>
-        <div class="history-backup" style="margin-top:14px"><button class="primary" onclick="exportAllToExcel()">Descargar Excel completo</button><button class="secondary" onclick="downloadBackup()">Descargar copia JSON</button><label class="secondary" style="cursor:pointer;margin:0">Restaurar una copia<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div>
-        <div class="muted small" style="margin-top:10px">Usa “Restaurar una copia” solamente cuando necesites recuperar información desde un archivo de respaldo anterior.</div>
+      <div class="card settings-download-card">
+        <div class="pro-card-head compact"><span class="pro-icon gold">↓</span><div><h2>Descargar o recuperar información</h2><p>Estas opciones son adicionales. El respaldo automático de Google funciona sin que tengas que descargar archivos todos los días.</p></div></div>
+        <div class="history-backup"><button class="primary" onclick="exportAllToExcel()">↓&nbsp; Descargar Excel completo</button><button class="secondary" onclick="downloadBackup()">▣&nbsp; Descargar copia JSON</button><label class="secondary restore-label">↻&nbsp; Restaurar una copia<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div>
+        <div class="muted small settings-download-help">Usa “Restaurar una copia” solamente cuando necesites recuperar información desde un archivo de respaldo anterior.</div>
       </div>
     </section>
 
@@ -2476,7 +2527,7 @@ async function renderCloudBackups(){
     const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups')).once('value');
     const all=Object.entries(s.val()||{}).map(([id,v])=>({id,...v})).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')));
     const rows=all.filter(x=>x.reason==='respaldo diario'||x.reason==='respaldo manual'||String(x.reason||'').startsWith('antes de ')).slice(0,10);
-    box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><b>Copias de recuperación de HILEN</b><div class="small muted">HILEN conserva copias recientes dentro de tu espacio de Firebase: 1 diaria, hasta 5 manuales y copias antes de eliminaciones. No es el servicio oficial de Backups de Firebase.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${rows.length?rows.map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup('${x.id}')">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos visibles.</div>'}`
+    box.innerHTML=`<div class="cloud-backup-header"><div><b>Copias de recuperación de HILEN</b><div class="small muted">HILEN conserva copias recientes dentro de tu espacio de Firebase: 1 diaria, hasta 5 manuales y copias antes de eliminaciones. No es el servicio oficial de Backups de Firebase.</div></div><button class="secondary" onclick="cloudCreateBackup('respaldo manual').then(()=>renderCloudBackups())">Crear respaldo ahora</button></div>${rows.length?rows.map(x=>`<div class="cloud-backup-row"><div><b>${esc(x.reason||'respaldo')}</b><div class="small muted">${new Date(x.created_at).toLocaleString('es-CO')}</div></div><button class="action-mini" onclick="restoreCloudBackup('${x.id}')">Restaurar</button></div>`).join(''):'<div class="small muted" style="margin-top:12px">Todavía no hay respaldos visibles.</div>'}`
   }catch(err){console.error(err);box.innerHTML='<div class="small kpi-down">No se pudieron consultar los respaldos. Revisa Firebase y las reglas de Realtime Database.</div>'}
 }
 async function restoreCloudBackup(backupId){
@@ -2633,7 +2684,7 @@ function globalSearchGo(){
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial anual',settings:'Configuración'};$('pageTitle').textContent=names[name];closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial anual',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla ingresos, gastos y movimientos de tu negocio.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',statements:'Consulta y genera estados de cuenta de tus clientes.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide();if((e.metaKey||e.ctrlKey)&&String(e.key).toLowerCase()==='k'){e.preventDefault();$('globalSearch')?.focus()}})
@@ -2732,8 +2783,8 @@ function renderSalesView(){
   rows.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.time||'').localeCompare(String(a.time||'')));
   $('dayTitle').textContent=label;
   const total=rows.reduce((a,s)=>a+(Number(s.total)||0),0),paid=rows.filter(s=>s.type==='paid').reduce((a,s)=>a+(Number(s.total)||0),0),credit=rows.filter(s=>s.type==='credit').reduce((a,s)=>a+(Number(s.total)||0),0);
-  const summary=`<div class="period-summary"><div class="card"><div class="stat-label">Total vendido</div><div class="stat">${money(total)}</div></div><div class="card"><div class="stat-label">Pagado</div><div class="stat">${money(paid)}</div></div><div class="card"><div class="stat-label">Crédito</div><div class="stat">${money(credit)}</div></div><div class="card"><div class="stat-label">Ventas</div><div class="stat">${rows.length}</div></div></div>`;
-  const table=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${rows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(s.total)}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">No hay ventas en este período.</p>';
+  const summary=`<div class="period-summary"><div class="card"><span class="sales-kpi-icon green">$</span><div class="stat-wrap"><div class="stat-label">Total vendido</div><div class="stat">${money(total)}</div></div></div><div class="card"><span class="sales-kpi-icon blue">▣</span><div class="stat-wrap"><div class="stat-label">Pagado</div><div class="stat">${money(paid)}</div></div></div><div class="card"><span class="sales-kpi-icon gold">👥</span><div class="stat-wrap"><div class="stat-label">Crédito</div><div class="stat">${money(credit)}</div></div></div><div class="card"><span class="sales-kpi-icon purple">▥</span><div class="stat-wrap"><div class="stat-label">Ventas</div><div class="stat">${rows.length}</div></div></div></div>`;
+  const table=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${rows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(s.total)}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:`<div class="sales-empty-state"><div><div class="icon">📦</div><b>No hay ventas en este período.</b><div class="muted">Cuando registres ventas, verás la información aquí.</div></div></div>`;
   $('dayTable').innerHTML=summary+table;
   renderSalesChart();
 }
@@ -2759,6 +2810,7 @@ function renderSalesChart(){
   if($('salesChartSubtitle'))$('salesChartSubtitle').textContent=subtitle;
   const max=Math.max(0,...points.map(x=>x.value)),nonZero=points.filter(x=>x.value>0),best=nonZero.length?nonZero.reduce((a,b)=>b.value>a.value?b:a):null,low=nonZero.length?nonZero.reduce((a,b)=>b.value<a.value?b:a):null,total=points.reduce((a,b)=>a+b.value,0);
   const minWidth=salesPeriod==='month'?Math.max(760,points.length*48):salesPeriod==='day'?560:760;
+  if(!total){$('salesChart').innerHTML=`<div class="sales-chart-empty"><div><div class="icon">▥</div><b>No hay datos para mostrar</b><div class="muted">No hay ventas en este período.</div></div></div>`;return}
   $('salesChart').innerHTML=`<div class="sales-chart-wrap"><div class="sales-bars" style="grid-template-columns:repeat(${points.length},minmax(38px,1fr));min-width:${minWidth}px">${points.map(x=>{const h=max?Math.max(3,Math.round(x.value/max*185)):3;return `<div class="sales-bar-col" title="${esc(x.full)}: ${money(x.value)} · ${x.count} venta(s)"><div class="sales-bar-value">${x.value?money(x.value):'$0'}</div><div class="sales-bar" style="height:${h}px;opacity:${x.value?1:.14}"></div><div class="sales-bar-label">${esc(x.label)}</div></div>`}).join('')}</div><div class="sales-chart-summary"><div class="sales-chart-chip"><span class="small muted">${bestLabel}</span><b>${best?esc(best.full)+' · '+money(best.value):'Sin ventas'}</b></div><div class="sales-chart-chip"><span class="small muted">${lowLabel}</span><b>${low?esc(low.full)+' · '+money(low.value):'Sin ventas'}</b></div><div class="sales-chart-chip"><span class="small muted">${totalLabel}</span><b>${money(total)}</b></div></div></div>`;
 }
 function renderDay(){renderSalesView()}
@@ -3127,9 +3179,11 @@ function inventoryAnalytics(year){
   db.clients.forEach(c=>{const d=c.registeredDate||String(c.createdAt||'').slice(0,10);if(!(d>=start&&d<=end)||!c.interest)return;String(c.interest).split(/[,;/]+/).map(x=>x.trim()).filter(Boolean).forEach(name=>{const r=ensure(name);if(r){r.inquiries++;r.interestedClients.add(c.id)}})});
   const rows=[...map.values()].map(r=>({...r,clientsCount:r.clients.size,interestedCount:r.interestedClients.size,avgPrice:r.prices.length?r.prices.reduce((a,b)=>a+b,0)/r.prices.length:0})).sort((a,b)=>b.units-a.units||b.inquiries-a.inquiries||b.revenue-a.revenue);const maxUnits=Math.max(1,...rows.map(r=>r.units));rows.forEach(r=>{const ratio=r.units/maxUnits;r.demand=r.units===0&&r.inquiries>0?'Interés sin venta':ratio>=.6?'Alta':ratio>=.25?'Media':'Baja'});return rows
 }
+function syncInventorySearchMirror(){const a=$('inventorySearch'),b=$('inventorySearchMirror');if(a&&b&&b.value!==a.value)b.value=a.value}
+function syncInventorySearchMain(){const a=$('inventorySearch'),b=$('inventorySearchMirror');if(a&&b&&a.value!==b.value)a.value=b.value}
 function renderInventory(){
   if(!$('inventoryYear'))return;const year=Number($('inventoryYear').value)||getDefaultHistoryYear();$('inventoryYear').value=year;const q=normalizeProductName($('inventorySearch')?.value||''),all=inventoryAnalytics(year),rows=all.filter(r=>!q||normalizeProductName(r.name).includes(q));const units=all.reduce((a,r)=>a+r.units,0),revenue=all.reduce((a,r)=>a+r.revenue,0),inquiries=all.reduce((a,r)=>a+r.inquiries,0),top=all.find(r=>r.units>0),topInterest=[...all].sort((a,b)=>b.inquiries-a.inquiries)[0];
-  $('inventoryKpis').innerHTML=`<div class="inventory-kpi"><div class="ik-label">Productos distintos</div><div class="ik-value">${all.length}</div></div><div class="inventory-kpi"><div class="ik-label">Unidades vendidas</div><div class="ik-value">${units}</div></div><div class="inventory-kpi"><div class="ik-label">Más vendido</div><div class="ik-value">${top?esc(top.name):'—'}</div><div class="small muted">${top?top.units+' unidad(es)':'Sin ventas'}</div></div><div class="inventory-kpi"><div class="ik-label">Consultas / intereses</div><div class="ik-value">${inquiries}</div><div class="small muted">${topInterest&&topInterest.inquiries?`Más preguntado: ${esc(topInterest.name)}`:'Sin intereses registrados'}</div></div><div class="inventory-kpi"><div class="ik-label">Ingresos por productos</div><div class="ik-value">${money(revenue)}</div></div>`;
+  $('inventoryKpis').innerHTML=`<div class="inventory-kpi"><span class="ik-badge gold">◫</span><div class="ik-text"><div class="ik-label">Productos distintos</div><div class="ik-value">${all.length}</div></div></div><div class="inventory-kpi"><span class="ik-badge mint">▥</span><div class="ik-text"><div class="ik-label">Unidades vendidas</div><div class="ik-value">${units}</div></div></div><div class="inventory-kpi"><span class="ik-badge gold">🏆</span><div class="ik-text"><div class="ik-label">Más vendido</div><div class="ik-value">${top?esc(top.name):'—'}</div><div class="small muted">${top?top.units+' unidad(es)':'Sin ventas'}</div></div></div><div class="inventory-kpi"><span class="ik-badge blue">💬</span><div class="ik-text"><div class="ik-label">Consultas / intereses</div><div class="ik-value">${inquiries}</div><div class="small muted">${topInterest&&topInterest.inquiries?`Más preguntado: ${esc(topInterest.name)}`:'Sin intereses registrados'}</div></div></div><div class="inventory-kpi"><span class="ik-badge green">$</span><div class="ik-text"><div class="ik-label">Ingresos por productos</div><div class="ik-value">${money(revenue)}</div></div></div>`;
   const top10=[...all].sort((a,b)=>b.units-a.units||b.inquiries-a.inquiries).slice(0,10),max=Math.max(1,...top10.map(r=>Math.max(r.units,r.inquiries)));$('inventoryChart').innerHTML=top10.length?`<div class="inventory-chart">${top10.map(r=>`<div class="inventory-bar-col" title="${esc(r.name)} · ${r.units} vendidas · ${r.inquiries} consultas · ${money(r.revenue)}"><div class="inventory-value">${r.units}v / ${r.inquiries}i</div><div class="inventory-bar" style="height:${Math.max(4,Math.round(Math.max(r.units,r.inquiries)/max*165))}px"></div><div class="inventory-label">${esc(r.name)}</div></div>`).join('')}</div>`:'<div class="notice">No hay productos vendidos ni intereses registrados en este año.</div>';
   const top3=[...all].filter(r=>r.units>0).slice(0,3),slow=[...all].filter(r=>r.units>0).sort((a,b)=>a.units-b.units||a.revenue-b.revenue).slice(0,3),wantedNoSale=[...all].filter(r=>r.inquiries>0&&r.units===0).sort((a,b)=>b.inquiries-a.inquiries).slice(0,3);$('inventoryInsights').innerHTML=all.length?`<div class="notice good"><b>Prioridad de reposición:</b> ${top3.length?top3.map(r=>esc(r.name)+' ('+r.units+')').join(' · '):'Sin ventas suficientes'}</div><div class="notice warn" style="margin-top:10px"><b>Baja rotación:</b> ${slow.length?slow.map(r=>esc(r.name)+' ('+r.units+')').join(' · '):'Sin datos'}</div><div class="notice blue" style="margin-top:10px"><b>Preguntados pero todavía sin venta:</b> ${wantedNoSale.length?wantedNoSale.map(r=>esc(r.name)+' ('+r.inquiries+' consultas)').join(' · '):'Ninguno'}</div>`:'<div class="notice">Registra ventas o productos de interés para generar recomendaciones.</div>';
   $('inventoryTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Producto</th><th>Unidades</th><th>Consultas</th><th>Clientes compradores</th><th>Ingresos</th><th>Precio promedio</th><th>Última venta</th><th>Señal</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.name)}</b></td><td>${r.units}</td><td>${r.inquiries}</td><td>${r.clientsCount}</td><td>${money(r.revenue)}</td><td>${money(r.avgPrice)}</td><td>${r.last||'—'}</td><td><span class="demand-badge ${r.demand==='Alta'?'demand-high':r.demand==='Baja'||r.demand==='Interés sin venta'?'demand-low':'demand-mid'}">${r.demand}</span></td></tr>`).join('')}</tbody></table></div>`:'<div class="notice">No hay resultados.</div>'
