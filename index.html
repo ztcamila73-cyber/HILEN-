@@ -1861,6 +1861,131 @@ body{background:linear-gradient(180deg,#fcfbf8 0,#f7f6f3 100%)!important;color:v
 @media (max-width:819px){.hilen-cashflow .cash-grid-reference{grid-template-columns:1fr!important}.cash-main-reference{grid-template-columns:1fr!important}.cash-movements-head{flex-direction:column}.cash-tabs{width:100%!important;min-width:0!important}.cash-period-fields{display:block}.cash-period-fields>div{width:100%}.cash-summary-reference{grid-template-columns:1fr 1fr!important}.history-kpis-reference{grid-template-columns:1fr 1fr!important}.history-ref-stat{border-right:0;border-bottom:1px solid #e5eaf0;padding:12px 8px}.history-ref-stat:first-child{padding-left:8px}.history-notice-grid{grid-template-columns:1fr!important}.history-reference-row{grid-template-columns:1fr!important}.history-month-reference-head{align-items:flex-start;flex-direction:column}.history-year-reference{width:100%;justify-content:flex-end}.history-extra-card{overflow:hidden}}
 @media (max-width:520px){.cash-summary-reference{grid-template-columns:1fr!important}.history-kpis-reference{grid-template-columns:1fr!important}.history-ref-value{white-space:normal}}
 
+
+
+/* ===== HILEN V5 · TABLET REALMENTE RESPONSIVE + LIMPIEZA ===== */
+.side-help{display:none!important}
+.shell-avatar{background:linear-gradient(145deg,#22365f,#07152f)!important;color:#fff!important;box-shadow:0 4px 12px rgba(7,21,47,.16)!important}
+
+/* Evitar que cualquier bloque empuje la página fuera de la pantalla */
+.main,.section,.card,.shell-toolbar,.top,.top-title-line,.history-two,.inventory-two,.settings-grid,.payments-layout-pro,.sale-layout-pro,.cash-main-reference,.home-dashboard-grid{min-width:0!important;max-width:100%!important}
+.section{overflow:visible!important}
+.card{overflow:visible}
+input,select,textarea,button{max-width:100%}
+
+/* TABLET VERTICAL: menú lateral oculto y contenido a todo el ancho */
+@media (min-width:700px) and (max-width:1100px) and (orientation:portrait){
+  .side{transform:translateX(-105%)!important;width:min(300px,78vw)!important;z-index:100!important;padding:16px 12px 76px!important;transition:transform .22s ease!important}
+  .side.open{transform:translateX(0)!important}
+  .side.open .side-close{display:inline-flex!important}
+  .side-backdrop{display:block!important;position:fixed!important;inset:0!important;background:rgba(10,18,35,.2)!important;opacity:0!important;pointer-events:none!important;z-index:95!important;transition:.2s!important}
+  .side-backdrop.open{opacity:1!important;pointer-events:auto!important}
+  .main{margin-left:0!important;width:100%!important;max-width:100vw!important;padding:14px 16px 24px!important;overflow-x:hidden!important}
+  .shell-toolbar{grid-template-columns:44px auto minmax(0,1fr) 42px 44px!important;gap:8px!important;width:100%!important;margin-bottom:12px!important}
+  .shell-menu{display:inline-flex!important;width:44px!important;height:44px!important}
+  .shell-brand{display:flex!important;min-width:0!important}
+  .shell-brand .logo-mark{width:38px!important;height:38px!important;flex:0 0 38px!important}
+  .shell-brand strong{font-size:19px!important}
+  .shell-search{grid-column:3!important;width:100%!important;min-width:0!important;height:44px!important}
+  .search-shortcut{display:none!important}
+  .shell-bell{width:42px!important;height:42px!important}
+  .shell-user{width:42px!important;min-width:42px!important;height:42px!important;padding:4px!important;border-radius:50%!important;justify-content:center!important}
+  .shell-avatar{width:34px!important;height:34px!important;min-width:34px!important;flex-basis:34px!important}
+  .shell-user-copy,.shell-chevron{display:none!important}
+  .top{margin-bottom:12px!important}
+  .top-title-line{gap:8px!important;align-items:flex-start!important;flex-wrap:wrap!important}
+  .title{font-size:27px!important;line-height:1.08!important}
+  .date-shell{font-size:10.5px!important;padding:7px 10px!important}
+  .page-subtitle,.section-subtitle{font-size:11.5px!important;line-height:1.35!important}
+
+  /* Grids principales */
+  .home-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .home-dashboard-grid{grid-template-columns:1fr!important;grid-template-areas:"quick" "sales" "summary" "cash"!important}
+  .client-kpis-pro{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .payment-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .payments-layout-pro,.sale-layout-pro,.cash-main-reference,.history-two,.inventory-two,.settings-grid{grid-template-columns:1fr!important}
+  .cash-grid-reference{grid-template-columns:1fr!important}
+  .cash-summary-reference{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .history-kpis-reference{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #inventoryKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .inventory-controls{grid-template-columns:1fr!important;width:100%!important}
+  .registry-filters,.payment-filter-pro{grid-template-columns:1fr!important}
+  .sale-two-fields,.sale-client-grid,.payment-form-fields{grid-template-columns:1fr!important}
+  .sale-total-bar{grid-template-columns:1fr 130px!important;gap:10px!important}
+  .save-sale-btn{grid-column:1/-1!important;width:100%!important}
+
+  /* Tablas: ocupar exactamente el ancho disponible y envolver texto */
+  .table-wrap,.table-fit-wrap{width:100%!important;max-width:100%!important;overflow:visible!important}
+  .table{width:100%!important;min-width:0!important;max-width:100%!important;table-layout:fixed!important}
+  .table th,.table td{padding:6px 5px!important;font-size:9.4px!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:break-word!important;line-height:1.22!important}
+  .table th{font-size:8.8px!important}
+  .action-group{gap:4px!important;flex-wrap:wrap!important;justify-content:flex-start!important}
+  .action-mini.view,.action-mini.edit,.action-mini.danger{width:29px!important;height:29px!important;min-width:29px!important;min-height:29px!important;max-width:29px!important;flex-basis:29px!important;background-size:14px 14px!important}
+  .history-action-btn{min-width:0!important;padding:6px 7px!important;font-size:9px!important}
+  .badge{font-size:8.8px!important;padding:4px 7px!important}
+
+  /* Formularios y tarjetas más compactos */
+  .card{padding:14px!important}
+  .input,input:not([type="checkbox"]):not([type="radio"]),select,textarea{min-height:41px!important;font-size:12px!important}
+  .primary,.secondary,.danger-btn{min-height:41px!important;font-size:11.5px!important;padding:8px 10px!important}
+  .panel-head h2,.pro-card-head h2{font-size:16px!important}
+  .pro-card-head p,.panel-head .small{font-size:10.5px!important}
+  .cash-balance-reference{min-height:96px!important;padding:14px!important}
+  .cash-balance-reference .balance-value{font-size:22px!important}
+  .cash-summary-ref{min-height:80px!important;padding:11px!important}
+  .history-ref-stat{padding:10px!important;border-right:0!important}
+  .history-reference-row{grid-template-columns:1fr!important}
+  .history-notice-grid{grid-template-columns:1fr!important}
+  .history-month-reference-head{align-items:flex-start!important;flex-direction:column!important}
+  .history-year-reference{width:100%!important;justify-content:flex-start!important}
+  .product-row{grid-template-columns:minmax(0,1.3fr) 58px 78px 78px 32px!important;gap:5px!important}
+  .product-row .input{font-size:10.5px!important;padding-left:7px!important;padding-right:7px!important}
+}
+
+/* TABLET HORIZONTAL: sidebar compacto y contenido ajustado sin desbordes */
+@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){
+  .side{transform:none!important;width:190px!important;padding:14px 9px 70px!important;z-index:30!important}
+  .side-close,.side-backdrop,.shell-menu,.shell-brand{display:none!important}
+  .brand{padding:0 7px 16px!important;gap:8px!important}.brand-copy strong{font-size:21px!important}.brand-copy span{font-size:9px!important}
+  .nav{gap:3px!important}.nav button{min-height:40px!important;padding:0 9px!important;font-size:12.5px!important;gap:8px!important}.nav button .ico{width:19px!important;height:19px!important;flex-basis:19px!important}.nav button svg{width:18px!important;height:18px!important}
+  .logout{left:9px!important;width:calc(100% - 18px)!important;bottom:12px!important;height:40px!important}
+  .main{margin-left:190px!important;padding:12px 15px 24px!important;width:calc(100% - 190px)!important;max-width:calc(100vw - 190px)!important;overflow-x:hidden!important}
+  .shell-toolbar{grid-template-columns:minmax(250px,1fr) 42px minmax(145px,175px)!important;gap:9px!important}
+  .shell-search{grid-column:1!important;min-width:0!important;width:100%!important}
+  .shell-user{min-width:145px!important;width:100%!important;height:44px!important}
+  .shell-avatar{width:32px!important;height:32px!important;flex-basis:32px!important}
+  .title{font-size:29px!important}.date-shell{font-size:10.5px!important;padding:7px 10px!important}
+  .card{padding:14px!important}
+
+  .home-kpis{grid-template-columns:repeat(4,minmax(0,1fr))!important}.quick-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .client-kpis-pro{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .payments-layout-pro{grid-template-columns:minmax(280px,.82fr) minmax(0,1.55fr)!important}
+  .cash-main-reference{grid-template-columns:minmax(280px,.72fr) minmax(0,1.6fr)!important}
+  .cash-grid-reference{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .cash-summary-reference{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .history-kpis-reference{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+  #inventoryKpis{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+  .inventory-two{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)!important}
+  .settings-grid{grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr)!important}
+
+  .table-wrap,.table-fit-wrap{width:100%!important;max-width:100%!important;overflow:visible!important}
+  .table{width:100%!important;min-width:0!important;max-width:100%!important;table-layout:fixed!important}
+  .table th,.table td{padding:6px 6px!important;font-size:9.8px!important;white-space:normal!important;overflow-wrap:anywhere!important;line-height:1.25!important}
+  .table th{font-size:9px!important}
+  .action-group{gap:4px!important;flex-wrap:nowrap!important}
+  .action-mini.view,.action-mini.edit,.action-mini.danger{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:30px!important;flex-basis:30px!important;background-size:14px 14px!important}
+  .badge{font-size:8.8px!important;padding:4px 7px!important}
+}
+
+/* Rotación dinámica: evitar anchos heredados al cambiar orientación */
+@media (min-width:700px) and (max-width:1366px){
+  body,html{max-width:100vw!important;overflow-x:hidden!important}
+  .main>*{max-width:100%!important}
+  .section.active{width:100%!important;max-width:100%!important}
+  canvas,svg,img{max-width:100%!important}
+}
+
 </style>
 </head>
 <body>
@@ -1945,7 +2070,7 @@ body{background:linear-gradient(180deg,#fcfbf8 0,#f7f6f3 100%)!important;color:v
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
       <button onclick="section('settings',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H10v-.08a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V10h.08A1.7 1.7 0 0 0 4.66 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3H14v.08A1.7 1.7 0 0 0 15.1 4.66a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.38.36.72.6 1 .3.3.7.45 1.1.4H21V14h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span>Configuración</button>
     </nav>
-    <div class="side-help"><span class="side-help-icon">◉</span><div><b>¿Necesitas ayuda?</b><small>Estamos para ti</small></div><span class="side-help-arrow">›</span></div>
+    
     <button type="button" id="logoutBtn" class="logout" onclick="logout(event)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span class="logout-label">Cerrar sesión</span></button>
   </aside>
   <div id="sideBackdrop" class="side-backdrop" onclick="closeSide()" aria-hidden="true"></div>
