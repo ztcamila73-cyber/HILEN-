@@ -2029,6 +2029,62 @@ input,select,textarea,button{max-width:100%}
 .section:not(.active){display:none!important}
 .section.active{display:block!important}
 
+
+/* HILEN · sin buscador global superior */
+.shell-search,.search-shortcut{display:none!important}
+
+.shell-toolbar{
+  display:grid!important;
+  grid-template-columns:1fr 44px auto!important;
+  align-items:center!important;
+  gap:14px!important;
+}
+.shell-bell{grid-column:2!important}
+.shell-user{grid-column:3!important}
+
+@media (min-width:1400px){
+  .shell-toolbar{grid-template-columns:1fr 44px auto!important}
+  .shell-menu,.shell-brand{display:none!important}
+}
+@media (min-width:900px) and (max-width:1399px){
+  .shell-toolbar{grid-template-columns:46px auto 1fr 44px auto!important;gap:12px!important}
+  .shell-menu{grid-column:1!important}
+  .shell-brand{grid-column:2!important}
+  .shell-bell{grid-column:4!important}
+  .shell-user{grid-column:5!important}
+}
+@media (min-width:700px) and (max-width:899px){
+  .shell-toolbar{grid-template-columns:44px auto 1fr 42px auto!important;gap:9px!important}
+  .shell-menu{grid-column:1!important}
+  .shell-brand{grid-column:2!important}
+  .shell-bell{grid-column:4!important}
+  .shell-user{grid-column:5!important}
+}
+@media (min-width:700px) and (max-width:1100px) and (orientation:portrait){
+  .shell-toolbar{grid-template-columns:44px auto 1fr 42px 42px!important;gap:8px!important}
+  .shell-menu{grid-column:1!important}
+  .shell-brand{grid-column:2!important}
+  .shell-bell{grid-column:4!important}
+  .shell-user{grid-column:5!important}
+}
+@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){
+  .shell-toolbar{grid-template-columns:1fr 42px minmax(145px,175px)!important;gap:9px!important}
+  .shell-bell{grid-column:2!important}
+  .shell-user{grid-column:3!important}
+}
+@media (max-width:699px){
+  .shell-toolbar{
+    grid-template-columns:44px auto 1fr 42px 44px!important;
+    grid-template-rows:44px!important;
+    gap:8px!important;
+    margin-bottom:10px!important;
+  }
+  .shell-menu{grid-column:1!important}
+  .shell-brand{grid-column:2!important}
+  .shell-bell{grid-column:4!important}
+  .shell-user{grid-column:5!important}
+}
+
 </style>
 </head>
 <body>
@@ -2123,11 +2179,6 @@ input,select,textarea,button{max-width:100%}
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
       </button>
       <div class="shell-brand"><div class="logo-mark">H</div><strong>HILEN</strong></div>
-      <div class="shell-search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-        <input id="globalSearch" type="search" placeholder="Buscar clientes, ventas, productos..." onkeydown="if(event.key==='Enter')globalSearchGo()" aria-label="Buscar en HILEN">
-        <span class="search-shortcut">⌘ K</span>
-      </div>
       <button type="button" class="shell-bell" onclick="showToast('Notificaciones','No tienes alertas nuevas.','info')" aria-label="Notificaciones" title="Notificaciones">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><span class="bell-dot"></span>
       </button>
