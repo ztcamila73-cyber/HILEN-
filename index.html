@@ -598,66 +598,549 @@ button,.tab,.segmented button,.nav button,.action-mini,.link-btn{-webkit-tap-hig
 }
 
 
-/* HILEN · mejora visual SOLO para acciones dentro de tablas.
-   Se parte de la versión estable anterior; no cambia Firebase, Google, Vercel ni la lógica. */
-.table .action-group,
-.history-annual-payments-table .action-group{
+/* =========================================================
+   HILEN · ASTRA UI
+   Sistema visual unificado para computador + tablet.
+   Mantiene la lógica actual y mejora únicamente presentación,
+   ergonomía táctil, tablas, formularios y botones.
+   ========================================================= */
+:root{
+  --astra-bg:#f6f7f9;
+  --astra-surface:#ffffff;
+  --astra-surface-2:#fbfbfc;
+  --astra-text:#1d2327;
+  --astra-muted:#667085;
+  --astra-border:#e5e7eb;
+  --astra-border-strong:#d9dde4;
+  --astra-accent:#b47a18;
+  --astra-accent-dark:#835408;
+  --astra-accent-soft:#fbf2df;
+  --astra-blue:#2563eb;
+  --astra-blue-soft:#eef4ff;
+  --astra-green:#15803d;
+  --astra-green-soft:#ecfdf3;
+  --astra-red:#c62828;
+  --astra-red-soft:#fff1f1;
+  --astra-shadow:0 8px 30px rgba(15,23,42,.055);
+  --astra-shadow-hover:0 13px 32px rgba(15,23,42,.085);
+  --astra-radius:18px;
+  --astra-radius-sm:12px;
+}
+
+/* Base general */
+body{
+  background:linear-gradient(180deg,#fafafa 0%,var(--astra-bg) 100%);
+  color:var(--astra-text);
+}
+.main{
+  background:transparent!important;
+}
+.top{
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(229,231,235,.8);
+  border-radius:18px;
+  padding:14px 16px!important;
+  margin-bottom:18px!important;
+  box-shadow:0 5px 22px rgba(15,23,42,.035);
+}
+.title{
+  color:var(--astra-text);
+  font-weight:850;
+}
+
+/* Tarjetas estilo Astra: limpias, ligeras y uniformes */
+.card,
+.kpi-card,
+.balance-card,
+.customer-summary-card,
+.customer-credit-box,
+.statement-send,
+.cash-summary-card,
+.client-kpi,
+.payment-kpi{
+  border-color:var(--astra-border)!important;
+  border-radius:var(--astra-radius)!important;
+  box-shadow:var(--astra-shadow)!important;
+  background:var(--astra-surface);
+}
+.card:hover,
+.kpi-card:not(.dark):hover,
+.balance-card:hover{
+  border-color:var(--astra-border-strong)!important;
+}
+
+/* Inputs */
+.input,
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea{
+  border-color:var(--astra-border-strong)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  min-height:44px;
+  transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;
+}
+.input:focus,
+input:not([type="checkbox"]):not([type="radio"]):focus,
+select:focus,
+textarea:focus{
+  border-color:#c79b4c!important;
+  box-shadow:0 0 0 4px rgba(180,122,24,.11)!important;
+  outline:none!important;
+}
+
+/* Botones generales */
+button{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.primary,.secondary,.danger-btn,.link-btn,.black-link,
+.confirm-cancel,.confirm-danger{
+  min-height:42px;
+  border-radius:12px!important;
+  font-weight:780!important;
+  letter-spacing:-.1px;
+  transition:transform .14s ease,box-shadow .14s ease,background .14s ease,border-color .14s ease;
+}
+.primary{
+  background:linear-gradient(180deg,#191919,#0f0f0f)!important;
+  color:#fff!important;
+  box-shadow:0 7px 18px rgba(0,0,0,.13);
+}
+.primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 23px rgba(0,0,0,.17);
+}
+.secondary,.link-btn,.confirm-cancel{
+  background:#fff!important;
+  color:#30343b!important;
+  border:1px solid var(--astra-border-strong)!important;
+}
+.secondary:hover,.link-btn:hover,.confirm-cancel:hover{
+  background:#f8f9fb!important;
+  border-color:#cfd4dc!important;
+}
+.danger-btn,.confirm-danger.red{
+  background:var(--astra-red-soft)!important;
+  color:var(--astra-red)!important;
+  border:1px solid #f3caca!important;
+}
+
+/* Acciones de tablas: más app, más claras y táctiles */
+.action-group{
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:7px!important;
   flex-wrap:wrap;
 }
-.table .action-mini,
-.history-annual-payments-table .action-mini{
-  min-height:32px;
-  padding:6px 10px!important;
+.action-mini{
+  min-height:34px;
+  padding:7px 11px!important;
   border-radius:999px!important;
-  font-size:11px!important;
-  line-height:1!important;
+  font-size:11.5px!important;
   font-weight:800!important;
+  line-height:1!important;
   border:1px solid transparent!important;
-  box-shadow:none!important;
   display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  white-space:nowrap;
+  box-shadow:none!important;
+  transition:transform .13s ease,box-shadow .13s ease,background .13s ease,border-color .13s ease;
+}
+.action-mini::before{
+  display:inline-block;
+  font-size:12px;
+  line-height:1;
+  opacity:.92;
+}
+.action-mini.view{
+  color:#1d4ed8!important;
+  background:var(--astra-blue-soft)!important;
+  border-color:#d9e5ff!important;
+}
+.action-mini.view::before{content:"↗"}
+.action-mini.edit{
+  color:var(--astra-accent-dark)!important;
+  background:var(--astra-accent-soft)!important;
+  border-color:#eed7aa!important;
+}
+.action-mini.edit::before{content:"✎"}
+.action-mini.danger{
+  color:var(--astra-red)!important;
+  background:var(--astra-red-soft)!important;
+  border-color:#f5cece!important;
+}
+.action-mini.danger::before{content:"×";font-size:15px;font-weight:900}
+.action-mini:hover{
+  transform:translateY(-1px);
+  box-shadow:0 5px 13px rgba(15,23,42,.08)!important;
+}
+.action-mini:active{
+  transform:scale(.97);
+}
+
+/* Tabs y segmentados */
+.segmented{
+  background:#f0f2f5!important;
+  border:1px solid #e7e9ed;
+  border-radius:14px!important;
+  padding:4px!important;
+}
+.segmented button,.tab{
+  min-height:38px;
+  border-radius:10px!important;
+  transition:.15s ease;
+}
+.segmented button.active,.tab.active{
+  background:#fff!important;
+  color:#171717!important;
+  box-shadow:0 3px 10px rgba(15,23,42,.08)!important;
+  border-color:transparent!important;
+}
+
+/* Tablas */
+.table-wrap,.table-fit-wrap{
+  border:1px solid var(--astra-border);
+  border-radius:16px!important;
+  background:#fff;
+  box-shadow:0 4px 16px rgba(15,23,42,.025);
+}
+.table th{
+  background:#f8f9fb!important;
+  color:#5d6470!important;
+  text-transform:none;
+  letter-spacing:.01em;
+  font-weight:800!important;
+}
+.table td{
+  color:#272b31;
+}
+.table tbody tr{
+  transition:background .12s ease;
+}
+.table tbody tr:hover{
+  background:#fcfcfd;
+}
+.table tr:last-child td{
+  border-bottom:0;
+}
+
+/* Badges */
+.badge,.mini-status{
+  border-radius:999px!important;
+  font-weight:800!important;
+  border:1px solid rgba(0,0,0,.025);
+}
+
+/* Menú */
+.side{
+  background:rgba(255,255,255,.97)!important;
+  border-right:1px solid var(--astra-border)!important;
+  box-shadow:8px 0 30px rgba(15,23,42,.025);
+}
+.nav button{
+  border-radius:11px!important;
+  min-height:42px;
+  transition:background .14s ease,color .14s ease,transform .14s ease;
+}
+.nav button:hover{
+  transform:translateX(2px);
+}
+.nav button.active{
+  background:linear-gradient(90deg,#fcf4e6,#f8e9c9)!important;
+  color:#744a08!important;
+  box-shadow:inset 3px 0 0 #b47a18!important;
+}
+
+/* Acciones rápidas de inicio */
+.quick-action{
+  border-color:var(--astra-border)!important;
+  border-radius:18px!important;
+  box-shadow:0 7px 22px rgba(15,23,42,.045)!important;
+}
+.quick-action:hover{
+  border-color:#e7cf9e!important;
+  box-shadow:var(--astra-shadow-hover)!important;
+}
+
+/* Modales */
+.modal{
+  background:rgba(15,23,42,.48)!important;
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+.modal-card{
+  border:1px solid rgba(229,231,235,.9);
+  border-radius:22px!important;
+  box-shadow:0 28px 80px rgba(15,23,42,.22)!important;
+}
+.close{
+  width:40px!important;height:40px!important;
+  background:#f3f4f6!important;
+  color:#30343b!important;
+  border:1px solid #e5e7eb!important;
+}
+
+/* Avisos */
+.notice{
+  border:1px solid transparent;
+  border-radius:14px!important;
+  line-height:1.45;
+}
+.notice.good{border-color:#ccebd9}
+.notice.warn{border-color:#f1d9a7}
+.notice.blue{border-color:#d4e1ff}
+
+/* Tablet: botones cómodos, sin llenar toda la tabla */
+@media (min-width:700px) and (max-width:1180px){
+  .primary,.secondary,.danger-btn,.link-btn,.black-link{
+    min-height:44px;
+    padding:10px 14px!important;
+  }
+  .action-mini{
+    min-height:38px;
+    padding:8px 12px!important;
+    font-size:12px!important;
+  }
+  .action-group{
+    gap:8px!important;
+  }
+  .table th,.table td{
+    padding:11px 10px!important;
+    font-size:12px!important;
+  }
+  .table th{
+    font-size:10.5px!important;
+  }
+  .card{
+    padding:17px!important;
+  }
+  .top{
+    position:sticky;
+    top:max(8px,env(safe-area-inset-top));
+    z-index:24;
+  }
+}
+
+/* Tablet horizontal: acciones compactas y legibles */
+@media (orientation:landscape) and (min-width:700px) and (max-width:1180px){
+  .action-group{
+    flex-wrap:nowrap!important;
+  }
+  .action-mini{
+    min-width:58px;
+  }
+  #history .action-mini{
+    min-width:62px;
+  }
+}
+
+/* Tablet vertical: permitir envolver acciones sin recortes */
+@media (orientation:portrait) and (min-width:700px) and (max-width:1100px){
+  .action-group{
+    flex-wrap:wrap!important;
+  }
+  .action-mini{
+    flex:0 0 auto;
+  }
+}
+
+/* Accesibilidad táctil */
+@media (pointer:coarse){
+  .primary,.secondary,.danger-btn,.nav button,.tab,.segmented button{
+    min-height:44px;
+  }
+  .action-mini{
+    min-height:38px;
+  }
+}
+
+
+/* =========================================================
+   HILEN · RESPONSIVE UI FINAL 2026-09
+   Botones y controles adaptativos para computador, tablet y móvil.
+   Esta capa solo modifica presentación; no toca la lógica JavaScript.
+   ========================================================= */
+
+/* Reglas seguras compartidas */
+button,.primary,.secondary,.danger-btn,.link-btn,.black-link,.action-mini,.chip-btn,.tab{
+  max-width:100%;
+}
+.primary,.secondary,.danger-btn,.black-link,.confirm-cancel,.confirm-danger,.chip-btn{
+  display:inline-flex;
   align-items:center;
   justify-content:center;
-  white-space:nowrap;
-  transition:transform .12s ease,box-shadow .12s ease,background .12s ease;
+  gap:7px;
+  line-height:1.15;
+  text-align:center;
+  white-space:normal;
 }
-.table .action-mini.view,
-.history-annual-payments-table .action-mini.view{
-  color:#2457c5!important;
-  background:#eef4ff!important;
-  border-color:#dbe7ff!important;
+.full{width:100%!important}
+.row-actions,.customer-print-actions,.settings-actions,.google-sheets-actions,.history-backup{
+  min-width:0;
 }
-.table .action-mini.edit,
-.history-annual-payments-table .action-mini.edit{
-  color:#80550b!important;
-  background:#fbf2df!important;
-  border-color:#ecd7ad!important;
+.action-group{min-width:0;max-width:100%}
+.action-mini{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.quick-action{width:100%;max-width:100%}
+.segmented{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.segmented button{flex:0 0 auto;white-space:nowrap}
+.table-wrap,.table-fit-wrap{max-width:100%;-webkit-overflow-scrolling:touch}
+
+/* Computador: controles compactos y elegantes */
+@media (min-width:1181px){
+  .primary,.secondary,.danger-btn,.black-link,.confirm-cancel,.confirm-danger,.chip-btn{
+    min-height:40px;
+    padding:9px 13px!important;
+    font-size:13px;
+  }
+  .action-group{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+  .action-mini{
+    min-height:32px!important;
+    padding:6px 10px!important;
+    font-size:11px!important;
+    flex:0 0 auto;
+  }
+  .nav button{min-height:40px}
+  .quick-action{min-height:112px}
 }
-.table .action-mini.danger,
-.history-annual-payments-table .action-mini.danger{
-  color:#b42318!important;
-  background:#fff1f0!important;
-  border-color:#f5d0cc!important;
+
+/* Tablet: zonas táctiles grandes, botones que se reorganizan sin cortarse */
+@media (min-width:700px) and (max-width:1180px){
+  .primary,.secondary,.danger-btn,.black-link,.confirm-cancel,.confirm-danger,.chip-btn{
+    min-height:44px!important;
+    padding:10px 14px!important;
+    font-size:13px!important;
+  }
+  .action-group{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    gap:7px!important;
+    width:100%;
+  }
+  .action-mini{
+    min-height:38px!important;
+    min-width:0!important;
+    padding:8px 11px!important;
+    font-size:11.5px!important;
+    flex:0 1 auto!important;
+  }
+  .history-annual-payments-table .action-group,
+  #history .action-group{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:6px!important;
+  }
+  .history-annual-payments-table .action-mini,
+  #history .action-mini{width:100%!important;min-width:0!important}
+  .toolbar{align-items:stretch}
+  .toolbar>button,.toolbar>.primary,.toolbar>.secondary{min-height:44px}
+  .segmented button,.tab{min-height:42px!important}
+  .quick-action{min-height:108px}
 }
-.table .action-mini:hover,
-.history-annual-payments-table .action-mini:hover{
-  transform:translateY(-1px);
-  box-shadow:0 4px 10px rgba(15,23,42,.08)!important;
+
+/* Teléfonos: todo cabe, se puede tocar con comodidad y las acciones no se salen */
+@media (max-width:699px){
+  .main{padding:12px!important}
+  .top{padding:10px 11px!important;border-radius:15px!important;margin-bottom:12px!important}
+  .top-left{width:100%;align-items:center}
+  .title{font-size:clamp(24px,7vw,29px)!important;letter-spacing:-1px!important}
+  .mobile{
+    width:44px!important;height:44px!important;min-width:44px!important;
+    padding:0!important;border-radius:13px!important;flex:0 0 44px!important;
+  }
+
+  .card{padding:14px!important;border-radius:16px!important}
+  .primary,.secondary,.danger-btn,.black-link,.confirm-cancel,.confirm-danger,.chip-btn{
+    min-height:46px!important;
+    padding:11px 14px!important;
+    font-size:14px!important;
+    border-radius:13px!important;
+  }
+
+  /* Formularios: botones importantes a ancho completo cuando conviene */
+  .toolbar,.row-actions,.customer-print-actions,.settings-actions,.google-sheets-actions,.history-backup{
+    width:100%;
+    gap:8px!important;
+  }
+  .toolbar>.primary,.toolbar>.secondary,.toolbar>.danger-btn,
+  .customer-print-actions>.primary,.customer-print-actions>.secondary,
+  .settings-actions>.primary,.settings-actions>.secondary,.settings-actions>.danger-btn,
+  .google-sheets-actions>.primary,.google-sheets-actions>.secondary{
+    flex:1 1 100%;
+    width:100%;
+  }
+
+  /* Botones dentro de tablas: dos columnas y sin desbordes */
+  .action-group{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:6px!important;
+    width:100%!important;
+  }
+  .action-mini{
+    width:100%!important;
+    min-width:0!important;
+    min-height:40px!important;
+    padding:8px 8px!important;
+    font-size:11px!important;
+    border-radius:11px!important;
+    white-space:normal!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    line-height:1.15!important;
+  }
+
+  /* Filtros y pestañas: desplazamiento horizontal suave cuando no caben */
+  .segmented{
+    width:100%;
+    display:flex!important;
+    overflow-x:auto!important;
+    gap:4px!important;
+    scrollbar-width:none;
+  }
+  .segmented::-webkit-scrollbar{display:none}
+  .segmented button{min-height:42px!important;flex:1 0 auto!important;padding:8px 12px!important}
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .tab{min-height:42px!important;white-space:nowrap;flex:0 0 auto}
+
+  /* Inicio: 2 accesos por fila en teléfonos medianos */
+  .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .quick-action{min-height:104px!important;padding:13px 8px!important;border-radius:16px!important}
+  .quick-action svg{width:28px!important;height:28px!important}
+  .quick-action b{font-size:13px!important}
+  .quick-action span{font-size:10.5px!important}
+
+  /* Tablas conservan toda la información mediante desplazamiento horizontal */
+  .table-wrap,.table-fit-wrap{
+    overflow-x:auto!important;
+    overscroll-behavior-inline:contain;
+    border-radius:14px!important;
+  }
+  .table{min-width:660px}
+  .table th,.table td{padding:9px 8px!important;font-size:11.5px!important}
+  .table th{font-size:10px!important}
+
+  .confirm-actions{display:grid!important;grid-template-columns:1fr 1fr;gap:8px!important}
+  .confirm-actions>*{width:100%!important}
 }
+
+/* Teléfonos estrechos: priorizar una sola columna cuando el espacio es mínimo */
+@media (max-width:410px){
+  .quick-grid{grid-template-columns:1fr!important}
+  .quick-action{min-height:92px!important}
+  .action-group{grid-template-columns:1fr!important}
+  .confirm-actions{grid-template-columns:1fr!important}
+  .home-kpis,.stats,.cash-grid,.client-kpis,.payment-kpis,.history-kpis,.inventory-kpis{grid-template-columns:1fr!important}
+}
+
+/* Dispositivos táctiles: nunca dejar un objetivo demasiado pequeño */
 @media (pointer:coarse){
-  .table .action-mini,
-  .history-annual-payments-table .action-mini{
-    min-height:36px;
-    padding:7px 11px!important;
-  }
-}
-@media (orientation:landscape) and (min-width:700px) and (max-width:1180px){
-  .table .action-group,
-  .history-annual-payments-table .action-group{
-    flex-wrap:nowrap;
-  }
+  button:not(.close):not(.side-close){touch-action:manipulation}
+  .nav button{min-height:46px!important}
 }
 
 </style>
