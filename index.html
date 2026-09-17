@@ -1986,6 +1986,44 @@ input,select,textarea,button{max-width:100%}
   canvas,svg,img{max-width:100%!important}
 }
 
+
+
+/* ESTADOS DE CUENTA · diseño simple aprobado */
+.hilen-statements .statement-page-subtitle{margin-top:-6px;margin-bottom:24px;color:#647391;font-size:14px}
+.statement-simple-card{padding:24px!important;border-radius:18px!important;border:1px solid #e9edf3!important;box-shadow:0 14px 34px rgba(35,45,65,.05)!important;background:#fff!important}
+.statement-simple-head{display:flex;align-items:flex-start;gap:16px;padding-bottom:22px}
+.statement-simple-icon{width:58px;height:58px;flex:0 0 58px;border-radius:17px;background:#fff5e2;color:#b86d00;display:grid;place-items:center}
+.statement-simple-icon svg,.statement-btn-icon svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.statement-simple-head h2{margin:5px 0 5px!important;font-size:20px!important;letter-spacing:-.55px;color:#0a1731}
+.statement-simple-head p{margin:0;color:#687896;font-size:13px;line-height:1.45}
+.statement-toolbar-simple{display:grid!important;grid-template-columns:minmax(320px,1.6fr) 180px 180px auto!important;gap:14px!important;align-items:end!important}
+.statement-toolbar-simple>div{min-width:0!important}.statement-toolbar-simple .label{font-size:12px!important;color:#12213c!important;font-weight:800!important}
+.statement-toolbar-simple .input{min-height:50px!important;margin:6px 0 0!important;border-radius:13px!important;border:1px solid #dce3ec!important;background:#fff!important;padding:0 16px!important}
+.statement-generate-btn{height:50px!important;min-width:230px!important;border-radius:13px!important;background:linear-gradient(#171717,#090909)!important;color:#fff!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;padding:0 18px!important;font-weight:800!important;white-space:nowrap!important}
+.statement-btn-icon{display:grid;place-items:center}.statement-btn-icon svg{width:20px;height:20px}
+.statement-simple-note{margin-top:22px!important;display:flex!important;align-items:flex-start!important;gap:14px!important;padding:18px 20px!important;border-radius:15px!important;background:#edf4ff!important;border:1px solid #dce9ff!important;color:#2059c9!important;line-height:1.55!important}
+.statement-note-icon{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:grid;place-items:center;background:#cfe0ff;color:#1761d9;font-weight:900;font-size:18px}
+.hilen-statements #statementResult:empty{display:none}
+@media (min-width:820px) and (max-width:1199px){
+  .statement-simple-card{padding:20px!important}
+  .statement-toolbar-simple{grid-template-columns:minmax(0,1fr) minmax(135px,.42fr) minmax(135px,.42fr)!important}
+  .statement-toolbar-simple .statement-client-field{grid-column:1/-1!important}
+  .statement-generate-btn{min-width:0!important;width:100%!important}
+}
+@media (max-width:819px){
+  .hilen-statements .statement-page-subtitle{margin-bottom:16px;font-size:13px}
+  .statement-simple-card{padding:16px!important}
+  .statement-simple-head{gap:12px;padding-bottom:18px}
+  .statement-simple-icon{width:46px;height:46px;flex-basis:46px;border-radius:14px}
+  .statement-simple-icon svg{width:22px;height:22px}
+  .statement-simple-head h2{font-size:18px!important;margin-top:2px!important}
+  .statement-simple-head p{font-size:12px}
+  .statement-toolbar-simple{grid-template-columns:1fr!important;gap:10px!important}
+  .statement-toolbar-simple .statement-client-field{grid-column:auto!important}
+  .statement-generate-btn{width:100%!important;min-width:0!important}
+  .statement-simple-note{padding:15px!important;font-size:12px!important}
+}
+
 </style>
 </head>
 <body>
@@ -2401,12 +2439,27 @@ input,select,textarea,button{max-width:100%}
       </div>
     </section>
 
-    <section id="statements" class="section">
-      <div class="card">
-        <div class="panel-head"><div><h2 style="margin-bottom:4px">Estado de cuenta para enviar al cliente</h2><div class="muted small">Selecciona el cliente y el período. HILEN mostrará las compras a crédito, los abonos y el saldo pendiente de forma clara para imprimir o guardar como PDF.</div></div></div>
-        <div class="statement-toolbar"><div><label class="label">Nombre del cliente</label><input id="statementClientName" class="input" list="statementClientList" placeholder="Escribe el nombre completo"><datalist id="statementClientList"></datalist></div><div><label class="label">Desde</label><input id="stStart" class="input" type="date"></div><div><label class="label">Hasta</label><input id="stEnd" class="input" type="date"></div><button class="primary" onclick="generateStatement()">Generar estado de cuenta</button></div>
-        <div class="notice blue" style="margin-top:10px">El <b>saldo pendiente</b> se calcula hasta la fecha final seleccionada, aunque la deuda haya comenzado antes del período. HILEN también te avisará si ese mismo estado de cuenta ya fue descargado anteriormente, pero tú decides si deseas generarlo otra vez.</div>
-      </div><br><div id="statementResult"></div>
+    <section id="statements" class="section hilen-view hilen-statements">
+      <div class="section-subtitle statement-page-subtitle">Genera y envía el estado de cuenta de tus clientes de forma rápida y sencilla.</div>
+      <div class="card statement-simple-card">
+        <div class="statement-simple-head">
+          <span class="statement-simple-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg>
+          </span>
+          <div>
+            <h2>Estado de cuenta para enviar al cliente</h2>
+            <p>Selecciona el cliente y el período. HILEN mostrará las compras a crédito, los abonos y el saldo pendiente de forma clara para imprimir o guardar como PDF.</p>
+          </div>
+        </div>
+        <div class="statement-toolbar statement-toolbar-simple">
+          <div class="statement-client-field"><label class="label">Nombre del cliente</label><input id="statementClientName" class="input" list="statementClientList" placeholder="Escribe el nombre completo"><datalist id="statementClientList"></datalist></div>
+          <div><label class="label">Desde</label><input id="stStart" class="input" type="date"></div>
+          <div><label class="label">Hasta</label><input id="stEnd" class="input" type="date"></div>
+          <button class="primary statement-generate-btn" onclick="generateStatement()"><span class="statement-btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6"/></svg></span>Generar estado de cuenta</button>
+        </div>
+        <div class="notice blue statement-simple-note"><span class="statement-note-icon">i</span><div>El <b>saldo pendiente</b> se calcula hasta la fecha final seleccionada, aunque la deuda haya comenzado antes del período. HILEN también te avisará si ese mismo estado de cuenta ya fue descargado anteriormente, pero tú decides si deseas generarlo otra vez.</div></div>
+      </div>
+      <div id="statementResult"></div>
     </section>
   </main>
 </div>
