@@ -1681,6 +1681,111 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
   .action-group{gap:7px!important}
 }
 
+
+
+/* =========================================================
+   HILEN · DISEÑO DE SECCIONES 2026-09-16 · REFERENCIAS TABLET
+   Clientes, Abonos y Registrar venta + adaptación global.
+   Presentación únicamente: conserva IDs, eventos y lógica JS.
+   ========================================================= */
+:root{
+  --ui-bg:#fbfaf7;
+  --ui-card:#ffffff;
+  --ui-ink:#08122c;
+  --ui-muted:#71809c;
+  --ui-line:#e5e9ef;
+  --ui-gold:#c98208;
+  --ui-gold-2:#9e6100;
+  --ui-gold-soft:#fff2dc;
+  --ui-blue:#0876ff;
+  --ui-blue-soft:#e6f1ff;
+  --ui-green:#08a457;
+  --ui-green-soft:#ddf8e9;
+  --ui-red:#ff1744;
+  --ui-red-soft:#ffe3e9;
+  --ui-pink:#e92b78;
+  --ui-pink-soft:#ffe5ef;
+  --ui-purple:#7347e8;
+  --ui-shadow:0 8px 26px rgba(20,28,48,.055);
+}
+body{background:linear-gradient(180deg,#fcfbf8 0,#f7f6f3 100%)!important;color:var(--ui-ink)!important}
+.main{background:transparent!important}
+.section-subtitle{margin:-9px 0 17px;color:var(--ui-muted);font-size:13px;line-height:1.4}
+.section .card{border:1px solid var(--ui-line)!important;border-radius:16px!important;background:rgba(255,255,255,.97)!important;box-shadow:var(--ui-shadow)!important}
+.section h2{color:#0b132b!important;letter-spacing:-.45px!important}
+
+/* Barra superior de la referencia */
+.shell-toolbar{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;margin-bottom:14px!important}
+.shell-search,.shell-user,.shell-bell{background:#fff!important;border:1px solid var(--ui-line)!important;box-shadow:0 4px 15px rgba(20,28,48,.045)!important}
+.shell-search{border-radius:11px!important}
+.shell-user{border-radius:12px!important}
+.shell-avatar{background:linear-gradient(145deg,#e9b74f,#a76600)!important;color:#fff!important}
+.date-shell{background:#fff8ec!important;border:1px solid #f3d9aa!important;color:#a86400!important;border-radius:12px!important;font-weight:750!important}
+.top{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;margin-bottom:11px!important}
+.title{font-size:clamp(29px,3vw,38px)!important;font-weight:900!important;letter-spacing:-1.6px!important;color:#07112d!important}
+
+/* Sidebar fija también en tablet grande, como las referencias */
+.side{background:rgba(255,255,255,.96)!important;border-right:1px solid #e9e7e2!important;box-shadow:none!important}
+.brand{padding-bottom:14px!important}
+.brand-copy span{display:block;color:#78849b;font-size:10px;font-weight:500;margin-top:2px}
+.nav button{color:#13203a!important;border-radius:10px!important}
+.nav button.active{background:linear-gradient(90deg,#fff8e9,#ffe8ba)!important;color:#a55f00!important;box-shadow:inset 3px 0 0 #d1880b!important}
+.side-help{position:absolute;left:12px;right:12px;bottom:82px;min-height:64px;border-radius:14px;background:linear-gradient(135deg,#fffaf0,#fff3dc);display:flex;align-items:center;gap:10px;padding:11px 12px;color:#17213a}
+.side-help-icon{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#b46d00;background:#fff7e9;font-size:17px}
+.side-help b{display:block;font-size:11px}.side-help small{display:block;font-size:9.5px;color:#7d879b;margin-top:2px}.side-help-arrow{margin-left:auto;font-size:22px}
+.logout{background:linear-gradient(#191919,#0b0b0b)!important;border-color:#111!important;box-shadow:0 8px 20px rgba(0,0,0,.13)!important}
+
+/* Encabezados con icono */
+.pro-card-head{display:flex;align-items:flex-start;gap:11px;margin-bottom:17px;min-width:0}.pro-card-head.compact{margin-bottom:0;align-items:center}.pro-card-head h2{margin:1px 0 3px!important;font-size:18px!important}.pro-card-head p{margin:0;color:var(--ui-muted);font-size:11px;line-height:1.35}.pro-icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:0 0 42px}.pro-icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.pro-icon.gold{background:var(--ui-gold-soft);color:#c27400}.pro-icon.neutral{background:#f1f5f9;color:#18233b}
+
+/* Inputs de todas las secciones */
+.section .input,.section input:not([type="checkbox"]):not([type="radio"]),.section select,.section textarea{min-height:43px!important;border:1px solid #dfe5ed!important;border-radius:10px!important;background:#fff!important;color:#10182d!important;box-shadow:none!important}
+.section .input:focus,.section input:focus,.section select:focus,.section textarea:focus{border-color:#d49a37!important;box-shadow:0 0 0 3px rgba(201,130,8,.08)!important}
+.section .label{color:#53617d!important;font-size:11px!important;font-weight:720!important;margin-bottom:6px!important}
+.section .secondary{background:#fff!important;border:1px solid #dce3ec!important;color:#111b33!important}
+.gold-primary{border:0;min-height:47px;padding:0 24px;border-radius:11px;background:linear-gradient(180deg,#d89520,#a86500);color:#fff;font-weight:800;box-shadow:0 9px 20px rgba(171,104,0,.18);cursor:pointer}.gold-primary:hover{transform:translateY(-1px)}
+
+/* REGISTRAR VENTA */
+.sale-info-banner{display:flex;align-items:center;gap:10px;margin-bottom:16px!important;padding:11px 14px!important;border:1px solid #bcd7ff!important;background:#edf5ff!important;color:#075cc9!important;border-radius:10px!important}
+.notice-dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#176fe5;color:#fff;font-weight:900;flex:0 0 22px}
+.sale-layout-pro{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);grid-template-areas:"data client" "details client" "products products" "total total";gap:16px}.sale-card{padding:18px!important;margin:0!important}.sale-data-card{grid-area:data}.sale-client-card{grid-area:client}.sale-details-card{grid-area:details}.sale-products-card{grid-area:products}.sale-total-bar{grid-area:total;display:grid;grid-template-columns:minmax(250px,1fr) 180px auto;align-items:center;gap:22px;padding:12px 16px;border:1px solid #e0e7ee;border-radius:14px;background:linear-gradient(90deg,#f3f7fb,#fff);box-shadow:0 5px 16px rgba(20,28,48,.035)}
+.sale-two-fields{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sale-client-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.client-sync-note{margin-top:5px!important;padding:12px!important;border-radius:10px!important}.product-headings{display:grid;grid-template-columns:minmax(180px,2fr) 90px 130px 130px 44px;gap:8px;padding:0 1px 6px;color:#5b6882;font-size:10.5px;font-weight:700}.product-row{grid-template-columns:minmax(180px,2fr) 90px 130px 130px 44px!important;margin-bottom:8px!important}.product-row .secondary{width:38px;height:38px;padding:0!important;border-radius:10px!important}.add-product-btn{margin-top:3px!important}.sale-total-info{display:flex;align-items:center;gap:12px}.sale-total-info b{display:block;font-size:13px}.sale-total-info small{display:block;color:var(--ui-muted);font-size:10.5px;margin-top:3px}.sale-total-value{padding-left:20px;border-left:1px solid #d8e0e9}.sale-total-value span{display:block;font-size:10.5px;color:#53617d;font-weight:700}.sale-total-value strong{display:block;font-size:32px;letter-spacing:-1.3px;margin-top:1px}.save-sale-btn{min-height:46px!important;padding-inline:22px!important;border-radius:10px!important}
+
+/* CLIENTES */
+.client-kpis-pro{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:10px!important;margin:0 0 14px!important}.client-kpis-pro .client-kpi{display:flex;align-items:center;gap:10px;min-height:82px;padding:12px!important;border-radius:14px!important;box-shadow:var(--ui-shadow)!important}.client-kpis-pro .label2{font-size:10.5px!important;color:#67738d!important;white-space:nowrap}.client-kpis-pro .value2{font-size:24px!important;line-height:1!important;color:#08122c!important;margin-top:4px!important}.client-kpis-pro small{display:block;font-size:9.5px;color:#77849d;margin-top:4px;white-space:nowrap}.kpi-round{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;flex:0 0 43px;font-size:28px;font-weight:700}.kpi-round svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.kpi-round.gold{background:var(--ui-gold-soft);color:#c37400}.kpi-round.pink{background:var(--ui-pink-soft);color:var(--ui-pink)}.kpi-round.blue{background:var(--ui-blue-soft);color:var(--ui-blue)}
+.customer-analysis-card,.customer-registry-card,.period-customers-card{padding:15px!important;margin-bottom:14px!important}.client-chart-head{margin-bottom:4px!important}.client-chart-head h2,.registry-head h2{margin:0 0 3px!important;font-size:18px!important}.year-inline{display:flex;align-items:center;gap:8px}.year-inline .label{margin:0!important}.year-inline .input{width:120px!important;margin:0!important}.registry-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}.registry-filters{display:grid!important;grid-template-columns:minmax(220px,1.4fr) 155px 155px 150px!important;gap:9px!important;align-items:end!important}.registry-filters>div:first-child{grid-column:auto!important}.buyer-count{height:43px;border:1px solid #e3e8ee;border-radius:10px;background:#fafbfc;display:flex;align-items:center;justify-content:space-between;padding:0 11px;color:#6c7890;font-size:9.5px}.buyer-count b{font-size:18px;color:#0b132b}.client-period-note{font-size:10px!important;color:#73809a!important;margin:8px 0!important}.period-customers-card{margin-top:0!important}
+.client-chart-grid{height:170px!important}.client-month-col{height:152px!important}.client-bars{height:120px!important}.client-bar{width:7px!important}
+
+/* ABONOS */
+.payments-layout-pro{display:grid;grid-template-columns:minmax(330px,.82fr) minmax(0,1.55fr);gap:16px;align-items:start}.payment-register-card,.payment-history-card,.payment-chart-card{padding:16px!important}.payment-form-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.payment-form-fields .input{margin-bottom:12px!important}.payment-form-fields #payClientHint{margin:-4px 0 10px!important}.save-payment-btn{margin-top:6px}.payment-filterbar{align-items:flex-start!important;margin-bottom:12px!important}.payment-filter-pro{grid-template-columns:180px minmax(220px,1fr)!important}.payment-filter-pro .input{margin-bottom:0!important}.payment-kpis{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;margin:12px 0!important}.payment-kpi{min-height:68px!important;padding:10px!important;border-radius:12px!important;background:#fff!important;box-shadow:none!important}.payment-kpi .pk-label{font-size:9.5px!important}.payment-kpi .pk-value{font-size:20px!important;margin-top:3px}.payment-chart-card{margin-top:16px!important}.payment-chart-wrap{margin-top:4px!important;border:0!important;padding:4px 0 0!important;background:transparent!important}.payment-bars{height:180px!important}.payment-bar-col{height:100%!important}.payment-bar{width:22px!important;border-radius:6px 6px 2px 2px!important;background:linear-gradient(180deg,#8757ff,#5e35e7)!important}.payment-bar-value{font-size:9px!important}.payment-bar-label{font-size:9.5px!important}
+
+/* Tablas como los mockups y las referencias de permisos */
+.table-wrap,.table-fit-wrap{border:1px solid #e2e7ed!important;border-radius:11px!important;overflow:auto!important;background:#fff!important;box-shadow:none!important}.table{border-collapse:separate!important;border-spacing:0!important}.table th{background:#f7f9fb!important;color:#56647f!important;font-size:10px!important;font-weight:760!important;padding:8px 9px!important;border-bottom:1px solid #dde4eb!important}.table td{font-size:10.5px!important;color:#13203a!important;padding:7px 9px!important;border-bottom:1px solid #e8edf2!important;vertical-align:middle!important}.table tbody tr:last-child td{border-bottom:0!important}.table tbody tr:hover{background:#fffdf8!important}.badge{font-size:9.5px!important;padding:5px 10px!important}
+.action-group{gap:6px!important}.action-mini.view,.action-mini.edit,.action-mini.danger{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;max-width:34px!important;flex-basis:34px!important;background-size:16px 16px!important}
+
+/* Resto de secciones: llevarlas a la misma línea visual */
+#day .card,#cashflow .card,#statements .card,#inventory .card,#history .card,#settings .card{border-radius:16px!important;box-shadow:var(--ui-shadow)!important}
+#cashflow .balance-card,#inventory .inventory-kpi,#history .history-kpi,#settings .settings-status-card{border-radius:14px!important;border-color:var(--ui-line)!important;box-shadow:var(--ui-shadow)!important}
+.segmented{border-radius:10px!important;background:#f5f7fa!important;border:1px solid #e5e9ef!important;padding:3px!important}.segmented button{min-height:34px!important;border-radius:8px!important}.segmented button.active{background:#fff!important;color:#0c1730!important;box-shadow:0 2px 7px rgba(15,23,42,.07)!important}
+
+/* Computador ancho */
+@media (min-width:1400px){.side{width:235px!important}.main{margin-left:235px!important;padding:14px 28px 30px!important}.client-kpis-pro{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+
+/* Tablet horizontal / portátil compacto: conservar sidebar como en los mockups */
+@media (min-width:1100px) and (max-width:1399px){
+  .side{transform:none!important;width:210px!important;z-index:30!important}.side-close,.side-backdrop,.shell-menu,.shell-brand{display:none!important}.main{margin-left:210px!important;padding:15px 22px 28px!important}.shell-toolbar{grid-template-columns:minmax(300px,1fr) 44px minmax(155px,190px)!important}.shell-search{grid-column:auto!important}.client-kpis-pro{grid-template-columns:repeat(6,minmax(0,1fr))!important}.client-kpis-pro .client-kpi{padding:9px!important;gap:7px}.kpi-round{width:36px;height:36px;flex-basis:36px}.kpi-round svg{width:20px;height:20px}.client-kpis-pro .value2{font-size:20px!important}.payments-layout-pro{grid-template-columns:minmax(300px,.8fr) minmax(0,1.5fr)}
+}
+
+/* Tablet vertical: sidebar visible, contenido apilado y legible */
+@media (min-width:820px) and (max-width:1099px){
+  .side{transform:none!important;width:185px!important;z-index:30!important;padding:12px 8px!important}.side-close,.side-backdrop,.shell-menu,.shell-brand{display:none!important}.brand{font-size:20px!important}.nav button{font-size:12px!important;padding:9px 8px!important}.logout{left:9px!important;width:calc(100% - 18px)!important}.side-help{left:9px;right:9px}.main{margin-left:185px!important;padding:14px 18px 26px!important}.shell-toolbar{grid-template-columns:minmax(220px,1fr) 42px minmax(140px,180px)!important;gap:9px!important}.shell-search{grid-column:auto!important}.search-shortcut{display:none!important}.client-kpis-pro{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sale-layout-pro{grid-template-columns:1fr!important;grid-template-areas:"data" "client" "details" "products" "total"}.payments-layout-pro{grid-template-columns:1fr!important}.payment-register-card{display:block}.registry-filters{grid-template-columns:1fr 1fr!important}.registry-filters>div:first-child{grid-column:1/-1!important}.buyer-count{grid-column:1/-1}.sale-total-bar{grid-template-columns:1fr 140px auto}.table{min-width:700px!important}
+}
+
+/* Teléfono */
+@media (max-width:819px){
+  .side-help{position:static;margin:14px 8px 70px}.main{margin-left:0!important}.section-subtitle{margin-top:-5px}.sale-layout-pro{grid-template-columns:1fr!important;grid-template-areas:"data" "client" "details" "products" "total"}.sale-two-fields,.sale-client-grid,.payment-form-fields{grid-template-columns:1fr!important}.sale-total-bar{grid-template-columns:1fr!important;gap:10px}.sale-total-value{padding:0;border-left:0;border-top:1px solid #e2e8ef;padding-top:10px}.save-sale-btn,.save-payment-btn{width:100%}.product-headings{display:none}.product-row{grid-template-columns:minmax(150px,1fr) 70px 95px 95px 38px!important;overflow-x:auto}.client-kpis-pro{grid-template-columns:repeat(2,minmax(0,1fr))!important}.client-kpis-pro .client-kpi{min-height:76px}.registry-head{flex-direction:column}.new-client-btn{width:100%}.registry-filters{grid-template-columns:1fr!important}.registry-filters>div:first-child{grid-column:auto!important}.payments-layout-pro{grid-template-columns:1fr!important}.payment-filter-pro{grid-template-columns:1fr!important}.payment-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}.year-inline .input{width:105px!important}.table{min-width:700px!important}.action-mini.view,.action-mini.edit,.action-mini.danger{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;flex-basis:32px!important}
+}
+
 </style>
 </head>
 <body>
@@ -1764,6 +1869,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
       <button onclick="section('settings',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H10v-.08a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V10h.08A1.7 1.7 0 0 0 4.66 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3H14v.08A1.7 1.7 0 0 0 15.1 4.66a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.38.36.72.6 1 .3.3.7.45 1.1.4H21V14h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span>Configuración</button>
     </nav>
+    <div class="side-help"><span class="side-help-icon">◉</span><div><b>¿Necesitas ayuda?</b><small>Estamos para ti</small></div><span class="side-help-arrow">›</span></div>
     <button type="button" id="logoutBtn" class="logout" onclick="logout(event)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span class="logout-label">Cerrar sesión</span></button>
   </aside>
   <div id="sideBackdrop" class="side-backdrop" onclick="closeSide()" aria-hidden="true"></div>
@@ -1840,67 +1946,115 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
       </div>
     </section>
 
-    <section id="newSale" class="section">
-      <div class="card">
-        <h2>Registrar venta</h2><div class="notice blue">Si la venta se paga de inmediato, indica si el dinero quedó en <b>Efectivo</b> o en <b>Nequi</b>. Si es a crédito, no aumenta ninguno de esos saldos hasta que registres un abono.</div><br>
-        <div class="form-grid">
-          <div><label class="label">Fecha de venta</label><input id="saleDate" class="input" type="date"></div>
-          <div><label class="label">Hora de registro</label><input id="saleTime" class="input" readonly></div>
-          <div class="fullcol"><div class="form-grid"><div><label class="label">Nombre del cliente</label><input id="newClientName" class="input" list="saleClientList" placeholder="Escribe el nombre del cliente" autocomplete="off" oninput="updateSaleClientFromName()"><datalist id="saleClientList"></datalist></div><div><label class="label">Teléfono</label><input id="newClientPhone" class="input" placeholder="Opcional"></div><div><label class="label">Sexo</label><select id="newClientGender" class="input"><option value="">Seleccionar</option><option value="female">Mujer</option><option value="male">Hombre</option></select></div></div><div id="saleClientSyncHint" class="notice good" style="margin-top:2px">Escribe siempre el nombre. Si el cliente ya está registrado, la compra se agregará automáticamente a su historial; si no existe, se creará al guardar la venta.</div></div>
-          <div><label class="label">Tipo de venta</label><select id="paymentType" class="input" onchange="paymentTypeChanged()"><option value="paid">Pagada</option><option value="credit">Crédito</option></select></div>
-          <div id="saleDestinationWrap"><label class="label">¿Dónde quedó el dinero?</label><select id="saleDestination" class="input"><option value="cash">Efectivo</option><option value="bank">Nequi</option></select></div>
-          <div class="fullcol"><h3>Productos</h3><div id="products"></div><button class="secondary" onclick="addProduct()">+ Agregar producto</button></div>
-          <div class="fullcol" style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap"><div><div class="muted">Total</div><div id="saleTotal" class="big-balance">$0</div></div><button class="primary" onclick="saveSale()">Guardar venta</button></div>
+    <section id="newSale" class="section hilen-view hilen-new-sale">
+      <div class="section-subtitle">Registra una nueva venta en el sistema.</div>
+      <div class="notice blue sale-info-banner"><span class="notice-dot">i</span><span>Si la venta se paga de inmediato, indica si el dinero quedó en <b>Efectivo</b> o en <b>Nequi</b>. Si es a crédito, no aumenta ninguno de esos saldos hasta que registres un abono.</span></div>
+
+      <div class="sale-layout-pro">
+        <div class="sale-card card sale-data-card">
+          <div class="pro-card-head"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 9h16"/></svg></span><div><h2>Datos de la venta</h2><p>Indica la fecha, hora y detalles de la transacción.</p></div></div>
+          <div class="form-grid sale-two-fields">
+            <div><label class="label">Fecha de venta</label><input id="saleDate" class="input" type="date"></div>
+            <div><label class="label">Hora de registro</label><input id="saleTime" class="input" readonly></div>
+          </div>
+        </div>
+
+        <div class="sale-card card sale-client-card">
+          <div class="pro-card-head"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 21c.7-5 3-7 7-7s6.3 2 7 7"/></svg></span><div><h2>Cliente</h2><p>Busca o registra el cliente de la venta.</p></div></div>
+          <div class="form-grid sale-client-grid">
+            <div><label class="label">Nombre del cliente</label><input id="newClientName" class="input" list="saleClientList" placeholder="Escribe el nombre del cliente" autocomplete="off" oninput="updateSaleClientFromName()"><datalist id="saleClientList"></datalist></div>
+            <div><label class="label">Teléfono</label><input id="newClientPhone" class="input" placeholder="Opcional"></div>
+            <div class="fullcol"><label class="label">Sexo</label><select id="newClientGender" class="input"><option value="">Seleccionar</option><option value="female">Mujer</option><option value="male">Hombre</option></select></div>
+          </div>
+          <div id="saleClientSyncHint" class="notice good client-sync-note">Escribe siempre el nombre. Si el cliente ya está registrado, la compra se agregará automáticamente a su historial; si no existe, se creará al guardar la venta.</div>
+        </div>
+
+        <div class="sale-card card sale-details-card">
+          <div class="pro-card-head"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><path d="M20 13 11 22l-9-9 9-9h7l2 2v7Z"/><circle cx="15" cy="9" r="1"/></svg></span><div><h2>Detalles de la venta</h2><p>Define el tipo de venta y dónde quedó el dinero.</p></div></div>
+          <div class="form-grid sale-two-fields">
+            <div><label class="label">Tipo de venta</label><select id="paymentType" class="input" onchange="paymentTypeChanged()"><option value="paid">Pagada</option><option value="credit">Crédito</option></select></div>
+            <div id="saleDestinationWrap"><label class="label">¿Dónde quedó el dinero?</label><select id="saleDestination" class="input"><option value="cash">Efectivo</option><option value="bank">Nequi</option></select></div>
+          </div>
+        </div>
+
+        <div class="sale-card card sale-products-card">
+          <div class="pro-card-head"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></svg></span><div><h2>Productos</h2><p>Agrega los productos a la venta.</p></div></div>
+          <div class="product-headings"><span>Producto</span><span>Cantidad</span><span>Precio</span><span>Subtotal</span><span></span></div>
+          <div id="products"></div>
+          <button class="secondary add-product-btn" onclick="addProduct()">＋ Agregar producto</button>
+        </div>
+
+        <div class="sale-total-bar">
+          <div class="sale-total-info"><span class="pro-icon neutral"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M16 15h0"/></svg></span><div><b>Total de la venta</b><small>Suma de todos los productos agregados.</small></div></div>
+          <div class="sale-total-value"><span>Total</span><strong id="saleTotal">$0</strong></div>
+          <button class="primary save-sale-btn" onclick="saveSale()">▣&nbsp;&nbsp; Guardar venta</button>
         </div>
       </div>
     </section>
 
-    <section id="customers" class="section">
-      <div class="card">
-        <div class="customer-filter-head">
-          <div style="flex:1;min-width:0">
-            <h2 style="margin-bottom:5px">Clientes por período</h2>
-            <div class="muted small">Selecciona directamente el rango de fechas que quieres analizar. Si eliges un mes verás los clientes de ese mes; si eliges todo un año verás los clientes de ese año. Abajo siempre se conserva el registro general.</div>
-          </div>
-          <button class="primary" onclick="openCustomerForm()">+ Nuevo cliente</button>
-        </div>
-        <div class="customer-filter-grid" style="margin-top:16px">
-          <div><label class="label">Buscar cliente</label><input id="customerSearch" class="input" placeholder="Nombre o teléfono" oninput="renderCustomers()"></div>
-          <div><label class="label">Desde</label><input id="clientStart" class="input" type="date" onchange="renderCustomers()"></div>
-          <div><label class="label">Hasta</label><input id="clientEnd" class="input" type="date" onchange="renderCustomers()"></div>
-        </div>
-        <div id="clientPeriodNote" class="client-period-note"></div>
-      </div><br>
-      <div class="client-kpis">
-        <div class="client-kpi"><div class="label2">Total registrados</div><div id="clientKpiTotal" class="value2">0</div></div>
-        <div class="client-kpi"><div class="label2">Compradores del período</div><div id="clientKpiActive" class="value2">0</div></div>
-        <div class="client-kpi"><div class="label2">Nuevos del período</div><div id="clientKpiNew" class="value2">0</div></div>
-        <div class="client-kpi"><div class="label2">Recurrentes del período</div><div id="clientKpiReturning" class="value2">0</div></div>
-        <div class="client-kpi"><div class="label2">Mujeres del período</div><div id="clientKpiWomen" class="value2">0</div></div>
-        <div class="client-kpi"><div class="label2">Hombres del período</div><div id="clientKpiMen" class="value2">0</div></div>
-        <div class="client-kpi"><div class="label2">Potenciales del período</div><div id="clientKpiPotential" class="value2">0</div></div>
+    <section id="customers" class="section hilen-view hilen-customers">
+      <div class="section-subtitle">Gestiona y consulta todos tus clientes.</div>
+
+      <div class="client-kpis client-kpis-pro">
+        <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span><div><div class="label2">Total de clientes</div><div id="clientKpiTotal" class="value2">0</div><small>registrados</small></div></div>
+        <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6M18 8v6M15 11h6"/></svg></span><div><div class="label2">Nuevos del período</div><div id="clientKpiNew" class="value2">0</div><small>en este rango</small></div></div>
+        <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><path d="M20 7h-5V2"/><path d="M20 7a8 8 0 1 0 1 8"/><path d="M4 17h5v5"/></svg></span><div><div class="label2">Clientes recurrentes</div><div id="clientKpiReturning" class="value2">0</div><small>compraron de nuevo</small></div></div>
+        <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><path d="m3 21 2-11 5 4 2-8 4 8 5-4 1 11H3Z"/></svg></span><div><div class="label2">Clientes potenciales</div><div id="clientKpiPotential" class="value2">0</div><small>sin compras</small></div></div>
+        <div class="client-kpi"><span class="kpi-round pink">♀</span><div><div class="label2">Mujeres</div><div id="clientKpiWomen" class="value2">0</div><small>del período</small></div></div>
+        <div class="client-kpi"><span class="kpi-round blue">♂</span><div><div class="label2">Hombres</div><div id="clientKpiMen" class="value2">0</div><small>del período</small></div></div>
       </div>
-      <div class="card" style="margin-bottom:18px"><div class="panel-head"><div><h2 style="margin-bottom:4px">Clientes del período</h2><div class="muted small">Aquí aparecen los clientes nuevos, los recurrentes que compraron y los potenciales registrados en el rango que todavía no han comprado.</div></div></div><div id="periodCustomersTable"></div></div>
-      <div class="card" style="margin-bottom:18px">
+
+      <div class="card customer-analysis-card">
         <div class="client-chart-head">
-          <div><h2 style="margin-bottom:4px">Clientes por mes</h2><div class="muted small">Compara clientes nuevos, recurrentes y potenciales por mes; también muestra mujeres y hombres compradores.</div></div>
-          <div><label class="label">Año</label><input id="clientChartYear" class="input" type="number" min="2000" max="2100" onchange="renderClientChart()"></div>
+          <div><h2>Clientes por mes</h2><div class="muted small">Compara clientes nuevos, recurrentes y potenciales por mes; también muestra mujeres y hombres compradores.</div></div>
+          <div class="year-inline"><label class="label">Año</label><input id="clientChartYear" class="input" type="number" min="2000" max="2100" onchange="renderClientChart()"></div>
         </div>
         <div id="clientChart"></div>
       </div>
-      <div class="card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Registro general de clientes</h2><div class="muted small">Todos los clientes guardados en HILEN, incluso quienes solo preguntaron por un producto. Cuando compran, el mismo registro se convierte automáticamente en cliente comprador y conserva todos sus datos.</div></div></div><div id="customersTable"></div></div>
+
+      <div class="card customer-registry-card">
+        <div class="registry-head">
+          <div><h2>Registro general de clientes</h2><div class="muted small">Todos los clientes guardados en HILEN, incluso quienes solo preguntaron por un producto. Cuando compran, el mismo registro se convierte automáticamente en cliente comprador.</div></div>
+          <button class="primary new-client-btn" onclick="openCustomerForm()">＋ Nuevo cliente</button>
+        </div>
+        <div class="customer-filter-grid registry-filters">
+          <div><label class="label">Buscar cliente</label><input id="customerSearch" class="input" placeholder="Nombre o teléfono" oninput="renderCustomers()"></div>
+          <div><label class="label">Desde</label><input id="clientStart" class="input" type="date" onchange="renderCustomers()"></div>
+          <div><label class="label">Hasta</label><input id="clientEnd" class="input" type="date" onchange="renderCustomers()"></div>
+          <div class="buyer-count"><span>Compradores del período</span><b id="clientKpiActive">0</b></div>
+        </div>
+        <div id="clientPeriodNote" class="client-period-note"></div>
+        <div id="customersTable"></div>
+      </div>
+
+      <div class="card period-customers-card">
+        <div class="panel-head"><div><h2>Clientes del período</h2><div class="muted small">Clientes nuevos, recurrentes y potenciales dentro del rango seleccionado.</div></div></div>
+        <div id="periodCustomersTable"></div>
+      </div>
     </section>
 
-    <section id="payments" class="section">
-      <div class="grid">
-        <div class="card"><h2>Registrar abono</h2><div class="notice">Solo aparecen para abonar los clientes que todavía tienen saldo pendiente. Cuando terminen de pagar, su historial se conserva y verás “Cuenta cancelada”.</div><br><label class="label">Nombre del cliente</label><input id="payClientName" class="input" list="payClientList" placeholder="Escribe el nombre" autocomplete="off" oninput="updatePaymentClientHint()"><datalist id="payClientList"></datalist><div id="payClientHint" class="notice good hidden" style="margin-top:-6px;margin-bottom:14px"></div><label class="label">Fecha</label><input id="payDate" class="input" type="date"><label class="label">Valor</label><input id="payAmount" class="input money-input" type="text" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"><label class="label">Recibido en</label><select id="payDestination" class="input"><option value="cash">Efectivo</option><option value="bank">Nequi</option></select><button class="primary" onclick="savePayment()">Guardar abono</button></div>
-        <div class="card">
-          <div class="payment-filterbar"><div><h2 style="margin-bottom:4px">Historial de abonos</h2><div class="muted small">Por defecto ves todos los abonos del año. También puedes consultar un mes o un día, editar errores y revisar si la cuenta del cliente quedó cancelada.</div></div><div class="segmented" id="paymentPeriodTabs"><button data-payment-period="day" onclick="setPaymentPeriod('day',this)">Día</button><button data-payment-period="month" onclick="setPaymentPeriod('month',this)">Mes</button><button class="active" data-payment-period="year" onclick="setPaymentPeriod('year',this)">Año</button></div></div>
-          <div class="payment-filter-fields"><div id="paymentDayWrap" class="hidden"><label class="label">Día</label><input id="paymentDay" class="input" type="date" onchange="renderPayments()"></div><div id="paymentMonthWrap" class="hidden"><label class="label">Mes</label><input id="paymentMonth" class="input" type="month" onchange="renderPayments()"></div><div id="paymentYearWrap"><label class="label">Año</label><input id="paymentYear" class="input" type="number" min="2000" max="2100" onchange="renderPayments()"></div><div><label class="label">Buscar cliente</label><input id="paymentSearch" class="input" placeholder="Nombre del cliente" oninput="renderPayments()"></div></div>
-          <div id="paymentSummary" class="payment-kpis"></div><div id="paymentsTable"></div>
+    <section id="payments" class="section hilen-view hilen-payments">
+      <div class="section-subtitle">Registra abonos y consulta el estado de cuenta de tus clientes.</div>
+      <div class="payments-layout-pro">
+        <div class="card payment-register-card">
+          <div class="pro-card-head"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 10.5c.4-1.8 4.5-1.8 5 0 .5 2-5 1.5-5 4 0 2 4.4 2.1 5 0"/></svg></span><div><h2>Registrar abono</h2><p>Completa la información para registrar un nuevo abono.</p></div></div>
+          <div class="payment-form-fields">
+            <div class="fullcol"><label class="label">Nombre del cliente</label><input id="payClientName" class="input" list="payClientList" placeholder="Escribe el nombre del cliente..." autocomplete="off" oninput="updatePaymentClientHint()"><datalist id="payClientList"></datalist><div id="payClientHint" class="notice good hidden"></div></div>
+            <div><label class="label">Fecha</label><input id="payDate" class="input" type="date"></div>
+            <div><label class="label">Valor</label><input id="payAmount" class="input money-input" type="text" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"></div>
+            <div class="fullcol"><label class="label">Recibido en</label><select id="payDestination" class="input"><option value="cash">Efectivo</option><option value="bank">Nequi</option></select></div>
+          </div>
+          <button class="gold-primary save-payment-btn" onclick="savePayment()">▣&nbsp;&nbsp; Guardar abono</button>
+        </div>
+
+        <div class="card payment-history-card">
+          <div class="payment-filterbar"><div class="pro-card-head compact"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><div><h2>Abonos registrados</h2><p>Filtros, métricas y detalle de abonos del período.</p></div></div><div class="segmented" id="paymentPeriodTabs"><button data-payment-period="day" onclick="setPaymentPeriod('day',this)">Día</button><button data-payment-period="month" onclick="setPaymentPeriod('month',this)">Mes</button><button class="active" data-payment-period="year" onclick="setPaymentPeriod('year',this)">Año</button></div></div>
+          <div class="payment-filter-fields payment-filter-pro"><div id="paymentDayWrap" class="hidden"><label class="label">Día</label><input id="paymentDay" class="input" type="date" onchange="renderPayments()"></div><div id="paymentMonthWrap" class="hidden"><label class="label">Mes</label><input id="paymentMonth" class="input" type="month" onchange="renderPayments()"></div><div id="paymentYearWrap"><label class="label">Año</label><input id="paymentYear" class="input" type="number" min="2000" max="2100" onchange="renderPayments()"></div><div><label class="label">Buscar cliente</label><input id="paymentSearch" class="input" placeholder="Nombre del cliente..." oninput="renderPayments()"></div></div>
+          <div id="paymentSummary" class="payment-kpis"></div>
+          <div id="paymentsTable"></div>
         </div>
       </div>
-      <div class="card" style="margin-top:18px"><div class="sales-chart-head"><div><h2>Abonos por mes</h2><div class="muted small">Mira si los abonos subieron o bajaron durante el año.</div></div><div><label class="label">Año</label><input id="paymentChartYear" class="input" type="number" min="2000" max="2100" onchange="renderPaymentChart()"></div></div><div id="paymentChart"></div></div>
+      <div class="card payment-chart-card"><div class="sales-chart-head"><div class="pro-card-head compact"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><path d="M5 20V12M10 20V8M15 20V4M20 20V10"/></svg></span><div><h2>Abonos por mes</h2><p>Mira si los abonos subieron o bajaron durante el año.</p></div></div><div class="year-inline"><label class="label">Año</label><input id="paymentChartYear" class="input" type="number" min="2000" max="2100" onchange="renderPaymentChart()"></div></div><div id="paymentChart"></div></div>
     </section>
 
     <section id="cashflow" class="section">
