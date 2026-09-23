@@ -1250,10 +1250,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
 .welcome-wave{font-size:30px;vertical-align:-2px}
 .welcome-row .date-pill{display:none!important}
 
+/* Panel de seguimiento de encargos en Inicio */
+.home-encargos-panel{grid-area:encargos!important;padding:18px 20px!important}
+.home-encargos-head{align-items:center!important;margin-bottom:12px!important}
+.home-encargo-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.home-encargo-metric,.home-encargo-mini{min-width:0;border:1px solid #ece8df;border-radius:14px;background:#fff;padding:12px;display:flex;align-items:center;gap:10px;text-align:left;box-shadow:0 5px 16px rgba(24,25,30,.025)}
+.home-encargo-metric{cursor:pointer;transition:.15s ease}.home-encargo-metric:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(24,25,30,.06)}
+.home-encargo-metric.pending{background:linear-gradient(135deg,#fffdf8,#fff8e9);border-color:#f1dfb8}.home-encargo-metric.response{background:linear-gradient(135deg,#f9fbff,#eef5ff);border-color:#d9e5fb}
+.home-encargo-metric-icon,.home-encargo-mini-icon{width:38px;height:38px;flex:0 0 38px;border-radius:12px;display:grid;place-items:center;background:#fbf0dc;color:#a86a0b}.home-encargo-metric.response .home-encargo-metric-icon{background:#eaf1ff;color:#2d67d8}.home-encargo-metric-icon svg,.home-encargo-mini-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.home-encargo-metric>span:nth-child(2),.home-encargo-mini>span:last-child{display:grid;min-width:0;gap:2px}.home-encargo-metric b,.home-encargo-mini b{font-size:20px;color:#111a31}.home-encargo-metric small,.home-encargo-mini small{font-size:10.5px;color:#66718b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-encargo-arrow{margin-left:auto;color:#9a7a3a;font-weight:800;font-size:18px}.home-encargo-metric.response .home-encargo-arrow{color:#4776c8}.home-encargo-mini-icon{background:#f5f5f4;color:#5e6675}.home-encargo-mini-icon.done{background:#e8f7ef;color:#15845a}.home-encargo-list{display:grid;gap:7px}.home-encargo-row{width:100%;border:1px solid #eeeae2;background:#fff;border-radius:12px;padding:10px 11px;display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:10px;text-align:left;cursor:pointer}.home-encargo-row:hover{background:#fcfbf8}.home-encargo-row-icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#fff3dc;color:#a86a0b}.home-encargo-row-icon.response{background:#eaf1ff;color:#2d67d8}.home-encargo-row-icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.home-encargo-row-copy{display:grid;min-width:0;gap:2px}.home-encargo-row-copy b{font-size:12px;color:#18223b}.home-encargo-row-copy small{font-size:10.5px;color:#737d92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-encargo-row-status{display:grid;gap:2px;text-align:right;font-size:10.5px;font-weight:800;color:#a86a0b}.home-encargo-row-status.response{color:#2d67d8}.home-encargo-row-status small{font-size:9.5px;color:#7b8495;font-weight:600}.home-encargo-empty{padding:12px;border:1px dashed #ddd8ce;border-radius:12px;text-align:center;color:#7a8291;font-size:11px;background:#fcfbf8}
+@media(max-width:1050px){.home-encargo-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.home-encargos-panel{padding:15px!important}.home-encargo-metrics{grid-template-columns:1fr 1fr}.home-encargo-row{grid-template-columns:34px minmax(0,1fr)}.home-encargo-row-status{grid-column:2;text-align:left;margin-top:-3px}.home-encargo-metric small{white-space:normal}.home-encargo-arrow{display:none}}
+
 /* Layout de inicio sensible a dispositivo */
-.home-dashboard-grid{display:grid;gap:14px;grid-template-columns:1fr 1fr;grid-template-areas:"quick quick" "sales sales" "summary cash"}
+.home-dashboard-grid{display:grid;gap:14px;grid-template-columns:1fr 1fr;grid-template-areas:"quick quick" "encargos encargos" "summary cash"}
 .home-quick{grid-area:quick}
-.home-sales-card{grid-area:sales}
+.home-encargos-panel{grid-area:encargos}
 .home-summary-card{grid-area:summary}
 .home-cash-card{grid-area:cash}
 
@@ -1329,7 +1341,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
   .shell-toolbar{grid-template-columns:minmax(360px,590px) 1fr auto auto!important}
   .shell-search{grid-column:1!important}
   .shell-menu,.shell-brand{display:none!important}
-  .home-dashboard-grid{grid-template-columns:1fr 1fr;grid-template-areas:"quick quick" "sales sales" "summary cash"}
+  .home-dashboard-grid{grid-template-columns:1fr 1fr;grid-template-areas:"quick quick" "encargos encargos" "summary cash"}
   .home-sales-card .black-link{display:none!important}
 }
 
@@ -1345,7 +1357,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
   .shell-menu{display:inline-flex!important}
   .shell-brand{display:flex!important}
   .shell-search{grid-column:3!important}
-  .home-dashboard-grid{grid-template-columns:minmax(0,1.6fr) minmax(300px,.72fr);grid-template-areas:"quick summary" "sales cash"}
+  .home-dashboard-grid{grid-template-columns:minmax(0,1.6fr) minmax(300px,.72fr);grid-template-areas:"quick summary" "encargos cash"}
   .quick-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
   .home-sales-card .black-link,.home-cash-card .black-link{display:flex!important}
 }
@@ -1362,7 +1374,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
   .search-shortcut{display:none!important}
   .shell-user{min-width:120px!important;width:100%!important}
   .home-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .home-dashboard-grid{grid-template-columns:1fr 1fr;grid-template-areas:"quick quick" "sales sales" "summary cash"}
+  .home-dashboard-grid{grid-template-columns:1fr 1fr;grid-template-areas:"quick quick" "encargos encargos" "summary cash"}
   .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .home-sales-card .black-link,.home-cash-card .black-link{display:flex!important}
   .table{min-width:760px!important}
@@ -1391,7 +1403,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
   .kpi-card{min-height:84px!important}
   .kpi-card.dark{min-height:92px!important}
   .welcome h2{font-size:24px!important}
-  .home-dashboard-grid{grid-template-columns:1fr!important;grid-template-areas:"quick" "sales" "summary" "cash"}
+  .home-dashboard-grid{grid-template-columns:1fr!important;grid-template-areas:"quick" "encargos" "summary" "cash"}
   .quick-grid{grid-template-columns:1fr!important}
   .quick-action{min-height:60px!important}
   .home-month-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
@@ -1901,7 +1913,7 @@ input,select,textarea,button{max-width:100%}
   /* Grids principales */
   .home-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .home-dashboard-grid{grid-template-columns:1fr!important;grid-template-areas:"quick" "sales" "summary" "cash"!important}
+  .home-dashboard-grid{grid-template-columns:1fr!important;grid-template-areas:"quick" "encargos" "summary" "cash"!important}
   .client-kpis-pro{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .payment-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .payments-layout-pro,.sale-layout-pro,.cash-main-reference,.history-two,.inventory-two,.settings-grid{grid-template-columns:1fr!important}
@@ -2291,7 +2303,19 @@ input,select,textarea,button{max-width:100%}
           <button class="quick-action quick-action-order" onclick="goSection('encargos')"><span class="quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8 8h8M8 12h5M8 16h3"/><path d="m14.8 16.1 1.4 1.4 3-3"/></svg></span><span class="quick-copy"><b>Nuevo encargo</b><small>Averiguar para un cliente</small></span><span class="quick-arrow">›</span></button>
         </div>
 
-        <div class="card home-sales-card"><div class="panel-head"><div><h2>Últimas ventas</h2><div class="muted small">Tus ventas más recientes</div></div><button class="link-btn" onclick="goSection('day')">Ver todas&nbsp; →</button></div><div id="homeRecentSales"></div><button class="black-link" onclick="goSection('day')">Ir a ventas&nbsp; →</button></div>
+        <div class="card home-encargos-panel">
+          <div class="panel-head home-encargos-head">
+            <div><h2 style="margin-bottom:4px">Seguimiento de encargos</h2><div class="muted small">Revisa qué debes preguntar al proveedor y qué debes responder al cliente.</div></div>
+            <button class="link-btn" onclick="goSection('encargos')">Ver encargos&nbsp; →</button>
+          </div>
+          <div class="home-encargo-metrics">
+            <button class="home-encargo-metric pending" onclick="goSection('encargos')"><span class="home-encargo-metric-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 7v5l3 2"></path></svg></span><span><b id="homeEncargosPending">0</b><small>Por preguntar al proveedor</small></span><span class="home-encargo-arrow">→</span></button>
+            <button class="home-encargo-metric response" onclick="goSection('encargos')"><span class="home-encargo-metric-icon"><svg viewBox="0 0 24 24"><path d="M5 6h14v10H9l-4 3V6z"></path><path d="m9 11 2 2 4-4"></path></svg></span><span><b id="homeEncargosResponse">0</b><small>Por responder al cliente</small></span><span class="home-encargo-arrow">→</span></button>
+            <div class="home-encargo-mini"><span class="home-encargo-mini-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8M8 12h5M8 16h3"></path></svg></span><span><b id="homeEncargosActive">0</b><small>Encargos activos</small></span></div>
+            <div class="home-encargo-mini"><span class="home-encargo-mini-icon done"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="m8 12 2.5 2.5L16 9"></path></svg></span><span><b id="homeEncargosDone">0</b><small>Completados</small></span></div>
+          </div>
+          <div id="homeEncargosList" class="home-encargo-list"></div>
+        </div>
 
         <div class="card home-summary-card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Resumen del mes</h2><div id="homeMonthLabel" class="muted small"></div></div></div><div id="homeDaySummary" class="home-month-summary"></div></div>
 
@@ -3377,8 +3401,19 @@ function renderHome(){
   const monthTotal=monthSales.reduce((a,s)=>a+(Number(s.total)||0),0),monthPaid=monthSales.filter(s=>s.type!=='credit').reduce((a,s)=>a+(Number(s.total)||0),0),monthCredit=monthSales.filter(s=>s.type==='credit').reduce((a,s)=>a+(Number(s.total)||0),0);$('sSales').textContent=money(monthTotal);$('sSalesCount').textContent=monthSales.length+' '+(monthSales.length===1?'venta este mes':'ventas este mes');$('sClients').textContent=db.clients.length;$('sPaid').textContent=money(monthPaid);$('sCredit').textContent=money(monthCredit);$('sCash').textContent=money(b.cash);$('sBank').textContent=money(b.bank);$('sTotalAvailable').textContent=money(b.total);
   const salesCaption=$('sSales')?.closest('.kpi-card')?.querySelector('.kpi-caption');if(salesCaption)salesCaption.textContent='Ventas del mes';
   $('homeUserName').textContent=currentUser?.name?.split(' ')[0]||'HILEN';$('homeDatePretty').textContent='▣ '+new Date(d+'T12:00:00').toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const recent=[...db.sales].sort((a,b)=>b.date.localeCompare(a.date)||String(b.time).localeCompare(String(a.time))).slice(0,5);
-  $('homeRecentSales').innerHTML=recent.length?`<div class="table-wrap"><table class="table home-sales-table"><thead><tr><th>Cliente</th><th>Productos</th><th>Total</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>${recent.map(s=>`<tr><td>${esc(clientNameById(s.clientId))}</td><td>${s.items.map(i=>esc(i.name)).join(', ')}</td><td><b>${money(s.total)}</b></td><td>${s.date}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">Todavía no hay ventas registradas.</p>';
+  const homeEncargos=db.encargos||[];
+  const pendingEncargos=homeEncargos.filter(e=>e.status==='pending');
+  const responseEncargos=homeEncargos.filter(e=>e.status==='response');
+  const activeEncargos=homeEncargos.filter(e=>!encargoIsDone(e));
+  const doneEncargos=homeEncargos.filter(e=>e.status==='completed');
+  if($('homeEncargosPending'))$('homeEncargosPending').textContent=pendingEncargos.length;
+  if($('homeEncargosResponse'))$('homeEncargosResponse').textContent=responseEncargos.length;
+  if($('homeEncargosActive'))$('homeEncargosActive').textContent=activeEncargos.length;
+  if($('homeEncargosDone'))$('homeEncargosDone').textContent=doneEncargos.length;
+  if($('homeEncargosList')){
+    const followUps=activeEncargos.filter(e=>e.status==='pending'||e.status==='response').sort((a,b)=>`${a.reminderDate||'9999-12-31'} ${a.reminderTime||''}`.localeCompare(`${b.reminderDate||'9999-12-31'} ${b.reminderTime||''}`)).slice(0,4);
+    $('homeEncargosList').innerHTML=followUps.length?followUps.map(e=>{const isResponse=e.status==='response';const ri=encargoReminderInfo(e);return `<button class="home-encargo-row" onclick="goSection('encargos')"><span class="home-encargo-row-icon ${isResponse?'response':''}"><svg viewBox="0 0 24 24">${isResponse?'<path d="M5 6h14v10H9l-4 3V6z"/><path d="m9 11 2 2 4-4"/>':'<circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/>'}</svg></span><span class="home-encargo-row-copy"><b>${esc(e.clientName||'Cliente')}</b><small>${esc(e.request||'Encargo sin descripción')}</small></span><span class="home-encargo-row-status ${isResponse?'response':''}">${isResponse?'Responder al cliente':'Preguntar al proveedor'}<small>${ri.text}</small></span></button>`}).join(''):'<div class="home-encargo-empty">No hay encargos pendientes de seguimiento.</div>';
+  }
   const monthEvents=cashEvents().filter(e=>e.date>=monthStartDate&&e.date<=monthEndDate),inc=monthEvents.filter(e=>e.type==='income').reduce((a,e)=>a+e.amount,0),exp=monthEvents.filter(e=>e.type==='expense').reduce((a,e)=>a+e.amount,0),trans=monthEvents.filter(e=>e.type==='transfer').reduce((a,e)=>a+e.amount,0),credit=monthSales.filter(s=>s.type==='credit').reduce((a,s)=>a+s.total,0);
   if($('homeMonthLabel'))$('homeMonthLabel').textContent=new Date(d+'T12:00:00').toLocaleDateString('es-CO',{month:'long',year:'numeric'});
   $('homeDaySummary').innerHTML=`<div class="home-month-box in"><div class="hm-label">Ingresos del mes</div><div class="hm-value">${money(inc)}</div></div><div class="home-month-box out"><div class="hm-label">Egresos del mes</div><div class="hm-value">${money(exp)}</div></div><div class="home-month-box net"><div class="hm-label">Neto del mes</div><div class="hm-value">${money(inc-exp)}</div></div><div class="home-month-box"><div class="hm-label">Ventas a crédito</div><div class="hm-value">${money(credit)}</div><div class="small muted">Transferencias: ${money(trans)}</div></div>`;
