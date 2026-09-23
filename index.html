@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="format-detection" content="telephone=no">
-<title>HILEN · Gestión de ventas y caja · Visual V3</title>
+<title>HILEN · Gestión de ventas y caja · Visual V9</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTYiIGZpbGw9IiMxMTExMTEiLz48cGF0aCBkPSJNMTkgMTZoOXYxMmg4VjE2aDl2MzJoLTlWMzZoLTh2MTJoLTl6IiBmaWxsPSIjRTVCODRGIi8+PC9zdmc+">
 <style>
 :root{
@@ -2085,6 +2085,30 @@ input,select,textarea,button{max-width:100%}
   .shell-user{grid-column:5!important}
 }
 
+
+/* =========================================================
+   HILEN · ACCESOS INICIO + ENCARGOS DE CLIENTES
+   ========================================================= */
+.quick-grid.home-quick{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:10px!important}
+.quick-action{min-height:78px!important;padding:12px 11px!important;border:1px solid #e8e4dc!important;border-radius:18px!important;background:linear-gradient(180deg,#fff,#fcfbf8)!important;box-shadow:0 7px 22px rgba(24,25,30,.055)!important;display:grid!important;grid-template-columns:38px minmax(0,1fr) 22px!important;align-items:center!important;text-align:left!important;gap:9px!important;transition:.16s ease!important}
+.quick-action:hover{transform:translateY(-2px)!important;border-color:#e1c58e!important;box-shadow:0 12px 28px rgba(24,25,30,.09)!important}
+.quick-icon{width:38px!important;height:38px!important;border-radius:13px!important;background:#fbf0dc!important;color:#b8750c!important;display:grid!important;place-items:center!important}
+.quick-icon svg{width:21px!important;height:21px!important;stroke:currentColor!important}
+.quick-copy{display:grid!important;gap:3px!important;min-width:0!important}
+.quick-copy b{font-size:12.5px!important;color:#111a31!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.quick-copy small{font-size:10px!important;color:#77839b!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.quick-arrow{margin-left:auto!important;width:22px!important;height:22px!important;border-radius:50%!important;background:#f5f5f3!important;display:grid!important;place-items:center!important;color:#687286!important;font-size:18px!important;line-height:1!important}
+.quick-action-order{background:linear-gradient(180deg,#fffaf0,#fff)!important;border-color:#ead9b9!important}
+.quick-action-order .quick-icon{background:#f7e8c9!important}
+.encargos-head{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:14px!important;padding:20px 22px!important}
+.encargos-head-copy{display:flex;align-items:center;gap:13px;min-width:0}.encargos-head-copy h2{margin:0 0 4px;font-size:20px}.encargos-title-icon{width:46px;height:46px;border-radius:15px;background:#fbf0dc;color:#a86a0b;display:grid;place-items:center;flex:0 0 46px}.encargos-title-icon svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.encargos-head-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.encargos-head-actions .primary,.encargos-head-actions .secondary{border-radius:12px!important;min-height:42px!important}
+.encargos-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.encargo-kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;align-items:center;gap:11px;box-shadow:0 7px 22px rgba(24,25,30,.035)}.encargo-kpi>div{display:grid;gap:2px}.encargo-kpi span:not(.encargo-kpi-icon){font-size:11px;color:var(--muted)}.encargo-kpi b{font-size:21px;letter-spacing:-.5px}.encargo-kpi-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:900}.encargo-kpi-icon.gold{background:#fbf0dc;color:#a86a0b}.encargo-kpi-icon.blue{background:#eaf1ff;color:#2d67d8}.encargo-kpi-icon.green{background:#e5f7ee;color:#13875a}.encargo-kpi-icon.red{background:#ffebeb;color:#c53b3b}
+.encargos-list-card{padding:20px 22px!important}.encargos-list-head{align-items:flex-end!important}.encargos-filters{display:flex;gap:8px;min-width:min(520px,100%)}.encargos-filters .input{margin:0;min-width:170px}.encargos-table .table th{background:#faf9f6}.encargo-request{max-width:330px;white-space:normal;line-height:1.35}.encargo-client{display:flex;flex-direction:column;gap:2px}.encargo-client b{font-size:13px}.encargo-client small{font-size:10px;color:var(--muted)}.encargo-date{font-size:11px;line-height:1.45;color:#56617a}.encargo-status-select{min-height:34px!important;padding:6px 28px 6px 9px!important;border-radius:999px!important;font-size:11px!important;font-weight:800!important;background:#f7f8fa!important}.encargo-reminder{font-size:11px;font-weight:750;color:#6b7384}.encargo-reminder.today{color:#b56c00}.encargo-reminder.overdue{color:#c53838}.encargo-empty{padding:38px 18px;text-align:center;border:1px dashed #ddd8ce;border-radius:16px;background:#fcfbf8}.encargo-empty-icon{width:48px;height:48px;border-radius:16px;background:#fbf0dc;color:#b8750c;display:grid;place-items:center;margin:0 auto 10px;font-size:21px}.encargo-empty b{display:block;margin-bottom:5px}.encargo-empty span{font-size:12px;color:var(--muted)}
+.encargo-modal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}.encargo-modal-grid .fullcol{grid-column:1/-1}.encargo-modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.encargo-modal-actions button{min-height:42px}.encargo-helper{font-size:11px;color:var(--muted);margin-top:-6px}
+@media(max-width:1050px){.quick-grid.home-quick{grid-template-columns:repeat(3,minmax(0,1fr))!important}.encargos-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.quick-grid.home-quick{grid-template-columns:repeat(2,minmax(0,1fr))!important}.encargos-head{align-items:flex-start;flex-direction:column}.encargos-head-actions{width:100%;justify-content:flex-start}.encargos-filters{min-width:0;width:100%;flex-wrap:wrap}.encargos-filters .input{flex:1}.encargos-list-head{align-items:flex-start!important}}
+@media(max-width:620px){.quick-grid.home-quick{grid-template-columns:1fr 1fr!important}.quick-action{min-height:68px!important;grid-template-columns:34px minmax(0,1fr) 20px!important;padding:9px!important;gap:7px!important;border-radius:15px!important}.quick-icon{width:34px!important;height:34px!important;border-radius:11px!important}.quick-icon svg{width:18px!important;height:18px!important}.quick-copy b{font-size:11px!important}.quick-copy small{font-size:9px!important}.encargos-kpis{grid-template-columns:1fr 1fr}.encargos-head,.encargos-list-card{padding:15px!important}.encargo-modal-grid{grid-template-columns:1fr}.encargo-modal-grid .fullcol{grid-column:auto}.encargos-filters{flex-direction:column}.encargos-filters .input{width:100%;min-width:0}.encargos-table .table{min-width:920px!important}}
+
 </style>
 </head>
 <body>
@@ -2167,6 +2191,7 @@ input,select,textarea,button{max-width:100%}
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estados de cuenta</button>
       <button onclick="section('inventory',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7 12 3l8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></svg></span>Productos y demanda</button>
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
+      <button onclick="section('encargos',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></span>Encargos</button>
       <button onclick="section('settings',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H10v-.08a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V10h.08A1.7 1.7 0 0 0 4.66 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3H14v.08A1.7 1.7 0 0 0 15.1 4.66a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.38.36.72.6 1 .3.3.7.45 1.1.4H21V14h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span>Configuración</button>
     </nav>
     
@@ -2206,6 +2231,7 @@ input,select,textarea,button{max-width:100%}
           <button class="quick-action" onclick="openCustomerForm()"><span class="quick-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6M18 8v6M15 11h6"/></svg></span><span class="quick-copy"><b>Agregar cliente</b><small>Nuevo cliente</small></span><span class="quick-arrow">›</span></button>
           <button class="quick-action" onclick="goSection('payments')"><span class="quick-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 15h4"/></svg></span><span class="quick-copy"><b>Registrar pago</b><small>Abonos / pagos</small></span><span class="quick-arrow">›</span></button>
           <button class="quick-action" onclick="goSection('cashflow')"><span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM7 7V5h10v2"/><path d="M8 13h8"/></svg></span><span class="quick-copy"><b>Flujo de caja</b><small>Ingresos, gastos y más</small></span><span class="quick-arrow">›</span></button>
+          <button class="quick-action quick-action-order" onclick="goSection('encargos')"><span class="quick-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></span><span class="quick-copy"><b>Nuevo encargo</b><small>Averiguar para un cliente</small></span><span class="quick-arrow">›</span></button>
         </div>
 
         <div class="card home-sales-card"><div class="panel-head"><div><h2>Últimas ventas</h2><div class="muted small">Tus ventas más recientes</div></div><button class="link-btn" onclick="goSection('day')">Ver todas&nbsp; →</button></div><div id="homeRecentSales"></div><button class="black-link" onclick="goSection('day')">Ir a ventas&nbsp; →</button></div>
@@ -2495,6 +2521,28 @@ input,select,textarea,button{max-width:100%}
       </div>
     </section>
 
+    <section id="encargos" class="section hilen-view hilen-encargos">
+      <div class="encargos-head card">
+        <div class="encargos-head-copy">
+          <div class="encargos-title-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></div>
+          <div><h2>Encargos de clientes</h2><div class="muted small">Registra lo que un cliente te pidió averiguar, haz seguimiento al proveedor y recuerda cuándo debes volver a contactar.</div></div>
+        </div>
+        <div class="encargos-head-actions"><button class="secondary" onclick="requestReminderPermission()">Activar alertas</button><button class="primary" onclick="openEncargoForm()">＋ Nuevo encargo</button></div>
+      </div>
+
+      <div class="encargos-kpis">
+        <div class="encargo-kpi"><span class="encargo-kpi-icon gold">⌁</span><div><span>Activos</span><b id="encargosActiveCount">0</b></div></div>
+        <div class="encargo-kpi"><span class="encargo-kpi-icon blue">◷</span><div><span>Para hoy</span><b id="encargosTodayCount">0</b></div></div>
+        <div class="encargo-kpi"><span class="encargo-kpi-icon green">✓</span><div><span>Completados</span><b id="encargosDoneCount">0</b></div></div>
+        <div class="encargo-kpi"><span class="encargo-kpi-icon red">!</span><div><span>Vencidos</span><b id="encargosOverdueCount">0</b></div></div>
+      </div>
+
+      <div class="card encargos-list-card">
+        <div class="panel-head encargos-list-head"><div><h2>Seguimiento de encargos</h2><div class="muted small">Puedes actualizar el estado en cualquier momento.</div></div><div class="encargos-filters"><select id="encargosStatusFilter" class="input" onchange="renderEncargos()"><option value="all">Todos los estados</option><option value="pending">Pendiente</option><option value="supplier">Proveedor contactado</option><option value="response">Proveedor respondió</option><option value="client">Cliente informado</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select><input id="encargosSearch" class="input" placeholder="Buscar cliente o encargo…" oninput="renderEncargos()"></div></div>
+        <div id="encargosTable"></div>
+      </div>
+    </section>
+
     <section id="statements" class="section hilen-view hilen-statements">
       <div class="section-subtitle statement-page-subtitle">Genera y envía el estado de cuenta de tus clientes de forma rápida y sencilla.</div>
       <div class="card statement-simple-card">
@@ -2530,7 +2578,7 @@ input,select,textarea,button{max-width:100%}
 <script>
 const KEY="HILEN_DEMO_V2";
 const OLD_KEY="HILEN_DEMO_V1";
-const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[]};
+const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[]};
 let db;
 try{db=JSON.parse(localStorage.getItem(KEY)||"null")||null}catch(e){db=null}
 if(!db){
@@ -2540,7 +2588,7 @@ if(!db){
   }catch(e){}
 }
 if(!db) db=structuredClone(emptyDB);
-db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; if(!('session' in db))db.session=null;
+db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; if(!('session' in db))db.session=null;
 let currentUser=null;
 const GOOGLE_SHEETS_SYNC_KEY="HILEN_GOOGLE_SHEETS_SYNC_V2";
 const GOOGLE_DRIVE_BACKUP_KEY="HILEN_GOOGLE_DRIVE_BACKUP_V1";
@@ -2670,12 +2718,12 @@ function initCloud(){
   }catch(err){console.error('Firebase init:',err);setCloudStatus('error','Error configurando Firebase');return false}
 }
 function businessState(){
-  return {version:10,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[]};
+  return {version:11,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[]};
 }
 function hasBusinessData(state=businessState()){return (state.clients?.length||0)+(state.sales?.length||0)+(state.payments?.length||0)+(state.cashMovements?.length||0)>0}
 function applyBusinessState(state){
   const safe=state||{};
-  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[]};
+  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[]};
   syncDataRelations();
 }
 function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
@@ -2821,6 +2869,7 @@ function safeRender(name,fn){
 }
 
 syncDataRelations();
+startEncargoReminderWatcher();
 function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_DIRTY_KEY,'1');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());queueCloudSave();queueGoogleSheetsSync();queueGoogleDriveSync();notifyBackupAfterChange()}
 function syncDataRelations(){
   db.clients ||= []; db.sales ||= []; db.payments ||= [];
@@ -2946,10 +2995,10 @@ function globalSearchGo(){
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',inventory:'Productos y demanda',statements:'Estados de cuenta',history:'Historial anual',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',statements:'Consulta y genera estados de cuenta de tus clientes.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide();if((e.metaKey||e.ctrlKey)&&String(e.key).toLowerCase()==='k'){e.preventDefault();$('globalSearch')?.focus()}})
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
 let activeCustomerId=null;
 function clientSales(cid){return db.sales.filter(s=>s.clientId===cid&&s.date).sort((a,b)=>a.date.localeCompare(b.date)||String(a.time||'').localeCompare(String(b.time||'')))}
 function clientFirstSaleDate(cid){const rows=clientSales(cid);return rows.length?rows[0].date:''}
@@ -2966,7 +3015,7 @@ function addProduct(){const div=document.createElement('div');div.className='pro
 function calcTotal(){let t=0;document.querySelectorAll('.product-row').forEach(r=>{const q=+r.querySelector('.pqty').value||0,p=parseMoneyInput(r.querySelector('.pprice').value),v=q*p;t+=v;r.querySelector('.ptotal').textContent=money(v)});$('saleTotal').textContent=money(t);return t}
 function refreshAfterChange(){
   syncDataRelations();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
 }
 function clientNameById(cid){return db.clients.find(c=>c.id===cid)?.name||db.sales.find(s=>s.clientId===cid&&s.clientName)?.clientName||'Cliente'}
 function refreshClientsSelects(){const opts=db.clients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone):''}</option>`).join('');if($('statementClientList'))$('statementClientList').innerHTML=opts;if($('saleClientList'))$('saleClientList').innerHTML=opts;const creditClients=db.clients.filter(c=>clientBalance(c.id).balance>0);if($('payClientList'))$('payClientList').innerHTML=creditClients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone)+' · ':''}Saldo ${money(clientBalance(c.id).balance)}</option>`).join('')}
@@ -3461,8 +3510,9 @@ function buildBackupTables(){
   const years=historyYears().map(y=>{const s=annualStats(y);return {Año:y,Ventas:s.totalSales,Numero_ventas:s.sales.length,Clientes_activos:s.clients.filter(x=>x.active).length,Clientes_nuevos:s.newClients,Clientes_recurrentes:s.returningClients,Potenciales_registrados:s.potentialRegistered,Mujeres:s.women,Hombres:s.men,Abonos:s.paymentTotal,Ingresos:s.income,Egresos:s.expense,Neto:s.net,Ventas_credito:s.creditSales}});
   const inv=[];historyYears().forEach(y=>inventoryAnalytics(y).forEach(r=>inv.push({Año:y,Producto:r.name,Unidades_vendidas:r.units,Consultas_interes:r.inquiries,Clientes_compradores:r.clientsCount,Ingresos:r.revenue,Precio_promedio:Math.round(r.avgPrice||0),Ultima_venta:r.last||'',Demanda:r.demand})));
   const debtCarry=allCarriedDebtRows();
-  const b=getBalances(),summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Estados de cuenta descargados',Valor:(db.statementDownloads||[]).length},{Indicador:'Dinero en efectivo',Valor:b.cash},{Indicador:'Dinero en Nequi',Valor:b.bank},{Indicador:'Disponible total',Valor:b.total}];
-  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry};
+  const encargos=(db.encargos||[]).map(e=>({ID:e.id,Fecha_solicitud:e.createdDate||'',Cliente:e.clientName||'',Telefono:e.phone||'',Encargo:e.request||'',Proveedor:e.supplier||'',Estado:encargoStatusLabel(e.status),Fecha_recordatorio:e.reminderDate||'',Hora_recordatorio:e.reminderTime||'',Notas:e.notes||'',Actualizado:e.updatedAt||''}));
+  const b=getBalances(),summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Estados de cuenta descargados',Valor:(db.statementDownloads||[]).length},{Indicador:'Encargos registrados',Valor:(db.encargos||[]).length},{Indicador:'Dinero en efectivo',Valor:b.cash},{Indicador:'Dinero en Nequi',Valor:b.bank},{Indicador:'Disponible total',Valor:b.total}];
+  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Encargos':encargos};
 }
 function exportAllToExcel(){
   if(!window.XLSX)return showToast('No se pudo cargar Excel','Verifica tu conexión a Internet y vuelve a intentar.','error');
@@ -3824,7 +3874,7 @@ async function connectGoogleSheets(){
     setGoogleBackupReconnectNeeded(false);
     const folderId=await ensureGoogleDriveFolder();
     if(!googleSheetsConfig.sheetId){
-      const titles=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','CONTROL'];
+      const titles=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','Encargos','CONTROL'];
       const created=await googleApi('https://sheets.googleapis.com/v4/spreadsheets',{method:'POST',body:JSON.stringify({properties:{title:'HILEN - Respaldo'},sheets:titles.map(title=>({properties:{title}}))})});
       googleSheetsConfig.sheetId=created.spreadsheetId;
       googleSheetsConfig.sheetUrl=created.spreadsheetUrl||`https://docs.google.com/spreadsheets/d/${created.spreadsheetId}/edit`;
@@ -3847,7 +3897,7 @@ function backupRowsToValues(rows){
 }
 async function ensureGoogleSheetTabs(){
   if(!googleSheetsConfig.sheetId)return;
-  const required=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','CONTROL'];
+  const required=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','Encargos','CONTROL'];
   const meta=await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}?fields=sheets.properties(sheetId,title)`);
   const sheets=(meta?.sheets||[]).map(x=>x?.properties).filter(Boolean),existing=new Set(sheets.map(x=>x.title).filter(Boolean)),requests=[];
   const oldDebt=sheets.find(x=>x.title==='Deudas entre años'),newDebt=sheets.find(x=>x.title==='Deudas pendientes por año');
@@ -3880,9 +3930,49 @@ async function syncGoogleSheetsNow(showResult=false){
     console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Revisa tu conexión e intenta nuevamente.','error');return false
   }finally{googleSheetsSyncInFlight=false}
 }
+function encargoStatusLabel(status){return ({pending:'Pendiente',supplier:'Proveedor contactado',response:'Proveedor respondió',client:'Cliente informado',completed:'Completado',cancelled:'Cancelado'})[status]||'Pendiente'}
+function encargoStatusClass(status){return ({pending:'encargo-status-pending',supplier:'encargo-status-supplier',response:'encargo-status-response',client:'encargo-status-client',completed:'encargo-status-completed',cancelled:'encargo-status-cancelled'})[status]||'encargo-status-pending'}
+function encargoReminderInfo(e){if(!e?.reminderDate)return {text:'Sin recordatorio',class:''};const date=e.reminderDate,time=e.reminderTime||'09:00',now=new Date(),dt=new Date(`${date}T${time}:00`);if(Number.isNaN(dt.getTime()))return {text:'Recordatorio inválido',class:'overdue'};const sameDay=date===today();if(dt<now)return {text:`Vencido · ${date} ${time}`,class:'overdue'};if(sameDay)return {text:`Hoy · ${time}`,class:'today'};return {text:`${date} · ${time}`,class:''}}
+function encargoIsDone(e){return ['completed','cancelled'].includes(e.status)}
+function encargoDueRows(){return (db.encargos||[]).filter(e=>e.reminderDate&&!encargoIsDone(e)).sort((a,b)=>`${a.reminderDate} ${a.reminderTime||'09:00'}`.localeCompare(`${b.reminderDate} ${b.reminderTime||'09:00'}`))}
+function renderEncargos(){
+  if(!$('encargosTable'))return;
+  const rows=db.encargos||[],filter=$('encargosStatusFilter')?.value||'all',q=String($('encargosSearch')?.value||'').trim().toLocaleLowerCase('es');
+  const filtered=rows.filter(e=>(filter==='all'||e.status===filter)&&(!q||`${e.clientName||''} ${e.request||''} ${e.supplier||''} ${e.phone||''}`.toLocaleLowerCase('es').includes(q))).sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+  const active=rows.filter(e=>!encargoIsDone(e)).length,todayCount=rows.filter(e=>e.reminderDate===today()&&!encargoIsDone(e)).length,done=rows.filter(e=>e.status==='completed').length,overdue=rows.filter(e=>{const r=encargoReminderInfo(e);return r.class==='overdue'&&!encargoIsDone(e)}).length;
+  $('encargosActiveCount').textContent=active;$('encargosTodayCount').textContent=todayCount;$('encargosDoneCount').textContent=done;$('encargosOverdueCount').textContent=overdue;
+  if(!filtered.length){$('encargosTable').innerHTML=`<div class="encargo-empty"><div class="encargo-empty-icon">✓</div><b>${rows.length?'No hay encargos con este filtro.':'Todavía no tienes encargos registrados.'}</b><span>${rows.length?'Cambia el filtro o busca otro cliente.':'Cuando un cliente te pida averiguar un producto, puedes registrarlo aquí.'}</span></div>`;return}
+  const opts=e=>['pending','supplier','response','client','completed','cancelled'].map(s=>`<option value="${s}" ${e.status===s?'selected':''}>${encargoStatusLabel(s)}</option>`).join('');
+  $('encargosTable').innerHTML=`<div class="table-wrap encargos-table"><table class="table"><thead><tr><th>Cliente</th><th>Qué pidió</th><th>Proveedor</th><th>Estado</th><th>Recordatorio</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>${filtered.map(e=>{const r=encargoReminderInfo(e);return `<tr><td><div class="encargo-client"><b>${esc(e.clientName||'Sin nombre')}</b>${e.phone?`<small>${esc(e.phone)}</small>`:''}</div></td><td><div class="encargo-request"><b>${esc(e.request||'—')}</b>${e.notes?`<div class="small muted">${esc(e.notes)}</div>`:''}</div></td><td>${esc(e.supplier||'Por averiguar')}</td><td><select class="encargo-status-select ${encargoStatusClass(e.status)}" onchange="changeEncargoStatus('${e.id}',this.value)">${opts(e)}</select></td><td><span class="encargo-reminder ${r.class}">${esc(r.text)}</span></td><td><div class="encargo-date">${esc(e.createdDate||'—')}<br>${e.updatedAt?`Actualizado ${esc(String(e.updatedAt).slice(0,10))}`:''}</div></td><td><div class="action-group"><button class="action-mini view" title="Ver" onclick="viewEncargo('${e.id}')">Ver</button><button class="action-mini edit" title="Editar" onclick="openEncargoForm('${e.id}')">Editar</button><button class="action-mini danger" title="Eliminar" onclick="deleteEncargo('${e.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`;
+}
+function openEncargoForm(encargoId=''){
+  const e=encargoId?(db.encargos||[]).find(x=>x.id===encargoId):null;
+  if(encargoId&&!e)return;
+  const now=new Date(),defaultTime=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  $('modalContent').innerHTML=`<div class="encargo-modal"><button class="close" onclick="closeModal()">×</button><div class="icon-title"><div class="encargos-title-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></div><div><h2 style="margin:0">${e?'Editar encargo':'Nuevo encargo'}</h2><div class="muted small">Guarda lo que el cliente quiere averiguar y cuándo debes hacer seguimiento.</div></div></div><div class="encargo-modal-grid" style="margin-top:18px"><div><label class="label">Nombre del cliente</label><input id="encClient" class="input" value="${esc(e?.clientName||'')}" placeholder="Ej. María López"></div><div><label class="label">Teléfono <span class="muted">(opcional)</span></label><input id="encPhone" class="input" type="tel" value="${esc(e?.phone||'')}" placeholder="Ej. 300 000 0000"></div><div class="fullcol"><label class="label">¿Qué quiere que averigües?</label><input id="encRequest" class="input" value="${esc(e?.request||'')}" placeholder="Ej. Averiguar disponibilidad de bolso color beige"></div><div><label class="label">Proveedor</label><input id="encSupplier" class="input" value="${esc(e?.supplier||'')}" placeholder="Nombre del proveedor o por averiguar"></div><div><label class="label">Estado</label><select id="encStatus" class="input"><option value="pending">Pendiente</option><option value="supplier">Proveedor contactado</option><option value="response">Proveedor respondió</option><option value="client">Cliente informado</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select></div><div><label class="label">Fecha del encargo</label><input id="encCreatedDate" class="input" type="date" value="${esc(e?.createdDate||today())}"></div><div><label class="label">Recordarme el</label><input id="encReminderDate" class="input" type="date" value="${esc(e?.reminderDate||'')}"></div><div><label class="label">Hora del recordatorio</label><input id="encReminderTime" class="input" type="time" value="${esc(e?.reminderTime||defaultTime)}"></div><div class="fullcol"><label class="label">Notas <span class="muted">(opcional)</span></label><textarea id="encNotes" class="input" rows="3" placeholder="Qué debes preguntar, precio, referencia, color, respuesta del proveedor…">${esc(e?.notes||'')}</textarea><div class="encargo-helper">Cuando llegue la fecha y hora, HILEN mostrará un aviso dentro de la aplicación. También puedes activar las notificaciones del navegador.</div></div></div><div class="encargo-modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="saveEncargo('${e?.id||''}')">${e?'Guardar cambios':'Guardar encargo'}</button></div></div>`;
+  if(e)$('encStatus').value=e.status||'pending';
+  document.getElementById('modal').classList.remove('hidden');
+}
+function saveEncargo(encargoId=''){
+  const clientName=$('encClient').value.trim(),request=$('encRequest').value.trim();if(!clientName)return showToast('Falta el cliente','Escribe el nombre del cliente.','error');if(!request)return showToast('Falta el encargo','Escribe qué necesita que averigües.','error');
+  const now=new Date().toISOString(),payload={clientName,phone:$('encPhone').value.trim(),request,supplier:$('encSupplier').value.trim(),status:$('encStatus').value,createdDate:$('encCreatedDate').value||today(),reminderDate:$('encReminderDate').value||'',reminderTime:$('encReminderTime').value||'09:00',notes:$('encNotes').value.trim(),updatedAt:now};
+  if(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;Object.assign(e,payload)}else{db.encargos.unshift({id:id(),createdAt:now,...payload})}
+  saveDB();closeModal();renderEncargos();showToast(encargoId?'Encargo actualizado':'Encargo guardado',encargoId?'El seguimiento quedó actualizado.':'HILEN guardó el encargo y su recordatorio.','success');checkEncargoReminders(true);
+}
+function changeEncargoStatus(encargoId,status){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;e.status=status;e.updatedAt=new Date().toISOString();saveDB();renderEncargos();showToast('Estado actualizado',`${e.clientName}: ${encargoStatusLabel(status)}.`,'success');}
+function viewEncargo(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;const r=encargoReminderInfo(e);$('modalContent').innerHTML=`<div class="encargo-modal"><button class="close" onclick="closeModal()">×</button><div class="icon-title"><div class="encargos-title-icon">✓</div><div><h2 style="margin:0">${esc(e.clientName)}</h2><div class="muted small">Detalle del encargo</div></div></div><div class="encargo-modal-grid" style="margin-top:18px"><div class="card"><span class="label">Qué pidió</span><b>${esc(e.request)}</b></div><div class="card"><span class="label">Estado</span><b>${encargoStatusLabel(e.status)}</b></div><div class="card"><span class="label">Proveedor</span><b>${esc(e.supplier||'Por averiguar')}</b></div><div class="card"><span class="label">Teléfono</span><b>${esc(e.phone||'No registrado')}</b></div><div class="card"><span class="label">Recordatorio</span><b class="${r.class}">${esc(r.text)}</b></div><div class="card"><span class="label">Fecha del encargo</span><b>${esc(e.createdDate||'—')}</b></div><div class="card fullcol"><span class="label">Notas</span><div>${esc(e.notes||'Sin notas')}</div></div></div><div class="encargo-modal-actions"><button class="secondary" onclick="openEncargoForm('${e.id}')">Editar</button><button class="primary" onclick="closeModal()">Cerrar</button></div></div>`;document.getElementById('modal').classList.remove('hidden')}
+function deleteEncargo(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;confirmAction('Eliminar encargo',`Se eliminará el seguimiento de ${e.clientName}. Esta acción no se puede deshacer.`,()=>{db.encargos=db.encargos.filter(x=>x.id!==encargoId);saveDB();renderEncargos();showToast('Encargo eliminado','El seguimiento fue eliminado.')},{confirmText:'Eliminar',workingText:'Eliminando…'});}
+function requestReminderPermission(){if(!('Notification' in window))return showToast('Alertas del navegador no disponibles','HILEN seguirá mostrando los recordatorios dentro de la aplicación.','info');Notification.requestPermission().then(p=>showToast(p==='granted'?'Alertas activadas':'Alertas no activadas',p==='granted'?'También recibirás avisos del navegador cuando HILEN esté abierto.':'Puedes seguir usando los recordatorios dentro de HILEN.','info'))}
+let encargoReminderTimer=null;
+function checkEncargoReminders(force=false){
+  const now=new Date(),keyTime=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  (db.encargos||[]).filter(e=>e.reminderDate&&e.reminderTime&&!encargoIsDone(e)).forEach(e=>{const due=new Date(`${e.reminderDate}T${e.reminderTime}:00`);if(Number.isNaN(due.getTime()))return;const dueKey=`HILEN_ENCARGO_ALERT_${e.id}_${e.reminderDate}_${e.reminderTime}`;let alerted=localStorage.getItem(dueKey)==='1';const isDue=due<=now&&due.getTime()>now.getTime()-24*60*60*1000;if(isDue&&!alerted){localStorage.setItem(dueKey,'1');showToast('Recordatorio de encargo',`Es momento de contactar al proveedor por ${e.clientName}: ${e.request}`,'warning',9000);if('Notification' in window&&Notification.permission==='granted'){try{new Notification('HILEN · Recordatorio',{body:`Contactar al proveedor por ${e.clientName}: ${e.request}`})}catch(_){} }}});
+  if(force)renderEncargos();
+}
+function startEncargoReminderWatcher(){clearInterval(encargoReminderTimer);checkEncargoReminders(true);encargoReminderTimer=setInterval(()=>checkEncargoReminders(false),30000)}
 function refreshAll(){
   syncDataRelations();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory]].forEach(([name,fn])=>safeRender(name,fn));
 }
 
 function closeModal(){$('modal').classList.add('hidden')}
