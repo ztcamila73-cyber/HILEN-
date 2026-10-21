@@ -2314,7 +2314,7 @@ input,select,textarea,button{max-width:100%}
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estados de cuenta</button>
       <button onclick="section('inventory',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7 12 3l8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></svg></span>Productos y demanda</button>
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
-      <button onclick="section('monthlyRecords',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg></span>Registro mensual</button>
+      <button onclick="section('monthlyRecords',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg></span>Registro de ventas mensuales</button>
       <button onclick="section('encargos',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></span>Encargos</button>
       <button onclick="section('settings',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H10v-.08a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V10h.08A1.7 1.7 0 0 0 4.66 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3H14v.08A1.7 1.7 0 0 0 15.1 4.66a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.38.36.72.6 1 .3.3.7.45 1.1.4H21V14h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span>Configuración</button>
     </nav>
@@ -2629,16 +2629,15 @@ input,select,textarea,button{max-width:100%}
       <div class="card">
         <div class="pro-card-head compact">
           <span class="pro-icon gold"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg></span>
-          <div><h2>Registro mensual</h2><p>Registra los totales históricos de ventas y abonos de cada mes.</p></div>
+          <div><h2>Registro de ventas mensuales</h2><p>Registra o corrige el total histórico de ventas de cada mes.</p></div>
         </div>
-        <div class="notice blue" style="margin:14px 0">Este apartado guarda únicamente los dos totales históricos. No crea ventas, abonos, clientes, deudas ni movimientos de caja, y no modifica los reportes de transacciones.</div>
+        <div class="notice blue" style="margin:14px 0">Este apartado guarda únicamente el total histórico de ventas. No crea ventas, clientes, deudas ni movimientos de caja, y no modifica los reportes de transacciones.</div>
         <div class="form-grid">
           <div><label class="label" for="monthlyRecordMonth">Mes y año</label><input id="monthlyRecordMonth" class="input" type="month" required></div>
           <div><label class="label" for="monthlyRecordSales">Total de ventas del mes</label><input id="monthlyRecordSales" class="input" type="number" min="0" step="1" inputmode="numeric" placeholder="Valor en pesos" required></div>
-          <div><label class="label" for="monthlyRecordPayments">Total de abonos recaudados del mes</label><input id="monthlyRecordPayments" class="input" type="number" min="0" step="1" inputmode="numeric" placeholder="Valor en pesos" required></div>
         </div>
         <div class="row-actions">
-          <button class="primary" id="saveMonthlyRecordBtn" type="button" onclick="saveMonthlyRecord()">Guardar registro mensual</button>
+          <button class="primary" id="saveMonthlyRecordBtn" type="button" onclick="saveMonthlyRecord()">Guardar ventas del mes</button>
           <button class="secondary hidden" id="cancelMonthlyRecordBtn" type="button" onclick="cancelMonthlyRecordEdit()">Cancelar edición</button>
         </div>
         <div id="monthlyRecordFormMessage" class="small muted" style="margin-top:10px" role="status"></div>
@@ -3181,7 +3180,7 @@ function globalSearchGo(){
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',monthlyRecords:'Guarda los totales mensuales históricos de ventas y abonos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();if(name==='monthlyRecords'&&$('monthlyRecordMonth')&&!$('monthlyRecordMonth').value)$('monthlyRecordMonth').value=today().slice(0,7);const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,monthlyRecords:()=>{renderMonthlyRecords();renderMonthlyPayments();if($('monthlyPaymentMonth')&&!$('monthlyPaymentMonth').value)$('monthlyPaymentMonth').value=today().slice(0,7)},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',monthlyRecords:'Registro de ventas mensuales',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',monthlyRecords:'Guarda los totales mensuales históricos de ventas y abonos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();if(name==='monthlyRecords'&&$('monthlyRecordMonth')&&!$('monthlyRecordMonth').value)$('monthlyRecordMonth').value=today().slice(0,7);const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,monthlyRecords:()=>{renderMonthlyRecords();renderMonthlyPayments();if($('monthlyPaymentMonth')&&!$('monthlyPaymentMonth').value)$('monthlyPaymentMonth').value=today().slice(0,7)},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -3705,32 +3704,30 @@ function editMonthlyPaymentRecord(month){
 function saveMonthlyRecord(){
   const month=$('monthlyRecordMonth')?.value||'';
   const salesRaw=$('monthlyRecordSales')?.value??'';
-  const paymentsRaw=$('monthlyRecordPayments')?.value??'';
   const message=$('monthlyRecordFormMessage');
   if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)){
     if(message)message.textContent='Selecciona el mes y año que quieres registrar.';
     $('monthlyRecordMonth')?.focus();return;
   }
-  if(String(salesRaw).trim()===''||String(paymentsRaw).trim()===''||!Number.isFinite(Number(salesRaw))||!Number.isFinite(Number(paymentsRaw))||Number(salesRaw)<0||Number(paymentsRaw)<0){
-    if(message)message.textContent='Ingresa los dos totales. Los valores deben ser cero o mayores.';
+  if(String(salesRaw).trim()===''||!Number.isFinite(Number(salesRaw))||Number(salesRaw)<0){
+    if(message)message.textContent='Ingresa el total de ventas. El valor debe ser cero o mayor.';
     return;
   }
   db.monthlyRecords ||= [];
   const existing=db.monthlyRecords.find(r=>r.month===month);
-  const record={month,salesTotal:Math.round(Number(salesRaw)),paymentsTotal:Math.round(Number(paymentsRaw)),updatedAt:new Date().toISOString()};
+  const record={month,salesTotal:Math.round(Number(salesRaw)),updatedAt:new Date().toISOString()};
   if(existing)Object.assign(existing,record);else db.monthlyRecords.push(record);
   saveDB();
   renderMonthlyRecords();
   if(message)message.textContent=`Registro de ${monthlyRecordMonthLabel(month)} guardado.`;
   cancelMonthlyRecordEdit(false);
-  showToast('Registro mensual guardado','Los dos totales quedaron guardados.');
+  showToast('Ventas mensuales guardadas','El total de ventas del mes quedó guardado.');
 }
 function editMonthlyRecord(month){
   const record=(db.monthlyRecords||[]).find(r=>r.month===month);
   if(!record)return;
   $('monthlyRecordMonth').value=record.month;
   $('monthlyRecordSales').value=record.salesTotal;
-  $('monthlyRecordPayments').value=record.paymentsTotal;
   monthlyRecordEditingKey=month;
   const btn=$('saveMonthlyRecordBtn');if(btn)btn.textContent='Guardar cambios';
   $('cancelMonthlyRecordBtn')?.classList.remove('hidden');
@@ -3739,12 +3736,11 @@ function editMonthlyRecord(month){
 }
 function cancelMonthlyRecordEdit(clearMessage=true){
   monthlyRecordEditingKey='';
-  const btn=$('saveMonthlyRecordBtn');if(btn)btn.textContent='Guardar registro mensual';
+  const btn=$('saveMonthlyRecordBtn');if(btn)btn.textContent='Guardar ventas del mes';
   $('cancelMonthlyRecordBtn')?.classList.add('hidden');
   if(clearMessage&&$('monthlyRecordFormMessage'))$('monthlyRecordFormMessage').textContent='';
   if($('monthlyRecordMonth'))$('monthlyRecordMonth').value=today().slice(0,7);
   if($('monthlyRecordSales'))$('monthlyRecordSales').value='';
-  if($('monthlyRecordPayments'))$('monthlyRecordPayments').value='';
 }
 
 function renderHistory(){
