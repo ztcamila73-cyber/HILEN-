@@ -2647,6 +2647,20 @@ input,select,textarea,button{max-width:100%}
         <div class="panel-head"><div><h2>Registros guardados</h2><div class="muted small">Puedes editar un mes para corregir sus cifras. Solo se conserva un registro por mes y año.</div></div></div>
         <div id="monthlyRecordsTable"></div>
       </div>
+      <div class="card" style="margin-top:18px">
+        <div class="pro-card-head compact">
+          <span class="pro-icon gold"><svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 9h18M7 14h4"/></svg></span>
+          <div><h2>Registro de abonos mensuales</h2><p>Registra o corrige únicamente el total de abonos recaudados en cada mes, sin tener que volver a ingresar las ventas.</p></div>
+        </div>
+        <div class="form-grid">
+          <div><label class="label" for="monthlyPaymentMonth">Mes y año de los abonos</label><input id="monthlyPaymentMonth" class="input" type="month" required></div>
+          <div><label class="label" for="monthlyPaymentTotal">Total de abonos recaudados en ese mes</label><input id="monthlyPaymentTotal" class="input" type="number" min="0" step="1" inputmode="numeric" placeholder="Valor en pesos" required></div>
+        </div>
+        <div class="row-actions"><button class="primary" id="saveMonthlyPaymentBtn" type="button" onclick="saveMonthlyPaymentRecord()">Guardar abonos del mes</button></div>
+        <div id="monthlyPaymentMessage" class="small muted" style="margin-top:10px" role="status"></div>
+        <div class="panel-head" style="margin-top:18px"><div><h3>Abonos mensuales guardados</h3><div class="muted small">Puedes cargar un mes para corregir su total. Este registro no crea movimientos individuales de abono.</div></div></div>
+        <div id="monthlyPaymentsTable"></div>
+      </div>
     </section>
 
     <section id="settings" class="section hilen-view hilen-settings">
@@ -3167,7 +3181,7 @@ function globalSearchGo(){
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',monthlyRecords:'Guarda los totales mensuales históricos de ventas y abonos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();if(name==='monthlyRecords'&&$('monthlyRecordMonth')&&!$('monthlyRecordMonth').value)$('monthlyRecordMonth').value=today().slice(0,7);const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,monthlyRecords:renderMonthlyRecords,encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',monthlyRecords:'Guarda los totales mensuales históricos de ventas y abonos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();if(name==='monthlyRecords'&&$('monthlyRecordMonth')&&!$('monthlyRecordMonth').value)$('monthlyRecordMonth').value=today().slice(0,7);const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,monthlyRecords:()=>{renderMonthlyRecords();renderMonthlyPayments();if($('monthlyPaymentMonth')&&!$('monthlyPaymentMonth').value)$('monthlyPaymentMonth').value=today().slice(0,7)},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -3659,6 +3673,35 @@ function renderMonthlyRecords(){
   }
   host.innerHTML=`<div class="table-wrap"><table class="table"><thead><tr><th>Mes</th><th>Total de ventas</th><th>Total de abonos</th><th>Acciones</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(monthlyRecordMonthLabel(r.month))}</b></td><td>${money(r.salesTotal)}</td><td>${money(r.paymentsTotal)}</td><td><button class="action-mini" type="button" onclick="editMonthlyRecord('${esc(r.month)}')">Editar</button></td></tr>`).join('')}</tbody></table></div>`;
 }
+function renderMonthlyPayments(){
+  const host=$('monthlyPaymentsTable');
+  if(!host)return;
+  const rows=[...(db.monthlyRecords||[])].filter(r=>r.paymentsTotal!==undefined&&r.paymentsTotal!==null).sort((a,b)=>String(b.month||'').localeCompare(String(a.month||'')));
+  if(!rows.length){host.innerHTML='<div class="notice">Todavía no hay totales de abonos mensuales guardados.</div>';return;}
+  host.innerHTML=`<div class="table-wrap"><table class="table"><thead><tr><th>Mes</th><th>Total de abonos recaudados</th><th>Acción</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(monthlyRecordMonthLabel(r.month))}</b></td><td>${money(r.paymentsTotal)}</td><td><button class="action-mini" type="button" onclick="editMonthlyPaymentRecord('${esc(r.month)}')">Corregir total</button></td></tr>`).join('')}</tbody></table></div>`;
+}
+function saveMonthlyPaymentRecord(){
+  const month=$('monthlyPaymentMonth')?.value||'';
+  const raw=$('monthlyPaymentTotal')?.value??'';
+  const message=$('monthlyPaymentMessage');
+  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)){if(message)message.textContent='Selecciona el mes y año de los abonos.';$('monthlyPaymentMonth')?.focus();return;}
+  if(String(raw).trim()===''||!Number.isFinite(Number(raw))||Number(raw)<0){if(message)message.textContent='Ingresa el total de abonos. El valor debe ser cero o mayor.';return;}
+  db.monthlyRecords ||= [];
+  let record=db.monthlyRecords.find(r=>r.month===month);
+  if(!record){record={month,salesTotal:0,paymentsTotal:Math.round(Number(raw)),updatedAt:new Date().toISOString()};db.monthlyRecords.push(record);}
+  else {record.paymentsTotal=Math.round(Number(raw));record.updatedAt=new Date().toISOString();}
+  saveDB();renderMonthlyRecords();renderMonthlyPayments();
+  if(message)message.textContent=`Total de abonos de ${monthlyRecordMonthLabel(month)} guardado.`;
+  $('monthlyPaymentTotal').value='';$('monthlyPaymentMonth').value=today().slice(0,7);
+  showToast('Abonos mensuales guardados','El total del mes quedó actualizado.');
+}
+function editMonthlyPaymentRecord(month){
+  const record=(db.monthlyRecords||[]).find(r=>r.month===month);if(!record)return;
+  $('monthlyPaymentMonth').value=record.month;$('monthlyPaymentTotal').value=record.paymentsTotal??0;
+  const message=$('monthlyPaymentMessage');if(message)message.textContent=`Corrigiendo el total de abonos de ${monthlyRecordMonthLabel(month)}.`;
+  $('monthlyPaymentMonth')?.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
 function saveMonthlyRecord(){
   const month=$('monthlyRecordMonth')?.value||'';
   const salesRaw=$('monthlyRecordSales')?.value??'';
