@@ -2372,6 +2372,13 @@ input,select,textarea,button{max-width:100%}
 @media(max-width:600px){.customer-purchase-overlay{padding:10px;}.customer-purchase-dialog{padding:17px;border-radius:18px;max-height:91dvh;}.customer-purchase-info{grid-template-columns:1fr;}.customer-purchase-table{font-size:12px;}.customer-purchase-table td,.customer-purchase-table th{padding:10px 6px;}.customer-purchase-total b{font-size:21px;}}
 @media print{.customer-purchase-overlay{display:none!important;}}
 
+
+/* Estado de cuenta: explicación sencilla, sin cuatro indicadores repetidos. */
+.statement-simple-balance{display:flex;align-items:center;flex-wrap:wrap;gap:8px 18px;padding:13px 16px;background:#f7f8fa;border:1px solid #e6eaf1;border-radius:14px;margin:0 0 22px;color:#26344d;font-size:14px;line-height:1.5}
+.statement-simple-balance strong{font-weight:850;color:#111c36}
+.statement-simple-balance .statement-separator{height:23px;width:1px;background:#d6dde8}
+.statement-actions .primary{border-radius:12px;background:#111;color:#fff}
+@media(max-width:650px){.statement-simple-balance{display:block}.statement-simple-balance>span{display:block;margin:3px 0}.statement-simple-balance .statement-separator{display:none}}
 </style>
 </head>
 <body>
@@ -2832,7 +2839,7 @@ input,select,textarea,button{max-width:100%}
           </span>
           <div>
             <h2>Estado de cuenta para enviar al cliente</h2>
-            <p>Selecciona el cliente y el período. HILEN mostrará las compras a crédito, los abonos y el saldo pendiente de forma clara para imprimir o guardar como PDF.</p>
+            <p>Selecciona el cliente y el período. HILEN mostrará las compras a crédito, los abonos y el saldo pendiente de forma clara para descargar directamente como PDF.</p>
           </div>
         </div>
         <div class="statement-toolbar statement-toolbar-simple">
@@ -3703,7 +3710,7 @@ function customerShareText(){
   if(hasCredit){lines.push('','ABONOS');if(!pays.length)lines.push('Sin abonos en el período.');pays.forEach(p=>lines.push(`${p.date} · ${money(p.amount)} · ${p.destination==='bank'?'Cuenta bancaria':'Efectivo'}`));const b=clientBalance(cid,z);lines.push('',`Compras a crédito acumuladas: ${money(b.purchases)}`,`Abonos acumulados: ${money(b.paid)}`,`SALDO PENDIENTE: ${money(b.balance)}`)}
   return lines.join('\n');
 }
-async function shareCustomerStatement(){const text=customerShareText();if(!text)return;try{if(navigator.share){await navigator.share({title:'HILEN · Estado de cuenta',text})}else{await navigator.clipboard.writeText(text);alert('Resumen copiado. Puedes pegarlo en WhatsApp o donde quieras.') }}catch(e){if(e?.name!=='AbortError')alert('No fue posible compartir desde este navegador. Usa “Imprimir / Guardar PDF” y comparte el PDF guardado.')}}
+async function shareCustomerStatement(){const text=customerShareText();if(!text)return;try{if(navigator.share){await navigator.share({title:'HILEN · Estado de cuenta',text})}else{await navigator.clipboard.writeText(text);alert('Resumen copiado. Puedes pegarlo en WhatsApp o donde quieras.') }}catch(e){if(e?.name!=='AbortError')alert('No fue posible compartir desde este navegador. Descarga el PDF desde Estados de cuenta y comparte el archivo guardado.')}}
 function findClientByTypedName(name){
   const n=normalizeClientName(name);if(!n)return null;
   return db.clients.find(c=>normalizeClientName(c.name)===n)||null;
@@ -3738,7 +3745,7 @@ function generateStatement(force=false){
   const payRows=pays.length?pays.map(p=>`<tr><td>${p.date}<div class="small muted">${p.time||''}</div></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td></tr>`).join(''):'<tr><td colspan="3">No hay abonos en este período.</td></tr>';
   const repeatNotice=previous?`<div class="notice warn" style="margin-bottom:16px"><b>Documento generado nuevamente.</b> Este mismo estado de cuenta ya se había descargado ${esc(statementDownloadedLabel(previous.downloadedAt))}.</div>`:'';
   lastGeneratedStatementMeta={clientId:c.id,clientName:c.name,start:a,end:z,key:statementDownloadKey(c.id,a,z)};
-  $('statementResult').innerHTML=`<div id="statementPrintArea" class="statement-send">${repeatNotice}<div class="statement-send-head"><div><div class="statement-send-brand">HILEN</div><div class="statement-send-title">Estado de cuenta del cliente</div><div class="statement-meta" style="margin-top:10px"><b>Cliente:</b> ${esc(c.name)}${c.phone?` · ${esc(c.phone)}`:''}<br><b>Período consultado:</b> ${a} → ${z}<br><b>Saldo calculado hasta:</b> ${z}</div></div><div class="statement-balance-box ${isPaid?'ok':''}"><div class="statement-balance-label">${isPaid?'Estado de la cuenta':'Saldo pendiente'}</div><div class="statement-balance-value">${isPaid?'CUENTA AL DÍA':money(bal.balance)}</div>${isPaid?'<div class="small muted" style="margin-top:4px">No tiene saldo pendiente a la fecha seleccionada.</div>':''}</div></div><div class="statement-grid"><div><span>Crédito del período</span><b>${money(creditPeriod)}</b></div><div><span>Abonos del período</span><b>${money(paidPeriod)}</b></div><div><span>Crédito acumulado</span><b>${money(bal.purchases)}</b></div><div><span>Abonos acumulados</span><b>${money(bal.paid)}</b></div></div><h3>Compras a crédito del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Productos</th><th>Valor</th></tr></thead><tbody>${purchaseRows}</tbody></table></div><h3 style="margin-top:22px">Abonos del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Valor</th><th>Recibido en</th></tr></thead><tbody>${payRows}</tbody></table></div><div class="notice ${isPaid?'good':'warn'}" style="margin-top:18px">${isPaid?`<b>${esc(c.name)} está al día</b> hasta el ${z}.`:`Saldo pendiente de <b>${esc(c.name)}</b> al ${z}: <b>${money(bal.balance)}</b>.`}</div><div class="statement-actions"><button class="primary" onclick="printGeneratedStatement()">Imprimir / Guardar PDF</button></div></div>`;
+  $('statementResult').innerHTML=`<div id="statementPrintArea" class="statement-send">${repeatNotice}<div class="statement-send-head"><div><div class="statement-send-brand">HILEN</div><div class="statement-send-title">Estado de cuenta del cliente</div><div class="statement-meta" style="margin-top:10px"><b>Cliente:</b> ${esc(c.name)}${c.phone?` · ${esc(c.phone)}`:''}<br><b>Período consultado:</b> ${a} → ${z}<br><b>Saldo calculado hasta:</b> ${z}</div></div><div class="statement-balance-box ${isPaid?'ok':''}"><div class="statement-balance-label">${isPaid?'Estado de la cuenta':'Saldo pendiente'}</div><div class="statement-balance-value">${isPaid?'CUENTA AL DÍA':money(bal.balance)}</div>${isPaid?'<div class="small muted" style="margin-top:4px">No tiene saldo pendiente a la fecha seleccionada.</div>':''}</div></div><div class="statement-simple-balance" aria-label="Resumen de compras y abonos"><span>Compras a crédito hasta ${z}: <strong>${money(bal.purchases)}</strong></span><span class="statement-separator" aria-hidden="true"></span><span>Total abonado hasta ${z}: <strong>${money(bal.paid)}</strong></span>${bal.adjustment?`<span class="statement-separator" aria-hidden="true"></span><span>Ajuste de saldo: <strong>${money(bal.adjustment)}</strong></span>`:''}</div><h3>Compras a crédito del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Productos</th><th>Valor</th></tr></thead><tbody>${purchaseRows}</tbody></table></div><h3 style="margin-top:22px">Abonos del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Valor</th><th>Recibido en</th></tr></thead><tbody>${payRows}</tbody></table></div><div class="statement-actions"><button class="primary" onclick="downloadGeneratedStatement()">Descargar PDF</button></div></div>`;
 }
 function recordStatementDownload(){
   const m=lastGeneratedStatementMeta;if(!m)return;
@@ -3747,7 +3754,130 @@ function recordStatementDownload(){
   if(db.statementDownloads.length>300)db.statementDownloads=db.statementDownloads.sort((a,b)=>String(b.downloadedAt||'').localeCompare(String(a.downloadedAt||''))).slice(0,300);
   saveDB();
 }
-function printGeneratedStatement(){const a=$('statementPrintArea');if(!a)return;recordStatementDownload();a.classList.add('print-area');window.print();setTimeout(()=>a.classList.remove('print-area'),300)}
+/* PDF A4 generado localmente: descarga directa sin diálogo de impresión ni dependencias externas. */
+function statementPdfFile(client,start,end,sales,payments,balance){
+  const W=595.28,H=841.89,M=42,usable=W-M*2, pages=[];
+  let commands=null,y=0;
+  const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+  const cpText=s=>String(s??'').replace(/[\u2013\u2014\u2212]/g,'-').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/\u2022/g,'-').replace(/\u00d7/g,'x').replace(/\u2192/g,'-').replace(/\u00a0/g,' ').replace(/[^\x20-\xFF]/g,'?');
+  const ps=s=>cpText(s).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
+  const rgb=hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).map(n=>n.toFixed(3)).join(' ');
+  const fmt=n=>Number(n).toFixed(2);
+  const measure=(t,size=10,bold=false)=>{ctx.font=`${bold?'bold ':''}${size}px Arial`;return ctx.measureText(cpText(t)).width};
+  function write(t,x,top,size=10,bold=false,color='#18233b',align='left'){
+    const s=cpText(t);if(align==='right')x-=measure(s,size,bold);
+    commands.push(`BT /F${bold?2:1} ${fmt(size)} Tf ${rgb(color)} rg 1 0 0 1 ${fmt(x)} ${fmt(H-top-size)} Tm (${ps(s)}) Tj ET`);
+  }
+  function rect(x,top,w,h,fill='#ffffff',stroke=null){
+    commands.push(`${rgb(fill)} rg ${fmt(x)} ${fmt(H-top-h)} ${fmt(w)} ${fmt(h)} re f`);
+    if(stroke)commands.push(`${rgb(stroke)} RG 0.7 w ${fmt(x)} ${fmt(H-top-h)} ${fmt(w)} ${fmt(h)} re S`);
+  }
+  function line(top,x=M,w=usable,color='#e2e7ed'){
+    commands.push(`${rgb(color)} RG 0.7 w ${fmt(x)} ${fmt(H-top)} m ${fmt(x+w)} ${fmt(H-top)} l S`);
+  }
+  function newPage(){
+    commands=[];pages.push(commands);y=44;
+    if(pages.length>1){write('HILEN  |  Estado de cuenta',M,32,10,true);line(52);y=72;}
+  }
+  function need(h){if(y+h>H-60)newPage();}
+  function wrap(text,maxWidth,size=9,bold=false){
+    const chunks=cpText(text).split(/\s+/).filter(Boolean), lines=[];let row='';
+    for(let chunk of chunks){
+      while(measure(chunk,size,bold)>maxWidth){
+        let part='';while(chunk&&measure(part+chunk[0],size,bold)<=maxWidth){part+=chunk[0];chunk=chunk.slice(1)}
+        if(row){lines.push(row);row=''}if(part){lines.push(part)}else{lines.push(chunk[0]);chunk=chunk.slice(1)}
+      }
+      if(!chunk)continue;
+      const next=row?row+' '+chunk:chunk;
+      if(measure(next,size,bold)>maxWidth&&row){lines.push(row);row=chunk}else row=next;
+    }
+    if(row)lines.push(row);return lines.length?lines:[''];
+  }
+  function section(name){need(45);y+=16;write(name,M,y,13,true);y+=27;line(y);y+=11;}
+  function row(columns,positions,widths,height,shade=false){
+    need(height);if(shade)rect(M,y,usable,height,'#f7f9fc');
+    columns.forEach((value,i)=>{
+      const lines=wrap(value,widths[i]-10,9,false);
+      lines.forEach((word,idx)=>write(word,positions[i],y+8+idx*12,9,false,'#273148'));
+    });y+=height;line(y);
+  }
+  function tabHeader(cols,positions){need(28);rect(M,y,usable,28,'#edf2f7');cols.forEach((label,i)=>write(label,positions[i],y+8,9,true,'#3f4e66'));y+=28;}
+  newPage();
+  write('HILEN',M,y,27,true,'#0d1831');y+=35;
+  write('Estado de cuenta del cliente',M,y,15,true);y+=29;
+  write('Cliente: '+client.name,M,y,11,true);y+=21;
+  if(client.phone){write('Teléfono: '+client.phone,M,y,9,false,'#657086');y+=18;}
+  write(`Período consultado: ${start} al ${end}`,M,y,9,false,'#657086');y+=16;
+  write(`Saldo calculado hasta: ${end}`,M,y,9,false,'#657086');y+=24;
+  const balanceBoxY=y;
+  rect(M,y,usable,82,balance.balance>0?'#fff7e9':'#edf9f3',balance.balance>0?'#ead5b1':'#c6e7d4');
+  write(balance.balance>0?'SALDO PENDIENTE':'ESTADO DE LA CUENTA',M+17,y+13,10,true,balance.balance>0?'#925d13':'#18774d');
+  write(balance.balance>0?money(balance.balance):'CUENTA AL DÍA',M+17,y+35,23,true,'#0d1831');
+  y=balanceBoxY+100;
+  write('Total de compras a crédito: '+money(balance.purchases),M,y,10,true);y+=19;
+  write('Total de abonos realizados: '+money(balance.paid),M,y,10,true);y+=19;
+  if(balance.adjustment){write('Ajuste registrado en cuenta: '+money(balance.adjustment),M,y,9,false,'#657086');y+=19;}
+  write('Los detalles siguientes corresponden al período consultado.',M,y,9,false,'#657086');y+=8;
+  section('Compras a crédito del período');
+  const positions=[M+9,M+119,M+usable-120],widths=[110,usable-235,116];
+  tabHeader(['Fecha','Artículos comprados','Valor'],positions);
+  if(!sales.length){need(38);write('No hay compras a crédito en este período.',M+10,y+12,10,false,'#657086');y+=38;line(y);}
+  for(const s of sales){
+    const products=(s.items||[]).map(it=>`${it.name||'Producto'} x ${it.qty||1}`).join(', ')||'Venta sin detalle de artículos';
+    const nl=wrap(products,widths[1]-10,9),height=Math.max(35,nl.length*12+17);
+    row([s.date+(s.time?' '+s.time:''),products,money(Number(s.total)||0)],positions,widths,height);
+  }
+  section('Abonos del período');
+  const posP=[M+9,M+196,M+usable-126],widthP=[183,usable-315,120];
+  tabHeader(['Fecha','Valor del abono','Recibido en'],posP);
+  if(!payments.length){need(38);write('No hay abonos en este período.',M+10,y+12,10,false,'#657086');y+=38;line(y);}
+  for(const p of payments){
+    row([p.date+(p.time?' '+p.time:''),money(Number(p.amount)||0),p.destination==='bank'?'Nequi':'Efectivo'],posP,widthP,35);
+  }
+  // Footer de cada página; no modifica datos ni saldos del cliente.
+  pages.forEach((p,i)=>{commands=p;line(H-49);write(`HILEN | ${client.name} | ${end}`,M,H-41,8,false,'#748096');write(`Página ${i+1} de ${pages.length}`,W-M,H-41,8,false,'#748096','right');});
+  const objects=[];
+  const obj=(n,str)=>{objects[n]=str;};
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2,`<< /Type /Pages /Count ${pages.length} /Kids [${pages.map((p,i)=>`${5+i*2} 0 R`).join(' ')}] >>`);
+  obj(3,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  obj(4,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  pages.forEach((p,i)=>{
+    const pageNum=5+i*2,streamNum=pageNum+1,content=p.join('\n')+'\n';
+    obj(pageNum,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${fmt(W)} ${fmt(H)}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${streamNum} 0 R >>`);
+    obj(streamNum,`<< /Length ${content.length} >>\nstream\n${content}endstream`);
+  });
+  let data='%PDF-1.4\n%\xE2\xE3\xCF\xD3\n',offsets=[0];
+  for(let i=1;i<objects.length;i++){
+    offsets[i]=data.length;
+    data+=`${i} 0 obj\n${objects[i]}\nendobj\n`;
+  }
+  const xref=data.length;
+  data+=`xref\n0 ${objects.length}\n0000000000 65535 f \n`;
+  for(let i=1;i<objects.length;i++)data+=`${String(offsets[i]).padStart(10,'0')} 00000 n \n`;
+  data+=`trailer\n<< /Size ${objects.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  const bytes=new Uint8Array(data.length);
+  for(let i=0;i<data.length;i++)bytes[i]=data.charCodeAt(i)&255;
+  return new Blob([bytes],{type:'application/pdf'});
+}
+function downloadGeneratedStatement(){
+  const m=lastGeneratedStatementMeta,area=$('statementPrintArea');
+  if(!m||!area)return showToast('Genera primero el estado de cuenta','','error');
+  const client=db.clients.find(c=>String(c.id)===String(m.clientId));
+  if(!client)return showToast('Cliente no encontrado','No se pudo preparar el PDF.','error');
+  try{
+    const sales=db.sales.filter(s=>s.clientId===client.id&&s.type==='credit'&&s.date>=m.start&&s.date<=m.end).sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.time||'').localeCompare(String(b.time||'')));
+    const pays=db.payments.filter(p=>p.clientId===client.id&&p.date>=m.start&&p.date<=m.end).sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.time||'').localeCompare(String(b.time||'')));
+    const pdf=statementPdfFile(client,m.start,m.end,sales,pays,clientBalance(client.id,m.end));
+    const url=URL.createObjectURL(pdf),link=document.createElement('a');
+    const name=String(client.name||'Cliente').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9_-]+/gi,'_').replace(/^_+|_+$/g,'').slice(0,50)||'Cliente';
+    link.href=url;link.download=`HILEN_Estado_de_cuenta_${name}_${m.start}_${m.end}.pdf`;
+    document.body.appendChild(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    recordStatementDownload();
+    showToast('PDF descargado','El estado de cuenta se guardó en las descargas del navegador.');
+  }catch(error){console.error('Error descargando estado de cuenta PDF',error);showToast('No se pudo descargar el PDF','Revisa la información del cliente e inténtalo de nuevo.','error');}
+}
 
 let paymentPeriodMode='year';
 function setPaymentPeriod(mode,btn){
