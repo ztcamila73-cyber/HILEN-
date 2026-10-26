@@ -2395,6 +2395,77 @@ input,select,textarea,button{max-width:100%}
 .hilen-invoice-summary{border:1px solid #e8edf4;border-radius:14px;margin:18px 0;overflow:hidden}.hilen-invoice-summary>div{display:flex;justify-content:space-between;gap:12px;padding:11px 15px;border-bottom:1px solid #eef1f5}.hilen-invoice-summary>div:last-child{background:#fff7e7;border-bottom:0}
 .hilen-invoice-totals{margin:16px 0;padding:16px;border-radius:14px;background:#fcf3df;display:flex;justify-content:space-between;align-items:center;gap:14px}.hilen-invoice-totals b{font-size:21px;color:#14203a}
 @media(max-width:720px){.hilen-credit-initial,.hilen-invoice-meta{grid-template-columns:1fr}.hilen-payment-split label{align-items:stretch;flex-direction:column}.hilen-payment-split input{max-width:none}.hilen-invoice-totals{align-items:flex-start;flex-direction:column}}
+
+/* Estado de cuenta: lectura clara y controles de ampliación únicamente para la vista previa. */
+.hilen-statement-zoom-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:16px 0 12px;padding:13px 16px;border:1px solid #e0e5ed;background:#fff;border-radius:15px}
+.hilen-statement-zoom-info{display:grid;gap:3px;color:#12213b}
+.hilen-statement-zoom-info small{color:#748199;font-size:12px}
+.hilen-statement-zoom-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hilen-statement-zoom-actions button{min-width:44px;min-height:36px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:#16233c;font-weight:800;cursor:pointer;padding:7px 11px}
+.hilen-statement-zoom-actions button:hover:not(:disabled){background:#fff6e8;border-color:#e4bc71}
+.hilen-statement-zoom-actions button:disabled{opacity:.38;cursor:not-allowed}
+.hilen-statement-zoom-actions .hilen-statement-reset{font-weight:700;font-size:12px}
+.hilen-statement-zoom-value{min-width:58px;text-align:center;color:#7b510e;font-size:13px;font-weight:850;font-variant-numeric:tabular-nums}
+.hilen-statement-zoom-viewport{overflow-x:auto;overflow-y:visible;padding:3px 3px 14px;scrollbar-gutter:stable}
+.hilen-statement-zoom-viewport #statementPrintArea{transform-origin:top left}
+.hilen-statement-movement{display:inline-flex;align-items:center;gap:7px;font-weight:800}
+.hilen-statement-movement .hilen-move-dot{height:9px;width:9px;flex:0 0 9px;border-radius:50%;background:#2366c2}
+.hilen-statement-movement.pay .hilen-move-dot{background:#168452}
+.hilen-movement-effect{display:block;margin-top:4px;font-size:11px;font-weight:600;color:#73839b}
+.hilen-statement-amount{font-weight:850;color:#16243e;white-space:nowrap}
+@media(max-width:700px){.hilen-statement-zoom-toolbar{align-items:flex-start}.hilen-statement-zoom-actions{width:100%}.hilen-statement-zoom-info small{font-size:11px}}
+@media print{.hilen-statement-zoom-toolbar{display:none!important}.hilen-statement-zoom-viewport{overflow:visible!important}#statementPrintArea{zoom:1!important}}
+
+/* Estado de cuenta: detalle por movimiento, sin cambiar los módulos de ventas y abonos. */
+.hilen-statement-eye{width:37px;height:37px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#e8f2ff;border:1px solid #d6e6ff;color:#2168cc;cursor:pointer;transition:background .15s,transform .15s}
+.hilen-statement-eye:hover,.hilen-statement-eye:focus-visible{background:#d7e9ff;transform:translateY(-1px);outline-offset:2px}
+.hilen-statement-eye svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hilen-statement-eye.payment-eye{background:#eaf7ef;border-color:#d5eedf;color:#147b4d}
+.hilen-statement-eye.payment-eye:hover,.hilen-statement-eye.payment-eye:focus-visible{background:#d9f2e3}
+.hilen-statement-detail-pill{display:inline-flex;align-items:center;background:#edf3ff;color:#224a85;border-radius:999px;padding:6px 11px;font-size:12px;font-weight:800;margin-bottom:10px}
+.hilen-statement-detail-pill.payment{background:#e8f7ee;color:#14784a}
+.hilen-statement-detail-caption{font-size:12px;line-height:1.55;color:#687891;margin:0 0 14px}
+.hilen-statement-detail-actions{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;margin-top:18px}
+.hilen-statement-detail-actions button{border-radius:11px;padding:10px 14px;font-weight:750}
+.hilen-statement-detail-actions .primary{background:#132541;color:#fff}
+.hilen-statement-detail-split{background:#f7f9fc;border:1px solid #e8edf3;border-radius:14px;padding:12px 14px;margin:14px 0}
+.hilen-statement-detail-split>div{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;color:#4b5b73;font-size:13px}
+.hilen-statement-detail-split>div+div{border-top:1px solid #e6eaf1}
+.hilen-statement-detail-split b{color:#132541;text-align:right}
+.hilen-statement-detail-totals{background:#edf5ef!important}
+.hilen-statement-detail-totals b{color:#14784a!important}
+@media(max-width:600px){.hilen-statement-detail-actions{justify-content:stretch}.hilen-statement-detail-actions button{flex:1 1 auto}.hilen-statement-eye{width:35px;height:35px}}
+
+/* HILEN · ajustes focalizados en formularios y tabletas */
+#newSale .product-headings, #newSale .product-row{
+  grid-template-columns:minmax(145px,2fr) 78px minmax(105px,1fr) minmax(105px,1fr) minmax(95px,1fr) 40px!important;
+  gap:8px!important;
+}
+#newSale .sale-products-card{min-width:0}
+#newSale .product-headings span{white-space:normal}
+.hilen-discount-invalid{color:#bc2029!important;font-size:10px!important}
+#editSaleProducts .edit-sale-grid{grid-template-columns:minmax(150px,2fr) 68px minmax(100px,1fr) minmax(100px,1fr) minmax(95px,1fr) 36px!important;gap:7px!important}
+#editSaleProducts .edit-sale-grid .input{min-width:0}
+#paymentSummary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+#paymentSummary .payment-kpi{min-width:0!important;overflow:hidden!important}
+#paymentSummary .payment-kpi .pk-value{font-size:clamp(15px,1.45vw,22px)!important;line-height:1.2;letter-spacing:-.4px;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;font-variant-numeric:tabular-nums}
+#customersTable .hilen-account-cell{min-width:116px;text-align:left}
+#customersTable .hilen-account-cell .badge{display:inline-flex!important;white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important;line-height:1.35!important;max-width:100%!important;padding:6px 9px!important;text-align:center;justify-content:center}
+@media (max-width:1366px){
+ #customersTable .table-fit-wrap{overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch!important}
+ #customersTable table.table-fit{width:100%!important;min-width:930px!important;max-width:none!important;table-layout:auto!important}
+ #customersTable .table-fit th,#customersTable .table-fit td{white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important;font-size:10.5px!important;padding:9px 8px!important}
+ #customersTable .hilen-account-cell{min-width:132px!important}
+ #customersTable .table-fit th:last-child,#customersTable .table-fit td:last-child{min-width:100px!important}
+}
+@media(max-width:1050px){
+ #paymentSummary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #newSale .sale-products-card{overflow-x:auto!important}
+ #newSale .product-headings,#newSale .product-row{min-width:695px!important}
+ #editSaleProducts{overflow-x:auto!important}
+ #editSaleProducts .edit-sale-grid{min-width:660px!important}
+}
+@media(max-width:470px){#paymentSummary{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body>
@@ -2573,12 +2644,6 @@ input,select,textarea,button{max-width:100%}
         <div id="dayTable"></div>
       </div>
 
-      <div class="card sales-chart-card">
-        <div class="sales-chart-head">
-          <div><h2 id="salesChartTitle">Comportamiento de ventas</h2><div id="salesChartSubtitle" class="muted small">La gráfica cambia automáticamente según selecciones Día, Mes o Año.</div></div>
-        </div>
-        <div id="salesChart"></div>
-      </div>
     </section>
 
     <section id="newSale" class="section hilen-view hilen-new-sale">
@@ -2615,7 +2680,7 @@ input,select,textarea,button{max-width:100%}
 
         <div class="sale-card card sale-products-card">
           <div class="pro-card-head"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></svg></span><div><h2>Productos</h2><p>Agrega los productos a la venta.</p></div></div>
-          <div class="product-headings"><span>Producto</span><span>Cantidad</span><span>Precio</span><span>Subtotal</span><span></span></div>
+          <div class="product-headings"><span>Producto</span><span>Cantidad</span><span>Precio unitario</span><span>Descuento/u</span><span>Subtotal</span><span></span></div>
           <div id="products"></div>
           <button class="secondary add-product-btn" onclick="addProduct()">＋ Agregar producto</button>
         </div>
@@ -2638,14 +2703,6 @@ input,select,textarea,button{max-width:100%}
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><path d="m3 21 2-11 5 4 2-8 4 8 5-4 1 11H3Z"/></svg></span><div><div class="label2">Clientes potenciales</div><div id="clientKpiPotential" class="value2">0</div><small>sin compras</small></div></div>
         <div class="client-kpi"><span class="kpi-round pink">♀</span><div><div class="label2">Mujeres</div><div id="clientKpiWomen" class="value2">0</div><small>registradas</small></div></div>
         <div class="client-kpi"><span class="kpi-round blue">♂</span><div><div class="label2">Hombres</div><div id="clientKpiMen" class="value2">0</div><small>registradas</small></div></div>
-      </div>
-
-      <div class="card customer-analysis-card">
-        <div class="client-chart-head">
-          <div><h2>Clientes por mes</h2><div class="muted small">Compara clientes nuevos, recurrentes y potenciales por mes; también muestra mujeres y hombres compradores.</div></div>
-          <div class="year-inline"><label class="label">Año</label><input id="clientChartYear" class="input" type="number" min="2000" max="2100" onchange="renderClientChart()"></div>
-        </div>
-        <div id="clientChart"></div>
       </div>
 
       <div class="card customer-registry-card">
@@ -3341,8 +3398,14 @@ function customerHasCredit(cid){return (db.sales||[]).some(s=>s.clientId===cid&&
 function customerFirstDate(cid){const first=clientFirstSaleDate(cid);if(first)return first;const c=db.clients.find(x=>x.id===cid);const registered=c?.registeredDate||String(c?.createdAt||'').slice(0,10);return /^\d{4}-\d{2}-\d{2}$/.test(registered)?registered:today()}
 function paymentTypeChanged(){$('saleDestinationWrap').classList.toggle('hidden',$('paymentType').value==='credit');$('hilenInitialPaidRow')?.classList.toggle('hidden',$('paymentType').value!=='credit')}
 function cashTypeChanged(){const transfer=$('cfType').value==='transfer';$('cfAccountWrap').classList.toggle('hidden',transfer);$('cfTransferWrap').classList.toggle('hidden',!transfer)}
-function addProduct(){const div=document.createElement('div');div.className='product-row';div.innerHTML=`<input class="input pname" placeholder="Producto"><input class="input pqty" type="number" min="1" value="1"><input class="input pprice money-input" type="text" inputmode="numeric" placeholder="Precio" oninput="formatMoneyField(this);calcTotal()"><div class="ptotal">$0</div><button class="secondary" title="Eliminar" onclick="this.parentElement.remove();calcTotal()">×</button>`;$('products').appendChild(div);div.querySelector('.pname').addEventListener('input',calcTotal);div.querySelector('.pqty').addEventListener('input',calcTotal);calcTotal()}
-function calcTotal(){let t=0;document.querySelectorAll('.product-row').forEach(r=>{const q=+r.querySelector('.pqty').value||0,p=parseMoneyInput(r.querySelector('.pprice').value),v=q*p;t+=v;r.querySelector('.ptotal').textContent=money(v)});$('saleTotal').textContent=money(t);return t}
+/* Descuento opcional por UNIDAD. Las ventas anteriores sin este campo conservan su valor original. */
+function hilenItemDiscount(i){return Math.max(0,Number(i?.discount)||0)}
+function hilenItemNetUnit(i){return Math.max(0,(Number(i?.price)||0)-hilenItemDiscount(i))}
+function hilenItemLineTotal(i){return (Number(i?.qty)||0)*hilenItemNetUnit(i)}
+function hilenSaleDiscountTotal(s){return (s?.items||[]).reduce((sum,i)=>sum+(Number(i.qty)||0)*hilenItemDiscount(i),0)}
+function hilenValidateItemDiscounts(items){return items.every(i=>Number.isFinite(i.discount)&&i.discount>=0&&i.discount<=i.price)}
+function addProduct(){const div=document.createElement('div');div.className='product-row';div.innerHTML=`<input class="input pname" placeholder="Producto"><input class="input pqty" type="number" min="1" value="1"><input class="input pprice money-input" type="text" inputmode="numeric" placeholder="Precio" oninput="formatMoneyField(this);calcTotal()"><input class="input pdiscount money-input" type="text" inputmode="numeric" placeholder="Dto./u (opcional)" title="Descuento por unidad, opcional" aria-label="Descuento por unidad" oninput="formatMoneyField(this);calcTotal()"><div class="ptotal">$0</div><button class="secondary" title="Eliminar" onclick="this.parentElement.remove();calcTotal()">×</button>`;$('products').appendChild(div);div.querySelector('.pname').addEventListener('input',calcTotal);div.querySelector('.pqty').addEventListener('input',calcTotal);calcTotal()}
+function calcTotal(){let t=0;document.querySelectorAll('.product-row').forEach(r=>{const q=+r.querySelector('.pqty').value||0,p=parseMoneyInput(r.querySelector('.pprice').value),d=parseMoneyInput(r.querySelector('.pdiscount').value),v=q*Math.max(0,p-d);t+=v;r.querySelector('.ptotal').textContent=d>p?'Descuento excede precio':money(v);r.querySelector('.ptotal').classList.toggle('hilen-discount-invalid',d>p)});$('saleTotal').textContent=money(t);return t}
 function refreshAfterChange(){
   syncDataRelations();
   [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
@@ -3463,9 +3526,11 @@ async function saveSale(){
  const date=$('saleDate').value,type=$('paymentType').value,name=$('newClientName').value.trim();
  if(!date||!name)return showToast('Completa la venta','Fecha y nombre del cliente son obligatorios.','error');
  const gender=$('newClientGender').value,phone=$('newClientPhone').value.trim();if(!gender)return showToast('Selecciona el sexo','Indica si el cliente es mujer u hombre.','error');
- const items=[...document.querySelectorAll('.product-row')].map(r=>({name:r.querySelector('.pname').value.trim(),qty:Number(r.querySelector('.pqty').value)||0,price:parseMoneyInput(r.querySelector('.pprice').value)})).filter(x=>x.name&&x.qty>0&&x.price>0);
+ const items=[...document.querySelectorAll('.product-row')].map(r=>({name:r.querySelector('.pname').value.trim(),qty:Number(r.querySelector('.pqty').value)||0,price:parseMoneyInput(r.querySelector('.pprice').value),discount:parseMoneyInput(r.querySelector('.pdiscount').value)})).filter(x=>x.name&&x.qty>0&&x.price>0);
  if(!items.length)return showToast('Faltan productos','Agrega nombre, cantidad y precio.','error');
- const total=items.reduce((n,x)=>n+x.qty*x.price,0),initialPaid=type==='credit'?parseMoneyInput($('hilenInitialPaid')?.value||''):0;
+ if(!hilenValidateItemDiscounts(items))return showToast('Descuento inválido','El descuento por unidad no puede superar el precio del producto.','error');
+ const total=items.reduce((n,x)=>n+hilenItemLineTotal(x),0),initialPaid=type==='credit'?parseMoneyInput($('hilenInitialPaid')?.value||''):0;
+ if(total<=0)return showToast('Total inválido','El total después de descuentos debe ser mayor que cero.','error');
  if(type==='credit'&&initialPaid>=total&&initialPaid!==0)return showToast('Pago inicial inválido','Si paga todo, registra la venta como pagada.','error');
  hilenSavingSale=true;
  try{
@@ -3596,17 +3661,19 @@ function renderSalesChart(){
 }
 function renderDay(){renderSalesView()}
 function goDay(){$('dayDate').value=today();goSection('day');setSalesPeriod('day',document.querySelector('#salesPeriodTabs [data-period="day"]'))}
-function showSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;$('modalContent').innerHTML=`<div class="receipt"><h1>HILEN</h1><p><b>Comprobante de venta</b></p><p>Fecha: ${s.date}<br>Hora: ${s.time}<br>Cliente: ${esc(clientNameById(s.clientId))}</p><table class="table"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio</th><th>Total</th></tr></thead><tbody>${s.items.map(i=>`<tr><td>${esc(i.name)}</td><td>${i.qty}</td><td>${money(i.price)}</td><td>${money(i.qty*i.price)}</td></tr>`).join('')}</tbody></table><h2>Total: ${money(s.total)}</h2><p>Forma de pago: <b>${s.type==='credit'?'CRÉDITO':'PAGADA · '+(s.destination==='bank'?'NEQUI':'EFECTIVO')}</b></p><div class="action-group">${s.type==='credit'?`<button class="primary" onclick="hilenOpenInvoice('${s.id}')">Ver factura ${esc(hilenInvoiceCode(s))}</button><button class="secondary" onclick="hilenDownloadInvoice('${s.id}',true)">Descargar PDF</button>`:''}<button class="primary" onclick="editSale('${s.id}')">Editar venta</button><button class="danger-btn" onclick="deleteSale('${s.id}')">Eliminar venta</button></div></div>`;$('modal').classList.remove('hidden')}
+function showSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;$('modalContent').innerHTML=`<div class="receipt"><h1>HILEN</h1><p><b>Comprobante de venta</b></p><p>Fecha: ${s.date}<br>Hora: ${s.time}<br>Cliente: ${esc(clientNameById(s.clientId))}</p><table class="table"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Descuento/u</th><th>Total</th></tr></thead><tbody>${s.items.map(i=>`<tr><td>${esc(i.name)}</td><td>${i.qty}</td><td>${money(i.price)}</td><td>${hilenItemDiscount(i)?money(hilenItemDiscount(i)):'—'}</td><td>${money(hilenItemLineTotal(i))}</td></tr>`).join('')}</tbody></table><h2>Total: ${money(s.total)}</h2><p>Forma de pago: <b>${s.type==='credit'?'CRÉDITO':'PAGADA · '+(s.destination==='bank'?'NEQUI':'EFECTIVO')}</b></p><div class="action-group">${s.type==='credit'?`<button class="primary" onclick="hilenOpenInvoice('${s.id}')">Ver factura ${esc(hilenInvoiceCode(s))}</button><button class="secondary" onclick="hilenDownloadInvoice('${s.id}',true)">Descargar PDF</button>`:''}<button class="primary" onclick="editSale('${s.id}')">Editar venta</button><button class="danger-btn" onclick="deleteSale('${s.id}')">Eliminar venta</button></div></div>`;$('modal').classList.remove('hidden')}
 function editSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;const c=db.clients.find(x=>x.id===s.clientId);$('modalContent').innerHTML=`<h2>Editar venta</h2><div class="form-grid"><div><label class="label">Fecha</label><input id="esDate" class="input" type="date" value="${s.date}"></div><div><label class="label">Cliente</label><input id="esClient" class="input" value="${esc(c?.name||'')}"></div><div><label class="label">Tipo</label><select id="esType" class="input" onchange="document.getElementById('esDestWrap').classList.toggle('hidden',this.value==='credit')"><option value="paid" ${s.type==='paid'?'selected':''}>Pagada</option><option value="credit" ${s.type==='credit'?'selected':''}>Crédito</option></select></div><div id="esDestWrap" class="${s.type==='credit'?'hidden':''}"><label class="label">Destino</label><select id="esDest" class="input"><option value="cash" ${s.destination!=='bank'?'selected':''}>Efectivo</option><option value="bank" ${s.destination==='bank'?'selected':''}>Nequi</option></select></div></div>${s.type==='credit'?`<div class="hilen-credit-initial"><div><label class="label">Pago inicial</label><input id="esInitialPaid" class="input money-input" value="${hilenCurrencyValue(s.initialPaid||0)}" oninput="formatMoneyField(this)"></div><div><label class="label">Recibido en</label><select id="esInitialDestination" class="input"><option value="cash" ${(s.initialDestination||'cash')==='cash'?'selected':''}>Efectivo</option><option value="bank" ${s.initialDestination==='bank'?'selected':''}>Nequi</option></select></div></div>`:''}<h3>Productos</h3><div id="editSaleProducts">${s.items.map(i=>editSaleProductRow(i)).join('')}</div><button class="secondary" onclick="addEditSaleProduct()">+ Agregar producto</button><div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px"><div><div class="muted">Total</div><div id="editSaleTotal" class="big-balance">${money(s.total)}</div></div><button class="primary" onclick="saveSaleEdits('${sid}')">Guardar cambios</button></div>`;$('modal').classList.remove('hidden');document.querySelectorAll('#editSaleProducts .es-price').forEach(el=>formatMoneyField(el));calcEditSaleTotal()}
-function editSaleProductRow(i={name:'',qty:1,price:0}){return `<div class="edit-sale-grid"><input class="input es-name" value="${esc(i.name||'')}" placeholder="Producto"><input class="input es-qty" type="number" min="1" value="${i.qty||1}" oninput="calcEditSaleTotal()"><input class="input es-price money-input" type="text" inputmode="numeric" value="${i.price||''}" oninput="formatMoneyField(this);calcEditSaleTotal()"><div class="es-total">${money((i.qty||1)*(i.price||0))}</div><button class="secondary" onclick="this.parentElement.remove();calcEditSaleTotal()">×</button></div>`}
+function editSaleProductRow(i={name:'',qty:1,price:0}){return `<div class="edit-sale-grid"><input class="input es-name" value="${esc(i.name||'')}" placeholder="Producto"><input class="input es-qty" type="number" min="1" value="${i.qty||1}" oninput="calcEditSaleTotal()"><input class="input es-price money-input" type="text" inputmode="numeric" value="${i.price||''}" oninput="formatMoneyField(this);calcEditSaleTotal()"><input class="input es-discount money-input" type="text" inputmode="numeric" title="Descuento por unidad" aria-label="Descuento por unidad" placeholder="Descuento/u" value="${i.discount||''}" oninput="formatMoneyField(this);calcEditSaleTotal()"><div class="es-total">${money(hilenItemLineTotal(i))}</div><button class="secondary" onclick="this.parentElement.remove();calcEditSaleTotal()">×</button></div>`}
 function addEditSaleProduct(){const d=document.createElement('div');d.innerHTML=editSaleProductRow();$('editSaleProducts').appendChild(d.firstElementChild);calcEditSaleTotal()}
-function calcEditSaleTotal(){let t=0;document.querySelectorAll('#editSaleProducts .edit-sale-grid').forEach(r=>{const q=+r.querySelector('.es-qty').value||0,p=parseMoneyInput(r.querySelector('.es-price').value),v=q*p;t+=v;r.querySelector('.es-total').textContent=money(v)});if($('editSaleTotal'))$('editSaleTotal').textContent=money(t);return t}
+function calcEditSaleTotal(){let t=0;document.querySelectorAll('#editSaleProducts .edit-sale-grid').forEach(r=>{const q=+r.querySelector('.es-qty').value||0,p=parseMoneyInput(r.querySelector('.es-price').value),d=parseMoneyInput(r.querySelector('.es-discount').value),v=q*Math.max(0,p-d);t+=v;r.querySelector('.es-total').textContent=d>p?'Descuento excede precio':money(v);r.querySelector('.es-total').classList.toggle('hilen-discount-invalid',d>p)});if($('editSaleTotal'))$('editSaleTotal').textContent=money(t);return t}
 function saveSaleEdits(sid){
  const s=db.sales.find(x=>x.id===sid);if(!s)return;
  const name=$('esClient').value.trim(),date=$('esDate').value,type=$('esType').value;
- const items=[...document.querySelectorAll('#editSaleProducts .edit-sale-grid')].map(r=>({name:r.querySelector('.es-name').value.trim(),qty:Number(r.querySelector('.es-qty').value)||0,price:parseMoneyInput(r.querySelector('.es-price').value)})).filter(i=>i.name&&i.qty>0&&i.price>0);
+ const items=[...document.querySelectorAll('#editSaleProducts .edit-sale-grid')].map(r=>({name:r.querySelector('.es-name').value.trim(),qty:Number(r.querySelector('.es-qty').value)||0,price:parseMoneyInput(r.querySelector('.es-price').value),discount:parseMoneyInput(r.querySelector('.es-discount').value)})).filter(i=>i.name&&i.qty>0&&i.price>0);
  if(!name||!date||!items.length)return showToast('Datos incompletos','Verifica fecha, cliente y artículos.','error');
- const total=items.reduce((a,i)=>a+i.qty*i.price,0),initialPaid=type==='credit'?parseMoneyInput($('esInitialPaid')?.value||'0'):0;
+ if(!hilenValidateItemDiscounts(items))return showToast('Descuento inválido','Revisa que ningún descuento supere el precio unitario.','error');
+ const total=items.reduce((a,i)=>a+hilenItemLineTotal(i),0),initialPaid=type==='credit'?parseMoneyInput($('esInitialPaid')?.value||'0'):0;
+ if(total<=0)return showToast('Total inválido','El total después de descuentos debe ser mayor que cero.','error');
  if(initialPaid>=total&&initialPaid!==0)return showToast('Pago inicial inválido','Debe ser menor que el valor de la compra.','error');
  const old=structuredClone(s),priorId=s.clientId;
  let c=db.clients.find(x=>normalizeClientName(x.name)===normalizeClientName(name));
@@ -3651,7 +3718,7 @@ function renderCustomers(){
   if($('clientKpiPotential'))$('clientKpiPotential').textContent=potentialCount;
   const purchaseBadge=type=>type==='Crédito'?'<span class="badge credit">Crédito</span>':type==='Pagadas'?'<span class="badge paid">Pagadas</span>':type==='Mixto'?'<span class="badge bank">Mixto</span>':'<span class="badge">Sin compras</span>';
   const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>String(x.c.name||'').localeCompare(String(y.c.name||''),'es',{sensitivity:'base'}));
-  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
+  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Cuenta</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td class="hilen-account-cell">${clientAccountStatus(x.c.id)}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
   renderClientChart();
 }
 
@@ -3728,13 +3795,13 @@ function openCustomerPurchaseDetail(saleId){
   const client=db.clients.find(x=>x.id===sale.clientId),items=Array.isArray(sale.items)?sale.items:[];
   const rows=items.map(item=>{
     const qty=Number(item.qty)||0,price=Number(item.price)||0;
-    return `<tr><td>${esc(String(item.name||'Producto'))}</td><td>${qty}</td><td>${money(price)}</td><td><b>${money(qty*price)}</b></td></tr>`;
+    return `<tr><td>${esc(String(item.name||'Producto'))}</td><td>${qty}</td><td>${money(price)}</td><td>${hilenItemDiscount(item)?money(hilenItemDiscount(item)):'—'}</td><td><b>${money(hilenItemLineTotal(item))}</b></td></tr>`;
   }).join('')||'<tr><td colspan="4">Esta venta no tiene artículos detallados.</td></tr>';
   const type=sale.type==='credit'?'A crédito':'De contado';
   const destination=sale.type==='credit'?'Pendiente de abono':sale.destination==='bank'?'Nequi':'Efectivo';
   const date=sale.date?normalizeDateLabel(sale.date):'Sin fecha';
   customerPurchasePreviousFocus=document.activeElement;
-  $('customerPurchaseContent').innerHTML=`<div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Detalle de la venta</h2><p>Artículos y valores de esta compra</p></div><button type="button" class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar detalle de venta">×</button></div><div class="customer-purchase-info"><div><span>Cliente</span><b>${esc(client?.name||sale.clientName||'Sin nombre')}</b></div><div><span>Fecha y hora</span><b>${esc(date)}${sale.time?' · '+esc(String(sale.time)):''}</b></div><div><span>Tipo de venta</span><b>${type}</b></div><div><span>Forma de pago / destino</span><b>${destination}</b></div></div><h3>Artículos de la compra</h3><div class="table-wrap"><table class="customer-purchase-table"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Valor unitario</th><th>Subtotal</th></tr></thead><tbody>${rows}</tbody></table></div><div class="customer-purchase-total"><span>Total de la compra</span><b>${money(Number(sale.total)||0)}</b></div><div class="customer-purchase-footer"><button type="button" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
+  $('customerPurchaseContent').innerHTML=`<div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Detalle de la venta</h2><p>Artículos y valores de esta compra</p></div><button type="button" class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar detalle de venta">×</button></div><div class="customer-purchase-info"><div><span>Cliente</span><b>${esc(client?.name||sale.clientName||'Sin nombre')}</b></div><div><span>Fecha y hora</span><b>${esc(date)}${sale.time?' · '+esc(String(sale.time)):''}</b></div><div><span>Tipo de venta</span><b>${type}</b></div><div><span>Forma de pago / destino</span><b>${destination}</b></div></div><h3>Artículos de la compra</h3><div class="table-wrap"><table class="customer-purchase-table"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Valor unitario</th><th>Descuento/u</th><th>Subtotal</th></tr></thead><tbody>${rows}</tbody></table></div><div class="customer-purchase-total"><span>Total de la compra</span><b>${money(Number(sale.total)||0)}</b></div><div class="customer-purchase-footer"><button type="button" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
   $('customerPurchaseModal').classList.remove('hidden');
   $('customerPurchaseModal').querySelector('.customer-purchase-dismiss')?.focus();
 }
@@ -3774,6 +3841,27 @@ function statementDownloadedLabel(iso){
   return `${d.toLocaleString('es-CO')} (${ago})`;
 }
 function confirmStatementRegeneration(){closeModal();generateStatement(true)}
+
+/* Solo amplía o aleja lo que se ve en pantalla. No altera la información ni el PDF. */
+let hilenStatementPreviewZoom=100;
+function hilenApplyStatementZoom(){
+  const content=$('statementPrintArea'),label=$('hilenStatementZoomValue');
+  if(!content)return;
+  content.style.zoom=String(hilenStatementPreviewZoom/100);
+  if(label)label.textContent=`${hilenStatementPreviewZoom} %`;
+  const zoomOut=$('hilenStatementZoomOut'),zoomIn=$('hilenStatementZoomIn');
+  if(zoomOut)zoomOut.disabled=hilenStatementPreviewZoom<=80;
+  if(zoomIn)zoomIn.disabled=hilenStatementPreviewZoom>=150;
+}
+function hilenChangeStatementZoom(steps){
+  hilenStatementPreviewZoom=Math.min(150,Math.max(80,hilenStatementPreviewZoom+Number(steps)*10));
+  hilenApplyStatementZoom();
+}
+function hilenResetStatementZoom(){
+  hilenStatementPreviewZoom=100;
+  hilenApplyStatementZoom();
+}
+
 function generateStatement(force=false){
   const typed=$('statementClientName')?.value?.trim()||'',c=findClientByTypedName(typed),a=$('stStart')?.value,z=$('stEnd')?.value;
   if(!typed)return showToast('Escribe el nombre del cliente','','error');
@@ -3791,7 +3879,8 @@ function generateStatement(force=false){
   const payRows=pays.length?pays.map(p=>`<tr><td>${p.date}<div class="small muted">${p.time||''}</div></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td></tr>`).join(''):'<tr><td colspan="3">No hay abonos en este período.</td></tr>';
   const repeatNotice=previous?`<div class="notice warn" style="margin-bottom:16px"><b>Documento generado nuevamente.</b> Este mismo estado de cuenta ya se había descargado ${esc(statementDownloadedLabel(previous.downloadedAt))}.</div>`:'';
   lastGeneratedStatementMeta={clientId:c.id,clientName:c.name,start:a,end:z,key:statementDownloadKey(c.id,a,z)};
-  $('statementResult').innerHTML=`<div id="statementPrintArea" class="statement-send">${repeatNotice}<div class="statement-send-head"><div><div class="statement-send-brand">HILEN</div><div class="statement-send-title">Estado de cuenta del cliente</div><div class="statement-meta" style="margin-top:10px"><b>Cliente:</b> ${esc(c.name)}${c.phone?` · ${esc(c.phone)}`:''}<br><b>Período consultado:</b> ${a} → ${z}<br><b>Saldo calculado hasta:</b> ${z}</div></div><div class="statement-balance-box ${isPaid?'ok':''}"><div class="statement-balance-label">${isPaid?'Estado de la cuenta':'Saldo pendiente'}</div><div class="statement-balance-value">${isPaid?'CUENTA AL DÍA':money(bal.balance)}</div>${isPaid?'<div class="small muted" style="margin-top:4px">No tiene saldo pendiente a la fecha seleccionada.</div>':''}</div></div><div class="statement-simple-balance" aria-label="Resumen de compras y abonos"><span>Compras a crédito hasta ${z}: <strong>${money(bal.purchases)}</strong></span><span class="statement-separator" aria-hidden="true"></span><span>Total abonado hasta ${z}: <strong>${money(bal.paid)}</strong></span>${bal.adjustment?`<span class="statement-separator" aria-hidden="true"></span><span>Ajuste de saldo: <strong>${money(bal.adjustment)}</strong></span>`:''}</div><h3>Compras a crédito del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Productos</th><th>Valor</th></tr></thead><tbody>${purchaseRows}</tbody></table></div><h3 style="margin-top:22px">Abonos del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Valor</th><th>Recibido en</th></tr></thead><tbody>${payRows}</tbody></table></div><h3 style="margin-top:22px">Movimientos cronológicos de la cuenta</h3>${hilenTimelineHTML(c.id,a,z)}<div class="statement-actions"><button class="primary" onclick="downloadGeneratedStatement()">Descargar PDF</button></div></div>`;
+  $('statementResult').innerHTML=`<div class="hilen-statement-zoom-toolbar"><div class="hilen-statement-zoom-info"><b>Vista previa del estado de cuenta</b><small>Amplía las letras para leer; el PDF se descargará con su tamaño original.</small></div><div class="hilen-statement-zoom-actions"><button type="button" id="hilenStatementZoomOut" onclick="hilenChangeStatementZoom(-1)" aria-label="Alejar vista previa" title="Alejar letras">A−</button><span class="hilen-statement-zoom-value" id="hilenStatementZoomValue" aria-live="polite">100 %</span><button type="button" id="hilenStatementZoomIn" onclick="hilenChangeStatementZoom(1)" aria-label="Ampliar vista previa" title="Ampliar letras">A+</button><button type="button" class="hilen-statement-reset" onclick="hilenResetStatementZoom()">Restablecer</button></div></div><div class="hilen-statement-zoom-viewport"><div id="statementPrintArea" class="statement-send">${repeatNotice}<div class="statement-send-head"><div><div class="statement-send-brand">HILEN</div><div class="statement-send-title">Estado de cuenta del cliente</div><div class="statement-meta" style="margin-top:10px"><b>Cliente:</b> ${esc(c.name)}${c.phone?` · ${esc(c.phone)}`:''}<br><b>Período consultado:</b> ${a} → ${z}<br><b>Saldo calculado hasta:</b> ${z}</div></div><div class="statement-balance-box ${isPaid?'ok':''}"><div class="statement-balance-label">${isPaid?'Estado de la cuenta':'Saldo pendiente'}</div><div class="statement-balance-value">${isPaid?'CUENTA AL DÍA':money(bal.balance)}</div>${isPaid?'<div class="small muted" style="margin-top:4px">No tiene saldo pendiente a la fecha seleccionada.</div>':''}</div></div><div class="statement-simple-balance" aria-label="Resumen de compras y abonos"><span>Compras a crédito hasta ${z}: <strong>${money(bal.purchases)}</strong></span><span class="statement-separator" aria-hidden="true"></span><span>Total abonado hasta ${z}: <strong>${money(bal.paid)}</strong></span>${bal.adjustment?`<span class="statement-separator" aria-hidden="true"></span><span>Ajuste de saldo: <strong>${money(bal.adjustment)}</strong></span>`:''}</div><div class="notice blue" style="margin:18px 0 16px">Las compras a crédito aumentan lo que debe el cliente y los abonos reducen su saldo. Los movimientos aparecen en orden de fecha.</div><h3 style="margin-top:8px">Movimientos del período</h3>${hilenTimelineHTML(c.id,a,z)}<div class="statement-actions"><button class="primary" onclick="downloadGeneratedStatement()">Descargar PDF</button></div></div></div>`;
+  hilenApplyStatementZoom();
 }
 function recordStatementDownload(){
   const m=lastGeneratedStatementMeta;if(!m)return;
@@ -3870,8 +3959,8 @@ function statementPdfFile(client,start,end,sales,payments,balance){
     const its=(Array.isArray(sale.items)&&sale.items.length)?sale.items:[{name:'Compra registrada',qty:1,price:Number(sale.total)||0}];
     let subtotalItems=0;
     for(const item of its){
-      const qty=Number(item.qty)||1,price=Number(item.price)||0,total=qty*price;subtotalItems+=total;
-      const lines=wrap(item.name||'Artículo',215,8.9),height=Math.max(35,lines.length*12+15);
+      const qty=Number(item.qty)||1,price=Number(item.price)||0,total=hilenItemLineTotal(item);subtotalItems+=total;
+      const lines=wrap((item.name||'Artículo')+(hilenItemDiscount(item)?' (desc/u '+money(hilenItemDiscount(item))+')':''),215,8.9),height=Math.max(35,lines.length*12+15);
       if(need(height)){tableHead(purchaseHead);}
       if(count%2===0)rect(M,y,U,height,'#fafbfd');
       write(shortDate(sale.date),xDate,y+10,8.7,false,GREY);
@@ -3998,7 +4087,7 @@ function renderPayments(){
     historicalTotal=data.historical;overlapCount=data.overlaps;
   }
   const total=rows.reduce((n,p)=>n+(Number(p.amount)||0),0)+historicalTotal,cash=rows.filter(p=>(p.destination||'cash')==='cash').reduce((n,p)=>n+(Number(p.amount)||0),0),bank=rows.filter(p=>p.destination==='bank').reduce((n,p)=>n+(Number(p.amount)||0),0),clients=new Set(rows.map(p=>p.clientId)).size;
-  if($('paymentSummary'))$('paymentSummary').innerHTML=`<div class="payment-kpi"><div class="pk-label">Abonos detallados del período</div><div class="pk-value">${rows.length}</div></div><div class="payment-kpi green"><div class="pk-label">Total abonado</div><div class="pk-value">${money(total)}</div></div><div class="payment-kpi"><div class="pk-label">Clientes que abonaron</div><div class="pk-value">${clients}</div></div><div class="payment-kpi blue"><div class="pk-label">Efectivo / Nequi (detallados)</div><div class="pk-value" style="font-size:16px">${money(cash)} / ${money(bank)}</div></div>`;
+  if($('paymentSummary'))$('paymentSummary').innerHTML=`<div class="payment-kpi"><div class="pk-label">Abonos detallados del período</div><div class="pk-value">${rows.length}</div></div><div class="payment-kpi green"><div class="pk-label">Total abonado</div><div class="pk-value">${money(total)}</div></div><div class="payment-kpi"><div class="pk-label">Clientes que abonaron</div><div class="pk-value">${clients}</div></div><div class="payment-kpi green"><div class="pk-label">Recibido en efectivo</div><div class="pk-value">${money(cash)}</div></div><div class="payment-kpi blue"><div class="pk-label">Recibido en Nequi</div><div class="pk-value">${money(bank)}</div></div>`;
   $('paymentsTable').innerHTML=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado actual</th><th>Acciones</th></tr></thead><tbody>${rows.map(p=>{const b=clientBalance(p.clientId),status=b.balance>0?`<span class="badge debt">Debe ${money(b.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${status}</td><td><div class="action-group"><button class="action-mini view" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini edit" onclick="editPayment('${p.id}')">Editar</button><button class="action-mini danger" onclick="deletePayment('${p.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay abonos individuales en este período.</p>';
   const historicalNote=historicalTotal>0?historicalSummaryNotice('Abonos históricos incluidos en el total',historicalTotal,overlapCount>0):'';
   const overlapNote=overlapCount?`<div class="notice blue" style="margin:12px 0">${overlapCount} mes(es) tienen totales históricos y abonos individuales. Se priorizan los abonos individuales para evitar duplicarlos.</div>`:'';
@@ -4380,7 +4469,7 @@ function buildBackupTables(){
   syncDataRelations();
   const clients=(db.clients||[]).map(c=>{const sales=clientSales(c.id),first=sales[0]?.date||'',last=sales.at(-1)?.date||'',b=clientBalance(c.id);return {ID:c.id,Nombre:c.name||'',Telefono:c.phone||'',Sexo:c.gender==='female'?'Mujer':c.gender==='male'?'Hombre':'',Correo:c.email||'',Estado:clientLifecycle(c)==='potential'?'Potencial':sales.length>1?'Recurrente':'Cliente nuevo',Fecha_registro:c.registeredDate||String(c.createdAt||'').slice(0,10),Primera_compra:first,Ultima_compra:last,Producto_interes:c.interest||'',Notas:c.notes||'',Numero_compras:sales.length,Total_comprado:sales.reduce((a,s)=>a+(Number(s.total)||0),0),Compras_credito:b.purchases,Abonos:b.paid,Saldo_pendiente:b.balance,Ajuste_saldo_manual:b.adjustment||0,Fecha_ajuste_saldo:c.balanceAdjustmentDate||'',Motivo_ajuste_saldo:c.balanceAdjustmentNote||'',Estado_cuenta:customerHasCredit(c.id)?(b.balance>0?'Pendiente':'Cuenta cancelada'):'Sin crédito',Tipo_compras:clientPurchaseType(c.id)}});
   const sales=(db.sales||[]).map(s=>({ID:s.id,Fecha:excelDate(s.date),Hora:s.time||'',Cliente:clientNameById(s.clientId),Sexo:s.clientGender==='female'?'Mujer':s.clientGender==='male'?'Hombre':'',Tipo:s.type==='credit'?'Crédito':'Pagada',Destino:s.type==='credit'?'':s.destination==='bank'?'Nequi':'Efectivo',Productos:(s.items||[]).map(i=>`${i.name} x${i.qty}`).join(' | '),Total:Number(s.total)||0}));
-  const products=[];(db.sales||[]).forEach(s=>(s.items||[]).forEach(i=>products.push({Venta_ID:s.id,Fecha:s.date,Cliente:clientNameById(s.clientId),Producto:i.name,Cantidad:Number(i.qty)||0,Precio_unitario:Number(i.price)||0,Total:(Number(i.qty)||0)*(Number(i.price)||0),Tipo_venta:s.type==='credit'?'Crédito':'Pagada'})));
+  const products=[];(db.sales||[]).forEach(s=>(s.items||[]).forEach(i=>products.push({Venta_ID:s.id,Fecha:s.date,Cliente:clientNameById(s.clientId),Producto:i.name,Cantidad:Number(i.qty)||0,Precio_unitario:Number(i.price)||0,Descuento_unitario:hilenItemDiscount(i),Total:hilenItemLineTotal(i),Tipo_venta:s.type==='credit'?'Crédito':'Pagada'})));
   const pays=(db.payments||[]).map(p=>({ID:p.id,Fecha:p.date,Hora:p.time||'',Cliente:clientNameById(p.clientId),Valor:Number(p.amount)||0,Recibido_en:p.destination==='bank'?'Nequi':'Efectivo'}));
   const cash=cashEvents().map(e=>({Fecha:e.date,Hora:e.time||'',Tipo:e.type==='income'?'Ingreso':e.type==='expense'?'Egreso':'Transferencia',Concepto:e.note||'',Desde:e.from==='bank'?'Nequi':e.from==='cash'?'Efectivo':'',Hacia:e.to==='bank'?'Nequi':e.to==='cash'?'Efectivo':'',Cuenta:e.account==='bank'?'Nequi':e.account==='cash'?'Efectivo':'',Valor:Number(e.amount)||0,Origen:e.source||''}));
   const years=historyYears().map(y=>{const s=annualStats(y);return {Año:y,Ventas:s.totalSales,Numero_ventas:s.sales.length,Clientes_activos:s.clients.filter(x=>x.active).length,Clientes_nuevos:s.newClients,Clientes_recurrentes:s.returningClients,Potenciales_registrados:s.potentialRegistered,Mujeres:s.women,Hombres:s.men,Abonos:s.paymentTotal,Ingresos:s.income,Egresos:s.expense,Neto:s.net,Ventas_credito:s.creditSales}});
@@ -4957,10 +5046,10 @@ function hilenOpenInvoiceList(cid=activeCustomerId){
 function hilenOpenInvoice(saleId){
   const s=db.sales.find(x=>String(x.id)===String(saleId));if(!s||s.type!=='credit')return showToast('Factura no disponible','La factura pertenece a una compra a crédito.','error');
   hilenEnsureInvoiceNumbers();const c=db.clients.find(x=>x.id===s.clientId),ledger=hilenCreditLedger(s.clientId),v=ledger.byId.get(String(s.id));if(!v)return;
-  const rows=(s.items||[]).map(x=>`<tr><td>${esc(x.name||'Artículo')}</td><td>${hilenNum(x.qty)}</td><td>${money(x.price)}</td><td>${money(hilenNum(x.qty)*hilenNum(x.price))}</td></tr>`).join('');
+  const rows=(s.items||[]).map(x=>`<tr><td>${esc(x.name||'Artículo')}</td><td>${hilenNum(x.qty)}</td><td>${money(x.price)}</td><td>${hilenItemDiscount(x)?money(hilenItemDiscount(x)):'—'}</td><td><b>${money(hilenItemLineTotal(x))}</b></td></tr>`).join('');
   let amountRemaining=v.principal;
   const payRows=v.applications.map(x=>{amountRemaining-=x.amount;return `<tr><td>${hilenInvoiceDate(x.payment.date)}</td><td>${money(x.amount)}</td><td>${money(Math.max(0,amountRemaining))}</td></tr>`}).join('')||'<tr><td colspan="3">Sin abonos aplicados a esta factura.</td></tr>';
-  $('customerPurchaseContent').innerHTML=`<div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Factura ${esc(hilenInvoiceCode(s))}</h2><p>HILEN · Bisutería fina · ${hilenInvoiceDate(s.date)}</p></div><button class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar">×</button></div><div class="hilen-invoice-meta"><div><small>Cliente</small><b>${esc(c?.name||s.clientName||'Cliente')}</b></div><div><small>Estado de la factura</small><b>${v.remaining?'Crédito activo':'CANCELADA'}</b></div></div><h3>Artículos de esta compra</h3><div class="table-wrap"><table class="table"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Subtotal</th></tr></thead><tbody>${rows}</tbody></table></div><div class="hilen-invoice-summary"><div><span>Valor original de esta compra</span><b>${money(v.original)}</b></div>${v.original!==v.principal?`<div><span>Pago inicial recibido</span><b>${money(v.original-v.principal)}</b></div>`:''}<div><span>Crédito de esta factura</span><b>${money(v.principal)}</b></div><div><span>Abonos posteriores aplicados</span><b>${money(v.paid)}</b></div><div><span>Saldo de esta factura</span><b>${money(v.remaining)}</b></div></div><h3>Historial de abonos</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Abono aplicado</th><th>Saldo restante</th></tr></thead><tbody>${payRows}</tbody></table></div><div class="hilen-invoice-totals"><span>Saldo total del cliente (todas sus facturas)</span><b>${money(clientBalance(s.clientId).balance)}</b></div><div class="hilen-invoice-actions"><button class="primary" onclick="hilenDownloadInvoice('${s.id}',false)">Descargar factura</button><button class="secondary" onclick="hilenDownloadInvoice('${s.id}',true)">Factura con abonos</button><button class="secondary" onclick="hilenOpenInvoiceList('${s.clientId}')">Ver todas</button><button class="secondary" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
+  $('customerPurchaseContent').innerHTML=`<div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Factura ${esc(hilenInvoiceCode(s))}</h2><p>HILEN · Bisutería fina · ${hilenInvoiceDate(s.date)}</p></div><button class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar">×</button></div><div class="hilen-invoice-meta"><div><small>Cliente</small><b>${esc(c?.name||s.clientName||'Cliente')}</b></div><div><small>Estado de la factura</small><b>${v.remaining?'Crédito activo':'CANCELADA'}</b></div></div><h3>Artículos de esta compra</h3><div class="table-wrap"><table class="table"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Descuento/u</th><th>Subtotal</th></tr></thead><tbody>${rows}</tbody></table></div><div class="hilen-invoice-summary">${hilenSaleDiscountTotal(s)?`<div><span>Descuentos aplicados a los productos</span><b>${money(hilenSaleDiscountTotal(s))}</b></div>`:''}<div><span>Total de la compra a crédito</span><b>${money(v.original)}</b></div>${v.original!==v.principal?`<div><span>Pago inicial recibido</span><b>${money(v.original-v.principal)}</b></div>`:''}<div><span>Abonos posteriores aplicados</span><b>${money(v.paid)}</b></div><div><span>Saldo de esta factura</span><b>${money(v.remaining)}</b></div></div><h3>Historial de abonos</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Abono aplicado</th><th>Saldo restante</th></tr></thead><tbody>${payRows}</tbody></table></div><div class="hilen-invoice-totals"><span>Saldo total del cliente (todas sus facturas)</span><b>${money(clientBalance(s.clientId).balance)}</b></div><div class="hilen-invoice-actions"><button class="secondary" onclick="closeCustomerPurchaseDetail();editSale('${s.id}')">Editar compra / descuento</button><button class="primary" onclick="hilenDownloadInvoice('${s.id}',false)">Descargar factura</button><button class="secondary" onclick="hilenDownloadInvoice('${s.id}',true)">Factura con abonos</button><button class="secondary" onclick="hilenOpenInvoiceList('${s.clientId}')">Ver todas</button><button class="secondary" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
   $('customerPurchaseModal').classList.remove('hidden');
 }
 function hilenStartClientPayment(cid=activeCustomerId){const c=db.clients.find(x=>x.id===cid);if(!c)return;closeCustomerPurchaseDetail();closeModal();goSection('payments');$('payClientName').value=c.name;$('payDate').value=today();updatePaymentClientHint();hilenUpdatePaymentAllocationUI()}
@@ -5019,7 +5108,8 @@ function hilenInvoicePDF(s,includePayments){
  txt('Documento de compra a crédito · valor original conservado',M,y,8.5,false,'#62718b');y+=10;
  title('DETALLE DE PRODUCTOS');
  const xs=[["ARTÍCULO",M+10],["CANT.",M+324,'right'],["PRECIO",M+418,'right'],["VALOR",R-10,'right']];tableHeader(xs);
- for(const item of s.items||[]){const qty=hilenNum(item.qty),price=hilenNum(item.price),parts=wordwrap(item.name||'Artículo',228,9),ht=Math.max(34,parts.length*13+14);space(ht);parts.forEach((p,i)=>txt(p,M+10,y+9+13*i,9));txt(qty,M+324,y+9,9,false,'#14203a','right');txt(money(price),M+418,y+9,9,false,'#14203a','right');txt(money(qty*price),R-10,y+9,9,true,'#14203a','right');y+=ht;sep()}
+ for(const item of s.items||[]){const qty=hilenNum(item.qty),price=hilenNum(item.price),discount=hilenItemDiscount(item),parts=wordwrap(item.name||'Artículo',228,9),ht=Math.max(34,parts.length*13+14)+(discount?15:0);space(ht);parts.forEach((p,i)=>txt(p,M+10,y+9+13*i,9));txt(qty,M+324,y+9,9,false,'#14203a','right');txt(money(price),M+418,y+9,9,false,'#14203a','right');txt(money(hilenItemLineTotal(item)),R-10,y+9,9,true,'#14203a','right');if(discount)txt('Descuento por unidad: '+money(discount),M+10,y+ht-16,8,false,'#a06e20');y+=ht;sep()}
+ if(hilenSaleDiscountTotal(s))row('DESCUENTO TOTAL APLICADO',money(hilenSaleDiscountTotal(s)),9);
  row('TOTAL DE LA COMPRA',money(v.original),11,true);
  if(v.original!==v.principal)row('PAGO INICIAL',money(v.original-v.principal),9);
  row('VALOR FINANCIADO DE ESTA COMPRA',money(v.principal),10,true);
@@ -5049,14 +5139,59 @@ function hilenDownloadInvoice(id,withPayments=true){
  }catch(e){console.error(e);showToast('No se pudo descargar','Revisa la información de esta factura.','error')}
 }
 
+/* Vista detallada de compras y abonos del estado de cuenta. No modifica los movimientos. */
+function hilenStatementShowDetail(html){
+  const modal=$('customerPurchaseModal'),body=$('customerPurchaseContent');
+  if(!modal||!body)return;
+  customerPurchasePreviousFocus=document.activeElement;
+  body.innerHTML=html;
+  modal.classList.remove('hidden');
+  modal.querySelector('.customer-purchase-dismiss')?.focus();
+}
+function hilenStatementSaleDetail(saleId){
+  const s=(db.sales||[]).find(x=>String(x.id)===String(saleId));
+  if(!s||s.type!=='credit')return showToast('Compra no encontrada','No se encontró esta venta a crédito.','error');
+  const c=(db.clients||[]).find(x=>String(x.id)===String(s.clientId));
+  const detail=hilenInvoiceBalance(s),initial=Math.max(0,hilenNum(s.initialPaid)),principal=hilenPrincipal(s);
+  const items=Array.isArray(s.items)?s.items:[];
+  const itemsHtml=items.map(i=>{
+    const qty=hilenNum(i.qty),price=hilenNum(i.price);
+    return `<tr><td>${esc(i.name||'Artículo')}</td><td>${qty}</td><td>${money(price)}</td><td>${hilenItemDiscount(i)?money(hilenItemDiscount(i)):'—'}</td><td><b>${money(hilenItemLineTotal(i))}</b></td></tr>`;
+  }).join('')||'<tr><td colspan="4">Esta compra no tiene artículos detallados.</td></tr>';
+  const code=hilenInvoiceCode(s);
+  hilenStatementShowDetail(`<div class="customer-purchase-header"><div><span class="hilen-statement-detail-pill">COMPRA A CRÉDITO</span><h2 id="customerPurchaseTitle">Detalle de la factura ${esc(code)}</h2><p>HILEN · Bisutería fina</p></div><button type="button" class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar detalles">×</button></div><div class="customer-purchase-info"><div><span>Cliente</span><b>${esc(c?.name||s.clientName||'Cliente')}</b></div><div><span>Fecha y hora de compra</span><b>${esc(hilenInvoiceDate(s.date))}${s.time?' · '+esc(s.time):''}</b></div></div><h3>Productos comprados</h3><p class="hilen-statement-detail-caption">Cantidad, precio, descuento y valor final de cada producto.</p><div class="table-wrap"><table class="customer-purchase-table"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Descuento/u</th><th>Subtotal</th></tr></thead><tbody>${itemsHtml}</tbody></table></div><div class="hilen-statement-detail-split"><div><span>Valor total de esta compra</span><b>${money(s.total)}</b></div>${initial?`<div><span>Pago inicial de esta compra</span><b>${money(initial)}</b></div>`:''}<div><span>Valor financiado a crédito</span><b>${money(principal)}</b></div><div><span>Abonos posteriores aplicados</span><b>${money(detail?.paid||0)}</b></div></div><div class="customer-purchase-total"><span>Saldo pendiente de esta factura</span><b>${money(detail?.remaining??principal)}</b></div><div class="hilen-statement-detail-actions"><button class="secondary" type="button" onclick="closeCustomerPurchaseDetail()">Cerrar</button><button class="primary" type="button" onclick="hilenDownloadInvoice('${s.id}',true)">Descargar factura PDF</button></div>`);
+}
+function hilenStatementPaymentDetail(paymentId){
+  const p=(db.payments||[]).find(x=>String(x.id)===String(paymentId));
+  if(!p)return showToast('Abono no encontrado','No se encontró este pago.','error');
+  const c=(db.clients||[]).find(x=>String(x.id)===String(p.clientId));
+  const assignment=hilenPaymentLines(p);
+  const rows=assignment.entries.map(a=>{
+    const inv=(db.sales||[]).find(s=>String(s.id)===String(a.invoiceId));
+    const label=a.legacyAdjustment?'Saldo histórico anterior':inv?`Factura ${hilenInvoiceCode(inv)}`:'Factura no disponible';
+    return `<tr><td>${esc(label)}</td><td><b>${money(a.amount)}</b></td><td>${money(a.balance)}</td></tr>`;
+  }).join('')||(assignment.unassigned?`<tr><td colspan="3">Este abono antiguo no tiene una factura asignada.</td></tr>`:'<tr><td colspan="3">Sin desglose de facturas disponible.</td></tr>');
+  const eventList=(db.sales||[]).filter(s=>s.clientId===p.clientId&&s.type==='credit'&&s.date).map(s=>({date:s.date,time:s.time,createdAt:s.createdAt,id:s.id,type:'sale',amount:hilenPrincipal(s)})).concat((db.payments||[]).filter(x=>x.clientId===p.clientId&&x.date).map(x=>({date:x.date,time:x.time,createdAt:x.createdAt,id:x.id,type:'pay',amount:hilenNum(x.amount)}))).sort(hilenCompare);
+  let base=0;
+  for(const e of eventList){if(e.type==='pay'&&String(e.id)===String(p.id))break;base+=e.type==='sale'?e.amount:-e.amount;}
+  const adjustDate=c?.balanceAdjustmentDate||String(c?.balanceAdjustedAt||'').slice(0,10)||'0000-01-01';
+  if(adjustDate<=p.date)base+=Number(c?.balanceAdjustment)||0;
+  const before=Math.max(0,base),after=Math.max(0,base-hilenNum(p.amount));
+  hilenStatementShowDetail(`<div class="customer-purchase-header"><div><span class="hilen-statement-detail-pill payment">ABONO RECIBIDO</span><h2 id="customerPurchaseTitle">Detalle del abono</h2><p>Información del pago guardado en HILEN</p></div><button type="button" class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar detalles">×</button></div><div class="customer-purchase-info"><div><span>Cliente</span><b>${esc(c?.name||clientNameById(p.clientId))}</b></div><div><span>Fecha y hora del abono</span><b>${esc(hilenInvoiceDate(p.date))}${p.time?' · '+esc(p.time):''}</b></div><div><span>Valor recibido</span><b>${money(p.amount)}</b></div><div><span>Medio de pago</span><b>${p.destination==='bank'?'Nequi':'Efectivo'}</b></div></div><h3>Facturas a las que se aplicó</h3><p class="hilen-statement-detail-caption">Un solo abono puede cubrir parte de una factura o distribuirse entre varias.</p><div class="table-wrap"><table class="customer-purchase-table"><thead><tr><th>Factura</th><th>Abono aplicado</th><th>Saldo de factura</th></tr></thead><tbody>${rows}</tbody></table></div>${assignment.unassigned?`<div class="notice warn" style="margin-top:10px">Hay ${money(assignment.unassigned)} sin factura atribuida en el historial. El pago no se duplica ni se elimina.</div>`:''}<div class="hilen-statement-detail-split"><div><span>Saldo general antes de este abono</span><b>${money(before)}</b></div><div><span>Abono recibido</span><b>${money(p.amount)}</b></div></div><div class="customer-purchase-total hilen-statement-detail-totals"><span>Saldo general después del abono</span><b>${money(after)}</b></div><div class="hilen-statement-detail-actions"><button class="secondary" type="button" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`);
+}
+
 function hilenTimelineHTML(cid,start='0000-01-01',end='9999-12-31'){
  const c=db.clients.find(x=>x.id===cid);
- const ledgerStart=clientBalance(cid,start==='0000-01-01'?'0000-01-01':start).raw;
- const before=clientBalance(cid,'9999-12-31').balance;
- const rows=(db.sales||[]).filter(s=>s.clientId===cid&&s.type==='credit'&&s.date<=end).map(s=>({date:s.date,time:s.time,createdAt:s.createdAt,id:s.id,kind:'sale',label:'Compra '+hilenInvoiceCode(s),amount:hilenPrincipal(s)})).concat((db.payments||[]).filter(p=>p.clientId===cid&&p.date<=end).map(p=>({date:p.date,time:p.time,createdAt:p.createdAt,id:p.id,kind:'pay',label:'Abono',amount:hilenNum(p.amount)}))).sort(hilenCompare);
+ const rows=(db.sales||[]).filter(s=>s.clientId===cid&&s.type==='credit'&&s.date<=end).map(s=>({
+   date:s.date,time:s.time,createdAt:s.createdAt,id:s.id,kind:'sale',label:'Compra a crédito',reference:hilenInvoiceCode(s),
+   detail:(s.items||[]).map(i=>`${esc(i.name)} × ${hilenNum(i.qty)}`).join(', ')||'Compra a crédito',amount:hilenPrincipal(s)
+ })).concat((db.payments||[]).filter(p=>p.clientId===cid&&p.date<=end).map(p=>({
+   date:p.date,time:p.time,createdAt:p.createdAt,id:p.id,kind:'pay',label:'Abono recibido',reference:'',
+   detail:`Recibido en ${accountBadge(p.destination||'cash')}`,amount:hilenNum(p.amount)
+ }))).sort(hilenCompare);
  let balance=0;
  const ledger=rows.map(m=>{balance+=m.kind==='sale'?m.amount:-m.amount;return {...m,running:Math.max(0,balance)}}).filter(m=>m.date>=start);
- return `<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Movimiento</th><th>Valor</th><th>Saldo</th><th></th></tr></thead><tbody>${ledger.map(m=>`<tr><td>${hilenInvoiceDate(m.date)}</td><td>${esc(m.label)}</td><td style="font-weight:750;color:${m.kind==='sale'?'#14203a':'#148658'}">${m.kind==='sale'?'+':'−'}${money(m.amount)}</td><td><b>${money(m.running)}</b></td><td>${m.kind==='sale'?`<button class="action-mini view" onclick="hilenOpenInvoice('${m.id}')">Ver factura</button>`:`<button class="action-mini view" onclick="openPaymentDetail('${m.id}')">Ver abono</button>`}</td></tr>`).join('')||'<tr><td colspan="5">No hay movimientos en este período.</td></tr>'}</tbody></table></div>${c?.balanceAdjustment?`<div class="notice warn" style="margin-top:10px">Ajuste histórico de saldo: ${money(c.balanceAdjustment)}. El saldo real al corte incorpora este ajuste; no corresponde a una factura individual.</div>`:''}<div class="hilen-invoice-totals"><span>SALDO GENERAL PENDIENTE</span><b>${money(clientBalance(cid,end).balance)}</b></div>`;
+ return `<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Movimiento</th><th>Detalle</th><th>Valor del movimiento</th><th>Saldo restante</th><th>Detalle</th></tr></thead><tbody>${ledger.map(m=>`<tr><td>${hilenInvoiceDate(m.date)}${m.time?`<div class="small muted">${esc(m.time)}</div>`:''}</td><td><span class="hilen-statement-movement ${m.kind==='pay'?'pay':'sale'}"><span class="hilen-move-dot"></span>${esc(m.label)}</span><span class="hilen-movement-effect">${m.kind==='sale'?'Aumenta la deuda':'Reduce la deuda'}</span></td><td><div class="small">${m.reference?`<b>Factura ${esc(m.reference)}</b><br>`:''}${m.detail}</div></td><td class="hilen-statement-amount">${money(m.amount)}</td><td><b>${money(m.running)}</b></td><td>${m.kind==='sale'?`<button type="button" class="hilen-statement-eye" onclick="hilenStatementSaleDetail('${m.id}')" title="Ver productos y detalle de la compra" aria-label="Ver detalle de la factura ${esc(m.reference||'')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`:`<button type="button" class="hilen-statement-eye payment-eye" onclick="hilenStatementPaymentDetail('${m.id}')" title="Ver detalle del abono" aria-label="Ver detalle del abono del ${esc(hilenInvoiceDate(m.date))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`}</td></tr>`).join('')||'<tr><td colspan="6">No hay movimientos en este período.</td></tr>'}</tbody></table></div>${c?.balanceAdjustment?`<div class="notice warn" style="margin-top:10px">Ajuste histórico de saldo: ${money(c.balanceAdjustment)}. El saldo real al corte incorpora este ajuste; no corresponde a una factura individual.</div>`:''}<div class="hilen-invoice-totals"><span>SALDO GENERAL PENDIENTE</span><b>${money(clientBalance(cid,end).balance)}</b></div>`;
 }
 
 bootstrapApp();
