@@ -2233,6 +2233,11 @@ input,select,textarea,button{max-width:100%}
   .quick-grid.home-quick{grid-template-columns:1fr!important}
 }
 
+/* Búsqueda por inicio del nombre en secciones con registros */
+.sales-client-search{min-width:210px;flex:1;max-width:340px}
+.encargos-filters{flex-wrap:wrap;justify-content:flex-end}
+.encargos-filters input{flex:1 1 185px;min-width:170px}
+@media(max-width:620px){.sales-client-search{max-width:none;width:100%}.encargos-filters{justify-content:stretch}.encargos-filters input{min-width:0;width:100%}}
 /* Sugerencias de clientes: panel compacto, visible al escribir desde una letra. */
 .client-suggestion-host{position:relative;min-width:0}
 .client-suggestion-host:focus-within{z-index:45}
@@ -2412,6 +2417,7 @@ input,select,textarea,button{max-width:100%}
           <div id="salesDayWrap"><label class="label">Día</label><input id="dayDate" class="input" type="date" onchange="renderSalesView()"></div>
           <div id="salesMonthWrap" class="hidden"><label class="label">Mes</label><input id="salesMonth" class="input" type="month" onchange="renderSalesView()"></div>
           <div id="salesYearWrap" class="hidden"><label class="label">Año</label><input id="salesYear" class="input" type="number" min="2000" max="2100" onchange="renderSalesView()"></div>
+          <div class="sales-client-search"><label class="label" for="salesClientSearch">Buscar cliente</label><input id="salesClientSearch" class="input" placeholder="Inicio del nombre (ej. N)" oninput="renderSalesView()" autocomplete="off"></div>
         </div>
       </div>
 
@@ -2500,7 +2506,7 @@ input,select,textarea,button{max-width:100%}
           <button class="primary new-client-btn" onclick="openCustomerForm()">＋ Nuevo cliente</button>
         </div>
         <div class="customer-filter-grid registry-filters">
-          <div><label class="label">Buscar cliente</label><input id="customerSearch" class="input" placeholder="Nombre o teléfono" oninput="renderCustomers()"></div>
+          <div><label class="label">Buscar cliente</label><input id="customerSearch" class="input" placeholder="Inicio del nombre (ej. N) o teléfono" oninput="renderCustomers()"></div>
           <div><label class="label">Desde</label><input id="clientStart" class="input" type="date" onchange="renderCustomers()"></div>
           <div><label class="label">Hasta</label><input id="clientEnd" class="input" type="date" onchange="renderCustomers()"></div>
           <div class="buyer-count"><span>Compradores del período</span><b id="clientKpiActive">0</b></div>
@@ -2531,7 +2537,7 @@ input,select,textarea,button{max-width:100%}
 
         <div class="card payment-history-card">
           <div class="payment-filterbar"><div class="pro-card-head compact"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><div><h2>Abonos registrados</h2><p>Filtros, métricas y detalle de abonos del período.</p></div></div><div class="segmented" id="paymentPeriodTabs"><button data-payment-period="day" onclick="setPaymentPeriod('day',this)">Día</button><button data-payment-period="month" onclick="setPaymentPeriod('month',this)">Mes</button><button class="active" data-payment-period="year" onclick="setPaymentPeriod('year',this)">Año</button></div></div>
-          <div class="payment-filter-fields payment-filter-pro"><div id="paymentDayWrap" class="hidden"><label class="label">Día</label><input id="paymentDay" class="input" type="date" onchange="renderPayments()"></div><div id="paymentMonthWrap" class="hidden"><label class="label">Mes</label><input id="paymentMonth" class="input" type="month" onchange="renderPayments()"></div><div id="paymentYearWrap"><label class="label">Año</label><input id="paymentYear" class="input" type="number" min="2000" max="2100" onchange="renderPayments()"></div><div><label class="label">Buscar cliente</label><input id="paymentSearch" class="input" placeholder="Nombre del cliente..." oninput="renderPayments()"></div></div>
+          <div class="payment-filter-fields payment-filter-pro"><div id="paymentDayWrap" class="hidden"><label class="label">Día</label><input id="paymentDay" class="input" type="date" onchange="renderPayments()"></div><div id="paymentMonthWrap" class="hidden"><label class="label">Mes</label><input id="paymentMonth" class="input" type="month" onchange="renderPayments()"></div><div id="paymentYearWrap"><label class="label">Año</label><input id="paymentYear" class="input" type="number" min="2000" max="2100" onchange="renderPayments()"></div><div><label class="label">Buscar cliente</label><input id="paymentSearch" class="input" placeholder="Inicio del nombre (ej. N)" oninput="renderPayments()"></div></div>
           <div id="paymentSummary" class="payment-kpis"></div>
           <div id="paymentsTable"></div>
         </div>
@@ -2706,7 +2712,7 @@ input,select,textarea,button{max-width:100%}
       </div>
 
       <div class="card encargos-list-card">
-        <div class="panel-head encargos-list-head"><div><h2>Seguimiento de encargos</h2><div class="muted small">Puedes actualizar el estado en cualquier momento.</div></div><div class="encargos-filters"><select id="encargosStatusFilter" class="input" onchange="renderEncargos()"><option value="all">Todos los estados</option><option value="pending">Pendiente</option><option value="supplier">Proveedor contactado</option><option value="response">Proveedor respondió</option><option value="client">Cliente informado</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select><input id="encargosSearch" class="input" placeholder="Buscar cliente o encargo…" oninput="renderEncargos()"></div></div>
+        <div class="panel-head encargos-list-head"><div><h2>Seguimiento de encargos</h2><div class="muted small">Puedes actualizar el estado en cualquier momento.</div></div><div class="encargos-filters"><select id="encargosStatusFilter" class="input" onchange="renderEncargos()"><option value="all">Todos los estados</option><option value="pending">Pendiente</option><option value="supplier">Proveedor contactado</option><option value="response">Proveedor respondió</option><option value="client">Cliente informado</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select><input id="encargosSearch" class="input" placeholder="Buscar cliente (inicio del nombre)" oninput="renderEncargos()"><input id="encargosRequestSearch" class="input" placeholder="Buscar producto o encargo" oninput="renderEncargos()"></div></div>
         <div id="encargosTable"></div>
       </div>
     </section>
@@ -3192,14 +3198,21 @@ function refreshClientsSelects(){const opts=db.clients.map(c=>`<option value="${
 
 // Búsqueda de clientes: sugerencias propias de HILEN (no dependen del navegador).
 function normalizeClientSearchText(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es').replace(/\s+/g,' ').trim()}
+function clientSearchMatches(client,query){
+  const q=normalizeClientSearchText(query);
+  if(!q)return true;
+  if(/^\d/.test(q))return String(client?.phone||'').replace(/\D/g,'').startsWith(q.replace(/\D/g,''));
+  return normalizeClientSearchText(client?.name).startsWith(q);
+}
 function clientSearchRank(c,q){
   if(!q)return 0;
-  const n=normalizeClientSearchText(c.name),phone=normalizeClientSearchText(c.phone);
-  if(n.startsWith(q))return 0;
-  if(n.split(' ').some(word=>word.startsWith(q)))return 1;
-  if(n.includes(q))return 2;
-  if(phone.startsWith(q))return 3;
-  return 4;
+  return normalizeClientSearchText(c?.name).startsWith(q)?0:1;
+}
+function matchingClientsByPrefix(query){
+  const q=normalizeClientSearchText(query);
+  if(!q)return [];
+  return (db.clients||[]).filter(c=>c.name&&clientSearchMatches(c,q))
+    .sort((a,b)=>String(a.name).localeCompare(String(b.name),'es',{sensitivity:'base'}));
 }
 const clientSuggestionStates={};
 function suggestionBoxFor(inputId){
@@ -3218,14 +3231,12 @@ function renderClientSuggestions(inputId){
   const input=$(inputId),box=suggestionBoxFor(inputId);if(!input||!box)return;
   const q=normalizeClientSearchText(input.value);
   if(!q){box.classList.add('hidden');input.setAttribute('aria-expanded','false');return}
-  const possible=(db.clients||[]).filter(c=>c.name&&(
-    normalizeClientSearchText(c.name).includes(q)||normalizeClientSearchText(c.phone).includes(q)
-  ));
-  const suggestions=possible.sort((a,b)=>clientSearchRank(a,q)-clientSearchRank(b,q)||String(a.name).localeCompare(String(b.name),'es')).slice(0,12);
+  // Todas las coincidencias desde el INICIO del nombre (sin cortar a 12).
+  const suggestions=matchingClientsByPrefix(q);
   if(!suggestions.length){box.classList.add('hidden');input.setAttribute('aria-expanded','false');return}
   box.replaceChildren();
   suggestions.forEach((c,index)=>{
-    const btn=document.createElement('button');btn.type='button';btn.className='client-suggestion-option';btn.setAttribute('role','option');btn.setAttribute('aria-selected','false');
+    const btn=document.createElement('button');btn.type='button';btn.className='client-suggestion-option';btn.dataset.clientId=String(c.id);btn.setAttribute('role','option');btn.setAttribute('aria-selected','false');
     const name=document.createElement('span');name.className='client-suggestion-name';name.textContent=c.name;
     const detail=document.createElement('small');detail.textContent=c.phone||'Cliente registrado';
     btn.append(name,detail);
@@ -3252,11 +3263,9 @@ function clientSuggestionKeys(e,inputId){
     clientSuggestionStates[inputId]=(next+rows.length)%rows.length;markClientSuggestion(inputId,clientSuggestionStates[inputId]);return;
   }
   if(e.key==='Enter'){
-    e.preventDefault();const choices=(db.clients||[]).filter(c=>c.name&&(
-      normalizeClientSearchText(c.name).includes(normalizeClientSearchText($(inputId).value))||
-      normalizeClientSearchText(c.phone).includes(normalizeClientSearchText($(inputId).value))
-    )).sort((a,b)=>clientSearchRank(a,normalizeClientSearchText($(inputId).value))-clientSearchRank(b,normalizeClientSearchText($(inputId).value))||String(a.name).localeCompare(String(b.name),'es')).slice(0,12);
-    const target=choices[clientSuggestionStates[inputId]||0];if(target)selectClientSuggestion(inputId,target.id);
+    e.preventDefault();
+    const row=rows[clientSuggestionStates[inputId]||0];
+    if(row?.dataset.clientId)selectClientSuggestion(inputId,row.dataset.clientId);
   }
 }
 function selectClientSuggestion(inputId,clientId){
@@ -3374,11 +3383,13 @@ function renderSalesView(){
   if(salesPeriod==='day'){const d=$('dayDate').value||today();rows=rows.filter(s=>s.date===d);label='Ventas del '+normalizeDateLabel(d)}
   else if(salesPeriod==='month'){const m=$('salesMonth').value||today().slice(0,7);selectedMonth=m;rows=rows.filter(s=>String(s.date||'').startsWith(m));const [y,mo]=m.split('-');label='Ventas de '+new Date(+y,+mo-1,1).toLocaleDateString('es-CO',{month:'long',year:'numeric'})}
   else if(salesPeriod==='year'){const y=String($('salesYear').value||new Date().getFullYear());rows=rows.filter(s=>String(s.date||'').startsWith(y+'-'));label='Ventas del año '+y}
-  if(salesPeriod==='month'){
+  const clientQuery=normalizeClientSearchText($('salesClientSearch')?.value||'');
+  if(clientQuery)rows=rows.filter(s=>clientSearchMatches({name:clientNameById(s.clientId),phone:(db.clients||[]).find(c=>c.id===s.clientId)?.phone||''},clientQuery));
+  if(!clientQuery&&salesPeriod==='month'){
     const data=monthlyEffectiveTotal(selectedMonth,'sales');
     if(data.useHistorical)historicalTotal=data.total;
     if(data.overlap)overlapCount=1;
-  }else if(salesPeriod==='year'){
+  }else if(!clientQuery&&salesPeriod==='year'){
     const year=String($('salesYear').value||new Date().getFullYear()),data=yearlyEffectiveTotal(year,'sales');
     historicalTotal=data.historical;overlapCount=data.overlaps;
   }
@@ -3389,7 +3400,7 @@ function renderSalesView(){
   const table=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${rows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(s.total)}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:`<div class="sales-empty-state"><div><div class="icon">📦</div><b>No hay ventas individuales en este período.</b><div class="muted">Los totales históricos se muestran arriba cuando existen; las ventas individuales aparecen aquí.</div></div></div>`;
   const note=historicalTotal>0?historicalSummaryNotice('Ventas históricas incluidas en el total',historicalTotal,overlapCount>0):'';
   const overlapNotice=overlapCount?`<div class="notice blue" style="margin:12px 0">${overlapCount} mes(es) contienen un total histórico y movimientos individuales. Se usan los movimientos detallados para no sumar dos veces.</div>`:'';
-  const emptyNote=historicalTotal>0&&!rows.length?'<div class="small muted" style="margin:10px 0">No existen ventas individuales para este período. El total histórico se muestra arriba.</div>':'';
+  const emptyNote=clientQuery?'<div class="small muted" style="margin:10px 0">La búsqueda por cliente muestra solo ventas individuales; los totales históricos no contienen nombres de clientes.</div>':historicalTotal>0&&!rows.length?'<div class="small muted" style="margin:10px 0">No existen ventas individuales para este período. El total histórico se muestra arriba.</div>':'';
   $('dayTable').innerHTML=summary+note+overlapNotice+emptyNote+table;
   renderSalesChart();
 }
@@ -3397,21 +3408,23 @@ function renderSalesView(){
 function renderSalesChart(){
   if(!$('salesChart'))return;
   let points=[],title='',subtitle='',bestLabel='Mejor período',lowLabel='Período más bajo',totalLabel='Total';
+  const clientQuery=normalizeClientSearchText($('salesClientSearch')?.value||'');
+  const saleForClient=s=>!clientQuery||clientSearchMatches({name:clientNameById(s.clientId),phone:(db.clients||[]).find(c=>c.id===s.clientId)?.phone||''},clientQuery);
   const dayNames=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
   if(salesPeriod==='day'){
     const selected=$('dayDate')?.value||today(),dates=salesWeekRange(selected);
-    points=dates.map((date,i)=>{const rows=db.sales.filter(s=>s.date===date);return {label:`${dayNames[i]} ${Number(date.slice(8,10))}`,full:normalizeDateLabel(date),value:rows.reduce((a,s)=>a+(Number(s.total)||0),0),count:rows.length}});
+    points=dates.map((date,i)=>{const rows=db.sales.filter(s=>s.date===date&&saleForClient(s));return {label:`${dayNames[i]} ${Number(date.slice(8,10))}`,full:normalizeDateLabel(date),value:rows.reduce((a,s)=>a+(Number(s.total)||0),0),count:rows.length}});
     title='Ventas de la semana';subtitle='La semana que contiene el día seleccionado. Así puedes comparar de lunes a domingo.';bestLabel='Día con más ventas';lowLabel='Día con menos ventas';totalLabel='Total de la semana';
   }else if(salesPeriod==='month'){
     const ym=$('salesMonth')?.value||today().slice(0,7),[y,m]=ym.split('-').map(Number),days=new Date(y,m,0).getDate();
-    points=Array.from({length:days},(_,i)=>{const date=`${ym}-${String(i+1).padStart(2,'0')}`,rows=db.sales.filter(s=>s.date===date);return {label:String(i+1),full:normalizeDateLabel(date),value:rows.reduce((a,s)=>a+(Number(s.total)||0),0),count:rows.length}});
+    points=Array.from({length:days},(_,i)=>{const date=`${ym}-${String(i+1).padStart(2,'0')}`,rows=db.sales.filter(s=>s.date===date&&saleForClient(s));return {label:String(i+1),full:normalizeDateLabel(date),value:rows.reduce((a,s)=>a+(Number(s.total)||0),0),count:rows.length}});
     const monthName=new Date(y,m-1,1).toLocaleDateString('es-CO',{month:'long',year:'numeric'}),hist=monthlyEffectiveTotal(ym,'sales');
-    if(hist.useHistorical){points=[{label:'Total del mes',full:`Resumen histórico · ${monthName}`,value:hist.total,count:0}];title='Ventas históricas del mes';subtitle='Solo se conserva el total mensual; no se conocen los valores por día.';bestLabel='Mes consultado';lowLabel='Mes consultado';}
+    if(!clientQuery&&hist.useHistorical){points=[{label:'Total del mes',full:`Resumen histórico · ${monthName}`,value:hist.total,count:0}];title='Ventas históricas del mes';subtitle='Solo se conserva el total mensual; no se conocen los valores por día.';bestLabel='Mes consultado';lowLabel='Mes consultado';}
     else{title='Ventas por día del mes';subtitle=`Comportamiento diario de ${monthName}.`;bestLabel='Día con más ventas';lowLabel='Día con menos ventas';}
     totalLabel='Total del mes';
   }else{
     const year=String($('salesYear')?.value||new Date().getFullYear()),names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-    points=names.map((label,i)=>{const prefix=`${year}-${String(i+1).padStart(2,'0')}-`,rows=db.sales.filter(s=>s.date?.startsWith(prefix));return {label,full:`${label} ${year}`,value:monthlyEffectiveTotal(`${year}-${String(i+1).padStart(2,'0')}`,'sales').total,count:rows.length}});
+    points=names.map((label,i)=>{const prefix=`${year}-${String(i+1).padStart(2,'0')}-`,rows=db.sales.filter(s=>s.date?.startsWith(prefix)&&saleForClient(s));return {label,full:`${label} ${year}`,value:clientQuery?rows.reduce((n,s)=>n+(Number(s.total)||0),0):monthlyEffectiveTotal(`${year}-${String(i+1).padStart(2,'0')}`,'sales').total,count:rows.length}});
     title='Ventas por mes del año';subtitle=`Compara enero a diciembre de ${year}.`;bestLabel='Mes con más ventas';lowLabel='Mes con menos ventas';totalLabel=`Total de ${year}`;
   }
   if($('salesChartTitle'))$('salesChartTitle').textContent=title;
@@ -3433,16 +3446,16 @@ function deleteSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;if(s.
 function renderCustomers(){
   syncDataRelations();
   const q=normalizeClientSearchText($('customerSearch')?.value||''),a=$('clientStart')?.value||'0000-01-01',z=$('clientEnd')?.value||'9999-12-31';
-  const matchesSearch=c=>!q||[c.name,c.phone,c.email,c.interest,c.notes].some(v=>normalizeClientSearchText(v).includes(q));
+  const matchesSearch=c=>clientSearchMatches(c,q);
   const regDate=c=>c.registeredDate||String(c.createdAt||'').slice(0,10)||'';
   const meta=db.clients.map(c=>{const first=clientFirstSaleDate(c.id),last=clientLastSaleDate(c.id),periodSales=clientSales(c.id).filter(s=>s.date>=a&&s.date<=z),isActive=periodSales.length>0,isNew=!!first&&first>=a&&first<=z,isReturning=!!first&&first<a&&isActive,total=periodSales.reduce((n,s)=>n+(Number(s.total)||0),0),allSales=clientSales(c.id),lifecycle=clientLifecycle(c),registered=regDate(c),potentialInPeriod=lifecycle==='potential'&&registered>=a&&registered<=z;return {c,first,last,periodSales,isActive,isNew,isReturning,total,allSales,allTotal:allSales.reduce((n,s)=>n+(Number(s.total)||0),0),lifecycle,registered,potentialInPeriod,periodType:clientPurchaseType(c.id,a,z),allType:clientPurchaseType(c.id)}});
   const active=meta.filter(x=>x.isActive),newCount=active.filter(x=>x.isNew).length,returningCount=active.filter(x=>x.isReturning).length,potentialsPeriod=meta.filter(x=>x.potentialInPeriod).length,women=active.filter(x=>x.c.gender==='female').length,men=active.filter(x=>x.c.gender==='male').length;
   if($('clientKpiTotal'))$('clientKpiTotal').textContent=db.clients.length;if($('clientKpiActive'))$('clientKpiActive').textContent=active.length;if($('clientKpiNew'))$('clientKpiNew').textContent=newCount;if($('clientKpiReturning'))$('clientKpiReturning').textContent=returningCount;if($('clientKpiWomen'))$('clientKpiWomen').textContent=women;if($('clientKpiMen'))$('clientKpiMen').textContent=men;if($('clientKpiPotential'))$('clientKpiPotential').textContent=potentialsPeriod;
   if($('clientPeriodNote'))$('clientPeriodNote').innerHTML=`Período seleccionado: <b>${normalizeDateLabel(a)}</b> a <b>${normalizeDateLabel(z)}</b>. Se muestran compradores del período y potenciales registrados dentro del rango; el registro general conserva a todos.`;
   const purchaseBadge=type=>type==='Crédito'?'<span class="badge credit">Crédito</span>':type==='Pagadas'?'<span class="badge paid">Pagadas</span>':type==='Mixto'?'<span class="badge bank">Mixto</span>':'<span class="badge">Sin compras</span>';
-  const periodRows=meta.filter(x=>x.isActive||x.potentialInPeriod).filter(x=>matchesSearch(x.c)).sort((x,y)=>{const rank=v=>v.potentialInPeriod?2:v.isReturning?1:0;return rank(x)-rank(y)||y.total-x.total||x.c.name.localeCompare(y.c.name,'es')});
+  const periodRows=meta.filter(x=>x.isActive||x.potentialInPeriod).filter(x=>matchesSearch(x.c)).sort((x,y)=>q?String(x.c.name).localeCompare(String(y.c.name),'es',{sensitivity:'base'}):((x.potentialInPeriod?2:x.isReturning?1:0)-(y.potentialInPeriod?2:y.isReturning?1:0)||y.total-x.total||x.c.name.localeCompare(y.c.name,'es')));
   if($('periodCustomersTable'))$('periodCustomersTable').innerHTML=periodRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Compras</th><th>Total</th><th>Fecha clave</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${periodRows.map(x=>{const type=x.potentialInPeriod?'<span class="badge client-type-potential">Potencial</span>':x.isNew?'<span class="badge client-type-new">Nuevo</span>':'<span class="badge client-type-return">Recurrente</span>',keyDate=x.potentialInPeriod?`Registro: ${normalizeDateLabel(x.registered)}`:`1ª compra: ${x.first?normalizeDateLabel(x.first):'—'}`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}${x.c.phone?' · '+esc(x.c.phone):''}</div>${x.potentialInPeriod&&x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${type}</td><td>${purchaseBadge(x.periodType)}</td><td>${x.periodSales.length}</td><td><b>${money(x.total)}</b></td><td>${keyDate}</td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay actividad de esos clientes en el período seleccionado. Revisa el Registro general de clientes de arriba.</div>';
-  const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>{const aRank=clientSearchRank(x.c,q),bRank=clientSearchRank(y.c,q);return aRank-bRank||String(x.c.name||'').localeCompare(String(y.c.name||''),'es')});
+  const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>String(x.c.name||'').localeCompare(String(y.c.name||''),'es',{sensitivity:'base'}));
   if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
   renderClientChart();
 }
@@ -3585,8 +3598,8 @@ function paymentPeriodRange(){
 }
 
 function renderPayments(){
-  const [a,z]=paymentPeriodRange(),q=($('paymentSearch')?.value||'').trim().toLocaleLowerCase('es');
-  let rows=[...db.payments].filter(p=>String(p.date||'')>=a&&String(p.date||'')<=z&&clientNameById(p.clientId).toLocaleLowerCase('es').includes(q)).sort((x,y)=>String(y.date||'').localeCompare(String(x.date||''))||String(y.time||'').localeCompare(String(x.time||'')));
+  const [a,z]=paymentPeriodRange(),q=normalizeClientSearchText($('paymentSearch')?.value||'');
+  let rows=[...db.payments].filter(p=>String(p.date||'')>=a&&String(p.date||'')<=z&&clientSearchMatches({name:clientNameById(p.clientId),phone:(db.clients||[]).find(c=>c.id===p.clientId)?.phone||''},q)).sort((x,y)=>String(y.date||'').localeCompare(String(x.date||''))||String(y.time||'').localeCompare(String(x.time||'')));
   let historicalTotal=0,overlapCount=0;
   if(!q&&paymentPeriodMode==='month'){
     const data=monthlyEffectiveTotal(String(a).slice(0,7),'payments');
@@ -4362,8 +4375,8 @@ function encargoIsDone(e){return ['completed','cancelled'].includes(e.status)}
 function encargoDueRows(){return (db.encargos||[]).filter(e=>e.reminderDate&&!encargoIsDone(e)).sort((a,b)=>`${a.reminderDate} ${a.reminderTime||'09:00'}`.localeCompare(`${b.reminderDate} ${b.reminderTime||'09:00'}`))}
 function renderEncargos(){
   if(!$('encargosTable'))return;
-  const rows=db.encargos||[],filter=$('encargosStatusFilter')?.value||'all',q=String($('encargosSearch')?.value||'').trim().toLocaleLowerCase('es');
-  const filtered=rows.filter(e=>(filter==='all'||e.status===filter)&&(!q||`${e.clientName||''} ${e.request||''} ${e.supplier||''} ${e.phone||''}`.toLocaleLowerCase('es').includes(q))).sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+  const rows=db.encargos||[],filter=$('encargosStatusFilter')?.value||'all',q=normalizeClientSearchText($('encargosSearch')?.value||''),requestQuery=normalizeClientSearchText($('encargosRequestSearch')?.value||'');
+  const filtered=rows.filter(e=>(filter==='all'||e.status===filter)&&clientSearchMatches({name:e.clientName,phone:e.phone},q)&&(!requestQuery||[e.request,e.supplier,e.notes].some(t=>normalizeClientSearchText(t).includes(requestQuery)))).sort((a,b)=>q?String(a.clientName||'').localeCompare(String(b.clientName||''),'es',{sensitivity:'base'}):String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
   const active=rows.filter(e=>!encargoIsDone(e)).length,todayCount=rows.filter(e=>e.reminderDate===today()&&!encargoIsDone(e)).length,done=rows.filter(e=>e.status==='completed').length,overdue=rows.filter(e=>{const r=encargoReminderInfo(e);return r.class==='overdue'&&!encargoIsDone(e)}).length;
   $('encargosActiveCount').textContent=active;$('encargosTodayCount').textContent=todayCount;$('encargosDoneCount').textContent=done;$('encargosOverdueCount').textContent=overdue;
   if(!filtered.length){$('encargosTable').innerHTML=`<div class="encargo-empty"><div class="encargo-empty-icon">✓</div><b>${rows.length?'No hay encargos con este filtro.':'Todavía no tienes encargos registrados.'}</b><span>${rows.length?'Cambia el filtro o busca otro cliente.':'Cuando un cliente te pida averiguar un producto, puedes registrarlo aquí.'}</span></div>`;return}
