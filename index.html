@@ -2321,6 +2321,24 @@ input,select,textarea,button{max-width:100%}
 @media(max-width:650px){.hilen-monthly-trash,.hilen-monthly-pencil{width:34px;height:34px;}}
 @media(max-width:650px){#monthlyRecords .hm-monthly-card{padding:19px 15px;}#monthlyRecords .hm-fields{grid-template-columns:1fr;gap:12px;}#monthlyRecords .hm-actions{display:grid;grid-template-columns:1fr 1fr;}#monthlyRecords .hm-actions button{padding:9px 6px;font-size:12px;white-space:normal;text-align:center;}#monthlyRecords .hm-tab{font-size:12px;gap:4px;}#monthlyRecords .hm-tab svg{width:15px;height:15px;}.hilen-monthly-modal{padding:12px;}.hilen-monthly-dialog-head{padding:19px 17px 16px;}.hilen-monthly-modal-body{padding:13px 15px 17px;}.hilen-monthly-modal-footer{padding:13px 17px;}.hilen-monthly-item{padding:12px 10px;gap:8px;}.hilen-monthly-item-value{font-size:13px;gap:7px;}.hilen-monthly-item-label b{font-size:12px;}.hilen-monthly-item-month{width:34px;height:34px;}}
 
+
+/* HILEN · pestaña seleccionada en dorado, consistente en Ventas, Abonos y Egresos */
+#monthlyRecords .hm-tab.active,
+#monthlyRecords[data-monthly-kind="sales"] .hm-tab.active,
+#monthlyRecords[data-monthly-kind="payments"] .hm-tab.active,
+#monthlyRecords[data-monthly-kind="expenses"] .hm-tab.active{
+  background:#fff0d4!important;color:#a76505!important;
+  box-shadow:inset 0 0 0 1px #edc87a,0 2px 8px rgba(188,127,29,.14)!important;
+}
+#monthlyRecords .hm-tab.active svg{stroke:#ad7119;}
+/* Clientes sin rango de fecha: un solo campo de búsqueda. */
+#customers .registry-filters{grid-template-columns:minmax(200px,1fr)!important;}
+#customers .registry-filters>div:first-child{grid-column:1/-1!important;}
+#customers .registry-filters .input{width:100%;}
+/* La quinta y sexta tarjetas de Inicio se distribuyen igual que las anteriores. */
+.home-month-box.cash-sale .hm-value{color:#168251;}
+@media(max-width:620px){#customers .registry-filters{grid-template-columns:minmax(0,1fr)!important;}}
+
 </style>
 </head>
 <body>
@@ -2558,11 +2576,11 @@ input,select,textarea,button{max-width:100%}
 
       <div class="client-kpis client-kpis-pro">
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span><div><div class="label2">Total de clientes</div><div id="clientKpiTotal" class="value2">0</div><small>registrados</small></div></div>
-        <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6M18 8v6M15 11h6"/></svg></span><div><div class="label2">Nuevos del período</div><div id="clientKpiNew" class="value2">0</div><small>en este rango</small></div></div>
+        <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6M18 8v6M15 11h6"/></svg></span><div><div class="label2">Clientes nuevos</div><div id="clientKpiNew" class="value2">0</div><small>con una compra</small></div></div>
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><path d="M20 7h-5V2"/><path d="M20 7a8 8 0 1 0 1 8"/><path d="M4 17h5v5"/></svg></span><div><div class="label2">Clientes recurrentes</div><div id="clientKpiReturning" class="value2">0</div><small>compraron de nuevo</small></div></div>
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><path d="m3 21 2-11 5 4 2-8 4 8 5-4 1 11H3Z"/></svg></span><div><div class="label2">Clientes potenciales</div><div id="clientKpiPotential" class="value2">0</div><small>sin compras</small></div></div>
-        <div class="client-kpi"><span class="kpi-round pink">♀</span><div><div class="label2">Mujeres</div><div id="clientKpiWomen" class="value2">0</div><small>del período</small></div></div>
-        <div class="client-kpi"><span class="kpi-round blue">♂</span><div><div class="label2">Hombres</div><div id="clientKpiMen" class="value2">0</div><small>del período</small></div></div>
+        <div class="client-kpi"><span class="kpi-round pink">♀</span><div><div class="label2">Mujeres</div><div id="clientKpiWomen" class="value2">0</div><small>registradas</small></div></div>
+        <div class="client-kpi"><span class="kpi-round blue">♂</span><div><div class="label2">Hombres</div><div id="clientKpiMen" class="value2">0</div><small>registradas</small></div></div>
       </div>
 
       <div class="card customer-analysis-card">
@@ -2580,17 +2598,8 @@ input,select,textarea,button{max-width:100%}
         </div>
         <div class="customer-filter-grid registry-filters">
           <div><label class="label">Buscar cliente</label><input id="customerSearch" class="input" placeholder="Inicio del nombre (ej. N) o teléfono" oninput="renderCustomers()"></div>
-          <div><label class="label">Desde</label><input id="clientStart" class="input" type="date" onchange="renderCustomers()"></div>
-          <div><label class="label">Hasta</label><input id="clientEnd" class="input" type="date" onchange="renderCustomers()"></div>
-          <div class="buyer-count"><span>Compradores del período</span><b id="clientKpiActive">0</b></div>
         </div>
-        <div id="clientPeriodNote" class="client-period-note"></div>
         <div id="customersTable"></div>
-      </div>
-
-      <div class="card period-customers-card">
-        <div class="panel-head"><div><h2>Clientes del período</h2><div class="muted small">Clientes nuevos, recurrentes y potenciales dentro del rango seleccionado.</div></div></div>
-        <div id="periodCustomersTable"></div>
       </div>
     </section>
 
@@ -3224,8 +3233,8 @@ function finishOpenApp(){
   $('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   if($('shellUserName'))$('shellUserName').textContent=(currentUser?.name||'HILEN').split(' ')[0];
   if($('shellUserInitial'))$('shellUserInitial').textContent=((currentUser?.name||'H').trim().charAt(0)||'H').toUpperCase();
-  ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd','clientEnd'].forEach(x=>{if($(x))$(x).value=today()});
-  ['stStart','clientStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
+  ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd'].forEach(x=>{if($(x))$(x).value=today()});
+  ['stStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
   $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();startEncargoReminderWatcher();
 }
@@ -3525,16 +3534,28 @@ function saveSaleEdits(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;co
 function deleteSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;if(s.type==='credit'){const c=db.clients.find(x=>x.id===s.clientId),otherCredit=db.sales.filter(x=>x.clientId===s.clientId&&x.type==='credit'&&x.id!==sid).reduce((a,x)=>a+x.total,0)+(Number(c?.balanceAdjustment)||0),paid=db.payments.filter(p=>p.clientId===s.clientId).reduce((a,p)=>a+p.amount,0);if(paid>otherCredit)return showToast('No se puede eliminar esta venta','Los abonos del cliente superarían el crédito restante. Corrige primero los abonos.','error')}return confirmAction('Eliminar venta','Vas a eliminar permanentemente esta venta de '+money(s.total)+'. Antes se guardará un respaldo en la nube.',async()=>{await backupBeforeDestructive('eliminar venta '+sid);db.sales=db.sales.filter(x=>x.id!==sid);syncClientsFromSales();saveDB();refreshAfterChange();showToast('Venta eliminada exitosamente',money(s.total))},{red:true,confirmText:'Eliminar venta'})}
 function renderCustomers(){
   syncDataRelations();
-  const q=normalizeClientSearchText($('customerSearch')?.value||''),a=$('clientStart')?.value||'0000-01-01',z=$('clientEnd')?.value||'9999-12-31';
+  const q=normalizeClientSearchText($('customerSearch')?.value||'');
   const matchesSearch=c=>clientSearchMatches(c,q);
   const regDate=c=>c.registeredDate||String(c.createdAt||'').slice(0,10)||'';
-  const meta=db.clients.map(c=>{const first=clientFirstSaleDate(c.id),last=clientLastSaleDate(c.id),periodSales=clientSales(c.id).filter(s=>s.date>=a&&s.date<=z),isActive=periodSales.length>0,isNew=!!first&&first>=a&&first<=z,isReturning=!!first&&first<a&&isActive,total=periodSales.reduce((n,s)=>n+(Number(s.total)||0),0),allSales=clientSales(c.id),lifecycle=clientLifecycle(c),registered=regDate(c),potentialInPeriod=lifecycle==='potential'&&registered>=a&&registered<=z;return {c,first,last,periodSales,isActive,isNew,isReturning,total,allSales,allTotal:allSales.reduce((n,s)=>n+(Number(s.total)||0),0),lifecycle,registered,potentialInPeriod,periodType:clientPurchaseType(c.id,a,z),allType:clientPurchaseType(c.id)}});
-  const active=meta.filter(x=>x.isActive),newCount=active.filter(x=>x.isNew).length,returningCount=active.filter(x=>x.isReturning).length,potentialsPeriod=meta.filter(x=>x.potentialInPeriod).length,women=active.filter(x=>x.c.gender==='female').length,men=active.filter(x=>x.c.gender==='male').length;
-  if($('clientKpiTotal'))$('clientKpiTotal').textContent=db.clients.length;if($('clientKpiActive'))$('clientKpiActive').textContent=active.length;if($('clientKpiNew'))$('clientKpiNew').textContent=newCount;if($('clientKpiReturning'))$('clientKpiReturning').textContent=returningCount;if($('clientKpiWomen'))$('clientKpiWomen').textContent=women;if($('clientKpiMen'))$('clientKpiMen').textContent=men;if($('clientKpiPotential'))$('clientKpiPotential').textContent=potentialsPeriod;
-  if($('clientPeriodNote'))$('clientPeriodNote').innerHTML=`Período seleccionado: <b>${normalizeDateLabel(a)}</b> a <b>${normalizeDateLabel(z)}</b>. Se muestran compradores del período y potenciales registrados dentro del rango; el registro general conserva a todos.`;
+  const meta=db.clients.map(c=>{
+    const allSales=clientSales(c.id);
+    return {c,first:allSales[0]?.date||'',last:allSales[allSales.length-1]?.date||'',allSales,
+      allTotal:allSales.reduce((n,s)=>n+(Number(s.total)||0),0),
+      lifecycle:clientLifecycle(c),registered:regDate(c),allType:clientPurchaseType(c.id)};
+  });
+  // Indicadores generales, sin filtros temporales (los filtros por fecha de otras secciones siguen intactos).
+  const newCount=meta.filter(x=>x.lifecycle==='new').length,
+        returningCount=meta.filter(x=>x.lifecycle==='returning').length,
+        potentialCount=meta.filter(x=>x.lifecycle==='potential').length,
+        women=meta.filter(x=>x.c.gender==='female').length,
+        men=meta.filter(x=>x.c.gender==='male').length;
+  if($('clientKpiTotal'))$('clientKpiTotal').textContent=db.clients.length;
+  if($('clientKpiNew'))$('clientKpiNew').textContent=newCount;
+  if($('clientKpiReturning'))$('clientKpiReturning').textContent=returningCount;
+  if($('clientKpiWomen'))$('clientKpiWomen').textContent=women;
+  if($('clientKpiMen'))$('clientKpiMen').textContent=men;
+  if($('clientKpiPotential'))$('clientKpiPotential').textContent=potentialCount;
   const purchaseBadge=type=>type==='Crédito'?'<span class="badge credit">Crédito</span>':type==='Pagadas'?'<span class="badge paid">Pagadas</span>':type==='Mixto'?'<span class="badge bank">Mixto</span>':'<span class="badge">Sin compras</span>';
-  const periodRows=meta.filter(x=>x.isActive||x.potentialInPeriod).filter(x=>matchesSearch(x.c)).sort((x,y)=>q?String(x.c.name).localeCompare(String(y.c.name),'es',{sensitivity:'base'}):((x.potentialInPeriod?2:x.isReturning?1:0)-(y.potentialInPeriod?2:y.isReturning?1:0)||y.total-x.total||x.c.name.localeCompare(y.c.name,'es')));
-  if($('periodCustomersTable'))$('periodCustomersTable').innerHTML=periodRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Compras</th><th>Total</th><th>Fecha clave</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${periodRows.map(x=>{const type=x.potentialInPeriod?'<span class="badge client-type-potential">Potencial</span>':x.isNew?'<span class="badge client-type-new">Nuevo</span>':'<span class="badge client-type-return">Recurrente</span>',keyDate=x.potentialInPeriod?`Registro: ${normalizeDateLabel(x.registered)}`:`1ª compra: ${x.first?normalizeDateLabel(x.first):'—'}`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'—'}${x.c.phone?' · '+esc(x.c.phone):''}</div>${x.potentialInPeriod&&x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${type}</td><td>${purchaseBadge(x.periodType)}</td><td>${x.periodSales.length}</td><td><b>${money(x.total)}</b></td><td>${keyDate}</td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay actividad de esos clientes en el período seleccionado. Revisa el Registro general de clientes de arriba.</div>';
   const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>String(x.c.name||'').localeCompare(String(y.c.name||''),'es',{sensitivity:'base'}));
   if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Cuenta</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td>${clientAccountStatus(x.c.id)}</td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
   renderClientChart();
@@ -3748,9 +3769,9 @@ function renderHome(){
       return `<div class="home-recent-sale"><span class="home-recent-sale-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16l-1 12H5L4 7Z"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg></span><span class="home-recent-sale-main"><b>${esc(client)}</b><small>${esc(items)}</small></span><span class="home-recent-sale-type"><span class="badge ${paymentClass}">${paymentLabel}</span></span><span class="home-recent-sale-right"><b class="home-recent-sale-total">${money(s.total)}</b><small class="home-recent-sale-date">${s.date}${s.time?' · '+s.time:''}</small></span></div>`;
     }).join('')}</div>`:'<div class="home-recent-sale-empty">Todavía no hay ventas registradas.</div>';
   }
-  const monthEvents=cashEvents().filter(e=>e.date>=monthStartDate&&e.date<=monthEndDate),inc=monthEvents.filter(e=>e.type==='income').reduce((a,e)=>a+e.amount,0),exp=monthlyEffectiveTotal(month,'expenses').total,trans=monthEvents.filter(e=>e.type==='transfer').reduce((a,e)=>a+e.amount,0),credit=monthSales.filter(s=>s.type==='credit').reduce((a,s)=>a+s.total,0);
+  const monthEvents=cashEvents().filter(e=>e.date>=monthStartDate&&e.date<=monthEndDate),inc=monthEvents.filter(e=>e.type==='income').reduce((a,e)=>a+e.amount,0),exp=monthlyEffectiveTotal(month,'expenses').total,trans=monthEvents.filter(e=>e.type==='transfer').reduce((a,e)=>a+e.amount,0),credit=monthSales.filter(s=>s.type==='credit').reduce((a,s)=>a+(Number(s.total)||0),0),cashSales=monthSales.filter(s=>s.type==='paid').reduce((a,s)=>a+(Number(s.total)||0),0);
   if($('homeMonthLabel'))$('homeMonthLabel').textContent=new Date(d+'T12:00:00').toLocaleDateString('es-CO',{month:'long',year:'numeric'});
-  $('homeDaySummary').innerHTML=`<div class="home-month-box in"><div class="hm-label">Ingresos del mes</div><div class="hm-value">${money(inc)}</div></div><div class="home-month-box out"><div class="hm-label">Egresos del mes</div><div class="hm-value">${money(exp)}</div></div><div class="home-month-box net"><div class="hm-label">Neto del mes</div><div class="hm-value">${money(inc-exp)}</div></div><div class="home-month-box"><div class="hm-label">Ventas a crédito</div><div class="hm-value">${money(credit)}</div><div class="small muted">Transferencias: ${money(trans)}</div></div>`;
+  $('homeDaySummary').innerHTML=`<div class="home-month-box in"><div class="hm-label">Ingresos del mes</div><div class="hm-value">${money(inc)}</div></div><div class="home-month-box out"><div class="hm-label">Egresos del mes</div><div class="hm-value">${money(exp)}</div></div><div class="home-month-box net"><div class="hm-label">Neto del mes</div><div class="hm-value">${money(inc-exp)}</div></div><div class="home-month-box"><div class="hm-label">Ventas a crédito</div><div class="hm-value">${money(credit)}</div></div><div class="home-month-box cash-sale"><div class="hm-label">Ventas de contado</div><div class="hm-value">${money(cashSales)}</div></div><div class="home-month-box"><div class="hm-label">Transferencias</div><div class="hm-value">${money(trans)}</div></div>`;
   const ev=[...cashEvents()].sort((a,b)=>b.date.localeCompare(a.date)||String(b.time||'').localeCompare(String(a.time||''))).slice(0,5);
   $('homeCashRecent').innerHTML=ev.length?ev.map(e=>{const cls=e.type==='income'?'green':e.type==='expense'?'red':'blue',sym=e.type==='income'?'↓':e.type==='expense'?'↑':'⇄',title=e.type==='income'?'Ingreso':e.type==='expense'?'Egreso':'Transferencia',desc=e.type==='transfer'?((e.from==='cash'?'Efectivo':'Nequi')+' → '+(e.to==='cash'?'Efectivo':'Nequi')):(e.note||'Movimiento');return `<div class="movement-row"><div class="movement-left"><span class="round-ico ${cls}">${sym}</span><div><div class="movement-main">${title}</div><div class="movement-sub">${esc(desc)}</div></div></div><div><div class="movement-value">${e.type==='expense'?'-':e.type==='income'?'+':''}${money(e.amount)}</div><div class="movement-time">${e.date} · ${e.time||''}</div></div></div>`}).join(''):'<p class="muted">Todavía no hay movimientos.</p>';
 }
@@ -3891,7 +3912,7 @@ function monthlyRecordMonthLabel(value){
 }
 function initMonthlyRegister(){
   const month=$('monthlyEntryMonth');if(!month)return;
-  if(!month.value)month.value=today().slice(0,7);
+  // No completar la fecha automáticamente: cada total debe indicar su mes explícitamente.
   setMonthlyCategory(monthlyCategory);
 }
 function setMonthlyCategory(kind){
@@ -3937,7 +3958,10 @@ function saveMonthlyEntry(){
   if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month))return showToast('Selecciona un mes','Escoge el mes y año para guardar '+cfg.name+'.','error');
   if(amount===null)return showToast('Valor incorrecto','Escribe el total de '+cfg.name+' en pesos colombianos.','error');
   if(!storeMonthlyCategory(month,monthlyCategory,amount))return showToast('No se pudo guardar','Revisa el mes y el importe.','error');
-  $('monthlyEntryMessage').textContent=`Total de ${cfg.name} de ${monthlyRecordMonthLabel(month)} guardado: ${money(amount)}.`;
+  // Dejar listo el formulario para otro mes sin borrar lo que se acaba de guardar.
+  $('monthlyEntryMonth').value='';
+  $('monthlyEntryAmount').value='';
+  $('monthlyEntryMessage').textContent=`Total de ${cfg.name} de ${monthlyRecordMonthLabel(month)} guardado: ${money(amount)}. Puedes ingresar otro mes.`;
   showToast('Registro mensual guardado',`Total de ${cfg.name} actualizado correctamente.`);
 }
 function openMonthlyHistory(){
