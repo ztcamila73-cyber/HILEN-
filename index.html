@@ -2248,6 +2248,66 @@ input,select,textarea,button{max-width:100%}
 .client-suggestion-name{font-weight:720;font-size:13px;overflow-wrap:anywhere}
 .client-suggestion-option small{font-size:11px;color:#727c8e}
 
+
+/* HILEN · Registro mensual: formulario único y ventana de historial */
+#monthlyRecords .hm-monthly-card{border-radius:22px;padding:26px 30px 28px;max-width:100%;}
+#monthlyRecords .hm-monthly-heading{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+#monthlyRecords .hm-monthly-heading h2{font-size:21px;letter-spacing:-.5px;margin:0;color:#17223a;}
+#monthlyRecords .hm-monthly-heading p{color:#7b8494;font-size:13px;margin:5px 0 0;line-height:1.5;}
+#monthlyRecords .hm-monthly-heading .pro-icon{flex:none;}
+#monthlyRecords .hm-tabs{display:flex;width:100%;max-width:640px;margin:0 auto 25px;padding:5px;gap:5px;background:#f5f6f8;border:1px solid #eceef1;border-radius:16px;}
+#monthlyRecords .hm-tab{flex:1;min-width:0;min-height:43px;border:0;background:transparent;color:#7b8290;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s,color .15s,box-shadow .15s;}
+#monthlyRecords .hm-tab:hover{color:#15213a;background:#ffffff90;}
+#monthlyRecords .hm-tab.active{color:#14213c;background:#fff;box-shadow:0 2px 9px #20325218;}
+#monthlyRecords .hm-tab svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+#monthlyRecords .hm-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0 16px;}
+#monthlyRecords .hm-fields label{font-size:13px;font-weight:700;color:#45506a;display:block;margin:0 0 9px;}
+#monthlyRecords .hm-fields .input{height:50px;border-radius:13px;font-weight:600;font-size:15px;}
+#monthlyRecords .hm-money-wrap{position:relative;}
+#monthlyRecords .hm-money-wrap .hm-money-prefix{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;font-weight:800;color:#c08a38;pointer-events:none;z-index:1;}
+#monthlyRecords .hm-money-wrap .input{padding-left:34px!important;}
+#monthlyRecords .hm-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px;}
+#monthlyRecords .hm-actions .primary,#monthlyRecords .hm-actions .secondary{border-radius:12px;min-height:45px;padding:10px 20px;font-size:13px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:8px;box-shadow:none;}
+#monthlyRecords .hm-actions svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+#monthlyRecords .hm-actions .secondary{border:1px solid #dce2ea;color:#263956;background:#fff;}
+#monthlyRecords .hm-actions .secondary:hover{background:#f6f8fb;}
+#monthlyRecords .hm-form-feedback{margin-top:14px;min-height:20px;font-size:12px;color:#6b788a;}
+#monthlyRecords .hm-privacy-note{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:#7a8795;margin-top:20px;padding-top:15px;border-top:1px solid #f0f1f4;line-height:1.55;}
+#monthlyRecords .hm-privacy-note svg{width:17px;height:17px;flex-shrink:0;fill:none;stroke:#a0a9b8;stroke-width:1.9;}
+.hilen-monthly-modal{position:fixed;inset:0;z-index:80;padding:20px;display:grid;place-items:center;background:rgba(17,27,48,.46);backdrop-filter:blur(4px);}
+.hilen-monthly-modal.hidden{display:none!important;}
+.hilen-monthly-dialog{width:min(620px,100%);max-height:min(84dvh,760px);min-width:0;background:white;border-radius:23px;box-shadow:0 28px 85px #0c18273d;display:flex;flex-direction:column;overflow:hidden;}
+.hilen-monthly-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:25px 26px 20px;border-bottom:1px solid #edf0f4;}
+.hilen-monthly-dialog-heading{display:flex;gap:12px;align-items:center;}
+.hilen-monthly-dialog-heading .hm-icon{width:45px;height:45px;border-radius:14px;display:grid;place-items:center;background:#f1f5fb;color:#315482;flex:none;}
+.hilen-monthly-dialog-heading .hm-icon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
+.hilen-monthly-dialog-heading h2{font-size:20px;line-height:1.25;letter-spacing:-.4px;color:#17233c;margin:0;}
+.hilen-monthly-dialog-heading p{font-size:12px;color:#8993a3;margin:5px 0 0;}
+.hilen-monthly-dismiss{border:1px solid #e6e9ef;background:#f6f7f9;color:#5b6676;border-radius:50%;font-size:22px;width:35px;height:35px;flex:none;cursor:pointer;display:grid;place-items:center;line-height:1;}
+.hilen-monthly-modal-body{overflow:auto;overscroll-behavior:contain;padding:17px 25px 20px;}
+.hilen-monthly-count{font-size:12px;color:#8090a5;font-weight:700;margin:2px 0 15px;}
+.hilen-monthly-item{display:flex;align-items:center;gap:14px;justify-content:space-between;min-width:0;padding:14px 15px;border:1px solid #e8ebf0;border-radius:14px;margin-bottom:10px;background:white;}
+.hilen-monthly-item-label{display:flex;align-items:center;gap:11px;min-width:0;}
+.hilen-monthly-item-month{width:38px;height:38px;border-radius:11px;background:#f5f7fa;display:grid;place-items:center;color:#71819a;flex:none;}
+.hilen-monthly-item-month svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;}
+.hilen-monthly-item-label b{display:block;font-size:14px;color:#25334b;text-transform:capitalize;}
+.hilen-monthly-item-label small{display:block;color:#9ba5b3;font-size:11px;margin-top:3px;}
+.hilen-monthly-item-value{display:flex;align-items:center;gap:12px;flex:none;color:#17233c;font-size:15px;}
+.hilen-monthly-pencil{width:37px;height:37px;border-radius:11px;background:#f4f6f9;border:1px solid #e4e9f0;display:grid;place-items:center;color:#536784;cursor:pointer;}
+.hilen-monthly-pencil:hover{background:#eaf0f9;color:#142c55;}
+.hilen-monthly-pencil svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
+.hilen-monthly-empty{text-align:center;color:#7d8b9e;font-size:13px;background:#f8f9fb;border:1px dashed #dfe5ee;border-radius:15px;padding:30px 18px;}
+.hilen-monthly-edit{width:100%;}
+.hilen-monthly-edit-label{display:block;font-size:12px;color:#6c7890;font-weight:700;margin-bottom:8px;}
+.hilen-monthly-edit .input{font-size:15px;border-radius:12px;max-width:100%;height:46px;}
+.hilen-monthly-edit-buttons{display:flex;justify-content:flex-end;gap:9px;margin-top:11px;}
+.hilen-monthly-edit-buttons button{border-radius:10px;padding:9px 14px;font-size:12px;font-weight:750;border:1px solid #e2e7ee;cursor:pointer;}
+.hilen-monthly-edit-buttons .hm-save{color:white;background:#17243d;border-color:#17243d;}
+.hilen-monthly-edit-buttons .hm-cancel{background:white;color:#657287;}
+.hilen-monthly-modal-footer{border-top:1px solid #edf0f4;padding:15px 26px 18px;display:flex;gap:8px;align-items:center;color:#8793a1;font-size:11px;line-height:1.4;}
+.hilen-monthly-modal-footer svg{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;}
+@media(max-width:650px){#monthlyRecords .hm-monthly-card{padding:19px 15px;}#monthlyRecords .hm-fields{grid-template-columns:1fr;gap:12px;}#monthlyRecords .hm-actions{display:grid;grid-template-columns:1fr 1fr;}#monthlyRecords .hm-actions button{padding:9px 6px;font-size:12px;white-space:normal;text-align:center;}#monthlyRecords .hm-tab{font-size:12px;gap:4px;}#monthlyRecords .hm-tab svg{width:15px;height:15px;}.hilen-monthly-modal{padding:12px;}.hilen-monthly-dialog-head{padding:19px 17px 16px;}.hilen-monthly-modal-body{padding:13px 15px 17px;}.hilen-monthly-modal-footer{padding:13px 17px;}.hilen-monthly-item{padding:12px 10px;gap:8px;}.hilen-monthly-item-value{font-size:13px;gap:7px;}.hilen-monthly-item-label b{font-size:12px;}.hilen-monthly-item-month{width:34px;height:34px;}}
+
 </style>
 </head>
 <body>
@@ -2617,39 +2677,30 @@ input,select,textarea,button{max-width:100%}
     </section>
 
     <section id="monthlyRecords" class="section hilen-view">
-      <div class="card">
-        <div class="pro-card-head compact">
+      <div class="card hm-monthly-card">
+        <div class="hm-monthly-heading">
           <span class="pro-icon gold"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg></span>
-          <div><h2>Registro de ventas mensuales</h2><p>Registra o corrige el total histórico de ventas de cada mes.</p></div>
+          <div><h2>Registro mensual</h2><p>Control de los totales históricos de HILEN</p></div>
         </div>
-        <div class="notice blue" style="margin:14px 0">Los totales históricos aparecen en los resúmenes de Ventas y Abonos, las gráficas y el historial anual. No crean transacciones, clientes, deudas ni movimientos de caja. Si un mes tiene movimientos individuales, se usan esos movimientos para evitar duplicados.</div>
-        <div class="form-grid">
-          <div><label class="label" for="monthlyRecordMonth">Mes y año</label><input id="monthlyRecordMonth" class="input" type="month" required></div>
-          <div><label class="label" for="monthlyRecordSales">Total de ventas del mes</label><input id="monthlyRecordSales" class="input money-input" type="text" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)" required></div>
+        <div class="hm-tabs" role="tablist" aria-label="Tipo de registro mensual">
+          <button id="monthlyTabSales" type="button" role="tab" class="hm-tab active" aria-selected="true" onclick="setMonthlyCategory('sales')"><svg viewBox="0 0 24 24"><path d="M4 19V11M10 19V5M16 19v-8M22 19V8"/></svg>Ventas</button>
+          <button id="monthlyTabPayments" type="button" role="tab" class="hm-tab" aria-selected="false" onclick="setMonthlyCategory('payments')"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Abonos</button>
+          <button id="monthlyTabExpenses" type="button" role="tab" class="hm-tab" aria-selected="false" onclick="setMonthlyCategory('expenses')"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 11h6M9 15h6M9 7h6"/></svg>Egresos</button>
         </div>
-        <div class="row-actions">
-          <button class="primary" id="saveMonthlyRecordBtn" type="button" onclick="saveMonthlyRecord()">Guardar ventas del mes</button>
-          <button class="secondary hidden" id="cancelMonthlyRecordBtn" type="button" onclick="cancelMonthlyRecordEdit()">Cancelar edición</button>
-        </div>
-        <div id="monthlyRecordFormMessage" class="small muted" style="margin-top:10px" role="status"></div>
-      </div>
-      <div class="card" style="margin-top:18px">
-        <div class="panel-head"><div><h2>Registros guardados</h2><div class="muted small">Puedes editar un mes para corregir sus cifras. Solo se conserva un registro por mes y año.</div></div></div>
-        <div id="monthlyRecordsTable"></div>
-      </div>
-      <div class="card" style="margin-top:18px">
         <div class="pro-card-head compact">
-          <span class="pro-icon gold"><svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 9h18M7 14h4"/></svg></span>
-          <div><h2>Registro de abonos mensuales</h2><p>Registra o corrige únicamente el total de abonos recaudados en cada mes, sin tener que volver a ingresar las ventas.</p></div>
+          <span class="pro-icon gold" id="monthlyCategoryIcon"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 13h8M8 9h5"/></svg></span>
+          <div><h2 id="monthlyCategoryTitle">Registrar ventas mensuales</h2><p id="monthlyCategoryDescription">Registra únicamente el total de ventas del mes.</p></div>
         </div>
-        <div class="form-grid">
-          <div><label class="label" for="monthlyPaymentMonth">Mes y año de los abonos</label><input id="monthlyPaymentMonth" class="input" type="month" required></div>
-          <div><label class="label" for="monthlyPaymentTotal">Total de abonos recaudados en ese mes</label><input id="monthlyPaymentTotal" class="input money-input" type="text" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)" required></div>
+        <div class="hm-fields">
+          <div><label for="monthlyEntryMonth">Mes y año</label><input id="monthlyEntryMonth" class="input" type="month" onchange="monthlySelectedMonthChanged()" required></div>
+          <div><label for="monthlyEntryAmount" id="monthlyEntryAmountLabel">Total de ventas del mes</label><div class="hm-money-wrap"><span class="hm-money-prefix" aria-hidden="true">$</span><input id="monthlyEntryAmount" class="input money-input" type="text" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)" required></div></div>
         </div>
-        <div class="row-actions"><button class="primary" id="saveMonthlyPaymentBtn" type="button" onclick="saveMonthlyPaymentRecord()">Guardar abonos del mes</button></div>
-        <div id="monthlyPaymentMessage" class="small muted" style="margin-top:10px" role="status"></div>
-        <div class="panel-head" style="margin-top:18px"><div><h3>Abonos mensuales guardados</h3><div class="muted small">Puedes cargar un mes para corregir su total. Este registro no crea movimientos individuales de abono.</div></div></div>
-        <div id="monthlyPaymentsTable"></div>
+        <div class="hm-actions">
+          <button type="button" id="monthlyEntrySaveBtn" class="primary" onclick="saveMonthlyEntry()"><svg viewBox="0 0 24 24"><path d="M4 3h13l3 3v15H4zM8 3v7h9V3M8 21v-8h9v8"/></svg><span id="monthlyEntrySaveLabel">Guardar ventas</span></button>
+          <button type="button" id="monthlyEntryHistoryBtn" class="secondary" onclick="openMonthlyHistory()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 3v6h6M12 7v5l3 2"/></svg><span id="monthlyEntryHistoryLabel">Ver historial de ventas</span></button>
+        </div>
+        <div class="hm-form-feedback" id="monthlyEntryMessage" role="status"></div>
+        <div class="hm-privacy-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7h.01"/></svg><span>Los importes históricos se incorporan a los resúmenes del período sin crear movimientos individuales ni modificar los saldos de efectivo y Nequi. Cuando existen movimientos detallados del mismo mes, se usan estos para evitar duplicados.</span></div>
       </div>
     </section>
 
@@ -2743,6 +2794,20 @@ input,select,textarea,button{max-width:100%}
 </div>
 
 <div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div class="modal-card"><button type="button" class="close" onclick="closeModal()" aria-label="Cerrar">×</button><div id="modalContent"></div></div></div>
+
+<div id="monthlyHistoryModal" class="hilen-monthly-modal hidden" role="presentation" onclick="if(event.target===this)closeMonthlyHistory()">
+  <div class="hilen-monthly-dialog" role="dialog" aria-modal="true" aria-labelledby="monthlyHistoryTitle" tabindex="-1">
+    <div class="hilen-monthly-dialog-head">
+      <div class="hilen-monthly-dialog-heading">
+        <span class="hm-icon" id="monthlyHistoryIcon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18"/></svg></span>
+        <div><h2 id="monthlyHistoryTitle">Historial de ventas</h2><p>Consulta y corrige tus registros mensuales</p></div>
+      </div>
+      <button type="button" class="hilen-monthly-dismiss" onclick="closeMonthlyHistory()" aria-label="Cerrar historial">×</button>
+    </div>
+    <div class="hilen-monthly-modal-body"><div class="hilen-monthly-count" id="monthlyHistoryCount"></div><div id="monthlyHistoryRows"></div></div>
+    <div class="hilen-monthly-modal-footer"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7h.01"/></svg>Los cambios se guardan por mes y categoría. No generan movimientos individuales.</div>
+  </div>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
@@ -2849,8 +2914,8 @@ function sameCloudState(a,b){
   for(const k of ['clients','sales','payments','cashMovements','statementDownloads']){
     if(stateIds(a,k).join('|')!==stateIds(b,k).join('|'))return false;
   }
-  const monthlyA=(Array.isArray(a?.monthlyRecords)?a.monthlyRecords:[]).map(r=>`${r.month}:${Number(r.salesTotal)||0}:${Number(r.paymentsTotal)||0}:${r.hasSalesTotal===true?'S':''}:${r.hasPaymentsTotal===true?'P':''}`).sort().join('|');
-  const monthlyB=(Array.isArray(b?.monthlyRecords)?b.monthlyRecords:[]).map(r=>`${r.month}:${Number(r.salesTotal)||0}:${Number(r.paymentsTotal)||0}:${r.hasSalesTotal===true?'S':''}:${r.hasPaymentsTotal===true?'P':''}`).sort().join('|');
+  const monthlyA=(Array.isArray(a?.monthlyRecords)?a.monthlyRecords:[]).map(r=>`${r.month}:${Number(r.salesTotal)||0}:${Number(r.paymentsTotal)||0}:${Number(r.expensesTotal)||0}:${r.hasExpensesTotal===true?'E':''}:${r.hasSalesTotal===true?'S':''}:${r.hasPaymentsTotal===true?'P':''}`).sort().join('|');
+  const monthlyB=(Array.isArray(b?.monthlyRecords)?b.monthlyRecords:[]).map(r=>`${r.month}:${Number(r.salesTotal)||0}:${Number(r.paymentsTotal)||0}:${Number(r.expensesTotal)||0}:${r.hasExpensesTotal===true?'E':''}:${r.hasSalesTotal===true?'S':''}:${r.hasPaymentsTotal===true?'P':''}`).sort().join('|');
   if(monthlyA!==monthlyB)return false;
   return true;
 }
@@ -3171,7 +3236,7 @@ function globalSearchGo(){
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',monthlyRecords:'Guarda los totales mensuales históricos de ventas y abonos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();if(name==='monthlyRecords'&&$('monthlyRecordMonth')&&!$('monthlyRecordMonth').value)$('monthlyRecordMonth').value=today().slice(0,7);const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,monthlyRecords:()=>{renderMonthlyRecords();renderMonthlyPayments();if($('monthlyPaymentMonth')&&!$('monthlyPaymentMonth').value)$('monthlyPaymentMonth').value=today().slice(0,7)},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -3191,7 +3256,7 @@ function addProduct(){const div=document.createElement('div');div.className='pro
 function calcTotal(){let t=0;document.querySelectorAll('.product-row').forEach(r=>{const q=+r.querySelector('.pqty').value||0,p=parseMoneyInput(r.querySelector('.pprice').value),v=q*p;t+=v;r.querySelector('.ptotal').textContent=money(v)});$('saleTotal').textContent=money(t);return t}
 function refreshAfterChange(){
   syncDataRelations();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['registros mensuales',()=>{renderMonthlyRecords();renderMonthlyPayments()}]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
 }
 function clientNameById(cid){return db.clients.find(c=>c.id===cid)?.name||db.sales.find(s=>s.clientId===cid&&s.clientName)?.clientName||'Cliente'}
 function refreshClientsSelects(){const opts=db.clients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone):''}</option>`).join('');if($('statementClientList'))$('statementClientList').innerHTML=opts;if($('saleClientList'))$('saleClientList').innerHTML=opts;const creditClients=db.clients.filter(c=>clientBalance(c.id).balance>0);if($('payClientList'))$('payClientList').innerHTML=creditClients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone)+' · ':''}Saldo ${money(clientBalance(c.id).balance)}</option>`).join('')}
@@ -3350,16 +3415,18 @@ function setSalesPeriod(period,btn){salesPeriod=period;document.querySelectorAll
 function monthlyHistoricalValue(month,kind){
   const r=(db.monthlyRecords||[]).find(x=>x.month===month);
   if(!r)return null;
-  const isSale=kind==='sales',field=isSale?'salesTotal':'paymentsTotal',flag=isSale?'hasSalesTotal':'hasPaymentsTotal';
+  const options={sales:['salesTotal','hasSalesTotal'],payments:['paymentsTotal','hasPaymentsTotal'],expenses:['expensesTotal','hasExpensesTotal']};
+  const fields=options[kind];if(!fields)return null;
+  const [field,flag]=fields;
   if(r[flag]===false)return null;
-  // Compatibilidad con registros guardados en versiones anteriores de HILEN.
+  // Compatibilidad con registros antiguos que carecen del indicador de categoría.
   if(r[flag]!==true&&!(Number(r[field])>0))return null;
   const n=Number(r[field]);return Number.isFinite(n)&&n>=0?n:null;
 }
 function monthlyEffectiveTotal(month,kind){
-  const records=kind==='sales'?db.sales:db.payments;
+  const records=kind==='sales'?db.sales:kind==='payments'?db.payments:(db.cashMovements||[]).filter(e=>e.type==='expense');
   const rows=(records||[]).filter(r=>String(r.date||'').slice(0,7)===month);
-  const detailTotal=rows.reduce((sum,r)=>sum+(Number(kind==='sales'?r.total:r.amount)||0),0);
+  const detailTotal=rows.reduce((sum,r)=>sum+(Number(kind==='sales'?r.total:kind==='payments'?r.amount:r.amount)||0),0);
   const historicalTotal=monthlyHistoricalValue(month,kind);
   const useHistorical=historicalTotal!==null&&rows.length===0;
   return {total:useHistorical?historicalTotal:detailTotal,detailTotal,historicalTotal,useHistorical,overlap:historicalTotal!==null&&rows.length>0,count:rows.length};
@@ -3668,7 +3735,7 @@ function renderHome(){
       return `<div class="home-recent-sale"><span class="home-recent-sale-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16l-1 12H5L4 7Z"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg></span><span class="home-recent-sale-main"><b>${esc(client)}</b><small>${esc(items)}</small></span><span class="home-recent-sale-type"><span class="badge ${paymentClass}">${paymentLabel}</span></span><span class="home-recent-sale-right"><b class="home-recent-sale-total">${money(s.total)}</b><small class="home-recent-sale-date">${s.date}${s.time?' · '+s.time:''}</small></span></div>`;
     }).join('')}</div>`:'<div class="home-recent-sale-empty">Todavía no hay ventas registradas.</div>';
   }
-  const monthEvents=cashEvents().filter(e=>e.date>=monthStartDate&&e.date<=monthEndDate),inc=monthEvents.filter(e=>e.type==='income').reduce((a,e)=>a+e.amount,0),exp=monthEvents.filter(e=>e.type==='expense').reduce((a,e)=>a+e.amount,0),trans=monthEvents.filter(e=>e.type==='transfer').reduce((a,e)=>a+e.amount,0),credit=monthSales.filter(s=>s.type==='credit').reduce((a,s)=>a+s.total,0);
+  const monthEvents=cashEvents().filter(e=>e.date>=monthStartDate&&e.date<=monthEndDate),inc=monthEvents.filter(e=>e.type==='income').reduce((a,e)=>a+e.amount,0),exp=monthlyEffectiveTotal(month,'expenses').total,trans=monthEvents.filter(e=>e.type==='transfer').reduce((a,e)=>a+e.amount,0),credit=monthSales.filter(s=>s.type==='credit').reduce((a,s)=>a+s.total,0);
   if($('homeMonthLabel'))$('homeMonthLabel').textContent=new Date(d+'T12:00:00').toLocaleDateString('es-CO',{month:'long',year:'numeric'});
   $('homeDaySummary').innerHTML=`<div class="home-month-box in"><div class="hm-label">Ingresos del mes</div><div class="hm-value">${money(inc)}</div></div><div class="home-month-box out"><div class="hm-label">Egresos del mes</div><div class="hm-value">${money(exp)}</div></div><div class="home-month-box net"><div class="hm-label">Neto del mes</div><div class="hm-value">${money(inc-exp)}</div></div><div class="home-month-box"><div class="hm-label">Ventas a crédito</div><div class="hm-value">${money(credit)}</div><div class="small muted">Transferencias: ${money(trans)}</div></div>`;
   const ev=[...cashEvents()].sort((a,b)=>b.date.localeCompare(a.date)||String(b.time||'').localeCompare(String(a.time||''))).slice(0,5);
@@ -3712,8 +3779,8 @@ function cashflowPeriodRange(){
 }
 function renderCashflow(){
   const b=getBalances();$('cashBalance').textContent=money(b.cash);$('bankBalance').textContent=money(b.bank);$('totalBalance').textContent=money(b.total);
-  const [a,z,label]=cashflowPeriodRange(),rows=cashEvents().filter(e=>e.date>=a&&e.date<=z).sort((x,y)=>y.date.localeCompare(x.date)||String(y.time).localeCompare(String(x.time))),inc=rows.filter(e=>e.type==='income').reduce((x,e)=>x+e.amount,0),exp=rows.filter(e=>e.type==='expense').reduce((x,e)=>x+e.amount,0),transfers=rows.filter(e=>e.type==='transfer').length;
-  if($('cashflowPeriodNote'))$('cashflowPeriodNote').innerHTML=`Período seleccionado: <b>${esc(label)}</b>.`;
+  const [a,z,label]=cashflowPeriodRange(),rows=cashEvents().filter(e=>e.date>=a&&e.date<=z).sort((x,y)=>y.date.localeCompare(x.date)||String(y.time).localeCompare(String(x.time))),inc=rows.filter(e=>e.type==='income').reduce((x,e)=>x+e.amount,0),detailExpenses=rows.filter(e=>e.type==='expense').reduce((x,e)=>x+e.amount,0),expenseSummary=cashflowPeriodMode==='month'?monthlyEffectiveTotal(String(a).slice(0,7),'expenses'):cashflowPeriodMode==='year'?yearlyEffectiveTotal(String(a).slice(0,4),'expenses'):null,exp=expenseSummary?expenseSummary.total:detailExpenses,transfers=rows.filter(e=>e.type==='transfer').length;
+  if($('cashflowPeriodNote'))$('cashflowPeriodNote').innerHTML=`Período seleccionado: <b>${esc(label)}</b>.${expenseSummary&&expenseSummary.historical||expenseSummary?.useHistorical?' <span class="muted">Los egresos incluyen totales históricos sin movimientos individuales; no afectan los saldos de caja.</span>':''}`;
   $('cashflowSummary').innerHTML=`<div class="cash-summary-card cash-summary-ref"><div><div class="csl">Movimientos</div><div class="csv">${rows.length}</div></div><span class="cash-summary-icon neutral">≣</span></div><div class="cash-summary-card cash-summary-ref in"><div><div class="csl">Total ingresos</div><div class="csv">${money(inc)}</div></div><span class="cash-summary-icon green">↑</span></div><div class="cash-summary-card cash-summary-ref out"><div><div class="csl">Total egresos</div><div class="csv">${money(exp)}</div></div><span class="cash-summary-icon red">↓</span></div><div class="cash-summary-card cash-summary-ref"><div><div class="csl">Neto del período</div><div class="csv">${money(inc-exp)}</div><div class="small muted">${transfers} transferencia(s)</div></div><span class="cash-summary-icon neutral">=</span></div>`;
   $('cashflowTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Movimiento</th><th>Valor</th><th>Origen</th><th>Acciones</th></tr></thead><tbody>${rows.map(e=>{let typeLabel,move;if(e.type==='income'){typeLabel='<span class="badge income">Ingreso</span>';move='→ '+(e.account==='bank'?'Nequi':'Efectivo')}else if(e.type==='expense'){typeLabel='<span class="badge expense">Egreso</span>';move='← '+(e.account==='bank'?'Nequi':'Efectivo')}else{typeLabel='<span class="badge transfer">Transferencia</span>';move=(e.from==='cash'?'Efectivo':'Nequi')+' → '+(e.to==='cash'?'Efectivo':'Nequi')}const actions=e.source==='Manual'?`<button class="action-mini edit" onclick="editCashMovement('${e.sourceId}')">Editar</button><button class="action-mini danger" onclick="deleteCashMovement('${e.sourceId}')">Eliminar</button>`:e.source==='Abono'?`<button class="action-mini edit" onclick="editPayment('${e.sourceId}')">Editar abono</button><button class="action-mini danger" onclick="deletePayment('${e.sourceId}')">Eliminar</button>`:`<button class="action-mini edit" onclick="editSale('${e.sourceId}')">Editar venta</button><button class="action-mini danger" onclick="deleteSale('${e.sourceId}')">Eliminar</button>`;return `<tr><td>${e.date}<div class="small muted">${e.time||''}</div></td><td>${typeLabel}</td><td>${esc(e.note||'')}</td><td>${move}</td><td><b class="${e.type==='expense'?'kpi-down':e.type==='income'?'kpi-up':''}">${e.type==='expense'?'-':e.type==='income'?'+':''}${money(e.amount)}</b></td><td><span class="badge">${esc(e.source)}</span></td><td><div class="action-group">${actions}</div></td></tr>`}).join('')}</tbody></table></div>`:`<div class="cash-empty-state"><div class="cash-empty-icon">▤</div><b>No hay movimientos en este período.</b><span>Selecciona otra fecha o registra un movimiento para verlo aquí.</span></div>`;
   const chartYear=Number(String(a).slice(0,4));if($('cashflowChartYear')&&chartYear)$('cashflowChartYear').value=chartYear;renderCashflowChart();renderClientChart();
@@ -3732,7 +3799,7 @@ function saveCashMovementEdit(mid){
 }
 function deleteCashMovement(mid){const m=db.cashMovements.find(x=>x.id===mid);if(!m)return;confirmAction('Eliminar movimiento',`Se eliminará este movimiento manual de ${money(m.amount)}. Los saldos se recalcularán automáticamente.`,async()=>{await backupBeforeDestructive('eliminar movimiento de caja '+mid);db.cashMovements=db.cashMovements.filter(x=>x.id!==mid);saveDB();refreshAfterChange();showToast('Movimiento eliminado','Los saldos fueron recalculados.')},{red:true,confirmText:'Eliminar movimiento'})}
 
-function renderCashflowChart(){if(!$('cashflowChart'))return;const year=Number($('cashflowChartYear')?.value)||new Date().getFullYear(),inc=Array(12).fill(0),exp=Array(12).fill(0);cashEvents().filter(e=>Number(e.date.slice(0,4))===year).forEach(e=>{const i=Number(e.date.slice(5,7))-1;if(e.type==='income')inc[i]+=e.amount;else if(e.type==='expense')exp[i]+=e.amount});const max=Math.max(...inc,...exp,0),names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];$('cashflowChart').innerHTML=`<div class="cash-chart-wrap"><div class="cash-chart-grid">${names.map((n,i)=>{const hi=max?Math.max(3,Math.round(inc[i]/max*180)):3,he=max?Math.max(3,Math.round(exp[i]/max*180)):3;return `<div class="cash-month-col" title="${n} ${year} · Ingresos ${money(inc[i])} · Egresos ${money(exp[i])}"><div class="cash-pair"><div class="cash-in-bar" style="height:${hi}px;opacity:${inc[i]?1:.14}"></div><div class="cash-out-bar" style="height:${he}px;opacity:${exp[i]?1:.14}"></div></div><div class="cash-month-label">${n}</div></div>`}).join('')}</div><div class="chart-legend"><span><i class="legend-dot green"></i>Ingresos</span><span><i class="legend-dot red"></i>Egresos</span><b>Neto ${year}: ${money(inc.reduce((a,b)=>a+b,0)-exp.reduce((a,b)=>a+b,0))}</b></div></div>`}
+function renderCashflowChart(){if(!$('cashflowChart'))return;const year=Number($('cashflowChartYear')?.value)||new Date().getFullYear(),inc=Array(12).fill(0),exp=Array(12).fill(0);cashEvents().filter(e=>Number(e.date.slice(0,4))===year).forEach(e=>{const i=Number(e.date.slice(5,7))-1;if(e.type==='income')inc[i]+=e.amount;else if(e.type==='expense')exp[i]+=e.amount});for(let i=0;i<12;i++)exp[i]=monthlyEffectiveTotal(`${year}-${String(i+1).padStart(2,'0')}`,'expenses').total;const max=Math.max(...inc,...exp,0),names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];$('cashflowChart').innerHTML=`<div class="cash-chart-wrap"><div class="cash-chart-grid">${names.map((n,i)=>{const hi=max?Math.max(3,Math.round(inc[i]/max*180)):3,he=max?Math.max(3,Math.round(exp[i]/max*180)):3;return `<div class="cash-month-col" title="${n} ${year} · Ingresos ${money(inc[i])} · Egresos ${money(exp[i])}"><div class="cash-pair"><div class="cash-in-bar" style="height:${hi}px;opacity:${inc[i]?1:.14}"></div><div class="cash-out-bar" style="height:${he}px;opacity:${exp[i]?1:.14}"></div></div><div class="cash-month-label">${n}</div></div>`}).join('')}</div><div class="chart-legend"><span><i class="legend-dot green"></i>Ingresos</span><span><i class="legend-dot red"></i>Egresos</span><b>Neto ${year}: ${money(inc.reduce((a,b)=>a+b,0)-exp.reduce((a,b)=>a+b,0))}</b></div></div>`}
 
 function historyYears(){
   const years=new Set([new Date().getFullYear()]);
@@ -3791,98 +3858,115 @@ function allCarriedDebtRows(){
 }
 function annualStats(y){
   const [a,z]=yearRange(y),sales=db.sales.filter(s=>s.date>=a&&s.date<=z),pays=db.payments.filter(p=>p.date>=a&&p.date<=z),events=cashEvents().filter(e=>e.date>=a&&e.date<=z),clients=annualClientMeta(y);
-  const income=events.filter(e=>e.type==='income').reduce((n,e)=>n+e.amount,0),expense=events.filter(e=>e.type==='expense').reduce((n,e)=>n+e.amount,0);
+  const income=events.filter(e=>e.type==='income').reduce((n,e)=>n+e.amount,0),expense=yearlyEffectiveTotal(y,'expenses').total;
   const potentialRegistered=db.clients.filter(c=>{const d=c.registeredDate||String(c.createdAt||'').slice(0,10);return d>=a&&d<=z&&clientLifecycle(c)==='potential'}).length;return {sales,pays,events,clients,totalSales:yearlyEffectiveTotal(y,'sales').total,paidSales:sales.filter(s=>s.type==='paid').reduce((n,s)=>n+s.total,0),creditSales:sales.filter(s=>s.type==='credit').reduce((n,s)=>n+s.total,0),paymentTotal:yearlyEffectiveTotal(y,'payments').total,income,expense,net:income-expense,newClients:clients.filter(x=>x.isNew).length,returningClients:clients.filter(x=>x.isReturning).length,women:clients.filter(x=>x.c.gender==='female').length,men:clients.filter(x=>x.c.gender==='male').length,potentialRegistered}
 }
-let monthlyRecordEditingKey='';
+// Registro mensual: conserva el esquema monthlyRecords previo y añade egresos.
+const monthlyCategories={
+  sales:{name:'ventas',title:'Registrar ventas mensuales',description:'Registra únicamente el total de ventas del mes.',amountLabel:'Total de ventas del mes',field:'salesTotal',flag:'hasSalesTotal'},
+  payments:{name:'abonos',title:'Registrar abonos mensuales',description:'Registra únicamente el total de abonos recaudados durante ese mes.',amountLabel:'Total de abonos recaudados durante ese mes',field:'paymentsTotal',flag:'hasPaymentsTotal'},
+  expenses:{name:'egresos',title:'Registrar egresos mensuales',description:'Registra únicamente el total de egresos del mes.',amountLabel:'Total de egresos del mes',field:'expensesTotal',flag:'hasExpensesTotal'}
+};
+const hmCalendarIcon='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg>';
+const hmPencilIcon='<svg viewBox="0 0 24 24"><path d="M12 20h9M4 17.8l.7-3.5L15.9 3a2.1 2.1 0 0 1 3 3L7.7 17.1 4 17.8z"/></svg>';
+let monthlyCategory='sales',monthlyEditingMonth='',monthlyModalFocusReturn=null;
 function monthlyRecordMonthLabel(value){
   const parts=String(value||'').split('-');
   if(parts.length!==2)return value||'—';
   return new Date(Number(parts[0]),Number(parts[1])-1,1).toLocaleDateString('es-CO',{month:'long',year:'numeric'});
 }
-function renderMonthlyRecords(){
-  const host=$('monthlyRecordsTable');
-  if(!host)return;
-  db.monthlyRecords ||= [];
-  const rows=[...db.monthlyRecords].sort((a,b)=>String(b.month||'').localeCompare(String(a.month||'')));
-  if(!rows.length){
-    host.innerHTML='<div class="notice">Todavía no hay registros mensuales guardados.</div>';
-    return;
+function initMonthlyRegister(){
+  const month=$('monthlyEntryMonth');if(!month)return;
+  if(!month.value)month.value=today().slice(0,7);
+  setMonthlyCategory(monthlyCategory);
+}
+function setMonthlyCategory(kind){
+  if(!monthlyCategories[kind])return;
+  monthlyCategory=kind;
+  const cfg=monthlyCategories[kind];
+  for(const type of Object.keys(monthlyCategories)){
+    const tab=$('monthlyTab'+type.charAt(0).toUpperCase()+type.slice(1));
+    if(tab){tab.classList.toggle('active',type===kind);tab.setAttribute('aria-selected',String(type===kind));}
   }
-  host.innerHTML=`<div class="table-wrap"><table class="table"><thead><tr><th>Mes</th><th>Total de ventas</th><th>Total de abonos</th><th>Acciones</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(monthlyRecordMonthLabel(r.month))}</b></td><td>${monthlyHistoricalValue(r.month,'sales')!==null?money(r.salesTotal):'—'}</td><td>${monthlyHistoricalValue(r.month,'payments')!==null?money(r.paymentsTotal):'—'}</td><td><button class="action-mini" type="button" onclick="editMonthlyRecord('${esc(r.month)}')">Editar</button></td></tr>`).join('')}</tbody></table></div>`;
+  $('monthlyCategoryTitle').textContent=cfg.title;
+  $('monthlyCategoryDescription').textContent=cfg.description;
+  $('monthlyEntryAmountLabel').textContent=cfg.amountLabel;
+  $('monthlyEntrySaveLabel').textContent='Guardar '+cfg.name;
+  $('monthlyEntryHistoryLabel').textContent='Ver historial de '+cfg.name;
+  $('monthlyEntryMessage').textContent='';
+  monthlySelectedMonthChanged(false);
 }
-function renderMonthlyPayments(){
-  const host=$('monthlyPaymentsTable');
-  if(!host)return;
-  const rows=[...(db.monthlyRecords||[])].filter(r=>monthlyHistoricalValue(r.month,'payments')!==null).sort((a,b)=>String(b.month||'').localeCompare(String(a.month||'')));
-  if(!rows.length){host.innerHTML='<div class="notice">Todavía no hay totales de abonos mensuales guardados.</div>';return;}
-  host.innerHTML=`<div class="table-wrap"><table class="table"><thead><tr><th>Mes</th><th>Total de abonos recaudados</th><th>Acción</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(monthlyRecordMonthLabel(r.month))}</b></td><td>${money(r.paymentsTotal)}</td><td><button class="action-mini" type="button" onclick="editMonthlyPaymentRecord('${esc(r.month)}')">Corregir total</button></td></tr>`).join('')}</tbody></table></div>`;
+function monthlySelectedMonthChanged(updateMessage=true){
+  const month=$('monthlyEntryMonth')?.value||'',cfg=monthlyCategories[monthlyCategory];
+  const historic=monthlyHistoricalValue(month,monthlyCategory),input=$('monthlyEntryAmount');
+  if(!input)return;
+  input.value=historic===null?'':new Intl.NumberFormat('es-CO').format(historic);
+  if(updateMessage&&$('monthlyEntryMessage'))$('monthlyEntryMessage').textContent=historic===null?'':`Ya existe un total de ${cfg.name} para ${monthlyRecordMonthLabel(month)}. Puedes corregirlo y guardar.`;
 }
-function saveMonthlyPaymentRecord(){
-  const month=$('monthlyPaymentMonth')?.value||'';
-  const raw=$('monthlyPaymentTotal')?.value??'';
-  const message=$('monthlyPaymentMessage');
-  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)){if(message)message.textContent='Selecciona el mes y año de los abonos.';$('monthlyPaymentMonth')?.focus();return;}
-  const numericRaw=String(raw).replace(/\D/g,'');
-  if(numericRaw===''||!Number.isFinite(Number(numericRaw))||Number(numericRaw)<0){if(message)message.textContent='Ingresa el total de abonos. El valor debe ser cero o mayor.';return;}
+function storeMonthlyCategory(month,kind,value){
+  const cfg=monthlyCategories[kind];if(!cfg||!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)||!Number.isSafeInteger(value)||value<0)return false;
   db.monthlyRecords ||= [];
-  let record=db.monthlyRecords.find(r=>r.month===month);
-  if(!record){record={month,salesTotal:0,paymentsTotal:Math.round(Number(numericRaw)),hasPaymentsTotal:true,updatedAt:new Date().toISOString()};db.monthlyRecords.push(record);}
-  else {record.paymentsTotal=Math.round(Number(numericRaw));record.hasPaymentsTotal=true;record.updatedAt=new Date().toISOString();}
-  saveDB();renderMonthlyRecords();renderMonthlyPayments();
-  if(message)message.textContent=`Total de abonos de ${monthlyRecordMonthLabel(month)} guardado.`;refreshAll();
-  $('monthlyPaymentTotal').value='';$('monthlyPaymentMonth').value=today().slice(0,7);
-  showToast('Abonos mensuales guardados','El total del mes quedó actualizado.');
+  let row=db.monthlyRecords.find(x=>x.month===month);
+  if(!row){row={month,updatedAt:new Date().toISOString()};db.monthlyRecords.push(row)}
+  row[cfg.field]=value;row[cfg.flag]=true;row.updatedAt=new Date().toISOString();
+  // Nunca se borran los demás conceptos del mismo mes.
+  saveDB();refreshAll();return true;
 }
-function editMonthlyPaymentRecord(month){
-  const record=(db.monthlyRecords||[]).find(r=>r.month===month);if(!record)return;
-  $('monthlyPaymentMonth').value=record.month;$('monthlyPaymentTotal').value=new Intl.NumberFormat('es-CO').format(Number(record.paymentsTotal)||0);
-  const message=$('monthlyPaymentMessage');if(message)message.textContent=`Corrigiendo el total de abonos de ${monthlyRecordMonthLabel(month)}.`;
-  $('monthlyPaymentMonth')?.scrollIntoView({behavior:'smooth',block:'center'});
+function parseMonthlyAmount(raw){
+  const digits=String(raw??'').replace(/\D/g,'');
+  if(!digits)return null;
+  const value=Number(digits);return Number.isSafeInteger(value)&&value>=0?value:null;
 }
-
-function saveMonthlyRecord(){
-  const month=$('monthlyRecordMonth')?.value||'';
-  const salesRaw=$('monthlyRecordSales')?.value??'';
-  const salesNumeric=String(salesRaw).replace(/\D/g,'');
-  const message=$('monthlyRecordFormMessage');
-  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)){
-    if(message)message.textContent='Selecciona el mes y año que quieres registrar.';
-    $('monthlyRecordMonth')?.focus();return;
-  }
-  if(salesNumeric===''||!Number.isFinite(Number(salesNumeric))||Number(salesNumeric)<0){
-    if(message)message.textContent='Ingresa el total de ventas. El valor debe ser cero o mayor.';
-    return;
-  }
-  db.monthlyRecords ||= [];
-  const existing=db.monthlyRecords.find(r=>r.month===month);
-  const record={month,salesTotal:Math.round(Number(salesNumeric)),hasSalesTotal:true,updatedAt:new Date().toISOString()};
-  if(existing)Object.assign(existing,record);else db.monthlyRecords.push(record);
-  saveDB();
-  renderMonthlyRecords();refreshAll();
-  if(message)message.textContent=`Registro de ${monthlyRecordMonthLabel(month)} guardado.`;
-  cancelMonthlyRecordEdit(false);
-  showToast('Ventas mensuales guardadas','El total de ventas del mes quedó guardado.');
+function saveMonthlyEntry(){
+  const month=$('monthlyEntryMonth')?.value||'',amount=parseMonthlyAmount($('monthlyEntryAmount')?.value),cfg=monthlyCategories[monthlyCategory];
+  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month))return showToast('Selecciona un mes','Escoge el mes y año para guardar '+cfg.name+'.','error');
+  if(amount===null)return showToast('Valor incorrecto','Escribe el total de '+cfg.name+' en pesos colombianos.','error');
+  if(!storeMonthlyCategory(month,monthlyCategory,amount))return showToast('No se pudo guardar','Revisa el mes y el importe.','error');
+  $('monthlyEntryMessage').textContent=`Total de ${cfg.name} de ${monthlyRecordMonthLabel(month)} guardado: ${money(amount)}.`;
+  showToast('Registro mensual guardado',`Total de ${cfg.name} actualizado correctamente.`);
 }
-function editMonthlyRecord(month){
-  const record=(db.monthlyRecords||[]).find(r=>r.month===month);
-  if(!record)return;
-  $('monthlyRecordMonth').value=record.month;
-  $('monthlyRecordSales').value=new Intl.NumberFormat('es-CO').format(Number(record.salesTotal)||0);
-  monthlyRecordEditingKey=month;
-  const btn=$('saveMonthlyRecordBtn');if(btn)btn.textContent='Guardar cambios';
-  $('cancelMonthlyRecordBtn')?.classList.remove('hidden');
-  const message=$('monthlyRecordFormMessage');if(message)message.textContent=`Editando ${monthlyRecordMonthLabel(month)}. Al guardar se actualizarán sus cifras.`;
-  $('monthlyRecordMonth')?.scrollIntoView({behavior:'smooth',block:'center'});
+function openMonthlyHistory(){
+  monthlyModalFocusReturn=document.activeElement;
+  monthlyEditingMonth='';
+  $('monthlyHistoryTitle').textContent='Historial de '+monthlyCategories[monthlyCategory].name;
+  renderMonthlyHistoryRows();
+  $('monthlyHistoryModal').classList.remove('hidden');
+  $('monthlyHistoryModal').querySelector('.hilen-monthly-dismiss')?.focus();
 }
-function cancelMonthlyRecordEdit(clearMessage=true){
-  monthlyRecordEditingKey='';
-  const btn=$('saveMonthlyRecordBtn');if(btn)btn.textContent='Guardar ventas del mes';
-  $('cancelMonthlyRecordBtn')?.classList.add('hidden');
-  if(clearMessage&&$('monthlyRecordFormMessage'))$('monthlyRecordFormMessage').textContent='';
-  if($('monthlyRecordMonth'))$('monthlyRecordMonth').value=today().slice(0,7);
-  if($('monthlyRecordSales'))$('monthlyRecordSales').value='';
+function closeMonthlyHistory(){
+  $('monthlyHistoryModal')?.classList.add('hidden');
+  monthlyEditingMonth='';
+  if(monthlyModalFocusReturn?.focus)monthlyModalFocusReturn.focus();
 }
+function renderMonthlyHistoryRows(){
+  const kind=monthlyCategory,cfg=monthlyCategories[kind],body=$('monthlyHistoryRows');if(!body)return;
+  const rows=(db.monthlyRecords||[]).filter(x=>monthlyHistoricalValue(x.month,kind)!==null).sort((a,b)=>String(b.month).localeCompare(String(a.month)));
+  $('monthlyHistoryTitle').textContent='Historial de '+cfg.name;
+  $('monthlyHistoryCount').textContent=rows.length===1?'1 mes registrado':`${rows.length} meses registrados`;
+  if(!rows.length){body.innerHTML=`<div class="hilen-monthly-empty">Todavía no hay registros de ${cfg.name}. Elige un mes en el formulario y guarda su total.</div>`;return;}
+  body.innerHTML=rows.map(r=>{
+    const isEditing=monthlyEditingMonth===r.month;
+    const title=`${esc(monthlyRecordMonthLabel(r.month))}`;
+    return `<div class="hilen-monthly-item" data-month="${esc(r.month)}">${isEditing?
+      `<div class="hilen-monthly-edit"><label class="hilen-monthly-edit-label" for="monthlyModalEditAmount">Corregir ${title} · ${esc(cfg.name)}</label><input id="monthlyModalEditAmount" class="input money-input" type="text" inputmode="numeric" value="${new Intl.NumberFormat('es-CO').format(Number(r[cfg.field])||0)}" oninput="formatMoneyField(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();saveMonthlyModalEdit('${esc(r.month)}')}"><div class="hilen-monthly-edit-buttons"><button type="button" class="hm-cancel" onclick="cancelMonthlyModalEdit()">Cancelar</button><button type="button" class="hm-save" onclick="saveMonthlyModalEdit('${esc(r.month)}')">Guardar corrección</button></div></div>`:
+      `<div class="hilen-monthly-item-label"><span class="hilen-monthly-item-month">${hmCalendarIcon}</span><span><b>${title}</b><small>Registro histórico</small></span></div><div class="hilen-monthly-item-value"><b>${money(Number(r[cfg.field])||0)}</b><button type="button" class="hilen-monthly-pencil" aria-label="Editar ${esc(cfg.name)} de ${title}" title="Editar valor" onclick="editMonthlyModalEntry('${esc(r.month)}')">${hmPencilIcon}</button></div>`}</div>`;
+  }).join('');
+}
+function editMonthlyModalEntry(month){
+  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month))return;
+  monthlyEditingMonth=month;renderMonthlyHistoryRows();
+  $('monthlyModalEditAmount')?.focus();$('monthlyModalEditAmount')?.select();
+}
+function cancelMonthlyModalEdit(){monthlyEditingMonth='';renderMonthlyHistoryRows();}
+function saveMonthlyModalEdit(month){
+  const amount=parseMonthlyAmount($('monthlyModalEditAmount')?.value);
+  if(amount===null)return showToast('Valor incorrecto','Ingresa un valor válido para corregir.','error');
+  if(!storeMonthlyCategory(month,monthlyCategory,amount))return showToast('No se pudo corregir','Intenta nuevamente.','error');
+  if($('monthlyEntryMonth')?.value===month)monthlySelectedMonthChanged(false);
+  monthlyEditingMonth='';renderMonthlyHistoryRows();
+  showToast('Corrección guardada',`${monthlyRecordMonthLabel(month)} · ${money(amount)}`);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('monthlyHistoryModal')?.classList.contains('hidden'))closeMonthlyHistory()});
 
 function renderHistory(){
   if(!$('historyYear'))return;
@@ -3892,8 +3976,8 @@ function renderHistory(){
   const carried=carriedDebtRows(y);
   $('historyAvailableYears').innerHTML=`<div class="small muted" style="margin-bottom:8px">Años con registros. Pulsa un año para abrir todo lo que pasó en ese período:</div><div class="action-group">${ys.slice().sort((a,b)=>b-a).map(yy=>`<button class="${yy===y?'primary':'secondary'}" onclick="selectHistoryYear(${yy})">${yy}</button>`).join('')}</div>`;
   $('historyKpis').innerHTML=`<div class="history-ref-stat"><span class="history-ref-icon gold">♙</span><div><div class="history-ref-value">${st.clients.filter(x=>x.active).length}</div><div class="history-ref-label">clientes compraron<br>en ${y}</div></div></div><div class="history-ref-stat"><span class="history-ref-icon green">＋</span><div><div class="history-ref-value">${st.newClients}</div><div class="history-ref-label">nuevas</div></div></div><div class="history-ref-stat"><span class="history-ref-icon neutral">↻</span><div><div class="history-ref-value">${st.returningClients}</div><div class="history-ref-label">recurrentes</div></div></div><div class="history-ref-stat"><span class="history-ref-icon gold">◉</span><div><div class="history-ref-value">${money(st.creditSales)}</div><div class="history-ref-label">crédito vendido</div></div></div><div class="history-ref-stat"><span class="history-ref-icon gold">▣</span><div><div class="history-ref-value">${money(st.paymentTotal)}</div><div class="history-ref-label">abonos</div></div></div>`;
-  const yearSalesSummary=yearlyEffectiveTotal(y,'sales'),yearPaymentSummary=yearlyEffectiveTotal(y,'payments');
-  const historyTotalsNote=`<div class="notice blue" style="margin-bottom:12px"><b>Totales del año ${y}:</b> Ventas ${money(st.totalSales)} · Abonos ${money(st.paymentTotal)}.${yearSalesSummary.historical||yearPaymentSummary.historical?' Incluyen los totales históricos de los meses sin transacciones individuales.':''} Las cifras de clientes, créditos, medios de pago e ingresos de caja siguen basadas únicamente en movimientos detallados.</div>`;
+  const yearSalesSummary=yearlyEffectiveTotal(y,'sales'),yearPaymentSummary=yearlyEffectiveTotal(y,'payments'),yearExpenseSummary=yearlyEffectiveTotal(y,'expenses');
+  const historyTotalsNote=`<div class="notice blue" style="margin-bottom:12px"><b>Totales del año ${y}:</b> Ventas ${money(st.totalSales)} · Abonos ${money(st.paymentTotal)} · Egresos ${money(st.expense)}.${yearSalesSummary.historical||yearPaymentSummary.historical||yearExpenseSummary.historical?' Incluyen los totales históricos de los meses sin transacciones individuales.':''} Las cifras de clientes, créditos, medios de pago e ingresos de caja siguen basadas únicamente en movimientos detallados.</div>`;
   $('historyClientSummary').innerHTML=historyTotalsNote+`<div class="history-notice-grid"><div class="notice blue history-summary-note"><span class="history-note-icon blue">i</span><div><b>¿Qué pasa al cambiar de año?</b><br>Si un cliente terminó ${y-1} debiendo dinero, esa deuda continúa en ${y}. Los pagos que haga en ${y} reducen su deuda. Si vuelve a comprar a crédito, esa nueva compra se suma a lo que todavía debe. Si compra pagado, la venta queda registrada pero no aumenta su deuda.</div></div><div class="notice good history-summary-note"><span class="history-note-icon green">✓</span><div><b>${carried.length?`${carried.length} cliente(s) comenzó ${y} con deuda pendiente`:`Ningún cliente comenzó ${y} con una deuda pendiente`}</b><br><span class="small">${carried.length?'Revisa el detalle en la sección inferior.':'No se registraron clientes con deudas de años anteriores.'}</span></div></div></div>`;
   if($('historyCarriedDebts')){
     $('historyCarriedDebts').innerHTML=carried.length?`<div class="table-wrap"><table class="table history-action-table"><thead><tr><th>Cliente</th><th>Lo que debía al comenzar ${y}</th><th>Pagos realizados en ${y}</th><th>Nuevas compras a crédito</th><th>Lo que quedó debiendo</th><th>Estado de la cuenta</th><th></th></tr></thead><tbody>${carried.map(x=>{const state=x.closing<=0?'<span class="history-client-settled">✓ Cuenta cancelada</span>':`<span class="history-client-open">Debe ${money(x.closing)}</span>`;return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.newPaid>0?`Además compró pagado: ${money(x.newPaid)}`:''}</div></td><td><b>${money(x.opening)}</b><div class="small muted">Viene de ${y-1} o años anteriores</div></td><td>${money(x.yearPayments)}<div class="small muted">${x.pays.length} pago(s)</div></td><td>${money(x.newCredit)}<div class="small muted">${x.creditSales.length} compra(s) a crédito</div></td><td><b>${money(x.closing)}</b></td><td>${state}</td><td><button class="action-mini history-action-btn" onclick="openCustomerYear('${x.c.id}',${y})">Ver historial</button></td></tr>`}).join('')}</tbody></table></div>`:`<div class="history-success-empty"><span>✓</span><div><b>Ningún cliente comenzó ${y} con una deuda pendiente de años anteriores.</b></div></div>`;
@@ -4410,7 +4494,7 @@ function checkEncargoReminders(force=false){
 function startEncargoReminderWatcher(){clearInterval(encargoReminderTimer);checkEncargoReminders(true);encargoReminderTimer=setInterval(()=>checkEncargoReminders(false),30000)}
 function refreshAll(){
   syncDataRelations();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['registros mensuales',()=>{renderMonthlyRecords();renderMonthlyPayments()}]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
 }
 
 function closeModal(){$('modal').classList.add('hidden')}
