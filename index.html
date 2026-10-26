@@ -2339,6 +2339,39 @@ input,select,textarea,button{max-width:100%}
 .home-month-box.cash-sale .hm-value{color:#168251;}
 @media(max-width:620px){#customers .registry-filters{grid-template-columns:minmax(0,1fr)!important;}}
 
+
+/* HILEN: vista puntual de una compra en la ficha de cliente. */
+.customer-purchase-action{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#f6f8fc;color:#1c3155;border:1px solid #e1e7f0;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:750;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s;}
+.customer-purchase-action:hover{background:#eaf1ff;border-color:#c7d8f3;}
+.customer-purchase-action svg{height:16px;width:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.customer-purchase-overlay{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(13,25,46,.49);backdrop-filter:blur(3px);}
+.customer-purchase-overlay.hidden{display:none!important;}
+.customer-purchase-dialog{width:min(690px,100%);max-height:min(86vh,850px);overflow-y:auto;overscroll-behavior:contain;background:#fff;border:1px solid #edf0f4;border-radius:23px;box-shadow:0 28px 88px #10223a3b;padding:26px;}
+.customer-purchase-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:15px;}
+.customer-purchase-header h2{margin:0 0 5px;font-size:23px;line-height:1.2;color:#111d34;letter-spacing:-.4px;}
+.customer-purchase-header p{margin:0;color:#778398;font-size:13px;}
+.customer-purchase-dismiss{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;border:1px solid #e7ebf0;background:#f8f9fb;color:#1b2943;cursor:pointer;font-size:23px;line-height:1;flex:none;}
+.customer-purchase-info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 20px;}
+.customer-purchase-info>div{border:1px solid #e8edf3;border-radius:13px;padding:12px 14px;min-width:0;}
+.customer-purchase-info span{display:block;color:#778399;font-size:12px;margin-bottom:5px;}
+.customer-purchase-info b{color:#192844;font-size:14px;overflow-wrap:anywhere;}
+.customer-purchase-dialog h3{margin:10px 0 12px;font-size:16px;color:#14223a;}
+.customer-purchase-table{width:100%;border-collapse:collapse;font-size:13px;}
+.customer-purchase-table th{background:#f6f8fb;text-align:left;color:#596984;font-size:11px;letter-spacing:.2px;padding:12px 10px;}
+.customer-purchase-table td{padding:12px 10px;border-bottom:1px solid #edf1f5;color:#20304b;}
+.customer-purchase-table th:not(:first-child),.customer-purchase-table td:not(:first-child){text-align:right;}
+.customer-purchase-table td:first-child{min-width:115px;overflow-wrap:anywhere;}
+.customer-purchase-total{display:flex;align-items:center;justify-content:space-between;margin-top:16px;border-radius:14px;background:#f7f9fd;padding:16px 18px;gap:12px;}
+.customer-purchase-total span{font-weight:750;color:#566783;}
+.customer-purchase-total b{font-size:24px;font-weight:850;color:#0f2040;}
+.customer-purchase-footer{display:flex;justify-content:flex-end;margin-top:18px;}
+.customer-purchase-footer button{border:1px solid #dfe6ef;border-radius:11px;background:#fff;color:#1b2b46;font-weight:750;padding:10px 17px;cursor:pointer;}
+/* Guardar ventas negro, únicamente en Registro mensual; los otros conceptos conservan su diseño. */
+#monthlyRecords[data-monthly-kind="sales"] #monthlyEntrySaveBtn.primary,
+#monthlyRecords[data-monthly-kind="sales"] #monthlyEntrySaveBtn.primary:hover{background:#111111!important;border-color:#111111!important;color:#ffffff!important;}
+@media(max-width:600px){.customer-purchase-overlay{padding:10px;}.customer-purchase-dialog{padding:17px;border-radius:18px;max-height:91dvh;}.customer-purchase-info{grid-template-columns:1fr;}.customer-purchase-table{font-size:12px;}.customer-purchase-table td,.customer-purchase-table th{padding:10px 6px;}.customer-purchase-total b{font-size:21px;}}
+@media print{.customer-purchase-overlay{display:none!important;}}
+
 </style>
 </head>
 <body>
@@ -2816,6 +2849,14 @@ input,select,textarea,button{max-width:100%}
 </div>
 
 <div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div class="modal-card"><button type="button" class="close" onclick="closeModal()" aria-label="Cerrar">×</button><div id="modalContent"></div></div></div>
+
+
+<!-- Vista secundaria: detalle de cada compra, sin cerrar la ficha del cliente. -->
+<div id="customerPurchaseModal" class="customer-purchase-overlay hidden" role="presentation" onclick="if(event.target===this)closeCustomerPurchaseDetail()">
+  <div class="customer-purchase-dialog" role="dialog" aria-modal="true" aria-labelledby="customerPurchaseTitle" tabindex="-1">
+    <div id="customerPurchaseContent"></div>
+  </div>
+</div>
 
 <div id="monthlyHistoryModal" class="hilen-monthly-modal hidden" role="presentation" onclick="if(event.target===this)closeMonthlyHistory()">
   <div class="hilen-monthly-dialog" role="dialog" aria-modal="true" aria-labelledby="monthlyHistoryTitle" tabindex="-1">
@@ -3617,11 +3658,37 @@ function renderCustomerStatement(){
   const sales=db.sales.filter(s=>s.clientId===cid&&s.date>=a&&s.date<=z).sort((x,y)=>x.date.localeCompare(y.date)||String(x.time).localeCompare(String(y.time))),hasCredit=customerHasCredit(cid),pays=hasCredit?db.payments.filter(p=>p.clientId===cid&&p.date>=a&&p.date<=z).sort((x,y)=>x.date.localeCompare(y.date)||String(x.time).localeCompare(String(y.time))):[];
   const totalSales=sales.reduce((x,s)=>x+s.total,0),paidSales=sales.filter(s=>s.type==='paid').reduce((x,s)=>x+s.total,0),creditSales=sales.filter(s=>s.type==='credit').reduce((x,s)=>x+s.total,0),periodPaid=pays.reduce((x,p)=>x+p.amount,0),balance=clientBalance(cid,z);
   if($('customerHeaderBalance')){$('customerHeaderBalance').textContent=balance.balance>0?money(balance.balance):'CUENTA CANCELADA';$('customerHeaderBalance').style.fontSize=balance.balance>0?'34px':'22px'}
-  const purchasesRows=sales.map(s=>`<tr><td>${s.date}<div class="small muted">${s.time||''}</div></td><td>${s.items.map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span></td><td>${s.type==='paid'?accountBadge(s.destination||'cash'):'—'}</td><td><b>${money(s.total)}</b></td></tr>`).join('')||'<tr><td colspan="5">Sin compras en este período.</td></tr>';
+  const purchasesRows=sales.map(s=>`<tr><td>${s.date}<div class="small muted">${s.time||''}</div></td><td>${s.items.map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span></td><td>${s.type==='paid'?accountBadge(s.destination||'cash'):'—'}</td><td><b>${money(s.total)}</b></td><td><button type="button" class="customer-purchase-action" title="Ver detalle de esta compra" aria-label="Ver detalle de compra" onclick="openCustomerPurchaseDetail(decodeURIComponent('${encodeURIComponent(String(s.id))}'))"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.7-6 9.5-6 9.5 6 9.5 6-3.7 6-9.5 6S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>Ver</button></td></tr>`).join('')||'<tr><td colspan="6">Sin compras en este período.</td></tr>';
   const status=balance.balance>0?`<span class="badge debt">Debe ${money(balance.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';
   const adjustment=Number(balance.adjustment)||0;
   const creditSection=hasCredit?`<div class="customer-credit-box"><div class="customer-credit-head"><div><div class="small muted">Crédito acumulado hasta ${z}</div><div><b>Compras a crédito:</b> ${money(balance.purchases)} &nbsp;·&nbsp; <b>Abonos acumulados:</b> ${money(balance.paid)}${adjustment?` &nbsp;·&nbsp; <b>Ajuste:</b> ${money(adjustment)}`:''}</div></div><div><div class="small muted">Estado de la cuenta</div><div style="margin-top:7px">${status}</div></div></div>${c.balanceAdjustmentNote&&adjustment?`<div class="notice warn" style="margin-top:12px"><b>Ajuste manual de saldo:</b> ${esc(c.balanceAdjustmentNote)}</div>`:''}</div><h3>Abonos del período</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Valor</th><th>Recibido en</th><th></th></tr></thead><tbody>${pays.map(p=>`<tr><td>${p.date}<div class="small muted">${p.time||''}</div></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td><button class="action-mini view" onclick="openPaymentDetail('${p.id}')">Ver</button></td></tr>`).join('')||'<tr><td colspan="4">Sin abonos en este período.</td></tr>'}</tbody></table></div>`:'';
-  $('customerStatementBody').innerHTML=`<div class="small muted">Período: <b>${a}</b> → <b>${z}</b></div><div class="customer-summary-grid"><div class="customer-summary-card"><div class="cs-label">Total comprado</div><div class="cs-value">${money(totalSales)}</div></div><div class="customer-summary-card"><div class="cs-label">Pagado al instante</div><div class="cs-value">${money(paidSales)}</div></div><div class="customer-summary-card"><div class="cs-label">Compras a crédito</div><div class="cs-value">${money(creditSales)}</div></div>${hasCredit?`<div class="customer-summary-card"><div class="cs-label">Abonos del período</div><div class="cs-value">${money(periodPaid)}</div></div>`:`<div class="customer-summary-card"><div class="cs-label">Compras registradas</div><div class="cs-value">${sales.length}</div></div>`}</div><h3>Detalle de compras</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Productos</th><th>Tipo</th><th>Pago / destino</th><th>Total</th></tr></thead><tbody>${purchasesRows}</tbody></table></div>${creditSection}`;
+  $('customerStatementBody').innerHTML=`<div class="small muted">Período: <b>${a}</b> → <b>${z}</b></div><div class="customer-summary-grid"><div class="customer-summary-card"><div class="cs-label">Total comprado</div><div class="cs-value">${money(totalSales)}</div></div><div class="customer-summary-card"><div class="cs-label">Pagado al instante</div><div class="cs-value">${money(paidSales)}</div></div><div class="customer-summary-card"><div class="cs-label">Compras a crédito</div><div class="cs-value">${money(creditSales)}</div></div>${hasCredit?`<div class="customer-summary-card"><div class="cs-label">Abonos del período</div><div class="cs-value">${money(periodPaid)}</div></div>`:`<div class="customer-summary-card"><div class="cs-label">Compras registradas</div><div class="cs-value">${sales.length}</div></div>`}</div><h3>Detalle de compras</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Productos</th><th>Tipo</th><th>Pago / destino</th><th>Total</th><th>Acción</th></tr></thead><tbody>${purchasesRows}</tbody></table></div>${creditSection}`;
+}
+
+
+let customerPurchasePreviousFocus=null;
+function openCustomerPurchaseDetail(saleId){
+  const sale=db.sales.find(x=>String(x.id)===String(saleId));
+  if(!sale)return showToast('Venta no encontrada','No se encontró esa compra en los registros.','error');
+  // La ficha conserva el cliente abierto; una venta no debe mostrar datos de otro cliente.
+  if(activeCustomerId&&String(sale.clientId)!==String(activeCustomerId))return showToast('Compra no disponible','Esta compra pertenece a otra ficha de cliente.','error');
+  const client=db.clients.find(x=>x.id===sale.clientId),items=Array.isArray(sale.items)?sale.items:[];
+  const rows=items.map(item=>{
+    const qty=Number(item.qty)||0,price=Number(item.price)||0;
+    return `<tr><td>${esc(String(item.name||'Producto'))}</td><td>${qty}</td><td>${money(price)}</td><td><b>${money(qty*price)}</b></td></tr>`;
+  }).join('')||'<tr><td colspan="4">Esta venta no tiene artículos detallados.</td></tr>';
+  const type=sale.type==='credit'?'A crédito':'De contado';
+  const destination=sale.type==='credit'?'Pendiente de abono':sale.destination==='bank'?'Nequi':'Efectivo';
+  const date=sale.date?normalizeDateLabel(sale.date):'Sin fecha';
+  customerPurchasePreviousFocus=document.activeElement;
+  $('customerPurchaseContent').innerHTML=`<div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Detalle de la venta</h2><p>Artículos y valores de esta compra</p></div><button type="button" class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar detalle de venta">×</button></div><div class="customer-purchase-info"><div><span>Cliente</span><b>${esc(client?.name||sale.clientName||'Sin nombre')}</b></div><div><span>Fecha y hora</span><b>${esc(date)}${sale.time?' · '+esc(String(sale.time)):''}</b></div><div><span>Tipo de venta</span><b>${type}</b></div><div><span>Forma de pago / destino</span><b>${destination}</b></div></div><h3>Artículos de la compra</h3><div class="table-wrap"><table class="customer-purchase-table"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Valor unitario</th><th>Subtotal</th></tr></thead><tbody>${rows}</tbody></table></div><div class="customer-purchase-total"><span>Total de la compra</span><b>${money(Number(sale.total)||0)}</b></div><div class="customer-purchase-footer"><button type="button" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
+  $('customerPurchaseModal').classList.remove('hidden');
+  $('customerPurchaseModal').querySelector('.customer-purchase-dismiss')?.focus();
+}
+function closeCustomerPurchaseDetail(){
+  $('customerPurchaseModal')?.classList.add('hidden');
+  if(customerPurchasePreviousFocus?.isConnected)customerPurchasePreviousFocus.focus();
+  customerPurchasePreviousFocus=null;
 }
 
 function printCustomer(){const area=$('customerPrintArea');if(!area)return;area.classList.add('print-area');window.print();setTimeout(()=>area.classList.remove('print-area'),300)}
