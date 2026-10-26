@@ -2306,6 +2306,19 @@ input,select,textarea,button{max-width:100%}
 .hilen-monthly-edit-buttons .hm-cancel{background:white;color:#657287;}
 .hilen-monthly-modal-footer{border-top:1px solid #edf0f4;padding:15px 26px 18px;display:flex;gap:8px;align-items:center;color:#8793a1;font-size:11px;line-height:1.4;}
 .hilen-monthly-modal-footer svg{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;}
+
+/* Color distintivo para Ventas, sin alterar las otras secciones de HILEN. */
+#monthlyRecords[data-monthly-kind="sales"] .hm-tab.active{background:#eaf2ff;color:#2256a0;box-shadow:inset 0 0 0 1px #cfe1ff,0 2px 8px #1c4e9812;}
+#monthlyRecords[data-monthly-kind="sales"] #monthlyCategoryIcon{background:#eaf2ff;color:#2762b5;}
+#monthlyRecords[data-monthly-kind="sales"] .hm-money-prefix{color:#2762b5;}
+#monthlyRecords[data-monthly-kind="sales"] #monthlyEntrySaveBtn.primary{background:#285cac!important;color:#fff!important;}
+#monthlyRecords[data-monthly-kind="sales"] #monthlyEntrySaveBtn.primary:hover{background:#1e4c91!important;}
+.hilen-monthly-trash{width:37px;height:37px;border-radius:11px;background:#fff1f2;border:1px solid #ffd9dc;display:grid;place-items:center;color:#c53144;cursor:pointer;flex:none;}
+.hilen-monthly-trash:hover{background:#ffe1e6;color:#a92133;}
+.hilen-monthly-trash svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
+.hilen-monthly-item-value{flex-wrap:wrap;justify-content:flex-end;}
+#modal:has(.confirm-box){z-index:100;}
+@media(max-width:650px){.hilen-monthly-trash,.hilen-monthly-pencil{width:34px;height:34px;}}
 @media(max-width:650px){#monthlyRecords .hm-monthly-card{padding:19px 15px;}#monthlyRecords .hm-fields{grid-template-columns:1fr;gap:12px;}#monthlyRecords .hm-actions{display:grid;grid-template-columns:1fr 1fr;}#monthlyRecords .hm-actions button{padding:9px 6px;font-size:12px;white-space:normal;text-align:center;}#monthlyRecords .hm-tab{font-size:12px;gap:4px;}#monthlyRecords .hm-tab svg{width:15px;height:15px;}.hilen-monthly-modal{padding:12px;}.hilen-monthly-dialog-head{padding:19px 17px 16px;}.hilen-monthly-modal-body{padding:13px 15px 17px;}.hilen-monthly-modal-footer{padding:13px 17px;}.hilen-monthly-item{padding:12px 10px;gap:8px;}.hilen-monthly-item-value{font-size:13px;gap:7px;}.hilen-monthly-item-label b{font-size:12px;}.hilen-monthly-item-month{width:34px;height:34px;}}
 
 </style>
@@ -3869,6 +3882,7 @@ const monthlyCategories={
 };
 const hmCalendarIcon='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg>';
 const hmPencilIcon='<svg viewBox="0 0 24 24"><path d="M12 20h9M4 17.8l.7-3.5L15.9 3a2.1 2.1 0 0 1 3 3L7.7 17.1 4 17.8z"/></svg>';
+const hmTrashIcon='<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/></svg>';
 let monthlyCategory='sales',monthlyEditingMonth='',monthlyModalFocusReturn=null;
 function monthlyRecordMonthLabel(value){
   const parts=String(value||'').split('-');
@@ -3883,6 +3897,7 @@ function initMonthlyRegister(){
 function setMonthlyCategory(kind){
   if(!monthlyCategories[kind])return;
   monthlyCategory=kind;
+  $('monthlyRecords')?.setAttribute('data-monthly-kind',kind);
   const cfg=monthlyCategories[kind];
   for(const type of Object.keys(monthlyCategories)){
     const tab=$('monthlyTab'+type.charAt(0).toUpperCase()+type.slice(1));
@@ -3949,7 +3964,7 @@ function renderMonthlyHistoryRows(){
     const title=`${esc(monthlyRecordMonthLabel(r.month))}`;
     return `<div class="hilen-monthly-item" data-month="${esc(r.month)}">${isEditing?
       `<div class="hilen-monthly-edit"><label class="hilen-monthly-edit-label" for="monthlyModalEditAmount">Corregir ${title} · ${esc(cfg.name)}</label><input id="monthlyModalEditAmount" class="input money-input" type="text" inputmode="numeric" value="${new Intl.NumberFormat('es-CO').format(Number(r[cfg.field])||0)}" oninput="formatMoneyField(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();saveMonthlyModalEdit('${esc(r.month)}')}"><div class="hilen-monthly-edit-buttons"><button type="button" class="hm-cancel" onclick="cancelMonthlyModalEdit()">Cancelar</button><button type="button" class="hm-save" onclick="saveMonthlyModalEdit('${esc(r.month)}')">Guardar corrección</button></div></div>`:
-      `<div class="hilen-monthly-item-label"><span class="hilen-monthly-item-month">${hmCalendarIcon}</span><span><b>${title}</b><small>Registro histórico</small></span></div><div class="hilen-monthly-item-value"><b>${money(Number(r[cfg.field])||0)}</b><button type="button" class="hilen-monthly-pencil" aria-label="Editar ${esc(cfg.name)} de ${title}" title="Editar valor" onclick="editMonthlyModalEntry('${esc(r.month)}')">${hmPencilIcon}</button></div>`}</div>`;
+      `<div class="hilen-monthly-item-label"><span class="hilen-monthly-item-month">${hmCalendarIcon}</span><span><b>${title}</b><small>Registro histórico</small></span></div><div class="hilen-monthly-item-value"><b>${money(Number(r[cfg.field])||0)}</b><button type="button" class="hilen-monthly-pencil" aria-label="Editar ${esc(cfg.name)} de ${title}" title="Editar valor" onclick="editMonthlyModalEntry('${esc(r.month)}')">${hmPencilIcon}</button>${kind==='sales'?`<button type="button" class="hilen-monthly-trash" aria-label="Eliminar venta histórica de ${title}" title="Eliminar total histórico de ventas" onclick="deleteMonthlyHistoricalEntry('${esc(r.month)}','sales')">${hmTrashIcon}</button>`:''}</div>`}</div>`;
   }).join('');
 }
 function editMonthlyModalEntry(month){
@@ -3965,6 +3980,26 @@ function saveMonthlyModalEdit(month){
   if($('monthlyEntryMonth')?.value===month)monthlySelectedMonthChanged(false);
   monthlyEditingMonth='';renderMonthlyHistoryRows();
   showToast('Corrección guardada',`${monthlyRecordMonthLabel(month)} · ${money(amount)}`);
+}
+function deleteMonthlyHistoricalEntry(month,kind='sales'){
+  if(!monthlyCategories[kind]||!/^[0-9]{4}-(0[1-9]|1[0-2])$/.test(month))return;
+  const value=monthlyHistoricalValue(month,kind);
+  if(value===null)return showToast('Registro no encontrado','Puede que este total ya se haya eliminado.','error');
+  const cfg=monthlyCategories[kind],label=monthlyRecordMonthLabel(month);
+  confirmAction('Eliminar registro de '+cfg.name,`¿Quieres eliminar el total histórico de ${cfg.name} de ${label} (${money(value)})? Los demás conceptos del mes y los movimientos individuales permanecerán intactos.`,async()=>{
+    await backupBeforeDestructive('eliminar total histórico de '+cfg.name+' de '+month);
+    const r=(db.monthlyRecords||[]).find(x=>x.month===month);
+    if(!r||monthlyHistoricalValue(month,kind)===null)return showToast('Registro no encontrado','No se encontró el registro que querías eliminar.','error');
+    delete r[cfg.field];delete r[cfg.flag];
+    // Si aún existen totales de otro concepto, mantenemos la fila del mes.
+    const hasOtherCategory=Object.keys(monthlyCategories).some(other=>monthlyHistoricalValue(month,other)!==null);
+    if(hasOtherCategory)r.updatedAt=new Date().toISOString();
+    else db.monthlyRecords=db.monthlyRecords.filter(x=>x!==r);
+    monthlyEditingMonth='';
+    saveDB();refreshAll();
+    if($('monthlyEntryMonth')?.value===month&&monthlyCategory===kind)monthlySelectedMonthChanged(false);
+    showToast('Registro histórico eliminado',`${label}: se eliminó solo el total de ${cfg.name}.`);
+  },{red:true,confirmText:'Eliminar registro',workingText:'Eliminando…'});
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('monthlyHistoryModal')?.classList.contains('hidden'))closeMonthlyHistory()});
 
