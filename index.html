@@ -2602,6 +2602,27 @@ input,select,textarea,button{max-width:100%}
 .hilen-report-actions>.input{width:125px;margin:0}.hilen-report-actions>.primary{white-space:nowrap}
 .hilen-report-saved-note{font-size:12px;color:#62748e;margin:0 0 14px}
 .hilen-report-saved-note button{border:1px solid #d8e1ef;border-radius:9px;background:#fff;padding:7px 10px;font-weight:750;font-size:11px;margin:0 5px;color:#25446c}
+
+/* Control de cartera en Abonos: lectura directa, indicadores sin datos duplicados. */
+.hilen-payment-portfolio{margin:0 0 18px;padding:22px!important;border:1px solid #dfe5ef!important;box-shadow:0 12px 34px rgba(25,39,67,.045)!important}
+.hilen-payment-portfolio-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:17px}
+.hilen-payment-portfolio-head h2{font-size:23px!important;margin:0!important;color:#14213b;letter-spacing:-.6px}
+.hilen-payment-portfolio-head p{color:#6c7890;font-size:12px;line-height:1.4;margin:5px 0 0}
+.hilen-payment-portfolio-period{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:#f1f5fb;color:#446080;font-size:11px;font-weight:800}
+.hilen-payment-portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hilen-payment-portfolio-tile{border:1px solid #e4e9f0;background:#fcfdff;border-radius:18px;padding:19px 20px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.hilen-payment-portfolio-heading{display:flex;align-items:center;gap:10px;color:#647086;font-size:14px;font-weight:700;line-height:1.3}
+.hilen-payment-portfolio-heading svg{flex:0 0 23px;width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hilen-payment-portfolio-tile strong{display:block;font-size:clamp(23px,2.35vw,34px);line-height:1.08;letter-spacing:-1px;color:#14213b;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.hilen-payment-portfolio-tile.collected strong{color:#16885c}
+.hilen-payment-portfolio-tile small{display:block;margin-top:auto;color:#79859b;font-size:11px;line-height:1.4}
+.hilen-payment-portfolio-footer{margin-top:16px;border-top:1px solid #e9edf2;padding-top:13px}
+.hilen-payment-portfolio-link{width:100%;border:0;background:transparent;color:#182846;display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:800;text-align:left;padding:8px 2px;border-radius:9px}
+.hilen-payment-portfolio-link:hover,.hilen-payment-portfolio-link:focus-visible{background:#f4f7fc;outline-offset:3px}
+.hilen-payment-portfolio-link svg{width:21px;height:21px;flex:0 0 21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:650px){.hilen-payment-portfolio{padding:15px!important}.hilen-payment-portfolio-grid{gap:9px}.hilen-payment-portfolio-tile{padding:13px;gap:7px;border-radius:14px}.hilen-payment-portfolio-heading{font-size:11px;gap:6px}.hilen-payment-portfolio-heading svg{width:18px;height:18px;flex-basis:18px}.hilen-payment-portfolio-tile strong{font-size:clamp(20px,5vw,28px)}}
+@media(max-width:380px){.hilen-payment-portfolio-grid{grid-template-columns:1fr}}
+
 .hilen-client-collections{padding:20px!important;margin-bottom:15px!important}
 .hilen-collection-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
 .hilen-collection-box{border:1px solid #e3e9f2;border-radius:14px;background:#fafbfd;padding:13px;min-width:0}
@@ -2619,6 +2640,22 @@ input,select,textarea,button{max-width:100%}
 @media(max-width:1050px){.hilen-annual-cards,.hilen-collection-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:750px){.hilen-annual-charts{grid-template-columns:1fr}.hilen-annual-heading{align-items:flex-start}.hilen-annual-charts .hilen-annual-bars{min-width:440px}}
 @media(max-width:550px){.hilen-annual-cards,.hilen-collection-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.hilen-client-collections{padding:14px!important}.hilen-annual-chart{padding:11px}#home .hilen-annual-main{padding:15px!important}.hilen-report-actions{width:100%}}
+
+/* HILEN · Zoom de lectura para tablas operativas y ficha del cliente.
+   Exclusivamente visual: no modifica movimientos, datos, PDF ni respaldos. */
+.hilen-global-zoom-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0 8px;padding:9px 12px;border:1px solid #e5eaf2;border-radius:13px;background:#f8fafc}
+.hilen-global-zoom-toolbar .hilen-global-zoom-title{font-size:12px;font-weight:800;color:#52617a}
+.hilen-global-zoom-toolbar .hilen-global-zoom-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hilen-global-zoom-toolbar button{min-width:40px;min-height:36px;padding:7px 10px;border:1px solid #dce4ef;border-radius:10px;background:#fff;color:#13233f;font-weight:850;font-size:13px;white-space:nowrap}
+.hilen-global-zoom-toolbar button:hover:not(:disabled){background:#eaf1fc;border-color:#b9cdea}
+.hilen-global-zoom-toolbar button:disabled{opacity:.4;cursor:default}
+.hilen-global-zoom-toolbar output{display:inline-block;min-width:53px;text-align:center;color:#15233f;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.hilen-global-zoom-area{max-width:100%!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch;scrollbar-gutter:stable}
+.hilen-global-zoom-area>table{transform-origin:top left}
+.hilen-client-zoom-toolbar{margin:0 0 16px;position:sticky;top:0;z-index:3;background:#fff;box-shadow:0 3px 10px #11111108}
+.hilen-customer-zoom-target{transform-origin:top left}
+@media(max-width:700px){.hilen-global-zoom-toolbar{align-items:flex-start;padding:9px}.hilen-global-zoom-toolbar .hilen-global-zoom-actions{width:100%}}
+@media print{.hilen-global-zoom-toolbar{display:none!important}.hilen-customer-zoom-target,.hilen-global-zoom-area>table{zoom:1!important}}
 </style>
 </head>
 <body>
@@ -2878,6 +2915,32 @@ input,select,textarea,button{max-width:100%}
 
     <section id="payments" class="section hilen-view hilen-payments">
       <div class="section-subtitle">Registra abonos y consulta el estado de cuenta de tus clientes.</div>
+      <div class="card hilen-payment-portfolio" aria-labelledby="hilenPaymentPortfolioTitle">
+        <div class="hilen-payment-portfolio-head">
+          <div><h2 id="hilenPaymentPortfolioTitle">Control de cartera</h2><p>Dinero pendiente y abonos recibidos, calculados desde los registros de HILEN.</p></div>
+          <span class="hilen-payment-portfolio-period" id="hilenPaymentPortfolioPeriod">Período seleccionado</span>
+        </div>
+        <div class="hilen-payment-portfolio-grid" aria-live="polite">
+          <div class="hilen-payment-portfolio-tile">
+            <div class="hilen-payment-portfolio-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M17 10h4v6h-4a3 3 0 0 1 0-6Z"/></svg><span>Total pendiente por cobrar</span></div>
+            <strong id="hilenPortfolioOutstanding">$0</strong><small>Saldo actual de todas las cuentas con deuda</small>
+          </div>
+          <div class="hilen-payment-portfolio-tile collected">
+            <div class="hilen-payment-portfolio-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="6" r="3"/><path d="M3 13h6l2 2h4l4-4a2 2 0 0 1 3 3l-5 6H7l-4-3v-4Z"/></svg><span id="hilenPortfolioReceivedLabel">Abonos recibidos en el período</span></div>
+            <strong id="hilenPortfolioReceived">$0</strong><small id="hilenPortfolioReceivedNote">Importe recibido durante el período seleccionado</small>
+          </div>
+          <div class="hilen-payment-portfolio-tile">
+            <div class="hilen-payment-portfolio-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M2.5 21v-2a6.5 6.5 0 0 1 13 0v2M17 8a3 3 0 0 1 0 6m2.5 7v-2a5 5 0 0 0-3.2-4.66"/></svg><span>Clientes que deben</span></div>
+            <strong id="hilenPortfolioDebtors">0</strong><small>Clientes con saldo pendiente hoy</small>
+          </div>
+          <div class="hilen-payment-portfolio-tile">
+            <div class="hilen-payment-portfolio-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 7h8M8 11h8M9 16l2 2 4-4"/></svg><span>Abonos realizados</span></div>
+            <strong id="hilenPortfolioPaymentsCount">0</strong><small>Abonos individuales registrados en el período</small>
+          </div>
+        </div>
+        <div class="hilen-payment-portfolio-footer"><button type="button" class="hilen-payment-portfolio-link" onclick="hilenShowDebtors()">Ver clientes que deben dinero <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div>
+      </div>
+
       <div class="payments-layout-pro">
         <div class="card payment-register-card">
           <div class="pro-card-head"><span class="pro-icon gold"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 10.5c.4-1.8 4.5-1.8 5 0 .5 2-5 1.5-5 4 0 2 4.4 2.1 5 0"/></svg></span><div><h2>Registrar abono</h2><p>Completa la información para registrar un nuevo abono.</p></div></div>
@@ -4341,7 +4404,33 @@ function hilenShowDebtors(){
   $('modalContent').innerHTML=`<h2 style="margin-top:0">Clientes con saldo pendiente</h2><p class="muted">Información actual de Clientes. El aviso aparece si transcurre más de un mes sin un abono en una deuda activa.</p><div class="hilen-debt-card" style="margin:16px 0"><div><div class="stat-label">Total por cobrar</div><div class="amount">${money(snapshot.total)}</div><div class="meta">${snapshot.debtors.length} con deuda · ${snapshot.late.length} requieren seguimiento</div></div></div><div class="hilen-zoom-toolbar"><div><div class="hilen-zoom-caption">Detalle de deudores</div><div class="hilen-zoom-hint">Ajusta el tamaño de la tabla para leer los saldos.</div></div>${hilenReadingZoomControls('debt')}</div><div id="hilenDebtZoomArea" style="--hilen-debt-zoom:${hilenReadingZoom.debt/100}"><div class="table-wrap"><table class="table hilen-debtors-modal-table"><thead><tr><th>#</th><th>Cliente</th><th>Saldo pendiente</th><th>Último abono</th><th></th></tr></thead><tbody>${rows||'<tr><td colspan="5">No hay clientes con deuda pendiente.</td></tr>'}</tbody></table></div></div><div class="row-actions" style="justify-content:flex-end;margin-top:15px"><button type="button" class="secondary" onclick="closeModal()">Cerrar</button></div>`;
   $('modal').classList.remove('hidden');
 }
+/* Tarjetas de cartera en Abonos. Globales: no se reducen al buscar un cliente. */
+function hilenRenderPaymentPortfolio(){
+  if(!$('hilenPortfolioOutstanding'))return;
+  const [start,end]=paymentPeriodRange(),snapshot=hilenClientCollectionSnapshot();
+  const detail=(db.payments||[]).filter(p=>p.date>=start&&p.date<=end);
+  let historical=0;
+  if(paymentPeriodMode==='month'){
+    const month=monthlyEffectiveTotal(start.slice(0,7),'payments');
+    if(month.useHistorical)historical=Number(month.total)||0;
+  }else if(paymentPeriodMode==='year'){
+    historical=Number(yearlyEffectiveTotal(start.slice(0,4),'payments').historical)||0;
+  }
+  // Cuando hay totales mensuales históricos con detalle individual, la fuente
+  // histórica ya excluye los meses solapados para no duplicar sus valores.
+  const collected=detail.reduce((sum,p)=>sum+(Number(p.amount)||0),0)+historical;
+  const monthLabel=new Intl.DateTimeFormat('es-CO',{month:'long',year:'numeric'}).format(new Date(start.slice(0,7)+'-01T12:00:00'));
+  const periodLabel=paymentPeriodMode==='day'?hilenInvoiceDate(start):paymentPeriodMode==='month'?monthLabel:start.slice(0,4);
+  $('hilenPaymentPortfolioPeriod').textContent=paymentPeriodMode==='day'?'Día · '+periodLabel:paymentPeriodMode==='month'?'Mes · '+periodLabel:'Año · '+periodLabel;
+  $('hilenPortfolioOutstanding').textContent=money(snapshot.total);
+  $('hilenPortfolioReceived').textContent=money(collected);
+  $('hilenPortfolioDebtors').textContent=String(snapshot.debtors.length);
+  $('hilenPortfolioPaymentsCount').textContent=String(detail.length);
+  $('hilenPortfolioReceivedLabel').textContent='Abonos recibidos · '+periodLabel;
+  $('hilenPortfolioReceivedNote').textContent=historical>0?'Incluye totales históricos sin abonos individuales; estos no suman al contador.':'Valor recibido en el período elegido, de todos los clientes.';
+}
 function renderPayments(){
+  hilenRenderPaymentPortfolio();
   const [a,z]=paymentPeriodRange(),q=normalizeClientSearchText($('paymentSearch')?.value||'');
   let rows=[...db.payments].filter(p=>String(p.date||'')>=a&&String(p.date||'')<=z&&clientSearchMatches({name:clientNameById(p.clientId),phone:(db.clients||[]).find(c=>c.id===p.clientId)?.phone||''},q)).sort((x,y)=>String(y.date||'').localeCompare(String(x.date||''))||String(y.time||'').localeCompare(String(x.time||'')));
   let historicalTotal=0,overlapCount=0;
@@ -5605,6 +5694,104 @@ window.addEventListener('focus',()=>{
     if($('home')?.classList.contains('active'))hilenRenderHomeAnnual();
   }
 });
+
+
+/* ===== Zoom para tablas y ficha individual de clientes =====
+   Los porcentajes se guardan solo en memoria de esta pestaña.
+   El zoom se aplica a la lectura visual, nunca a los registros. */
+const hilenTableZoomLevels=Object.create(null);
+const hilenTableZoomDefinitions=[
+  {id:'customersTable',key:'clientes',label:'Tabla de clientes'},
+  {id:'paymentsTable',key:'abonos',label:'Tabla de abonos'},
+  {id:'cashflowTable',key:'caja',label:'Tabla de flujo de caja'},
+  {id:'encargosTable',key:'encargos',label:'Tabla de encargos'}
+];
+function hilenZoomToolbar(key,label){
+  const level=hilenTableZoomLevels[key]||100;
+  const safeKey=key.replace(/[^a-z0-9_-]/gi,'_');
+  return `<div class="hilen-global-zoom-toolbar" data-hilen-zoom-toolbar="${safeKey}" aria-label="Ampliar o reducir ${label}"><span class="hilen-global-zoom-title">${label} · tamaño de lectura</span><div class="hilen-global-zoom-actions"><button type="button" title="Reducir letras" aria-label="Reducir letras" onclick="hilenChangeTableZoom('${key}',-10)" ${level<=80?'disabled':''}>A−</button><output aria-live="polite">${level} %</output><button type="button" title="Ampliar letras" aria-label="Ampliar letras" onclick="hilenChangeTableZoom('${key}',10)" ${level>=160?'disabled':''}>A+</button><button type="button" title="Tamaño original" onclick="hilenChangeTableZoom('${key}',0,true)">100 %</button></div></div>`;
+}
+function hilenZoomTargetForKey(key){
+  if(key==='ficha-cliente')return $('customerPrintArea');
+  return [...document.querySelectorAll('[data-hilen-zoom-key]')].find(x=>x.dataset.hilenZoomKey===key)||null;
+}
+function hilenApplyTableZoom(key){
+  const target=hilenZoomTargetForKey(key);if(!target)return;
+  const level=hilenTableZoomLevels[key]||100;
+  if(key==='ficha-cliente')target.style.zoom=String(level/100);
+  else{const table=target.querySelector('table');if(table)table.style.zoom=String(level/100);}
+  const bar=key==='ficha-cliente'?$('hilenClientZoomToolbar'):target.previousElementSibling;
+  if(bar?.classList.contains('hilen-global-zoom-toolbar')){
+    const value=bar.querySelector('output');if(value)value.textContent=level+' %';
+    const buttons=bar.querySelectorAll('button');
+    if(buttons[0])buttons[0].disabled=level<=80;
+    if(buttons[1])buttons[1].disabled=level>=160;
+  }
+}
+function hilenChangeTableZoom(key,step=0,reset=false){
+  const previous=hilenTableZoomLevels[key]||100;
+  hilenTableZoomLevels[key]=reset?100:Math.min(160,Math.max(80,previous+Number(step||0)));
+  hilenApplyTableZoom(key);
+}
+function hilenEnsureZoomAtWrapper(wrapper,key,label){
+  if(!wrapper||!wrapper.querySelector('table'))return;
+  wrapper.classList.add('hilen-global-zoom-area');
+  wrapper.dataset.hilenZoomKey=key;
+  const previous=wrapper.previousElementSibling;
+  if(!previous?.classList.contains('hilen-global-zoom-toolbar')){
+    wrapper.insertAdjacentHTML('beforebegin',hilenZoomToolbar(key,label));
+  }
+  hilenApplyTableZoom(key);
+}
+function hilenAttachTableZooms(){
+  hilenTableZoomDefinitions.forEach(d=>{
+    const region=$(d.id);if(region){
+      const wrapper=region.querySelector('.table-wrap');
+      if(wrapper)hilenEnsureZoomAtWrapper(wrapper,d.key,d.label);
+    }
+  });
+  // Historial anual: cada tabla mantiene su propio zoom y conserva su tamaño al cambiar el año.
+  const history=$('history');
+  if(history){
+    const areas=[
+      ['historyRecurrentCreditPayments','Clientes recurrentes a crédito'],
+      ['historyCarriedDebts','Deudas de años anteriores'],
+      ['historyAnnualPayments','Historial de abonos del año'],
+      ['historyMonthTable','Resumen de los meses'],
+      ['historyYearsTable','Comparación entre años'],
+      ['historyClientsTable','Historial de clientes']
+    ];
+    areas.forEach(([id,label])=>{
+      const root=$(id);if(!root||!history.contains(root))return;
+      const wrappers=root.querySelectorAll('.table-wrap');
+      wrappers.forEach((wrapper,index)=>hilenEnsureZoomAtWrapper(wrapper,'historial-'+id+(index?'-'+index:''),label));
+    });
+  }
+  // Ficha detallada: un solo zoom amplía todos los títulos, importes, botones y tablas.
+  const content=$('modalContent'),client=content?.querySelector('#customerPrintArea');
+  if(client){
+    client.classList.add('hilen-customer-zoom-target');
+    if(!$('hilenClientZoomToolbar')){
+      client.insertAdjacentHTML('beforebegin',hilenZoomToolbar('ficha-cliente','Ficha completa del cliente'));
+      const bar=client.previousElementSibling;if(bar)bar.id='hilenClientZoomToolbar';
+      if(bar)bar.classList.add('hilen-client-zoom-toolbar');
+    }
+    hilenApplyTableZoom('ficha-cliente');
+  }
+}
+function hilenInstallAllTableZoom(){
+  hilenAttachTableZooms();
+  // Los filtros reconstruyen las tablas; reinstalar el control en la tabla nueva.
+  // No se observan atributos ni contenido textual, para evitar ciclos de actualización.
+  let scheduled=false;
+  const observer=new MutationObserver(records=>{
+    if(!records.some(record=>!record.target.closest?.('.hilen-global-zoom-toolbar'))||scheduled)return;
+    scheduled=true;
+    requestAnimationFrame(()=>{scheduled=false;hilenAttachTableZooms()});
+  });
+  observer.observe(document.body,{childList:true,subtree:true});
+}
+hilenInstallAllTableZoom();
 
 bootstrapApp();
 </script>
