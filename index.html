@@ -2484,20 +2484,6 @@ input,select,textarea,button{max-width:100%}
 .hilen-invoice-summary .hilen-readonly-discount{background:#fbfcfe}
 @media(max-width:1100px){#newSale .sale-total-bar{grid-template-columns:repeat(2,minmax(0,1fr))!important}#newSale .save-sale-btn{grid-column:1/-1}}
 @media(max-width:650px){#newSale .sale-total-bar{grid-template-columns:1fr!important}#newSale .save-sale-btn{grid-column:auto}#newSale .product-headings,#newSale .product-row{min-width:530px!important}#editSaleProducts .edit-sale-grid{min-width:520px!important}}
-
-/* Registro de venta: descuento único en COP, colocado visiblemente debajo de Productos. */
-#newSale .sale-products-card .hilen-whole-sale-discount{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:17px;padding:17px 18px;background:#fcfaf5;border:1px solid #ecdcbf;border-radius:15px}
-#newSale .hilen-whole-sale-discount .hilen-sale-discount-info{min-width:0;flex:1}
-#newSale .hilen-whole-sale-discount label{font-size:13px;font-weight:850;margin-bottom:6px;color:#13213b}
-#newSale .hilen-whole-sale-discount small{font-size:11px;line-height:1.45;color:#68768e}
-#newSale .hilen-sale-discount-money{position:relative;flex:0 1 245px;min-width:160px}
-#newSale .hilen-sale-discount-money>span{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#b58020;font-size:18px;font-weight:850;pointer-events:none;z-index:1}
-#newSale .hilen-sale-discount-money .input{width:100%;padding-left:34px!important;font-size:16px!important;font-weight:800;min-height:48px;background:#fff}
-#newSale .sale-total-bar{grid-template-columns:minmax(180px,1.1fr) minmax(200px,.75fr) auto!important}
-#newSale .sale-total-value small{margin:3px 0;font-size:11px}
-#newSale .sale-total-value span{margin-top:5px}
-@media(max-width:1100px){#newSale .sale-total-bar{grid-template-columns:repeat(2,minmax(0,1fr))!important}#newSale .save-sale-btn{grid-column:1/-1}}
-@media(max-width:650px){#newSale .sale-products-card .hilen-whole-sale-discount{flex-direction:column;align-items:stretch;gap:12px}#newSale .hilen-sale-discount-money{flex:0 0 auto;width:100%}#newSale .sale-total-bar{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body>
@@ -2715,15 +2701,12 @@ input,select,textarea,button{max-width:100%}
           <div class="product-headings"><span>Producto</span><span>Cantidad</span><span>Precio unitario</span><span>Subtotal</span><span></span></div>
           <div id="products"></div>
           <button class="secondary add-product-btn" onclick="addProduct()">＋ Agregar producto</button>
-          <div class="hilen-whole-sale-discount">
-            <div class="hilen-sale-discount-info"><label for="saleDiscountTotal">Descuento de la compra (en pesos)</label><small>Opcional. Escribe manualmente cuánto le descuentas al cliente del total de los productos.</small></div>
-            <div class="hilen-sale-discount-money"><span aria-hidden="true">$</span><input id="saleDiscountTotal" class="input money-input" type="text" inputmode="numeric" placeholder="Ej. 10.000" autocomplete="off" aria-label="Descuento en pesos para toda la compra" oninput="formatMoneyField(this);calcTotal()"></div>
-          </div>
         </div>
 
         <div class="sale-total-bar">
-          <div class="sale-total-info"><span class="pro-icon neutral"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M16 15h0"/></svg></span><div><b>Resumen de la venta</b><small>Los descuentos se aplican una sola vez al total.</small></div></div>
-          <div class="sale-total-value"><small id="saleBeforeDiscount">Total de productos: $0</small><small id="saleDiscountApplied">Descuento: $0</small><span>Total a pagar</span><strong id="saleTotal">$0</strong></div>
+          <div class="sale-total-info"><span class="pro-icon neutral"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M16 15h0"/></svg></span><div><b>Total de la venta</b><small>Suma de todos los productos agregados.</small></div></div>
+          <div class="hilen-whole-sale-discount"><label for="saleDiscountTotal">Descuento de toda la compra</label><input id="saleDiscountTotal" class="input money-input" type="text" inputmode="numeric" placeholder="0" autocomplete="off" oninput="formatMoneyField(this);calcTotal()"><small>Opcional · Se descuenta una sola vez del total.</small></div>
+          <div class="sale-total-value"><span>Total a pagar</span><strong id="saleTotal">$0</strong><small id="saleBeforeDiscount">Antes del descuento: $0</small></div>
           <button class="primary save-sale-btn" onclick="saveSale()">▣&nbsp;&nbsp; Guardar venta</button>
         </div>
       </div>
@@ -3443,7 +3426,7 @@ function hilenSaleGrossTotal(s){const items=s?.items||[];return items.length?ite
 function hilenSaleTotalDiscount(s){return hilenSaleDiscountTotal(s)+hilenSaleManualDiscount(s)}
 function hilenValidateItemDiscounts(items){return items.every(i=>Number.isFinite(i.discount)&&i.discount>=0&&i.discount<=i.price)}
 function addProduct(){const div=document.createElement('div');div.className='product-row';div.innerHTML=`<input class="input pname" placeholder="Producto"><input class="input pqty" type="number" min="1" value="1" oninput="calcTotal()"><input class="input pprice money-input" type="text" inputmode="numeric" placeholder="Precio" oninput="formatMoneyField(this);calcTotal()"><div class="ptotal">$0</div><button class="secondary" title="Eliminar" onclick="this.parentElement.remove();calcTotal()">×</button>`;$('products').appendChild(div);div.querySelector('.pname').addEventListener('input',calcTotal);calcTotal()}
-function calcTotal(){let gross=0;document.querySelectorAll('.product-row').forEach(r=>{const q=+r.querySelector('.pqty').value||0,p=parseMoneyInput(r.querySelector('.pprice').value),v=q*p;gross+=v;r.querySelector('.ptotal').textContent=money(v)});const discount=parseMoneyInput($('saleDiscountTotal')?.value||'');const valid=discount<=gross;const net=Math.max(0,gross-discount);if($('saleBeforeDiscount'))$('saleBeforeDiscount').textContent='Total de productos: '+money(gross);if($('saleDiscountApplied'))$('saleDiscountApplied').textContent='Descuento: '+money(discount);if($('saleTotal'))$('saleTotal').textContent=valid?money(net):'Descuento supera total';$('saleDiscountTotal')?.classList.toggle('hilen-discount-invalid',!valid);return net}
+function calcTotal(){let gross=0;document.querySelectorAll('.product-row').forEach(r=>{const q=+r.querySelector('.pqty').value||0,p=parseMoneyInput(r.querySelector('.pprice').value),v=q*p;gross+=v;r.querySelector('.ptotal').textContent=money(v)});const discount=parseMoneyInput($('saleDiscountTotal')?.value||'');const valid=discount<=gross;const net=Math.max(0,gross-discount);if($('saleBeforeDiscount'))$('saleBeforeDiscount').textContent='Antes del descuento: '+money(gross);if($('saleTotal'))$('saleTotal').textContent=valid?money(net):'Descuento supera total';$('saleDiscountTotal')?.classList.toggle('hilen-discount-invalid',!valid);return net}
 function refreshAfterChange(){
   syncDataRelations();
   [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
