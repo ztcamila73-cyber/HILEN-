@@ -2502,6 +2502,66 @@ input,select,textarea,button{max-width:100%}
 .hilen-payment-summary-note{color:#6e7a90;font-size:11px;margin:7px 0}
 .hilen-debtors-modal-table{min-width:480px}
 @media(max-width:1050px){#newSale .product-headings,#newSale .product-row{min-width:730px!important}#editSaleProducts .edit-sale-grid{min-width:710px!important}}
+
+/* Zoom de lectura: solamente tablas, sin cambiar datos, importes ni PDFs. */
+.hilen-zoom-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:16px 0 11px}
+.hilen-zoom-toolbar .hilen-zoom-caption{font-size:13px;font-weight:800;color:#293a56}
+.hilen-zoom-toolbar .hilen-zoom-hint{font-size:11px;color:#718096;margin-top:2px}
+.hilen-zoom-controls{display:inline-flex;align-items:center;gap:5px;padding:5px;background:#f1f5fa;border:1px solid #e0e8f1;border-radius:14px}
+.hilen-zoom-controls button{border:1px solid transparent;background:#fff;color:#17213a;font-weight:850;border-radius:9px;height:36px;min-width:39px;padding:6px 10px;box-shadow:0 1px 3px #0e213314}
+.hilen-zoom-controls button:hover:not(:disabled){background:#e8f0ff;border-color:#bfd4f9}
+.hilen-zoom-controls button:disabled{opacity:.4;cursor:default}
+.hilen-zoom-controls .hilen-zoom-reset{min-width:auto;font-size:11px;background:transparent;box-shadow:none;color:#40649d}
+.hilen-zoom-controls .hilen-zoom-percent{font-weight:850;min-width:49px;text-align:center;font-size:12px;color:#17213a;font-variant-numeric:tabular-nums}
+/* La cartera en Ventas se distingue de las tarjetas de otras secciones. */
+#day .hilen-sales-debt-highlight{background:linear-gradient(120deg,#eaf3ff 0%,#f5f9ff 70%,#fff 100%)!important;border:1px solid #bfd7fb!important;border-left:5px solid #3e75d7!important;box-shadow:0 8px 22px rgba(46,103,194,.07)}
+#day .hilen-sales-debt-highlight .stat-label{color:#315994!important;font-weight:800}
+#day .hilen-sales-debt-highlight .amount{color:#164ba2!important}
+#day .hilen-sales-debt-highlight .meta{color:#526c90!important}
+#day .hilen-sales-debt-highlight .secondary{background:#fff!important;border-color:#b4ccef!important;color:#1e4f94!important}
+/* Zoom de texto real, con desplazamiento horizontal cuando la tabla crece. */
+#hilenSalesZoomArea{--hilen-sales-zoom:1}
+#hilenSalesZoomArea.table-wrap{overflow-x:auto!important;max-width:100%}
+#hilenSalesZoomArea .table{min-width:calc(790px * var(--hilen-sales-zoom))!important;table-layout:auto!important;width:100%}
+#hilenSalesZoomArea .table th,#hilenSalesZoomArea .table td{font-size:calc(12.5px * var(--hilen-sales-zoom))!important;line-height:1.4!important;padding:calc(10px * var(--hilen-sales-zoom)) calc(9px * var(--hilen-sales-zoom))!important;overflow-wrap:normal!important}
+#hilenSalesZoomArea .table th{font-size:calc(11px * var(--hilen-sales-zoom))!important}
+#hilenSalesZoomArea .small{font-size:calc(11px * var(--hilen-sales-zoom))!important}
+#hilenSalesZoomArea .badge{font-size:calc(11px * var(--hilen-sales-zoom))!important}
+#hilenSalesZoomArea .action-mini{font-size:calc(11px * var(--hilen-sales-zoom))!important;padding:calc(6px * var(--hilen-sales-zoom)) calc(8px * var(--hilen-sales-zoom))!important}
+#hilenSalesZoomArea .action-group{flex-wrap:nowrap!important}
+#hilenDebtZoomArea{--hilen-debt-zoom:1}
+#hilenDebtZoomArea .hilen-debtors-modal-table th,#hilenDebtZoomArea .hilen-debtors-modal-table td{font-size:calc(14px * var(--hilen-debt-zoom))!important;line-height:1.4!important;padding:calc(12px * var(--hilen-debt-zoom))!important}
+#hilenDebtZoomArea .hilen-debtors-modal-table th{font-size:calc(12px * var(--hilen-debt-zoom))!important}
+#hilenDebtZoomArea .hilen-debtors-modal-table{min-width:calc(470px * var(--hilen-debt-zoom))!important}
+#hilenDebtZoomArea .table-wrap{max-width:100%;overflow-x:auto}
+@media(max-width:600px){.hilen-zoom-toolbar{align-items:flex-start}.hilen-zoom-controls{width:100%;justify-content:center}#day .hilen-sales-debt-highlight{padding:14px}}
+
+
+/* HILEN · resumen de ventas al inicio y filtros de lista independientes. */
+#day .hilen-sales-overview-card{background:linear-gradient(135deg,#fff 0%,#fbfcff 100%);border:1px solid #e1e7ef}
+#day .hilen-sales-overview{margin-top:14px}
+#day .hilen-sales-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px;margin:14px 0 13px!important}
+#day .hilen-sales-kpis .hilen-period-stat{box-shadow:none;border:1px solid #e3e9f2;background:#fff;display:flex;gap:12px;align-items:flex-start;padding:17px;min-width:0;border-radius:16px}
+#day .hilen-sales-kpis .hilen-period-stat .stat-wrap{min-width:0}
+#day .hilen-sales-kpis .stat{font-size:clamp(20px,2vw,27px);white-space:normal;overflow-wrap:anywhere;font-weight:850}
+#day .hilen-sales-kpi-total{border-left:4px solid #1b976a!important}
+#day .hilen-sales-kpi-paid{border-left:4px solid #3c75cf!important}
+#day .hilen-sales-kpi-credit{border-left:4px solid #d49a37!important}
+#day .hilen-sales-kpi-note{font-size:11px;line-height:1.35;color:#75819a;margin-top:5px}
+#day .hilen-sales-list-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+#day .hilen-sales-list-heading>div:first-child{min-width:0}
+#day .hilen-sales-type-filter{display:inline-flex;align-items:center;gap:4px;background:#f1f4f8;padding:5px;border-radius:13px;border:1px solid #e1e7f0}
+#day .hilen-sales-type-filter button{border:1px solid transparent;background:transparent;color:#52637d;border-radius:10px;font-size:13px;font-weight:780;padding:10px 15px;min-height:38px;white-space:nowrap}
+#day .hilen-sales-type-filter button.active{background:#152440;color:#fff;box-shadow:0 3px 9px #18274321}
+#day .hilen-sales-type-filter button:focus-visible{outline:3px solid #8bb5fb;outline-offset:2px}
+#day .hilen-sales-table-subbar{display:flex;align-items:end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:14px 0 6px}
+#day .hilen-sales-table-subbar .sales-client-search{width:min(340px,100%);min-width:0}
+#day .hilen-sales-table-subbar .sales-client-search .input{margin:4px 0 0}
+#day .hilen-sales-visible-count{font-size:12px;color:#54627c;line-height:1.3;text-align:right;padding:7px 0;overflow-wrap:anywhere}
+#day .hilen-sales-visible-count b{color:#142442}
+#day .sales-summary-card .sales-section-heading{margin-bottom:8px}
+@media(max-width:1050px){#day .hilen-sales-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}#day .hilen-sales-kpi-total{grid-column:1/-1}}
+@media(max-width:620px){#day .hilen-sales-kpis{grid-template-columns:1fr!important}#day .hilen-sales-kpi-total{grid-column:auto}#day .hilen-sales-type-filter{width:100%;justify-content:space-between}#day .hilen-sales-type-filter button{flex:1;padding:10px 7px}#day .hilen-sales-table-subbar .sales-client-search{width:100%}#day .hilen-sales-visible-count{text-align:left}}
 </style>
 </head>
 <body>
@@ -2658,9 +2718,9 @@ input,select,textarea,button{max-width:100%}
     </section>
 
     <section id="day" class="section hilen-view hilen-sales">
-      <div class="card sales-toolbar-card">
+      <div class="card sales-toolbar-card hilen-sales-overview-card">
         <div class="sales-filterbar">
-          <div class="sales-filter-copy"><h2>Movimientos de ventas</h2><div class="muted small">Selecciona un período para ver la información.</div></div>
+          <div class="sales-filter-copy"><h2>Resumen de ventas</h2><div class="muted small">Total vendido, ventas de contado y a crédito del período.</div></div>
           <div class="segmented sales-tabs" id="salesPeriodTabs" aria-label="Periodo de ventas">
             <button class="active" data-period="day" onclick="setSalesPeriod('day',this)">Día</button>
             <button data-period="month" onclick="setSalesPeriod('month',this)">Mes</button>
@@ -2671,12 +2731,23 @@ input,select,textarea,button{max-width:100%}
           <div id="salesDayWrap"><label class="label">Día</label><input id="dayDate" class="input" type="date" onchange="renderSalesView()"></div>
           <div id="salesMonthWrap" class="hidden"><label class="label">Mes</label><input id="salesMonth" class="input" type="month" onchange="renderSalesView()"></div>
           <div id="salesYearWrap" class="hidden"><label class="label">Año</label><input id="salesYear" class="input" type="number" min="2000" max="2100" onchange="renderSalesView()"></div>
-          <div class="sales-client-search"><label class="label" for="salesClientSearch">Buscar cliente</label><input id="salesClientSearch" class="input" placeholder="Inicio del nombre (ej. N)" oninput="renderSalesView()" autocomplete="off"></div>
         </div>
+        <div id="hilenSalesOverview" class="hilen-sales-overview" aria-live="polite"></div>
       </div>
 
       <div class="card sales-summary-card">
-        <div class="sales-section-heading"><h2 id="dayTitle">Ventas</h2><div class="muted small">Resumen general de ventas en el período seleccionado.</div></div>
+        <div class="sales-section-heading hilen-sales-list-heading">
+          <div><h2 id="dayTitle">Detalle de ventas</h2><div class="muted small">Consulta las ventas registradas individualmente en el período.</div></div>
+          <div class="hilen-sales-type-filter" role="group" aria-label="Filtrar las ventas de la tabla">
+            <button type="button" class="active" data-sales-type="all" aria-pressed="true" onclick="hilenSetSalesTypeFilter('all')">Todas</button>
+            <button type="button" data-sales-type="paid" aria-pressed="false" onclick="hilenSetSalesTypeFilter('paid')">Contado</button>
+            <button type="button" data-sales-type="credit" aria-pressed="false" onclick="hilenSetSalesTypeFilter('credit')">Crédito</button>
+          </div>
+        </div>
+        <div class="hilen-sales-table-subbar">
+          <div class="sales-client-search"><label class="label" for="salesClientSearch">Buscar cliente</label><input id="salesClientSearch" class="input" placeholder="Inicio del nombre (ej. N)" oninput="renderSalesView()" autocomplete="off"></div>
+          <div class="hilen-sales-visible-count" id="hilenSalesVisibleCount" role="status"></div>
+        </div>
         <div id="dayTable"></div>
       </div>
 
@@ -3624,6 +3695,12 @@ async function savePayment(){
 }
 
 let salesPeriod='day';
+let hilenSalesTypeFilter='all';
+function hilenSetSalesTypeFilter(type){
+  if(!['all','paid','credit'].includes(type))return;
+  hilenSalesTypeFilter=type;
+  renderSalesView();
+}
 function setSalesPeriod(period,btn){salesPeriod=period;document.querySelectorAll('#salesPeriodTabs button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');$('salesDayWrap').classList.toggle('hidden',period!=='day');$('salesMonthWrap').classList.toggle('hidden',period!=='month');$('salesYearWrap').classList.toggle('hidden',period!=='year');renderSalesView()}
 
 // Integración de totales históricos con los informes. Nunca crea movimientos ni deudas.
@@ -3660,6 +3737,24 @@ function historicalSummaryNotice(label,total,overlap=false){
   return `<div class="notice blue" style="margin:12px 0"><b>${esc(label)}:</b> ${money(total)}. Es un total histórico sin movimientos individuales, clientes ni métodos de pago desglosados.${overlap?' Los meses con movimientos detallados usan únicamente esos movimientos para evitar duplicados.':''}</div>`;
 }
 
+/* Estado visual independiente de Firebase. Conserva el nivel de lectura al cambiar los filtros. */
+const hilenReadingZoom={sales:100,debt:100};
+function hilenReadingZoomControls(scope){
+  const name=scope==='sales'?'Ventas':'Deudores';
+  const level=hilenReadingZoom[scope]||100;
+  return `<div class="hilen-zoom-controls" role="group" aria-label="Tamaño de letra: ${name}"><button type="button" onclick="hilenAdjustReadingZoom('${scope}',-10)" ${level<=80?'disabled':''} title="Disminuir tamaño de letra" aria-label="Disminuir tamaño de letra">A−</button><span id="hilenZoomPercent_${scope}" class="hilen-zoom-percent" aria-live="polite">${level}%</span><button type="button" onclick="hilenAdjustReadingZoom('${scope}',10)" ${level>=160?'disabled':''} title="Aumentar tamaño de letra" aria-label="Aumentar tamaño de letra">A+</button><button type="button" class="hilen-zoom-reset" onclick="hilenResetReadingZoom('${scope}')" title="Restablecer tamaño">100 %</button></div>`;
+}
+function hilenAdjustReadingZoom(scope,change){
+  if(scope!=='sales'&&scope!=='debt')return;
+  const level=Math.max(80,Math.min(160,(hilenReadingZoom[scope]||100)+change));
+  hilenReadingZoom[scope]=level;
+  const area=$(scope==='sales'?'hilenSalesZoomArea':'hilenDebtZoomArea');
+  if(area)area.style.setProperty(scope==='sales'?'--hilen-sales-zoom':'--hilen-debt-zoom',String(level/100));
+  const controls=area?.parentElement?.querySelector('.hilen-zoom-controls')||$('hilenZoomPercent_'+scope)?.parentElement;
+  const percent=$('hilenZoomPercent_'+scope);if(percent)percent.textContent=level+'%';
+  if(controls){const buttons=controls.querySelectorAll('button');if(buttons[0])buttons[0].disabled=level<=80;if(buttons[1])buttons[1].disabled=level>=160;}
+}
+function hilenResetReadingZoom(scope){if(scope==='sales'||scope==='debt'){hilenReadingZoom[scope]=100;hilenAdjustReadingZoom(scope,0)}}
 function renderSalesView(){
   let rows=[...db.sales],label='Ventas',historicalTotal=0,overlapCount=0,selectedMonth='';
   if(salesPeriod==='day'){const d=$('dayDate').value||today();rows=rows.filter(s=>s.date===d);label='Ventas del '+normalizeDateLabel(d)}
@@ -3680,12 +3775,29 @@ function renderSalesView(){
   const total=rows.reduce((a,s)=>a+hilenSaleNetTotal(s),0)+historicalTotal,paid=rows.filter(s=>s.type==='paid').reduce((a,s)=>a+hilenSaleNetTotal(s),0),credit=rows.filter(s=>s.type==='credit').reduce((a,s)=>a+hilenSaleNetTotal(s),0);
   const paidCount=rows.filter(s=>s.type==='paid').length,creditCount=rows.filter(s=>s.type==='credit').length;
   const debtors=hilenDebtorsSnapshot();
-  const summary=`<div class="period-summary"><div class="card hilen-period-stat"><span class="sales-kpi-icon green">$</span><div class="stat-wrap"><div class="stat-label">Total vendido</div><div class="stat">${money(total)}</div><div class="hilen-sale-count">${historicalTotal?'Incluye totales históricos sin desglose':'Ventas registradas individualmente'}</div></div></div><div class="card hilen-period-stat"><span class="sales-kpi-icon blue">▣</span><div class="stat-wrap"><div class="stat-label">Ventas de contado</div><div class="stat">${money(paid)}</div><div class="hilen-sale-count"><b>${paidCount}</b> ${paidCount===1?'venta':'ventas'} de contado</div></div></div><div class="card hilen-period-stat"><span class="sales-kpi-icon gold">▤</span><div class="stat-wrap"><div class="stat-label">Ventas a crédito</div><div class="stat">${money(credit)}</div><div class="hilen-sale-count"><b>${creditCount}</b> ${creditCount===1?'venta':'ventas'} a crédito</div></div></div><div class="card hilen-period-stat"><span class="sales-kpi-icon purple">▥</span><div class="stat-wrap"><div class="stat-label">Cantidad de ventas</div><div class="stat">${rows.length}</div><div class="hilen-sale-count">Contado: ${paidCount} · Crédito: ${creditCount}</div></div></div></div><div class="hilen-debt-card" style="margin:0 0 14px"><div><div class="stat-label">Pendiente por cobrar · saldo actual de todas las cuentas</div><div class="amount">${money(debtors.total)}</div><div class="meta">${debtors.rows.length} clientes con deuda · No depende del período seleccionado</div></div><button type="button" class="secondary" onclick="hilenShowDebtors()">Ver deudores</button></div>`;
-  const table=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${rows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(hilenSaleNetTotal(s))}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:`<div class="sales-empty-state"><div><div class="icon">📦</div><b>No hay ventas individuales en este período.</b><div class="muted">Los totales históricos se muestran arriba cuando existen; las ventas individuales aparecen aquí.</div></div></div>`;
+  // El filtro Contado/Crédito afecta exclusivamente a la TABLA, no a los totales del resumen.
+  const visibleRows=hilenSalesTypeFilter==='all'?rows:rows.filter(s=>s.type===hilenSalesTypeFilter);
+  const visibleAmount=visibleRows.reduce((n,s)=>n+hilenSaleNetTotal(s),0);
+  const typeLabel=hilenSalesTypeFilter==='paid'?'de contado':hilenSalesTypeFilter==='credit'?'a crédito':'en total';
+  document.querySelectorAll('#day .hilen-sales-type-filter [data-sales-type]').forEach(btn=>{
+    const active=btn.dataset.salesType===hilenSalesTypeFilter;
+    btn.classList.toggle('active',active);
+    btn.setAttribute('aria-pressed',String(active));
+  });
+  if($('hilenSalesVisibleCount'))$('hilenSalesVisibleCount').innerHTML=`<b>${visibleRows.length}</b> ${visibleRows.length===1?'venta':'ventas'} ${typeLabel} · <b>${money(visibleAmount)}</b>${hilenSalesTypeFilter==='all'?'':` <span class="muted small">(filtro de tabla)</span>`}`;
+  const infoHist=historicalTotal?`Incluye ${money(historicalTotal)} de meses históricos sin clasificación de contado/crédito.`:'';
+  const summary=`<div class="period-summary hilen-sales-kpis">
+    <div class="card hilen-period-stat hilen-sales-kpi-total"><span class="sales-kpi-icon green">$</span><div class="stat-wrap"><div class="stat-label">Total vendido</div><div class="stat">${money(total)}</div><div class="hilen-sale-count"><b>${rows.length}</b> ${rows.length===1?'venta registrada':'ventas registradas'} individualmente</div>${infoHist?`<div class="hilen-sales-kpi-note">${infoHist}</div>`:''}</div></div>
+    <div class="card hilen-period-stat hilen-sales-kpi-paid"><span class="sales-kpi-icon blue">▣</span><div class="stat-wrap"><div class="stat-label">Ventas de contado</div><div class="stat">${money(paid)}</div><div class="hilen-sale-count"><b>${paidCount}</b> ${paidCount===1?'venta':'ventas'} de contado</div></div></div>
+    <div class="card hilen-period-stat hilen-sales-kpi-credit"><span class="sales-kpi-icon gold">▤</span><div class="stat-wrap"><div class="stat-label">Ventas a crédito</div><div class="stat">${money(credit)}</div><div class="hilen-sale-count"><b>${creditCount}</b> ${creditCount===1?'venta':'ventas'} a crédito</div></div></div>
+  </div><div class="hilen-debt-card hilen-sales-debt-highlight" style="margin:0"><div><div class="stat-label">Pendiente por cobrar · saldo actual de todas las cuentas</div><div class="amount">${money(debtors.total)}</div><div class="meta">${debtors.rows.length} clientes con deuda · No depende del período seleccionado</div></div><button type="button" class="secondary" onclick="hilenShowDebtors()">Ver deudores</button></div>`;
+  if($('hilenSalesOverview'))$('hilenSalesOverview').innerHTML=summary;
+  const table=visibleRows.length?`<div class="hilen-zoom-toolbar"><div><div class="hilen-zoom-caption">Tabla de ventas</div><div class="hilen-zoom-hint">Amplía o reduce las letras de esta tabla.</div></div>${hilenReadingZoomControls('sales')}</div><div id="hilenSalesZoomArea" class="table-wrap table-fit-wrap" style="--hilen-sales-zoom:${hilenReadingZoom.sales/100}"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${visibleRows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(hilenSaleNetTotal(s))}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:
+    `<div class="sales-empty-state"><div><b>${hilenSalesTypeFilter==='paid'?'No hay ventas de contado':hilenSalesTypeFilter==='credit'?'No hay ventas a crédito':'No hay ventas individuales'} en este período.</b><div class="muted">${hilenSalesTypeFilter==='all'?'Los totales históricos se muestran en el resumen cuando existen.':'Elige «Todas» o cambia el período para consultar otras ventas.'}</div></div></div>`;
   const note=historicalTotal>0?historicalSummaryNotice('Ventas históricas incluidas en el total',historicalTotal,overlapCount>0):'';
   const overlapNotice=overlapCount?`<div class="notice blue" style="margin:12px 0">${overlapCount} mes(es) contienen un total histórico y movimientos individuales. Se usan los movimientos detallados para no sumar dos veces.</div>`:'';
   const emptyNote=clientQuery?'<div class="small muted" style="margin:10px 0">La búsqueda por cliente muestra solo ventas individuales; los totales históricos no contienen nombres de clientes.</div>':historicalTotal>0&&!rows.length?'<div class="small muted" style="margin:10px 0">No existen ventas individuales para este período. El total histórico se muestra arriba.</div>':'';
-  $('dayTable').innerHTML=summary+note+overlapNotice+emptyNote+table;
+  $('dayTable').innerHTML=note+overlapNotice+emptyNote+table;
   renderSalesChart();
 }
 
@@ -4154,7 +4266,7 @@ function hilenDebtorsSnapshot(){
 function hilenShowDebtors(){
  const data=hilenDebtorsSnapshot();
  const rows=data.rows.map((x,i)=>`<tr><td>${i+1}</td><td><b>${esc(x.client.name||'Cliente')}</b></td><td><b>${money(x.balance)}</b></td></tr>`).join('');
- $('modalContent').innerHTML=`<h2 style="margin-top:0">Clientes con saldo pendiente</h2><p class="muted">Deudas actuales registradas por cliente. No incluye los totales mensuales históricos sin datos individuales.</p><div class="hilen-debt-card" style="margin:16px 0"><div><div class="stat-label">Total por cobrar</div><div class="amount">${money(data.total)}</div><div class="meta">${data.rows.length} clientes con deuda</div></div></div><div class="table-wrap"><table class="table hilen-debtors-modal-table"><thead><tr><th>#</th><th>Cliente</th><th>Saldo pendiente</th></tr></thead><tbody>${rows||'<tr><td colspan="3">No hay clientes con deuda pendiente.</td></tr>'}</tbody></table></div><div class="row-actions" style="justify-content:flex-end;margin-top:15px"><button class="secondary" onclick="closeModal()">Cerrar</button></div>`;
+ $('modalContent').innerHTML=`<h2 style="margin-top:0">Clientes con saldo pendiente</h2><p class="muted">Deudas actuales registradas por cliente. No incluye los totales mensuales históricos sin datos individuales.</p><div class="hilen-debt-card" style="margin:16px 0"><div><div class="stat-label">Total por cobrar</div><div class="amount">${money(data.total)}</div><div class="meta">${data.rows.length} clientes con deuda</div></div></div><div class="hilen-zoom-toolbar"><div><div class="hilen-zoom-caption">Detalle de deudores</div><div class="hilen-zoom-hint">Ajusta el tamaño de la tabla para leer los saldos.</div></div>${hilenReadingZoomControls('debt')}</div><div id="hilenDebtZoomArea" style="--hilen-debt-zoom:${hilenReadingZoom.debt/100}"><div class="table-wrap"><table class="table hilen-debtors-modal-table"><thead><tr><th>#</th><th>Cliente</th><th>Saldo pendiente</th></tr></thead><tbody>${rows||'<tr><td colspan="3">No hay clientes con deuda pendiente.</td></tr>'}</tbody></table></div></div><div class="row-actions" style="justify-content:flex-end;margin-top:15px"><button class="secondary" onclick="closeModal()">Cerrar</button></div>`;
  $('modal').classList.remove('hidden');
 }
 function renderPayments(){
