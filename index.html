@@ -2562,6 +2562,63 @@ input,select,textarea,button{max-width:100%}
 #day .sales-summary-card .sales-section-heading{margin-bottom:8px}
 @media(max-width:1050px){#day .hilen-sales-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}#day .hilen-sales-kpi-total{grid-column:1/-1}}
 @media(max-width:620px){#day .hilen-sales-kpis{grid-template-columns:1fr!important}#day .hilen-sales-kpi-total{grid-column:auto}#day .hilen-sales-type-filter{width:100%;justify-content:space-between}#day .hilen-sales-type-filter button{flex:1;padding:10px 7px}#day .hilen-sales-table-subbar .sales-client-search{width:100%}#day .hilen-sales-visible-count{text-align:left}}
+
+/* HILEN · Reportes anuales y alertas de cobro · octubre 2026 */
+#home .home-dashboard-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"quick" "annual"!important;gap:16px!important}
+#home .hilen-annual-main{grid-area:annual!important;min-width:0;padding:20px!important}
+#home .home-quick{grid-area:quick!important}
+.hilen-annual-eyebrow{font-size:10px;font-weight:900;letter-spacing:.13em;color:#ad760f}
+.hilen-annual-heading{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
+.hilen-annual-heading h2{font-size:22px!important;margin:3px 0 4px!important;color:#15203a;letter-spacing:-.5px}
+.hilen-annual-heading p{font-size:12px;color:#697792;margin:0;line-height:1.45}
+.hilen-annual-heading>.secondary{white-space:nowrap}
+.hilen-annual-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:17px}
+.hilen-annual-kpi{border:1px solid #e6eaf0;border-radius:14px;padding:14px;min-width:0;background:#fafbfe}
+.hilen-annual-kpi .label{font-size:11px;font-weight:700;color:#687691;margin:0 0 5px}
+.hilen-annual-kpi b{display:block;color:#14213b;font-size:clamp(17px,1.5vw,23px);letter-spacing:-.6px;overflow-wrap:anywhere}
+.hilen-annual-kpi small{display:block;margin-top:5px;color:#788399;font-size:10px;line-height:1.35}
+.hilen-annual-charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.hilen-annual-chart{border:1px solid #e5eaf2;border-radius:17px;background:#fff;padding:15px;min-width:0;overflow:hidden}
+.hilen-annual-chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px}
+.hilen-annual-chart h3{font-size:14px;margin:0 0 3px;color:#17223d}
+.hilen-annual-chart-sub{font-size:11px;color:#708099;line-height:1.4;margin:0}
+.hilen-annual-help{border:1px solid #dce4f1;border-radius:999px;background:#f4f7fc;color:#375684;width:29px;height:29px;flex-shrink:0;display:grid;place-items:center;font-size:13px;font-weight:900}
+.hilen-annual-help:hover{background:#e7efff}
+.hilen-annual-chart-scroll{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}
+.hilen-annual-bars{height:188px;min-width:450px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;align-items:end;padding:18px 1px 0;border-bottom:1px solid #e0e6ef}
+.hilen-annual-month{display:grid;grid-template-rows:150px 18px;align-items:end;gap:6px;text-align:center;min-width:0}
+.hilen-annual-pair{height:150px;display:flex;align-items:flex-end;justify-content:center;gap:3px;min-width:0}
+.hilen-annual-bar{width:10px;min-height:2px;border-radius:5px 5px 2px 2px;transition:opacity .15s}
+.hilen-annual-bar:hover{opacity:.73!important}
+.hilen-annual-bar.a{background:#356bd8}.hilen-annual-bar.b{background:#d99431}
+.hilen-annual-month-label{font-size:10px;font-weight:750;color:#68768d}
+.hilen-annual-legend{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:13px;font-size:11px;color:#54637c}
+.hilen-annual-legend>span{display:flex;align-items:center;gap:5px}
+.hilen-annual-legend-dot{width:9px;height:9px;border-radius:3px;display:inline-block}
+.hilen-annual-legend-dot.a{background:#356bd8}.hilen-annual-legend-dot.b{background:#d99431}
+.hilen-annual-notice{background:#edf3fc;border:1px solid #dce9fb;border-radius:13px;padding:12px 14px;font-size:11.5px;color:#335781;margin:12px 0 2px;line-height:1.5}
+.hilen-report-actions{display:flex;gap:8px;align-items:end;flex-wrap:wrap}
+.hilen-report-actions>label{font-size:12px;font-weight:800;align-self:center;color:#64708c}
+.hilen-report-actions>.input{width:125px;margin:0}.hilen-report-actions>.primary{white-space:nowrap}
+.hilen-report-saved-note{font-size:12px;color:#62748e;margin:0 0 14px}
+.hilen-report-saved-note button{border:1px solid #d8e1ef;border-radius:9px;background:#fff;padding:7px 10px;font-weight:750;font-size:11px;margin:0 5px;color:#25446c}
+.hilen-client-collections{padding:20px!important;margin-bottom:15px!important}
+.hilen-collection-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.hilen-collection-box{border:1px solid #e3e9f2;border-radius:14px;background:#fafbfd;padding:13px;min-width:0}
+.hilen-collection-box small{font-size:10.5px;color:#64728d;line-height:1.3;display:block}
+.hilen-collection-box b{font-size:21px;color:#14233d;display:block;margin-top:6px;overflow-wrap:anywhere}
+.hilen-collection-box.warn{background:#fff7ed;border-color:#f4d2a2}.hilen-collection-box.warn b{color:#aa610c}
+.hilen-collection-alerts{margin:12px 0}
+.hilen-collection-warning{border:1px solid #f3cb97;background:#fff7e9;border-radius:12px;padding:12px 14px;color:#855016;font-size:12px;line-height:1.5}
+.hilen-collection-filter{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.hilen-collection-filter button{background:#fff;border:1px solid #dce3ed;color:#52617b;padding:9px 12px;border-radius:999px;font-size:11px;font-weight:800}
+.hilen-collection-filter button.active{background:#19243d;color:#fff;border-color:#19243d}
+.hilen-client-alert-inline{display:inline-block;margin-top:4px;background:#fff0dd;color:#9e5e0c;padding:4px 7px;border-radius:8px;font-size:10px;font-weight:850;white-space:normal;line-height:1.3}
+.hilen-client-recent-inline{margin-top:4px;color:#5a7486;font-size:10px;line-height:1.3}
+.shell-bell{position:relative}.hilen-bell-count{position:absolute;top:-4px;right:-5px;display:flex;align-items:center;justify-content:center;border-radius:999px;min-width:17px;height:17px;padding:0 4px;background:#cf6814;color:#fff;font-size:9px;font-weight:900}
+@media(max-width:1050px){.hilen-annual-cards,.hilen-collection-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:750px){.hilen-annual-charts{grid-template-columns:1fr}.hilen-annual-heading{align-items:flex-start}.hilen-annual-charts .hilen-annual-bars{min-width:440px}}
+@media(max-width:550px){.hilen-annual-cards,.hilen-collection-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.hilen-client-collections{padding:14px!important}.hilen-annual-chart{padding:11px}#home .hilen-annual-main{padding:15px!important}.hilen-report-actions{width:100%}}
 </style>
 </head>
 <body>
@@ -2643,6 +2700,7 @@ input,select,textarea,button{max-width:100%}
       <button onclick="section('cashflow',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M7 7V5h10v2M8 13h8"/><circle cx="12" cy="13" r="2.5"/></svg></span>Flujo de caja</button>
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estados de cuenta</button>
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
+      <button onclick="section('reports',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Reportes</button>
       <button onclick="section('monthlyRecords',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg></span>Registro mensual</button>
       <button onclick="section('encargos',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></span>Encargos</button>
       <button onclick="section('settings',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H10v-.08a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V10h.08A1.7 1.7 0 0 0 4.66 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3H14v.08A1.7 1.7 0 0 0 15.1 4.66a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.38.36.72.6 1 .3.3.7.45 1.1.4H21V14h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span>Configuración</button>
@@ -2657,8 +2715,8 @@ input,select,textarea,button{max-width:100%}
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
       </button>
       <div class="shell-brand"><div class="logo-mark">H</div><strong>HILEN</strong></div>
-      <button type="button" class="shell-bell" onclick="showToast('Notificaciones','No tienes alertas nuevas.','info')" aria-label="Notificaciones" title="Notificaciones">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><span class="bell-dot"></span>
+      <button type="button" class="shell-bell" onclick="hilenOpenCollectionNotifications()" aria-label="Notificaciones de clientes" title="Avisos de clientes con pagos pendientes">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><span id="hilenCollectionBellCount" class="hilen-bell-count hidden">0</span>
       </button>
       <button type="button" class="shell-user" onclick="goSection('settings')" aria-label="Abrir configuración de cuenta">
         <span id="shellUserInitial" class="shell-avatar">H</span><span class="shell-user-copy"><b id="shellUserName">HILEN</b><small>Administrador</small></span><span class="shell-chevron">⌄</span>
@@ -2689,31 +2747,13 @@ input,select,textarea,button{max-width:100%}
           <button class="quick-action quick-action-order" onclick="goSection('encargos')"><span class="quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8 8h8M8 12h5M8 16h3"/><path d="m14.8 16.1 1.4 1.4 3-3"/></svg></span><span class="quick-copy"><b>Nuevo encargo</b><small>Averiguar para un cliente</small></span><span class="quick-arrow">›</span></button>
         </div>
 
-        <div class="card home-recent-sales">
-          <div class="panel-head home-recent-sales-head">
-            <div><h2>Últimas ventas</h2><div class="muted small">Tus ventas más recientes.</div></div>
-            <button class="link-btn" onclick="goSection('day')">Ver todas&nbsp; →</button>
+        <div class="card hilen-annual-main" id="hilenHomeAnnualCard">
+          <div class="hilen-annual-heading">
+            <div><span class="hilen-annual-eyebrow">ANÁLISIS DEL NEGOCIO</span><h2>Indicadores del año <span id="hilenHomeYear"></span></h2><p>Compara cada mes y descubre cómo evolucionan tus ingresos, ventas, cobros y compradores.</p></div>
+            <button type="button" class="secondary" onclick="goSection('reports')">Abrir Reportes</button>
           </div>
-          <div id="homeRecentSales"></div>
+          <div id="hilenHomeAnnualView"></div>
         </div>
-
-        <div class="card home-encargos-panel">
-          <div class="panel-head home-encargos-head">
-            <div><h2 style="margin-bottom:4px">Seguimiento de encargos</h2><div class="muted small">Revisa qué debes preguntar al proveedor y qué debes responder al cliente.</div></div>
-            <button class="link-btn" onclick="goSection('encargos')">Ver encargos&nbsp; →</button>
-          </div>
-          <div class="home-encargo-metrics">
-            <button class="home-encargo-metric pending" onclick="goSection('encargos')"><span class="home-encargo-metric-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 7v5l3 2"></path></svg></span><span><b id="homeEncargosPending">0</b><small>Por preguntar al proveedor</small></span><span class="home-encargo-arrow">→</span></button>
-            <button class="home-encargo-metric response" onclick="goSection('encargos')"><span class="home-encargo-metric-icon"><svg viewBox="0 0 24 24"><path d="M5 6h14v10H9l-4 3V6z"></path><path d="m9 11 2 2 4-4"></path></svg></span><span><b id="homeEncargosResponse">0</b><small>Por responder al cliente</small></span><span class="home-encargo-arrow">→</span></button>
-            <div class="home-encargo-mini"><span class="home-encargo-mini-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8M8 12h5M8 16h3"></path></svg></span><span><b id="homeEncargosActive">0</b><small>Encargos activos</small></span></div>
-            <div class="home-encargo-mini"><span class="home-encargo-mini-icon done"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="m8 12 2.5 2.5L16 9"></path></svg></span><span><b id="homeEncargosDone">0</b><small>Completados</small></span></div>
-          </div>
-          <div id="homeEncargosList" class="home-encargo-list"></div>
-        </div>
-
-        <div class="card home-summary-card"><div class="panel-head"><div><h2 style="margin-bottom:4px">Resumen del mes</h2><div id="homeMonthLabel" class="muted small"></div></div></div><div id="homeDaySummary" class="home-month-summary"></div></div>
-
-        <div class="card home-cash-card"><div class="panel-head"><div><h2>Flujo de caja</h2><div class="muted small">Movimientos más recientes</div></div><button class="link-btn" onclick="goSection('cashflow')">Ver todo&nbsp; →</button></div><div id="homeCashRecent"></div><button class="black-link" onclick="goSection('cashflow')">Ir al flujo de caja&nbsp; →</button></div>
       </div>
     </section>
 
@@ -2802,7 +2842,6 @@ input,select,textarea,button{max-width:100%}
     </section>
 
     <section id="customers" class="section hilen-view hilen-customers">
-      <div class="section-subtitle">Gestiona y consulta todos tus clientes.</div>
 
       <div class="client-kpis client-kpis-pro">
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span><div><div class="label2">Total de clientes</div><div id="clientKpiTotal" class="value2">0</div><small>registrados</small></div></div>
@@ -2811,6 +2850,18 @@ input,select,textarea,button{max-width:100%}
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><path d="m3 21 2-11 5 4 2-8 4 8 5-4 1 11H3Z"/></svg></span><div><div class="label2">Clientes potenciales</div><div id="clientKpiPotential" class="value2">0</div><small>sin compras</small></div></div>
         <div class="client-kpi"><span class="kpi-round pink">♀</span><div><div class="label2">Mujeres</div><div id="clientKpiWomen" class="value2">0</div><small>registradas</small></div></div>
         <div class="client-kpi"><span class="kpi-round blue">♂</span><div><div class="label2">Hombres</div><div id="clientKpiMen" class="value2">0</div><small>registradas</small></div></div>
+      </div>
+
+      <div class="card hilen-client-collections" id="hilenClientCollectionsCard">
+        <div class="hilen-annual-heading"><div><span class="hilen-annual-eyebrow">SEGUIMIENTO DE CARTERA</span><h2>Clientes con saldo pendiente</h2><p>Revisa quién tiene una deuda activa y recibe avisos cuando pasa más de un mes sin abonos.</p></div><button type="button" class="secondary" onclick="hilenShowDebtors()">Ver deudores</button></div>
+        <div id="hilenClientCollectionSummary" class="hilen-collection-kpis"></div>
+        <div id="hilenClientCollectionAlerts" class="hilen-collection-alerts"></div>
+        <div class="hilen-collection-filter" role="group" aria-label="Filtrar clientes por estado de su deuda">
+          <button type="button" data-client-collection="all" class="active" onclick="hilenSetClientCollectionFilter('all')">Todos</button>
+          <button type="button" data-client-collection="debt" onclick="hilenSetClientCollectionFilter('debt')">Con deuda</button>
+          <button type="button" data-client-collection="ontime" onclick="hilenSetClientCollectionFilter('ontime')">Sin aviso (+1 mes)</button>
+          <button type="button" data-client-collection="overdue" onclick="hilenSetClientCollectionFilter('overdue')">Sin abonar +1 mes</button>
+        </div>
       </div>
 
       <div class="card customer-registry-card">
@@ -2881,6 +2932,17 @@ input,select,textarea,button{max-width:100%}
           <div id="cashflowSummary" class="cash-period-summary cash-summary-reference"></div>
           <div id="cashflowTable" class="cashflow-table-reference"></div>
         </div>
+      </div>
+    </section>
+
+    <section id="reports" class="section hilen-view hilen-reports">
+      <div class="card hilen-reports-panel">
+        <div class="hilen-annual-heading">
+          <div><span class="hilen-annual-eyebrow">REPORTES GUARDADOS POR AÑO</span><h2>Reportes del negocio</h2><p>Consulta un año, revisa los indicadores y guarda un corte anual en HILEN para consultarlo después.</p></div>
+          <div class="hilen-report-actions"><label for="hilenReportYear">Año</label><select id="hilenReportYear" class="input" onchange="hilenReportShowSaved=false;hilenRenderReports()"></select><button type="button" class="primary" onclick="hilenSaveAnnualReport()">Guardar corte anual</button></div>
+        </div>
+        <div id="hilenReportSavedNote" class="hilen-report-saved-note"></div>
+        <div id="hilenAnnualReportView"></div>
       </div>
     </section>
 
@@ -3067,7 +3129,7 @@ input,select,textarea,button{max-width:100%}
 <script>
 const KEY="HILEN_DEMO_V2";
 const OLD_KEY="HILEN_DEMO_V1";
-const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[]};
+const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[],annualReports:[]};
 let db;
 try{db=JSON.parse(localStorage.getItem(KEY)||"null")||null}catch(e){db=null}
 if(!db){
@@ -3077,7 +3139,7 @@ if(!db){
   }catch(e){}
 }
 if(!db) db=structuredClone(emptyDB);
-db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; db.monthlyRecords ||= []; if(!('session' in db))db.session=null;
+db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; db.monthlyRecords ||= []; db.annualReports ||= []; if(!('session' in db))db.session=null;
 let currentUser=null;
 const GOOGLE_SHEETS_SYNC_KEY="HILEN_GOOGLE_SHEETS_SYNC_V2";
 const GOOGLE_DRIVE_BACKUP_KEY="HILEN_GOOGLE_DRIVE_BACKUP_V1";
@@ -3210,12 +3272,12 @@ function initCloud(){
   }catch(err){console.error('Firebase init:',err);setCloudStatus('error','Error configurando Firebase');return false}
 }
 function businessState(){
-  return {version:12,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[],monthlyRecords:db.monthlyRecords||[]};
+  return {version:13,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[],monthlyRecords:db.monthlyRecords||[],annualReports:db.annualReports||[]};
 }
 function hasBusinessData(state=businessState()){return (state.clients?.length||0)+(state.sales?.length||0)+(state.payments?.length||0)+(state.cashMovements?.length||0)+(state.monthlyRecords?.length||0)>0}
 function applyBusinessState(state){
   const safe=state||{};
-  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[],monthlyRecords:Array.isArray(safe.monthlyRecords)?safe.monthlyRecords:[]};
+  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[],monthlyRecords:Array.isArray(safe.monthlyRecords)?safe.monthlyRecords:[],annualReports:Array.isArray(safe.annualReports)?safe.annualReports:[]};
   syncDataRelations();
 }
 function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
@@ -3465,7 +3527,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['stStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();startEncargoReminderWatcher();
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();startEncargoReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -3487,7 +3549,7 @@ function globalSearchGo(){
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -3535,7 +3597,7 @@ function calcTotal(){
 }
 function refreshAfterChange(){
   syncDataRelations();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
 }
 function clientNameById(cid){return db.clients.find(c=>c.id===cid)?.name||db.sales.find(s=>s.clientId===cid&&s.clientName)?.clientName||'Cliente'}
 function refreshClientsSelects(){const opts=db.clients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone):''}</option>`).join('');if($('statementClientList'))$('statementClientList').innerHTML=opts;if($('saleClientList'))$('saleClientList').innerHTML=opts;const creditClients=db.clients.filter(c=>clientBalance(c.id).balance>0);if($('payClientList'))$('payClientList').innerHTML=creditClients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone)+' · ':''}Saldo ${money(clientBalance(c.id).balance)}</option>`).join('')}
@@ -3774,7 +3836,6 @@ function renderSalesView(){
   $('dayTitle').textContent=label;
   const total=rows.reduce((a,s)=>a+hilenSaleNetTotal(s),0)+historicalTotal,paid=rows.filter(s=>s.type==='paid').reduce((a,s)=>a+hilenSaleNetTotal(s),0),credit=rows.filter(s=>s.type==='credit').reduce((a,s)=>a+hilenSaleNetTotal(s),0);
   const paidCount=rows.filter(s=>s.type==='paid').length,creditCount=rows.filter(s=>s.type==='credit').length;
-  const debtors=hilenDebtorsSnapshot();
   // El filtro Contado/Crédito afecta exclusivamente a la TABLA, no a los totales del resumen.
   const visibleRows=hilenSalesTypeFilter==='all'?rows:rows.filter(s=>s.type===hilenSalesTypeFilter);
   const visibleAmount=visibleRows.reduce((n,s)=>n+hilenSaleNetTotal(s),0);
@@ -3790,7 +3851,7 @@ function renderSalesView(){
     <div class="card hilen-period-stat hilen-sales-kpi-total"><span class="sales-kpi-icon green">$</span><div class="stat-wrap"><div class="stat-label">Total vendido</div><div class="stat">${money(total)}</div><div class="hilen-sale-count"><b>${rows.length}</b> ${rows.length===1?'venta registrada':'ventas registradas'} individualmente</div>${infoHist?`<div class="hilen-sales-kpi-note">${infoHist}</div>`:''}</div></div>
     <div class="card hilen-period-stat hilen-sales-kpi-paid"><span class="sales-kpi-icon blue">▣</span><div class="stat-wrap"><div class="stat-label">Ventas de contado</div><div class="stat">${money(paid)}</div><div class="hilen-sale-count"><b>${paidCount}</b> ${paidCount===1?'venta':'ventas'} de contado</div></div></div>
     <div class="card hilen-period-stat hilen-sales-kpi-credit"><span class="sales-kpi-icon gold">▤</span><div class="stat-wrap"><div class="stat-label">Ventas a crédito</div><div class="stat">${money(credit)}</div><div class="hilen-sale-count"><b>${creditCount}</b> ${creditCount===1?'venta':'ventas'} a crédito</div></div></div>
-  </div><div class="hilen-debt-card hilen-sales-debt-highlight" style="margin:0"><div><div class="stat-label">Pendiente por cobrar · saldo actual de todas las cuentas</div><div class="amount">${money(debtors.total)}</div><div class="meta">${debtors.rows.length} clientes con deuda · No depende del período seleccionado</div></div><button type="button" class="secondary" onclick="hilenShowDebtors()">Ver deudores</button></div>`;
+  </div>`;
   if($('hilenSalesOverview'))$('hilenSalesOverview').innerHTML=summary;
   const table=visibleRows.length?`<div class="hilen-zoom-toolbar"><div><div class="hilen-zoom-caption">Tabla de ventas</div><div class="hilen-zoom-hint">Amplía o reduce las letras de esta tabla.</div></div>${hilenReadingZoomControls('sales')}</div><div id="hilenSalesZoomArea" class="table-wrap table-fit-wrap" style="--hilen-sales-zoom:${hilenReadingZoom.sales/100}"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${visibleRows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(hilenSaleNetTotal(s))}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:
     `<div class="sales-empty-state"><div><b>${hilenSalesTypeFilter==='paid'?'No hay ventas de contado':hilenSalesTypeFilter==='credit'?'No hay ventas a crédito':'No hay ventas individuales'} en este período.</b><div class="muted">${hilenSalesTypeFilter==='all'?'Los totales históricos se muestran en el resumen cuando existen.':'Elige «Todas» o cambia el período para consultar otras ventas.'}</div></div></div>`;
@@ -3877,6 +3938,11 @@ function deleteSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;
  confirmAction('Eliminar venta',`¿Eliminar definitivamente la venta ${s.type==='credit'?hilenInvoiceCode(s):''} de ${money(s.total)}? Se realizará un respaldo.`,async()=>{await backupBeforeDestructive('eliminar venta '+sid);db.sales=db.sales.filter(x=>x.id!==sid);syncClientsFromSales();saveDB();refreshAfterChange();showToast('Venta eliminada',money(s.total))},{red:true,confirmText:'Eliminar venta'});
 }
 
+let hilenClientCollectionFilter='all';
+function hilenSetClientCollectionFilter(mode){
+  hilenClientCollectionFilter=['all','debt','ontime','overdue'].includes(mode)?mode:'all';
+  renderCustomers();
+}
 function renderCustomers(){
   syncDataRelations();
   const q=normalizeClientSearchText($('customerSearch')?.value||'');
@@ -3901,8 +3967,14 @@ function renderCustomers(){
   if($('clientKpiMen'))$('clientKpiMen').textContent=men;
   if($('clientKpiPotential'))$('clientKpiPotential').textContent=potentialCount;
   const purchaseBadge=type=>type==='Crédito'?'<span class="badge credit">Crédito</span>':type==='Pagadas'?'<span class="badge paid">Pagadas</span>':type==='Mixto'?'<span class="badge bank">Mixto</span>':'<span class="badge">Sin compras</span>';
-  const allRows=meta.filter(x=>matchesSearch(x.c)).sort((x,y)=>String(x.c.name||'').localeCompare(String(y.c.name||''),'es',{sensitivity:'base'}));
-  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Cuenta</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td class="hilen-account-cell">${clientAccountStatus(x.c.id)}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
+  const collection=hilenClientCollectionSnapshot();
+  hilenRenderClientCollectionSummary(collection);
+  const allRows=meta.filter(x=>{
+    if(!matchesSearch(x.c))return false;
+    const status=collection.byId.get(String(x.c.id));
+    return hilenClientCollectionFilter==='all'||(hilenClientCollectionFilter==='debt'&&status?.balance>0)||(hilenClientCollectionFilter==='ontime'&&status?.balance>0&&!status?.late)||(hilenClientCollectionFilter==='overdue'&&status?.late);
+  }).sort((x,y)=>String(x.c.name||'').localeCompare(String(y.c.name||''),'es',{sensitivity:'base'}));
+  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Cuenta</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td class="hilen-account-cell">${clientAccountStatus(x.c.id)}${collection.byId.get(String(x.c.id))?.late?`<div class="hilen-client-alert-inline" title="Ha pasado más de un mes sin abonar">Aviso · sin abonar +1 mes</div>`:collection.byId.get(String(x.c.id))?.balance>0?`<div class="hilen-client-recent-inline">${collection.byId.get(String(x.c.id))?.lastPayment?`Último abono: ${hilenInvoiceDate(collection.byId.get(String(x.c.id)).lastPayment)}`:'Sin abonos aún'}</div>`:''}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
   renderClientChart();
 }
 
@@ -4264,10 +4336,10 @@ function hilenDebtorsSnapshot(){
  return {rows,total:rows.reduce((sum,x)=>sum+x.balance,0)};
 }
 function hilenShowDebtors(){
- const data=hilenDebtorsSnapshot();
- const rows=data.rows.map((x,i)=>`<tr><td>${i+1}</td><td><b>${esc(x.client.name||'Cliente')}</b></td><td><b>${money(x.balance)}</b></td></tr>`).join('');
- $('modalContent').innerHTML=`<h2 style="margin-top:0">Clientes con saldo pendiente</h2><p class="muted">Deudas actuales registradas por cliente. No incluye los totales mensuales históricos sin datos individuales.</p><div class="hilen-debt-card" style="margin:16px 0"><div><div class="stat-label">Total por cobrar</div><div class="amount">${money(data.total)}</div><div class="meta">${data.rows.length} clientes con deuda</div></div></div><div class="hilen-zoom-toolbar"><div><div class="hilen-zoom-caption">Detalle de deudores</div><div class="hilen-zoom-hint">Ajusta el tamaño de la tabla para leer los saldos.</div></div>${hilenReadingZoomControls('debt')}</div><div id="hilenDebtZoomArea" style="--hilen-debt-zoom:${hilenReadingZoom.debt/100}"><div class="table-wrap"><table class="table hilen-debtors-modal-table"><thead><tr><th>#</th><th>Cliente</th><th>Saldo pendiente</th></tr></thead><tbody>${rows||'<tr><td colspan="3">No hay clientes con deuda pendiente.</td></tr>'}</tbody></table></div></div><div class="row-actions" style="justify-content:flex-end;margin-top:15px"><button class="secondary" onclick="closeModal()">Cerrar</button></div>`;
- $('modal').classList.remove('hidden');
+  const snapshot=hilenClientCollectionSnapshot();
+  const rows=snapshot.debtors.map((x,i)=>`<tr><td>${i+1}</td><td><b>${esc(x.client.name||'Cliente')}</b>${x.late?'<div class="hilen-client-alert-inline">Más de 1 mes sin abono</div>':''}</td><td><b>${money(x.balance)}</b></td><td>${x.lastPayment?hilenInvoiceDate(x.lastPayment):'Nunca ha abonado'}</td><td><button type="button" class="action-mini view" onclick="closeModal();goSection('customers');openCustomer('${x.client.id}')">Ver cliente</button></td></tr>`).join('');
+  $('modalContent').innerHTML=`<h2 style="margin-top:0">Clientes con saldo pendiente</h2><p class="muted">Información actual de Clientes. El aviso aparece si transcurre más de un mes sin un abono en una deuda activa.</p><div class="hilen-debt-card" style="margin:16px 0"><div><div class="stat-label">Total por cobrar</div><div class="amount">${money(snapshot.total)}</div><div class="meta">${snapshot.debtors.length} con deuda · ${snapshot.late.length} requieren seguimiento</div></div></div><div class="hilen-zoom-toolbar"><div><div class="hilen-zoom-caption">Detalle de deudores</div><div class="hilen-zoom-hint">Ajusta el tamaño de la tabla para leer los saldos.</div></div>${hilenReadingZoomControls('debt')}</div><div id="hilenDebtZoomArea" style="--hilen-debt-zoom:${hilenReadingZoom.debt/100}"><div class="table-wrap"><table class="table hilen-debtors-modal-table"><thead><tr><th>#</th><th>Cliente</th><th>Saldo pendiente</th><th>Último abono</th><th></th></tr></thead><tbody>${rows||'<tr><td colspan="5">No hay clientes con deuda pendiente.</td></tr>'}</tbody></table></div></div><div class="row-actions" style="justify-content:flex-end;margin-top:15px"><button type="button" class="secondary" onclick="closeModal()">Cerrar</button></div>`;
+  $('modal').classList.remove('hidden');
 }
 function renderPayments(){
   const [a,z]=paymentPeriodRange(),q=normalizeClientSearchText($('paymentSearch')?.value||'');
@@ -4282,8 +4354,7 @@ function renderPayments(){
     historicalTotal=data.historical;overlapCount=data.overlaps;
   }
   const total=rows.reduce((n,p)=>n+(Number(p.amount)||0),0)+historicalTotal,cash=rows.filter(p=>(p.destination||'cash')==='cash').reduce((n,p)=>n+(Number(p.amount)||0),0),bank=rows.filter(p=>p.destination==='bank').reduce((n,p)=>n+(Number(p.amount)||0),0),clients=new Set(rows.map(p=>p.clientId)).size;
-  const debtors=hilenDebtorsSnapshot();
-  if($('paymentSummary'))$('paymentSummary').innerHTML=`<div class="payment-kpi green"><div class="pk-label">Abonos recaudados en el período</div><div class="pk-value">${money(total)}</div><div class="hilen-payment-summary-note">Incluye totales históricos cuando corresponda</div></div><div class="payment-kpi"><div class="pk-label">Cantidad de abonos detallados</div><div class="pk-value">${rows.length}</div></div><div class="payment-kpi"><div class="pk-label">Clientes que abonaron en el período</div><div class="pk-value">${clients}</div></div><div class="payment-kpi green"><div class="pk-label">Recibido en efectivo · detallado</div><div class="pk-value">${money(cash)}</div></div><div class="payment-kpi blue"><div class="pk-label">Recibido en Nequi · detallado</div><div class="pk-value">${money(bank)}</div></div><div class="payment-kpi"><div class="pk-label">Clientes con deuda · actual</div><div class="pk-value">${debtors.rows.length}</div></div><div class="payment-kpi" style="background:#fffcf5;border-color:#e9d6b2"><div class="pk-label">Total pendiente por cobrar · actual</div><div class="pk-value">${money(debtors.total)}</div><button class="secondary" style="margin-top:10px;border-radius:10px" type="button" onclick="hilenShowDebtors()">Ver deudores</button></div>`;
+  if($('paymentSummary'))$('paymentSummary').innerHTML=`<div class="payment-kpi green"><div class="pk-label">Abonos recaudados en el período</div><div class="pk-value">${money(total)}</div><div class="hilen-payment-summary-note">Incluye totales históricos cuando corresponda</div></div><div class="payment-kpi"><div class="pk-label">Cantidad de abonos detallados</div><div class="pk-value">${rows.length}</div></div><div class="payment-kpi"><div class="pk-label">Clientes que abonaron en el período</div><div class="pk-value">${clients}</div></div><div class="payment-kpi green"><div class="pk-label">Recibido en efectivo · detallado</div><div class="pk-value">${money(cash)}</div></div><div class="payment-kpi blue"><div class="pk-label">Recibido en Nequi · detallado</div><div class="pk-value">${money(bank)}</div></div>`;
   $('paymentsTable').innerHTML=rows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Fecha</th><th>Cliente</th><th>Abono</th><th>Recibido en</th><th>Estado actual</th><th>Acciones</th></tr></thead><tbody>${rows.map(p=>{const b=clientBalance(p.clientId),status=b.balance>0?`<span class="badge debt">Debe ${money(b.balance)}</span>`:'<span class="badge paid">✓ Cuenta cancelada</span>';return `<tr><td><b>${normalizeDateLabel(p.date)}</b><div class="small muted">${esc(p.time||'')}</div></td><td><b>${esc(clientNameById(p.clientId))}</b></td><td><b>${money(p.amount)}</b></td><td>${accountBadge(p.destination||'cash')}</td><td>${status}</td><td><div class="action-group"><button class="action-mini view" onclick="openPaymentDetail('${p.id}')">Ver</button><button class="action-mini edit" onclick="editPayment('${p.id}')">Editar</button><button class="action-mini danger" onclick="deletePayment('${p.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted">No hay abonos individuales en este período.</p>';
   const historicalNote=historicalTotal>0?historicalSummaryNotice('Abonos históricos incluidos en el total',historicalTotal,overlapCount>0):'';
   const overlapNote=overlapCount?`<div class="notice blue" style="margin:12px 0">${overlapCount} mes(es) tienen totales históricos y abonos individuales. Se priorizan los abonos individuales para evitar duplicarlos.</div>`:'';
@@ -4351,9 +4422,10 @@ function renderHome(){
   }
   const monthEvents=cashEvents().filter(e=>e.date>=monthStartDate&&e.date<=monthEndDate),inc=monthEvents.filter(e=>e.type==='income').reduce((a,e)=>a+e.amount,0),exp=monthlyEffectiveTotal(month,'expenses').total,trans=monthEvents.filter(e=>e.type==='transfer').reduce((a,e)=>a+e.amount,0),credit=monthSales.filter(s=>s.type==='credit').reduce((a,s)=>a+hilenSaleNetTotal(s),0),cashSales=monthSales.filter(s=>s.type==='paid').reduce((a,s)=>a+hilenSaleNetTotal(s),0);
   if($('homeMonthLabel'))$('homeMonthLabel').textContent=new Date(d+'T12:00:00').toLocaleDateString('es-CO',{month:'long',year:'numeric'});
-  $('homeDaySummary').innerHTML=`<div class="home-month-box in"><div class="hm-label">Ingresos del mes</div><div class="hm-value">${money(inc)}</div></div><div class="home-month-box out"><div class="hm-label">Egresos del mes</div><div class="hm-value">${money(exp)}</div></div><div class="home-month-box net"><div class="hm-label">Neto del mes</div><div class="hm-value">${money(inc-exp)}</div></div><div class="home-month-box"><div class="hm-label">Ventas a crédito</div><div class="hm-value">${money(credit)}</div></div><div class="home-month-box cash-sale"><div class="hm-label">Ventas de contado</div><div class="hm-value">${money(cashSales)}</div></div><div class="home-month-box"><div class="hm-label">Transferencias</div><div class="hm-value">${money(trans)}</div></div>`;
+  if($('homeDaySummary'))$('homeDaySummary').innerHTML=`<div class="home-month-box in"><div class="hm-label">Ingresos del mes</div><div class="hm-value">${money(inc)}</div></div><div class="home-month-box out"><div class="hm-label">Egresos del mes</div><div class="hm-value">${money(exp)}</div></div><div class="home-month-box net"><div class="hm-label">Neto del mes</div><div class="hm-value">${money(inc-exp)}</div></div><div class="home-month-box"><div class="hm-label">Ventas a crédito</div><div class="hm-value">${money(credit)}</div></div><div class="home-month-box cash-sale"><div class="hm-label">Ventas de contado</div><div class="hm-value">${money(cashSales)}</div></div><div class="home-month-box"><div class="hm-label">Transferencias</div><div class="hm-value">${money(trans)}</div></div>`;
   const ev=[...cashEvents()].sort((a,b)=>b.date.localeCompare(a.date)||String(b.time||'').localeCompare(String(a.time||''))).slice(0,5);
-  $('homeCashRecent').innerHTML=ev.length?ev.map(e=>{const cls=e.type==='income'?'green':e.type==='expense'?'red':'blue',sym=e.type==='income'?'↓':e.type==='expense'?'↑':'⇄',title=e.type==='income'?'Ingreso':e.type==='expense'?'Egreso':'Transferencia',desc=e.type==='transfer'?((e.from==='cash'?'Efectivo':'Nequi')+' → '+(e.to==='cash'?'Efectivo':'Nequi')):(e.note||'Movimiento');return `<div class="movement-row"><div class="movement-left"><span class="round-ico ${cls}">${sym}</span><div><div class="movement-main">${title}</div><div class="movement-sub">${esc(desc)}</div></div></div><div><div class="movement-value">${e.type==='expense'?'-':e.type==='income'?'+':''}${money(e.amount)}</div><div class="movement-time">${e.date} · ${e.time||''}</div></div></div>`}).join(''):'<p class="muted">Todavía no hay movimientos.</p>';
+  if($('homeCashRecent'))$('homeCashRecent').innerHTML=ev.length?ev.map(e=>{const cls=e.type==='income'?'green':e.type==='expense'?'red':'blue',sym=e.type==='income'?'↓':e.type==='expense'?'↑':'⇄',title=e.type==='income'?'Ingreso':e.type==='expense'?'Egreso':'Transferencia',desc=e.type==='transfer'?((e.from==='cash'?'Efectivo':'Nequi')+' → '+(e.to==='cash'?'Efectivo':'Nequi')):(e.note||'Movimiento');return `<div class="movement-row"><div class="movement-left"><span class="round-ico ${cls}">${sym}</span><div><div class="movement-main">${title}</div><div class="movement-sub">${esc(desc)}</div></div></div><div><div class="movement-value">${e.type==='expense'?'-':e.type==='income'?'+':''}${money(e.amount)}</div><div class="movement-time">${e.date} · ${e.time||''}</div></div></div>`}).join(''):'<p class="muted">Todavía no hay movimientos.</p>';
+  hilenRenderHomeAnnual();
 }
 
 function saveCashMovement(){
@@ -4420,6 +4492,7 @@ function historyYears(){
   [...db.sales,...db.payments,...db.cashMovements].forEach(r=>{const y=Number(String(r.date||'').slice(0,4));if(y>=2000&&y<=2100)years.add(y)});
   db.clients.forEach(c=>{const d=c.registeredDate||String(c.createdAt||'').slice(0,10),y=Number(String(d).slice(0,4));if(y>=2000&&y<=2100)years.add(y)});
   (db.monthlyRecords||[]).forEach(r=>{const y=Number(String(r.month||'').slice(0,4));if(y>=2000&&y<=2100)years.add(y)});
+  (db.annualReports||[]).forEach(r=>{const y=Number(r.year);if(y>=2000&&y<=2100)years.add(y)});
   return [...years].sort((a,b)=>a-b);
 }
 function getDefaultHistoryYear(){const ys=historyYears();return ys.includes(new Date().getFullYear())?new Date().getFullYear():ys[ys.length-1]||new Date().getFullYear()}
@@ -4672,8 +4745,14 @@ function buildBackupTables(){
   const inv=[];historyYears().forEach(y=>inventoryAnalytics(y).forEach(r=>inv.push({Año:y,Producto:r.name,Unidades_vendidas:r.units,Consultas_interes:r.inquiries,Clientes_compradores:r.clientsCount,Ingresos:r.revenue,Precio_promedio:Math.round(r.avgPrice||0),Ultima_venta:r.last||'',Demanda:r.demand})));
   const debtCarry=allCarriedDebtRows();
   const encargos=(db.encargos||[]).map(e=>({ID:e.id,Fecha_solicitud:e.createdDate||'',Cliente:e.clientName||'',Telefono:e.phone||'',Encargo:e.request||'',Proveedor:e.supplier||'',Estado:encargoStatusLabel(e.status),Fecha_recordatorio:e.reminderDate||'',Hora_recordatorio:e.reminderTime||'',Notas:e.notes||'',Actualizado:e.updatedAt||''}));
+  const annualArchives=(db.annualReports||[]).flatMap(r=>(r.snapshot?.months||[]).map(m=>({
+    Año:Number(r.year),Mes:m.month,Guardado_el:r.savedAt||'',Ventas:m.salesTotal,Ventas_contado:m.paid,Ventas_credito:m.credit,
+    Cantidad_contado:m.paidCount,Cantidad_credito:m.creditCount,Abonos:m.abonos,Ingresos_caja:m.income,Egresos:m.expense,
+    Cartera_al_cierre:m.pending,Mujeres_compradoras:m.women,Hombres_compradores:m.men,
+    Clientes_nuevos:m.newClients,Clientes_recurrentes:m.repeatClients,Historico_sin_clasificar:m.unclassified
+  })));
   const b=getBalances(),summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Estados de cuenta descargados',Valor:(db.statementDownloads||[]).length},{Indicador:'Encargos registrados',Valor:(db.encargos||[]).length},{Indicador:'Dinero en efectivo',Valor:b.cash},{Indicador:'Dinero en Nequi',Valor:b.bank},{Indicador:'Disponible total',Valor:b.total}];
-  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Encargos':encargos};
+  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Reportes anuales':annualArchives,'Encargos':encargos};
 }
 function exportAllToExcel(){
   if(!window.XLSX)return showToast('No se pudo cargar Excel','Verifica tu conexión a Internet y vuelve a intentar.','error');
@@ -5035,7 +5114,7 @@ async function connectGoogleSheets(){
     setGoogleBackupReconnectNeeded(false);
     const folderId=await ensureGoogleDriveFolder();
     if(!googleSheetsConfig.sheetId){
-      const titles=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','Encargos','CONTROL'];
+      const titles=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','Reportes anuales','Encargos','CONTROL'];
       const created=await googleApi('https://sheets.googleapis.com/v4/spreadsheets',{method:'POST',body:JSON.stringify({properties:{title:'HILEN - Respaldo'},sheets:titles.map(title=>({properties:{title}}))})});
       googleSheetsConfig.sheetId=created.spreadsheetId;
       googleSheetsConfig.sheetUrl=created.spreadsheetUrl||`https://docs.google.com/spreadsheets/d/${created.spreadsheetId}/edit`;
@@ -5073,7 +5152,7 @@ async function syncGoogleSheetsNow(showResult=false){
   try{
     await ensureGoogleSheetInBackupFolder();
     await ensureGoogleSheetTabs();
-    const tables=buildBackupTables(),names=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año'];
+    const tables=buildBackupTables(),names=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','Reportes anuales'];
     const ranges=names.map(n=>`'${n.replace(/'/g,"''")}'!A:ZZ`).concat(["'CONTROL'!A:ZZ"]);
     await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchClear`,{method:'POST',body:JSON.stringify({ranges})});
     const data=names.map(n=>({range:`'${n.replace(/'/g,"''")}'!A1`,majorDimension:'ROWS',values:backupRowsToValues(tables[n]||[])}));
@@ -5133,7 +5212,7 @@ function checkEncargoReminders(force=false){
 function startEncargoReminderWatcher(){clearInterval(encargoReminderTimer);checkEncargoReminders(true);encargoReminderTimer=setInterval(()=>checkEncargoReminders(false),30000)}
 function refreshAll(){
   syncDataRelations();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
 }
 
 function closeModal(){$('modal').classList.add('hidden')}
@@ -5396,6 +5475,136 @@ function hilenTimelineHTML(cid,start='0000-01-01',end='9999-12-31'){
  const ledger=rows.map(m=>{balance+=m.kind==='sale'?m.amount:-m.amount;return {...m,running:Math.max(0,balance)}}).filter(m=>m.date>=start);
  return `<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Movimiento</th><th>Detalle</th><th>Valor del movimiento</th><th>Saldo restante</th><th>Detalle</th></tr></thead><tbody>${ledger.map(m=>`<tr><td>${hilenInvoiceDate(m.date)}${m.time?`<div class="small muted">${esc(m.time)}</div>`:''}</td><td><span class="hilen-statement-movement ${m.kind==='pay'?'pay':'sale'}"><span class="hilen-move-dot"></span>${esc(m.label)}</span><span class="hilen-movement-effect">${m.kind==='sale'?'Aumenta la deuda':'Reduce la deuda'}</span></td><td><div class="small">${m.reference?`<b>Factura ${esc(m.reference)}</b><br>`:''}${m.detail}</div></td><td class="hilen-statement-amount">${money(m.amount)}</td><td><b>${money(m.running)}</b></td><td>${m.kind==='sale'?`<button type="button" class="hilen-statement-eye" onclick="hilenStatementSaleDetail('${m.id}')" title="Ver productos y detalle de la compra" aria-label="Ver detalle de la factura ${esc(m.reference||'')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`:`<button type="button" class="hilen-statement-eye payment-eye" onclick="hilenStatementPaymentDetail('${m.id}')" title="Ver detalle del abono" aria-label="Ver detalle del abono del ${esc(hilenInvoiceDate(m.date))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`}</td></tr>`).join('')||'<tr><td colspan="6">No hay movimientos en este período.</td></tr>'}</tbody></table></div>${c?.balanceAdjustment?`<div class="notice warn" style="margin-top:10px">Ajuste histórico de saldo: ${money(c.balanceAdjustment)}. El saldo real al corte incorpora este ajuste; no corresponde a una factura individual.</div>`:''}<div class="hilen-invoice-totals"><span>SALDO GENERAL PENDIENTE</span><b>${money(clientBalance(cid,end).balance)}</b></div>`;
 }
+
+/* Dashboard anual, reportes y avisos de abono pendientes. Sin duplicar registros. */
+const hilenAnnualExplanations={
+ cash:{title:'Ingresos y egresos',body:'Compara el dinero recibido (ventas pagadas, pagos iniciales, abonos e ingresos manuales) con los gastos. Los ingresos provienen solo de movimientos individuales con fecha y cuenta. Los egresos pueden incluir totales históricos mensuales. Una venta a crédito sin cobro todavía no es ingreso de caja.'},
+ sales:{title:'Ventas de contado y a crédito',body:'Cada barra muestra el valor vendido, no lo recaudado, en cada mes según el tipo de venta. Los meses que tienen un total histórico sin ventas individuales quedan fuera de esta división; se presentan como cifras sin clasificar, para no inventar la forma de pago.'},
+ collected:{title:'Abonos recibidos y cartera pendiente',body:'El azul representa los abonos registrados para cada mes (incluidos totales históricos cuando no hay detalle); el naranja, la deuda pendiente de clientes al cierre de ese mes. La cartera es un SALDO, no un ingreso mensual. No sumes los saldos mensuales como si fueran dinero distinto. Los históricos sin nombre de cliente no reducen ninguna deuda individual.'},
+ genders:{title:'Compradoras y compradores',body:'Cuenta clientes diferentes que efectivamente realizaron al menos una compra en cada mes, separados según el sexo registrado en su ficha. No cuenta como compradores a clientes potenciales ni asigna sexo a quienes no tienen ese dato.'},
+ lifecycle:{title:'Clientes nuevos y recurrentes',body:'Nuevos: clientes que compraron por primera vez durante ese mes. Recurrentes: clientes que ya habían comprado en un mes o fecha anterior y vuelven a comprar. Cada cliente cuenta una sola vez dentro de un mismo mes, aunque haga varias compras.'}
+};
+function hilenClientCollectionSnapshot(cutoff=today()){
+  const clients=db.clients||[],payments=db.payments||[],creditSales=(db.sales||[]).filter(s=>s.type==='credit'),byId=new Map(),debtors=[],late=[];
+  const cutDate=String(cutoff||today());
+  // El límite equivale a un mes calendario; ajustar la duración de febrero/meses cortos.
+  const d=new Date(cutDate+'T12:00:00'),targetMonth=d.getMonth()-1,first=new Date(d.getFullYear(),targetMonth,1,12);
+  const limit=new Date(first.getFullYear(),first.getMonth(),Math.min(d.getDate(),new Date(first.getFullYear(),first.getMonth()+1,0).getDate()),12);
+  const limitISO=limit.getFullYear()+'-'+String(limit.getMonth()+1).padStart(2,'0')+'-'+String(limit.getDate()).padStart(2,'0');
+  for(const c of clients){
+    const balance=clientBalance(c.id,cutDate).balance;
+    const customerPayments=payments.filter(p=>p.clientId===c.id&&p.date&&p.date<=cutDate&&Number(p.amount)>0).map(p=>p.date);
+    const initialPayments=creditSales.filter(s=>s.clientId===c.id&&s.date<=cutDate&&Number(s.initialPaid)>0).map(s=>s.date);
+    const allPayments=customerPayments.concat(initialPayments).sort(),lastPayment=allPayments.at(-1)||'';
+    const invoices=creditSales.filter(s=>s.clientId===c.id&&s.date<=cutDate).sort(hilenCompare);
+    let earliestUnsettled=invoices[0]?.date||'';
+    // Reconstruir compras todavía pendientes respetando el orden de pagos del libro.
+    if(balance>0){try{const l=hilenCreditLedger(c.id,{end:cutDate});earliestUnsettled=l.invoices.find(v=>v.remaining>0)?.sale.date||earliestUnsettled}catch(e){}}
+    const reference=[lastPayment,earliestUnsettled].filter(Boolean).sort().at(-1)||'';
+    const isLate=balance>0&&!!reference&&reference<limitISO;
+    const row={client:c,balance,lastPayment,reference,late:isLate,limitISO};byId.set(String(c.id),row);
+    if(balance>0){debtors.push(row);if(isLate)late.push(row)}
+  }
+  debtors.sort((a,b)=>b.balance-a.balance||String(a.client.name||'').localeCompare(String(b.client.name||''),'es'));
+  late.sort((a,b)=>String(a.reference).localeCompare(String(b.reference))||b.balance-a.balance);
+  return {byId,debtors,late,total:debtors.reduce((n,x)=>n+x.balance,0),settled:clients.filter(c=>customerHasCredit(c.id)&&!(byId.get(String(c.id))?.balance>0)).length,cutoff:cutDate,limit:limitISO};
+}
+function hilenUpdateCollectionBell(snapshot){
+  const data=snapshot||hilenClientCollectionSnapshot(),node=$('hilenCollectionBellCount');
+  if(node){node.textContent=data.late.length>99?'99+':String(data.late.length);node.classList.toggle('hidden',data.late.length===0)}
+}
+function hilenRenderClientCollectionSummary(data){
+  const summary=$('hilenClientCollectionSummary'),alerts=$('hilenClientCollectionAlerts');
+  hilenUpdateCollectionBell(data);
+  if(summary)summary.innerHTML=`<div class="hilen-collection-box"><small>Total pendiente por cobrar</small><b>${money(data.total)}</b></div><div class="hilen-collection-box"><small>Clientes con deuda</small><b>${data.debtors.length}</b></div><div class="hilen-collection-box warn"><small>Sin abonar más de un mes</small><b>${data.late.length}</b></div><div class="hilen-collection-box"><small>Clientes que cancelaron su crédito</small><b>${data.settled}</b></div>`;
+  if(alerts)alerts.innerHTML=data.late.length?`<div class="hilen-collection-warning"><b>${data.late.length} ${data.late.length===1?'cliente requiere':'clientes requieren'} seguimiento.</b> ${data.late.slice(0,4).map(x=>esc(x.client.name||'Cliente')).join(', ')}${data.late.length>4?'…':''}. No registran un abono reciente y mantienen un saldo pendiente. <button class="secondary" type="button" style="margin-left:7px" onclick="hilenOpenCollectionNotifications()">Ver avisos</button></div>`:'';
+  document.querySelectorAll('[data-client-collection]').forEach(b=>{b.classList.toggle('active',b.dataset.clientCollection===hilenClientCollectionFilter);b.setAttribute('aria-pressed',String(b.dataset.clientCollection===hilenClientCollectionFilter))});
+}
+function hilenOpenCollectionNotifications(){
+  const data=hilenClientCollectionSnapshot();hilenUpdateCollectionBell(data);
+  const rows=data.late.map(x=>`<tr><td><b>${esc(x.client.name||'Cliente')}</b></td><td>${money(x.balance)}</td><td>${x.lastPayment?hilenInvoiceDate(x.lastPayment):'Sin abonos registrados'}</td><td><button type="button" class="action-mini view" onclick="closeModal();goSection('customers');hilenSetClientCollectionFilter('overdue');openCustomer('${x.client.id}')">Ver cliente</button></td></tr>`).join('');
+  $('modalContent').innerHTML=`<h2>Avisos de abonos pendientes</h2><p class="muted">Se señalan únicamente cuentas con deuda activa que llevan más de un mes calendario sin registrar un abono. Son avisos internos; no se envía ningún mensaje al cliente automáticamente.</p><div class="hilen-collection-warning" style="margin:14px 0">${data.late.length?`<b>${data.late.length} cliente(s) requieren seguimiento</b>`:'No tienes clientes con atraso de más de un mes.'}</div>${data.late.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Cliente</th><th>Debe</th><th>Último abono</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`:''}<div class="row-actions" style="justify-content:flex-end;margin-top:16px"><button class="secondary" type="button" onclick="closeModal()">Cerrar</button><button class="primary" type="button" onclick="closeModal();goSection('customers');hilenSetClientCollectionFilter('overdue')">Ir a Clientes</button></div>`;
+  $('modal').classList.remove('hidden');
+}
+function hilenAnnualSnapshot(year){
+  year=Math.trunc(Number(year));const currentYear=Number(today().slice(0,4)),todayISO=today();
+  const months=[],names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  for(let i=1;i<=12;i++){
+    const mm=String(i).padStart(2,'0'),start=`${year}-${mm}-01`,end=`${year}-${mm}-${String(new Date(year,i,0).getDate()).padStart(2,'0')}`,asOf=year===currentYear&&end>todayISO?todayISO:end,notReached=start>todayISO;
+    const s=(db.sales||[]).filter(x=>x.date>=start&&x.date<=end),p=(db.payments||[]).filter(x=>x.date>=start&&x.date<=end),monthKey=`${year}-${mm}`;
+    const persons=[...new Set(s.map(x=>String(x.clientId||'')).filter(Boolean))];
+    let women=0,men=0,newClients=0,repeatClients=0,genderMissing=0;
+    for(const cid of persons){const c=(db.clients||[]).find(x=>String(x.id)===cid),first=clientFirstSaleDate(cid);
+      if(c?.gender==='female')women++;else if(c?.gender==='male')men++;else genderMissing++;
+      if(first>=start&&first<=end)newClients++;else if(first&&first<start)repeatClients++;
+    }
+    const ev=cashEvents().filter(e=>e.date>=start&&e.date<=end),income=ev.filter(e=>e.type==='income').reduce((n,x)=>n+Number(x.amount||0),0);
+    const paid=s.filter(x=>x.type==='paid'),credit=s.filter(x=>x.type==='credit');
+    const sales=monthlyEffectiveTotal(monthKey,'sales'),payments=monthlyEffectiveTotal(monthKey,'payments'),expenses=monthlyEffectiveTotal(monthKey,'expenses');
+    const pending=notReached?0:(db.clients||[]).reduce((n,c)=>n+clientBalance(c.id,asOf).balance,0);
+    months.push({month:monthKey,name:names[i-1],income,expense:expenses.total,paid:paid.reduce((n,x)=>n+hilenSaleNetTotal(x),0),credit:credit.reduce((n,x)=>n+hilenSaleNetTotal(x),0),paidCount:paid.length,creditCount:credit.length,salesTotal:sales.total,unclassified:sales.useHistorical?sales.total:0,abonos:payments.total,abonosDetail:payments.detailTotal,abonosHistorical:payments.useHistorical?payments.total:0,pending,women,men,genderMissing,newClients,repeatClients,customers:persons.length});
+  }
+  const sum=k=>months.reduce((n,x)=>n+Number(x[k]||0),0);
+  const pastOrToday=year<currentYear?`${year}-12-31`:year===currentYear?todayISO:`${year}-01-01`;
+  return {year,generatedAt:new Date().toISOString(),months,totals:{sales:sum('salesTotal'),paid:sum('paid'),credit:sum('credit'),income:sum('income'),expense:sum('expense'),payments:sum('abonos'),historicalUnclassified:sum('unclassified'),debt:year>currentYear?0:(db.clients||[]).reduce((n,c)=>n+clientBalance(c.id,pastOrToday).balance,0),paidCount:sum('paidCount'),creditCount:sum('creditCount'),newClients:sum('newClients'),repeatClients:sum('repeatClients'),women:sum('women'),men:sum('men')}};
+}
+function hilenAnnualChartHTML(key,snapshot){
+  const configs={cash:{title:'Ingresos y egresos',sub:'Dinero que entró y gastos por mes',a:'income',b:'expense',legendA:'Ingresos registrados',legendB:'Egresos',currency:true},sales:{title:'Contado y crédito',sub:'Valor de las ventas de cada tipo',a:'paid',b:'credit',legendA:'Contado',legendB:'Crédito',currency:true},collected:{title:'Abonos y cartera por cobrar',sub:'Abonos mensuales frente a deuda al cierre',a:'abonos',b:'pending',legendA:'Abonos',legendB:'Saldo pendiente',currency:true},genders:{title:'Mujeres y hombres que compraron',sub:'Clientes compradores diferentes por mes',a:'women',b:'men',legendA:'Mujeres',legendB:'Hombres',currency:false},lifecycle:{title:'Clientes nuevos y recurrentes',sub:'Compradores nuevos o que regresaron',a:'newClients',b:'repeatClients',legendA:'Nuevos',legendB:'Recurrentes',currency:false}};
+  const cfg=configs[key],months=snapshot.months,max=Math.max(1,...months.flatMap(x=>[x[cfg.a]||0,x[cfg.b]||0]));
+  const bar=(amount,k)=>`<span class="hilen-annual-bar ${k}" style="height:${amount?Math.max(3,Math.round(amount/max*146)):2}px;opacity:${amount?1:.15}" aria-hidden="true"></span>`;
+  return `<article class="hilen-annual-chart"><div class="hilen-annual-chart-head"><div><h3>${cfg.title}</h3><p class="hilen-annual-chart-sub">${cfg.sub}</p></div><button type="button" class="hilen-annual-help" title="¿Qué significa esta gráfica?" aria-label="Explicar ${cfg.title}" onclick="hilenExplainAnnualChart('${key}')">?</button></div><div class="hilen-annual-chart-scroll"><div class="hilen-annual-bars">${months.map(x=>{const v1=x[cfg.a]||0,v2=x[cfg.b]||0,f=v=>cfg.currency?money(v):String(v);return `<div class="hilen-annual-month" title="${x.name} ${snapshot.year} · ${cfg.legendA}: ${f(v1)} · ${cfg.legendB}: ${f(v2)}"><div class="hilen-annual-pair">${bar(v1,'a')}${bar(v2,'b')}</div><span class="hilen-annual-month-label">${x.name}</span></div>`}).join('')}</div></div><div class="hilen-annual-legend"><span><i class="hilen-annual-legend-dot a"></i>${cfg.legendA}</span><span><i class="hilen-annual-legend-dot b"></i>${cfg.legendB}</span></div></article>`;
+}
+function hilenAnnualDashboardHTML(snapshot){
+  const t=snapshot.totals,stat=(label,value,detail)=>`<div class="hilen-annual-kpi"><span class="label">${label}</span><b>${value}</b><small>${detail}</small></div>`;
+  return `<div class="hilen-annual-cards">${stat('Total vendido',money(t.sales),'Incluye totales históricos sin detalle')}${stat('Contado',money(t.paid),`${t.paidCount} ventas individuales`)}${stat('Crédito',money(t.credit),`${t.creditCount} ventas individuales`)}${stat('Abonos del año',money(t.payments),'Ingresos recibidos como abonos')}${stat('Ingresos de caja',money(t.income),'Movimientos de entrada registrados')}${stat('Egresos',money(t.expense),'Gastos y totales históricos')}${stat('Saldo pendiente al corte',money(t.debt),'Cartera con clientes identificados')}${stat('Clientes que compraron',`${t.newClients} nuevos · ${t.repeatClients} recurrentes`,'Clasificación por primer mes de compra')}</div><div class="hilen-annual-charts">${['cash','sales','collected','genders','lifecycle'].map(key=>hilenAnnualChartHTML(key,snapshot)).join('')}</div><div class="hilen-annual-notice"><b>Cómo interpretar este informe:</b> las ventas a crédito no son dinero recaudado. Los pagos iniciales y abonos sí forman parte de los ingresos de caja, sin volver a sumarse como ventas. Las cantidades de clientes se cuentan por mes; un mismo comprador puede aparecer en meses diferentes.${t.historicalUnclassified?` Hay ${money(t.historicalUnclassified)} de ventas históricas sin desglose de contado o crédito.`:''} Los registros mensuales históricos no se asignan a clientes ni cuentas.</div>`;
+}
+function hilenRenderHomeAnnual(){
+  const area=$('hilenHomeAnnualView');if(!area)return;const year=Number(today().slice(0,4));
+  if($('hilenHomeYear'))$('hilenHomeYear').textContent=String(year);
+  area.innerHTML=hilenAnnualDashboardHTML(hilenAnnualSnapshot(year));
+}
+function hilenExplainAnnualChart(key){
+  const info=hilenAnnualExplanations[key];if(!info)return;
+  $('modalContent').innerHTML=`<h2>${info.title}</h2><p style="font-size:15px;line-height:1.65;color:#35415a">${info.body}</p><div class="notice blue">Cada barra corresponde a un mes del año seleccionado. Toca o deja el puntero sobre las barras para ver las cifras.</div><div class="row-actions" style="justify-content:flex-end;margin-top:16px"><button type="button" class="primary" onclick="closeModal()">Entendido</button></div>`;
+  $('modal').classList.remove('hidden');
+}
+let hilenReportShowSaved=false;
+function hilenRenderReports(){
+  const selector=$('hilenReportYear'),area=$('hilenAnnualReportView');if(!selector||!area)return;
+  const available=new Set(historyYears().concat((db.annualReports||[]).map(x=>Number(x.year))));
+  const current=Number(today().slice(0,4));available.add(current);
+  const years=[...available].filter(y=>y>=2000&&y<=2100).sort((a,b)=>b-a);
+  let selected=Number(selector.value)||current;if(!years.includes(selected))selected=current;
+  selector.innerHTML=years.map(y=>`<option value="${y}" ${y===selected?'selected':''}>${y}</option>`).join('');
+  const stored=(db.annualReports||[]).find(x=>Number(x.year)===selected);
+  const showingStored=!!stored&&hilenReportShowSaved;
+  const snap=showingStored?stored.snapshot:hilenAnnualSnapshot(selected);
+  const note=$('hilenReportSavedNote');
+  if(note)note.innerHTML=stored?`<b>${showingStored?'Viendo corte guardado':'Viendo datos actualizados'} de ${selected}.</b> Último corte guardado: ${new Date(stored.savedAt).toLocaleString('es-CO')} <button type="button" onclick="hilenReportShowSaved=!hilenReportShowSaved;hilenRenderReports()">${showingStored?'Ver datos actuales':'Ver corte guardado'}</button>`:`Todavía no hay un corte guardado de ${selected}. Puedes consultarlo aquí o guardar un corte anual cuando quieras.`;
+  area.innerHTML=hilenAnnualDashboardHTML(snap);
+}
+function hilenSaveAnnualReport(){
+  const year=Number($('hilenReportYear')?.value||today().slice(0,4));if(!Number.isInteger(year)||year<2000||year>2100)return;
+  db.annualReports ||= [];
+  const snap=hilenAnnualSnapshot(year),savedAt=new Date().toISOString();
+  const i=db.annualReports.findIndex(x=>Number(x.year)===year);
+  if(i>=0)db.annualReports[i]={year,savedAt,snapshot:snap};else db.annualReports.push({year,savedAt,snapshot:snap});
+  saveDB();hilenReportShowSaved=true;hilenRenderReports();showToast('Corte anual guardado',`El reporte de ${year} quedó guardado con los demás datos de HILEN.`);
+}
+function hilenAutoArchiveCompletedYears(){
+  const current=Number(today().slice(0,4));const hasExisting=new Set((db.annualReports||[]).map(x=>Number(x.year)));
+  const past=historyYears().filter(y=>y<current&&!hasExisting.has(y));if(!past.length)return;
+  db.annualReports ||= [];
+  for(const year of past)db.annualReports.push({year,savedAt:new Date().toISOString(),snapshot:hilenAnnualSnapshot(year)});
+  saveDB();
+}
+window.addEventListener('focus',()=>{
+  if($('app')&&!$('app').classList.contains('hidden')){
+    hilenUpdateCollectionBell();
+    if($('customers')?.classList.contains('active'))renderCustomers();
+    if($('home')?.classList.contains('active'))hilenRenderHomeAnnual();
+  }
+});
 
 bootstrapApp();
 </script>
