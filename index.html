@@ -4532,151 +4532,182 @@ function recordStatementDownload(){
 /* PDF A4 generado localmente: descarga directa sin diálogo de impresión ni dependencias externas. */
 /* Estado de cuenta descargable con diseño tipo factura, sin crear factura fiscal ni modificar operaciones. */
 function statementPdfFile(client,start,end,sales,payments,balance){
-  const W=595.28,H=841.89,M=42,R=W-M,U=R-M,pages=[];
-  const NAVY='#0e1933', GOLD='#ba851d', GREY='#66758b', BORDER='#e3e9f1', PALE='#f5f7fb';
-  const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+  /* Modelo del documento HILEN "Resumen de compras y abonos":
+     encabezado azul marino, totales, movimientos intercalados y resumen final.
+     El PDF se crea localmente y usa únicamente las operaciones existentes. */
+  const W=595.28,H=841.89,M=32,R=W-M,U=R-M,pages=[];
+  const C={navy:'#192741',ink:'#1d2940',muted:'#718097',blue:'#356dce',green:'#168861',orange:'#b87b1e',gold:'#c8a05c',bg:'#f6f7fc',white:'#ffffff',border:'#dfe5ee',blueSoft:'#eef4ff',greenSoft:'#eaf8f1',goldSoft:'#fffaed',light:'#f2f5fa'};
   const fmt=n=>Number(n).toFixed(2);
-  const cpText=s=>String(s??'').replace(/[\u2013\u2014\u2212]/g,'-').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/\u2022/g,'-').replace(/\u00d7/g,'x').replace(/\u2192/g,'-').replace(/\u00a0/g,' ').replace(/[^\x20-\xFF]/g,'?');
-  const ps=s=>cpText(s).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
+  const safeText=s=>String(s??'').replace(/[\u2013\u2014\u2212]/g,'-').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/\u2022/g,'-').replace(/\u2192/g,' a ').replace(/\u00a0/g,' ').replace(/[^\x20-\xFF]/g,'?');
+  const ps=s=>safeText(s).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
   const rgb=hex=>[1,3,5].map(i=>(parseInt(hex.slice(i,i+2),16)/255).toFixed(3)).join(' ');
-  const measure=(s,size=9,bold=false)=>{ctx.font=`${bold?'bold ':''}${size}px Arial`;return ctx.measureText(cpText(s)).width;};
-  const shortDate=d=>{const m=String(d||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?`${m[3]}/${m[2]}/${m[1]}`:String(d||'');};
-  let commands=null,y=0,sectionName='';
-  function write(text,x,top,size=9,bold=false,color=NAVY,align='left'){
-    const t=cpText(text);if(align==='right')x-=measure(t,size,bold);
-    commands.push(`BT /F${bold?2:1} ${fmt(size)} Tf ${rgb(color)} rg 1 0 0 1 ${fmt(x)} ${fmt(H-top-size)} Tm (${ps(t)}) Tj ET`);
+  const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+  const measure=(t,size=9,bold=false)=>{ctx.font=`${bold?'bold ':''}${size}px Arial`;return ctx.measureText(safeText(t)).width};
+  const shortDate=s=>{const v=String(s||''),m=v.match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return v;return `${m[3]}/${m[2]}/${m[1]}`;};
+  const dateLabel=s=>{const v=String(s||''),m=v.match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return v;const months=['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];return `${m[3]} ${months[Number(m[2])-1]} ${m[1]}`;};
+  const name=String(client?.name||'Cliente');
+  let commands=null,y=0;
+  function text(t,x,top,size=9,bold=false,color=C.ink,align='left'){
+    const s=safeText(t);if(align==='right')x-=measure(s,size,bold);if(align==='center')x-=measure(s,size,bold)/2;
+    commands.push(`BT /F${bold?2:1} ${fmt(size)} Tf ${rgb(color)} rg 1 0 0 1 ${fmt(x)} ${fmt(H-top-size)} Tm (${ps(s)}) Tj ET`);
   }
-  function rect(x,top,w,h,fill='#ffffff',stroke=null){
-    commands.push(`${rgb(fill)} rg ${fmt(x)} ${fmt(H-top-h)} ${fmt(w)} ${fmt(h)} re f`);
-    if(stroke)commands.push(`${rgb(stroke)} RG 0.8 w ${fmt(x)} ${fmt(H-top-h)} ${fmt(w)} ${fmt(h)} re S`);
+  function rect(x,top,w,h,fill=C.white){commands.push(`${rgb(fill)} rg ${fmt(x)} ${fmt(H-top-h)} ${fmt(w)} ${fmt(h)} re f`);}
+  function rounded(x,top,w,h,r,fill=C.white,stroke=null){
+    const yy=H-top-h,k=.5522847498*r;
+    const path=`${fmt(x+r)} ${fmt(yy)} m ${fmt(x+w-r)} ${fmt(yy)} l `+
+      `${fmt(x+w-r+k)} ${fmt(yy)} ${fmt(x+w)} ${fmt(yy+r-k)} ${fmt(x+w)} ${fmt(yy+r)} c `+
+      `${fmt(x+w)} ${fmt(yy+h-r)} l ${fmt(x+w)} ${fmt(yy+h-r+k)} ${fmt(x+w-r+k)} ${fmt(yy+h)} ${fmt(x+w-r)} ${fmt(yy+h)} c `+
+      `${fmt(x+r)} ${fmt(yy+h)} l ${fmt(x+r-k)} ${fmt(yy+h)} ${fmt(x)} ${fmt(yy+h-r+k)} ${fmt(x)} ${fmt(yy+h-r)} c `+
+      `${fmt(x)} ${fmt(yy+r)} l ${fmt(x)} ${fmt(yy+r-k)} ${fmt(x+r-k)} ${fmt(yy)} ${fmt(x+r)} ${fmt(yy)} c h`;
+    commands.push(`${rgb(fill)} rg ${stroke?rgb(stroke)+' RG 0.7 w ':''}${path} ${stroke?'B':'f'}`);
   }
-  function line(top,x=M,w=U,color=BORDER){commands.push(`${rgb(color)} RG 0.7 w ${fmt(x)} ${fmt(H-top)} m ${fmt(x+w)} ${fmt(H-top)} l S`);}
-  function wrap(text,maxWidth,size=9,bold=false){
-    const words=cpText(text).split(/\s+/).filter(Boolean);let result=[],curr='';
+  function rule(top,x=M,w=U,color=C.border){commands.push(`${rgb(color)} RG 0.6 w ${fmt(x)} ${fmt(H-top)} m ${fmt(x+w)} ${fmt(H-top)} l S`);}
+  function wrap(t,maxWidth,size=9,bold=false){
+    const words=safeText(t).split(/\s+/).filter(Boolean);const lines=[];let curr='';
     for(let word of words){
       while(measure(word,size,bold)>maxWidth){
-        let part='';while(word&&measure(part+word[0],size,bold)<=maxWidth){part+=word[0];word=word.slice(1)}
-        if(curr){result.push(curr);curr='';}if(part)result.push(part);else{result.push(word[0]);word=word.slice(1)}
+        let part='';while(word && measure(part+word[0],size,bold)<=maxWidth){part+=word[0];word=word.slice(1)}
+        if(curr){lines.push(curr);curr=''}if(part)lines.push(part);else{lines.push(word[0]);word=word.slice(1)}
       }
       if(!word)continue;
-      const test=curr?curr+' '+word:word;
-      if(curr&&measure(test,size,bold)>maxWidth){result.push(curr);curr=word}else curr=test;
+      const next=curr?curr+' '+word:word;
+      if(curr && measure(next,size,bold)>maxWidth){lines.push(curr);curr=word}else curr=next;
     }
-    if(curr)result.push(curr);return result.length?result:[''];
+    if(curr)lines.push(curr);return lines.length?lines:[''];
   }
-  function newPage(){commands=[];pages.push(commands);y=42;
-    if(pages.length>1){rect(M,30,U,29,PALE);write('HILEN',M+10,37,12,true,NAVY);write('ESTADO DE CUENTA  |  CONTINUACIÓN',R-10,38,8,true,GREY,'right');y=80;}
+  function newPage(continued=false){
+    commands=[];pages.push(commands);y=0;rect(0,0,W,H,C.bg);
+    if(!continued){
+      rect(0,0,W,101,C.navy);rect(0,99,W,2,C.gold);
+      text('HILEN',M+2,19,23,true,C.white);
+      text('B I S U T E R Í A   F I N A  &  A C C E S O R I O S',M+2,51,6.5,false,'#dfdfdf');
+      text('RESUMEN DE',R-2,20,10,true,C.white,'right');
+      text('COMPRAS Y ABONOS',R-2,38,15,true,C.white,'right');
+      text('Créditos · Movimientos · Saldo',R-2,63,8,false,'#d7dfe9','right');
+      y=110;
+    }else{
+      rect(0,0,W,62,C.navy);rect(0,60,W,2,C.gold);
+      text('HILEN',M+2,12,20,true,C.white);
+      text('RESUMEN DE COMPRAS Y ABONOS',R-2,18,10,true,C.white,'right');
+      text('HISTORIAL DE MOVIMIENTOS · CONTINUACIÓN',M+4,77,10,true,C.ink);
+      y=105;
+    }
   }
-  function need(h){if(y+h>H-65){newPage();return true}return false;}
-  function section(name){need(57);y+=20;write(name,M,y,11.5,true,NAVY);y+=24;rect(M,y,U,2,GOLD);y+=13;sectionName=name;}
-  function tableHead(specs){need(28);rect(M,y,U,27,PALE);for(const [label,x,align] of specs)write(label,x,y+8,8,true,GREY,align||'left');y+=27;}
-  function textAt(t,x,y0,w,size=9,color=NAVY){wrap(t,w,size).forEach((row,i)=>write(row,x,y0+i*12,size,false,color));}
+  function ensure(height){if(y+height>H-43)newPage(true);}
+  function drawFooter(){
+    for(let i=0;i<pages.length;i++){
+      commands=pages[i];rule(H-29,M,U);
+      text('HILEN · La simplicidad es la clave de la verdadera elegancia.',M,H-24,7,false,C.muted);
+      text(`${i+1} / ${pages.length}`,R,H-24,7,false,C.muted,'right');
+    }
+  }
+  function cardSummary(label,value,x,w,fill,accent){
+    rounded(x,y,w,58,11,fill,C.border);rect(x+12,y+14,3,8,accent);
+    text(label,x+22,y+11,7.1,true,C.muted);
+    text(money(value),x+14,y+31,17,true,accent===C.green?C.green:accent===C.blue?C.blue:C.ink);
+  }
   newPage();
-  // Encabezado con identidad HILEN, sin datos tributarios inventados.
-  rect(M,y,U,77,NAVY);rect(M,y,5,77,GOLD);
-  rect(M+19,y+19,38,38,GOLD);
-  write('H',M+31,y+23,23,true,'#ffffff');
-  write('HILEN',M+69,y+16,23,true,'#ffffff');
-  write('BISUTERÍA FINA',M+70,y+46,8.5,false,'#d5dce8');
-  write('ESTADO DE CUENTA',R-18,y+22,11,true,'#ffffff','right');
-  write('DETALLE DE COMPRAS Y ABONOS',R-18,y+43,7.5,false,'#d5dce8','right');
-  y+=95;
-  write('CLIENTE',M,y,8,true,GREY);write('PERÍODO CONSULTADO',M+278,y,8,true,GREY);y+=15;
-  textAt(client.name||'Cliente',M,y,252,12,NAVY);
-  write(shortDate(start)+'  al  '+shortDate(end),M+278,y,10,true,NAVY);y+=29;
-  if(client.phone){write('Teléfono: '+client.phone,M,y,9,false,GREY);y+=18;}
-  line(y);y+=8;
-  write('Fecha de corte: '+shortDate(end),M,y+5,9,true,NAVY);
-  write('Emitido: '+new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'}),R,y+5,9,false,GREY,'right');
-  y+=20;
-  section('1. DETALLE DE COMPRAS A CRÉDITO');
-  const xDate=M+9,xProd=M+104,xQty=M+328,xPrice=M+420,xTotal=R-10;
-  const purchaseHead=[['FECHA',xDate],['ARTÍCULO / DESCRIPCIÓN',xProd],['CANT.',xQty,'right'],['PRECIO UNIT.',xPrice,'right'],['VALOR',xTotal,'right']];
-  tableHead(purchaseHead);
-  if(!sales.length){need(43);write('No hay compras a crédito registradas dentro de estas fechas.',xDate,y+14,9,false,GREY);y+=43;line(y);}
-  let count=0;
-  for(const sale of sales){
-    const its=(Array.isArray(sale.items)&&sale.items.length)?sale.items:[{name:'Compra registrada',qty:1,price:Number(sale.total)||0}];
-    let subtotalItems=0;
-    for(const item of its){
-      const qty=Number(item.qty)||1,price=Number(item.price)||0,total=qty*price;subtotalItems+=total;
-      const lines=wrap(item.name||'Artículo',215,8.9),height=Math.max(35,lines.length*12+15);
-      if(need(height)){tableHead(purchaseHead);}
-      if(count%2===0)rect(M,y,U,height,'#fafbfd');
-      write(shortDate(sale.date),xDate,y+10,8.7,false,GREY);
-      lines.forEach((part,i)=>write(part,xProd,y+10+i*12,8.9,false,NAVY));
-      write(qty,xQty,y+10,8.7,false,NAVY,'right');
-      write(money(price),xPrice,y+10,8.7,false,NAVY,'right');
-      write(money(total),xTotal,y+10,8.7,true,NAVY,'right');
-      y+=height;line(y);count++;
-    }
-    const difference=Math.round(hilenSaleNetTotal(sale)-subtotalItems);
-    if(difference){
-      if(need(32))tableHead(purchaseHead);
-      write(shortDate(sale.date),xDate,y+9,8.7,false,GREY);
-      write(difference<0?'Descuento aplicado a la compra':'Ajuste del valor de la compra',xProd,y+9,8.5,false,GREY);
-      write(money(Math.abs(difference)),xTotal,y+9,8.7,true,NAVY,'right');
-      y+=32;line(y);count++;
-    }
-  }
-  const periodCredit=sales.reduce((sum,s)=>sum+hilenSaleNetTotal(s),0);
-  need(33);rect(M,y,U,32,'#eef2f7');write('TOTAL DE COMPRAS DEL PERÍODO',M+10,y+9,8.6,true,GREY);write(money(periodCredit),R-10,y+8,11,true,NAVY,'right');y+=32;
-  section('2. ABONOS REALIZADOS EN EL PERÍODO');
-  const paymentsHead=[['FECHA',M+9],['FORMA DE PAGO',M+148],['VALOR ABONADO',R-10,'right']];
-  tableHead(paymentsHead);
-  if(!payments.length){need(40);write('No hay abonos registrados dentro de estas fechas.',M+9,y+12,9,false,GREY);y+=40;line(y);}
-  for(const p of payments){if(need(33))tableHead(paymentsHead);
-    write(shortDate(p.date),M+9,y+10,9,false,NAVY);
-    write(p.destination==='bank'?'Nequi / Transferencia':'Efectivo',M+148,y+10,9,false,GREY);
-    write(money(Number(p.amount)||0),R-10,y+9,9,true,NAVY,'right');y+=33;line(y);
-  }
-  const periodPaid=payments.reduce((sum,p)=>sum+(Number(p.amount)||0),0);
-  need(33);rect(M,y,U,32,'#eef2f7');write('TOTAL DE ABONOS DEL PERÍODO',M+10,y+9,8.6,true,GREY);write(money(periodPaid),R-10,y+8,11,true,NAVY,'right');y+=32;
-  // Cronología completa hasta el corte: no mezcla ventas de contado ni totales mensuales manuales.
-  section('3. MOVIMIENTOS CRONOLÓGICOS DEL CLIENTE');
-  const chronology=db.sales.filter(s=>s.clientId===client.id&&s.type==='credit'&&s.date<=end).map(s=>({kind:'sale',id:s.id,date:s.date,time:s.time,createdAt:s.createdAt,amount:hilenPrincipal(s),label:'Compra '+hilenInvoiceCode(s)})).concat(db.payments.filter(p=>p.clientId===client.id&&p.date<=end).map(p=>({kind:'payment',id:p.id,date:p.date,time:p.time,createdAt:p.createdAt,amount:hilenNum(p.amount),label:'Abono'}))).sort(hilenCompare);
-  const movementsHead=[['FECHA',M+9],['MOVIMIENTO',M+116],['IMPORTE',M+346,'right'],['SALDO',R-10,'right']];
-  tableHead(movementsHead);
-  let ledgerRunning=0;
-  if(!chronology.length){need(32);write('Sin movimientos a crédito al corte.',M+9,y+9,9,false,GREY);y+=32;line(y)}
-  for(const move of chronology){ledgerRunning+=move.kind==='sale'?move.amount:-move.amount;if(need(31))tableHead(movementsHead);write(shortDate(move.date),M+9,y+9,8.4,false,GREY);write(move.label,M+116,y+9,8.4,false,NAVY);write((move.kind==='sale'?'+':'-')+money(move.amount),M+346,y+9,8.4,false,NAVY,'right');write(money(Math.max(0,ledgerRunning)),R-10,y+9,8.4,true,NAVY,'right');y+=31;line(y)}
-  // El saldo al corte es acumulado: no se calcula solo con movimientos del período.
-  const adjustment=Number(balance.adjustment)||0,posit=Number(balance.balance)>0;
-  need(160+(adjustment?17:0));
-  y+=7;
-  write('4. RESUMEN DE LA CUENTA',M,y,11.5,true,NAVY);y+=25;
-  rect(M,y,U,2,GOLD);y+=10;
-  const summary=(label,amount)=>{write(label,M+10,y,9,false,GREY);write(money(amount),R-10,y,10,true,NAVY,'right');y+=17;};
-  summary('Compras a crédito hasta '+shortDate(end),Number(balance.purchases)||0);
-  summary('Abonos realizados hasta '+shortDate(end),Number(balance.paid)||0);
-  if(adjustment)summary('Ajuste de saldo registrado',adjustment);
-  y+=4;
-  rect(M,y,U,55,posit?'#fff4df':'#eaf9f1',posit?'#e7c98a':'#a8dec3');
-  rect(M,y,5,55,posit?GOLD:'#158658');
-  write(posit?'SALDO PENDIENTE AL '+shortDate(end):'ESTADO DE LA CUENTA',M+16,y+8,9,true,posit?'#986207':'#148358');
-  write(posit?money(balance.balance):'CUENTA AL DÍA',M+16,y+26,19,true,NAVY);
+  rounded(M,y,U,53,11,C.white,C.border);
+  text('CLIENTE',M+14,y+10,7.5,true,C.muted);
+  text('FECHA DE CORTE',M+277,y+10,7.5,true,C.muted);
+  const clientName=wrap(name,250,12.5,true);
+  text(clientName[0],M+14,y+26,12.5,true,C.ink);
+  text(shortDate(end),M+277,y+28,10.5,true,C.ink);
   y+=62;
-  textAt('El saldo incluye compras y abonos anteriores al período, hasta la fecha de corte.',M,y,U,8,GREY);
-  y+=24;need(45);write('La simplicidad es la clave de la verdadera elegancia.',M,y,8.5,false,GOLD);y+=16;
-  pages.forEach((page,i)=>{commands=page;line(H-48);write('HILEN  ·  Estado de cuenta  ·  '+(client.name||'Cliente'),M,H-40,8,false,GREY);write('Página '+(i+1)+' de '+pages.length,R,H-40,8,false,GREY,'right');});
-  // Serializador PDF local, sin impresora ni servicios externos.
+  const gap=10,w=(U-gap)/2;
+  cardSummary('TOTAL DE ABONOS',balance.paid||0,M,w,C.greenSoft,C.green);
+  cardSummary('SALDO PENDIENTE',balance.balance||0,M+w+gap,w,C.goldSoft,C.navy);
+  y+=75;
+  text('HISTORIAL DE MOVIMIENTOS',M,y,12.2,true,C.ink);
+  text('En orden de fecha',R,y+3,8,false,C.muted,'right');
+  y+=25;rule(y);y+=8;
+
+  // Se usa la historia hasta la fecha de corte, igual que el estado de cuenta original.
+  // El descuento por producto y el descuento general ya están incluidos en hilenPrincipal.
+  const chronological=(db.sales||[]).filter(s=>s.clientId===client.id&&s.type==='credit'&&s.date&&s.date<=end).map(s=>({kind:'sale',date:s.date,time:s.time,createdAt:s.createdAt,id:s.id,sale:s,amount:hilenPrincipal(s)}))
+    .concat((db.payments||[]).filter(p=>p.clientId===client.id&&p.date&&p.date<=end).map(p=>({kind:'payment',date:p.date,time:p.time,createdAt:p.createdAt,id:p.id,payment:p,amount:hilenNum(p.amount)})));
+  const adjustment=Number(balance.adjustment)||0;
+  if(adjustment){const adjustmentDate=client.balanceAdjustmentDate||String(client.balanceAdjustedAt||'').slice(0,10)||'0000-01-01';chronological.push({kind:'adjustment',date:adjustmentDate,time:'00:00:00',createdAt:'',id:'historical-balance',amount:adjustment});}
+  chronological.sort(hilenCompare);
+  let running=0;
+  if(!chronological.length){
+    rounded(M,y,U,56,11,C.white,C.border);text('No hay movimientos de crédito ni abonos hasta la fecha de corte.',M+15,y+17,9,false,C.muted);y+=67;
+  }
+  for(const m of chronological){
+    const sale=m.sale,paid=m.kind==='payment',adjusted=m.kind==='adjustment';
+    if(m.kind==='sale')running+=m.amount;else if(paid)running-=m.amount;else running+=m.amount;
+    const pending=Math.max(0,running);
+    let items=[];
+    if(sale){
+      const originals=Array.isArray(sale.items)&&sale.items.length?sale.items:[{name:'Compra a crédito registrada',qty:1,price:hilenSaleNetTotal(sale)}];
+      items=originals.flatMap(it=>{const qty=Math.max(1,hilenNum(it.qty)||1),unit=hilenItemNetUnit(it),lineTotal=hilenItemLineTotal(it),label=`${qty} × ${it.name||'Artículo'}`;
+        return [{lines:wrap(label,U-135,8.7),price:qty*hilenNum(it.price),net:lineTotal,discount:hilenItemDiscount(it)*qty,qty,unit}];});
+    }
+    const lineCount=items.reduce((sum,i)=>sum+i.lines.length+(i.discount>0?1:0),0);
+    const extraSale=sale?((hilenSaleManualDiscount(sale)>0?12:0)+(hilenNum(sale.initialPaid)>0?12:0)):0;
+    const height=paid?42:adjusted?49:Math.max(61,47+lineCount*13+extraSale);
+    ensure(height+7);
+    if(paid){
+      rounded(M,y,U,height,10,C.greenSoft,'#cde9dd');rect(M,y+9,3,height-18,C.green);
+      text('ABONO RECIBIDO',M+15,y+9,9.2,true,C.green);
+      text(dateLabel(m.date),M+141,y+10,8,false,C.muted);
+      text('- '+money(m.amount),R-13,y+10,10.6,true,C.green,'right');
+      text('Saldo después del abono: '+money(pending),M+15,y+26,8.6,true,C.ink);
+    }else if(adjusted){
+      rounded(M,y,U,height,10,C.goldSoft,C.border);rect(M,y+9,3,height-18,C.gold);
+      text('AJUSTE HISTÓRICO DE SALDO',M+15,y+10,8.9,true,C.orange);
+      text(dateLabel(m.date),R-14,y+11,8,false,C.muted,'right');
+      text((m.amount<0?'- ':'')+money(Math.abs(m.amount)),R-14,y+29,9.2,true,C.ink,'right');
+      text('Saldo: '+money(pending),M+15,y+29,9,true,C.ink);
+    }else{
+      rounded(M,y,U,height,10,C.white,C.border);rect(M,y+9,3,height-18,C.blue);
+      text('COMPRA A CRÉDITO',M+15,y+9,9,true,C.ink);
+      text('Factura '+hilenInvoiceCode(sale),M+151,y+10,8,false,C.muted);
+      text(dateLabel(m.date),R-13,y+10,8,false,C.muted,'right');
+      rule(y+26,M+15,U-30,'#eff1f4');
+      let lineY=y+31;
+      for(const item of items){
+        item.lines.forEach((l,j)=>{text(l,M+17,lineY,8.6,false,C.ink);if(j===0)text(money(item.price),R-15,lineY,8.6,true,C.ink,'right');lineY+=13;});
+        if(item.discount>0){text('Descuento del producto',M+28,lineY,7.8,false,C.muted);text('- '+money(item.discount),R-15,lineY,8.2,true,C.green,'right');lineY+=13;}
+      }
+      if(hilenSaleManualDiscount(sale)){text('Descuento general de la compra',M+17,lineY,8,false,C.muted);text('- '+money(hilenSaleManualDiscount(sale)),R-15,lineY,8,true,C.green,'right');lineY+=12;}
+      if(hilenNum(sale.initialPaid)){text('Pago inicial recibido',M+17,lineY,8,false,C.muted);text('- '+money(sale.initialPaid),R-15,lineY,8,true,C.green,'right');lineY+=12;}
+      const footerY=y+height-15;
+      text('Total factura: '+money(hilenSaleNetTotal(sale)),M+15,footerY-1,8.7,true,C.ink);
+      text('Saldo: '+money(pending),R-15,footerY-1,8.7,true,C.blue,'right');
+    }
+    y+=height+6;
+  }
+  // El recuadro final se mantiene completo en una misma página.
+  const extraHeight=adjustment?17:0,boxHeight=91+extraHeight;
+  ensure(boxHeight+16);y+=12;
+  rounded(M,y,U,boxHeight,12,C.white,C.border);rect(M+12,y, U-24,3,C.gold);
+  text('RESUMEN FINAL DE LA CUENTA',M+16,y+12,10,true,C.ink);
+  text('Corte: '+shortDate(end),R-16,y+13,8,false,C.muted,'right');
+  text('Abonos recibidos',M+16,y+34,8.7,false,C.muted);
+  text('- '+money(balance.paid||0),R-16,y+33,9.2,true,C.green,'right');
+  if(adjustment){text('Ajuste histórico de saldo',M+16,y+52,8.5,false,C.muted);text((adjustment<0?'- ':'')+money(Math.abs(adjustment)),R-16,y+51,9,true,C.ink,'right');}
+  const separator=y+(adjustment?69:52);rule(separator,M+16,U-32);
+  text('SALDO PENDIENTE POR PAGAR',M+16,separator+12,10,true,C.ink);
+  text(money(balance.balance||0),R-16,separator+6,19,true,C.navy,'right');
+  y+=boxHeight+8;
+  // Cada página tiene pie y numeración propios. No se inventan operaciones ni valores.
+  drawFooter();
   const objects=[];
   objects[1]='<< /Type /Catalog /Pages 2 0 R >>';
   objects[2]=`<< /Type /Pages /Count ${pages.length} /Kids [${pages.map((p,i)=>`${5+i*2} 0 R`).join(' ')}] >>`;
   objects[3]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
   objects[4]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
-  pages.forEach((p,i)=>{const id=5+2*i,stream=p.join('\n')+'\n';
-    objects[id]=`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${fmt(W)} ${fmt(H)}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${id+1} 0 R >>`;
-    objects[id+1]=`<< /Length ${stream.length} >>\nstream\n${stream}endstream`;
+  pages.forEach((pg,i)=>{const idx=5+i*2,stream=pg.join('\n')+'\n';
+    objects[idx]=`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${fmt(W)} ${fmt(H)}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${idx+1} 0 R >>`;
+    objects[idx+1]=`<< /Length ${stream.length} >>\nstream\n${stream}endstream`;
   });
   let pdf='%PDF-1.4\n%\xE2\xE3\xCF\xD3\n',offsets=[0];
   for(let i=1;i<objects.length;i++){offsets[i]=pdf.length;pdf+=`${i} 0 obj\n${objects[i]}\nendobj\n`;}
-  const xref=pdf.length;
-  pdf+=`xref\n0 ${objects.length}\n0000000000 65535 f \n`;
+  const xref=pdf.length;pdf+=`xref\n0 ${objects.length}\n0000000000 65535 f \n`;
   for(let i=1;i<objects.length;i++)pdf+=`${String(offsets[i]).padStart(10,'0')} 00000 n \n`;
   pdf+=`trailer\n<< /Size ${objects.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
-  const bytes=new Uint8Array(pdf.length);
-  for(let i=0;i<pdf.length;i++)bytes[i]=pdf.charCodeAt(i)&255;
+  const bytes=new Uint8Array(pdf.length);for(let i=0;i<pdf.length;i++)bytes[i]=pdf.charCodeAt(i)&255;
   return new Blob([bytes],{type:'application/pdf'});
 }
 function downloadGeneratedStatement(){
@@ -4690,7 +4721,7 @@ function downloadGeneratedStatement(){
     const pdf=statementPdfFile(client,m.start,m.end,sales,pays,clientBalance(client.id,m.end));
     const url=URL.createObjectURL(pdf),link=document.createElement('a');
     const name=String(client.name||'Cliente').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9_-]+/gi,'_').replace(/^_+|_+$/g,'').slice(0,50)||'Cliente';
-    link.href=url;link.download=`HILEN_Estado_de_cuenta_detallado_${name}_${m.start}_${m.end}.pdf`;
+    link.href=url;link.download=`HILEN_Resumen_de_compras_y_abonos_${name}_${m.end}.pdf`;
     document.body.appendChild(link);link.click();link.remove();
     setTimeout(()=>URL.revokeObjectURL(url),60000);
     recordStatementDownload();
