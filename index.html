@@ -2656,6 +2656,177 @@ input,select,textarea,button{max-width:100%}
 .hilen-customer-zoom-target{transform-origin:top left}
 @media(max-width:700px){.hilen-global-zoom-toolbar{align-items:flex-start;padding:9px}.hilen-global-zoom-toolbar .hilen-global-zoom-actions{width:100%}}
 @media print{.hilen-global-zoom-toolbar{display:none!important}.hilen-customer-zoom-target,.hilen-global-zoom-area>table{zoom:1!important}}
+
+/* HILEN · Correcciones de lectura y orientación tablet (solo presentación). */
+/* Evitar cortes en totales del inicio; los importes deben adaptarse a cualquier ancho. */
+#home .home-kpis .kpi-card{min-width:0!important;overflow:visible!important;gap:9px!important}
+#home .home-kpis .kpi-text{flex:1 1 0!important;min-width:0!important;max-width:100%!important}
+#home .home-kpis .kpi-value{display:block!important;max-width:100%!important;font-size:clamp(16px,1.65vw,23px)!important;line-height:1.14!important;white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:normal!important;letter-spacing:-.65px!important;font-variant-numeric:tabular-nums!important}
+#home .home-kpis .kpi-sub{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;line-height:1.35!important}
+/* Importes largos: no usar alturas rígidas ni colocar iconos encima del número. */
+#cashflow .cash-grid-reference,#cashflow .cash-main-reference,#cashflow .cash-movements-card,#payments .payment-history-card{min-width:0!important;max-width:100%!important}
+#cashflow .cash-balance-reference{min-width:0!important;overflow:visible!important}
+#cashflow .cash-balance-main{min-width:0!important;flex:1!important}
+#cashflow .cash-balance-main>div:last-child{min-width:0!important;flex:1!important}
+#cashflow .cash-balance-reference .balance-value{max-width:100%!important;font-size:clamp(18px,2.05vw,28px)!important;line-height:1.16!important;letter-spacing:-.7px!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;font-variant-numeric:tabular-nums!important}
+#cashflow .cash-summary-reference>.cash-summary-ref{min-width:0!important;min-height:96px!important;align-items:center!important;overflow:visible!important}
+#cashflow .cash-summary-ref>div:first-child{flex:1 1 0!important;min-width:0!important}
+#cashflow .cash-summary-ref .csv{font-size:clamp(17px,1.7vw,23px)!important;line-height:1.18!important;max-width:100%!important;white-space:normal!important;overflow-wrap:anywhere!important;font-variant-numeric:tabular-nums!important}
+#cashflow .cash-summary-icon{flex-shrink:0!important}
+#cashflow #cashflowTable,#cashflow #cashflowTable .table-wrap{min-width:0!important;max-width:100%!important}
+#cashflow #cashflowTable .table-wrap{overflow-x:auto!important;overflow-y:visible!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important}
+#cashflow #cashflowTable .table{min-width:900px!important;width:max-content!important;max-width:none!important;table-layout:auto!important}
+#cashflow #cashflowTable .table th,#cashflow #cashflowTable .table td{font-size:12px!important;line-height:1.35!important;padding:11px 12px!important;word-break:normal!important;overflow-wrap:normal!important;vertical-align:middle!important}
+#cashflow #cashflowTable .table th:nth-child(1),#cashflow #cashflowTable .table td:nth-child(1){min-width:130px}
+#cashflow #cashflowTable .table th:nth-child(3),#cashflow #cashflowTable .table td:nth-child(3){min-width:150px;max-width:300px;overflow-wrap:anywhere!important}
+#cashflow #cashflowTable .table th:nth-child(5),#cashflow #cashflowTable .table td:nth-child(5){white-space:nowrap!important;min-width:115px}
+#cashflow #cashflowTable .table th:last-child,#cashflow #cashflowTable .table td:last-child{min-width:112px}
+#cashflow #cashflowTable .action-group{display:flex!important;flex-wrap:nowrap!important;gap:7px!important}
+#cashflow #cashflowTable .action-mini{flex-shrink:0!important}
+/* Abonos: legibilidad numérica y tabla navegable sin encoger letras. */
+#payments #paymentSummary{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:11px!important}
+#payments #paymentSummary .payment-kpi{min-width:0!important;overflow:visible!important;padding:14px!important}
+#payments #paymentSummary .payment-kpi .pk-value{max-width:100%!important;font-size:clamp(18px,1.8vw,24px)!important;line-height:1.18!important;letter-spacing:-.7px!important;white-space:normal!important;overflow-wrap:anywhere!important;font-variant-numeric:tabular-nums!important}
+#payments #paymentsTable .table-wrap{overflow-x:auto!important;max-width:100%!important;-webkit-overflow-scrolling:touch!important}
+#payments #paymentsTable .table{min-width:910px!important;width:max-content!important;max-width:none!important;table-layout:auto!important}
+#payments #paymentsTable .table th,#payments #paymentsTable .table td{font-size:12px!important;line-height:1.35!important;padding:10px 11px!important;overflow-wrap:normal!important}
+#payments .payment-kpi .pk-value,#payments .hilen-payment-portfolio-tile strong{overflow-wrap:anywhere!important;white-space:normal!important;max-width:100%!important;font-variant-numeric:tabular-nums!important}
+/* Gráficos: barras completas, desplazamiento SOLO horizontal; meses legibles. */
+.hilen-annual-chart{min-width:0!important;overflow:hidden!important}
+.hilen-annual-chart-scroll{width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-inline:contain!important;scrollbar-gutter:auto!important;padding:9px 0 4px!important}
+.hilen-annual-bars{height:247px!important;min-width:630px!important;grid-template-columns:repeat(12,minmax(45px,1fr))!important;gap:6px!important;align-items:end!important;padding:12px 8px 10px!important;overflow:visible!important;box-sizing:border-box!important;border-bottom:1px solid #e3e8f1!important;background:repeating-linear-gradient(to bottom,transparent 0,transparent 48px,#eaf0f7 49px,#eaf0f7 50px)!important}
+.hilen-annual-month{grid-template-rows:196px 20px!important;gap:8px!important;height:auto!important;min-width:45px!important;padding:0!important;cursor:pointer;outline-offset:-2px}
+.hilen-annual-month:focus-visible{outline:2px solid #356bd8;border-radius:7px}
+.hilen-annual-month.is-selected{background:#eef4ff;border-radius:7px}
+.hilen-annual-pair{height:196px!important;gap:5px!important;align-items:flex-end!important}
+.hilen-annual-bar{width:14px!important;max-height:185px!important;border-radius:6px 6px 2px 2px!important}
+.hilen-annual-month-label{font-size:11px!important;line-height:17px!important;color:#425270!important}
+.hilen-annual-month-detail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;border:1px solid #dae6f7;border-radius:12px;background:#f5f8fe;color:#344a69;padding:11px 13px;font-size:12px;line-height:1.45;margin-top:13px;min-width:0}
+.hilen-annual-month-detail strong{color:#152748;font-size:13px}
+.hilen-annual-month-detail span{display:inline-flex;align-items:center;gap:6px;overflow-wrap:anywhere}
+.hilen-annual-month-detail i{width:9px;height:9px;border-radius:3px;display:inline-block;flex:none}
+.hilen-annual-month-detail i.a{background:#356bd8}.hilen-annual-month-detail i.b{background:#d99431}
+.hilen-annual-legend{font-size:12px!important;margin-top:11px!important}
+@media(min-width:1500px){.hilen-annual-bars{min-width:590px!important}}
+@media(min-width:751px) and (max-width:1440px){.hilen-annual-charts{grid-template-columns:1fr!important}.hilen-annual-bars{min-width:660px!important}}
+/* Zoom de facturas: controles ANCLADOS al encabezado; solo el detalle se amplía. */
+#customerPurchaseContent .hilen-invoice-sticky-head{position:sticky!important;top:-26px!important;z-index:15!important;margin:-26px -26px 18px!important;padding:24px 26px 10px!important;background:rgba(255,255,255,.98)!important;border-bottom:1px solid #e5eaf1!important;box-shadow:0 6px 15px rgba(20,31,50,.045)!important;backdrop-filter:blur(12px)}
+#customerPurchaseContent .hilen-invoice-sticky-head .customer-purchase-header{margin:0 0 9px!important;align-items:center!important}
+#customerPurchaseContent .hilen-invoice-sticky-head .hilen-invoice-zoom-toolbar{display:flex!important;position:relative!important;justify-content:flex-end!important;margin:0!important;padding:0!important;flex-wrap:wrap!important;gap:5px!important;max-width:100%!important}
+#customerPurchaseContent .hilen-invoice-zoom-toolbar button{min-height:34px!important;padding:7px 10px!important}
+#customerPurchaseContent .hilen-invoice-zoom-body{max-width:100%;min-width:0}
+#customerPurchaseContent .hilen-invoice-zoom-body .table-wrap{overflow-x:auto!important;max-width:100%!important}
+@media(max-width:710px){.customer-purchase-dialog{padding:17px!important}#customerPurchaseContent .hilen-invoice-sticky-head{top:-17px!important;margin:-17px -17px 15px!important;padding:15px 17px 12px!important}#customerPurchaseContent .hilen-invoice-sticky-head .customer-purchase-header h2{font-size:19px!important}}
+/* Tablet horizontal: no comprimir dos paneles o siete columnas en unos pocos píxeles. */
+@media(min-width:820px) and (max-width:1366px) and (orientation:landscape){
+ #cashflow .cash-main-reference{grid-template-columns:minmax(0,1fr)!important;align-items:start!important}
+ #cashflow .cash-grid-reference{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #cashflow .cash-balance-reference{padding:13px 15px!important;gap:8px!important;min-height:103px!important}
+ #cashflow .cash-balance-reference .icon-box{width:39px!important;height:39px!important;min-width:39px!important}
+ #cashflow .cash-balance-main{gap:9px!important}
+ #cashflow .cash-card-arrow{display:none!important}
+ #cashflow .cash-summary-reference{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #payments .payments-layout-pro{grid-template-columns:minmax(0,1fr)!important}
+ #payments #paymentSummary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #cashflow #cashflowTable .table-wrap,#payments #paymentsTable .table-wrap{overflow-x:auto!important}
+}
+@media(max-width:819px){
+ #cashflow .cash-main-reference,#payments .payments-layout-pro{grid-template-columns:minmax(0,1fr)!important}
+ #cashflow .cash-grid-reference{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #cashflow .cash-grid-reference .total-b{grid-column:1/-1!important}
+ #cashflow .cash-summary-reference,#payments #paymentSummary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #cashflow .cash-summary-ref{padding:12px!important}
+ #cashflow .cash-summary-icon{width:34px!important;height:34px!important;flex-basis:34px!important}
+ #cashflow #cashflowTable .table-wrap,#payments #paymentsTable .table-wrap{overflow-x:auto!important}
+}
+@media(max-width:490px){#cashflow .cash-grid-reference,#cashflow .cash-summary-reference,#payments #paymentSummary{grid-template-columns:minmax(0,1fr)!important}#cashflow .cash-grid-reference .total-b{grid-column:auto!important}}
+
+
+/* HILEN · Filtros de caja: un tipo a la vez y búsqueda local, sin alterar saldos. */
+#cashflow .hilen-cash-filter-bar{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(220px,.7fr);align-items:end;gap:12px;margin:17px 0 6px;padding:13px;background:#f7f9fd;border:1px solid #e4eaf3;border-radius:15px;min-width:0}
+#cashflow .hilen-cash-filter-title,#cashflow .hilen-cash-filter-search label{font-size:12px;font-weight:800;color:#536580;display:block;margin-bottom:8px}
+#cashflow .hilen-cash-filter-options{display:flex;gap:5px;flex-wrap:wrap;min-width:0}
+#cashflow .hilen-cash-filter-options button{border:1px solid #dae4f1;border-radius:10px;background:white;color:#455775;padding:10px 12px;font-size:12px;font-weight:800;min-height:40px;white-space:nowrap}
+#cashflow .hilen-cash-filter-options button.active{background:#0f203f;color:#fff;border-color:#0f203f;box-shadow:0 4px 12px #10264622}
+#cashflow .hilen-cash-filter-options button:focus-visible{outline:2px solid #356bd8;outline-offset:2px}
+#cashflow .hilen-cash-filter-search{min-width:0}
+#cashflow .hilen-cash-filter-search .input{margin:0!important;min-height:42px!important;max-width:100%;font-size:13px!important}
+#cashflow .hilen-cash-filter-result{font-size:11px;color:#64728d;margin:6px 0 12px;line-height:1.4}
+/* Evitar que el importe y los botones queden ocultos en tablet horizontal. */
+#cashflow #cashflowTable .table-wrap{width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-gutter:auto!important}
+#cashflow #cashflowTable table{min-width:920px!important;width:100%!important;max-width:none!important}
+#cashflow #cashflowTable th,#cashflow #cashflowTable td{white-space:nowrap;vertical-align:middle!important}
+#cashflow #cashflowTable td:nth-child(3){white-space:normal!important;min-width:165px!important;max-width:270px!important;overflow-wrap:anywhere!important}
+#cashflow .cash-movements-card,#cashflow .cash-register-card{min-width:0!important;overflow:visible!important}
+#cashflow .cash-summary-ref .csv,#cashflow .cash-balance-reference .balance-value{font-variant-numeric:tabular-nums!important;overflow-wrap:anywhere!important;white-space:normal!important}
+#cashflow .cash-summary-ref .cash-summary-icon{align-self:center!important}
+@media(min-width:820px) and (max-width:1480px) and (orientation:landscape){
+ #cashflow .cash-main-reference{grid-template-columns:minmax(0,1fr)!important}
+ #cashflow .cash-summary-reference{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #cashflow .cash-grid-reference{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #payments .payments-layout-pro{grid-template-columns:minmax(0,1fr)!important}
+ #payments #paymentSummary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media(max-width:1120px){
+ #cashflow .hilen-cash-filter-bar{grid-template-columns:minmax(0,1fr)!important}
+ #home .home-kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #home .home-kpis .kpi-card{min-height:105px!important}
+}
+@media(max-width:750px){
+ #home .home-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #cashflow .hilen-cash-filter-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ #cashflow .hilen-cash-filter-options button{padding:10px 5px}
+ #cashflow .cash-grid-reference{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #cashflow .cash-grid-reference .total-b{grid-column:1/-1!important}
+}
+@media(max-width:480px){#cashflow .hilen-cash-filter-bar{padding:10px}}
+
+
+/* Encargos · estados legibles y menú moderno que no se corta en las tablas de tablet. */
+.encargo-status-button{
+  display:inline-flex;align-items:center;justify-content:space-between;gap:9px;
+  max-width:100%;min-width:174px;min-height:38px;padding:7px 10px;
+  border:1px solid transparent;border-radius:12px;background:#fff;
+  font-size:12px;line-height:1.2;font-weight:800;white-space:nowrap;
+  cursor:pointer;transition:border-color .14s,box-shadow .14s,background .14s;
+}
+.encargo-status-button .encargo-status-dot,.hilen-encargo-menu-option .encargo-status-dot{
+  display:inline-block;width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:currentColor;
+}
+.encargo-status-button .encargo-status-name{flex:1;text-align:left}
+.encargo-status-button .encargo-status-chevron{width:13px;height:13px;flex:0 0 13px;stroke:currentColor;stroke-width:2;fill:none;opacity:.68}
+.encargo-status-button:hover,.encargo-status-button[aria-expanded="true"]{box-shadow:0 0 0 3px rgba(20,40,70,.05);filter:saturate(1.08)}
+.encargo-status-button:focus-visible,.hilen-encargo-menu-option:focus-visible{outline:3px solid #8db5ff;outline-offset:2px}
+.encargo-status-button.encargo-status-pending{background:#fff4df;border-color:#f3dba8;color:#996111}
+.encargo-status-button.encargo-status-supplier{background:#eaf1ff;border-color:#cee0ff;color:#265cc2}
+.encargo-status-button.encargo-status-response{background:#f1ebff;border-color:#dfd1ff;color:#7750b9}
+.encargo-status-button.encargo-status-client{background:#e8f7f7;border-color:#c9e9e8;color:#147b7c}
+.encargo-status-button.encargo-status-completed{background:#e5f7eb;border-color:#c6ead3;color:#16844a}
+.encargo-status-button.encargo-status-cancelled{background:#f4f5f7;border-color:#e1e4e8;color:#657082}
+/* Menú montado en body y colocado con coordenadas del viewport: evita que el scroll de la tabla lo recorte. */
+.hilen-encargo-status-menu{
+  position:fixed;z-index:210;width:min(315px,calc(100vw - 24px));
+  max-height:calc(100dvh - 24px);overflow-y:auto;overscroll-behavior:contain;
+  background:#fff;border:1px solid #e1e7f0;border-radius:17px;
+  box-shadow:0 22px 55px rgba(22,36,59,.21);padding:7px;
+}
+.hilen-encargo-menu-title{padding:9px 11px 8px;color:#6c7890;font-size:11px;font-weight:800;letter-spacing:.035em}
+.hilen-encargo-menu-option{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:11px 12px;
+  border:1px solid transparent;border-radius:11px;background:transparent;color:#1b2943;cursor:pointer}
+.hilen-encargo-menu-option:hover,.hilen-encargo-menu-option:focus-visible{background:#f4f7fc}
+.hilen-encargo-menu-option[aria-checked="true"]{background:#f3f7ff;border-color:#e4eaf7}
+.hilen-encargo-menu-option .encargo-menu-labels{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.hilen-encargo-menu-option strong{font-size:12.5px;line-height:1.25;font-weight:800}
+.hilen-encargo-menu-option small{font-size:11px;line-height:1.3;color:#768298}
+.hilen-encargo-menu-option .encargo-menu-check{font-size:16px;font-weight:800;color:#2872d0}
+.hilen-encargo-menu-option.encargo-status-pending .encargo-status-dot{color:#d49a32}
+.hilen-encargo-menu-option.encargo-status-supplier .encargo-status-dot{color:#3a79d9}
+.hilen-encargo-menu-option.encargo-status-response .encargo-status-dot{color:#9068d5}
+.hilen-encargo-menu-option.encargo-status-client .encargo-status-dot{color:#20a6a1}
+.hilen-encargo-menu-option.encargo-status-completed .encargo-status-dot{color:#2aaa69}
+.hilen-encargo-menu-option.encargo-status-cancelled .encargo-status-dot{color:#8b96a6}
+@media(max-width:900px){.encargo-status-button{min-width:165px}.hilen-encargo-status-menu{border-radius:14px}}
+
 </style>
 </head>
 <body>
@@ -2993,6 +3164,20 @@ input,select,textarea,button{max-width:100%}
           <div class="cash-period-fields"><div id="cashflowDayWrap"><label class="label">Día</label><input id="cashflowDay" class="input" type="date" onchange="renderCashflow()"></div><div id="cashflowMonthWrap" class="hidden"><label class="label">Mes</label><input id="cashflowMonth" class="input" type="month" onchange="renderCashflow()"></div><div id="cashflowYearWrap" class="hidden"><label class="label">Año</label><input id="cashflowYear" class="input" type="number" min="2000" max="2100" onchange="renderCashflow()"></div></div>
           <div id="cashflowPeriodNote" class="client-period-note cash-period-note"></div>
           <div id="cashflowSummary" class="cash-period-summary cash-summary-reference"></div>
+          <div class="hilen-cash-filter-bar" aria-label="Filtros de movimientos de caja">
+            <div class="hilen-cash-filter-types"><span class="hilen-cash-filter-title">Mostrar en la tabla</span>
+              <div class="hilen-cash-filter-options" role="group" aria-label="Filtrar movimientos por tipo">
+                <button type="button" class="active" data-cash-filter="all" aria-pressed="true" onclick="hilenSelectCashflowFilter('all')">Todos</button>
+                <button type="button" data-cash-filter="income" aria-pressed="false" onclick="hilenSelectCashflowFilter('income')">Ingresos</button>
+                <button type="button" data-cash-filter="expense" aria-pressed="false" onclick="hilenSelectCashflowFilter('expense')">Egresos</button>
+                <button type="button" data-cash-filter="transfer" aria-pressed="false" onclick="hilenSelectCashflowFilter('transfer')">Transferencias</button>
+              </div>
+            </div>
+            <div class="hilen-cash-filter-search"><label for="cashflowTextSearch">Buscar movimiento</label>
+              <input id="cashflowTextSearch" type="search" class="input" placeholder="Concepto, cliente, origen o valor" autocomplete="off" oninput="hilenCashflowSearch(this.value)">
+            </div>
+          </div>
+          <div class="hilen-cash-filter-result" id="cashflowFilterResult" aria-live="polite"></div>
           <div id="cashflowTable" class="cashflow-table-reference"></div>
         </div>
       </div>
@@ -4552,12 +4737,47 @@ function cashflowPeriodRange(){
   if(cashflowPeriodMode==='month'){const m=$('cashflowMonth')?.value||today().slice(0,7),[y,mo]=m.split('-').map(Number),last=new Date(y,mo,0).getDate(),label=new Date(y,mo-1,1).toLocaleDateString('es-CO',{month:'long',year:'numeric'});return [m+'-01',`${m}-${String(last).padStart(2,'0')}`,`Mes: ${label}`]}
   const y=String($('cashflowYear')?.value||new Date().getFullYear());return [y+'-01-01',y+'-12-31',`Año: ${y}`];
 }
+let hilenCashflowTypeFilter='all';
+let hilenCashflowTextFilter='';
+function hilenSelectCashflowFilter(type){
+  if(!['all','income','expense','transfer'].includes(type))return;
+  hilenCashflowTypeFilter=type;
+  renderCashflow();
+}
+function hilenCashflowSearch(value){
+  hilenCashflowTextFilter=String(value||'');
+  renderCashflow();
+}
+function hilenCashflowFilterRows(rows){
+  const query=normalizeClientSearchText(hilenCashflowTextFilter),digits=query.replace(/[^0-9]/g,'');
+  return rows.filter(e=>{
+    if(hilenCashflowTypeFilter!=='all'&&e.type!==hilenCashflowTypeFilter)return false;
+    if(!query)return true;
+    const ref=e.source==='Venta'?(db.sales||[]).find(s=>String(s.id)===String(e.sourceId)):e.source==='Abono'?(db.payments||[]).find(p=>String(p.id)===String(e.sourceId)):null;
+    const customer=ref?(ref.clientName||clientNameById(ref.clientId||'')):'';
+    const amount=String(Math.round(Number(e.amount)||0)),amountFormatted=new Intl.NumberFormat('es-CO').format(Number(e.amount)||0);
+    const names={income:'ingreso',expense:'egreso',transfer:'transferencia',cash:'efectivo',bank:'nequi'};
+    const parts=[e.note,e.source,customer,e.date,e.time,e.type,names[e.type],e.account,names[e.account],e.from,e.to,names[e.from],names[e.to],amountFormatted,amount].filter(Boolean);
+    const text=normalizeClientSearchText(parts.join(' '));
+    return text.includes(query)||(digits.length>=2&&amount.includes(digits));
+  });
+}
 function renderCashflow(){
   const b=getBalances();$('cashBalance').textContent=money(b.cash);$('bankBalance').textContent=money(b.bank);$('totalBalance').textContent=money(b.total);
   const [a,z,label]=cashflowPeriodRange(),rows=cashEvents().filter(e=>e.date>=a&&e.date<=z).sort((x,y)=>y.date.localeCompare(x.date)||String(y.time).localeCompare(String(x.time))),inc=rows.filter(e=>e.type==='income').reduce((x,e)=>x+e.amount,0),detailExpenses=rows.filter(e=>e.type==='expense').reduce((x,e)=>x+e.amount,0),expenseSummary=cashflowPeriodMode==='month'?monthlyEffectiveTotal(String(a).slice(0,7),'expenses'):cashflowPeriodMode==='year'?yearlyEffectiveTotal(String(a).slice(0,4),'expenses'):null,exp=expenseSummary?expenseSummary.total:detailExpenses,transfers=rows.filter(e=>e.type==='transfer').length;
   if($('cashflowPeriodNote'))$('cashflowPeriodNote').innerHTML=`Período seleccionado: <b>${esc(label)}</b>.${expenseSummary&&expenseSummary.historical||expenseSummary?.useHistorical?' <span class="muted">Los egresos incluyen totales históricos sin movimientos individuales; no afectan los saldos de caja.</span>':''}`;
   $('cashflowSummary').innerHTML=`<div class="cash-summary-card cash-summary-ref"><div><div class="csl">Movimientos</div><div class="csv">${rows.length}</div></div><span class="cash-summary-icon neutral">≣</span></div><div class="cash-summary-card cash-summary-ref in"><div><div class="csl">Total ingresos</div><div class="csv">${money(inc)}</div></div><span class="cash-summary-icon green">↑</span></div><div class="cash-summary-card cash-summary-ref out"><div><div class="csl">Total egresos</div><div class="csv">${money(exp)}</div></div><span class="cash-summary-icon red">↓</span></div><div class="cash-summary-card cash-summary-ref"><div><div class="csl">Neto del período</div><div class="csv">${money(inc-exp)}</div><div class="small muted">${transfers} transferencia(s)</div></div><span class="cash-summary-icon neutral">=</span></div>`;
-  $('cashflowTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Movimiento</th><th>Valor</th><th>Origen</th><th>Acciones</th></tr></thead><tbody>${rows.map(e=>{let typeLabel,move;if(e.type==='income'){typeLabel='<span class="badge income">Ingreso</span>';move='→ '+(e.account==='bank'?'Nequi':'Efectivo')}else if(e.type==='expense'){typeLabel='<span class="badge expense">Egreso</span>';move='← '+(e.account==='bank'?'Nequi':'Efectivo')}else{typeLabel='<span class="badge transfer">Transferencia</span>';move=(e.from==='cash'?'Efectivo':'Nequi')+' → '+(e.to==='cash'?'Efectivo':'Nequi')}const actions=e.source==='Manual'?`<button class="action-mini edit" onclick="editCashMovement('${e.sourceId}')">Editar</button><button class="action-mini danger" onclick="deleteCashMovement('${e.sourceId}')">Eliminar</button>`:e.source==='Abono'?`<button class="action-mini edit" onclick="editPayment('${e.sourceId}')">Editar abono</button><button class="action-mini danger" onclick="deletePayment('${e.sourceId}')">Eliminar</button>`:`<button class="action-mini edit" onclick="editSale('${e.sourceId}')">Editar venta</button><button class="action-mini danger" onclick="deleteSale('${e.sourceId}')">Eliminar</button>`;return `<tr><td>${e.date}<div class="small muted">${e.time||''}</div></td><td>${typeLabel}</td><td>${esc(e.note||'')}</td><td>${move}</td><td><b class="${e.type==='expense'?'kpi-down':e.type==='income'?'kpi-up':''}">${e.type==='expense'?'-':e.type==='income'?'+':''}${money(e.amount)}</b></td><td><span class="badge">${esc(e.source)}</span></td><td><div class="action-group">${actions}</div></td></tr>`}).join('')}</tbody></table></div>`:`<div class="cash-empty-state"><div class="cash-empty-icon">▤</div><b>No hay movimientos en este período.</b><span>Selecciona otra fecha o registra un movimiento para verlo aquí.</span></div>`;
+  const shownRows=hilenCashflowFilterRows(rows);
+  document.querySelectorAll('[data-cash-filter]').forEach(button=>{
+    const active=button.dataset.cashFilter===hilenCashflowTypeFilter;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-pressed',String(active));
+  });
+  if($('cashflowFilterResult')){
+    const names={all:'todos los movimientos',income:'ingresos',expense:'egresos',transfer:'transferencias'};
+    $('cashflowFilterResult').textContent=`Mostrando ${shownRows.length} de ${rows.length} movimientos del período · ${names[hilenCashflowTypeFilter]}. Los indicadores superiores muestran el período completo.`;
+  }
+  $('cashflowTable').innerHTML=shownRows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Movimiento</th><th>Valor</th><th>Origen</th><th>Acciones</th></tr></thead><tbody>${shownRows.map(e=>{let typeLabel,move;if(e.type==='income'){typeLabel='<span class="badge income">Ingreso</span>';move='→ '+(e.account==='bank'?'Nequi':'Efectivo')}else if(e.type==='expense'){typeLabel='<span class="badge expense">Egreso</span>';move='← '+(e.account==='bank'?'Nequi':'Efectivo')}else{typeLabel='<span class="badge transfer">Transferencia</span>';move=(e.from==='cash'?'Efectivo':'Nequi')+' → '+(e.to==='cash'?'Efectivo':'Nequi')}const actions=e.source==='Manual'?`<button class="action-mini edit" onclick="editCashMovement('${e.sourceId}')">Editar</button><button class="action-mini danger" onclick="deleteCashMovement('${e.sourceId}')">Eliminar</button>`:e.source==='Abono'?`<button class="action-mini edit" onclick="editPayment('${e.sourceId}')">Editar abono</button><button class="action-mini danger" onclick="deletePayment('${e.sourceId}')">Eliminar</button>`:`<button class="action-mini edit" onclick="editSale('${e.sourceId}')">Editar venta</button><button class="action-mini danger" onclick="deleteSale('${e.sourceId}')">Eliminar</button>`;return `<tr><td>${e.date}<div class="small muted">${e.time||''}</div></td><td>${typeLabel}</td><td>${esc(e.note||'')}</td><td>${move}</td><td><b class="${e.type==='expense'?'kpi-down':e.type==='income'?'kpi-up':''}">${e.type==='expense'?'-':e.type==='income'?'+':''}${money(e.amount)}</b></td><td><span class="badge">${esc(e.source)}</span></td><td><div class="action-group">${actions}</div></td></tr>`}).join('')}</tbody></table></div>`:`<div class="cash-empty-state"><div class="cash-empty-icon">▤</div><b>No hay movimientos que coincidan con los filtros.</b><span>Cambia el tipo de movimiento, la búsqueda o el período para ver otros registros.</span></div>`;
   const chartYear=Number(String(a).slice(0,4));if($('cashflowChartYear')&&chartYear)$('cashflowChartYear').value=chartYear;renderCashflowChart();renderClientChart();
 }
 function editCashMovement(mid){
@@ -5261,18 +5481,77 @@ async function syncGoogleSheetsNow(showResult=false){
 }
 function encargoStatusLabel(status){return ({pending:'Pendiente',supplier:'Proveedor contactado',response:'Proveedor respondió',client:'Cliente informado',completed:'Completado',cancelled:'Cancelado'})[status]||'Pendiente'}
 function encargoStatusClass(status){return ({pending:'encargo-status-pending',supplier:'encargo-status-supplier',response:'encargo-status-response',client:'encargo-status-client',completed:'encargo-status-completed',cancelled:'encargo-status-cancelled'})[status]||'encargo-status-pending'}
+/* Selector visual del estado del encargo: portal fuera de la tabla para evitar cortes. */
+const HILEN_ENCARGO_STATES=[
+ {id:'pending',description:'Por gestionar o averiguar'},
+ {id:'supplier',description:'Ya se consultó al proveedor'},
+ {id:'response',description:'Ya hay una respuesta del proveedor'},
+ {id:'client',description:'El cliente recibió la información'},
+ {id:'completed',description:'La solicitud quedó resuelta'},
+ {id:'cancelled',description:'La solicitud no se continuará'}
+];
+let hilenEncargoMenu=null,hilenEncargoMenuId='',hilenEncargoMenuTrigger=null;
+function hilenCloseEncargoStatusMenu(restoreFocus=false){
+ const trigger=hilenEncargoMenuTrigger;
+ if(trigger&&trigger.isConnected)trigger.setAttribute('aria-expanded','false');
+ if(hilenEncargoMenu){hilenEncargoMenu.remove();hilenEncargoMenu=null;}
+ hilenEncargoMenuId='';hilenEncargoMenuTrigger=null;
+ if(restoreFocus&&trigger?.isConnected)trigger.focus();
+}
+function hilenEncargoMenuOutside(e){
+ if(hilenEncargoMenu&&!hilenEncargoMenu.contains(e.target)&&!hilenEncargoMenuTrigger?.contains(e.target))hilenCloseEncargoStatusMenu();
+}
+function hilenEncargoMenuKeys(e){
+ if(!hilenEncargoMenu)return;
+ if(e.key==='Escape'){e.preventDefault();hilenCloseEncargoStatusMenu(true);return;}
+ const items=[...hilenEncargoMenu.querySelectorAll('.hilen-encargo-menu-option')];
+ if(!items.length)return;
+ const idx=items.indexOf(document.activeElement);
+ if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+  if(idx===-1)return;
+  e.preventDefault();items[(idx+(e.key==='ArrowDown'?1:items.length-1))%items.length].focus();
+ }
+}
+function hilenSelectEncargoStatus(status){
+ const id=hilenEncargoMenuId;
+ if(!id||!HILEN_ENCARGO_STATES.some(s=>s.id===status))return;
+ hilenCloseEncargoStatusMenu();
+ changeEncargoStatus(id,status);
+}
+function hilenToggleEncargoStatusMenu(encargoId,trigger){
+ if(hilenEncargoMenu&&hilenEncargoMenuId===encargoId){hilenCloseEncargoStatusMenu(true);return;}
+ hilenCloseEncargoStatusMenu();
+ const encargo=(db.encargos||[]).find(e=>String(e.id)===String(encargoId));
+ if(!encargo||!trigger)return;
+ hilenEncargoMenuId=encargoId;hilenEncargoMenuTrigger=trigger;
+ const popup=document.createElement('div');popup.className='hilen-encargo-status-menu';popup.setAttribute('role','menu');popup.setAttribute('aria-label','Cambiar estado del encargo');
+ popup.innerHTML=`<div class="hilen-encargo-menu-title">ACTUALIZAR SEGUIMIENTO</div>${HILEN_ENCARGO_STATES.map(s=>`<button type="button" class="hilen-encargo-menu-option ${encargoStatusClass(s.id)}" role="menuitemradio" aria-checked="${encargo.status===s.id}" data-status="${s.id}"><span class="encargo-status-dot" aria-hidden="true"></span><span class="encargo-menu-labels"><strong>${encargoStatusLabel(s.id)}</strong><small>${s.description}</small></span>${encargo.status===s.id?'<span class="encargo-menu-check" aria-hidden="true">✓</span>':''}</button>`).join('')}`;
+ popup.addEventListener('click',e=>{const choice=e.target.closest('[data-status]');if(choice)hilenSelectEncargoStatus(choice.dataset.status)});
+ document.body.appendChild(popup);hilenEncargoMenu=popup;trigger.setAttribute('aria-expanded','true');
+ const r=trigger.getBoundingClientRect(),pw=popup.offsetWidth,ph=popup.offsetHeight;
+ const left=Math.min(Math.max(12,r.left),Math.max(12,window.innerWidth-pw-12));
+ const below=window.innerHeight-r.bottom-12,above=r.top-12;
+ const top=below>=Math.min(ph,310)||below>=above?Math.min(r.bottom+7,window.innerHeight-ph-12):Math.max(12,r.top-ph-7);
+ popup.style.left=left+'px';popup.style.top=Math.max(12,top)+'px';
+ const selected=popup.querySelector('[aria-checked="true"]');(selected||popup.querySelector('.hilen-encargo-menu-option'))?.focus({preventScroll:true});
+}
+document.addEventListener('pointerdown',hilenEncargoMenuOutside);
+document.addEventListener('keydown',hilenEncargoMenuKeys);
+window.addEventListener('resize',()=>hilenCloseEncargoStatusMenu());
+document.addEventListener('scroll',e=>{if(hilenEncargoMenu&&!hilenEncargoMenu.contains(e.target))hilenCloseEncargoStatusMenu()},true);
+
 function encargoReminderInfo(e){if(!e?.reminderDate)return {text:'Sin recordatorio',class:''};const date=e.reminderDate,time=e.reminderTime||'09:00',now=new Date(),dt=new Date(`${date}T${time}:00`);if(Number.isNaN(dt.getTime()))return {text:'Recordatorio inválido',class:'overdue'};const sameDay=date===today();if(dt<now)return {text:`Vencido · ${date} ${time}`,class:'overdue'};if(sameDay)return {text:`Hoy · ${time}`,class:'today'};return {text:`${date} · ${time}`,class:''}}
 function encargoIsDone(e){return ['completed','cancelled'].includes(e.status)}
 function encargoDueRows(){return (db.encargos||[]).filter(e=>e.reminderDate&&!encargoIsDone(e)).sort((a,b)=>`${a.reminderDate} ${a.reminderTime||'09:00'}`.localeCompare(`${b.reminderDate} ${b.reminderTime||'09:00'}`))}
 function renderEncargos(){
+  hilenCloseEncargoStatusMenu();
   if(!$('encargosTable'))return;
   const rows=db.encargos||[],filter=$('encargosStatusFilter')?.value||'all',q=normalizeClientSearchText($('encargosSearch')?.value||''),requestQuery=normalizeClientSearchText($('encargosRequestSearch')?.value||'');
   const filtered=rows.filter(e=>(filter==='all'||e.status===filter)&&clientSearchMatches({name:e.clientName,phone:e.phone},q)&&(!requestQuery||[e.request,e.supplier,e.notes].some(t=>normalizeClientSearchText(t).includes(requestQuery)))).sort((a,b)=>q?String(a.clientName||'').localeCompare(String(b.clientName||''),'es',{sensitivity:'base'}):String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
   const active=rows.filter(e=>!encargoIsDone(e)).length,todayCount=rows.filter(e=>e.reminderDate===today()&&!encargoIsDone(e)).length,done=rows.filter(e=>e.status==='completed').length,overdue=rows.filter(e=>{const r=encargoReminderInfo(e);return r.class==='overdue'&&!encargoIsDone(e)}).length;
   $('encargosActiveCount').textContent=active;$('encargosTodayCount').textContent=todayCount;$('encargosDoneCount').textContent=done;$('encargosOverdueCount').textContent=overdue;
   if(!filtered.length){$('encargosTable').innerHTML=`<div class="encargo-empty"><div class="encargo-empty-icon">✓</div><b>${rows.length?'No hay encargos con este filtro.':'Todavía no tienes encargos registrados.'}</b><span>${rows.length?'Cambia el filtro o busca otro cliente.':'Cuando un cliente te pida averiguar un producto, puedes registrarlo aquí.'}</span></div>`;return}
-  const opts=e=>['pending','supplier','response','client','completed','cancelled'].map(s=>`<option value="${s}" ${e.status===s?'selected':''}>${encargoStatusLabel(s)}</option>`).join('');
-  $('encargosTable').innerHTML=`<div class="table-wrap encargos-table"><table class="table"><thead><tr><th>Cliente</th><th>Qué pidió</th><th>Proveedor</th><th>Estado</th><th>Recordatorio</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>${filtered.map(e=>{const r=encargoReminderInfo(e);return `<tr><td><div class="encargo-client"><b>${esc(e.clientName||'Sin nombre')}</b>${e.phone?`<small>${esc(e.phone)}</small>`:''}</div></td><td><div class="encargo-request"><b>${esc(e.request||'—')}</b>${e.notes?`<div class="small muted">${esc(e.notes)}</div>`:''}</div></td><td>${esc(e.supplier||'Por averiguar')}</td><td><select class="encargo-status-select ${encargoStatusClass(e.status)}" onchange="changeEncargoStatus('${e.id}',this.value)">${opts(e)}</select></td><td><span class="encargo-reminder ${r.class}">${esc(r.text)}</span></td><td><div class="encargo-date">${esc(e.createdDate||'—')}<br>${e.updatedAt?`Actualizado ${esc(String(e.updatedAt).slice(0,10))}`:''}</div></td><td><div class="action-group"><button class="action-mini view" title="Ver" onclick="viewEncargo('${e.id}')">Ver</button><button class="action-mini edit" title="Editar" onclick="openEncargoForm('${e.id}')">Editar</button><button class="action-mini danger" title="Eliminar" onclick="deleteEncargo('${e.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`;
+  $('encargosTable').innerHTML=`<div class="table-wrap encargos-table"><table class="table"><thead><tr><th>Cliente</th><th>Qué pidió</th><th>Proveedor</th><th>Estado</th><th>Recordatorio</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>${filtered.map(e=>{const r=encargoReminderInfo(e);return `<tr><td><div class="encargo-client"><b>${esc(e.clientName||'Sin nombre')}</b>${e.phone?`<small>${esc(e.phone)}</small>`:''}</div></td><td><div class="encargo-request"><b>${esc(e.request||'—')}</b>${e.notes?`<div class="small muted">${esc(e.notes)}</div>`:''}</div></td><td>${esc(e.supplier||'Por averiguar')}</td><td><button type="button" class="encargo-status-button ${encargoStatusClass(e.status)}" aria-label="Estado de ${esc(e.clientName||'encargo')}: ${encargoStatusLabel(e.status)}. Cambiar estado" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();hilenToggleEncargoStatusMenu('${e.id}',this)"><span class="encargo-status-dot" aria-hidden="true"></span><span class="encargo-status-name">${encargoStatusLabel(e.status)}</span><svg class="encargo-status-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 6 5 5 5-5"/></svg></button></td><td><span class="encargo-reminder ${r.class}">${esc(r.text)}</span></td><td><div class="encargo-date">${esc(e.createdDate||'—')}<br>${e.updatedAt?`Actualizado ${esc(String(e.updatedAt).slice(0,10))}`:''}</div></td><td><div class="action-group"><button class="action-mini view" title="Ver" onclick="viewEncargo('${e.id}')">Ver</button><button class="action-mini edit" title="Editar" onclick="openEncargoForm('${e.id}')">Editar</button><button class="action-mini danger" title="Eliminar" onclick="deleteEncargo('${e.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`;
 }
 function openEncargoForm(encargoId=''){
   const e=encargoId?(db.encargos||[]).find(x=>x.id===encargoId):null;
@@ -5404,8 +5683,8 @@ function hilenClientInvoicesHTML(cid){
 function hilenOpenInvoiceList(cid=activeCustomerId){
   if(!cid)return;const c=db.clients.find(x=>x.id===cid);if(!c)return;
   customerPurchasePreviousFocus=document.activeElement;
-  $('customerPurchaseContent').innerHTML=`<div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Facturas de ${esc(c.name)}</h2><p>Una factura independiente por cada compra a crédito</p></div><button class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar">×</button></div>${hilenClientInvoicesHTML(cid)}<div class="hilen-invoice-totals"><span>Saldo total del cliente</span><b>${money(clientBalance(cid).balance)}</b></div><div class="customer-purchase-footer"><button onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
-  $('customerPurchaseModal').classList.remove('hidden');
+  $('customerPurchaseContent').innerHTML=`<div class="hilen-invoice-sticky-head"><div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Facturas de ${esc(c.name)}</h2><p>Una factura independiente por cada compra a crédito</p></div><button class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar">×</button></div><div class="hilen-invoice-zoom-toolbar"><button type="button" onclick="hilenChangeInvoiceZoom(-10)" aria-label="Reducir letras">A−</button><span id="hilenInvoiceZoomPercent">100 %</span><button type="button" onclick="hilenChangeInvoiceZoom(10)" aria-label="Ampliar letras">A+</button><button type="button" onclick="hilenResetInvoiceZoom()">100 %</button></div></div><div id="hilenInvoiceZoomBody" class="hilen-invoice-zoom-body">${hilenClientInvoicesHTML(cid)}<div class="hilen-invoice-totals"><span>Saldo total del cliente</span><b>${money(clientBalance(cid).balance)}</b></div></div><div class="customer-purchase-footer"><button onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
+  $('customerPurchaseModal').classList.remove('hidden');hilenInvoiceZoomLevel=100;hilenResetInvoiceZoom();
 }
 function hilenOpenInvoice(saleId){
   const s=db.sales.find(x=>String(x.id)===String(saleId));if(!s||s.type!=='credit')return showToast('Factura no disponible','La factura pertenece a una compra a crédito.','error');
@@ -5414,7 +5693,7 @@ function hilenOpenInvoice(saleId){
   let amountRemaining=v.principal;
   const payRows=v.applications.map(x=>{amountRemaining-=x.amount;return `<tr><td>${hilenInvoiceDate(x.payment.date)}</td><td>${money(x.amount)}</td><td>${money(Math.max(0,amountRemaining))}</td></tr>`}).join('')||'<tr><td colspan="3">Sin abonos aplicados a esta factura.</td></tr>';
   const saleDiscount=hilenSaleTotalDiscount(s),initialPaid=hilenNum(s.initialPaid);
-  $('customerPurchaseContent').innerHTML=`<div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Factura ${esc(hilenInvoiceCode(s))}</h2><p>HILEN · Bisutería fina · ${hilenInvoiceDate(s.date)}</p></div><button class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar">×</button></div><div class="hilen-invoice-zoom-toolbar"><button type="button" onclick="hilenChangeInvoiceZoom(-10)" title="Reducir letras" aria-label="Reducir letras">A−</button><span id="hilenInvoiceZoomPercent">100 %</span><button type="button" onclick="hilenChangeInvoiceZoom(10)" title="Ampliar letras" aria-label="Ampliar letras">A+</button><button type="button" onclick="hilenResetInvoiceZoom()">100 %</button></div><div id="hilenInvoiceZoomBody" class="hilen-invoice-zoom-body"><div class="hilen-invoice-meta"><div><small>Cliente</small><b>${esc(c?.name||s.clientName||'Cliente')}</b></div><div><small>Estado de la factura</small><b>${v.remaining?'Crédito activo':'CANCELADA'}</b></div></div><h3>Artículos de esta compra</h3><div class="table-wrap"><table class="table"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Dto./unidad</th><th>Subtotal final</th></tr></thead><tbody>${rows}</tbody></table></div><div class="hilen-invoice-summary"><div><span>Total de la compra a crédito</span><b>${money(hilenSaleGrossTotal(s))}</b></div><div class="hilen-readonly-discount"><span>Descuento en productos</span><b>${money(hilenSaleDiscountTotal(s))}</b></div><div class="hilen-readonly-discount"><span>Descuento general de la compra</span><b>${money(hilenSaleManualDiscount(s))}</b></div><div><span>Total después del descuento</span><b>${money(hilenSaleNetTotal(s))}</b></div>${initialPaid?`<div><span>Pago inicial recibido</span><b>${money(initialPaid)}</b></div>`:''}<div><span>Saldo de esta factura</span><b>${money(v.remaining)}</b></div></div><h3>Historial de abonos</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Abono aplicado</th><th>Saldo restante</th></tr></thead><tbody>${payRows}</tbody></table></div><div class="hilen-invoice-totals"><span>Saldo total del cliente (todas sus facturas)</span><b>${money(clientBalance(s.clientId).balance)}</b></div></div><div class="hilen-invoice-actions"><button class="primary" onclick="hilenDownloadInvoice('${s.id}',false)">Descargar factura</button><button class="secondary" onclick="hilenOpenInvoiceList('${s.clientId}')">Ver todas</button><button class="secondary" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
+  $('customerPurchaseContent').innerHTML=`<div class="hilen-invoice-sticky-head"><div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Factura ${esc(hilenInvoiceCode(s))}</h2><p>HILEN · Bisutería fina · ${hilenInvoiceDate(s.date)}</p></div><button class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar">×</button></div><div class="hilen-invoice-zoom-toolbar"><button type="button" onclick="hilenChangeInvoiceZoom(-10)" title="Reducir letras" aria-label="Reducir letras">A−</button><span id="hilenInvoiceZoomPercent">100 %</span><button type="button" onclick="hilenChangeInvoiceZoom(10)" title="Ampliar letras" aria-label="Ampliar letras">A+</button><button type="button" onclick="hilenResetInvoiceZoom()">100 %</button></div></div><div id="hilenInvoiceZoomBody" class="hilen-invoice-zoom-body"><div class="hilen-invoice-meta"><div><small>Cliente</small><b>${esc(c?.name||s.clientName||'Cliente')}</b></div><div><small>Estado de la factura</small><b>${v.remaining?'Crédito activo':'CANCELADA'}</b></div></div><h3>Artículos de esta compra</h3><div class="table-wrap"><table class="table"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Dto./unidad</th><th>Subtotal final</th></tr></thead><tbody>${rows}</tbody></table></div><div class="hilen-invoice-summary"><div><span>Total de la compra a crédito</span><b>${money(hilenSaleGrossTotal(s))}</b></div><div class="hilen-readonly-discount"><span>Descuento en productos</span><b>${money(hilenSaleDiscountTotal(s))}</b></div><div class="hilen-readonly-discount"><span>Descuento general de la compra</span><b>${money(hilenSaleManualDiscount(s))}</b></div><div><span>Total después del descuento</span><b>${money(hilenSaleNetTotal(s))}</b></div>${initialPaid?`<div><span>Pago inicial recibido</span><b>${money(initialPaid)}</b></div>`:''}<div><span>Saldo de esta factura</span><b>${money(v.remaining)}</b></div></div><h3>Historial de abonos</h3><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Abono aplicado</th><th>Saldo restante</th></tr></thead><tbody>${payRows}</tbody></table></div><div class="hilen-invoice-totals"><span>Saldo total del cliente (todas sus facturas)</span><b>${money(clientBalance(s.clientId).balance)}</b></div></div><div class="hilen-invoice-actions"><button class="primary" onclick="hilenDownloadInvoice('${s.id}',false)">Descargar factura</button><button class="secondary" onclick="hilenOpenInvoiceList('${s.clientId}')">Ver todas</button><button class="secondary" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
   $('customerPurchaseModal').classList.remove('hidden');hilenInvoiceZoomLevel=100;hilenResetInvoiceZoom();
 }
 let hilenInvoiceZoomLevel=100;
@@ -5640,8 +5919,19 @@ function hilenAnnualSnapshot(year){
 function hilenAnnualChartHTML(key,snapshot){
   const configs={cash:{title:'Ingresos y egresos',sub:'Dinero que entró y gastos por mes',a:'income',b:'expense',legendA:'Ingresos registrados',legendB:'Egresos',currency:true},sales:{title:'Contado y crédito',sub:'Valor de las ventas de cada tipo',a:'paid',b:'credit',legendA:'Contado',legendB:'Crédito',currency:true},collected:{title:'Abonos y cartera por cobrar',sub:'Abonos mensuales frente a deuda al cierre',a:'abonos',b:'pending',legendA:'Abonos',legendB:'Saldo pendiente',currency:true},genders:{title:'Mujeres y hombres que compraron',sub:'Clientes compradores diferentes por mes',a:'women',b:'men',legendA:'Mujeres',legendB:'Hombres',currency:false},lifecycle:{title:'Clientes nuevos y recurrentes',sub:'Compradores nuevos o que regresaron',a:'newClients',b:'repeatClients',legendA:'Nuevos',legendB:'Recurrentes',currency:false}};
   const cfg=configs[key],months=snapshot.months,max=Math.max(1,...months.flatMap(x=>[x[cfg.a]||0,x[cfg.b]||0]));
-  const bar=(amount,k)=>`<span class="hilen-annual-bar ${k}" style="height:${amount?Math.max(3,Math.round(amount/max*146)):2}px;opacity:${amount?1:.15}" aria-hidden="true"></span>`;
-  return `<article class="hilen-annual-chart"><div class="hilen-annual-chart-head"><div><h3>${cfg.title}</h3><p class="hilen-annual-chart-sub">${cfg.sub}</p></div><button type="button" class="hilen-annual-help" title="¿Qué significa esta gráfica?" aria-label="Explicar ${cfg.title}" onclick="hilenExplainAnnualChart('${key}')">?</button></div><div class="hilen-annual-chart-scroll"><div class="hilen-annual-bars">${months.map(x=>{const v1=x[cfg.a]||0,v2=x[cfg.b]||0,f=v=>cfg.currency?money(v):String(v);return `<div class="hilen-annual-month" title="${x.name} ${snapshot.year} · ${cfg.legendA}: ${f(v1)} · ${cfg.legendB}: ${f(v2)}"><div class="hilen-annual-pair">${bar(v1,'a')}${bar(v2,'b')}</div><span class="hilen-annual-month-label">${x.name}</span></div>`}).join('')}</div></div><div class="hilen-annual-legend"><span><i class="hilen-annual-legend-dot a"></i>${cfg.legendA}</span><span><i class="hilen-annual-legend-dot b"></i>${cfg.legendB}</span></div></article>`;
+  const fmt=x=>cfg.currency?money(x):String(x);
+  const bar=(amount,k)=>`<span class="hilen-annual-bar ${k}" style="height:${amount?Math.max(3,Math.round(amount/max*184)):2}px;opacity:${amount?1:.15}" aria-hidden="true"></span>`;
+  const choice=Math.max(0,months.reduce((best,x,i)=>(x[cfg.a]||0)+(x[cfg.b]||0)>0?i:best,0));
+  const defaultMonth=months[choice];
+  const monthDetail=(x)=>`<strong>${esc(x.name)} ${snapshot.year}</strong><span><i class="a"></i>${esc(cfg.legendA)}: <b>${fmt(x[cfg.a]||0)}</b></span><span><i class="b"></i>${esc(cfg.legendB)}: <b>${fmt(x[cfg.b]||0)}</b></span>`;
+  return `<article class="hilen-annual-chart"><div class="hilen-annual-chart-head"><div><h3>${cfg.title}</h3><p class="hilen-annual-chart-sub">${cfg.sub} · Toca un mes para consultar sus cifras</p></div><button type="button" class="hilen-annual-help" title="¿Qué significa esta gráfica?" aria-label="Explicar ${cfg.title}" onclick="hilenExplainAnnualChart('${key}')">?</button></div><div class="hilen-annual-chart-scroll"><div class="hilen-annual-bars">${months.map((x,i)=>{const v1=x[cfg.a]||0,v2=x[cfg.b]||0;return `<div role="button" tabindex="0" aria-label="${esc(x.name)} ${snapshot.year}: ${esc(cfg.legendA)} ${fmt(v1)}; ${esc(cfg.legendB)} ${fmt(v2)}" class="hilen-annual-month ${i===choice?'is-selected':''}" data-detail="${esc(monthDetail(x))}" onclick="hilenShowAnnualMonthDetail(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"><div class="hilen-annual-pair">${bar(v1,'a')}${bar(v2,'b')}</div><span class="hilen-annual-month-label">${x.name}</span></div>`}).join('')}</div></div><div class="hilen-annual-legend"><span><i class="hilen-annual-legend-dot a"></i>${cfg.legendA}</span><span><i class="hilen-annual-legend-dot b"></i>${cfg.legendB}</span></div><div class="hilen-annual-month-detail" aria-live="polite">${monthDetail(defaultMonth)}</div></article>`;
+}
+function hilenShowAnnualMonthDetail(el){
+  const chart=el?.closest('.hilen-annual-chart'),detail=chart?.querySelector('.hilen-annual-month-detail');
+  if(!chart||!detail)return;
+  chart.querySelectorAll('.hilen-annual-month').forEach(x=>x.classList.toggle('is-selected',x===el));
+  // El HTML solo procede del mismo informe local; no consulta fuentes externas.
+  const template=document.createElement('template');template.innerHTML=el.dataset.detail||'';detail.replaceChildren(template.content.cloneNode(true));
 }
 function hilenAnnualDashboardHTML(snapshot){
   const t=snapshot.totals,stat=(label,value,detail)=>`<div class="hilen-annual-kpi"><span class="label">${label}</span><b>${value}</b><small>${detail}</small></div>`;
