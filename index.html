@@ -2967,6 +2967,176 @@ input,select,textarea,button{max-width:100%}
 /* Estado verificable de la copia diaria de Google Sheets */
 .hilen-sheet-verify{font-size:12px;margin-top:12px;white-space:normal;text-align:center;max-width:100%}
 #googleSheetsStatus{line-height:1.5;overflow-wrap:anywhere}
+
+/* Detalle de venta: encabezado y zoom fijos, solo el cuerpo se desplaza.
+   Reutiliza el control A−/A+/100 % de las facturas; no afecta valores ni PDFs. */
+#customerPurchaseModal .customer-purchase-dialog.hilen-sale-detail-fixed-zoom{
+  display:flex!important;flex-direction:column!important;min-height:0!important;
+  padding:0!important;overflow:hidden!important;max-height:min(86dvh,850px)!important;
+}
+#customerPurchaseModal .customer-purchase-dialog.hilen-sale-detail-fixed-zoom > #customerPurchaseContent{
+  display:flex!important;flex-direction:column!important;flex:1 1 auto!important;min-height:0!important;
+}
+#customerPurchaseModal .hilen-sale-detail-fixed-zoom #customerPurchaseContent > .hilen-invoice-sticky-head{
+  position:relative!important;top:auto!important;margin:0!important;z-index:25!important;
+  background:#fff!important;padding:18px 25px 12px!important;flex:none!important;
+  border-bottom:1px solid #e4e9f1!important;
+}
+#customerPurchaseModal .hilen-sale-detail-fixed-zoom #customerPurchaseContent > .hilen-invoice-zoom-body{
+  flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:auto!important;
+  overscroll-behavior:contain;padding:18px 25px!important;
+}
+#customerPurchaseModal .hilen-sale-detail-fixed-zoom #customerPurchaseContent > .customer-purchase-footer{
+  flex:none!important;margin:0!important;padding:12px 25px 16px!important;
+  background:#fff!important;border-top:1px solid #edf1f5!important;
+}
+@media(max-width:710px){
+ #customerPurchaseModal .hilen-sale-detail-fixed-zoom #customerPurchaseContent > .hilen-invoice-sticky-head{padding:13px 16px!important}
+ #customerPurchaseModal .hilen-sale-detail-fixed-zoom #customerPurchaseContent > .hilen-invoice-zoom-body{padding:14px 16px!important}
+ #customerPurchaseModal .hilen-sale-detail-fixed-zoom #customerPurchaseContent > .customer-purchase-footer{padding:12px 16px!important}
+}
+/* =============================================================
+   HILEN | Revisión transversal tablet 11" (vertical/horizontal)
+   Mantiene la información completa: nunca recorta importes ni
+   obliga a comprimir tablas financieras hasta partir los dígitos.
+   Solo presentación. No modifica cálculos, filtros ni respaldos.
+   ============================================================= */
+@media screen and (min-width:700px) and (max-width:1366px){
+  .main,.section,.card,.panel-head,.grid,.settings-grid,
+  .payments-layout-pro,.cash-main-reference,.sale-layout-pro,
+  .hilen-annual-chart,.hilenviz-chart,.hilen-report-panel{min-width:0!important}
+  .table-wrap,.table-fit-wrap{
+    max-width:100%!important;width:100%!important;
+    overflow-x:auto!important;overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain;
+    scrollbar-gutter:stable;
+  }
+  /* Todas las tablas vuelven a calcular su ancho a partir de las columnas;
+     en horizontal no se fuerza table-layout:fixed ni word-break:anywhere. */
+  .table-wrap .table,.table-fit-wrap .table{
+    width:100%!important;min-width:780px!important;max-width:none!important;
+    table-layout:auto!important;
+  }
+  .table-wrap .table:has(thead th:nth-child(6)),
+  .table-fit-wrap .table:has(thead th:nth-child(6)){min-width:890px!important}
+  .table-wrap .table:has(thead th:nth-child(8)),
+  .table-fit-wrap .table:has(thead th:nth-child(8)){min-width:1040px!important}
+  .table-wrap .table th,.table-wrap .table td,
+  .table-fit-wrap .table th,.table-fit-wrap .table td{
+    font-size:12px!important;line-height:1.38!important;
+    padding:9px 10px!important;word-break:normal!important;
+    overflow-wrap:normal!important;white-space:normal!important;
+  }
+  .table-wrap .table th,.table-fit-wrap .table th{font-size:11px!important}
+  /* El número y el símbolo de pesos deben permanecer juntos. */
+  .table-wrap .table td b,.table-fit-wrap .table td b,
+  .table-wrap .table .badge,.table-fit-wrap .table .badge{
+    word-break:normal!important;overflow-wrap:normal!important;
+  }
+  #paymentsTable td:nth-child(3) b,
+  #cashflowTable td:nth-child(5),
+  #dayTable td:nth-child(5) b,
+  #historyAnnualPayments td:nth-child(3),
+  #historyMonthTable td:nth-child(n+2),
+  #historyYearsTable td:nth-child(n+2){white-space:nowrap!important}
+  #customersTable .table{min-width:1050px!important}
+  #encargosTable .table{min-width:900px!important}
+  #paymentsTable .table{min-width:900px!important}
+  #cashflowTable .table{min-width:930px!important}
+  #dayTable .table{min-width:930px!important}
+  #history .table{min-width:900px!important}
+  #inventory .table{min-width:870px!important}
+  /* Los botones Ver/Editar/Eliminar siguen en una fila; se desplaza
+     la tabla si no cabe, sin ocultar acciones. */
+  .table-wrap .action-group,.table-fit-wrap .action-group{
+    display:flex!important;flex-wrap:nowrap!important;gap:5px!important;
+    min-width:max-content!important;
+  }
+  .table-wrap .action-mini,.table-fit-wrap .action-mini{
+    flex-shrink:0!important;min-height:34px!important;
+  }
+  .table-wrap .badge,.table-fit-wrap .badge{white-space:nowrap!important}
+  /* Tarjetas: las cifras nunca se dividen dentro del número. */
+  .kpi-card .kpi-text,.balance-card .cash-balance-main,
+  .payment-kpi,.cash-summary-ref,.history-ref-stat,.inventory-kpi,
+  .hilen-payment-portfolio-tile,.hilenviz-top-kpi,.hilenviz-kpi{
+    min-width:0!important;
+  }
+  .home-kpis .kpi-value,
+  #cashflow .cash-balance-reference .balance-value,
+  #cashflow .cash-summary-ref .csv,
+  #paymentSummary .pk-value,
+  .hilen-payment-portfolio-tile strong,
+  .hilen-annual-kpi b,
+  .hilenviz-top-kpi strong,
+  .history-ref-value,.history-kpi .hk-value,
+  .inventory-kpi .ik-value{
+    display:block;max-width:100%!important;
+    white-space:nowrap!important;overflow-wrap:normal!important;
+    word-break:normal!important;
+    overflow-x:auto!important;overflow-y:hidden!important;
+    font-variant-numeric:tabular-nums!important;
+    scrollbar-width:thin;
+  }
+  /* El aviso de desplazamiento en tablas no modifica el zoom existente. */
+  .hilen-global-zoom-toolbar,.hilen-zoom-toolbar,
+  .hilen-reading-zoom-toolbar{max-width:100%;min-width:0;flex-wrap:wrap}
+  /* Formularios y filtros nunca deben extenderse fuera de su tarjeta. */
+  .section :is(input,select,textarea){max-width:100%;min-width:0}
+  .section :is(.payment-filter-fields,.cash-period-fields,.sales-filterbar,
+  .hilen-sales-table-subbar,.encargos-filters){max-width:100%;min-width:0}
+}
+@media screen and (orientation:portrait) and (min-width:700px) and (max-width:1100px){
+  /* En vertical 2 columnas anchas para Efectivo/Nequi y el total debajo. */
+  #cashflow .cash-grid-reference{
+    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  #cashflow .cash-grid-reference .total-b{grid-column:1/-1!important}
+  #cashflow .cash-balance-reference .balance-value{
+    font-size:clamp(17px,2.15vw,24px)!important;
+    letter-spacing:-.7px!important;
+  }
+  #cashflow .cash-balance-main{gap:10px!important}
+  #cashflow .cash-balance-reference .icon-box{width:42px!important;height:42px!important;min-width:42px!important}
+  #cashflow .cash-card-arrow{width:27px;height:27px;flex-basis:27px}
+  #paymentSummary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .home-kpis .kpi-value{font-size:clamp(16px,2.25vw,21px)!important;letter-spacing:-.6px!important}
+  #paymentSummary .pk-value{font-size:clamp(16px,2.25vw,22px)!important}
+  /* Gráficas: tamaño legible y sin forzar ancho extra en la tablet. */
+  .hilenviz-chart-grid,.hilenviz-dashboard-grid,
+  .hilenviz-charts{min-width:0!important;max-width:100%!important}
+}
+@media screen and (orientation:landscape) and (min-width:900px) and (max-width:1366px){
+  /* El resumen de Abonos ocupa columnas suficientes para los importes. */
+  #paymentSummary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #paymentSummary .pk-value{font-size:clamp(16px,1.55vw,22px)!important}
+  #cashflow .cash-balance-reference .balance-value{
+    font-size:clamp(15px,1.65vw,22px)!important;
+    letter-spacing:-.7px!important;
+  }
+  #cashflow .cash-balance-main{gap:9px!important}
+  #cashflow .cash-balance-reference .icon-box{
+    width:42px!important;height:42px!important;min-width:42px!important;
+  }
+  #cashflow .cash-card-arrow{width:28px;height:28px;flex-basis:28px}
+  #cashflow .cash-summary-ref .csv{font-size:clamp(16px,1.55vw,21px)!important}
+  .home-kpis .kpi-value{font-size:clamp(15px,1.55vw,20px)!important;letter-spacing:-.7px!important}
+  .hilen-sales-kpis .stat{font-size:clamp(17px,1.8vw,23px)!important}
+  .history-kpis-reference .history-ref-value{font-size:clamp(16px,1.55vw,21px)!important}
+  /* Al crecer los datos, el contenedor se desplaza; jamás se encogen
+     por la fuerza las columnas hasta truncar fechas y cantidades. */
+  #cashflowTable,#paymentsTable,#dayTable,#customersTable,
+  #encargosTable,#historyAnnualPayments,#historyMonthTable,
+  #historyYearsTable,#historyClientsTable{max-width:100%;min-width:0}
+}
+@media screen and (orientation:portrait) and (min-width:700px) and (max-width:790px){
+  .home-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #cashflow .cash-grid-reference{grid-template-columns:1fr!important}
+  #cashflow .cash-grid-reference .total-b{grid-column:auto!important}
+  .hilen-payment-portfolio-grid{grid-template-columns:1fr!important}
+  .history-kpis-reference{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+
 </style>
 </head>
 <body>
@@ -3310,7 +3480,6 @@ input,select,textarea,button{max-width:100%}
                 <button type="button" class="active" data-cash-filter="all" aria-pressed="true" onclick="hilenSelectCashflowFilter('all')">Todos</button>
                 <button type="button" data-cash-filter="income" aria-pressed="false" onclick="hilenSelectCashflowFilter('income')">Ingresos</button>
                 <button type="button" data-cash-filter="expense" aria-pressed="false" onclick="hilenSelectCashflowFilter('expense')">Egresos</button>
-                <button type="button" data-cash-filter="transfer" aria-pressed="false" onclick="hilenSelectCashflowFilter('transfer')">Transferencias</button>
               </div>
             </div>
             <div class="hilen-cash-filter-search"><label for="cashflowTextSearch">Buscar movimiento</label>
@@ -4447,11 +4616,14 @@ function openCustomerPurchaseDetail(saleId){
   const destination=sale.type==='credit'?'Pendiente de abono':sale.destination==='bank'?'Nequi':'Efectivo';
   const date=sale.date?normalizeDateLabel(sale.date):'Sin fecha';
   customerPurchasePreviousFocus=document.activeElement;
-  $('customerPurchaseContent').innerHTML=`<div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Detalle de la venta</h2><p>Artículos y valores de esta compra</p></div><button type="button" class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar detalle de venta">×</button></div><div class="customer-purchase-info"><div><span>Cliente</span><b>${esc(client?.name||sale.clientName||'Sin nombre')}</b></div><div><span>Fecha y hora</span><b>${esc(date)}${sale.time?' · '+esc(String(sale.time)):''}</b></div><div><span>Tipo de venta</span><b>${type}</b></div><div><span>Forma de pago / destino</span><b>${destination}</b></div></div><h3>Artículos de la compra</h3><div class="table-wrap"><table class="customer-purchase-table"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Valor unitario</th><th>Subtotal</th></tr></thead><tbody>${rows}</tbody></table></div><div class="hilen-invoice-summary"><div><span>Valor de los artículos</span><b>${money(hilenSaleGrossTotal(sale))}</b></div><div><span>Descuento en productos</span><b>${money(hilenSaleDiscountTotal(sale))}</b></div><div><span>Descuento general</span><b>${money(hilenSaleManualDiscount(sale))}</b></div></div><div class="customer-purchase-total"><span>Total de la compra</span><b>${money(hilenSaleNetTotal(sale))}</b></div><div class="customer-purchase-footer"><button type="button" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
+  $('customerPurchaseContent').innerHTML=`<div class="hilen-invoice-sticky-head"><div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Detalle de la venta</h2><p>Artículos y valores de esta compra</p></div><button type="button" class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar detalle de venta">×</button></div><div class="hilen-invoice-zoom-toolbar" aria-label="Tamaño de letra del detalle de venta"><button type="button" onclick="hilenChangeInvoiceZoom(-10)" title="Reducir letras" aria-label="Reducir letras">A−</button><span id="hilenInvoiceZoomPercent" aria-live="polite">100 %</span><button type="button" onclick="hilenChangeInvoiceZoom(10)" title="Ampliar letras" aria-label="Ampliar letras">A+</button><button type="button" onclick="hilenResetInvoiceZoom()" title="Tamaño original">100 %</button></div></div><div id="hilenInvoiceZoomBody" class="hilen-invoice-zoom-body"><div class="customer-purchase-info"><div><span>Cliente</span><b>${esc(client?.name||sale.clientName||'Sin nombre')}</b></div><div><span>Fecha y hora</span><b>${esc(date)}${sale.time?' · '+esc(String(sale.time)):''}</b></div><div><span>Tipo de venta</span><b>${type}</b></div><div><span>Forma de pago / destino</span><b>${destination}</b></div></div><h3>Artículos de la compra</h3><div class="table-wrap"><table class="customer-purchase-table"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Valor unitario</th><th>Subtotal</th></tr></thead><tbody>${rows}</tbody></table></div><div class="hilen-invoice-summary"><div><span>Valor de los artículos</span><b>${money(hilenSaleGrossTotal(sale))}</b></div><div><span>Descuento en productos</span><b>${money(hilenSaleDiscountTotal(sale))}</b></div><div><span>Descuento general</span><b>${money(hilenSaleManualDiscount(sale))}</b></div></div><div class="customer-purchase-total"><span>Total de la compra</span><b>${money(hilenSaleNetTotal(sale))}</b></div></div><div class="customer-purchase-footer"><button type="button" onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
+  $('customerPurchaseModal').querySelector('.customer-purchase-dialog')?.classList.add('hilen-sale-detail-fixed-zoom');
   $('customerPurchaseModal').classList.remove('hidden');
+  hilenResetInvoiceZoom();
   $('customerPurchaseModal').querySelector('.customer-purchase-dismiss')?.focus();
 }
 function closeCustomerPurchaseDetail(){
+  $('customerPurchaseModal')?.querySelector('.customer-purchase-dialog')?.classList.remove('hilen-sale-detail-fixed-zoom');
   $('customerPurchaseModal')?.classList.add('hidden');
   if(customerPurchasePreviousFocus?.isConnected)customerPurchasePreviousFocus.focus();
   customerPurchasePreviousFocus=null;
@@ -4913,7 +5085,7 @@ function cashflowPeriodRange(){
 let hilenCashflowTypeFilter='all';
 let hilenCashflowTextFilter='';
 function hilenSelectCashflowFilter(type){
-  if(!['all','income','expense','transfer'].includes(type))return;
+  if(!['all','income','expense'].includes(type))return;
   hilenCashflowTypeFilter=type;
   renderCashflow();
 }
@@ -6019,12 +6191,14 @@ function hilenClientInvoicesHTML(cid){
   return `<div class="table-wrap"><table class="table hilen-invoice-table"><thead><tr><th>Factura</th><th>Fecha</th><th>Compra</th><th>Abonado</th><th>Saldo</th><th>Estado</th><th></th></tr></thead><tbody>${[...led.invoices].reverse().map(v=>`<tr><td><b>${esc(hilenInvoiceCode(v.sale))}</b></td><td>${hilenInvoiceDate(v.sale.date)}</td><td>${money(hilenSaleNetTotal(v.sale))}${hilenSaleTotalDiscount(v.sale)?`<div class="small muted">Descuentos: ${money(hilenSaleTotalDiscount(v.sale))}</div>`:''}${hilenNum(v.sale.initialPaid)?`<div class="small muted">Inicial: ${money(hilenNum(v.sale.initialPaid))}</div>`:''}</td><td>${money(v.paid)}</td><td><b>${money(v.remaining)}</b></td><td><span class="badge ${v.remaining?'credit':'paid'}">${hilenInvoiceStatus(v)}</span></td><td><button class="action-mini view" onclick="hilenOpenInvoice('${v.sale.id}')">Ver</button></td></tr>`).join('')}</tbody></table></div>${led.adjustment?`<p class="notice warn">Esta cuenta tiene un ajuste histórico de ${money(led.adjustment)} que no pertenece a una factura individual. Se conserva en el saldo general.</p>`:''}${led.unattributed?`<p class="notice warn">Hay ${money(led.unattributed)} de pagos antiguos sin asignar por fecha. No se han descartado: aparecen en la cuenta general.</p>`:''}`;
 }
 function hilenOpenInvoiceList(cid=activeCustomerId){
+  $('customerPurchaseModal')?.querySelector('.customer-purchase-dialog')?.classList.remove('hilen-sale-detail-fixed-zoom');
   if(!cid)return;const c=db.clients.find(x=>x.id===cid);if(!c)return;
   customerPurchasePreviousFocus=document.activeElement;
   $('customerPurchaseContent').innerHTML=`<div class="hilen-invoice-sticky-head"><div class="customer-purchase-header"><div><h2 id="customerPurchaseTitle">Facturas de ${esc(c.name)}</h2><p>Una factura independiente por cada compra a crédito</p></div><button class="customer-purchase-dismiss" onclick="closeCustomerPurchaseDetail()" aria-label="Cerrar">×</button></div><div class="hilen-invoice-zoom-toolbar"><button type="button" onclick="hilenChangeInvoiceZoom(-10)" aria-label="Reducir letras">A−</button><span id="hilenInvoiceZoomPercent">100 %</span><button type="button" onclick="hilenChangeInvoiceZoom(10)" aria-label="Ampliar letras">A+</button><button type="button" onclick="hilenResetInvoiceZoom()">100 %</button></div></div><div id="hilenInvoiceZoomBody" class="hilen-invoice-zoom-body">${hilenClientInvoicesHTML(cid)}<div class="hilen-invoice-totals"><span>Saldo total del cliente</span><b>${money(clientBalance(cid).balance)}</b></div></div><div class="customer-purchase-footer"><button onclick="closeCustomerPurchaseDetail()">Cerrar</button></div>`;
   $('customerPurchaseModal').classList.remove('hidden');hilenInvoiceZoomLevel=100;hilenResetInvoiceZoom();
 }
 function hilenOpenInvoice(saleId){
+  $('customerPurchaseModal')?.querySelector('.customer-purchase-dialog')?.classList.remove('hilen-sale-detail-fixed-zoom');
   const s=db.sales.find(x=>String(x.id)===String(saleId));if(!s||s.type!=='credit')return showToast('Factura no disponible','La factura pertenece a una compra a crédito.','error');
   hilenEnsureInvoiceNumbers();const c=db.clients.find(x=>x.id===s.clientId),ledger=hilenCreditLedger(s.clientId),v=ledger.byId.get(String(s.id));if(!v)return;
   const rows=(s.items||[]).map(x=>`<tr><td>${esc(x.name||'Artículo')}</td><td>${hilenNum(x.qty)}</td><td>${money(x.price)}</td><td>${hilenItemDiscount(x)?money(hilenItemDiscount(x)):'—'}</td><td><b>${money(hilenItemLineTotal(x))}</b></td></tr>`).join('');
@@ -6129,6 +6303,7 @@ function hilenDownloadInvoice(id,withPayments=true){
 
 /* Vista detallada de compras y abonos del estado de cuenta. No modifica los movimientos. */
 function hilenStatementShowDetail(html){
+  $('customerPurchaseModal')?.querySelector('.customer-purchase-dialog')?.classList.remove('hilen-sale-detail-fixed-zoom');
   const modal=$('customerPurchaseModal'),body=$('customerPurchaseContent');
   if(!modal||!body)return;
   customerPurchasePreviousFocus=document.activeElement;
