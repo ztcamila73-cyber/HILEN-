@@ -2827,6 +2827,142 @@ input,select,textarea,button{max-width:100%}
 .hilen-encargo-menu-option.encargo-status-cancelled .encargo-status-dot{color:#8b96a6}
 @media(max-width:900px){.encargo-status-button{min-width:165px}.hilen-encargo-status-menu{border-radius:14px}}
 
+
+/* ===== HILEN · Panel anual de referencia: Inicio y Reportes ===== */
+.hilenviz-dashboard{width:100%;min-width:0}
+.hilenviz-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:5px 0 16px}
+.hilenviz-kpi{border:1px solid #e5eaf1;border-radius:19px;background:#fff;min-width:0;display:flex;align-items:flex-start;gap:12px;padding:16px 14px;box-shadow:0 6px 24px rgba(20,39,78,.033)}
+.hilenviz-kpi-icon{display:grid;place-items:center;flex:0 0 50px;width:50px;height:50px;border-radius:15px;background:#eaf0ff;color:#3479ed}
+.hilenviz-kpi-icon svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hilenviz-kpi-icon.amber{background:#fff1de;color:#e18a1a}
+.hilenviz-kpi-icon.blue{background:#eaf0ff;color:#3479ed}
+.hilenviz-kpi-icon.sky{background:#e9f1fd;color:#356bd8}
+.hilenviz-kpi-copy{min-width:0;flex:1}
+.hilenviz-kpi-label{font-size:12px;font-weight:750;line-height:1.35;color:#263a5a;display:block;margin:0 0 5px}
+.hilenviz-kpi-value{font-size:clamp(20px,1.72vw,29px);font-weight:900;line-height:1.1;letter-spacing:-1px;color:#111c39;display:block;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.hilenviz-kpi-value.composite{font-size:clamp(15px,1.2vw,21px);line-height:1.25;letter-spacing:-.65px}
+.hilenviz-kpi-note{display:block;margin-top:7px;font-size:10.5px;font-weight:650;color:#7283a0;line-height:1.35}
+.hilenviz-kpi-delta{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;margin-right:5px;border-radius:999px;font-size:10.5px;font-weight:850;color:#147c58;background:#e4f7ed;white-space:nowrap}
+.hilenviz-kpi-delta.down{background:#fff0e5;color:#a46513}
+.hilenviz-kpi-delta.bad{background:#ffe8e9;color:#bf3747}
+.hilenviz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.hilenviz-card{background:#fff;border:1px solid #e5eaf1;border-radius:18px;padding:16px 17px 14px;min-width:0;box-shadow:0 5px 20px rgba(27,46,89,.024);overflow:hidden}
+.hilenviz-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;min-width:0;margin-bottom:8px}
+.hilenviz-card-header h3{font-size:16px;line-height:1.2;letter-spacing:-.4px;color:#15213d;font-weight:850;margin:0 0 4px}
+.hilenviz-card-header p{color:#687a9a;font-size:11.5px;line-height:1.35;margin:0}
+.hilenviz-year-picker{flex:0 0 auto;align-self:flex-start;min-height:34px;border:1px solid #e0e7f0;border-radius:11px;background:#f9fbfe;color:#344c70;font-size:11px;font-weight:750;padding:6px 9px;max-width:158px}
+.hilenviz-year-picker:disabled{opacity:1;color:#385276;-webkit-text-fill-color:#385276}
+.hilenviz-legend{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap;margin:5px 0 7px;min-height:17px}
+.hilenviz-legend>span{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#506581}
+.hilenviz-dot{width:10px;height:10px;border-radius:999px;flex:0 0 10px;display:inline-block}
+.hilenviz-plot{position:relative;width:100%;overflow:hidden;min-width:0;border-radius:8px}
+.hilenviz-plot svg{width:100%;height:auto;display:block;overflow:visible;min-width:0}
+.hilenviz-plot svg .hilenviz-gridline{stroke:#e7edf5;stroke-width:1}
+.hilenviz-plot svg .hilenviz-axis{fill:#647796;font-size:11px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.hilenviz-month{cursor:pointer;outline:none}
+.hilenviz-month:hover .hilenviz-bar{opacity:.84}
+.hilenviz-month:focus-visible .hilenviz-bar{stroke:#192749;stroke-width:2}
+.hilenviz-month.is-selected .hilenviz-month-label{fill:#152340;font-weight:900}
+.hilenviz-bar{transition:opacity .16s ease;rx:4px}
+.hilenviz-help{width:25px;height:25px;flex:0 0 25px;border-radius:50%;background:#eff4fd;color:#44629a;font-weight:900;font-size:12px;border:1px solid #dce7f8;display:grid;place-items:center;cursor:pointer}
+.hilenviz-help:hover{background:#dce9fc}
+.hilenviz-detail{display:flex;align-items:center;gap:8px 13px;flex-wrap:wrap;margin-top:3px;font-size:10.5px;color:#566a8b;line-height:1.4;min-height:25px;border-top:1px solid #f1f4f8;padding-top:9px}
+.hilenviz-detail strong{color:#1c3358;font-size:11px}
+.hilenviz-detail span{white-space:nowrap}
+.hilenviz-detail b{color:#213956}
+.hilenviz-portfolio-header-actions{display:flex;align-items:center;gap:8px;min-width:0}
+.hilenviz-donut-body{display:grid;grid-template-columns:165px minmax(145px,1fr) minmax(160px,.85fr);gap:12px;align-items:center;min-height:245px}
+.hilenviz-donut{width:154px;height:154px;border-radius:50%;position:relative;display:grid;place-items:center;background:conic-gradient(#35b987 0 100%);margin:0 auto}
+.hilenviz-donut:before{content:"";position:absolute;inset:29px;background:#fff;border-radius:50%}
+.hilenviz-donut-core{position:relative;z-index:1;text-align:center;display:grid;gap:1px;color:#172344}
+.hilenviz-donut-core b{font-size:27px;line-height:1.1;letter-spacing:-1px;font-weight:900}
+.hilenviz-donut-core span{font-size:11px;color:#78849a}
+.hilenviz-status-list{display:grid;gap:14px;min-width:0}
+.hilenviz-status-line{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;font-size:11px;color:#435473}
+.hilenviz-status-line span{display:flex;align-items:center;gap:7px;min-width:0;line-height:1.2}
+.hilenviz-status-line b{font-size:14px;color:#1b2c4c}
+.hilenviz-status-line em{font-style:normal;color:#6b7e9a;font-size:11px;min-width:34px;text-align:right}
+.hilenviz-portfolio-tile{background:linear-gradient(130deg,#f6f8fc,#edf3fa);border-radius:15px;padding:17px 14px;display:grid;gap:9px;min-width:0;align-self:stretch;align-content:center}
+.hilenviz-portfolio-tile span{font-size:12px;font-weight:700;color:#546786}
+.hilenviz-portfolio-tile strong{font-size:clamp(19px,1.75vw,25px);font-weight:900;letter-spacing:-.75px;color:#152343;overflow-wrap:anywhere}
+.hilenviz-portfolio-tile small{font-size:11px;color:#6b7e9b;line-height:1.3}
+.hilenviz-status-detail{font-size:10.5px;color:#70819b;line-height:1.45;margin:4px 0 0}
+.hilenviz-dashboard .hilen-annual-notice{margin-top:14px}
+#home .hilen-annual-main{overflow:visible!important}
+#reports .hilen-reports-panel{overflow:visible!important}
+@media(min-width:1200px) and (max-width:1700px){.hilenviz-kpi{gap:8px;padding:13px 10px}.hilenviz-kpi-icon{flex-basis:43px;width:43px;height:43px}.hilenviz-donut-body{grid-template-columns:125px minmax(105px,1fr) minmax(135px,.83fr);gap:7px}.hilenviz-donut{width:120px;height:120px}.hilenviz-donut:before{inset:23px}}
+@media(max-width:1199px){.hilenviz-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.hilenviz-grid{grid-template-columns:1fr}.hilenviz-kpi-value{font-size:clamp(22px,2.5vw,28px)}.hilenviz-donut-body{grid-template-columns:160px minmax(145px,1fr) minmax(150px,.85fr)}}
+@media(max-width:680px){.hilenviz-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.hilenviz-kpi{padding:11px 9px;gap:8px;border-radius:13px}.hilenviz-kpi-icon{width:33px;height:33px;flex-basis:33px;border-radius:11px}.hilenviz-kpi-icon svg{width:20px;height:20px}.hilenviz-kpi-label{font-size:10.5px}.hilenviz-kpi-value{font-size:clamp(17px,4.2vw,24px)}.hilenviz-kpi-value.composite{font-size:16px}.hilenviz-kpi-note{font-size:9px}.hilenviz-grid{gap:10px}.hilenviz-card{padding:12px 10px}.hilenviz-card-header h3{font-size:14px}.hilenviz-donut-body{grid-template-columns:minmax(105px,.7fr) minmax(130px,1fr);gap:10px;min-height:0}.hilenviz-donut{width:115px;height:115px}.hilenviz-donut:before{inset:22px}.hilenviz-portfolio-tile{grid-column:1/-1}.hilenviz-year-picker{max-width:126px;font-size:10px}.hilenviz-legend{gap:8px}.hilenviz-legend>span{font-size:10px}}
+@media(max-width:390px){.hilenviz-donut-body{grid-template-columns:1fr}.hilenviz-status-list{padding:3px 8px}.hilenviz-kpi{gap:6px}.hilenviz-kpi-icon{width:30px;height:30px;flex-basis:30px}}
+
+
+/* HILEN · Barra de zoom siempre visible (ventanas de cliente y facturas).
+   La barra queda FUERA del contenido ampliado; no depende de scroll horizontal. */
+#modal .modal-card.hilen-client-dialog-with-fixed-zoom{
+  display:flex!important;flex-direction:column!important;
+  overflow:hidden!important;max-height:min(88dvh,920px)!important;
+  padding:0!important;isolation:isolate!important;
+}
+#modal .modal-card.hilen-client-dialog-with-fixed-zoom > #hilenClientZoomToolbar{
+  position:relative!important;top:auto!important;z-index:25!important;
+  order:0;flex:0 0 auto!important;
+  margin:0!important;padding:14px 72px 14px 23px!important;
+  background:#fff!important;border:0!important;
+  border-bottom:1px solid #e3e9f1!important;border-radius:0!important;
+  box-shadow:0 5px 18px rgba(16,32,63,.06)!important;
+  min-height:64px;
+}
+#modal .modal-card.hilen-client-dialog-with-fixed-zoom > #modalContent{
+  flex:1 1 auto!important;min-height:0!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  overscroll-behavior:contain;
+  padding:23px 28px 28px!important;
+}
+#modal .modal-card.hilen-client-dialog-with-fixed-zoom > .close{
+  z-index:35!important;top:11px!important;right:13px!important;
+}
+/* Al consultar facturas, el título y el control no se desplazan.
+   El contenido y las tablas conservan su scroll independiente. */
+#customerPurchaseModal .customer-purchase-dialog:has(.hilen-invoice-sticky-head){
+  display:flex!important;flex-direction:column!important;
+  padding:0!important;overflow:hidden!important;max-height:min(86dvh,850px)!important;
+}
+#customerPurchaseModal .customer-purchase-dialog:has(.hilen-invoice-sticky-head) > #customerPurchaseContent{
+  display:flex!important;flex-direction:column!important;min-height:0!important;flex:1 1 auto!important;
+}
+#customerPurchaseContent > .hilen-invoice-sticky-head{
+  position:relative!important;top:auto!important;
+  flex:none!important;z-index:25!important;
+  margin:0!important;padding:16px 24px 12px!important;
+  background:#fff!important;border-bottom:1px solid #e3e9f1!important;
+  box-shadow:0 5px 15px rgba(16,32,63,.055)!important;
+}
+#customerPurchaseContent > .hilen-invoice-zoom-body{
+  min-height:0!important;flex:1 1 auto!important;
+  overflow-y:auto!important;overscroll-behavior:contain;
+  padding:17px 24px 22px!important;
+}
+#customerPurchaseContent > .hilen-invoice-actions,
+#customerPurchaseContent > .customer-purchase-footer{
+  flex:none!important;margin:0!important;padding:12px 24px 15px!important;
+  background:#fff!important;border-top:1px solid #edf1f5;
+}
+@media(max-width:710px){
+  #modal .modal-card.hilen-client-dialog-with-fixed-zoom > #hilenClientZoomToolbar{
+    padding:11px 55px 11px 14px!important;gap:6px!important;
+  }
+  #modal .modal-card.hilen-client-dialog-with-fixed-zoom > #modalContent{padding:17px!important}
+  #customerPurchaseContent > .hilen-invoice-sticky-head{padding:13px 16px!important}
+  #customerPurchaseContent > .hilen-invoice-zoom-body{padding:14px 16px!important}
+  #customerPurchaseContent > .hilen-invoice-actions,
+  #customerPurchaseContent > .customer-purchase-footer{padding:12px 16px!important}
+}
+@media print{
+  #modal .modal-card.hilen-client-dialog-with-fixed-zoom{display:block!important;max-height:none!important;overflow:visible!important}
+  #modal .modal-card.hilen-client-dialog-with-fixed-zoom > #modalContent{overflow:visible!important}
+  #customerPurchaseContent > .hilen-invoice-zoom-body{overflow:visible!important}
+}
+
 </style>
 </head>
 <body>
@@ -2957,7 +3093,7 @@ input,select,textarea,button{max-width:100%}
 
         <div class="card hilen-annual-main" id="hilenHomeAnnualCard">
           <div class="hilen-annual-heading">
-            <div><span class="hilen-annual-eyebrow">ANÁLISIS DEL NEGOCIO</span><h2>Indicadores del año <span id="hilenHomeYear"></span></h2><p>Compara cada mes y descubre cómo evolucionan tus ingresos, ventas, cobros y compradores.</p></div>
+            <div><span class="hilen-annual-eyebrow">ANÁLISIS DEL NEGOCIO</span><h2>Panel financiero · <span id="hilenHomeYear"></span></h2><p>Compara cada mes y descubre cómo evolucionan tus ingresos, ventas, cobros y compradores.</p></div>
             <button type="button" class="secondary" onclick="goSection('reports')">Abrir Reportes</button>
           </div>
           <div id="hilenHomeAnnualView"></div>
@@ -5850,7 +5986,8 @@ const hilenAnnualExplanations={
  sales:{title:'Ventas de contado y a crédito',body:'Cada barra muestra el valor vendido, no lo recaudado, en cada mes según el tipo de venta. Los meses que tienen un total histórico sin ventas individuales quedan fuera de esta división; se presentan como cifras sin clasificar, para no inventar la forma de pago.'},
  collected:{title:'Abonos recibidos y cartera pendiente',body:'El azul representa los abonos registrados para cada mes (incluidos totales históricos cuando no hay detalle); el naranja, la deuda pendiente de clientes al cierre de ese mes. La cartera es un SALDO, no un ingreso mensual. No sumes los saldos mensuales como si fueran dinero distinto. Los históricos sin nombre de cliente no reducen ninguna deuda individual.'},
  genders:{title:'Compradoras y compradores',body:'Cuenta clientes diferentes que efectivamente realizaron al menos una compra en cada mes, separados según el sexo registrado en su ficha. No cuenta como compradores a clientes potenciales ni asigna sexo a quienes no tienen ese dato.'},
- lifecycle:{title:'Clientes nuevos y recurrentes',body:'Nuevos: clientes que compraron por primera vez durante ese mes. Recurrentes: clientes que ya habían comprado en un mes o fecha anterior y vuelven a comprar. Cada cliente cuenta una sola vez dentro de un mismo mes, aunque haga varias compras.'}
+ lifecycle:{title:'Clientes nuevos y recurrentes',body:'Nuevos: clientes que compraron por primera vez durante ese mes. Recurrentes: clientes que ya habían comprado en un mes o fecha anterior y vuelven a comprar. Cada cliente cuenta una sola vez dentro de un mismo mes, aunque haga varias compras.'},
+ portfolio:{title:'Resumen de clientes',body:'Agrupa a los clientes por su estado de cartera al cierre del año seleccionado. Al día significa que no tienen saldo de crédito pendiente (incluye a los clientes sin compras si eliges Todos los clientes). Con saldo significa que deben dinero, pero han abonado recientemente. En mora significa saldo pendiente y más de un mes calendario sin registrar un abono. Las categorías no se duplican; la tarjeta derecha muestra la deuda real de los clientes incluidos.'}
 };
 function hilenClientCollectionSnapshot(cutoff=today()){
   const clients=db.clients||[],payments=db.payments||[],creditSales=(db.sales||[]).filter(s=>s.type==='credit'),byId=new Map(),debtors=[],late=[];
@@ -5914,33 +6051,150 @@ function hilenAnnualSnapshot(year){
   }
   const sum=k=>months.reduce((n,x)=>n+Number(x[k]||0),0);
   const pastOrToday=year<currentYear?`${year}-12-31`:year===currentYear?todayISO:`${year}-01-01`;
-  return {year,generatedAt:new Date().toISOString(),months,totals:{sales:sum('salesTotal'),paid:sum('paid'),credit:sum('credit'),income:sum('income'),expense:sum('expense'),payments:sum('abonos'),historicalUnclassified:sum('unclassified'),debt:year>currentYear?0:(db.clients||[]).reduce((n,c)=>n+clientBalance(c.id,pastOrToday).balance,0),paidCount:sum('paidCount'),creditCount:sum('creditCount'),newClients:sum('newClients'),repeatClients:sum('repeatClients'),women:sum('women'),men:sum('men')}};
+  return {year,generatedAt:new Date().toISOString(),months,portfolio:hilenvizPortfolioAtCutoff(pastOrToday),totals:{sales:sum('salesTotal'),paid:sum('paid'),credit:sum('credit'),income:sum('income'),expense:sum('expense'),payments:sum('abonos'),historicalUnclassified:sum('unclassified'),debt:year>currentYear?0:(db.clients||[]).reduce((n,c)=>n+clientBalance(c.id,pastOrToday).balance,0),paidCount:sum('paidCount'),creditCount:sum('creditCount'),newClients:sum('newClients'),repeatClients:sum('repeatClients'),women:sum('women'),men:sum('men')}};
 }
-function hilenAnnualChartHTML(key,snapshot){
-  const configs={cash:{title:'Ingresos y egresos',sub:'Dinero que entró y gastos por mes',a:'income',b:'expense',legendA:'Ingresos registrados',legendB:'Egresos',currency:true},sales:{title:'Contado y crédito',sub:'Valor de las ventas de cada tipo',a:'paid',b:'credit',legendA:'Contado',legendB:'Crédito',currency:true},collected:{title:'Abonos y cartera por cobrar',sub:'Abonos mensuales frente a deuda al cierre',a:'abonos',b:'pending',legendA:'Abonos',legendB:'Saldo pendiente',currency:true},genders:{title:'Mujeres y hombres que compraron',sub:'Clientes compradores diferentes por mes',a:'women',b:'men',legendA:'Mujeres',legendB:'Hombres',currency:false},lifecycle:{title:'Clientes nuevos y recurrentes',sub:'Compradores nuevos o que regresaron',a:'newClients',b:'repeatClients',legendA:'Nuevos',legendB:'Recurrentes',currency:false}};
-  const cfg=configs[key],months=snapshot.months,max=Math.max(1,...months.flatMap(x=>[x[cfg.a]||0,x[cfg.b]||0]));
-  const fmt=x=>cfg.currency?money(x):String(x);
-  const bar=(amount,k)=>`<span class="hilen-annual-bar ${k}" style="height:${amount?Math.max(3,Math.round(amount/max*184)):2}px;opacity:${amount?1:.15}" aria-hidden="true"></span>`;
-  const choice=Math.max(0,months.reduce((best,x,i)=>(x[cfg.a]||0)+(x[cfg.b]||0)>0?i:best,0));
-  const defaultMonth=months[choice];
-  const monthDetail=(x)=>`<strong>${esc(x.name)} ${snapshot.year}</strong><span><i class="a"></i>${esc(cfg.legendA)}: <b>${fmt(x[cfg.a]||0)}</b></span><span><i class="b"></i>${esc(cfg.legendB)}: <b>${fmt(x[cfg.b]||0)}</b></span>`;
-  return `<article class="hilen-annual-chart"><div class="hilen-annual-chart-head"><div><h3>${cfg.title}</h3><p class="hilen-annual-chart-sub">${cfg.sub} · Toca un mes para consultar sus cifras</p></div><button type="button" class="hilen-annual-help" title="¿Qué significa esta gráfica?" aria-label="Explicar ${cfg.title}" onclick="hilenExplainAnnualChart('${key}')">?</button></div><div class="hilen-annual-chart-scroll"><div class="hilen-annual-bars">${months.map((x,i)=>{const v1=x[cfg.a]||0,v2=x[cfg.b]||0;return `<div role="button" tabindex="0" aria-label="${esc(x.name)} ${snapshot.year}: ${esc(cfg.legendA)} ${fmt(v1)}; ${esc(cfg.legendB)} ${fmt(v2)}" class="hilen-annual-month ${i===choice?'is-selected':''}" data-detail="${esc(monthDetail(x))}" onclick="hilenShowAnnualMonthDetail(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"><div class="hilen-annual-pair">${bar(v1,'a')}${bar(v2,'b')}</div><span class="hilen-annual-month-label">${x.name}</span></div>`}).join('')}</div></div><div class="hilen-annual-legend"><span><i class="hilen-annual-legend-dot a"></i>${cfg.legendA}</span><span><i class="hilen-annual-legend-dot b"></i>${cfg.legendB}</span></div><div class="hilen-annual-month-detail" aria-live="polite">${monthDetail(defaultMonth)}</div></article>`;
+/* Panel financiero moderno: un mismo componente para Inicio (año vigente) y Reportes (año elegido). */
+const hilenvizColors={
+  cash:['#3476f0','#ffa43b'],sales:['#35b78c','#7759df'],
+  collected:['#3273f0','#f5a334'],genders:['#ee4a9d','#3676f3'],
+  lifecycle:['#36b78d','#3276ef']
+};
+const hilenvizChartConfig={
+  cash:{title:'Ingresos y egresos',sub:'Dinero que entró y salió del negocio',a:'income',b:'expense',legendA:'Ingresos',legendB:'Egresos',currency:true},
+  sales:{title:'Ventas al contado y a crédito',sub:'Valor de las ventas de cada tipo',a:'paid',b:'credit',legendA:'Contado',legendB:'Crédito',currency:true},
+  collected:{title:'Abonos y cartera por cobrar',sub:'Abonos mensuales frente al saldo pendiente al cierre',a:'abonos',b:'pending',legendA:'Abonos',legendB:'Saldo pendiente',currency:true},
+  genders:{title:'Mujeres y hombres que compraron',sub:'Clientes compradores diferentes por mes',a:'women',b:'men',legendA:'Mujeres',legendB:'Hombres',currency:false},
+  lifecycle:{title:'Clientes nuevos y recurrentes',sub:'Compradores nuevos o que regresaron',a:'newClients',b:'repeatClients',legendA:'Nuevos',legendB:'Recurrentes',currency:false}
+};
+function hilenvizCurrencyTick(n){
+  if(n>=1000000)return (n/1000000).toLocaleString('es-CO',{maximumFractionDigits:1})+'M';
+  if(n>=1000)return (n/1000).toLocaleString('es-CO',{maximumFractionDigits:0})+'mil';
+  return String(Math.round(n));
+}
+function hilenvizNiceScale(peak,isCurrency){
+  if(peak<=0)return {step:1,limit:4,zero:true};
+  if(!isCurrency){const step=Math.max(1,Math.ceil(peak/4));return {step,limit:step*4,zero:false}}
+  const rough=peak/4,unit=Math.pow(10,Math.floor(Math.log10(rough)));
+  const factor=[1,2,2.5,5,10].find(v=>v*unit>=rough)||10;
+  const step=factor*unit;return {step,limit:step*4,zero:false};
+}
+function hilenvizAvailableYears(){
+  const ys=new Set([Number(today().slice(0,4)),...historyYears(),...(db.annualReports||[]).map(x=>Number(x.year))]);
+  return [...ys].filter(y=>Number.isInteger(y)&&y>=2000&&y<=2100).sort((a,b)=>b-a);
+}
+function hilenvizYearControl(snapshot,context){
+  if(context==='home')return `<span class="hilenviz-year-picker">Este año (${snapshot.year})</span>`;
+  return `<select class="hilenviz-year-picker" aria-label="Año de la gráfica" onchange="hilenvizChangeReportYear(this.value)">${hilenvizAvailableYears().map(y=>`<option value="${y}" ${y===snapshot.year?'selected':''}>Año ${y}</option>`).join('')}</select>`;
+}
+function hilenvizChangeReportYear(year){
+  const field=$('hilenReportYear');if(!field)return;
+  field.value=String(year);hilenReportShowSaved=false;hilenRenderReports();
+}
+function hilenvizMonthDetail(month,cfg,year){
+  const fmt=n=>cfg.currency?money(n):String(n);
+  return `<strong>${esc(month.name)} ${year}</strong><span>${esc(cfg.legendA)}: <b>${fmt(month[cfg.a]||0)}</b></span><span>${esc(cfg.legendB)}: <b>${fmt(month[cfg.b]||0)}</b></span>`;
+}
+function hilenAnnualChartHTML(key,snapshot,context='reports'){
+  const cfg=hilenvizChartConfig[key],months=snapshot.months||[];if(!cfg||!months.length)return '';
+  const palette=hilenvizColors[key],highest=Math.max(0,...months.flatMap(m=>[Number(m[cfg.a])||0,Number(m[cfg.b])||0]));
+  const scale=hilenvizNiceScale(highest,cfg.currency),plotX=65,plotY=13,plotW=705,plotH=195,baseY=plotY+plotH,slot=plotW/12;
+  const axes=Array.from({length:5},(_,i)=>{
+    const v=i*scale.step,y=baseY-i/4*plotH;
+    const label=scale.zero?(i===0?'0':''):cfg.currency?hilenvizCurrencyTick(v):String(v);
+    return `<line class="hilenviz-gridline" x1="${plotX}" x2="${plotX+plotW}" y1="${y}" y2="${y}"/><text class="hilenviz-axis" x="${plotX-10}" y="${y+4}" text-anchor="end">${label}</text>`;
+  }).join('');
+  let selected=0;months.forEach((m,i)=>{if((Number(m[cfg.a])||0)+(Number(m[cfg.b])||0)>0)selected=i});
+  const bars=months.map((m,i)=>{
+    const mid=plotX+slot*(i+.5),a=Number(m[cfg.a])||0,b=Number(m[cfg.b])||0;
+    const ha=a?Math.max(2,Math.min(plotH,a/scale.limit*plotH)):0,hb=b?Math.max(2,Math.min(plotH,b/scale.limit*plotH)):0;
+    const desc=`${m.name} ${snapshot.year}: ${cfg.legendA}: ${cfg.currency?money(a):a}; ${cfg.legendB}: ${cfg.currency?money(b):b}`;
+    return `<g class="hilenviz-month ${i===selected?'is-selected':''}" tabindex="0" role="button" aria-label="${esc(desc)}" data-detail="${esc(hilenvizMonthDetail(m,cfg,snapshot.year))}" onclick="hilenShowAnnualMonthDetail(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">
+      <rect x="${mid-slot*.47}" y="${plotY}" width="${slot*.94}" height="${plotH+25}" fill="transparent"/>
+      ${ha?`<rect class="hilenviz-bar" x="${mid-17}" y="${baseY-ha}" width="15" height="${ha}" fill="${palette[0]}"/>`:''}
+      ${hb?`<rect class="hilenviz-bar" x="${mid+2}" y="${baseY-hb}" width="15" height="${hb}" fill="${palette[1]}"/>`:''}
+      <text class="hilenviz-axis hilenviz-month-label" x="${mid}" y="${baseY+23}" text-anchor="middle">${m.name}</text><title>${esc(desc)}</title></g>`;
+  }).join('');
+  return `<article class="hilenviz-card hilen-annual-chart" data-annual-chart="${key}">
+   <div class="hilenviz-card-header"><div><h3>${cfg.title}</h3><p>${cfg.sub}</p></div>${hilenvizYearControl(snapshot,context)}</div>
+   <div class="hilenviz-legend"><span><i class="hilenviz-dot" style="background:${palette[0]}"></i>${cfg.legendA}</span><span><i class="hilenviz-dot" style="background:${palette[1]}"></i>${cfg.legendB}</span><button class="hilenviz-help" type="button" title="Explicar gráfica" aria-label="Explicar ${cfg.title}" onclick="hilenExplainAnnualChart('${key}')">?</button></div>
+   <div class="hilenviz-plot"><svg viewBox="0 0 790 249" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gráfica mensual de ${cfg.title.toLowerCase()} para ${snapshot.year}">${axes}${bars}</svg></div>
+   <div class="hilenviz-detail hilen-annual-month-detail" aria-live="polite">${hilenvizMonthDetail(months[selected],cfg,snapshot.year)}</div>
+   </article>`;
 }
 function hilenShowAnnualMonthDetail(el){
   const chart=el?.closest('.hilen-annual-chart'),detail=chart?.querySelector('.hilen-annual-month-detail');
   if(!chart||!detail)return;
-  chart.querySelectorAll('.hilen-annual-month').forEach(x=>x.classList.toggle('is-selected',x===el));
-  // El HTML solo procede del mismo informe local; no consulta fuentes externas.
+  chart.querySelectorAll('.hilenviz-month').forEach(x=>x.classList.toggle('is-selected',x===el));
   const template=document.createElement('template');template.innerHTML=el.dataset.detail||'';detail.replaceChildren(template.content.cloneNode(true));
 }
-function hilenAnnualDashboardHTML(snapshot){
-  const t=snapshot.totals,stat=(label,value,detail)=>`<div class="hilen-annual-kpi"><span class="label">${label}</span><b>${value}</b><small>${detail}</small></div>`;
-  return `<div class="hilen-annual-cards">${stat('Total vendido',money(t.sales),'Incluye totales históricos sin detalle')}${stat('Contado',money(t.paid),`${t.paidCount} ventas individuales`)}${stat('Crédito',money(t.credit),`${t.creditCount} ventas individuales`)}${stat('Abonos del año',money(t.payments),'Ingresos recibidos como abonos')}${stat('Ingresos de caja',money(t.income),'Movimientos de entrada registrados')}${stat('Egresos',money(t.expense),'Gastos y totales históricos')}${stat('Saldo pendiente al corte',money(t.debt),'Cartera con clientes identificados')}${stat('Clientes que compraron',`${t.newClients} nuevos · ${t.repeatClients} recurrentes`,'Clasificación por primer mes de compra')}</div><div class="hilen-annual-charts">${['cash','sales','collected','genders','lifecycle'].map(key=>hilenAnnualChartHTML(key,snapshot)).join('')}</div><div class="hilen-annual-notice"><b>Cómo interpretar este informe:</b> las ventas a crédito no son dinero recaudado. Los pagos iniciales y abonos sí forman parte de los ingresos de caja, sin volver a sumarse como ventas. Las cantidades de clientes se cuentan por mes; un mismo comprador puede aparecer en meses diferentes.${t.historicalUnclassified?` Hay ${money(t.historicalUnclassified)} de ventas históricas sin desglose de contado o crédito.`:''} Los registros mensuales históricos no se asignan a clientes ni cuentas.</div>`;
+function hilenvizPortfolioAtCutoff(cutoff){
+  const asOf=String(cutoff||today()),available=(db.clients||[]).filter(c=>{
+    const date=c.registeredDate||String(c.createdAt||'').slice(0,10);return !date||date<=asOf;
+  });
+  const hasBought=new Set((db.sales||[]).filter(s=>s.date&&s.date<=asOf).map(s=>String(s.clientId)));
+  const collection=hilenClientCollectionSnapshot(asOf);
+  const group=arr=>{
+    let noDebt=0,pending=0,overdue=0,amount=0;
+    for(const c of arr){const item=collection.byId.get(String(c.id));if(item?.balance>0){amount+=item.balance;if(item.late)overdue++;else pending++}else noDebt++}
+    return {total:arr.length,noDebt,pending,overdue,debtors:pending+overdue,amount};
+  };
+  return {all:group(available),buyers:group(available.filter(c=>hasBought.has(String(c.id))))};
+}
+const hilenvizRenderedSnapshots={home:null,reports:null};
+const hilenvizPortfolioModes={home:'all',reports:'all'};
+function hilenvizPortfolioBody(snapshot,context,mode){
+  const cutoff=snapshot.year<Number(today().slice(0,4))?`${snapshot.year}-12-31`:snapshot.year===Number(today().slice(0,4))?today():`${snapshot.year}-01-01`;
+  const portfolio=snapshot.portfolio||hilenvizPortfolioAtCutoff(cutoff);
+  const p=portfolio[mode]||portfolio.all,total=p.total||0;
+  const pc=n=>total?Math.round(n/total*100):0;
+  const green=total?p.noDebt/total*100:0,orange=total?p.pending/total*100:0;
+  const grad=total?`conic-gradient(#41bd8d 0 ${green}%,#ffa938 ${green}% ${green+orange}%,#f25579 ${green+orange}% 100%)`:'conic-gradient(#e6eaf0 0 100%)';
+  const item=(label,n,clr)=>`<div class="hilenviz-status-line"><span><i class="hilenviz-dot" style="background:${clr}"></i>${label}</span><b>${n}</b><em>${pc(n)}%</em></div>`;
+  return `<div class="hilenviz-donut" style="background:${grad}" role="img" aria-label="${total} clientes: ${p.noDebt} sin deuda, ${p.pending} con saldo, ${p.overdue} con atraso"><div class="hilenviz-donut-core"><b>${total}</b><span>Clientes</span></div></div>
+   <div class="hilenviz-status-list">${item('Al día',p.noDebt,'#41bd8d')}${item('Con saldo',p.pending,'#ffa938')}${item('En mora (+1 mes)',p.overdue,'#f25579')}</div>
+   <div class="hilenviz-portfolio-tile"><span>Total pendiente</span><strong>${money(p.amount)}</strong><small>de ${p.debtors} cliente${p.debtors===1?'':'s'} con deuda</small></div>`;
+}
+function hilenvizPortfolioHTML(snapshot,context){
+  const mode=hilenvizPortfolioModes[context]||'all';
+  return `<article class="hilenviz-card hilenviz-portfolio-card" data-portfolio-context="${context}">
+   <div class="hilenviz-card-header"><div><h3>Resumen de clientes</h3><p>Estado de cartera al cierre del período</p></div><div class="hilenviz-portfolio-header-actions"><select class="hilenviz-year-picker" aria-label="Qué clientes incluir" onchange="hilenvizChangePortfolioMode(this)"><option value="all" ${mode==='all'?'selected':''}>Todos los clientes</option><option value="buyers" ${mode==='buyers'?'selected':''}>Solo compradores</option></select><button class="hilenviz-help" type="button" title="Explicar el resumen de clientes" aria-label="Explicar el resumen de clientes" onclick="hilenExplainAnnualChart('portfolio')">?</button></div></div>
+   <div class="hilenviz-donut-body">${hilenvizPortfolioBody(snapshot,context,mode)}</div><div class="hilenviz-status-detail">«Al día» significa sin deuda pendiente. «En mora» señala más de un mes sin abonar. ${snapshot.portfolio?'':'Resumen calculado con los registros actuales.'}</div></article>`;
+}
+function hilenvizChangePortfolioMode(select){
+  const card=select.closest('.hilenviz-portfolio-card');if(!card)return;
+  const context=card.dataset.portfolioContext||'reports',snap=hilenvizRenderedSnapshots[context];if(!snap)return;
+  hilenvizPortfolioModes[context]=select.value;
+  const target=card.querySelector('.hilenviz-donut-body');if(target)target.innerHTML=hilenvizPortfolioBody(snap,context,select.value);
+}
+function hilenvizDelta(snapshot,key,badUp=false){
+  const months=snapshot.months||[],nowYear=Number(today().slice(0,4)),m=(snapshot.year===nowYear)?Number(today().slice(5,7)):12;
+  if(m<=1||!months[m-1]||!months[m-2])return '<span class="hilenviz-kpi-note">Acumulado anual</span>';
+  const read=x=>key==='count'?(x.paidCount||0)+(x.creditCount||0):key==='buyers'?(x.newClients||0)+(x.repeatClients||0):Number(x[key])||0;
+  const prev=read(months[m-2]),current=read(months[m-1]);
+  if(prev===0)return '<span class="hilenviz-kpi-note">Acumulado anual</span>';
+  const delta=Math.round((current-prev)/prev*100),isBad=badUp?delta>0:false;
+  const cl=isBad?'bad':delta<0?'down':'';
+  return `<span class="hilenviz-kpi-note"><b class="hilenviz-kpi-delta ${cl}">${delta>=0?'↑':'↓'} ${Math.abs(delta)}%</b> vs mes anterior</span>`;
+}
+function hilenAnnualDashboardHTML(snapshot,context='reports'){
+  const t=snapshot.totals||{},year=snapshot.year,cnt=(t.paidCount||0)+(t.creditCount||0);
+  const portfolio=snapshot.portfolio||hilenvizPortfolioAtCutoff(year<Number(today().slice(0,4))?`${year}-12-31`:year===Number(today().slice(0,4))?today():`${year}-01-01`);
+  const icon=(name)=>({income:'<circle cx="12" cy="12" r="9"/><path d="M15.5 9.2c-.5-1-1.7-1.5-3.3-1.5-2 0-3.3 1-3.3 2.4s1.2 1.9 3.4 2.4c2.1.5 3.6 1.1 3.6 2.7 0 1.5-1.6 2.7-3.9 2.7-1.4 0-2.9-.5-3.8-1.5M12 5.5v13"/>',sales:'<path d="M4 9h16l-1.1 11H5.1L4 9Zm4 0V6a4 4 0 0 1 8 0v3"/>',expense:'<rect x="3" y="5" width="18" height="15" rx="3"/><path d="M3 10h18M8 15h4"/>',debt:'<rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 14h4M15 4v4"/>',clients:'<circle cx="8" cy="9" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20c.1-3.8 2-5.5 5.5-5.5s5.4 1.7 5.5 5.5M15 15c3.8-.6 6.4 1.5 6.5 5"/>'})[name];
+  const stat=(label,value,kind,note,iconName,tone='',composite=false)=>`<article class="hilenviz-kpi"><div class="hilenviz-kpi-icon ${tone}"><svg viewBox="0 0 24 24" aria-hidden="true">${icon(iconName)}</svg></div><div class="hilenviz-kpi-copy"><span class="hilenviz-kpi-label">${label}</span><strong class="hilenviz-kpi-value ${composite?'composite':''}">${value}</strong>${note}</div></article>`;
+  return `<div class="hilenviz-dashboard"><div class="hilenviz-kpis">
+    ${stat('Ingresos de caja',money(t.income||0),'income',hilenvizDelta(snapshot,'income'),'income','blue')}
+    ${stat('Total de ventas',String(cnt),'count',`<span class="hilenviz-kpi-note">${(t.paidCount||0)} de contado · ${(t.creditCount||0)} a crédito</span>`,'sales','sky')}
+    ${stat('Egresos',money(t.expense||0),'expense',hilenvizDelta(snapshot,'expense',true),'expense','amber')}
+    ${stat('Saldo pendiente al corte',money(t.debt||0),'debt',`<span class="hilenviz-kpi-note">${portfolio.all.debtors} clientes con deuda</span>`,'debt','blue')}
+    ${stat('Clientes que compraron',`${t.newClients||0} nuevos · ${t.repeatClients||0} recurrentes`,'buyers',`<span class="hilenviz-kpi-note">Compradores contabilizados por mes</span>`,'clients','sky',true)}
+   </div><div class="hilenviz-grid">${['cash','sales','collected','genders','lifecycle'].map(key=>hilenAnnualChartHTML(key,snapshot,context)).join('')}${hilenvizPortfolioHTML(snapshot,context)}</div>
+   <div class="hilen-annual-notice"><b>Cómo interpretar las cifras:</b> las ventas a crédito no equivalen a dinero recibido. Los ingresos de caja incluyen solo movimientos registrados, mientras que los abonos históricos se muestran cuando existen sus totales mensuales. Los saldos pendientes son una fotografía al cierre de cada mes, no importes acumulables entre meses. Los clientes nuevos y recurrentes se cuentan por mes.${t.historicalUnclassified?` Quedan ${money(t.historicalUnclassified)} de ventas históricas sin desglose de contado o crédito.`:''} No se inventan compras, clientes ni formas de pago para los meses sin detalles.</div>
+   </div>`;
 }
 function hilenRenderHomeAnnual(){
   const area=$('hilenHomeAnnualView');if(!area)return;const year=Number(today().slice(0,4));
   if($('hilenHomeYear'))$('hilenHomeYear').textContent=String(year);
-  area.innerHTML=hilenAnnualDashboardHTML(hilenAnnualSnapshot(year));
+  const snapshot=hilenAnnualSnapshot(year);hilenvizRenderedSnapshots.home=snapshot;area.innerHTML=hilenAnnualDashboardHTML(snapshot,'home');
 }
 function hilenExplainAnnualChart(key){
   const info=hilenAnnualExplanations[key];if(!info)return;
@@ -5960,7 +6214,7 @@ function hilenRenderReports(){
   const snap=showingStored?stored.snapshot:hilenAnnualSnapshot(selected);
   const note=$('hilenReportSavedNote');
   if(note)note.innerHTML=stored?`<b>${showingStored?'Viendo corte guardado':'Viendo datos actualizados'} de ${selected}.</b> Último corte guardado: ${new Date(stored.savedAt).toLocaleString('es-CO')} <button type="button" onclick="hilenReportShowSaved=!hilenReportShowSaved;hilenRenderReports()">${showingStored?'Ver datos actuales':'Ver corte guardado'}</button>`:`Todavía no hay un corte guardado de ${selected}. Puedes consultarlo aquí o guardar un corte anual cuando quieras.`;
-  area.innerHTML=hilenAnnualDashboardHTML(snap);
+  hilenvizRenderedSnapshots.reports=snap;area.innerHTML=hilenAnnualDashboardHTML(snap,'reports');
 }
 function hilenSaveAnnualReport(){
   const year=Number($('hilenReportYear')?.value||today().slice(0,4));if(!Number.isInteger(year)||year<2000||year>2100)return;
@@ -6057,16 +6311,25 @@ function hilenAttachTableZooms(){
       wrappers.forEach((wrapper,index)=>hilenEnsureZoomAtWrapper(wrapper,'historial-'+id+(index?'-'+index:''),label));
     });
   }
-  // Ficha detallada: un solo zoom amplía todos los títulos, importes, botones y tablas.
+  // Ficha detallada: la barra se mantiene FUERA del panel desplazable.
+  // Solo el contenido hace scroll; el zoom no se desplaza ni se amplía a sí mismo.
   const content=$('modalContent'),client=content?.querySelector('#customerPrintArea');
-  if(client){
+  const dialog=content?.closest('.modal-card');
+  if(client&&dialog){
     client.classList.add('hilen-customer-zoom-target');
-    if(!$('hilenClientZoomToolbar')){
-      client.insertAdjacentHTML('beforebegin',hilenZoomToolbar('ficha-cliente','Ficha completa del cliente'));
-      const bar=client.previousElementSibling;if(bar)bar.id='hilenClientZoomToolbar';
-      if(bar)bar.classList.add('hilen-client-zoom-toolbar');
+    dialog.classList.add('hilen-client-dialog-with-fixed-zoom');
+    let bar=$('hilenClientZoomToolbar');
+    if(!bar){
+      content.insertAdjacentHTML('beforebegin',hilenZoomToolbar('ficha-cliente','Ficha completa del cliente'));
+      bar=content.previousElementSibling;
+      bar.id='hilenClientZoomToolbar';
+      bar.classList.add('hilen-client-zoom-toolbar');
     }
+    if(bar.parentElement!==dialog||bar.nextElementSibling!==content)dialog.insertBefore(bar,content);
     hilenApplyTableZoom('ficha-cliente');
+  }else if(dialog){
+    dialog.classList.remove('hilen-client-dialog-with-fixed-zoom');
+    $('hilenClientZoomToolbar')?.remove();
   }
 }
 function hilenInstallAllTableZoom(){
