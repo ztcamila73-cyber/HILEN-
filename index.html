@@ -2963,6 +2963,10 @@ input,select,textarea,button{max-width:100%}
   #customerPurchaseContent > .hilen-invoice-zoom-body{overflow:visible!important}
 }
 
+
+/* Estado verificable de la copia diaria de Google Sheets */
+.hilen-sheet-verify{font-size:12px;margin-top:12px;white-space:normal;text-align:center;max-width:100%}
+#googleSheetsStatus{line-height:1.5;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -3411,9 +3415,9 @@ input,select,textarea,button{max-width:100%}
       <div class="settings-grid settings-grid-reference">
         <div class="card settings-protection-card">
           <div class="pro-card-head compact"><span class="pro-icon gold">♢</span><div><h2>Protección de tus datos</h2><p>Esta protección pertenece únicamente a tu cuenta de HILEN.</p></div></div>
-          <div class="notice blue settings-explain"><b>¿Para qué sirve?</b><br>HILEN guarda copias de lo que registras para que, si algún día ocurre un problema o algo se elimina por error, podamos recuperar tus <b>ventas, clientes, abonos, movimientos de caja, productos y demás información</b>.<br><br><b>No tienes que hacer nada todos los días.</b> Después de conectar tu Google Drive una sola vez, HILEN mantiene las copias automáticamente mientras utilizas el sistema con Internet.<br><br>Todo queda organizado en tu propia cuenta de Google dentro de la carpeta <b>HILEN - Respaldos</b>. Al cerrar cada año, HILEN conserva además <b>una copia final única de ese año</b> para que el historial anterior quede protegido. Evita borrar esa carpeta.</div>
+          <div class="notice blue settings-explain"><b>¿Para qué sirve?</b><br>HILEN protege tus <b>ventas, clientes, abonos, caja, encargos, productos y reportes</b> mediante Firebase y copias adicionales en Google.<br><br><b>Google Sheets y Google Drive intentan actualizarse después de los cambios y al menos una vez al día mientras HILEN está abierto, conectado a Internet y tiene autorización de Google vigente.</b> Revisa aquí la fecha de la última copia confirmada. Si indica pendiente, usa <b>Actualizar Google Sheets ahora</b>.<br><br>Si cierras HILEN o caduca la autorización, el navegador no puede garantizar el envío diario por sí solo. Google Drive conserva un archivo de recuperación del día, actualizado con los cambios, y otro llamado <b>HILEN_ultimo_respaldo.json</b> dentro de <b>HILEN - Respaldos</b> cuando se logra sincronizar.</div>
           <div class="settings-status-grid">
-            <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">▤</span><span>Copia organizada</span></div><div id="googleSheetsStatus" class="google-sheets-status"></div></div>
+            <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">▤</span><span>Google Sheets · copia diaria</span></div><div id="googleSheetsStatus" class="google-sheets-status" role="status" aria-live="polite"></div><button class="secondary hilen-sheet-verify" type="button" onclick="hilenUpdateGoogleSheetsManually()">Actualizar Google Sheets ahora</button></div>
             <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">☁</span><span>Copia de recuperación</span></div><div id="googleDriveStatus" class="google-sheets-status"></div></div>
           </div>
           <div class="settings-actions">
@@ -3533,6 +3537,8 @@ const GOOGLE_DRIVE_BACKUP_KEY="HILEN_GOOGLE_DRIVE_BACKUP_V1";
 const HILEN_GOOGLE_OAUTH_CLIENT_ID="600139879243-daqofgrmd5m18v0qr35t618khfibuis6.apps.googleusercontent.com";
 const HILEN_GOOGLE_SCOPES="https://www.googleapis.com/auth/drive.file";
 let googleSheetsSyncTimer=null,googleSheetsSyncInFlight=false,googleSheetsTokenClient=null,googleSheetsAccessToken='';
+// Una copia de Google Sheets se confirma solo tras el éxito de la API, no al conectar Drive.
+let hilenLastDailySheetsQueue=0,hilenLastDailyDriveQueue=0;
 let googleAuthMayPrompt=false;
 let googleBackupReconnectNeeded=false;
 let googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};
@@ -3807,7 +3813,7 @@ function safeRender(name,fn){
 }
 
 syncDataRelations();
-function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_DIRTY_KEY,'1');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());queueCloudSave();queueGoogleSheetsSync();queueGoogleDriveSync();notifyBackupAfterChange()}
+function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_DIRTY_KEY,'1');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());queueCloudSave();queueGoogleSheetsSync(45000,true);queueGoogleDriveSync(90000,true);notifyBackupAfterChange()}
 function syncDataRelations(){
   db.clients ||= []; db.sales ||= []; db.payments ||= [];
   const canonicalByName=new Map(),duplicateIds=new Map();
@@ -3911,7 +3917,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['stStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();startEncargoReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -5227,8 +5233,43 @@ function buildBackupTables(){
     Cartera_al_cierre:m.pending,Mujeres_compradoras:m.women,Hombres_compradores:m.men,
     Clientes_nuevos:m.newClients,Clientes_recurrentes:m.repeatClients,Historico_sin_clasificar:m.unclassified
   })));
+  // Respaldo de las tablas que no deben perderse al cambiar el diseño del programa.
+  // Las filas JSON conservan todos los campos, incluso los añadidos a un tipo de registro.
+  const monthly=(db.monthlyRecords||[]).map(r=>({
+    Mes:r.month||'',Ventas_historicas:r.salesTotal??'',Abonos_historicos:r.paymentsTotal??'',
+    Egresos_historicos:r.expensesTotal??'',Tiene_ventas:r.hasSalesTotal===true,
+    Tiene_abonos:r.hasPaymentsTotal===true,Tiene_egresos:r.hasExpensesTotal===true,
+    Datos_completos:JSON.stringify(r)
+  }));
+  const invoices=(db.sales||[]).filter(s=>s.type==='credit').map(s=>({
+    ID:s.id,Factura:hilenInvoiceCode(s),Fecha:s.date,Cliente:clientNameById(s.clientId),
+    Total_productos:hilenSaleGrossTotal(s),Descuento_productos:hilenSaleDiscountTotal(s),
+    Descuento_general:hilenSaleManualDiscount(s),Total_venta:hilenSaleNetTotal(s),
+    Pago_inicial:Number(s.initialPaid)||0,Capital_credito:hilenPrincipal(s),
+    Datos_completos:JSON.stringify(s)
+  }));
+  const allocations=(db.payments||[]).map(p=>({
+    Abono_ID:p.id,Fecha:p.date,Cliente:clientNameById(p.clientId),Valor:Number(p.amount)||0,
+    Forma_de_aplicacion:p.allocationMode||'Automática',Asignaciones:JSON.stringify(p.allocations||[]),
+    Datos_completos:JSON.stringify(p)
+  }));
+  // Esta pestaña conserva cada objeto exactamente como vive en Firebase.
+  // Incluye automáticamente campos nuevos de las colecciones existentes.
+  const complete=[];
+  const snapshot=businessState();
+  for(const [collection,records] of Object.entries(snapshot)){
+    if(!Array.isArray(records))continue;
+    for(const [idx,record] of records.entries()){
+      const raw=JSON.stringify(record);
+      const chunkLength=30000;
+      const count=Math.max(1,Math.ceil(raw.length/chunkLength));
+      for(let part=0;part<count;part++){
+        complete.push({Coleccion:collection,ID:String(record?.id||idx),Parte:part+1,Total_partes:count,Datos_JSON:raw.slice(part*chunkLength,(part+1)*chunkLength)});
+      }
+    }
+  }
   const b=getBalances(),summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Estados de cuenta descargados',Valor:(db.statementDownloads||[]).length},{Indicador:'Encargos registrados',Valor:(db.encargos||[]).length},{Indicador:'Dinero en efectivo',Valor:b.cash},{Indicador:'Dinero en Nequi',Valor:b.bank},{Indicador:'Disponible total',Valor:b.total}];
-  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Reportes anuales':annualArchives,'Encargos':encargos};
+  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Reportes anuales':annualArchives,'Encargos':encargos,'Registros mensuales':monthly,'Facturas a credito':invoices,'Asignacion de abonos':allocations,'Datos completos':complete};
 }
 function exportAllToExcel(){
   if(!window.XLSX)return showToast('No se pudo cargar Excel','Verifica tu conexión a Internet y vuelve a intentar.','error');
@@ -5282,8 +5323,10 @@ function notifyBackupStatusOnStart(){
 
 function startBackupHealthMonitor(){
   if(backupHealthTimer)return;
+  hilenCheckDailyGoogleSheets();
   backupHealthTimer=setInterval(()=>{
     if(document.visibilityState!=='visible'||localMode||!currentUser?.id)return;
+    hilenCheckDailyGoogleSheets();
     if(!googleDriveConnected())return;
 
     if(googleBackupReconnectNeeded){
@@ -5309,7 +5352,7 @@ function renderSettings(){
   if($('settingsUserEmail'))$('settingsUserEmail').textContent=currentUser?.email||'—';
   const driveConnected=googleDriveConnected();
   if($('settingsGoogleDriveText'))$('settingsGoogleDriveText').textContent=driveConnected?'Google Drive conectado':'Google Drive no conectado';
-  if($('settingsGoogleDriveHelp'))$('settingsGoogleDriveHelp').textContent=driveConnected?'Tu cuenta permanece vinculada. HILEN mantiene las copias automáticamente.':'Conéctalo una sola vez para activar las copias automáticas.';
+  if($('settingsGoogleDriveHelp'))$('settingsGoogleDriveHelp').textContent=driveConnected?'Cuenta vinculada. Comprueba la fecha de la última actualización de Google Sheets más abajo.':'Conecta tu cuenta y verifica que Google Sheets confirme la primera copia.';
   if($('settingsGoogleDriveState')){
     $('settingsGoogleDriveState').className='google-account-state '+(driveConnected?'connected':'disconnected');
     $('settingsGoogleDriveState').innerHTML=`<span class="dot"></span>${driveConnected?'Conectada':'No conectada'}`;
@@ -5344,12 +5387,66 @@ function maybePromptGoogleBackupOnboarding(){
 }
 
 function googleOAuthConfigured(){return HILEN_GOOGLE_OAUTH_CLIENT_ID&&HILEN_GOOGLE_OAUTH_CLIENT_ID.includes('.apps.googleusercontent.com')&&!HILEN_GOOGLE_OAUTH_CLIENT_ID.startsWith('PEGA_AQUI')}
+function hilenSheetsLastSuccess(){
+  const d=new Date(googleSheetsConfig.lastSentAt||'');
+  return !Number.isNaN(d.getTime())?d:null;
+}
+function hilenSheetsUpdatedToday(){
+  const d=hilenSheetsLastSuccess();
+  return !!d&&d.toDateString()===new Date().toDateString();
+}
 function renderGoogleSheetsStatus(){
   const el=$('googleSheetsStatus');if(!el)return;
-  if(!googleOAuthConfigured()){el.className='google-sheets-status warn';el.textContent='Pendiente de activación por el administrador de HILEN. Firebase y Excel siguen funcionando normalmente.';return}
-  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){el.className='google-sheets-status warn';el.textContent='Copia organizada: todavía no conectada. Conecta Google Drive para activar la protección automática.';return}
-  if(googleSheetsConfig.pendingAt){el.className='google-sheets-status warn';el.textContent=`Copia organizada: guardando cambios${googleSheetsConfig.lastSentAt?' · última copia '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):''}.`;return}
-  el.className='google-sheets-status ok';el.textContent=`Copia organizada: actualizada automáticamente${googleSheetsConfig.lastSentAt?' · última copia '+new Date(googleSheetsConfig.lastSentAt).toLocaleString('es-CO'):' · pendiente de la primera copia'}.`;
+  if(!googleOAuthConfigured()){el.className='google-sheets-status warn';el.textContent='Google Sheets: el administrador todavía debe configurar el acceso.';return}
+  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){el.className='google-sheets-status warn';el.textContent='Google Sheets sin conectar. Aún no existe una copia confirmada.';return}
+  const last=hilenSheetsLastSuccess(),stamp=last?last.toLocaleString('es-CO'):'ninguna';
+  if(!hilenSheetsUpdatedToday()){
+    el.className='google-sheets-status warn';
+    el.textContent=`Sin copia confirmada hoy. Última actualización verificada: ${stamp}. ${googleSheetsAccessToken?'HILEN intentará actualizarla automáticamente.':'Pulsa «Actualizar Google Sheets ahora» para sincronizar y autorizar si es necesario.'}`;
+    return;
+  }
+  if(googleSheetsConfig.pendingAt){
+    el.className='google-sheets-status warn';
+    el.textContent=`Última copia confirmada hoy: ${stamp}. Hay cambios posteriores pendientes de enviar${googleSheetsAccessToken?' (actualización programada).':'; pulsa «Actualizar Google Sheets ahora».'}`;
+    return;
+  }
+  el.className='google-sheets-status ok';
+  el.textContent=`✓ Google Sheets: copia confirmada hoy a las ${last.toLocaleTimeString('es-CO')}. Nuevos cambios y campos registrados se enviarán mientras haya conexión y autorización válida.`;
+}
+/* Revisión diaria de Sheets Y Drive mientras HILEN esté abierto y autorizado.
+   No solicita permisos automáticamente: la persona los renueva desde Configuración. */
+function hilenCheckDailyGoogleSheets(){
+  if(localMode||!currentUser?.id)return;
+  renderGoogleSheetsStatus();renderGoogleDriveStatus();
+  if(document.visibilityState==='hidden'||!navigator.onLine||!googleSheetsAccessToken)return;
+  // Aunque no se hayan registrado ventas nuevas, Drive debe tener una copia del día.
+  if(googleDriveConnected()&&(googleDriveConfig.lastDailyDay!==today()||googleDriveConfig.pendingAt)
+     &&!googleDriveSyncInFlight&&!googleDriveSyncTimer&&Date.now()-hilenLastDailyDriveQueue>30000){
+    hilenLastDailyDriveQueue=Date.now();
+    queueGoogleDriveSync(2500);
+  }
+  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId||googleSheetsSyncInFlight||googleSheetsSyncTimer)return;
+  if(hilenSheetsUpdatedToday()&&!googleSheetsConfig.pendingAt)return;
+  if(Date.now()-hilenLastDailySheetsQueue<30000)return;
+  hilenLastDailySheetsQueue=Date.now();
+  queueGoogleSheetsSync(1800);
+}
+async function hilenUpdateGoogleSheetsManually(){
+  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){
+    showToast('Google Sheets sin configurar','Primero conecta Google Drive en Configuración.','warning');return false;
+  }
+  if(!navigator.onLine){showToast('Sin Internet','Conéctate para actualizar Google Sheets.','warning');return false}
+  try{
+    // La autorización solo puede solicitarse desde este botón pulsado por la persona.
+    if(!googleSheetsAccessToken)await requestGoogleAccessToken(true);
+    clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=null;
+    return await syncGoogleSheetsNow(true);
+  }catch(err){
+    console.warn('HILEN · actualización manual de Sheets',err);
+    renderGoogleSheetsStatus();
+    showToast('Google Sheets no actualizado','Revisa la autorización de Google y vuelve a intentar. Los datos permanecen en HILEN.','error');
+    return false;
+  }
 }
 async function loadGoogleSheetsConfigFromCloud(){
   try{if(cloudDb&&currentUser?.id){const s=await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleSheetsBackup')).once('value'),v=s.val();if(v){googleSheetsConfig={...googleSheetsConfig,...v};localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig))}}}catch(e){console.warn('No se pudo cargar configuración de Google Sheets',e)}renderGoogleSheetsStatus();if($('settings'))renderSettings()
@@ -5362,8 +5459,15 @@ async function persistGoogleSheetsConfig(){
 function renderGoogleDriveStatus(){
   const el=$('googleDriveStatus');if(!el)return;
   if(!googleDriveConfig.enabled||!googleDriveConfig.folderId){el.className='google-sheets-status warn';el.textContent='Google Drive: todavía no conectado. Al conectarlo, HILEN creará tu carpeta de respaldos automáticamente.';return}
-  if(googleDriveConfig.pendingAt){el.className='google-sheets-status warn';el.textContent=`Google Drive: guardando cambios${googleDriveConfig.lastSentAt?' · última copia '+new Date(googleDriveConfig.lastSentAt).toLocaleString('es-CO'):''}.`;return}
-  el.className='google-sheets-status ok';el.textContent=`Google Drive: respaldo actualizado automáticamente${googleDriveConfig.lastSentAt?' · última copia '+new Date(googleDriveConfig.lastSentAt).toLocaleString('es-CO'):' · pendiente de la primera copia'}${googleDriveConfig.lastAnnualArchiveYear?' · cierre anual '+googleDriveConfig.lastAnnualArchiveYear+' guardado':''}.`;
+  const last=googleDriveConfig.lastSentAt?new Date(googleDriveConfig.lastSentAt):null;
+  const stamp=last&&!Number.isNaN(last.getTime())?last.toLocaleString('es-CO'):'ninguna';
+  if(googleDriveConfig.pendingAt){el.className='google-sheets-status warn';el.textContent=`Google Drive: cambios pendientes de enviar. Última copia confirmada: ${stamp}.`;return}
+  if(googleDriveConfig.lastDailyDay!==today()||!last){
+    el.className='google-sheets-status warn';
+    el.textContent=`Google Drive conectado, pero sin copia diaria confirmada hoy. Última copia: ${stamp}. ${googleSheetsAccessToken?'HILEN intentará crearla mientras esté abierto.':'Para autorizar, usa «Respaldar ahora». '}`;
+    return;
+  }
+  el.className='google-sheets-status ok';el.textContent=`✓ Google Drive: copia diaria de hoy confirmada. Última actualización: ${stamp}.${googleDriveConfig.lastAnnualArchiveYear?' Cierre anual '+googleDriveConfig.lastAnnualArchiveYear+' guardado.':''}`;
 }
 async function loadGoogleDriveConfigFromCloud(){
   try{if(cloudDb&&currentUser?.id){const s=await cloudDb.ref(userCloudPath(currentUser.id,'settings/googleDriveBackup')).once('value'),v=s.val();if(v){googleDriveConfig={...googleDriveConfig,...v};localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig))}}}catch(e){console.warn('No se pudo cargar configuración de Google Drive',e)}renderGoogleDriveStatus();if($('settings'))renderSettings()
@@ -5453,14 +5557,34 @@ async function cleanupOldDriveDailyBackups(){
 }
 async function syncGoogleDriveNow(showResult=false){
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','El respaldo de Google Drive se hará cuando vuelva Internet.','error');return false}
-  if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;const hadPending=!!googleDriveConfig.pendingAt;
+  if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;
+  const pendingAtStart=googleDriveConfig.pendingAt,hadPending=!!pendingAtStart;
   try{
     const folderId=await ensureGoogleDriveFolder(),content=backupJsonText(),latestMeta={name:'HILEN_ultimo_respaldo.json',mimeType:'application/json',parents:googleDriveConfig.latestFileId?undefined:[folderId],appProperties:{hilenBackup:'latest'}};
     if(latestMeta.parents===undefined)delete latestMeta.parents;
     const latest=await driveMultipartUpload(latestMeta,content,googleDriveConfig.latestFileId||'');googleDriveConfig.latestFileId=latest.id;
-    const day=today(),dailyDue=googleDriveConfig.lastDailyDay!==day;if(dailyDue){const q=encodeURIComponent(`'${folderId}' in parents and (name='HILEN_${day}.json' or name='HILEN_${day}.json') and trashed=false`),existing=await googleApi(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name)&pageSize=2`);if(!(existing?.files||[]).length)await driveMultipartUpload({name:`HILEN_${day}.json`,mimeType:'application/json',parents:[folderId],appProperties:{hilenBackup:'daily',day}},content);googleDriveConfig.lastDailyDay=day;cleanupOldDriveDailyBackups()}
+    const day=today(),dailyDue=googleDriveConfig.lastDailyDay!==day;
+    // La copia del día se crea una sola vez y se ACTUALIZA al guardar nuevos datos.
+    // No se generan archivos adicionales cada vez que se registra una venta.
+    const q=encodeURIComponent(`'${folderId}' in parents and name='HILEN_${day}.json' and trashed=false`);
+    const existing=await googleApi(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name)&pageSize=2`);
+    const dailyFile=(existing?.files||[])[0];
+    if(dailyFile?.id){
+      await driveMultipartUpload({name:`HILEN_${day}.json`,mimeType:'application/json',appProperties:{hilenBackup:'daily',day}},content,dailyFile.id);
+    }else{
+      await driveMultipartUpload({name:`HILEN_${day}.json`,mimeType:'application/json',parents:[folderId],appProperties:{hilenBackup:'daily',day}},content);
+    }
+    googleDriveConfig.lastDailyDay=day;
+    if(dailyDue)cleanupOldDriveDailyBackups();
     await ensurePendingYearEndArchive(folderId);
-    googleDriveConfig.enabled=true;googleDriveConfig.lastSentAt=new Date().toISOString();googleDriveConfig.pendingAt='';setGoogleBackupReconnectNeeded(false);await persistGoogleDriveConfig();if(showResult)showToast('Google Drive actualizado','Se guardó el respaldo JSON más reciente y la copia diaria.','success',5600);else if(hadPending&&!googleBackupManualRun)showToast('Copia de seguridad actualizada',dailyDue?'Tus cambios quedaron protegidos en Google Drive y también se guardó la copia diaria.':'Tus cambios ya quedaron protegidos en Google Drive.','success',5600);return true
+    googleDriveConfig.enabled=true;googleDriveConfig.lastSentAt=new Date().toISOString();
+    // No perdemos una nueva modificación realizada mientras Google subía la copia anterior.
+    googleDriveConfig.pendingAt=googleDriveConfig.pendingAt!==pendingAtStart?googleDriveConfig.pendingAt:'';
+    setGoogleBackupReconnectNeeded(false);await persistGoogleDriveConfig();
+    if(googleDriveConfig.pendingAt)queueGoogleDriveSync(2500);
+    if(showResult)showToast('Google Drive actualizado','Se guardó el respaldo JSON más reciente y la copia diaria.','success',5600);
+    else if(hadPending&&!googleBackupManualRun)showToast('Copia de seguridad actualizada',dailyDue?'Tus cambios quedaron protegidos en Google Drive y también se guardó la copia diaria.':'Tus cambios ya quedaron protegidos en Google Drive.','success',5600);
+    return true
   }catch(err){
     if(err?.message==='GOOGLE_AUTH_REQUIRED'){
       setGoogleBackupReconnectNeeded(true);
@@ -5472,8 +5596,13 @@ async function syncGoogleDriveNow(showResult=false){
     console.error('Google Drive backup:',err);if(showResult)showToast('No se pudo respaldar en Google Drive',err.message||'Revisa tu conexión e intenta nuevamente.','error');return false
   }finally{googleDriveSyncInFlight=false}
 }
-function queueGoogleDriveSync(){
-  if(!googleDriveConfig.enabled||!googleDriveConfig.folderId)return;googleDriveConfig.pendingAt=new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();clearTimeout(googleDriveSyncTimer);googleDriveSyncTimer=setTimeout(()=>syncGoogleDriveNow(false),300000)
+function queueGoogleDriveSync(delayMs=90000,changed=false){
+  if(!googleDriveConfig.enabled||!googleDriveConfig.folderId)return;
+  if(changed||!googleDriveConfig.pendingAt)googleDriveConfig.pendingAt=new Date().toISOString();
+  localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));
+  renderGoogleDriveStatus();clearTimeout(googleDriveSyncTimer);googleDriveSyncTimer=null;
+  if(!navigator.onLine||!googleSheetsAccessToken)return;
+  googleDriveSyncTimer=setTimeout(()=>{googleDriveSyncTimer=null;syncGoogleDriveNow(false)},delayMs);
 }
 function openGoogleDriveBackup(){if(!googleDriveConfig.folderUrl)return showToast('Google Drive no está conectado','Ve a Configuración y pulsa “Conectar Google Drive”.','error');window.open(googleDriveConfig.folderUrl,'_blank','noopener')}
 async function syncGoogleBackupNow(showResult=false){
@@ -5487,7 +5616,7 @@ async function syncGoogleBackupNow(showResult=false){
 
 function openGoogleSheetsSetup(){
   const connected=googleBackupConnected();
-  $('modalContent').innerHTML=`<h2>Protección de tus datos</h2><div class="notice blue"><b>Tu información es lo más importante.</b><br>Conecta tu Google Drive para que HILEN mantenga copias adicionales de lo que registras y podamos recuperarlo si algún día ocurre un problema.</div><br><p class="muted"><b>¿Tengo que hacer algo todos los días?</b><br>No. Después de conectarlo, HILEN mantiene la cuenta vinculada. HILEN nunca abrirá Google por sí solo al iniciar sesión o recargar la página.</p><p class="muted"><b>¿Qué se protege?</b><br>Ventas, clientes, abonos, caja, productos y demás información registrada en tu cuenta.</p><p class="muted"><b>¿Dónde quedan las copias?</b><br>Dentro de tu propia cuenta de Google, en una carpeta llamada <b>HILEN - Respaldos</b>.</p>${connected?`<div class="notice good"><b>✓ Google Drive está conectado.</b><br><span class="small">Tus copias seguirán actualizándose automáticamente. Usa <b>Respaldar ahora</b> solo cuando quieras forzar una copia inmediata.</span></div><br><div class="action-group"><button class="primary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button><button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button><button class="secondary" onclick="openGoogleSheetBackup()">Ver copia organizada</button><button class="secondary" onclick="disconnectGoogleSheets()">Desconectar Google Drive</button></div>`:`<div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button></div><div class="small muted" style="margin-top:12px">Solo debes elegir tu cuenta de Google y aceptar el acceso. HILEN creará la carpeta y organizará las copias automáticamente.</div>`}`;
+  $('modalContent').innerHTML=`<h2>Protección de tus datos</h2><div class="notice blue"><b>Tu información es lo más importante.</b><br>Conecta tu Google Drive para que HILEN mantenga copias adicionales de lo que registras y podamos recuperarlo si algún día ocurre un problema.</div><br><p class="muted"><b>¿Se actualiza todos los días?</b><br>HILEN intenta actualizar Google Sheets diariamente mientras la app esté abierta, haya Internet y Google mantenga válida la autorización. Comprueba la última copia confirmada en Configuración. Si está pendiente, usa «Actualizar Google Sheets ahora». La app no abre autorizaciones automáticamente.</p><p class="muted"><b>¿Qué se protege?</b><br>Ventas, clientes, abonos, caja, productos y demás información registrada en tu cuenta.</p><p class="muted"><b>¿Dónde quedan las copias?</b><br>Dentro de tu propia cuenta de Google, en una carpeta llamada <b>HILEN - Respaldos</b>.</p>${connected?`<div class="notice good"><b>✓ Google Drive está conectado.</b><br><span class="small">Tus copias seguirán actualizándose automáticamente. Usa <b>Respaldar ahora</b> solo cuando quieras forzar una copia inmediata.</span></div><br><div class="action-group"><button class="primary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button><button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button><button class="secondary" onclick="openGoogleSheetBackup()">Ver copia organizada</button><button class="secondary" onclick="disconnectGoogleSheets()">Desconectar Google Drive</button></div>`:`<div class="action-group"><button class="primary drive-connect-btn" onclick="connectGoogleSheets()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.1 3.5h7.8l4.6 8-3.3 5.7H6.8L3.5 11.5l4.6-8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.1 3.5 13 12h7.5M13 12l-6.2 5.2M13 12l-4.9-8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Conectar Google Drive</button></div><div class="small muted" style="margin-top:12px">Solo debes elegir tu cuenta de Google y aceptar el acceso. HILEN creará la carpeta y organizará las copias automáticamente.</div>`}`;
   $('modal').classList.remove('hidden')
 }
 function googleAuthErrorNeedsReconnect(err){
@@ -5590,7 +5719,7 @@ async function connectGoogleSheets(){
     setGoogleBackupReconnectNeeded(false);
     const folderId=await ensureGoogleDriveFolder();
     if(!googleSheetsConfig.sheetId){
-      const titles=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','Reportes anuales','Encargos','CONTROL'];
+      const titles=[...Object.keys(buildBackupTables()),'CONTROL'];
       const created=await googleApi('https://sheets.googleapis.com/v4/spreadsheets',{method:'POST',body:JSON.stringify({properties:{title:'HILEN - Respaldo'},sheets:titles.map(title=>({properties:{title}}))})});
       googleSheetsConfig.sheetId=created.spreadsheetId;
       googleSheetsConfig.sheetUrl=created.spreadsheetUrl||`https://docs.google.com/spreadsheets/d/${created.spreadsheetId}/edit`;
@@ -5606,35 +5735,76 @@ async function disconnectGoogleSheets(){
   googleSheetsAccessToken='';setGoogleBackupReconnectNeeded(false);googleSheetsConfig={enabled:false,sheetId:'',sheetUrl:'',lastSentAt:'',connectedAt:'',pendingAt:''};googleDriveConfig={enabled:false,folderId:'',folderUrl:'',latestFileId:'',lastSentAt:'',lastDailyDay:'',lastAnnualArchiveYear:'',connectedAt:'',pendingAt:''};await persistGoogleSheetsConfig();await persistGoogleDriveConfig();closeModal();showToast('Google desconectado','Los archivos existentes no se eliminan de tu Google Drive.')
 }
 function openGoogleSheetBackup(){if(!googleSheetsConfig.sheetUrl)return showToast('La copia organizada todavía no está disponible','Conecta Google Drive primero.','error');window.open(googleSheetsConfig.sheetUrl,'_blank','noopener')}
-function queueGoogleSheetsSync(){if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId)return;googleSheetsConfig.pendingAt=new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=setTimeout(()=>syncGoogleSheetsNow(false),45000)}
+function queueGoogleSheetsSync(delayMs=45000,changed=false){
+  if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId)return;
+  // Cada modificación marca una versión nueva, incluso si otra sincronización está en curso.
+  // En reintentos conservamos la marca para no crear un bucle infinito.
+  if(changed||!googleSheetsConfig.pendingAt)googleSheetsConfig.pendingAt=new Date().toISOString();
+  localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));
+  renderGoogleSheetsStatus();clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=null;
+  if(!googleSheetsAccessToken||!navigator.onLine)return;
+  googleSheetsSyncTimer=setTimeout(()=>{googleSheetsSyncTimer=null;syncGoogleSheetsNow(false)},delayMs);
+}
 function backupRowsToValues(rows){
   const safe=Array.isArray(rows)&&rows.length?rows:[{Mensaje:'Sin registros'}];const headers=[];safe.forEach(r=>Object.keys(r||{}).forEach(k=>{if(!headers.includes(k))headers.push(k)}));
   const norm=v=>{if(v===null||v===undefined)return '';if(typeof v==='object')return JSON.stringify(v);return v};return [headers,...safe.map(r=>headers.map(h=>norm(r?.[h])))]
 }
-async function ensureGoogleSheetTabs(){
-  if(!googleSheetsConfig.sheetId)return;
-  const required=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','Encargos','CONTROL'];
-  const meta=await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}?fields=sheets.properties(sheetId,title)`);
-  const sheets=(meta?.sheets||[]).map(x=>x?.properties).filter(Boolean),existing=new Set(sheets.map(x=>x.title).filter(Boolean)),requests=[];
-  const oldDebt=sheets.find(x=>x.title==='Deudas entre años'),newDebt=sheets.find(x=>x.title==='Deudas pendientes por año');
-  if(oldDebt&&!newDebt){requests.push({updateSheetProperties:{properties:{sheetId:oldDebt.sheetId,title:'Deudas pendientes por año'},fields:'title'}});existing.delete('Deudas entre años');existing.add('Deudas pendientes por año')}
-  required.filter(x=>!existing.has(x)).forEach(title=>requests.push({addSheet:{properties:{title}}}));
+async function ensureGoogleSheetTabs(tables){
+  if(!googleSheetsConfig.sheetId)return {};
+  // Consulta también la capacidad de cada pestaña; Google Sheets no permite
+  // escribir datos fuera de los límites de su cuadrícula.
+  const meta=await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}?fields=sheets.properties(sheetId,title,gridProperties(rowCount,columnCount))`);
+  const sheets=(meta?.sheets||[]).map(x=>x?.properties).filter(Boolean),existing=new Map(sheets.map(p=>[p.title,p])),requests=[],grids={};
+  const oldDebt=existing.get('Deudas entre años'),newDebt=existing.get('Deudas pendientes por año');
+  if(oldDebt&&!newDebt){
+    requests.push({updateSheetProperties:{properties:{sheetId:oldDebt.sheetId,title:'Deudas pendientes por año'},fields:'title'}});
+    existing.delete('Deudas entre años');existing.set('Deudas pendientes por año',oldDebt);
+  }
+  for(const title of [...Object.keys(tables),'CONTROL']){
+    const rows=title==='CONTROL'?6:backupRowsToValues(tables[title]||[]).length;
+    const cols=title==='CONTROL'?2:Math.max(1,...backupRowsToValues(tables[title]||[]).map(row=>row.length));
+    const needRows=Math.max(1000,rows+10),needCols=Math.max(26,cols+2);
+    const item=existing.get(title);
+    if(!item){
+      requests.push({addSheet:{properties:{title,gridProperties:{rowCount:needRows,columnCount:needCols}}}});
+      grids[title]={rows:needRows,cols:needCols};
+    }else{
+      const currentRows=Number(item.gridProperties?.rowCount)||1000,currentCols=Number(item.gridProperties?.columnCount)||26;
+      const nextRows=Math.max(currentRows,needRows),nextCols=Math.max(currentCols,needCols);
+      grids[title]={rows:nextRows,cols:nextCols};
+      if(nextRows!==currentRows||nextCols!==currentCols)requests.push({updateSheetProperties:{properties:{sheetId:item.sheetId,gridProperties:{rowCount:nextRows,columnCount:nextCols}},fields:'gridProperties.rowCount,gridProperties.columnCount'}});
+    }
+  }
   if(requests.length)await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}:batchUpdate`,{method:'POST',body:JSON.stringify({requests})});
+  return grids;
 }
 async function syncGoogleSheetsNow(showResult=false){
   if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){if(showResult)showToast('Google Sheets no está conectado','Pulsa “Conectar con Google Sheets” y HILEN creará el archivo automáticamente.','error');return false}
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','HILEN intentará respaldar cuando vuelvas a tener Internet.','error');return false}
   if(googleSheetsSyncInFlight)return false;googleSheetsSyncInFlight=true;
+  const pendingAtStart=googleSheetsConfig.pendingAt;
   try{
     await ensureGoogleSheetInBackupFolder();
-    await ensureGoogleSheetTabs();
-    const tables=buildBackupTables(),names=['Resumen','Clientes','Ventas','Productos vendidos','Abonos','Flujo de caja','Productos y demanda','Resumen por año','Deudas pendientes por año','Reportes anuales'];
-    const ranges=names.map(n=>`'${n.replace(/'/g,"''")}'!A:ZZ`).concat(["'CONTROL'!A:ZZ"]);
-    await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchClear`,{method:'POST',body:JSON.stringify({ranges})});
+    const tables=buildBackupTables(),names=Object.keys(tables);
+    const grids=await ensureGoogleSheetTabs(tables);
+    // Escribir los datos nuevos ANTES de retirar filas antiguas. Si Google falla en
+    // la escritura, el respaldo anterior permanece intacto en lugar de quedar vacío.
     const data=names.map(n=>({range:`'${n.replace(/'/g,"''")}'!A1`,majorDimension:'ROWS',values:backupRowsToValues(tables[n]||[])}));
     data.push({range:"'CONTROL'!A1",majorDimension:'ROWS',values:[['Campo','Valor'],['Aplicación','HILEN'],['Última actualización',new Date().toLocaleString('es-CO')],['Usuario',currentUser?.email||currentUser?.id||'HILEN'],['Estado','Respaldo recibido correctamente'],['Nota sobre deudas','Una deuda pendiente al terminar un año continúa en el siguiente. Los pagos reducen el saldo y las nuevas compras a crédito se suman a la deuda; las compras pagadas no aumentan el saldo pendiente.']]});
-    await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchUpdate`,{method:'POST',body:JSON.stringify({valueInputOption:'USER_ENTERED',data})});
-    googleSheetsConfig.lastSentAt=new Date().toISOString();googleSheetsConfig.pendingAt='';setGoogleBackupReconnectNeeded(false);await persistGoogleSheetsConfig();if(showResult)showToast('Google Sheets actualizado','El respaldo quedó sincronizado correctamente.');return true
+    await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchUpdate`,{method:'POST',body:JSON.stringify({valueInputOption:'RAW',data})});
+    // Después del éxito limpiamos únicamente filas y columnas sobrantes de una
+    // versión anterior: las ventas editadas/eliminadas no quedan duplicadas.
+    const columnName=n=>{let result='';while(n>0){n--;result=String.fromCharCode(65+n%26)+result;n=Math.floor(n/26)}return result};
+    const staleRanges=[];
+    for(const [idx,entry] of data.entries()){
+      const tab=entry.range.slice(0,-2),title=idx<names.length?names[idx]:'CONTROL';
+      const height=entry.values.length,width=Math.max(0,...entry.values.map(row=>row.length));
+      const maxRows=grids[title]?.rows||1000,maxCols=grids[title]?.cols||26;
+      if(height<maxRows)staleRanges.push(`${tab}A${height+1}:${columnName(maxCols)}${maxRows}`);
+      if(width<maxCols)staleRanges.push(`${tab}${columnName(width+1)}1:${columnName(maxCols)}${height}`);
+    }
+    if(staleRanges.length)await googleApi(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetsConfig.sheetId}/values:batchClear`,{method:'POST',body:JSON.stringify({ranges:staleRanges})});
+    googleSheetsConfig.lastSentAt=new Date().toISOString();googleSheetsConfig.pendingAt=googleSheetsConfig.pendingAt!==pendingAtStart?googleSheetsConfig.pendingAt:'';setGoogleBackupReconnectNeeded(false);await persistGoogleSheetsConfig();if(googleSheetsConfig.pendingAt)queueGoogleSheetsSync(2500);if(showResult)showToast('Google Sheets actualizado','La copia quedó confirmada en Google Sheets.');return true
   }catch(err){
     if(err?.message==='GOOGLE_AUTH_REQUIRED'){
       setGoogleBackupReconnectNeeded(true);
@@ -5762,7 +5932,8 @@ async function bootstrapApp(){
     });
   }
 }
-window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');cloudSaveNow()}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync()});
+window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');cloudSaveNow()}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync();hilenCheckDailyGoogleSheets()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')hilenCheckDailyGoogleSheets()});
 /* HILEN · Facturas por compra y aplicación de pagos · 2026-10-26.
    No genera ventas ni abonos nuevos: cada aplicación referencia un pago existente. */
 function hilenNum(x){return Math.max(0,Math.round(Number(x)||0))}
