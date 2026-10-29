@@ -3350,6 +3350,12 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
 }
 @media(max-width:380px){#dailyActivity .hdaily-ref-kpis{grid-template-columns:1fr}}
 
+/* Respuesta persistente al guardar caja: distingue dispositivo de Firebase. */
+.hilen-cf-save-state{margin-top:10px;line-height:1.5;font-size:12px;color:#566780;background:#f3f6fb;border:1px solid #e4ebf3;border-radius:11px;padding:10px 12px;overflow-wrap:anywhere}
+.hilen-cf-save-state.ok{color:#117848;background:#ecf9f1;border-color:#c7ebd5}
+.hilen-cf-save-state.pending{color:#935e0c;background:#fff7e9;border-color:#f5dfac}
+.hilen-cf-save-state.error{color:#a82732;background:#fff1f0;border-color:#f0cbcc}
+.cash-save-btn:disabled{opacity:.67;cursor:wait}
 </style>
 </head>
 <body>
@@ -3724,7 +3730,8 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
           <div id="cfTransferWrap" class="hidden"><label class="label">Transferir</label><select id="cfTransferDirection" class="input"><option value="cash-bank">De caja → Nequi</option><option value="bank-cash">De Nequi → caja</option></select></div>
           <label class="label">Valor</label><input id="cfAmount" class="input money-input" type="text" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)">
           <label class="label">Concepto</label><input id="cfNote" class="input" placeholder="Ej. compra de bolsas, consignación, base de caja">
-          <button class="primary full cash-save-btn" onclick="saveCashMovement()">▣&nbsp;&nbsp; Guardar movimiento</button>
+          <button id="cfSaveBtn" class="primary full cash-save-btn" onclick="saveCashMovement()">▣&nbsp;&nbsp; Guardar movimiento</button>
+          <div id="cfSaveState" class="hilen-cf-save-state" aria-live="polite" role="status">El movimiento se mostrará en su fecha y se confirmará después de sincronizar Firebase.</div>
         </div>
 
         <div class="card cash-movements-card">
@@ -4073,10 +4080,10 @@ function setCloudStatus(kind,text,detail=''){
   else if(/Guardando|Migrando/i.test(friendly))friendly='Guardando cambios…';
   else if(/Firebase Auth requiere prueba|Firebase API key rechazada|Firebase sin configurar/i.test(friendly))friendly='Revisa la conexión';
   if(label)label.textContent=friendly;
-  if(d)d.textContent=kind==='error'?'No se pudo sincronizar en este momento. Tus datos permanecen guardados y se intentará nuevamente.':detail||'Tus datos se guardan automáticamente.';
+  if(d)d.textContent=kind==='error'?(detail||'No se pudo sincronizar. Revisa el estado antes de cerrar HILEN.'):(detail||'Tus datos se guardan automáticamente.');
   if(dot)dot.style.background=kind==='ok'?'#22a06b':kind==='work'?'#d9a11e':kind==='error'?'#d64545':'#aaa';
   const top=document.getElementById('hilenSaveIndicator');
-  if(top){top.dataset.kind=kind;top.textContent=kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Guardado en Firebase':kind==='error'?'⚠ Sin sincronizar':kind==='work'?'◷ Sincronizando…':'Nube disponible';top.title=detail||text||''}
+  if(top){top.dataset.kind=kind;top.textContent=kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Guardado en Firebase':kind==='error'?'⚠ Sin sincronizar':kind==='work'?'◷ Sincronizando…':'Nube cargada';top.title=detail||text||''}
 }
 function firebaseDbErrorText(error){
   const code=String(error?.code||'').toLowerCase(),msg=String(error?.message||'');
@@ -4193,7 +4200,8 @@ async function cloudSaveNow(options={}){
       localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(check.updated_at||new Date().toISOString()));
       await maybeDailyCloudBackup(snapshot);
       const c=stateCounts(snapshot);
-      setCloudStatus('ok','Nube verificada ✓',`${c.sales} venta(s) · ${c.clients} cliente(s) · revisión ${cloudBaseRevision}`);
+      if(cloudDirty)setCloudStatus('work','Guardando cambios pendientes…',`${c.sales} venta(s) · ${c.clients} cliente(s) en la copia anterior. Hay cambios nuevos sin confirmar.`);
+      else setCloudStatus('ok','Nube verificada ✓',`${c.sales} venta(s) · ${c.clients} cliente(s) · revisión ${cloudBaseRevision}`);
     }while(cloudDirty&&!cloudConflict);
     if(notify)showToast('Firebase verificado','HILEN confirmó el guardado sin reemplazar cambios de otros dispositivos.');
     return true;
@@ -5525,23 +5533,114 @@ function renderHome(){
   hilenRenderHomeAnnual();
 }
 
-function saveCashMovement(){
+/* Guardado de caja confirmado: no confundir un registro local con uno verificado en Firebase. */
+let hilenCashSaving=false;
+function hilenCashSaveState(kind,message){
+  const node=$('cfSaveState');if(!node)return;
+  node.className='hilen-cf-save-state'+(kind?' '+kind:'');node.textContent=message;
+}
+function hilenRevealCashDate(day,type){
+  // El usuario puede registrar el 29/10 un gasto del 28/10: mostrar el día DEL MOVIMIENTO.
+  if($('cashflowDay'))$('cashflowDay').value=day;
+  if($('cashflowMonth'))$('cashflowMonth').value=day.slice(0,7);
+  if($('cashflowYear'))$('cashflowYear').value=Number(day.slice(0,4));
+  cashflowPeriodMode='day';
+  document.querySelectorAll('#cashflowPeriodTabs [data-cashflow-period]').forEach(btn=>btn.classList.toggle('active',btn.dataset.cashflowPeriod==='day'));
+  if($('cashflowDayWrap'))$('cashflowDayWrap').classList.remove('hidden');
+  if($('cashflowMonthWrap'))$('cashflowMonthWrap').classList.add('hidden');
+  if($('cashflowYearWrap'))$('cashflowYearWrap').classList.add('hidden');
+  // No ocultar el movimiento recién creado detrás de un filtro o una búsqueda anterior.
+  hilenCashflowTypeFilter=type==='expense'?'expense':'all';hilenCashflowTextFilter='';
+  if($('cashflowTextSearch'))$('cashflowTextSearch').value='';
+  // Si está visible el panel diario, sincronizar su calendario con la fecha elegida.
+  if($('hilenDailyDate'))$('hilenDailyDate').value=day;
+}
+function hilenCashWait(promise,maxMs=3500){
+  // Firebase mantiene algunas transacciones pendientes hasta que vuelve Internet.
+  // El botón no debe quedar bloqueado indefinidamente.
+  return Promise.race([Promise.resolve(promise).then(value=>({done:true,value})),new Promise(resolve=>setTimeout(()=>resolve({done:false,value:null}),maxMs))]);
+}
+async function hilenCheckCashRecordInFirebase(record){
+  if(localMode||!cloudDb||!currentUser?.id||cloudConflict||!navigator.onLine)return false;
+  const uid=currentUser.id;
+  try{
+    const checked=await hilenCashWait(cloudDb.ref(userCloudPath(uid,'state')).once('value'),2500);
+    if(!checked.done)return false;
+    const result=(checked.value.val()?.data?.cashMovements||[]).find(m=>String(m.id)===String(record.id));
+    return !!result&&hilenCloudSignature(result)===hilenCloudSignature(record);
+  }catch(error){console.warn('No se pudo verificar el movimiento de caja en Firebase',error);return false}
+}
+async function hilenConfirmCashRecord(record){
+  if(localMode||!cloudDb||!currentUser?.id||cloudConflict||!navigator.onLine)return false;
+  // Reintenta unos segundos. Si Firebase queda esperando Internet, muestra "pendiente".
+  for(let attempt=0;attempt<3;attempt++){
+    if(cloudConflict||!navigator.onLine)return false;
+    if(!cloudSaveInFlight){
+      const saving=await hilenCashWait(cloudSaveNow(),3000);
+      if(!saving.done){cloudDirty=true;return false}
+    }
+    if(await hilenCheckCashRecordInFirebase(record))return true;
+    if(attempt<2)await new Promise(resolve=>setTimeout(resolve,500));
+  }
+  return false;
+}
+async function saveCashMovement(){
+  if(hilenCashSaving)return;
+  if(cloudConflict){
+    hilenCashSaveState('error','Guardado detenido: hay diferencias entre este dispositivo y Firebase. Descarga los cambios locales y revisa el aviso de seguridad antes de registrar más movimientos.');
+    return showToast('Firebase necesita revisión','No se registró el movimiento para evitar que quede únicamente en una versión en conflicto.','error',7500);
+  }
+  if(!localMode&&cloudConfigured()&&(cloudLoading||cloudBaseRevision===null||cloudLoadedUid!==currentUser?.id)){
+    hilenCashSaveState('pending','Firebase todavía está cargando tus registros. Espera a que termine antes de registrar el egreso.');
+    return showToast('Cargando datos del negocio','Aún no se registró el movimiento. Firebase debe terminar de cargar primero.','error');
+  }
   const type=$('cfType').value,date=$('cfDate').value,amount=parseMoneyInput($('cfAmount').value),note=$('cfNote').value.trim();
-  if(!date||!amount)return showToast('Completa el movimiento','Indica fecha y un valor mayor que $0.','error');
-  const persist=()=>{saveDB();$('cfAmount').value='';$('cfNote').value='';refreshAfterChange();showToast('Movimiento guardado exitosamente',money(amount))};
-  if(type==='transfer'){
-    const dir=$('cfTransferDirection').value,balances=getBalances();
-    if(dir==='cash-bank'&&amount>balances.cash)return showToast('Saldo insuficiente','No hay suficiente dinero en efectivo para esa transferencia.','error');
-    if(dir==='bank-cash'&&amount>balances.bank)return showToast('Saldo insuficiente','No hay suficiente dinero en Nequi para esa transferencia.','error');
-    db.cashMovements.push({id:id(),date,time:nowTime(),type:'transfer',from:dir==='cash-bank'?'cash':'bank',to:dir==='cash-bank'?'bank':'cash',amount,note:note||'Transferencia entre Efectivo y Nequi',createdAt:new Date().toISOString()});persist();return;
-  }
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||amount<=0)return showToast('Completa el movimiento','Indica una fecha y un valor mayor que $0.','error');
   const account=$('cfAccount').value;
-  const add=()=>{db.cashMovements.push({id:id(),date,time:nowTime(),type,account,amount,note:note||(type==='income'?'Ingreso manual':'Egreso'),createdAt:new Date().toISOString()});persist()};
-  if(type==='expense'){
-    const balances=getBalances();
-    if(amount>balances[account])return confirmAction('Confirmar saldo negativo','Este egreso dejará el saldo de '+(account==='cash'?'Efectivo':'Nequi')+' en negativo.',add,{red:true,confirmText:'Guardar egreso'});
+  const transferDirection=$('cfTransferDirection').value;
+  const record={id:id(),date,time:nowTime(),type,amount,note:note||(type==='income'?'Ingreso manual':type==='expense'?'Egreso':'Transferencia entre Efectivo y Nequi'),createdAt:new Date().toISOString()};
+  if(type==='transfer'){
+    const balances=getBalances();const from=transferDirection==='cash-bank'?'cash':'bank';
+    if(amount>balances[from])return showToast('Saldo insuficiente',`No hay suficiente dinero en ${from==='cash'?'Efectivo':'Nequi'} para esa transferencia.`,'error');
+    record.from=from;record.to=from==='cash'?'bank':'cash';
+  }else record.account=account;
+  if(type==='expense'&&amount>getBalances()[account]){
+    return confirmAction('Confirmar saldo negativo','Este egreso dejará el saldo de '+(account==='cash'?'Efectivo':'Nequi')+' en negativo.',()=>hilenCommitCashMovement(record),{red:true,confirmText:'Guardar egreso'});
   }
-  add();
+  return hilenCommitCashMovement(record);
+}
+async function hilenCommitCashMovement(record){
+  if(hilenCashSaving)return;
+  if(cloudConflict)return showToast('Sincronización bloqueada','Resuelve la diferencia de Firebase antes de agregar otro movimiento.','error');
+  hilenCashSaving=true;
+  const btn=$('cfSaveBtn');if(btn)btn.disabled=true;
+  try{
+    db.cashMovements.push(record);
+    try{saveDB()}catch(error){
+      db.cashMovements=db.cashMovements.filter(m=>m.id!==record.id);
+      console.error('HILEN no guardó el movimiento localmente:',error);
+      hilenCashSaveState('error','Error: el dispositivo no pudo guardar este movimiento. No se modificó Firebase.');
+      return showToast('No se pudo guardar','El navegador rechazó el guardado local. No se borró ningún registro anterior.','error');
+    }
+    $('cfAmount').value='';$('cfNote').value='';
+    hilenRevealCashDate(record.date,record.type);
+    refreshAfterChange();
+    const text=`${record.type==='expense'?'Egreso':record.type==='income'?'Ingreso':'Transferencia'} de ${money(record.amount)} · ${normalizeDateLabel(record.date)}.`;
+    if(localMode){
+      hilenCashSaveState('pending',text+' Guardado en este dispositivo, SIN copia confirmada en Firebase.');
+      showToast('Guardado solo en este dispositivo','Firebase no está conectado en modo local.','warning',6000);
+    }else{
+      hilenCashSaveState('pending',text+' Guardado localmente; verificando Firebase…');
+      const confirmed=await hilenConfirmCashRecord(record);
+      if(confirmed){
+        hilenCashSaveState('ok',text+' ✓ Verificado en Firebase. Puedes consultar el registro en Movimientos del día.');
+        showToast('Movimiento guardado en Firebase',text,'success',5500);
+      }else{
+        hilenCashSaveState('pending',text+' ⚠ Pendiente de confirmar en Firebase. No cierres ni reemplaces la versión sin revisar el indicador de sincronización.');
+        showToast('Movimiento pendiente de sincronización','Está guardado en este navegador, pero Firebase aún NO lo ha confirmado. Revisa el estado de la nube.','error',8500);
+      }
+    }
+  }finally{hilenCashSaving=false;if(btn)btn.disabled=false}
 }
 function cashEvents(){const ev=[];db.sales.filter(s=>s.type==='paid').forEach(s=>ev.push({id:'sale-'+s.id,sourceId:s.id,date:s.date,time:s.time,type:'income',account:s.destination||'cash',amount:hilenSaleNetTotal(s),note:'Venta · '+clientNameById(s.clientId),source:'Venta'}));db.sales.filter(s=>s.type==='credit'&&(Number(s.initialPaid)||0)>0).forEach(s=>ev.push({id:'sale-initial-'+s.id,sourceId:s.id,date:s.date,time:s.time,type:'income',account:s.initialDestination||'cash',amount:s.initialPaid,note:'Pago inicial factura '+hilenInvoiceCode(s),source:'Venta'}));db.payments.forEach(p=>ev.push({id:'pay-'+p.id,sourceId:p.id,date:p.date,time:p.time,type:'income',account:p.destination||'cash',amount:p.amount,note:'Abono · '+clientNameById(p.clientId),source:'Abono'}));db.cashMovements.forEach(m=>ev.push({...m,sourceId:m.id,source:'Manual'}));return ev}
 function getBalances(){let cash=0,bank=0;cashEvents().forEach(e=>{if(e.type==='income')e.account==='bank'?bank+=e.amount:cash+=e.amount;else if(e.type==='expense')e.account==='bank'?bank-=e.amount:cash-=e.amount;else if(e.type==='transfer'){if(e.from==='cash'){cash-=e.amount;bank+=e.amount}else{bank-=e.amount;cash+=e.amount}}});return {cash,bank,total:cash+bank}}
