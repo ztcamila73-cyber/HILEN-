@@ -3356,6 +3356,151 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
 .hilen-cf-save-state.pending{color:#935e0c;background:#fff7e9;border-color:#f5dfac}
 .hilen-cf-save-state.error{color:#a82732;background:#fff1f0;border-color:#f0cbcc}
 .cash-save-btn:disabled{opacity:.67;cursor:wait}
+
+/* HILEN · verificación explícita Firebase + tablet */
+.hilen-save-button{cursor:pointer;font-family:inherit;transition:background .2s;border-style:solid}
+.hilen-save-button:focus-visible{outline:3px solid #4084df;outline-offset:2px}
+.hilen-firebase-verify-card{margin-top:15px;padding:16px;border:1px solid #cddff3;border-radius:15px;background:#f6faff;display:flex;align-items:center;gap:16px;justify-content:space-between}
+.hilen-firebase-verify-copy{display:grid;gap:5px;min-width:0;flex:1}
+.hilen-firebase-verify-copy>b{font-size:15px;color:#14213d}
+.hilen-firebase-verify-card button{min-height:42px;flex:0 0 auto;border-radius:11px}
+@media(max-width:740px){.hilen-firebase-verify-card{flex-direction:column;align-items:stretch}.hilen-firebase-verify-card button{width:100%}}
+
+/* HILEN · Menú ordenado y zoom permanente en el resumen diario (tablet 11 pulgadas) */
+.side .nav button{white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.side .nav button .ico{flex-shrink:0}
+#dailyActivity .hdaily-zoom-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  margin:10px 0 8px;padding:9px 11px;border:1px solid #e3e9f1;border-radius:11px;
+  background:#f7f9fc;position:sticky;top:0;z-index:5;
+}
+#dailyActivity .hdaily-zoom-title{color:#566985;font-size:11px;font-weight:800;min-width:0}
+#dailyActivity .hdaily-zoom-actions{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin-left:auto}
+#dailyActivity .hdaily-zoom-actions button{min-width:34px;min-height:32px;padding:5px 8px;border:1px solid #dfe7f2;border-radius:9px;background:#fff;color:#193050;font-weight:800;font-size:11px;white-space:nowrap}
+#dailyActivity .hdaily-zoom-actions button:disabled{opacity:.42;cursor:not-allowed}
+#dailyActivity .hdaily-zoom-actions output{min-width:44px;font-size:11px;font-weight:850;color:#263a59;text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+#dailyActivity .hdaily-ref-events{min-width:0;max-width:100%}
+#dailyActivity .hdaily-ref-scroll{width:100%;max-width:100%;overflow-x:auto!important;overflow-y:hidden!important}
+#dailyActivity .hdaily-ref-table{min-width:720px;table-layout:auto}
+#dailyActivity .hdaily-ref-table .hdaily-ref-money,
+#dailyActivity .hdaily-ref-table .hdaily-ref-time{white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important}
+@media (min-width:760px) and (max-width:1366px){
+  #dailyActivity .hdaily-ref-ledger{min-width:0}
+  #dailyActivity .hdaily-zoom-bar{padding:8px 9px}
+  #dailyActivity .hdaily-zoom-title{font-size:10.5px}
+  #dailyActivity .hdaily-ref-scroll{-webkit-overflow-scrolling:touch}
+}
+@media(max-width:540px){
+  #dailyActivity .hdaily-zoom-bar{gap:7px}
+  #dailyActivity .hdaily-zoom-title{font-size:10px}
+  #dailyActivity .hdaily-zoom-actions{gap:4px}
+  #dailyActivity .hdaily-zoom-actions button{min-width:30px;padding:5px 6px}
+}
+
+/* HILEN · Resumen diario como referencia del 29/10 — solo visual; cálculo y guardado intactos */
+#dailyActivity.hilen-daily-reference{--daily-gold:#d49b35;--daily-purple:#9564ee;--daily-blue:#2674dc}
+#dailyActivity .hdaily-ref-kpis{gap:12px;margin:10px 0 17px}
+#dailyActivity .hdaily-ref-kpi{min-height:157px;padding:17px 15px;border-radius:16px!important}
+#dailyActivity .hdaily-ref-kpi-icon{width:55px;height:55px;flex-basis:55px}
+#dailyActivity .hdaily-ref-kpi-label{font-size:12px;font-weight:800}
+#dailyActivity .hdaily-ref-value{font-size:clamp(20px,2.3vw,29px);margin-top:10px}
+#dailyActivity .hdaily-ref-kpi-foot{border-radius:999px;min-height:34px;align-items:center;justify-content:space-between;padding:7px 10px}
+#dailyActivity .hdaily-ref-blue .hdaily-ref-kpi-icon{color:#1669dc}
+#dailyActivity .hdaily-ref-red .hdaily-ref-kpi-icon{color:#c93339}
+#dailyActivity .hdaily-ref-layout{grid-template-columns:minmax(0,2.38fr) minmax(290px,.98fr);gap:14px}
+#dailyActivity .hdaily-ref-panel{border-radius:17px!important;padding:19px 17px!important}
+#dailyActivity .hdaily-ref-ledger{min-height:520px}
+#dailyActivity .hdaily-ref-ledger-head{align-items:center;flex-wrap:nowrap;margin-bottom:20px}
+#dailyActivity .hdaily-ref-heading{flex:1;min-width:0}
+#dailyActivity .hdaily-ref-ledger-head h2{font-size:clamp(18px,1.55vw,23px)!important}
+#dailyActivity .hdaily-ref-ledger-head p{font-size:12px}
+#dailyActivity .hdaily-zoom-bar{flex:0 0 auto;display:flex;align-items:center;padding:5px!important;margin:0!important;background:#f7f8fb;border-color:#e6eaf2;border-radius:14px;position:sticky;top:10px;z-index:6}
+#dailyActivity .hdaily-zoom-actions{margin:0;gap:5px}
+#dailyActivity .hdaily-zoom-actions button{font-size:13px;min-width:43px;min-height:40px;background:#fff9f0;border:1px solid #f2dbb3;border-radius:12px;color:#253551}
+#dailyActivity .hdaily-zoom-actions button.hdaily-reset{min-width:25px;min-height:30px;padding:4px 3px;background:transparent;border-color:transparent;color:#64748b;font-size:17px}
+#dailyActivity .hdaily-zoom-actions output{min-width:51px;font-size:13px}
+#dailyActivity .hdaily-ref-filter-line{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+#dailyActivity .hdaily-ref-tabs{margin-bottom:0;gap:7px;flex:1 1 auto}
+#dailyActivity .hdaily-ref-tabs button{display:flex;align-items:center;gap:5px;padding:10px 12px;min-height:41px;font-size:11px}
+#dailyActivity .hdaily-ref-tabs button svg{height:17px;width:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 17px}
+#dailyActivity .hdaily-ref-tabs button:not(.active)[data-hdaily-filter="sale"] svg{color:#c28b26}
+#dailyActivity .hdaily-ref-tabs button:not(.active)[data-hdaily-filter="payment"] svg{color:#15905c}
+#dailyActivity .hdaily-ref-tabs button:not(.active)[data-hdaily-filter="expense"] svg{color:#d03842}
+#dailyActivity .hdaily-ref-search{flex:0 1 170px;min-width:130px;height:39px;min-height:39px}
+#dailyActivity .hdaily-ref-search input{font-size:11px}
+#dailyActivity .hdaily-ref-count{margin:5px 0 8px;font-size:10px}
+#dailyActivity .hdaily-ref-scroll{border-radius:13px}
+#dailyActivity .hdaily-ref-table{min-width:750px}
+#dailyActivity .hdaily-ref-table th{background:#f5f6f9;padding:13px 10px!important;font-size:11px!important}
+#dailyActivity .hdaily-ref-table td{padding:12px 10px!important;font-size:11.5px!important}
+#dailyActivity .hdaily-ref-tag{border-radius:999px;font-size:10px;gap:3px}
+#dailyActivity .hdaily-ref-side{gap:12px}
+#dailyActivity .hdaily-ref-chart{min-height:236px}
+#dailyActivity .hdaily-ref-side-icon{display:inline-grid;place-items:center;flex:0 0 43px;width:43px;height:43px;color:#b77920;background:#fff1d9}
+#dailyActivity .hdaily-ref-side-icon svg{width:23px;height:23px}
+#dailyActivity .hdaily-ref-chart h2,#dailyActivity .hdaily-ref-overview h2{display:flex;align-items:center;gap:10px;font-size:16px!important;margin-bottom:19px!important}
+#dailyActivity .hdaily-ref-chart-inner{gap:16px;flex-wrap:nowrap;justify-content:flex-start}
+#dailyActivity .hdaily-ref-donut{width:clamp(132px,12vw,171px);height:clamp(132px,12vw,171px);background:conic-gradient(#f7bb52 0% var(--daily-paid),#9464ed var(--daily-paid) 100%)}
+#dailyActivity .hdaily-ref-donut strong{font-size:27px!important}
+#dailyActivity .hdaily-ref-donut span{font-size:12px;color:#405273}
+#dailyActivity .hdaily-ref-legend{min-width:0;flex:1;width:auto}
+#dailyActivity .hdaily-ref-legend>div{grid-template-columns:10px minmax(45px,1fr) auto auto;font-size:11px;gap:7px;margin-bottom:15px}
+#dailyActivity .hdaily-ref-legend b{font-size:14px}
+#dailyActivity .hdaily-ref-legend small{font-size:11px;color:#536783}
+#dailyActivity .hdaily-ref-dot{width:10px;height:10px;background:#f7bb52}
+#dailyActivity .hdaily-ref-dot.credit{background:#9464ed}
+#dailyActivity .hdaily-ref-overview h2{margin-bottom:10px!important}
+#dailyActivity .hdaily-ref-overview-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto minmax(78px,auto);gap:7px;min-height:48px;padding:9px 0}
+#dailyActivity .hdaily-ref-row-icon{width:27px;height:27px;flex-basis:27px}
+#dailyActivity .hdaily-ref-row-icon svg{width:17px;height:17px}
+#dailyActivity .hdaily-ref-row-title{min-width:0;font-size:11px;color:#32405c}
+#dailyActivity .hdaily-ref-row-count{color:#13223e;font-size:16px!important;text-align:right;font-variant-numeric:tabular-nums}
+#dailyActivity .hdaily-ref-row-amount{color:#13223e;font-size:13px!important;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+#dailyActivity .hdaily-ref-result{padding:15px 12px;border:1px solid #f4e4cb;background:linear-gradient(114deg,#fff4df,#fffaf3);border-radius:13px;min-width:0}
+#dailyActivity .hdaily-ref-result-icon{background:linear-gradient(160deg,#eebd64,#ce8720);width:55px;height:55px;flex-basis:55px}
+#dailyActivity .hdaily-ref-result-icon svg{height:28px;width:28px}
+#dailyActivity .hdaily-ref-result strong{font-size:clamp(18px,2vw,27px);overflow-wrap:anywhere;white-space:normal}
+/* Tablet vertical: un panel a todo el ancho y los dos bloques laterales apilados. */
+@media(max-width:1199px){
+  #dailyActivity .hdaily-ref-kpi{padding:14px 11px;gap:8px}
+  #dailyActivity .hdaily-ref-kpi-icon{width:42px;height:42px;flex-basis:42px}
+  #dailyActivity .hdaily-ref-kpi-icon svg{width:24px;height:24px}
+  #dailyActivity .hdaily-ref-kpi-label{font-size:10.5px}
+  #dailyActivity .hdaily-ref-kpi-foot{font-size:10px}
+  #dailyActivity .hdaily-ref-value{font-size:clamp(18px,2.1vw,25px)}
+}
+@media(min-width:1010px) and (max-width:1199px){
+  #dailyActivity .hdaily-ref-layout{grid-template-columns:minmax(0,1.7fr) minmax(300px,.95fr)}
+  #dailyActivity .hdaily-ref-chart-inner{flex-wrap:wrap;justify-content:center}
+  #dailyActivity .hdaily-ref-legend{flex:1 1 100%;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  #dailyActivity .hdaily-ref-legend>div{margin-bottom:0}
+  #dailyActivity .hdaily-ref-search{flex-basis:145px}
+}
+@media(max-width:1009px){
+  #dailyActivity .hdaily-ref-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #dailyActivity .hdaily-ref-layout{grid-template-columns:minmax(0,1fr)}
+  #dailyActivity .hdaily-ref-side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #dailyActivity .hdaily-ref-chart-inner{flex-wrap:wrap;justify-content:center}
+  #dailyActivity .hdaily-ref-legend{width:100%;flex:1 1 100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  #dailyActivity .hdaily-ref-legend>div{margin-bottom:0}
+}
+@media(max-width:650px){
+  #dailyActivity .hdaily-ref-side{grid-template-columns:1fr}
+  #dailyActivity .hdaily-ref-ledger-head{align-items:flex-start;flex-wrap:wrap}
+  #dailyActivity .hdaily-zoom-bar{margin-left:auto!important}
+  #dailyActivity .hdaily-ref-search{flex:1 1 100%}
+  #dailyActivity .hdaily-ref-kpis{gap:9px}
+  #dailyActivity .hdaily-ref-kpi{min-height:125px;padding:10px}
+  #dailyActivity .hdaily-ref-kpi-icon{width:37px;height:37px;flex-basis:37px}
+  #dailyActivity .hdaily-ref-kpi-label{font-size:10px}
+  #dailyActivity .hdaily-ref-value{font-size:clamp(15px,4vw,20px)}
+  #dailyActivity .hdaily-zoom-actions button{min-width:37px;min-height:36px}
+  #dailyActivity .hdaily-ref-chart-inner{flex-wrap:nowrap}
+  #dailyActivity .hdaily-ref-legend{flex:1 1 auto;display:block;width:auto}
+  #dailyActivity .hdaily-ref-legend>div{margin-bottom:15px}
+}
+@media(max-width:380px){#dailyActivity .hdaily-ref-kpis{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -3424,8 +3569,8 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
 
 <div id="app" class="app hidden">
   <div id="hilenCloudConflictBanner" class="hilen-cloud-conflict hidden" role="alert">
-    <div><strong>¡Atención! Firebase contiene cambios de otra versión.</strong><span> El guardado automático se ha detenido para proteger las ventas y abonos. Tus datos locales siguen en este dispositivo.</span></div>
-    <div class="hilen-conflict-actions"><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenUseCloudVersion()">Cargar versión de Firebase</button></div>
+    <div><strong>Hay datos diferentes que necesitan revisión.</strong><span> HILEN intentó combinar los cambios sin perder información, pero encontró ediciones incompatibles. Los cambios locales están protegidos: descarga una copia antes de escoger una versión.</span></div>
+    <div class="hilen-conflict-actions"><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenManualFirebaseSave()">Reintentar combinación</button><button type="button" onclick="hilenUseCloudVersion()">Cargar versión de Firebase</button></div>
   </div>
   <aside id="side" class="side">
     <button type="button" class="side-close" onclick="closeSide()" aria-label="Cerrar menú" title="Cerrar menú">×</button>
@@ -3434,17 +3579,17 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
     <div id="cloudStatusDetail" class="small muted" style="padding:0 12px 12px;line-height:1.35">Tus datos se guardan automáticamente.</div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
-      <button onclick="section('dailyActivity',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7 2v4M17 2v4M3 10h18M7 14h3M7 18h7"/></svg></span>Movimientos del día</button>
-      <button onclick="section('day',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>Ventas</button>
+      <button onclick="section('dailyActivity',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7 2v4M17 2v4M3 10h18M7 14h3M7 18h7"/></svg></span>Resumen diario</button>
       <button onclick="section('newSale',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 6h15l-2 8H8L6 3H3"/><circle cx="9" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/><path d="M13 8v4M11 10h4"/></svg></span>Registrar venta</button>
-      <button onclick="section('customers',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span>Clientes</button>
+      <button onclick="section('monthlyRecords',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg></span>Registro mensual</button>
+      <button onclick="section('day',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>Ventas</button>
       <button onclick="section('payments',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 15h4"/></svg></span>Abonos</button>
       <button onclick="section('cashflow',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M7 7V5h10v2M8 13h8"/><circle cx="12" cy="13" r="2.5"/></svg></span>Flujo de caja</button>
-      <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estados de cuenta</button>
-      <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
-      <button onclick="section('reports',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Reportes</button>
-      <button onclick="section('monthlyRecords',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg></span>Registro mensual</button>
+      <button onclick="section('customers',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span>Clientes</button>
+      <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estado de cuenta</button>
       <button onclick="section('encargos',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></span>Encargos</button>
+      <button onclick="section('reports',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Reportes</button>
+      <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
       <button onclick="section('settings',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H10v-.08a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V10h.08A1.7 1.7 0 0 0 4.66 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3H14v.08A1.7 1.7 0 0 0 15.1 4.66a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.38.36.72.6 1 .3.3.7.45 1.1.4H21V14h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span>Configuración</button>
     </nav>
     
@@ -3472,7 +3617,7 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
         <input id="hilenDailyDate" class="hdaily-ref-native-date" type="date" aria-label="Seleccionar fecha para consultar movimientos" onchange="hilenRenderDailyActivity()">
       </label>
       <button type="button" class="hdaily-ref-date-arrow" onclick="hilenDailyShift(1)" aria-label="Día siguiente" title="Día siguiente">›</button>
-    </div><div class="hilen-save-top"><span id="hilenSaveIndicator" class="hilen-save-indicator" data-kind="work">Sincronización pendiente</span><div id="todayLabel" class="date-shell"></div></div></div></div>
+    </div><div class="hilen-save-top"><button type="button" id="hilenSaveIndicator" class="hilen-save-indicator hilen-save-button" data-kind="work" onclick="hilenManualFirebaseSave()" title="Pulsar para guardar y comprobar los datos en Firebase">◷ Pendiente</button><div id="todayLabel" class="date-shell"></div></div></div></div>
     <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
 
     <section id="home" class="section active">
@@ -3512,26 +3657,36 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
       <div class="hdaily-ref-layout">
         <article class="hdaily-ref-panel hdaily-ref-ledger">
           <div class="hdaily-ref-ledger-head">
-            <div><h2>Detalle de movimientos del día</h2><p>Lista cronológica de todas las ventas, abonos e ingresos o egresos de ese día.</p></div>
-            <label class="hdaily-ref-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="hilenDailySearch" aria-label="Buscar movimiento" placeholder="Buscar movimiento..." oninput="hilenRenderDailyActivity()" autocomplete="off"></label>
+            <div class="hdaily-ref-heading"><h2>Detalle de movimientos del día</h2><p>Lista cronológica de todas las ventas, abonos y egresos del día.</p></div>
+            <div class="hdaily-zoom-bar" role="group" aria-label="Ampliar o reducir tabla de resumen diario">
+              <div class="hdaily-zoom-actions">
+                <button id="hilenDailyZoomOut" type="button" onclick="hilenDailyZoomChange(-10)" aria-label="Reducir tabla" title="Reducir tamaño de lectura">A−</button>
+                <output id="hilenDailyZoomPercent" aria-live="polite">100 %</output>
+                <button id="hilenDailyZoomIn" type="button" onclick="hilenDailyZoomChange(10)" aria-label="Ampliar tabla" title="Ampliar tamaño de lectura">A+</button>
+                <button id="hilenDailyZoomReset" class="hdaily-reset" type="button" onclick="hilenDailyZoomChange(0,true)" aria-label="Restablecer tabla al 100 por ciento" title="Restablecer">↺</button>
+              </div>
+            </div>
           </div>
-          <div class="hdaily-ref-tabs" role="group" aria-label="Filtrar movimientos del día">
-            <button type="button" class="active" data-hdaily-filter="all" onclick="hilenDailyFilter('all')">Todos <span id="hilenDailyCountAll"></span></button>
-            <button type="button" data-hdaily-filter="sale" onclick="hilenDailyFilter('sale')">Ventas <span id="hilenDailyCountSales"></span></button>
-            <button type="button" data-hdaily-filter="payment" onclick="hilenDailyFilter('payment')">Abonos <span id="hilenDailyCountPayments"></span></button>
-            <button type="button" data-hdaily-filter="expense" onclick="hilenDailyFilter('expense')">Egresos <span id="hilenDailyCountExpenses"></span></button>
+          <div class="hdaily-ref-filter-line">
+            <div class="hdaily-ref-tabs" role="group" aria-label="Filtrar movimientos del día">
+              <button type="button" class="active" data-hdaily-filter="all" onclick="hilenDailyFilter('all')">Todos <span id="hilenDailyCountAll"></span></button>
+              <button type="button" data-hdaily-filter="sale" onclick="hilenDailyFilter('sale')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9h14l1 11H4L5 9Z M9 10V7a3 3 0 0 1 6 0v3"/></svg>Ventas <span id="hilenDailyCountSales"></span></button>
+              <button type="button" data-hdaily-filter="payment" onclick="hilenDailyFilter('payment')"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2 M17 10a3 3 0 0 1 0 6 M17 20h4v-2a4 4 0 0 0-3-4"/></svg>Abonos <span id="hilenDailyCountPayments"></span></button>
+              <button type="button" data-hdaily-filter="expense" onclick="hilenDailyFilter('expense')"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18 M8 15h5"/></svg>Egresos <span id="hilenDailyCountExpenses"></span></button>
+            </div>
+            <label class="hdaily-ref-search" title="Buscar movimiento"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="hilenDailySearch" aria-label="Buscar movimiento" placeholder="Buscar movimiento..." oninput="hilenRenderDailyActivity()" autocomplete="off"></label>
           </div>
           <p id="hilenDailyEventCount" class="hdaily-ref-count" aria-live="polite"></p>
           <div id="hilenDailyEvents" class="hdaily-ref-events"></div>
         </article>
         <aside class="hdaily-ref-side">
-          <div class="hdaily-ref-panel hdaily-ref-overview">
-            <h2><span class="hdaily-ref-side-icon">▣</span> Resumen del día</h2>
-            <div id="hilenDailySideSummary"></div>
-          </div>
           <div class="hdaily-ref-panel hdaily-ref-chart">
-            <h2>Métodos de pago en ventas</h2>
-            <div id="hilenDailySalesChart" aria-label="Distribución de ventas de contado y a crédito"></div>
+            <h2><span class="hdaily-ref-side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V11 M10 20V5 M16 20V9 M22 20V3"/></svg></span> Ventas de hoy</h2>
+            <div id="hilenDailySalesChart" aria-label="Cantidad de ventas de contado y a crédito"></div>
+          </div>
+          <div class="hdaily-ref-panel hdaily-ref-overview">
+            <h2><span class="hdaily-ref-side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span> Resumen del día</h2>
+            <div id="hilenDailySideSummary"></div>
           </div>
           <div id="hilenDailyHistoricalNotice"></div>
         </aside>
@@ -3850,6 +4005,10 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
         <div class="card settings-protection-card">
           <div class="pro-card-head compact"><span class="pro-icon gold">♢</span><div><h2>Protección de tus datos</h2><p>Esta protección pertenece únicamente a tu cuenta de HILEN.</p></div></div>
           <div class="notice blue settings-explain"><b>¿Para qué sirve?</b><br>HILEN protege tus <b>ventas, clientes, abonos, caja, encargos, productos y reportes</b> mediante Firebase y copias adicionales en Google.<br><br><b>Google Sheets y Google Drive intentan actualizarse después de los cambios y al menos una vez al día mientras HILEN está abierto, conectado a Internet y tiene autorización de Google vigente.</b> Revisa aquí la fecha de la última copia confirmada. Si indica pendiente, usa <b>Actualizar Google Sheets ahora</b>.<br><br>Si cierras HILEN o caduca la autorización, el navegador no puede garantizar el envío diario por sí solo. Google Drive conserva un archivo de recuperación del día, actualizado con los cambios, y otro llamado <b>HILEN_ultimo_respaldo.json</b> dentro de <b>HILEN - Respaldos</b> cuando se logra sincronizar.</div>
+          <div class="hilen-firebase-verify-card" role="region" aria-label="Guardado principal de Firebase">
+            <div class="hilen-firebase-verify-copy"><b>Firebase · datos principales del negocio</b><div id="hilenFirebaseVerifiedStatus" class="small muted" role="status" aria-live="polite">Comprobando la sincronización...</div><div class="small muted">Cada cambio intenta guardarse automáticamente. Al finalizar el día, puedes comprobarlo manualmente sin reemplazar datos de otro dispositivo.</div></div>
+            <button type="button" id="hilenManualFirebaseBtn" class="primary" onclick="hilenManualFirebaseSave()">Guardar y verificar en Firebase</button>
+          </div>
           <div class="settings-status-grid">
             <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">▤</span><span>Google Sheets · copia diaria</span></div><div id="googleSheetsStatus" class="google-sheets-status" role="status" aria-live="polite"></div><button class="secondary hilen-sheet-verify" type="button" onclick="hilenUpdateGoogleSheetsManually()">Actualizar Google Sheets ahora</button></div>
             <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">☁</span><span>Copia de recuperación</span></div><div id="googleDriveStatus" class="google-sheets-status"></div></div>
@@ -4019,6 +4178,10 @@ let firebaseAuthReady=null;
 let localMode=false;
 // Evita que una pestaña o versión antigua sobrescriba otro estado de Firebase.
 let cloudBaseRevision=null,cloudBaseSignature=null,cloudConflict=false,cloudEditGeneration=0,cloudLoadedUid='';
+let cloudBaseData=null;
+const CLOUD_BASE_SNAPSHOT_KEY='HILEN_FIREBASE_BASE_SNAPSHOT_V3_';
+let hilenCloudRebaseInFlight=false;
+
 function hilenStableCloudValue(value){
   if(Array.isArray(value))return value.map(hilenStableCloudValue);
   if(!value||typeof value!=='object')return value;
@@ -4030,7 +4193,93 @@ function hilenCloudSignature(value){return JSON.stringify(hilenStableCloudValue(
 function hilenCloudBaseMatches(value){
   if(cloudBaseRevision===null)return false;
   const rev=Number(value?.revision)||0;
-  return rev===cloudBaseRevision&&(rev!==0||hilenCloudSignature(value?.data??null)===cloudBaseSignature);
+  return rev===cloudBaseRevision&&hilenCloudSignature(value?.data??null)===cloudBaseSignature;
+}
+// Baseline confirmado del servidor: sirve para distinguir cambios propios y ajenos.
+function hilenRememberCloudBase(revision,data,uid=currentUser?.id){
+  cloudBaseRevision=Number(revision)||0;
+  cloudBaseData=structuredClone(data||businessStateEmpty());
+  cloudBaseSignature=hilenCloudSignature(data??null);
+  if(!uid)return;
+  try{localStorage.setItem(CLOUD_BASE_SNAPSHOT_KEY+uid,JSON.stringify({revision:cloudBaseRevision,data:cloudBaseData}))}
+  catch(e){console.warn('Sin espacio para guardar la base de reconciliación',e)}
+}
+function businessStateEmpty(){return {version:13,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[],annualReports:[]}}
+function hilenReadCloudBase(uid){
+  if(cloudBaseData)return structuredClone(cloudBaseData);
+  try{const b=JSON.parse(localStorage.getItem(CLOUD_BASE_SNAPSHOT_KEY+uid)||'null');return b?.data&&typeof b.data==='object'?b.data:null}
+  catch(_){return null}
+}
+function hilenMergeRecordKey(group,row){
+  if(row?.id!==undefined&&row.id!==null&&String(row.id))return String(row.id);
+  if(group==='monthlyRecords')return 'month:'+String(row?.month||'');
+  if(group==='annualReports')return 'year:'+String(row?.year||'');
+  return null;
+}
+function hilenMergeBusinessStates(base,local,remote,{additive=false}={}){
+  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
+  const merged={version:13},conflicts=[];
+  for(const group of groups){
+    const input=[base,local,remote].map(st=>Array.isArray(st?.[group])?st[group]:[]);
+    const maps=input.map((arr,source)=>{
+      const map=new Map();
+      for(const row of arr){const key=hilenMergeRecordKey(group,row);
+        if(!key){conflicts.push(group+': registro sin identificador');continue}
+        if(map.has(key)&&hilenCloudSignature(map.get(key))!==hilenCloudSignature(row))conflicts.push(group+': identificador duplicado '+key);
+        map.set(key,row);
+      }return map;
+    });
+    const [before,loc,rem]=maps,ids=new Set([...before.keys(),...loc.keys(),...rem.keys()]),out=[];
+    for(const key of ids){
+      const b=before.get(key),l=loc.get(key),r=rem.get(key);
+      const eq=(x,y)=>hilenCloudSignature(x)===hilenCloudSignature(y);
+      let chosen;
+      if(additive){
+        // Compatibilidad con el archivo anterior, que no conservaba línea base.
+        // Solo combina altas de IDs distintos; no modifica registros en conflicto.
+        if(l!==undefined&&r!==undefined&&!eq(l,r)){conflicts.push(group+':'+key);continue}
+        chosen=l===undefined?r:l;
+      }else{
+        const localChanged=!eq(l,b),remoteChanged=!eq(r,b);
+        if(localChanged&&remoteChanged&&!eq(l,r)){conflicts.push(group+':'+key);continue}
+        chosen=localChanged?l:r;
+      }
+      if(chosen!==undefined)out.push(structuredClone(chosen));
+    }
+    merged[group]=out;
+  }
+  // Nunca hacer un write si un elemento tiene ediciones incompatibles.
+  return {state:merged,conflicts};
+}
+function hilenPersistMergedLocal(){
+  try{localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_OWNER_KEY,currentUser.id)}
+  catch(e){console.error('No se pudo guardar la mezcla local',e);throw e}
+}
+async function hilenReconcileCloud(reason='diferencia de Firebase'){
+  if(hilenCloudRebaseInFlight||!cloudDb||!currentUser?.id)return false;
+  hilenCloudRebaseInFlight=true;
+  try{
+    const uid=currentUser.id;
+    const remote=(await cloudDb.ref(userCloudPath(uid,'state')).once('value')).val();
+    const incoming=remote?.data||businessStateEmpty(),revision=Number(remote?.revision)||0;
+    const local=structuredClone(businessState());
+    const prior=hilenReadCloudBase(uid);
+    const changed=hilenCloudSignature(local)!==hilenCloudSignature(incoming);
+    const merged=changed?hilenMergeBusinessStates(prior,local,incoming,{additive:!prior}):{state:local,conflicts:[]};
+    if(merged.conflicts.length){hilenMarkCloudConflict('Hay modificaciones incompatibles en '+merged.conflicts.slice(0,3).join(', ')+'. No se reemplazó ningún registro.');return false}
+    hilenRememberCloudBase(revision,remote?.data??null,uid);
+    cloudLoadedUid=uid;cloudConflict=false;hilenRenderCloudConflict();
+    if(changed){
+      hilenStoreRescueCopy('antes de combinar cambios de Firebase');
+      applyBusinessState(merged.state);hilenPersistMergedLocal();refreshAll();
+    }
+    const isPending=hilenCloudSignature(businessState())!==hilenCloudSignature(incoming);
+    cloudDirty=isPending;
+    localStorage.setItem(CLOUD_DIRTY_KEY,isPending?'1':'0');
+    setCloudStatus('work',isPending?'Sincronizando cambios combinados…':'Comprobando Firebase…',isPending?'HILEN conservó los registros de ambos dispositivos y comprobará la escritura.':'Datos revisados sin perder cambios.');
+    return true;
+  }catch(e){console.error('Reconciliación Firebase:',e);cloudLastError=firebaseDbErrorText(e);setCloudStatus('error','Sin sincronizar',cloudLastError);return false}
+  finally{hilenCloudRebaseInFlight=false}
 }
 function hilenStoreRescueCopy(reason){
   const item={saved_at:new Date().toISOString(),reason,userId:currentUser?.id||'',data:businessState()};
@@ -4083,7 +4332,10 @@ function setCloudStatus(kind,text,detail=''){
   if(d)d.textContent=kind==='error'?(detail||'No se pudo sincronizar. Revisa el estado antes de cerrar HILEN.'):(detail||'Tus datos se guardan automáticamente.');
   if(dot)dot.style.background=kind==='ok'?'#22a06b':kind==='work'?'#d9a11e':kind==='error'?'#d64545':'#aaa';
   const top=document.getElementById('hilenSaveIndicator');
-  if(top){top.dataset.kind=kind;top.textContent=kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Guardado en Firebase':kind==='error'?'⚠ Sin sincronizar':kind==='work'?'◷ Sincronizando…':'Nube cargada';top.title=detail||text||''}
+  if(top){top.dataset.kind=kind;top.textContent=kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Guardado en Firebase':kind==='error'?'⚠ Sin sincronizar':kind==='work'&&/modo local/i.test(String(text))?'Modo local':kind==='work'?'◷ Sincronizando…':'Consultar Firebase';top.title=(detail||text||'')+' · Pulsar para guardar y verificar';}
+  const setting=document.getElementById('hilenFirebaseVerifiedStatus');
+  if(setting){const stamp=cloudLastVerifiedAt?('Última confirmación: '+new Date(cloudLastVerifiedAt).toLocaleString('es-CO')):'Todavía no hay una confirmación de escritura en esta sesión';setting.textContent=(kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Datos confirmados en Firebase. ':kind==='error'?'⚠ Sin confirmar en Firebase. ':'Estado: '+(text||'Pendiente')+'. ')+stamp+(kind==='error'&&detail?' · '+detail:'')}
+
 }
 function firebaseDbErrorText(error){
   const code=String(error?.code||'').toLowerCase(),msg=String(error?.message||'');
@@ -4164,116 +4416,165 @@ let cloudDirty=false;
 let cloudRetryTimer=null;
 async function cloudSaveNow(options={}){
   const notify=!!options.notify;
-  if(localMode){setCloudStatus('work','Modo local · nube pendiente','Los datos siguen en este navegador y todavía no se han verificado en Firebase.');return false}
-  if(!cloudDb||!currentUser?.id){setCloudStatus('error','Nube no disponible','No hay una sesión de Firebase activa.');return false}
-  if(cloudConflict){hilenRenderCloudConflict();if(notify)showToast('Sincronización protegida','Primero revisa los cambios locales y los datos de Firebase.','error');return false}
+  if(localMode){setCloudStatus('error','Sin sincronizar','Modo local: no hay una sesión de Firebase activa.');return false}
+  if(!cloudDb||!currentUser?.id){setCloudStatus('error','Sin sincronizar','Debes iniciar sesión con Firebase.');return false}
   if(cloudLoading||cloudBaseRevision===null||cloudLoadedUid!==currentUser.id){cloudDirty=true;return false}
   if(cloudSaveInFlight){cloudDirty=true;return false}
-  clearTimeout(cloudSaveTimer);clearTimeout(cloudRetryTimer);cloudRetryTimer=null;cloudSaveInFlight=true;
+  clearTimeout(cloudSaveTimer);clearTimeout(cloudRetryTimer);cloudRetryTimer=null;
+  cloudSaveInFlight=true;
+  let succeeded=false;
   try{
-    do{
+    // El conflicto es real solo si dos equipos cambiaron el MISMO registro.
+    if(cloudConflict){
+      const resolved=await hilenReconcileCloud('guardado manual tras conflicto');
+      if(!resolved){if(notify)showToast('Revisión necesaria','Descarga los cambios locales antes de seleccionar una versión.','error');return false}
+    }
+    let retries=0;
+    while(retries<5){
+      retries++;
       cloudDirty=false;
       const uid=currentUser.id,expectedRevision=cloudBaseRevision,expectedSignature=cloudBaseSignature;
       const snapshot=structuredClone(businessState()),generation=cloudEditGeneration;
       const target=cloudDb.ref(userCloudPath(uid,'state'));
-      setCloudStatus('work','Guardando en Firebase…',`Protegiendo ${snapshot.sales.length} venta(s) y ${snapshot.clients.length} cliente(s).`);
-      // CAS atómico: si alguien guardó primero, abortamos SIN tocar su estado.
-      // Los clientes viejos que no escriben "revision" también se detectan por firma.
+      setCloudStatus('work','Guardando en Firebase…','Comparando con el último estado confirmado para no borrar datos de otro dispositivo.');
       const result=await target.transaction(current=>{
         const revision=Number(current?.revision)||0;
-        if(revision!==expectedRevision||(revision===0&&hilenCloudSignature(current?.data??null)!==expectedSignature))return;
+        if(revision!==expectedRevision||hilenCloudSignature(current?.data??null)!==expectedSignature)return;
         return {data:snapshot,updated_at:new Date().toISOString(),revision:revision+1};
       },undefined,false);
-      if(!result?.committed){hilenMarkCloudConflict('Otra pestaña o dispositivo actualizó la nube antes que este equipo.');return false}
-      const written=result.snapshot.val();
-      if(!written||Number(written.revision)!==expectedRevision+1){throw new Error('Firebase no confirmó la revisión esperada.');}
-      cloudBaseRevision=Number(written.revision);
-      cloudBaseSignature=hilenCloudSignature(written.data??null);
-      const checkSnap=await target.once('value'),check=checkSnap.val();
-      if(!check||Number(check.revision)!==cloudBaseRevision||hilenCloudSignature(check.data??null)!==cloudBaseSignature){
-        hilenMarkCloudConflict('Firebase cambió después del guardado; se evitó una nueva escritura.');return false;
+      if(!result?.committed){
+        if(!await hilenReconcileCloud('escritura de otra pestaña'))return false;
+        continue;
       }
+      const written=result.snapshot.val();
+      if(!written||Number(written.revision)!==expectedRevision+1)throw new Error('Firebase no confirmó la escritura esperada.');
+      const checked=(await target.once('value')).val();
+      if(!checked||Number(checked.revision)!==Number(written.revision)||hilenCloudSignature(checked.data??null)!==hilenCloudSignature(written.data??null)){
+        if(!await hilenReconcileCloud('cambio concurrente durante la lectura'))return false;
+        continue;
+      }
+      hilenRememberCloudBase(Number(checked.revision),checked.data??null,uid);
       cloudLastError='';cloudLastVerifiedAt=new Date().toISOString();
       localStorage.setItem(CLOUD_OWNER_KEY,uid);
-      if(generation===cloudEditGeneration){localStorage.setItem(CLOUD_DIRTY_KEY,'0')}
-      else{cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1')}
-      localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(check.updated_at||new Date().toISOString()));
-      await maybeDailyCloudBackup(snapshot);
+      localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(checked.updated_at||new Date().toISOString()));
+      if(generation===cloudEditGeneration&&hilenCloudSignature(businessState())===hilenCloudSignature(checked.data)){
+        localStorage.setItem(CLOUD_DIRTY_KEY,'0');
+        cloudDirty=false;
+      }else{
+        cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+      }
+      // Copia diaria es independiente de la confirmación del guardado principal.
+      void maybeDailyCloudBackup(snapshot).catch(e=>console.warn('Copia diaria pendiente',e));
+      if(cloudDirty){setCloudStatus('work','Guardando cambios nuevos…','Hay datos nuevos añadidos durante la escritura anterior.');continue}
       const c=stateCounts(snapshot);
-      if(cloudDirty)setCloudStatus('work','Guardando cambios pendientes…',`${c.sales} venta(s) · ${c.clients} cliente(s) en la copia anterior. Hay cambios nuevos sin confirmar.`);
-      else setCloudStatus('ok','Nube verificada ✓',`${c.sales} venta(s) · ${c.clients} cliente(s) · revisión ${cloudBaseRevision}`);
-    }while(cloudDirty&&!cloudConflict);
-    if(notify)showToast('Firebase verificado','HILEN confirmó el guardado sin reemplazar cambios de otros dispositivos.');
-    return true;
+      setCloudStatus('ok','Guardado en Firebase · verificado',`${c.sales} venta(s) · ${c.clients} cliente(s) · ${c.cash} movimientos manuales. Revisión ${cloudBaseRevision}`);
+      succeeded=true;break;
+    }
+    if(!succeeded&&!cloudConflict){cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');setCloudStatus('work','Sincronización pendiente','Se detectaron muchos cambios simultáneos. HILEN reintentará sin reemplazar información.');}
+    if(notify)showToast(succeeded?'Firebase confirmado':'Firebase pendiente',succeeded?'HILEN guardó los datos y los volvió a leer correctamente en la nube.':'Los datos permanecen en este dispositivo. Se reintentará la sincronización.',succeeded?'success':'error',6500);
+    return succeeded;
   }catch(err){
     console.error('HILEN Firebase save:',err);
     cloudLastError=firebaseDbErrorText(err);cloudDirty=true;
     localStorage.setItem(CLOUD_DIRTY_KEY,'1');
-    setCloudStatus('error','NO guardado en nube',cloudLastError);
-    if(notify)showToast('La nube no confirmó el guardado',cloudLastError,'error');
-    if(!cloudConflict)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},10000);
+    setCloudStatus('error','Sin sincronizar',cloudLastError);
+    if(notify)showToast('Firebase no confirmó el guardado',cloudLastError,'error',8000);
+    if(!cloudConflict)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},12000);
     return false;
   }finally{
     cloudSaveInFlight=false;
-    if(cloudDirty&&!cloudRetryTimer&&!cloudConflict)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},700);
+    if(cloudDirty&&!cloudRetryTimer&&!cloudConflict)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},1200);
   }
 }
-async function verifyCloudNow(showResult=false){
-  if(localMode){if(showResult)showToast('Modo local','Inicia sesión con la cuenta de Firebase para comprobar la nube.','error');return false}
-  if(!cloudDb||!currentUser?.id){if(showResult)showToast('Sin sesión de Firebase','Cierra sesión y vuelve a entrar con tu correo.','error');return false}
-  return cloudSaveNow({notify:showResult});
+async function verifyCloudNow(showResult=false){return hilenManualFirebaseSave(showResult)}
+async function hilenManualFirebaseSave(showResult=true){
+  if(localMode||!cloudDb||!currentUser?.id){
+    setCloudStatus('error','Sin sincronizar','Inicia sesión en Firebase para guardar datos en la nube.');
+    if(showResult)showToast('No hay sesión de Firebase','Inicia sesión para realizar el guardado manual.','error');
+    return false;
+  }
+  const button=document.getElementById('hilenManualFirebaseBtn');
+  if(button){button.disabled=true;button.textContent='Verificando Firebase…'}
+  try{
+    if(cloudLoading){if(showResult)showToast('Firebase está cargando','La consulta todavía no terminó.','error');return false}
+    if(cloudSaveInFlight){
+      const start=Date.now();while(cloudSaveInFlight&&Date.now()-start<8000)await new Promise(r=>setTimeout(r,160));
+      if(cloudSaveInFlight){if(showResult)showToast('Guardado en proceso','Puedes volver a verificar en unos momentos.','warning');return false}
+    }
+    if(cloudConflict){if(!await hilenReconcileCloud('reintento manual')){if(showResult)showToast('Hay cambios que revisar','No se reemplazó Firebase. Descarga tu copia local antes de decidir.','error');return false}}
+    const remote=(await cloudDb.ref(userCloudPath(currentUser.id,'state')).once('value')).val();
+    const localState=businessState();
+    if(!cloudDirty&&localStorage.getItem(CLOUD_DIRTY_KEY)!=='1'&&hilenCloudSignature(remote?.data??null)===hilenCloudSignature(localState)){
+      hilenRememberCloudBase(Number(remote?.revision)||0,remote?.data??null,currentUser.id);
+      cloudLastVerifiedAt=new Date().toISOString();
+      setCloudStatus('ok','Firebase verificado','Todos los registros visibles coinciden con la copia que Firebase devuelve.');
+      if(showResult)showToast('Firebase verificado','Los registros de HILEN coinciden con la nube. No fue necesario reemplazar nada.');
+      return true;
+    }
+    if(!cloudDirty&&hilenCloudSignature(remote?.data??null)!==hilenCloudSignature(localState)){
+      if(!await hilenReconcileCloud('verificación manual'))return false;
+    }
+    cloudDirty=true;
+    return await cloudSaveNow({notify:showResult});
+  }catch(err){console.error('HILEN manual Firebase verification',err);setCloudStatus('error','Sin sincronizar',firebaseDbErrorText(err));if(showResult)showToast('Firebase no confirmó',firebaseDbErrorText(err),'error');return false}
+  finally{if(button){button.disabled=false;button.textContent='Guardar y verificar en Firebase'}}
 }
 function queueCloudSave(){
-  if(cloudConflict){hilenRenderCloudConflict();return}
   if(localMode||!cloudDb||!currentUser?.id||cloudLoading)return;
-  cloudDirty=true;clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(()=>cloudSaveNow(),150);
+  cloudDirty=true;clearTimeout(cloudSaveTimer);
+  if(cloudConflict){hilenRenderCloudConflict();return}
+  setCloudStatus('work','Pendiente de guardar…','Hay cambios locales sin confirmación. HILEN los sincronizará automáticamente.');
+  cloudSaveTimer=setTimeout(()=>cloudSaveNow(),400);
 }
 async function loadCloudState(userId,options={}){
-  if(!cloudDb||!userId)return;cloudLoading=true;setCloudStatus('work','Cargando datos…');
+  if(!cloudDb||!userId)return;
+  cloudLoading=true;setCloudStatus('work','Cargando datos de Firebase…');
   try{
     const localCandidate=structuredClone(businessState());
     const localOwner=localStorage.getItem(CLOUD_OWNER_KEY);
     const localDirty=localStorage.getItem(CLOUD_DIRTY_KEY)==='1';
     const canUseLocal=hasBusinessData(localCandidate)&&(!localOwner||localOwner===userId);
-    const snap=await cloudDb.ref(userCloudPath(userId,'state')).once('value'),remote=snap.val();
+    const remote=(await cloudDb.ref(userCloudPath(userId,'state')).once('value')).val();
     const incoming=remote?.data??null;
-    cloudDirty=false; // Una recarga correcta reemplaza el pendiente anterior; si hay diferencias se activa conflicto.
-    cloudBaseRevision=Number(remote?.revision)||0;
-    cloudBaseSignature=hilenCloudSignature(incoming);
-    cloudLoadedUid=userId;
+    const serverRev=Number(remote?.revision)||0;
     const different=canUseLocal&&hilenCloudSignature(localCandidate)!==hilenCloudSignature(incoming);
-    // Una escritura local sin confirmar JAMÁS puede reemplazar datos existentes en Firebase al iniciar sesión.
+    const prior=hilenReadCloudBase(userId);
+    cloudLoadedUid=userId;cloudDirty=false;
     if(options.forceCloud){
       applyBusinessState(incoming||{});cloudConflict=false;
       localStorage.setItem(CLOUD_DIRTY_KEY,'0');
     }else if(incoming&&localDirty&&different){
-      applyBusinessState(localCandidate);
-      hilenMarkCloudConflict('Existen cambios locales pendientes y Firebase contiene una versión diferente.');
+      const attempt=hilenMergeBusinessStates(prior,localCandidate,incoming,{additive:!prior});
+      if(attempt.conflicts.length){
+        applyBusinessState(localCandidate);
+        hilenMarkCloudConflict('Se encontraron registros editados de manera incompatible: '+attempt.conflicts.slice(0,3).join(', '));
+      }else{
+        hilenStoreRescueCopy('antes de unir cambios locales y Firebase');
+        applyBusinessState(attempt.state);
+        cloudConflict=false;
+        cloudDirty=hilenCloudSignature(businessState())!==hilenCloudSignature(incoming);
+        localStorage.setItem(CLOUD_DIRTY_KEY,cloudDirty?'1':'0');
+      }
     }else if(incoming){
       if(different&&localOwner===userId)hilenStoreRescueCopy('copia local anterior a recarga de Firebase');
       applyBusinessState(incoming);cloudConflict=false;
       localStorage.setItem(CLOUD_DIRTY_KEY,'0');
     }else if(canUseLocal){
-      // Firebase aún vacío: la primera carga se hace con la misma transacción protegida.
       applyBusinessState(localCandidate);cloudConflict=false;
-      localStorage.setItem(CLOUD_DIRTY_KEY,'1');cloudDirty=true;
+      cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
     }else{
       applyBusinessState({});cloudConflict=false;
       localStorage.setItem(CLOUD_DIRTY_KEY,'0');
     }
+    hilenRememberCloudBase(serverRev,incoming,userId);
     localStorage.setItem(CLOUD_OWNER_KEY,userId);
     localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));
     localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(remote?.updated_at||new Date().toISOString()));
     hilenRenderCloudConflict();
-    const cc=stateCounts(businessState());
-    if(!cloudConflict)setCloudStatus('ok','Nube cargada',`${cc.sales} venta(s) · ${cc.clients} cliente(s) leídos desde Firebase.`);
-  }catch(err){
-    console.error('HILEN Firebase load:',err);
-    setCloudStatus('error','No se pudo cargar la nube');throw err;
-  }finally{
-    cloudLoading=false;
-    if(!cloudConflict&&cloudDirty&&cloudBaseRevision!==null)queueCloudSave();
-  }
+    const c=stateCounts(businessState());
+    if(!cloudConflict)setCloudStatus('work',cloudDirty?'Guardando cambios recuperados…':'Firebase cargado',`${c.sales} venta(s) · ${c.clients} cliente(s). ${cloudDirty?'Falta confirmar cambios locales.':'Puedes pulsar Guardar y verificar para confirmar la coincidencia.'}`);
+  }catch(err){console.error('HILEN Firebase load:',err);setCloudStatus('error','Sin sincronizar',firebaseDbErrorText(err));throw err}
+  finally{cloudLoading=false;if(!cloudConflict&&cloudDirty&&cloudBaseRevision!==null)queueCloudSave()}
 }
 async function pruneCloudBackups(){
   if(localMode||!cloudDb||!currentUser?.id)return;
@@ -4332,7 +4633,7 @@ async function startCloudSession(user){
   if(hilenSessionLoadPromise){try{await hilenSessionLoadPromise}catch(e){console.warn(e)}}
   hilenSessionLoadUid=user.uid;
   hilenSessionLoadPromise=(async()=>{
-    if(cloudLoadedUid!==user.uid){cloudBaseRevision=null;cloudBaseSignature=null;cloudConflict=false;cloudDirty=false;cloudLoadedUid='';}
+    if(cloudLoadedUid!==user.uid){cloudBaseRevision=null;cloudBaseSignature=null;cloudBaseData=null;cloudConflict=false;cloudDirty=false;cloudLoadedUid='';}
     currentUser=cloudUserModel(user);
     // Solo lee la configuración local; no solicita permiso a Google al entrar.
     googleAuthMayPrompt=false;
@@ -4460,7 +4761,7 @@ async function logout(ev){
   if(ev){ev.preventDefault();ev.stopPropagation()}
   const wasLocal=localMode,leavingUserId=currentUser?.id||'';clearTimeout(cloudSaveTimer);if(!wasLocal&&cloudConfigured()&&cloudDb&&currentUser?.id)await cloudSaveNow();if(!wasLocal&&cloudAuth)await cloudAuth.signOut();
   if(leavingUserId)sessionStorage.removeItem(`HILEN_GOOGLE_BACKUP_PROMPT_${leavingUserId}`);
-  localMode=false;db.session=null;currentUser=null;cloudBaseRevision=null;cloudBaseSignature=null;cloudLoadedUid='';cloudConflict=false;hilenRenderCloudConflict();$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Firebase listo · inicia sesión':'Firebase sin configurar');window.scrollTo(0,0);setTimeout(()=>verifyFirebaseAuthHealth(),50)
+  localMode=false;db.session=null;currentUser=null;cloudBaseRevision=null;cloudBaseSignature=null;cloudBaseData=null;cloudLoadedUid='';cloudConflict=false;hilenRenderCloudConflict();$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Firebase listo · inicia sesión':'Firebase sin configurar');window.scrollTo(0,0);setTimeout(()=>verifyFirebaseAuthHealth(),50)
 }
 function finishOpenApp(){
   $('auth').classList.add('hidden');$('app').classList.remove('hidden');hilenRenderCloudConflict();
@@ -5443,6 +5744,20 @@ function hilenDailyTimeLabel(time){
   const hour=Number(m[1]);
   return `${String(hour%12||12).padStart(2,'0')}:${m[2]} ${hour>=12?'p. m.':'a. m.'}`;
 }
+/* Zoom propio del Resumen diario: solo afecta a la tabla, no a los datos ni a los controles. */
+let hilenDailyTableZoomLevel=100;
+function hilenApplyDailyTableZoom(){
+  const table=$('hilenDailyEvents')?.querySelector('.hdaily-ref-table');
+  if(table)table.style.zoom=String(hilenDailyTableZoomLevel/100);
+  const label=$('hilenDailyZoomPercent');if(label)label.textContent=hilenDailyTableZoomLevel+' %';
+  const smaller=$('hilenDailyZoomOut'),larger=$('hilenDailyZoomIn');
+  if(smaller)smaller.disabled=hilenDailyTableZoomLevel<=80;
+  if(larger)larger.disabled=hilenDailyTableZoomLevel>=160;
+}
+function hilenDailyZoomChange(step=0,reset=false){
+  hilenDailyTableZoomLevel=reset?100:Math.min(160,Math.max(80,hilenDailyTableZoomLevel+Number(step||0)));
+  hilenApplyDailyTableZoom();
+}
 function hilenRenderDailyActivity(){
   const root=$('hilenDailyTotals');if(!root)return;
   const dateInput=$('hilenDailyDate');if(dateInput&&!dateInput.value)dateInput.value=today();
@@ -5453,21 +5768,27 @@ function hilenRenderDailyActivity(){
   const kpis=[
     {title:'Total vendido',value:data.totalSold,count:`${data.sales.length} ${data.sales.length===1?'venta realizada':'ventas realizadas'}`,icon:'bag',tone:'gold',filter:'sale',help:'Importe de todas las ventas, de contado y a crédito; no equivale a dinero recaudado.'},
     {title:'Total de abonos',value:data.abonos,count:`${data.payments.length} ${data.payments.length===1?'abono registrado':'abonos registrados'}`,icon:'people',tone:'green',filter:'payment',help:'Pagos recibidos de clientes por compras a crédito anteriores o pendientes.'},
-    {title:'Total de ingresos',value:data.received,count:'Ventas cobradas + abonos + otros ingresos',icon:'up',tone:'blue',filter:'all',help:`Dinero realmente recibido: contado ${money(data.paidAmount)}, iniciales ${money(data.initials)}, abonos ${money(data.abonos)} e ingresos adicionales ${money(data.extraIncome)}.`},
-    {title:'Total de egresos',value:data.expenses,count:`${data.manual.filter(m=>m.type==='expense').length} ${data.manual.filter(m=>m.type==='expense').length===1?'egreso registrado':'egresos registrados'}`,icon:'down',tone:'red',filter:'expense',help:'Salidas manuales de caja registradas ese día, sin contar transferencias entre cuentas.'}
+    {title:'Total de ingresos',value:data.received,count:`${data.sales.filter(s=>s.type==='paid').length+data.credit.filter(s=>hilenNum(s.initialPaid)>0).length+data.payments.length+data.manual.filter(m=>m.type==='income').length} movimientos de ingreso`,icon:'wallet',tone:'blue',filter:'all',help:`Dinero realmente recibido: contado ${money(data.paidAmount)}, iniciales ${money(data.initials)}, abonos ${money(data.abonos)} e ingresos adicionales ${money(data.extraIncome)}.`},
+    {title:'Total de egresos',value:data.expenses,count:`${data.manual.filter(m=>m.type==='expense').length} ${data.manual.filter(m=>m.type==='expense').length===1?'egreso registrado':'egresos registrados'}`,icon:'card',tone:'red',filter:'expense',help:'Salidas manuales de caja registradas ese día, sin contar transferencias entre cuentas.'}
   ];
-  const icons={bag:'<path d="M5 9h14l1 11H4L5 9Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2"/><path d="M17 10a3 3 0 0 1 0 6M17 20h4v-2a4 4 0 0 0-3-4"/>',up:'<path d="M12 21V3M4 11l8-8 8 8"/>',down:'<path d="M12 3v18M4 13l8 8 8-8"/>'};
+  const icons={bag:'<path d="M5 9h14l1 11H4L5 9Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2"/><path d="M17 10a3 3 0 0 1 0 6M17 20h4v-2a4 4 0 0 0-3-4"/>',up:'<path d="M12 21V3M4 11l8-8 8 8"/>',down:'<path d="M12 3v18M4 13l8 8 8-8"/>',wallet:'<rect x="3" y="6" width="18" height="15" rx="2.5"/><path d="M3 10h18 M15 14h6v4h-6z"/>',card:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18 M7 15h5"/>'};
   const pict=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
   const headingSuffix=day===today()?' hoy':'';
   root.innerHTML=kpis.map(k=>`<article class="hdaily-ref-kpi hdaily-ref-${k.tone}"><div class="hdaily-ref-kpi-icon">${pict(k.icon)}</div><div class="hdaily-ref-kpi-text"><div class="hdaily-ref-kpi-label">${k.title}${headingSuffix} <button class="hdaily-ref-help" type="button" title="${esc(k.help)}" aria-label="${esc(k.help)}">?</button></div><strong class="hdaily-ref-value ${String(Math.round(Math.abs(Number(k.value)||0))).length>8?'hdaily-ref-value-long':''}">${money(k.value)}</strong><button type="button" class="hdaily-ref-kpi-foot" onclick="hilenDailyFilter('${k.filter}')">${esc(k.count)}<span aria-hidden="true">›</span></button></div></article>`).join('');
   const countSales=data.sales.length,countPay=data.payments.length,countExp=data.manual.filter(m=>m.type==='expense').length;
-  const sideRows=[{icon:'bag',text:'Ventas realizadas',value:String(countSales),tone:'gold'},{icon:'people',text:'Abonos recibidos',value:String(countPay),tone:'green'},{icon:'up',text:'Ingresos del día',value:money(data.received),tone:'blue'},{icon:'down',text:'Egresos del día',value:money(data.expenses),tone:'red'}];
-  $('hilenDailySideSummary').innerHTML=sideRows.map(x=>`<div class="hdaily-ref-overview-row"><span class="hdaily-ref-row-icon hdaily-ref-${x.tone}">${pict(x.icon)}</span><span>${x.text}</span><strong>${x.value}</strong></div>`).join('')+`<div class="hdaily-ref-result"><span class="hdaily-ref-result-icon">▣</span><div><b>Resultado del día</b><strong>${money(data.net)}</strong><small>Ingresos − Egresos</small></div></div>`;
-  const chartTotal=data.totalSold;
-  const paidPct=chartTotal>0?Math.round(data.paidAmount/chartTotal*100):0;
+  const incomeCount=data.sales.filter(s=>s.type==='paid').length+data.credit.filter(s=>hilenNum(s.initialPaid)>0).length+data.payments.length+data.manual.filter(m=>m.type==='income').length;
+  const sideRows=[
+    {icon:'bag',text:'Ventas realizadas',count:data.sales.length,value:money(data.totalSold),tone:'gold'},
+    {icon:'people',text:'Abonos recibidos',count:data.payments.length,value:money(data.abonos),tone:'green'},
+    {icon:'wallet',text:'Ingresos del día',count:incomeCount,value:money(data.received),tone:'blue'},
+    {icon:'card',text:'Egresos del día',count:data.manual.filter(m=>m.type==='expense').length,value:money(data.expenses),tone:'red'}
+  ];
+  $('hilenDailySideSummary').innerHTML=sideRows.map(x=>`<div class="hdaily-ref-overview-row"><span class="hdaily-ref-row-icon hdaily-ref-${x.tone}">${pict(x.icon)}</span><span class="hdaily-ref-row-title">${x.text}</span><b class="hdaily-ref-row-count">${x.count}</b><strong class="hdaily-ref-row-amount">${x.value}</strong></div>`).join('')+`<div class="hdaily-ref-result"><span class="hdaily-ref-result-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M6 7V5h12v2M16 13h5v5h-5z"/></svg></span><div><b>Resultado del día</b><strong>${money(data.net)}</strong><small>Ingresos − Egresos</small></div></div>`;
+  const chartTotal=data.sales.length;
+  const paidPct=chartTotal>0?Math.round(data.paid.length/chartTotal*100):0;
   const creditPct=chartTotal>0?100-paidPct:0;
   const chart=$('hilenDailySalesChart');
-  chart.innerHTML=`<div class="hdaily-ref-chart-inner"><div class="hdaily-ref-donut" role="img" aria-label="Contado ${paidPct} por ciento, crédito ${creditPct} por ciento" style="--daily-paid:${chartTotal>0?(data.paidAmount/chartTotal*100):0}%"><div><strong>${money(chartTotal)}</strong><span>Ventas</span></div></div><div class="hdaily-ref-legend"><div><i class="hdaily-ref-dot paid"></i><span>Contado</span><b>${money(data.paidAmount)}</b><small>${paidPct}%</small></div><div><i class="hdaily-ref-dot credit"></i><span>Crédito</span><b>${money(data.creditAmount)}</b><small>${creditPct}%</small></div></div></div>`;
+  chart.innerHTML=`<div class="hdaily-ref-chart-inner"><div class="hdaily-ref-donut" role="img" aria-label="Contado ${data.paid.length} ventas, ${paidPct} por ciento; crédito ${data.credit.length} ventas, ${creditPct} por ciento" style="--daily-paid:${chartTotal>0?(data.paid.length/chartTotal*100):0}%"><div><strong>${chartTotal}</strong><span>${chartTotal===1?'Venta':'Ventas'}</span></div></div><div class="hdaily-ref-legend"><div><i class="hdaily-ref-dot paid"></i><span>Contado</span><b>${data.paid.length}</b><small>${paidPct}%</small></div><div><i class="hdaily-ref-dot credit"></i><span>Crédito</span><b>${data.credit.length}</b><small>${creditPct}%</small></div></div></div>`;
   const months=[['sales','ventas'],['payments','abonos'],['expenses','egresos']];
   const historical=months.filter(([key])=>monthlyEffectiveTotal(day.slice(0,7),key).useHistorical).map(([,label])=>label);
   $('hilenDailyHistoricalNotice').innerHTML=historical.length?`<div class="notice warn" style="margin-top:12px"><b>Histórico mensual sin detalle:</b> hay totales de ${esc(historical.join(', '))} en el mes, pero no existen fechas individuales para asignarlos a este día.</div>`:'';
@@ -5479,11 +5800,12 @@ function hilenRenderDailyActivity(){
   $('hilenDailyEventCount').textContent=`Mostrando ${visible.length} de ${data.events.length} movimientos del día · ${day===today()?'Hoy':human}`;
   const typePill=e=>e.kind==='sale'?'Venta':e.kind==='payment'?'Abono':e.type==='expense'?'Egreso':e.type==='income'?'Ingreso':'Transferencia';
   const typeClass=e=>e.kind==='sale'?'sale':e.kind==='payment'?'payment':e.type;
-  const methodText=e=>e.kind==='sale'?(e.type==='credit'?'Crédito':e.reference):e.type==='transfer'?'Transferencia':e.reference;
+  const methodText=e=>e.kind==='sale'?(e.type==='credit'?'Crédito':'Contado'):e.type==='transfer'?'Transferencia':e.reference;
   const methodClass=e=>e.kind==='sale'&&e.type==='credit'?'credit':e.type==='transfer'?'transfer':e.reference==='Nequi'?'nequi':e.reference==='Efectivo'?'cash':'other';
-  const description=e=>e.kind==='sale'?`Venta ${esc(hilenInvoiceCode((db.sales||[]).find(s=>String(s.id)===e.id)||{id:e.id}))}`:e.kind==='payment'?'Abono a crédito':esc(e.sub||e.label);
+  const description=e=>e.kind==='sale'?esc((e.sub||'').replace(/(^|, )1 × /g,'$1')||`Venta ${hilenInvoiceCode((db.sales||[]).find(s=>String(s.id)===e.id)||{id:e.id})}`):e.kind==='payment'?'Abono a crédito':esc(e.sub||e.label);
   const row=e=>`<tr><td class="hdaily-ref-time">${esc(hilenDailyTimeLabel(e.time))}</td><td><span class="hdaily-ref-tag hdaily-ref-tag-${typeClass(e)}">${typePill(e)}</span></td><td class="hdaily-ref-desc">${description(e)}</td><td class="hdaily-ref-client">${esc(e.client||((e.kind==='cash')?(e.sub||'Movimiento de caja'):'Cliente general'))}</td><td class="hdaily-ref-money">${money(e.amount)}</td><td><span class="hdaily-ref-method hdaily-ref-method-${methodClass(e)}">${esc(methodText(e))}</span></td><td><button type="button" class="hdaily-ref-more" title="Ver detalle" aria-label="Ver detalle de ${esc(typePill(e))}" onclick="hilenDailyOpenDetail('${e.kind}','${esc(e.id)}')">···</button></td></tr>`;
   $('hilenDailyEvents').innerHTML=visible.length?`<div class="hdaily-ref-scroll"><table class="hdaily-ref-table"><thead><tr><th>Hora</th><th>Tipo</th><th>Descripción</th><th>Cliente / Detalle</th><th>Valor</th><th>Método</th><th>Acciones</th></tr></thead><tbody>${visible.map(row).join('')}</tbody></table></div>`:`<div class="hdaily-ref-empty"><strong>No hay movimientos que coincidan.</strong><span>${needle?'Prueba otra búsqueda o filtro.':'Elige otra fecha o consulta todos los movimientos.'}</span></div>`;
+  hilenApplyDailyTableZoom();
 }
 function hilenDailyOpenDetail(kind,movementId){
   if(kind==='sale')return showSale(movementId);
@@ -6688,9 +7010,13 @@ async function bootstrapApp(){
 }
 window.addEventListener('storage',event=>{
   if(event.key!==KEY||localMode||!currentUser?.id||cloudLoading||cloudConflict)return;
-  // Los cambios de otras pestañas nunca autorizan a subir una copia obsoleta.
-  if(event.newValue&&event.newValue!==event.oldValue){
-    hilenMarkCloudConflict('Otra pestaña de HILEN guardó datos en este navegador. Evita trabajar con dos versiones a la vez.');
+  // Otra pestaña NO es motivo para bloquear. Cada escritura se compara contra Firebase.
+  // Si hay cambios propios pendientes, el guardado transaccional los reconciliará.
+  if(event.newValue&&event.newValue!==event.oldValue&&!cloudDirty&&!cloudSaveInFlight){
+    clearTimeout(cloudSaveTimer);
+    cloudSaveTimer=setTimeout(()=>{
+      if(!cloudDirty&&!cloudConflict&&!cloudLoading)loadCloudState(currentUser.id).then(()=>refreshAll()).catch(console.error);
+    },600);
   }
 });
 window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');cloudSaveNow()}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync();hilenCheckDailyGoogleSheets()});
