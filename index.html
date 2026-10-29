@@ -3137,6 +3137,17 @@ input,select,textarea,button{max-width:100%}
   .history-kpis-reference{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
 
+/* Guardado seguro: alerta visible para no trabajar sin saberlo con datos sin sincronizar. */
+.hilen-cloud-conflict{position:fixed;top:9px;left:50%;transform:translateX(-50%);width:min(960px,calc(100vw - 22px));z-index:90;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px;border:2px solid #cc7b29;background:#fff7e8;color:#52320b;border-radius:15px;padding:13px 16px;box-shadow:0 15px 50px #15213d30;font-size:13px;line-height:1.4}
+.hilen-cloud-conflict .hilen-conflict-actions{display:flex;gap:7px;flex-wrap:wrap}
+.hilen-cloud-conflict button{background:#fff;border:1px solid #dab782;border-radius:9px;padding:9px 11px;color:#50320b;font-weight:800;white-space:nowrap}
+.hilen-cloud-conflict button:last-child{background:#1a2741;color:white;border-color:#1a2741}
+@media(max-width:650px){.hilen-cloud-conflict{max-height:50vh;overflow:auto;top:4px;font-size:12px}.hilen-cloud-conflict button{font-size:12px;padding:8px}}
+.hilen-save-indicator{display:inline-flex;align-items:center;gap:6px;border:1px solid #e3e8f0;background:#f5f7fa;color:#53627b;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;max-width:100%;white-space:nowrap}
+.hilen-save-indicator[data-kind="ok"]{background:#e8f7f0;border-color:#c5ebd8;color:#16744e}
+.hilen-save-indicator[data-kind="error"]{background:#fff0e9;border-color:#f3beaf;color:#a43e30}
+.hilen-save-indicator[data-kind="work"]{background:#fff6e5;border-color:#f1ddb4;color:#8c630b}
+@media(max-width:620px){.hilen-save-indicator{font-size:10px;padding:5px 7px;white-space:normal}}
 </style>
 </head>
 <body>
@@ -3204,6 +3215,10 @@ input,select,textarea,button{max-width:100%}
 </div>
 
 <div id="app" class="app hidden">
+  <div id="hilenCloudConflictBanner" class="hilen-cloud-conflict hidden" role="alert">
+    <div><strong>¡Atención! Firebase contiene cambios de otra versión.</strong><span> El guardado automático se ha detenido para proteger las ventas y abonos. Tus datos locales siguen en este dispositivo.</span></div>
+    <div class="hilen-conflict-actions"><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenUseCloudVersion()">Cargar versión de Firebase</button></div>
+  </div>
   <aside id="side" class="side">
     <button type="button" class="side-close" onclick="closeSide()" aria-label="Cerrar menú" title="Cerrar menú">×</button>
     <div class="brand"><div class="logo-mark">H</div><div class="brand-copy"><strong>HILEN</strong><span>Tu negocio, más simple.</span></div></div>
@@ -3240,7 +3255,7 @@ input,select,textarea,button{max-width:100%}
         <span id="shellUserInitial" class="shell-avatar">H</span><span class="shell-user-copy"><b id="shellUserName">HILEN</b><small>Administrador</small></span><span class="shell-chevron">⌄</span>
       </button>
     </header>
-    <div class="top"><div class="top-title-line"><div class="page-heading-copy"><h1 id="pageTitle" class="title">Inicio</h1><div id="pageSubtitle" class="page-subtitle">Resumen general de tu negocio.</div></div><div id="todayLabel" class="date-shell"></div></div></div>
+    <div class="top"><div class="top-title-line"><div class="page-heading-copy"><h1 id="pageTitle" class="title">Inicio</h1><div id="pageSubtitle" class="page-subtitle">Resumen general de tu negocio.</div></div><div class="hilen-save-top"><span id="hilenSaveIndicator" class="hilen-save-indicator" data-kind="work">Sincronización pendiente</span><div id="todayLabel" class="date-shell"></div></div></div></div>
     <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
 
     <section id="home" class="section active">
@@ -3744,6 +3759,7 @@ const CLOUD_OWNER_KEY="HILEN_CLOUD_OWNER_FIREBASE_V1";
 const CLOUD_DIRTY_KEY="HILEN_CLOUD_DIRTY_FIREBASE_V1";
 const CLOUD_LOCAL_UPDATED_KEY="HILEN_LOCAL_UPDATED_FIREBASE_V1";
 const CLOUD_LAST_BACKUP_DAY_KEY="HILEN_LAST_CLOUD_BACKUP_DAY_FIREBASE_V1";
+const CLOUD_RESCUE_KEY="HILEN_COPIA_LOCAL_PROTEGIDA_V2";
 const cloudConfigured=()=>{
   const c=HILEN_FIREBASE_CONFIG||{};
   return !!(c.apiKey&&c.authDomain&&c.databaseURL&&c.projectId&&c.appId&&!String(c.apiKey).includes('PEGA_AQUI')&&!String(c.authDomain).includes('TU-PROYECTO')&&!String(c.databaseURL).includes('TU-PROYECTO'));
@@ -3751,6 +3767,58 @@ const cloudConfigured=()=>{
 let firebaseApp=null,cloudAuth=null,cloudDb=null,cloudLoading=false,cloudSaveTimer=null,cloudSaveInFlight=false;
 let firebaseAuthReady=null;
 let localMode=false;
+// Evita que una pestaña o versión antigua sobrescriba otro estado de Firebase.
+let cloudBaseRevision=null,cloudBaseSignature=null,cloudConflict=false,cloudEditGeneration=0,cloudLoadedUid='';
+function hilenStableCloudValue(value){
+  if(Array.isArray(value))return value.map(hilenStableCloudValue);
+  if(!value||typeof value!=='object')return value;
+  const result={};
+  Object.keys(value).sort().forEach(k=>{if(value[k]!==undefined)result[k]=hilenStableCloudValue(value[k])});
+  return result;
+}
+function hilenCloudSignature(value){return JSON.stringify(hilenStableCloudValue(value??null))}
+function hilenCloudBaseMatches(value){
+  if(cloudBaseRevision===null)return false;
+  const rev=Number(value?.revision)||0;
+  return rev===cloudBaseRevision&&(rev!==0||hilenCloudSignature(value?.data??null)===cloudBaseSignature);
+}
+function hilenStoreRescueCopy(reason){
+  const item={saved_at:new Date().toISOString(),reason,userId:currentUser?.id||'',data:businessState()};
+  try{localStorage.setItem(CLOUD_RESCUE_KEY+'_'+(currentUser?.id||'local'),JSON.stringify(item));return true}
+  catch(err){console.warn('No fue posible conservar otra copia local',err);return false}
+}
+function hilenExportRescueCopy(){
+  let payload=localStorage.getItem(CLOUD_RESCUE_KEY+'_'+(currentUser?.id||'local'));
+  if(!payload)payload=JSON.stringify({saved_at:new Date().toISOString(),userId:currentUser?.id||'',data:businessState()});
+  const url=URL.createObjectURL(new Blob([payload],{type:'application/json;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download=`HILEN_cambios_locales_${today()}.json`;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+  showToast('Copia local descargada','Guarda este archivo antes de cargar datos de Firebase.');
+}
+function hilenRenderCloudConflict(){
+  const banner=document.getElementById('hilenCloudConflictBanner');if(banner)banner.classList.toggle('hidden',!cloudConflict);
+}
+function hilenMarkCloudConflict(reason){
+  cloudConflict=true;cloudDirty=true;
+  localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+  hilenStoreRescueCopy(reason);
+  clearTimeout(cloudSaveTimer);clearTimeout(cloudRetryTimer);cloudRetryTimer=null;
+  clearTimeout(googleSheetsSyncTimer);clearTimeout(googleDriveSyncTimer);
+  setCloudStatus('error','Actualización de Firebase detenida por seguridad',reason);
+  hilenRenderCloudConflict();
+  showToast('Protección de datos activada','Detectamos una versión más reciente en Firebase. Tus cambios locales se conservaron y NO se reemplazó la nube.','error',9500);
+}
+async function hilenUseCloudVersion(){
+  if(!cloudConflict||!cloudDb||!currentUser?.id)return;
+  confirmAction('Recargar datos de Firebase','Hay cambios locales sin combinar con la nube. Se guardará una copia local de recuperación, pero los datos visibles se reemplazarán por la versión de Firebase. Descarga también la copia local si quieres conservarla fuera del dispositivo.',async()=>{
+    if(!hilenStoreRescueCopy('antes de volver a cargar Firebase'))throw new Error('No se pudo guardar una copia local; descarga el JSON primero.');
+    hilenExportRescueCopy();
+    await loadCloudState(currentUser.id,{forceCloud:true});
+    refreshAll();renderSettings();
+    showToast('Datos de Firebase cargados','La copia local quedó descargada para recuperación.');
+  },{confirmText:'Descargar copia y cargar Firebase'});
+}
+
 
 let cloudLastError='';
 let cloudLastVerifiedAt='';
@@ -3764,6 +3832,8 @@ function setCloudStatus(kind,text,detail=''){
   if(label)label.textContent=friendly;
   if(d)d.textContent=kind==='error'?'No se pudo sincronizar en este momento. Tus datos permanecen guardados y se intentará nuevamente.':detail||'Tus datos se guardan automáticamente.';
   if(dot)dot.style.background=kind==='ok'?'#22a06b':kind==='work'?'#d9a11e':kind==='error'?'#d64545':'#aaa';
+  const top=document.getElementById('hilenSaveIndicator');
+  if(top){top.dataset.kind=kind;top.textContent=kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Guardado en Firebase':kind==='error'?'⚠ Sin sincronizar':kind==='work'?'◷ Sincronizando…':'Nube disponible';top.title=detail||text||''}
 }
 function firebaseDbErrorText(error){
   const code=String(error?.code||'').toLowerCase(),msg=String(error?.message||'');
@@ -3844,45 +3914,57 @@ let cloudDirty=false;
 let cloudRetryTimer=null;
 async function cloudSaveNow(options={}){
   const notify=!!options.notify;
-  if(localMode){setCloudStatus('work','Modo local · nube pendiente','Los datos están seguros en este navegador, pero todavía no se han verificado en Firebase.');return false}
+  if(localMode){setCloudStatus('work','Modo local · nube pendiente','Los datos siguen en este navegador y todavía no se han verificado en Firebase.');return false}
   if(!cloudDb||!currentUser?.id){setCloudStatus('error','Nube no disponible','No hay una sesión de Firebase activa.');return false}
-  if(cloudLoading){cloudDirty=true;return false}
+  if(cloudConflict){hilenRenderCloudConflict();if(notify)showToast('Sincronización protegida','Primero revisa los cambios locales y los datos de Firebase.','error');return false}
+  if(cloudLoading||cloudBaseRevision===null||cloudLoadedUid!==currentUser.id){cloudDirty=true;return false}
   if(cloudSaveInFlight){cloudDirty=true;return false}
   clearTimeout(cloudSaveTimer);clearTimeout(cloudRetryTimer);cloudRetryTimer=null;cloudSaveInFlight=true;
   try{
     do{
       cloudDirty=false;
-      const snapshot=businessState(),nowIso=new Date().toISOString(),target=cloudDb.ref(userCloudPath(currentUser.id,'state'));
-      setCloudStatus('work','Guardando en Firebase…',`Enviando ${snapshot.sales.length} venta(s) y ${snapshot.clients.length} cliente(s).`);
-      await target.set({data:snapshot,updated_at:nowIso});
-      const checkSnap=await target.once('value');
-      const check=checkSnap.val();
-      if(!check||check.updated_at!==nowIso||!sameCloudState(snapshot,check.data)){
-        throw new Error('La escritura terminó, pero la lectura de verificación no coincide con los datos locales.');
+      const uid=currentUser.id,expectedRevision=cloudBaseRevision,expectedSignature=cloudBaseSignature;
+      const snapshot=structuredClone(businessState()),generation=cloudEditGeneration;
+      const target=cloudDb.ref(userCloudPath(uid,'state'));
+      setCloudStatus('work','Guardando en Firebase…',`Protegiendo ${snapshot.sales.length} venta(s) y ${snapshot.clients.length} cliente(s).`);
+      // CAS atómico: si alguien guardó primero, abortamos SIN tocar su estado.
+      // Los clientes viejos que no escriben "revision" también se detectan por firma.
+      const result=await target.transaction(current=>{
+        const revision=Number(current?.revision)||0;
+        if(revision!==expectedRevision||(revision===0&&hilenCloudSignature(current?.data??null)!==expectedSignature))return;
+        return {data:snapshot,updated_at:new Date().toISOString(),revision:revision+1};
+      },undefined,false);
+      if(!result?.committed){hilenMarkCloudConflict('Otra pestaña o dispositivo actualizó la nube antes que este equipo.');return false}
+      const written=result.snapshot.val();
+      if(!written||Number(written.revision)!==expectedRevision+1){throw new Error('Firebase no confirmó la revisión esperada.');}
+      cloudBaseRevision=Number(written.revision);
+      cloudBaseSignature=hilenCloudSignature(written.data??null);
+      const checkSnap=await target.once('value'),check=checkSnap.val();
+      if(!check||Number(check.revision)!==cloudBaseRevision||hilenCloudSignature(check.data??null)!==cloudBaseSignature){
+        hilenMarkCloudConflict('Firebase cambió después del guardado; se evitó una nueva escritura.');return false;
       }
-      cloudLastError='';
-      cloudLastVerifiedAt=new Date().toISOString();
-      localStorage.setItem(CLOUD_OWNER_KEY,currentUser.id);
-      localStorage.setItem(CLOUD_DIRTY_KEY,'0');
-      localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);
+      cloudLastError='';cloudLastVerifiedAt=new Date().toISOString();
+      localStorage.setItem(CLOUD_OWNER_KEY,uid);
+      if(generation===cloudEditGeneration){localStorage.setItem(CLOUD_DIRTY_KEY,'0')}
+      else{cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1')}
+      localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(check.updated_at||new Date().toISOString()));
       await maybeDailyCloudBackup(snapshot);
       const c=stateCounts(snapshot);
-      setCloudStatus('ok','Nube verificada ✓',`${c.sales} venta(s) · ${c.clients} cliente(s) · verificado ${new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'})}`);
-    }while(cloudDirty);
-    if(notify)showToast('Firebase verificado','Los datos actuales fueron escritos y leídos nuevamente desde la nube.');
+      setCloudStatus('ok','Nube verificada ✓',`${c.sales} venta(s) · ${c.clients} cliente(s) · revisión ${cloudBaseRevision}`);
+    }while(cloudDirty&&!cloudConflict);
+    if(notify)showToast('Firebase verificado','HILEN confirmó el guardado sin reemplazar cambios de otros dispositivos.');
     return true;
   }catch(err){
     console.error('HILEN Firebase save:',err);
-    cloudLastError=firebaseDbErrorText(err);
-    cloudDirty=true;
+    cloudLastError=firebaseDbErrorText(err);cloudDirty=true;
     localStorage.setItem(CLOUD_DIRTY_KEY,'1');
     setCloudStatus('error','NO guardado en nube',cloudLastError);
     if(notify)showToast('La nube no confirmó el guardado',cloudLastError,'error');
-    cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},2500);
+    if(!cloudConflict)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},10000);
     return false;
   }finally{
     cloudSaveInFlight=false;
-    if(cloudDirty&&!cloudRetryTimer)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},500);
+    if(cloudDirty&&!cloudRetryTimer&&!cloudConflict)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},700);
   }
 }
 async function verifyCloudNow(showResult=false){
@@ -3891,22 +3973,56 @@ async function verifyCloudNow(showResult=false){
   return cloudSaveNow({notify:showResult});
 }
 function queueCloudSave(){
+  if(cloudConflict){hilenRenderCloudConflict();return}
   if(localMode||!cloudDb||!currentUser?.id||cloudLoading)return;
   cloudDirty=true;clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(()=>cloudSaveNow(),150);
 }
-async function loadCloudState(userId){
+async function loadCloudState(userId,options={}){
   if(!cloudDb||!userId)return;cloudLoading=true;setCloudStatus('work','Cargando datos…');
   try{
-    const localCandidate=businessState(),localOwner=localStorage.getItem(CLOUD_OWNER_KEY),localDirty=localStorage.getItem(CLOUD_DIRTY_KEY)==='1',localUpdated=localStorage.getItem(CLOUD_LOCAL_UPDATED_KEY)||'';
-    const snap=await cloudDb.ref(userCloudPath(userId,'state')).once('value');const data=snap.val();
-    const cloudUpdated=data?.updated_at||'',canUseLocal=hasBusinessData(localCandidate)&&(!localOwner||localOwner===userId);
-    if(localDirty&&canUseLocal&&(!cloudUpdated||localUpdated>=cloudUpdated)){
-      applyBusinessState(localCandidate);const nowIso=new Date().toISOString();await cloudDb.ref(userCloudPath(userId,'state')).set({data:businessState(),updated_at:nowIso});localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);await cloudCreateBackup('recuperación de cambios locales',businessState());
-    }else if(data?.data){applyBusinessState(data.data);localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,cloudUpdated||new Date().toISOString())}
-    else if(canUseLocal){applyBusinessState(localCandidate);const nowIso=new Date().toISOString();await cloudDb.ref(userCloudPath(userId,'state')).set({data:businessState(),updated_at:nowIso});localStorage.setItem(CLOUD_DIRTY_KEY,'0');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,nowIso);await cloudCreateBackup('migración inicial',businessState())}
-    else{applyBusinessState({})}
-    localStorage.setItem(CLOUD_OWNER_KEY,userId);localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));const cc=stateCounts(businessState());setCloudStatus('ok','Nube cargada',`${cc.sales} venta(s) · ${cc.clients} cliente(s) leídos desde Firebase o preparados para migración.`);
-  }catch(err){console.error('HILEN Firebase load:',err);setCloudStatus('error','No se pudo cargar la nube');throw err}finally{cloudLoading=false}
+    const localCandidate=structuredClone(businessState());
+    const localOwner=localStorage.getItem(CLOUD_OWNER_KEY);
+    const localDirty=localStorage.getItem(CLOUD_DIRTY_KEY)==='1';
+    const canUseLocal=hasBusinessData(localCandidate)&&(!localOwner||localOwner===userId);
+    const snap=await cloudDb.ref(userCloudPath(userId,'state')).once('value'),remote=snap.val();
+    const incoming=remote?.data??null;
+    cloudDirty=false; // Una recarga correcta reemplaza el pendiente anterior; si hay diferencias se activa conflicto.
+    cloudBaseRevision=Number(remote?.revision)||0;
+    cloudBaseSignature=hilenCloudSignature(incoming);
+    cloudLoadedUid=userId;
+    const different=canUseLocal&&hilenCloudSignature(localCandidate)!==hilenCloudSignature(incoming);
+    // Una escritura local sin confirmar JAMÁS puede reemplazar datos existentes en Firebase al iniciar sesión.
+    if(options.forceCloud){
+      applyBusinessState(incoming||{});cloudConflict=false;
+      localStorage.setItem(CLOUD_DIRTY_KEY,'0');
+    }else if(incoming&&localDirty&&different){
+      applyBusinessState(localCandidate);
+      hilenMarkCloudConflict('Existen cambios locales pendientes y Firebase contiene una versión diferente.');
+    }else if(incoming){
+      if(different&&localOwner===userId)hilenStoreRescueCopy('copia local anterior a recarga de Firebase');
+      applyBusinessState(incoming);cloudConflict=false;
+      localStorage.setItem(CLOUD_DIRTY_KEY,'0');
+    }else if(canUseLocal){
+      // Firebase aún vacío: la primera carga se hace con la misma transacción protegida.
+      applyBusinessState(localCandidate);cloudConflict=false;
+      localStorage.setItem(CLOUD_DIRTY_KEY,'1');cloudDirty=true;
+    }else{
+      applyBusinessState({});cloudConflict=false;
+      localStorage.setItem(CLOUD_DIRTY_KEY,'0');
+    }
+    localStorage.setItem(CLOUD_OWNER_KEY,userId);
+    localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));
+    localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(remote?.updated_at||new Date().toISOString()));
+    hilenRenderCloudConflict();
+    const cc=stateCounts(businessState());
+    if(!cloudConflict)setCloudStatus('ok','Nube cargada',`${cc.sales} venta(s) · ${cc.clients} cliente(s) leídos desde Firebase.`);
+  }catch(err){
+    console.error('HILEN Firebase load:',err);
+    setCloudStatus('error','No se pudo cargar la nube');throw err;
+  }finally{
+    cloudLoading=false;
+    if(!cloudConflict&&cloudDirty&&cloudBaseRevision!==null)queueCloudSave();
+  }
 }
 async function pruneCloudBackups(){
   if(localMode||!cloudDb||!currentUser?.id)return;
@@ -3957,15 +4073,25 @@ async function restoreCloudBackup(backupId){
   if(!cloudDb||!currentUser?.id)return;confirmAction('Restaurar respaldo','La información actual será reemplazada por la copia seleccionada. Antes se guardará otro respaldo de lo que tienes ahora.',async()=>{await backupBeforeDestructive('restaurar respaldo');const s=await cloudDb.ref(userCloudPath(currentUser.id,'backups/'+backupId)).once('value');const data=s.val();if(!data?.data)throw new Error('Respaldo no encontrado');applyBusinessState(data.data);saveDB();await cloudSaveNow();refreshAll();renderHistory();showToast('Respaldo restaurado','La información volvió al estado seleccionado.')},{confirmText:'Restaurar',workingText:'Restaurando…'})
 }
 function cloudUserModel(user){return {id:user.uid,email:user.email||'',name:user.displayName||(user.email||'HILEN').split('@')[0]}}
+let hilenSessionLoadPromise=null,hilenSessionLoadUid='';
 async function startCloudSession(user){
-  currentUser=cloudUserModel(user);
-  // Al iniciar sesión HILEN solo carga la configuración guardada.
-  // NO llama a Google, NO solicita autorización y NO abre ninguna ventana externa.
-  googleAuthMayPrompt=false;
-  await loadCloudState(user.uid);
-  await loadGoogleSheetsConfigFromCloud();
-  await loadGoogleDriveConfigFromCloud();
-  await openApp(user);
+  // Firebase Auth y el botón de iniciar sesión pueden notificar a la vez.
+  // Compartir la misma promesa evita leer y aplicar dos estados simultáneamente.
+  if(hilenSessionLoadPromise&&hilenSessionLoadUid===user.uid)return hilenSessionLoadPromise;
+  if(hilenSessionLoadPromise){try{await hilenSessionLoadPromise}catch(e){console.warn(e)}}
+  hilenSessionLoadUid=user.uid;
+  hilenSessionLoadPromise=(async()=>{
+    if(cloudLoadedUid!==user.uid){cloudBaseRevision=null;cloudBaseSignature=null;cloudConflict=false;cloudDirty=false;cloudLoadedUid='';}
+    currentUser=cloudUserModel(user);
+    // Solo lee la configuración local; no solicita permiso a Google al entrar.
+    googleAuthMayPrompt=false;
+    await loadCloudState(user.uid);
+    await loadGoogleSheetsConfigFromCloud();
+    await loadGoogleDriveConfigFromCloud();
+    await openApp(user);
+  })();
+  try{return await hilenSessionLoadPromise}
+  finally{hilenSessionLoadPromise=null;hilenSessionLoadUid=''}
 }
 
 const $=id=>document.getElementById(id);
@@ -3982,7 +4108,14 @@ function safeRender(name,fn){
 }
 
 syncDataRelations();
-function saveDB(){localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_DIRTY_KEY,'1');localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());queueCloudSave();queueGoogleSheetsSync(45000,true);queueGoogleDriveSync(90000,true);notifyBackupAfterChange()}
+function saveDB(){
+  localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));
+  localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+  localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,new Date().toISOString());
+  cloudEditGeneration++;
+  if(cloudConflict){hilenStoreRescueCopy('cambios mientras existe conflicto');hilenRenderCloudConflict();return}
+  queueCloudSave();queueGoogleSheetsSync(45000,true);queueGoogleDriveSync(90000,true);notifyBackupAfterChange();
+}
 function syncDataRelations(){
   db.clients ||= []; db.sales ||= []; db.payments ||= [];
   const canonicalByName=new Map(),duplicateIds=new Map();
@@ -4076,10 +4209,10 @@ async function logout(ev){
   if(ev){ev.preventDefault();ev.stopPropagation()}
   const wasLocal=localMode,leavingUserId=currentUser?.id||'';clearTimeout(cloudSaveTimer);if(!wasLocal&&cloudConfigured()&&cloudDb&&currentUser?.id)await cloudSaveNow();if(!wasLocal&&cloudAuth)await cloudAuth.signOut();
   if(leavingUserId)sessionStorage.removeItem(`HILEN_GOOGLE_BACKUP_PROMPT_${leavingUserId}`);
-  localMode=false;db.session=null;currentUser=null;$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Firebase listo · inicia sesión':'Firebase sin configurar');window.scrollTo(0,0);setTimeout(()=>verifyFirebaseAuthHealth(),50)
+  localMode=false;db.session=null;currentUser=null;cloudBaseRevision=null;cloudBaseSignature=null;cloudLoadedUid='';cloudConflict=false;hilenRenderCloudConflict();$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Firebase listo · inicia sesión':'Firebase sin configurar');window.scrollTo(0,0);setTimeout(()=>verifyFirebaseAuthHealth(),50)
 }
 function finishOpenApp(){
-  $('auth').classList.add('hidden');$('app').classList.remove('hidden');
+  $('auth').classList.add('hidden');$('app').classList.remove('hidden');hilenRenderCloudConflict();
   $('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   if($('shellUserName'))$('shellUserName').textContent=(currentUser?.name||'HILEN').split(' ')[0];
   if($('shellUserInitial'))$('shellUserInitial').textContent=((currentUser?.name||'H').trim().charAt(0)||'H').toUpperCase();
@@ -5588,6 +5721,7 @@ function renderGoogleSheetsStatus(){
 /* Revisión diaria de Sheets Y Drive mientras HILEN esté abierto y autorizado.
    No solicita permisos automáticamente: la persona los renueva desde Configuración. */
 function hilenCheckDailyGoogleSheets(){
+  if(cloudConflict)return;
   if(localMode||!currentUser?.id)return;
   renderGoogleSheetsStatus();renderGoogleDriveStatus();
   if(document.visibilityState==='hidden'||!navigator.onLine||!googleSheetsAccessToken)return;
@@ -5728,6 +5862,7 @@ async function cleanupOldDriveDailyBackups(){
   if(!googleDriveConfig.folderId)return;try{const q=encodeURIComponent(`'${googleDriveConfig.folderId}' in parents and trashed=false`),r=await googleApi(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name,createdTime)&orderBy=createdTime desc&pageSize=100`),daily=(r?.files||[]).filter(f=>/^(?:HILEN|HILEN)_\d{4}-\d{2}-\d{2}\.json$/.test(f.name)).sort((a,b)=>String(b.createdTime||'').localeCompare(String(a.createdTime||'')));await Promise.all(daily.slice(30).map(f=>googleApi(`https://www.googleapis.com/drive/v3/files/${f.id}`,{method:'DELETE'})))}catch(e){console.warn('No se pudieron depurar respaldos de Drive',e)}
 }
 async function syncGoogleDriveNow(showResult=false){
+  if(cloudConflict){if(showResult)showToast('Copia en pausa','Resuelve primero la diferencia entre Firebase y los datos locales.','error');return false}
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','El respaldo de Google Drive se hará cuando vuelva Internet.','error');return false}
   if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;
   const pendingAtStart=googleDriveConfig.pendingAt,hadPending=!!pendingAtStart;
@@ -5769,6 +5904,7 @@ async function syncGoogleDriveNow(showResult=false){
   }finally{googleDriveSyncInFlight=false}
 }
 function queueGoogleDriveSync(delayMs=90000,changed=false){
+  if(cloudConflict)return;
   if(!googleDriveConfig.enabled||!googleDriveConfig.folderId)return;
   if(changed||!googleDriveConfig.pendingAt)googleDriveConfig.pendingAt=new Date().toISOString();
   localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));
@@ -5908,6 +6044,7 @@ async function disconnectGoogleSheets(){
 }
 function openGoogleSheetBackup(){if(!googleSheetsConfig.sheetUrl)return showToast('La copia organizada todavía no está disponible','Conecta Google Drive primero.','error');window.open(googleSheetsConfig.sheetUrl,'_blank','noopener')}
 function queueGoogleSheetsSync(delayMs=45000,changed=false){
+  if(cloudConflict)return;
   if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId)return;
   // Cada modificación marca una versión nueva, incluso si otra sincronización está en curso.
   // En reintentos conservamos la marca para no crear un bucle infinito.
@@ -5951,6 +6088,7 @@ async function ensureGoogleSheetTabs(tables){
   return grids;
 }
 async function syncGoogleSheetsNow(showResult=false){
+  if(cloudConflict){if(showResult)showToast('Copia en pausa','Resuelve primero la diferencia entre Firebase y los datos locales.','error');return false}
   if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){if(showResult)showToast('Google Sheets no está conectado','Pulsa “Conectar con Google Sheets” y HILEN creará el archivo automáticamente.','error');return false}
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','HILEN intentará respaldar cuando vuelvas a tener Internet.','error');return false}
   if(googleSheetsSyncInFlight)return false;googleSheetsSyncInFlight=true;
@@ -6104,6 +6242,13 @@ async function bootstrapApp(){
     });
   }
 }
+window.addEventListener('storage',event=>{
+  if(event.key!==KEY||localMode||!currentUser?.id||cloudLoading||cloudConflict)return;
+  // Los cambios de otras pestañas nunca autorizan a subir una copia obsoleta.
+  if(event.newValue&&event.newValue!==event.oldValue){
+    hilenMarkCloudConflict('Otra pestaña de HILEN guardó datos en este navegador. Evita trabajar con dos versiones a la vez.');
+  }
+});
 window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');cloudSaveNow()}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync();hilenCheckDailyGoogleSheets()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')hilenCheckDailyGoogleSheets()});
 /* HILEN · Facturas por compra y aplicación de pagos · 2026-10-26.
