@@ -3204,6 +3204,152 @@ input,select,textarea,button{max-width:100%}
 @media(max-width:780px){.hdaily-accounts{grid-template-columns:1fr}.hdaily-picker{width:100%}.hdaily-header{align-items:flex-start}}
 @media(max-width:460px){.hdaily-kpis{grid-template-columns:1fr}.hdaily-kpi .hdaily-money{font-size:25px}.hdaily-filters{width:100%}.hdaily-filters button{flex:1}}
 
+
+/* HILEN · Movimientos del día — réplica del panel proporcionado */
+.hdaily-ref-datebar{display:flex;align-items:center;gap:10px;min-width:0}
+.hdaily-ref-datebar.hidden{display:none!important}
+.hdaily-ref-date-arrow{display:grid;place-items:center;width:44px;height:44px;flex:0 0 44px;border:1px solid #e1e7ef;border-radius:50%;background:#fff;color:#182848;font-size:31px;line-height:1;box-shadow:0 2px 8px #14284907;cursor:pointer}
+.hdaily-ref-date-arrow:hover{background:#fff9ec;border-color:#e6c78e}
+.hdaily-ref-date-display{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;max-width:330px;min-width:240px;min-height:44px;background:#fff;border:1px solid #e1e7ef;border-radius:15px;padding:9px 13px;box-shadow:0 2px 9px #101d3007;cursor:pointer;color:#182848;font-weight:790;font-size:12px;text-align:center;overflow:hidden}
+.hdaily-ref-date-display>svg{width:20px;height:20px;fill:none;stroke:#152746;stroke-width:1.8;stroke-linecap:round;flex:0 0 20px}
+.hdaily-ref-date-display>span:not(.hdaily-ref-date-chevron){flex:1}
+.hdaily-ref-date-chevron{font-size:18px;color:#536783;line-height:1}
+.hdaily-ref-native-date{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;z-index:2;color:transparent}
+body.hilen-daily-open .top-title-line{gap:12px!important}
+body.hilen-daily-open .top-title-line .hilen-save-top #todayLabel{display:none!important}
+body.hilen-daily-open #hilenDailyTopPicker{margin-left:auto}
+body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
+#dailyActivity.hilen-daily-reference{width:100%;min-width:0}
+#dailyActivity .hdaily-ref-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:8px 0 17px}
+#dailyActivity .hdaily-ref-kpi{position:relative;display:flex;align-items:flex-start;gap:12px;padding:17px 13px 16px;min-width:0;min-height:151px;background:#fff!important;border:1px solid #e6eaf0!important;border-radius:17px!important;box-shadow:0 7px 24px rgba(28,39,60,.035)!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-gold{background:linear-gradient(128deg,#fffaf2,#fff)!important;border-color:#f6e4c5!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-green{background:linear-gradient(128deg,#f8fffb,#fff)!important;border-color:#e2f1e9!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-blue{background:linear-gradient(128deg,#f8fbff,#fff)!important;border-color:#e0ebfc!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-red{background:linear-gradient(128deg,#fff9f7,#fff)!important;border-color:#f9e3df!important}
+#dailyActivity .hdaily-ref-kpi-icon{display:grid;place-items:center;width:53px;height:53px;flex:0 0 53px;border-radius:50%;background:#fff0d7;color:#ba7809}
+#dailyActivity .hdaily-ref-green .hdaily-ref-kpi-icon{background:#e8f8ef;color:#159056}
+#dailyActivity .hdaily-ref-blue .hdaily-ref-kpi-icon{background:#e8f1ff;color:#1e6bd6}
+#dailyActivity .hdaily-ref-red .hdaily-ref-kpi-icon{background:#fde9e6;color:#bc3035}
+#dailyActivity .hdaily-ref-kpi-icon svg{width:29px;height:29px}
+#dailyActivity .hdaily-ref-kpi-text{flex:1;min-width:0;display:flex;flex-direction:column;min-height:118px}
+#dailyActivity .hdaily-ref-kpi-label{font-size:12px;line-height:1.35;font-weight:820;color:#405170;display:flex;align-items:center;gap:6px;min-height:22px;flex-wrap:wrap}
+#dailyActivity .hdaily-ref-help{width:18px;height:18px;display:grid;place-items:center;border:0;border-radius:50%;font-size:11px;line-height:1;background:#e8edf5;color:#5b6b86;padding:0;font-weight:850;cursor:help}
+#dailyActivity .hdaily-ref-value{font-size:clamp(20px,2vw,27px);color:#0b1833;letter-spacing:-.7px;line-height:1.2;white-space:nowrap;font-variant-numeric:tabular-nums;margin:8px 0 9px;display:block;max-width:100%;overflow:visible}
+#dailyActivity .hdaily-ref-value.hdaily-ref-value-long{font-size:clamp(15px,1.4vw,20px)!important;white-space:normal;overflow-wrap:anywhere}
+#dailyActivity .hdaily-ref-kpi-foot{display:flex;align-items:center;justify-content:space-between;gap:5px;align-self:stretch;margin-top:auto;min-height:32px;padding:6px 9px;border:0;border-radius:11px;text-align:left;background:#fff3e2;color:#946025;font-weight:750;font-size:10.5px;line-height:1.35;cursor:pointer}
+#dailyActivity .hdaily-ref-kpi-foot span{font-size:22px;line-height:1;flex:0 0 auto}
+#dailyActivity .hdaily-ref-green .hdaily-ref-kpi-foot{background:#eefaf3;color:#19784d}
+#dailyActivity .hdaily-ref-blue .hdaily-ref-kpi-foot{background:#edf4ff;color:#245eac}
+#dailyActivity .hdaily-ref-red .hdaily-ref-kpi-foot{background:#fff0ee;color:#a7433a}
+#dailyActivity .hdaily-ref-layout{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(300px,.94fr);gap:14px;align-items:start}
+#dailyActivity .hdaily-ref-panel{background:#fff!important;border:1px solid #e7ecf3!important;border-radius:17px!important;box-shadow:0 8px 24px rgba(34,49,70,.035)!important;padding:18px!important;min-width:0}
+#dailyActivity .hdaily-ref-ledger{min-height:486px}
+#dailyActivity .hdaily-ref-ledger-head{display:flex;justify-content:space-between;align-items:flex-start;gap:13px;margin-bottom:16px}
+#dailyActivity .hdaily-ref-panel h2{margin:0!important;color:#0c1a36;font-size:19px!important;letter-spacing:-.5px!important;line-height:1.28}
+#dailyActivity .hdaily-ref-ledger-head p{margin:4px 0 0;color:#65758f;font-size:12px;line-height:1.45}
+#dailyActivity .hdaily-ref-search{display:flex;align-items:center;gap:9px;min-height:40px;flex:0 1 225px;min-width:150px;padding:0 12px;border:1px solid #e0e8f1;border-radius:11px;background:#fcfdff}
+#dailyActivity .hdaily-ref-search svg{width:18px;height:18px;fill:none;stroke:#7689a5;stroke-width:2;flex:0 0 18px}
+#dailyActivity .hdaily-ref-search input{width:100%;min-width:0;background:transparent;color:#18253f;border:0;outline:none;box-shadow:none;font-size:12px;padding:8px 0}
+#dailyActivity .hdaily-ref-tabs{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:8px}
+#dailyActivity .hdaily-ref-tabs button{border:1px solid #e1e6ef;background:#fff;color:#485b79;border-radius:10px;padding:9px 12px;min-height:37px;font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap}
+#dailyActivity .hdaily-ref-tabs button.active{color:#fff;background:linear-gradient(120deg,#d99b31,#b97c17);border-color:#cf912c;box-shadow:0 2px 7px #c58d2742}
+#dailyActivity .hdaily-ref-tabs button:not(.active):hover{background:#fff7e9;border-color:#eed9b2}
+#dailyActivity .hdaily-ref-count{font-size:10.5px;color:#8290a5;margin:8px 0}
+#dailyActivity .hdaily-ref-scroll{max-width:100%;overflow-x:auto!important;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;border:1px solid #e8edf3;border-radius:12px}
+#dailyActivity .hdaily-ref-table{border-collapse:collapse;width:100%;min-width:700px;table-layout:auto}
+#dailyActivity .hdaily-ref-table th{background:#f4f6f9;color:#526484;font-size:11px!important;font-weight:800;padding:12px 10px!important;text-align:left;border-bottom:1px solid #e4e9f0!important;white-space:nowrap}
+#dailyActivity .hdaily-ref-table td{padding:11px 10px!important;font-size:11px!important;color:#192e4e;border-bottom:1px solid #edf0f5!important;vertical-align:middle!important;line-height:1.35}
+#dailyActivity .hdaily-ref-table tbody tr:last-child td{border-bottom:0!important}
+#dailyActivity .hdaily-ref-table tbody tr:hover{background:#fffaf2}
+#dailyActivity .hdaily-ref-time,#dailyActivity .hdaily-ref-money{white-space:nowrap;font-variant-numeric:tabular-nums}
+#dailyActivity .hdaily-ref-money{font-weight:840}
+#dailyActivity .hdaily-ref-client{max-width:170px;min-width:110px;overflow-wrap:anywhere}
+#dailyActivity .hdaily-ref-desc{min-width:125px;max-width:200px;overflow-wrap:anywhere}
+#dailyActivity .hdaily-ref-tag,#dailyActivity .hdaily-ref-method{display:inline-flex;align-items:center;justify-content:center;gap:3px;white-space:nowrap;border-radius:9px;padding:7px 9px;font-size:10.5px;font-weight:780}
+#dailyActivity .hdaily-ref-tag-sale{background:#fff3e3;color:#996010}
+#dailyActivity .hdaily-ref-tag-payment{background:#e8f8ef;color:#138252}
+#dailyActivity .hdaily-ref-tag-expense{background:#fff0ef;color:#b73539}
+#dailyActivity .hdaily-ref-tag-income{background:#e8f1ff;color:#246dc6}
+#dailyActivity .hdaily-ref-tag-transfer{background:#eff2f6;color:#56677f}
+#dailyActivity .hdaily-ref-method-credit{background:#fff1df;color:#996012}
+#dailyActivity .hdaily-ref-method-cash{background:#e8f8ef;color:#158455}
+#dailyActivity .hdaily-ref-method-nequi{background:#e7f0ff;color:#2b67d6}
+#dailyActivity .hdaily-ref-method-transfer{background:#eeeafb;color:#6346b7}
+#dailyActivity .hdaily-ref-method-other{background:#f2f4f8;color:#536481}
+#dailyActivity .hdaily-ref-more{width:31px;height:31px;border:1px solid #e7eaf1;background:#f8fafc;color:#526584;border-radius:50%;font-size:16px;line-height:1;font-weight:900;cursor:pointer;padding:0}
+#dailyActivity .hdaily-ref-more:hover{background:#fff2da;border-color:#ebd0a0}
+#dailyActivity .hdaily-ref-empty{min-height:172px;display:grid;place-content:center;text-align:center;color:#687992;gap:6px;font-size:12px;background:#fafcff;border:1px dashed #e6ebf3;border-radius:11px}
+#dailyActivity .hdaily-ref-empty strong{color:#1c2a45;font-size:14px}
+#dailyActivity .hdaily-ref-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+#dailyActivity .hdaily-ref-overview h2{display:flex;gap:10px;align-items:center;margin-bottom:12px!important}
+#dailyActivity .hdaily-ref-side-icon{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;background:#fff0da;color:#9d6816;font-size:19px}
+#dailyActivity .hdaily-ref-overview-row{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid #edf0f5;font-size:12px;color:#334560}
+#dailyActivity .hdaily-ref-overview-row>span:nth-child(2){flex:1;min-width:0}
+#dailyActivity .hdaily-ref-overview-row strong{font-size:16px;color:#15233f;white-space:nowrap;font-variant-numeric:tabular-nums}
+#dailyActivity .hdaily-ref-row-icon{width:33px;height:33px;border-radius:50%;display:grid;place-items:center;flex:0 0 33px}
+#dailyActivity .hdaily-ref-row-icon svg{width:19px;height:19px}
+#dailyActivity .hdaily-ref-row-icon.hdaily-ref-gold{background:#fff0d8;color:#c38121}
+#dailyActivity .hdaily-ref-row-icon.hdaily-ref-green{background:#e8f7ef;color:#148650}
+#dailyActivity .hdaily-ref-row-icon.hdaily-ref-blue{background:#e7f1ff;color:#176bd2}
+#dailyActivity .hdaily-ref-row-icon.hdaily-ref-red{background:#fdeae8;color:#bf343a}
+#dailyActivity .hdaily-ref-result{display:flex;align-items:center;gap:12px;margin-top:12px;padding:15px 12px;background:linear-gradient(120deg,#fff4df,#fffaf1);border-radius:13px}
+#dailyActivity .hdaily-ref-result-icon{width:52px;height:52px;flex:0 0 52px;display:grid;place-items:center;border-radius:50%;background:#e7a638;color:#fff;font-size:28px}
+#dailyActivity .hdaily-ref-result b,#dailyActivity .hdaily-ref-result small{display:block}
+#dailyActivity .hdaily-ref-result b{font-size:12px;color:#263450}
+#dailyActivity .hdaily-ref-result strong{display:block;font-size:clamp(20px,2vw,28px);color:#9d650f;white-space:nowrap;letter-spacing:-.6px;font-variant-numeric:tabular-nums;margin:3px 0}
+#dailyActivity .hdaily-ref-result small{font-size:11px;color:#65758d}
+#dailyActivity .hdaily-ref-chart h2{font-size:16px!important;margin-bottom:18px!important}
+#dailyActivity .hdaily-ref-chart-inner{display:flex;align-items:center;gap:12px;min-width:0}
+#dailyActivity .hdaily-ref-donut{width:clamp(112px,12.5vw,155px);height:clamp(112px,12.5vw,155px);flex:0 0 auto;border-radius:50%;background:conic-gradient(#0b9a62 0% var(--daily-paid),#ffbb41 var(--daily-paid) 100%);display:grid;place-items:center}
+#dailyActivity .hdaily-ref-donut>div{width:72%;height:72%;display:grid;align-content:center;justify-items:center;border-radius:50%;background:#fff;padding:6px}
+#dailyActivity .hdaily-ref-donut strong{font-size:clamp(12px,1.35vw,18px);font-weight:900;line-height:1.2;color:#14233c;letter-spacing:-.4px;white-space:nowrap}
+#dailyActivity .hdaily-ref-donut span{font-size:10px;color:#697993}
+#dailyActivity .hdaily-ref-legend{min-width:0;flex:1}
+#dailyActivity .hdaily-ref-legend>div{display:grid;grid-template-columns:8px minmax(55px,1fr) auto auto;gap:5px;align-items:center;margin-bottom:16px;font-size:10px;color:#344660}
+#dailyActivity .hdaily-ref-legend b{font-size:10px;color:#192943;white-space:nowrap}
+#dailyActivity .hdaily-ref-legend small{font-size:9px;color:#73829c}
+#dailyActivity .hdaily-ref-dot{width:8px;height:8px;border-radius:50%;background:#0b9a62}
+#dailyActivity .hdaily-ref-dot.credit{background:#ffbb41}
+#dailyActivity .hdaily-ref-explainer{margin:13px 3px 0;color:#7b879d;font-size:11px;line-height:1.55}
+@media (max-width:1300px){
+  #dailyActivity .hdaily-ref-layout{grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr)}
+  #dailyActivity .hdaily-ref-kpi{padding:13px 11px;gap:9px}
+  #dailyActivity .hdaily-ref-kpi-icon{width:41px;height:41px;flex-basis:41px}
+  #dailyActivity .hdaily-ref-kpi-icon svg{width:24px;height:24px}
+  #dailyActivity .hdaily-ref-kpi-label{font-size:11px}
+  #dailyActivity .hdaily-ref-kpi-foot{font-size:10px}
+  #dailyActivity .hdaily-ref-value{font-size:clamp(18px,2vw,24px)}
+  #dailyActivity .hdaily-ref-chart-inner{flex-wrap:wrap;justify-content:center}
+  #dailyActivity .hdaily-ref-legend{width:100%;flex:none}
+}
+@media (max-width:1080px){
+  #dailyActivity .hdaily-ref-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #dailyActivity .hdaily-ref-kpi{min-height:125px}
+  #dailyActivity .hdaily-ref-layout{grid-template-columns:1fr}
+  #dailyActivity .hdaily-ref-side{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+  #dailyActivity .hdaily-ref-chart-inner{flex-wrap:nowrap}
+  #dailyActivity .hdaily-ref-legend{width:auto;flex:1}
+  body.hilen-daily-open .top-title-line{align-items:flex-start!important;flex-wrap:wrap}
+  body.hilen-daily-open #hilenDailyTopPicker{margin-left:0;order:2}
+}
+@media (max-width:650px){
+  #dailyActivity .hdaily-ref-side{grid-template-columns:1fr}
+  #dailyActivity .hdaily-ref-ledger-head{flex-direction:column}
+  #dailyActivity .hdaily-ref-search{width:100%;flex:auto}
+  #dailyActivity .hdaily-ref-kpi{gap:7px;padding:11px;min-height:125px}
+  #dailyActivity .hdaily-ref-kpi-icon{width:36px;height:36px;flex-basis:36px}
+  #dailyActivity .hdaily-ref-kpi-icon svg{width:20px;height:20px}
+  #dailyActivity .hdaily-ref-value{font-size:clamp(16px,4.5vw,22px);letter-spacing:-.5px}
+  #dailyActivity .hdaily-ref-kpi-label{font-size:10px}
+  #dailyActivity .hdaily-ref-kpi-foot{font-size:9px}
+  #dailyActivity .hdaily-ref-panel{padding:14px!important}
+  .hdaily-ref-date-display{min-width:190px;max-width:230px;font-size:10px}
+  .hdaily-ref-date-arrow{width:37px;height:37px;flex-basis:37px}
+  #dailyActivity .hdaily-ref-chart-inner{flex-wrap:nowrap}
+  body.hilen-daily-open .hilen-save-top{order:3}
+}
+@media(max-width:380px){#dailyActivity .hdaily-ref-kpis{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -3312,7 +3458,15 @@ input,select,textarea,button{max-width:100%}
         <span id="shellUserInitial" class="shell-avatar">H</span><span class="shell-user-copy"><b id="shellUserName">HILEN</b><small>Administrador</small></span><span class="shell-chevron">⌄</span>
       </button>
     </header>
-    <div class="top"><div class="top-title-line"><div class="page-heading-copy"><h1 id="pageTitle" class="title">Inicio</h1><div id="pageSubtitle" class="page-subtitle">Resumen general de tu negocio.</div></div><div class="hilen-save-top"><span id="hilenSaveIndicator" class="hilen-save-indicator" data-kind="work">Sincronización pendiente</span><div id="todayLabel" class="date-shell"></div></div></div></div>
+    <div class="top"><div class="top-title-line"><div class="page-heading-copy"><h1 id="pageTitle" class="title">Inicio</h1><div id="pageSubtitle" class="page-subtitle">Resumen general de tu negocio.</div></div><div id="hilenDailyTopPicker" class="hdaily-ref-datebar hidden" role="group" aria-label="Fecha de movimientos del día">
+      <button type="button" class="hdaily-ref-date-arrow" onclick="hilenDailyShift(-1)" aria-label="Día anterior" title="Día anterior">‹</button>
+      <label class="hdaily-ref-date-display" title="Seleccionar otro día">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 2v6M17 2v6M3 10h18"/></svg>
+        <span id="hilenDailyDateLabel">Seleccionar fecha</span><span class="hdaily-ref-date-chevron">⌄</span>
+        <input id="hilenDailyDate" class="hdaily-ref-native-date" type="date" aria-label="Seleccionar fecha para consultar movimientos" onchange="hilenRenderDailyActivity()">
+      </label>
+      <button type="button" class="hdaily-ref-date-arrow" onclick="hilenDailyShift(1)" aria-label="Día siguiente" title="Día siguiente">›</button>
+    </div><div class="hilen-save-top"><span id="hilenSaveIndicator" class="hilen-save-indicator" data-kind="work">Sincronización pendiente</span><div id="todayLabel" class="date-shell"></div></div></div></div>
     <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
 
     <section id="home" class="section active">
@@ -3347,37 +3501,36 @@ input,select,textarea,button{max-width:100%}
       </div>
     </section>
 
-    <section id="dailyActivity" class="section hilen-view hilen-daily">
-      <div class="card">
-        <div class="hdaily-header">
-          <div class="hdaily-heading"><h2>Tu negocio, día a día</h2><p>Ventas, abonos, ingresos y gastos en un solo lugar. Consulta cualquier fecha sin entrar a otras secciones.</p></div>
-          <div class="hdaily-picker" role="group" aria-label="Elegir día de consulta">
-            <button type="button" title="Día anterior" aria-label="Consultar día anterior" onclick="hilenDailyShift(-1)">‹</button>
-            <input id="hilenDailyDate" class="input" type="date" aria-label="Fecha de los movimientos del negocio" onchange="hilenRenderDailyActivity()">
-            <button type="button" title="Día siguiente" aria-label="Consultar día siguiente" onclick="hilenDailyShift(1)">›</button>
-            <button type="button" onclick="hilenDailyToday()">Hoy</button>
-            <button type="button" onclick="hilenDailyYesterday()">Ayer</button>
+    <section id="dailyActivity" class="section hilen-view hilen-daily hilen-daily-reference">
+      <div id="hilenDailyTotals" class="hdaily-ref-kpis" aria-label="Resumen de movimientos del día"></div>
+      <div class="hdaily-ref-layout">
+        <article class="hdaily-ref-panel hdaily-ref-ledger">
+          <div class="hdaily-ref-ledger-head">
+            <div><h2>Detalle de movimientos del día</h2><p>Lista cronológica de todas las ventas, abonos e ingresos o egresos de ese día.</p></div>
+            <label class="hdaily-ref-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="hilenDailySearch" aria-label="Buscar movimiento" placeholder="Buscar movimiento..." oninput="hilenRenderDailyActivity()" autocomplete="off"></label>
           </div>
-        </div>
-        <div id="hilenDailyCaption" class="hdaily-date-caption"></div>
-        <div id="hilenDailyTotals" class="hdaily-kpis"></div>
-        <div id="hilenDailyAccounts" class="hdaily-accounts"></div>
-        <div class="hdaily-layout-info">El total vendido incluye contado y crédito. <strong>Dinero recibido</strong> refleja únicamente pagos que entraron a Efectivo o Nequi; un crédito sin pago inicial todavía no es ingreso. Las transferencias entre cuentas no son nuevas ganancias.</div>
-        <div id="hilenDailyHistoricalNotice"></div>
-      </div>
-      <div class="card hdaily-panel">
-        <div class="hdaily-panel-top">
-          <div><h2 class="hdaily-panel-title">Todo lo que ocurrió ese día</h2><p class="hdaily-panel-note">Movimientos ordenados por hora, con acceso al detalle de ventas y abonos.</p></div>
-          <div class="hdaily-filters" role="group" aria-label="Filtrar movimientos del día">
-            <button type="button" data-hdaily-filter="all" class="active" onclick="hilenDailyFilter('all')">Todos</button>
-            <button type="button" data-hdaily-filter="sale" onclick="hilenDailyFilter('sale')">Ventas</button>
-            <button type="button" data-hdaily-filter="payment" onclick="hilenDailyFilter('payment')">Abonos</button>
-            <button type="button" data-hdaily-filter="cash" onclick="hilenDailyFilter('cash')">Caja</button>
+          <div class="hdaily-ref-tabs" role="group" aria-label="Filtrar movimientos del día">
+            <button type="button" class="active" data-hdaily-filter="all" onclick="hilenDailyFilter('all')">Todos <span id="hilenDailyCountAll"></span></button>
+            <button type="button" data-hdaily-filter="sale" onclick="hilenDailyFilter('sale')">Ventas <span id="hilenDailyCountSales"></span></button>
+            <button type="button" data-hdaily-filter="payment" onclick="hilenDailyFilter('payment')">Abonos <span id="hilenDailyCountPayments"></span></button>
+            <button type="button" data-hdaily-filter="expense" onclick="hilenDailyFilter('expense')">Egresos <span id="hilenDailyCountExpenses"></span></button>
           </div>
-        </div>
-        <div id="hilenDailyEventCount" class="hdaily-date-caption" aria-live="polite"></div>
-        <div id="hilenDailyEvents"></div>
+          <p id="hilenDailyEventCount" class="hdaily-ref-count" aria-live="polite"></p>
+          <div id="hilenDailyEvents" class="hdaily-ref-events"></div>
+        </article>
+        <aside class="hdaily-ref-side">
+          <div class="hdaily-ref-panel hdaily-ref-overview">
+            <h2><span class="hdaily-ref-side-icon">▣</span> Resumen del día</h2>
+            <div id="hilenDailySideSummary"></div>
+          </div>
+          <div class="hdaily-ref-panel hdaily-ref-chart">
+            <h2>Métodos de pago en ventas</h2>
+            <div id="hilenDailySalesChart" aria-label="Distribución de ventas de contado y a crédito"></div>
+          </div>
+          <div id="hilenDailyHistoricalNotice"></div>
+        </aside>
       </div>
+      <p class="hdaily-ref-explainer">El total vendido incluye ventas a crédito. <strong>Ingresos</strong> es dinero realmente recibido (contado, pagos iniciales, abonos e ingresos adicionales). Las transferencias entre cuentas no se suman dos veces.</p>
     </section>
 
     <section id="day" class="section hilen-view hilen-sales">
@@ -4331,7 +4484,7 @@ function globalSearchGo(){
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -5253,7 +5406,7 @@ function hilenDailyShift(days){
 function hilenDailyToday(){hilenDailySetDate(today())}
 function hilenDailyYesterday(){hilenDailySetDate((()=>{const d=new Date();d.setDate(d.getDate()-1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`})())}
 function hilenDailyFilter(type){
-  if(!['all','sale','payment','cash'].includes(type))return;
+  if(!['all','sale','payment','expense'].includes(type))return;
   hilenDailySelectedType=type;hilenRenderDailyActivity();
 }
 function hilenDailyDataset(day){
@@ -5276,34 +5429,53 @@ function hilenDailyDataset(day){
   events.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.time||'').localeCompare(String(a.time||''))||String(b.createdAt||'').localeCompare(String(a.createdAt||''))||String(b.id).localeCompare(String(a.id)));
   return {sales,paid,credit,payments,manual,events,totalSold,paidAmount,creditAmount,initials,abonos,extraIncome,expenses,received,receivedCash,receivedBank,transferCount,debt,net:received-expenses};
 }
+function hilenDailyTimeLabel(time){
+  const m=String(time||'').match(/^(\d{1,2}):(\d{2})/);
+  if(!m)return String(time||'—');
+  const hour=Number(m[1]);
+  return `${String(hour%12||12).padStart(2,'0')}:${m[2]} ${hour>=12?'p. m.':'a. m.'}`;
+}
 function hilenRenderDailyActivity(){
   const root=$('hilenDailyTotals');if(!root)return;
   const dateInput=$('hilenDailyDate');if(dateInput&&!dateInput.value)dateInput.value=today();
   const day=hilenDailySelectedDate(),data=hilenDailyDataset(day);
   const human=new Date(day+'T12:00:00').toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  $('hilenDailyCaption').innerHTML=`<b>${esc(human.charAt(0).toUpperCase()+human.slice(1))}</b> · ${day===today()?'Movimientos de hoy hasta este momento':'Consulta de un día registrado anteriormente'}`;
-  const card=(title,amount,detail,tone='')=>`<article class="hdaily-kpi ${tone}"><div class="hdaily-label">${title}</div><div class="hdaily-money">${money(amount)}</div><div class="hdaily-foot">${detail}</div></article>`;
-  root.innerHTML=[
-    card('Total vendido',data.totalSold,`${data.sales.length} ${data.sales.length===1?'venta':'ventas'} realizadas`,'hdaily-dark'),
-    card('Ventas de contado',data.paidAmount,`${data.paid.length} ${data.paid.length===1?'venta pagada':'ventas pagadas'}`,'hdaily-green'),
-    card('Ventas a crédito',data.creditAmount,`${data.credit.length} ${data.credit.length===1?'venta a crédito':'ventas a crédito'}`,'hdaily-purple'),
-    card('Abonos recibidos',data.abonos,`${data.payments.length} ${data.payments.length===1?'abono registrado':'abonos registrados'}`,'hdaily-blue'),
-    card('Ingresos adicionales',data.extraIncome,`${data.manual.filter(m=>m.type==='income').length} ingresos manuales`),
-    card('Egresos del día',data.expenses,`${data.manual.filter(m=>m.type==='expense').length} gastos registrados`,'hdaily-red'),
-    card('Dinero recibido',data.received,`Contado + pagos iniciales (${money(data.initials)}) + abonos + otros ingresos`,'hdaily-gold'),
-    card('Resultado de caja del día',data.net,'Dinero recibido menos egresos (transferencias excluidas)',data.net<0?'hdaily-red':'hdaily-green')
-  ].join('');
-  $('hilenDailyAccounts').innerHTML=`<div class="hdaily-account"><span>Entró a Efectivo</span><b>${money(data.receivedCash)}</b></div><div class="hdaily-account"><span>Entró a Nequi</span><b>${money(data.receivedBank)}</b></div><div class="hdaily-account hdaily-note"><span>Saldo por cobrar al cierre del día</span><b>${money(data.debt)}</b><span>${data.transferCount} transferencia(s) entre cuentas · no suman a ingresos</span></div>`;
+  if($('hilenDailyDateLabel'))$('hilenDailyDateLabel').textContent=human;
+  // La suma recibida NO incluye ventas a crédito que aún no se han cobrado.
+  const kpis=[
+    {title:'Total vendido',value:data.totalSold,count:`${data.sales.length} ${data.sales.length===1?'venta realizada':'ventas realizadas'}`,icon:'bag',tone:'gold',filter:'sale',help:'Importe de todas las ventas, de contado y a crédito; no equivale a dinero recaudado.'},
+    {title:'Total de abonos',value:data.abonos,count:`${data.payments.length} ${data.payments.length===1?'abono registrado':'abonos registrados'}`,icon:'people',tone:'green',filter:'payment',help:'Pagos recibidos de clientes por compras a crédito anteriores o pendientes.'},
+    {title:'Total de ingresos',value:data.received,count:'Ventas cobradas + abonos + otros ingresos',icon:'up',tone:'blue',filter:'all',help:`Dinero realmente recibido: contado ${money(data.paidAmount)}, iniciales ${money(data.initials)}, abonos ${money(data.abonos)} e ingresos adicionales ${money(data.extraIncome)}.`},
+    {title:'Total de egresos',value:data.expenses,count:`${data.manual.filter(m=>m.type==='expense').length} ${data.manual.filter(m=>m.type==='expense').length===1?'egreso registrado':'egresos registrados'}`,icon:'down',tone:'red',filter:'expense',help:'Salidas manuales de caja registradas ese día, sin contar transferencias entre cuentas.'}
+  ];
+  const icons={bag:'<path d="M5 9h14l1 11H4L5 9Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2"/><path d="M17 10a3 3 0 0 1 0 6M17 20h4v-2a4 4 0 0 0-3-4"/>',up:'<path d="M12 21V3M4 11l8-8 8 8"/>',down:'<path d="M12 3v18M4 13l8 8 8-8"/>'};
+  const pict=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
+  const headingSuffix=day===today()?' hoy':'';
+  root.innerHTML=kpis.map(k=>`<article class="hdaily-ref-kpi hdaily-ref-${k.tone}"><div class="hdaily-ref-kpi-icon">${pict(k.icon)}</div><div class="hdaily-ref-kpi-text"><div class="hdaily-ref-kpi-label">${k.title}${headingSuffix} <button class="hdaily-ref-help" type="button" title="${esc(k.help)}" aria-label="${esc(k.help)}">?</button></div><strong class="hdaily-ref-value ${String(Math.round(Math.abs(Number(k.value)||0))).length>8?'hdaily-ref-value-long':''}">${money(k.value)}</strong><button type="button" class="hdaily-ref-kpi-foot" onclick="hilenDailyFilter('${k.filter}')">${esc(k.count)}<span aria-hidden="true">›</span></button></div></article>`).join('');
+  const countSales=data.sales.length,countPay=data.payments.length,countExp=data.manual.filter(m=>m.type==='expense').length;
+  const sideRows=[{icon:'bag',text:'Ventas realizadas',value:String(countSales),tone:'gold'},{icon:'people',text:'Abonos recibidos',value:String(countPay),tone:'green'},{icon:'up',text:'Ingresos del día',value:money(data.received),tone:'blue'},{icon:'down',text:'Egresos del día',value:money(data.expenses),tone:'red'}];
+  $('hilenDailySideSummary').innerHTML=sideRows.map(x=>`<div class="hdaily-ref-overview-row"><span class="hdaily-ref-row-icon hdaily-ref-${x.tone}">${pict(x.icon)}</span><span>${x.text}</span><strong>${x.value}</strong></div>`).join('')+`<div class="hdaily-ref-result"><span class="hdaily-ref-result-icon">▣</span><div><b>Resultado del día</b><strong>${money(data.net)}</strong><small>Ingresos − Egresos</small></div></div>`;
+  const chartTotal=data.totalSold;
+  const paidPct=chartTotal>0?Math.round(data.paidAmount/chartTotal*100):0;
+  const creditPct=chartTotal>0?100-paidPct:0;
+  const chart=$('hilenDailySalesChart');
+  chart.innerHTML=`<div class="hdaily-ref-chart-inner"><div class="hdaily-ref-donut" role="img" aria-label="Contado ${paidPct} por ciento, crédito ${creditPct} por ciento" style="--daily-paid:${chartTotal>0?(data.paidAmount/chartTotal*100):0}%"><div><strong>${money(chartTotal)}</strong><span>Ventas</span></div></div><div class="hdaily-ref-legend"><div><i class="hdaily-ref-dot paid"></i><span>Contado</span><b>${money(data.paidAmount)}</b><small>${paidPct}%</small></div><div><i class="hdaily-ref-dot credit"></i><span>Crédito</span><b>${money(data.creditAmount)}</b><small>${creditPct}%</small></div></div></div>`;
   const months=[['sales','ventas'],['payments','abonos'],['expenses','egresos']];
   const historical=months.filter(([key])=>monthlyEffectiveTotal(day.slice(0,7),key).useHistorical).map(([,label])=>label);
-  $('hilenDailyHistoricalNotice').innerHTML=historical.length?`<div class="notice warn" style="margin:0 0 14px"><b>Información histórica sin detalle por día:</b> el mes seleccionado conserva un total mensual de ${esc(historical.join(', '))}, pero no sus fechas individuales. Por eso ese importe no se asigna a este día ni a clientes específicos.</div>`:'';
-  const visible=data.events.filter(e=>hilenDailySelectedType==='all'||e.kind===hilenDailySelectedType);
+  $('hilenDailyHistoricalNotice').innerHTML=historical.length?`<div class="notice warn" style="margin-top:12px"><b>Histórico mensual sin detalle:</b> hay totales de ${esc(historical.join(', '))} en el mes, pero no existen fechas individuales para asignarlos a este día.</div>`:'';
+  const matchType=e=>hilenDailySelectedType==='all'||(hilenDailySelectedType==='sale'&&e.kind==='sale')||(hilenDailySelectedType==='payment'&&e.kind==='payment')||(hilenDailySelectedType==='expense'&&e.type==='expense');
+  const needle=String($('hilenDailySearch')?.value||'').trim().toLocaleLowerCase('es');
+  const visible=data.events.filter(e=>matchType(e)&&(!needle||[e.label,e.client,e.sub,e.reference,e.time,String(e.amount),money(e.amount)].join(' ').toLocaleLowerCase('es').includes(needle))).sort((a,b)=>String(a.time||'').localeCompare(String(b.time||''))||String(a.createdAt||'').localeCompare(String(b.createdAt||''))||String(a.id).localeCompare(String(b.id)));
   document.querySelectorAll('#dailyActivity [data-hdaily-filter]').forEach(btn=>{const active=btn.dataset.hdailyFilter===hilenDailySelectedType;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))});
-  $('hilenDailyEventCount').textContent=`${visible.length} movimientos visibles de ${data.events.length} registrados ese día · ordenados de más reciente a más antiguo`;
-  const amountLabel=e=>e.kind==='sale'?'Venta':e.type==='transfer'?'Traslado':e.type==='expense'?'Salida':'Ingreso';
-  const row=e=>`<tr><td><b>${esc(e.time||'Sin hora')}</b></td><td><span class="hdaily-movement-type ${e.type}">${esc(e.label)}</span></td><td><span class="hdaily-detail-primary">${esc(e.client||e.sub||e.label)}</span>${e.client?`<span class="hdaily-detail-sub">${esc(e.sub||'')}</span>`:''}</td><td><span class="hdaily-number ${e.type==='expense'?'hdaily-out':e.type==='credit'||e.type==='transfer'?'hdaily-neutral':'hdaily-in'}">${money(e.amount)}</span><span class="hdaily-detail-sub">${amountLabel(e)}</span></td><td><span class="hdaily-detail-sub">${esc(e.reference)}</span></td><td><button type="button" class="action-mini view" onclick="hilenDailyOpenDetail('${e.kind}','${esc(e.id)}')">Ver</button></td></tr>`;
-  $('hilenDailyEvents').innerHTML=visible.length?`<div class="table-wrap"><table class="table hdaily-movements-table"><thead><tr><th>Hora</th><th>Tipo</th><th>Cliente / concepto</th><th>Valor</th><th>Destino</th><th>Detalle</th></tr></thead><tbody>${visible.map(row).join('')}</tbody></table></div>`:'<div class="hdaily-empty"><strong>No hay movimientos de este tipo en la fecha elegida.</strong>Prueba con otra fecha o selecciona «Todos».</div>';
-  if(visible.length&&typeof hilenEnsureZoomAtWrapper==='function'){const wrapper=$('hilenDailyEvents')?.querySelector('.table-wrap');if(wrapper)hilenEnsureZoomAtWrapper(wrapper,'actividad-diaria','Tabla de movimientos del día')}
+  [['hilenDailyCountAll',data.events.length],['hilenDailyCountSales',countSales],['hilenDailyCountPayments',countPay],['hilenDailyCountExpenses',countExp]].forEach(([id,n])=>{const el=$(id);if(el)el.textContent=`(${n})`});
+  $('hilenDailyEventCount').textContent=`Mostrando ${visible.length} de ${data.events.length} movimientos del día · ${day===today()?'Hoy':human}`;
+  const typePill=e=>e.kind==='sale'?'Venta':e.kind==='payment'?'Abono':e.type==='expense'?'Egreso':e.type==='income'?'Ingreso':'Transferencia';
+  const typeClass=e=>e.kind==='sale'?'sale':e.kind==='payment'?'payment':e.type;
+  const methodText=e=>e.kind==='sale'?(e.type==='credit'?'Crédito':e.reference):e.type==='transfer'?'Transferencia':e.reference;
+  const methodClass=e=>e.kind==='sale'&&e.type==='credit'?'credit':e.type==='transfer'?'transfer':e.reference==='Nequi'?'nequi':e.reference==='Efectivo'?'cash':'other';
+  const description=e=>e.kind==='sale'?`Venta ${esc(hilenInvoiceCode((db.sales||[]).find(s=>String(s.id)===e.id)||{id:e.id}))}`:e.kind==='payment'?'Abono a crédito':esc(e.sub||e.label);
+  const row=e=>`<tr><td class="hdaily-ref-time">${esc(hilenDailyTimeLabel(e.time))}</td><td><span class="hdaily-ref-tag hdaily-ref-tag-${typeClass(e)}">${typePill(e)}</span></td><td class="hdaily-ref-desc">${description(e)}</td><td class="hdaily-ref-client">${esc(e.client||((e.kind==='cash')?(e.sub||'Movimiento de caja'):'Cliente general'))}</td><td class="hdaily-ref-money">${money(e.amount)}</td><td><span class="hdaily-ref-method hdaily-ref-method-${methodClass(e)}">${esc(methodText(e))}</span></td><td><button type="button" class="hdaily-ref-more" title="Ver detalle" aria-label="Ver detalle de ${esc(typePill(e))}" onclick="hilenDailyOpenDetail('${e.kind}','${esc(e.id)}')">···</button></td></tr>`;
+  $('hilenDailyEvents').innerHTML=visible.length?`<div class="hdaily-ref-scroll"><table class="hdaily-ref-table"><thead><tr><th>Hora</th><th>Tipo</th><th>Descripción</th><th>Cliente / Detalle</th><th>Valor</th><th>Método</th><th>Acciones</th></tr></thead><tbody>${visible.map(row).join('')}</tbody></table></div>`:`<div class="hdaily-ref-empty"><strong>No hay movimientos que coincidan.</strong><span>${needle?'Prueba otra búsqueda o filtro.':'Elige otra fecha o consulta todos los movimientos.'}</span></div>`;
 }
 function hilenDailyOpenDetail(kind,movementId){
   if(kind==='sale')return showSale(movementId);
