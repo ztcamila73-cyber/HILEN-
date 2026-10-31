@@ -3702,200 +3702,255 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
 }
 
 
-/* HILEN · Diseño solicitado: panel morado y resumen financiero dorado (31 oct 2026).
-   Solo presentación: no modifica Firebase, los importes ni los movimientos. */
+/* HILEN · Resumen diario · fidelidad visual a la referencia (31 octubre).
+   Ajustes de interfaz únicamente: NO altera movimientos, saldos ni Firebase. */
 .hdaily-page-mark{display:none}
-body.hilen-daily-open .page-heading-copy{display:grid;grid-template-columns:60px minmax(0,1fr);align-items:center;column-gap:16px;position:relative}
-body.hilen-daily-open .hdaily-page-mark{display:grid;grid-row:1 / span 2;place-items:center;width:60px;height:60px;border-radius:18px;color:#fff;background:linear-gradient(145deg,#9256a5,#3f1658);box-shadow:0 7px 18px rgba(64,22,80,.19)}
-body.hilen-daily-open .hdaily-page-mark svg{width:31px;height:31px}
-body.hilen-daily-open .page-heading-copy:before{content:"";position:absolute;left:72px;top:5px;bottom:5px;width:2px;background:#d6a14e}
-body.hilen-daily-open .page-heading-copy #pageTitle{grid-column:2;grid-row:1;color:#2d153b;letter-spacing:-1.4px}
-body.hilen-daily-open .page-heading-copy #pageSubtitle{grid-column:2;grid-row:2;color:#7a7184}
-body.hilen-daily-open .hdaily-ref-date-arrow{border-radius:50%;box-shadow:0 3px 12px #3e24530b;color:#321645}
-body.hilen-daily-open .hdaily-ref-date-display{border-radius:25px;color:#2f1641}
-#dailyActivity .hdaily-ref-kpis{grid-template-columns:minmax(0,1.35fr) repeat(3,minmax(0,1fr));gap:13px!important;margin:12px 0 21px!important;align-items:stretch!important}
+body.hilen-daily-open .page-heading-copy{
+  display:grid;grid-template-columns:64px minmax(0,1fr);align-items:center;
+  gap:0 18px;position:relative;min-width:0;
+}
+body.hilen-daily-open .hdaily-page-mark{
+  display:grid;grid-column:1;grid-row:1 / span 3;place-items:center;
+  width:64px;height:64px;border-radius:19px;color:#fff;
+  background:linear-gradient(145deg,#f6d887 0%,#cf9132 47%,#9e5c10 100%);
+  border:1px solid #e7bb69;box-shadow:inset 0 1px 0 #fff9,0 7px 17px #b0742738;
+}
+body.hilen-daily-open .hdaily-page-mark svg{width:35px;height:35px;filter:drop-shadow(0 1px 2px #85531b56)}
+body.hilen-daily-open .page-heading-copy::before{
+  content:"";position:absolute;left:77px;top:7px;bottom:12px;width:2px;
+  border-radius:3px;background:linear-gradient(#f8e1b6,#c98b2d);
+}
+body.hilen-daily-open .page-heading-copy::after{
+  content:"";grid-column:2;grid-row:3;width:113px;height:3px;border-radius:3px;
+  margin-top:10px;background:linear-gradient(90deg,#c88821,#efc66c);
+}
+body.hilen-daily-open #pageTitle{grid-column:2;grid-row:1;font-weight:880;
+  color:#311338;font-size:clamp(26px,2.6vw,40px);line-height:1.12;letter-spacing:-1.1px}
+body.hilen-daily-open #pageSubtitle{grid-column:2;grid-row:2;color:#756d81;margin-top:3px;
+  line-height:1.4;font-size:13px}
+body.hilen-daily-open .hdaily-ref-date-arrow{border-radius:50%;color:#2b123d;box-shadow:0 3px 11px #2c17421c}
+body.hilen-daily-open .hdaily-ref-date-display{border-radius:24px;color:#32173e;box-shadow:0 4px 15px #2c174211}
+body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
+
+#dailyActivity .hdaily-ref-kpis{
+  display:grid!important;grid-template-columns:minmax(0,1.35fr) repeat(3,minmax(0,1fr))!important;
+  align-items:stretch!important;gap:15px!important;margin:18px 0 22px!important;
+}
 #dailyActivity .hdaily-ref-kpi{
-  position:relative;display:flex!important;flex-direction:column!important;justify-content:space-between!important;gap:9px!important;
-  min-width:0;min-height:255px!important;padding:18px 17px 21px!important;
-  border-radius:25px!important;border:1px solid #f0e4ed!important;
-  background:linear-gradient(155deg,#fffdf8,#f9fbff 65%,#f3f8ee)!important;
-  box-shadow:0 12px 28px rgba(24,22,45,.065)!important;overflow:hidden!important;
-  isolation:isolate;
+  position:relative;isolation:isolate;min-width:0;min-height:262px!important;
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:space-between!important;
+  padding:18px 17px 15px!important;gap:10px!important;
+  border:1px solid #eee4d7!important;border-radius:26px!important;overflow:hidden!important;
+  background:linear-gradient(165deg,#fffefa 0%,#fffdfa 45%,#f7fcf2 100%)!important;
+  box-shadow:0 10px 27px rgba(44,27,52,.075),inset 0 1px 0 #fff!important;
+  transition:box-shadow .2s ease;
 }
-#dailyActivity .hdaily-ref-kpi:before{content:none!important}
-#dailyActivity .hdaily-ref-kpi:after{
-  content:""!important;position:absolute;z-index:-1!important;top:auto!important;bottom:-80px!important;right:-10%!important;left:-10%!important;
-  width:120%!important;height:138px!important;border-radius:48% 55% 0 0 / 42% 54% 0 0!important;
-  opacity:.85!important;background:linear-gradient(175deg,#e9f6df,#d9edca)!important;transform:rotate(-4deg);pointer-events:none;
-}
+#dailyActivity .hdaily-ref-kpi:before,#dailyActivity .hdaily-ref-kpi:after{content:none!important}
+#dailyActivity .hdaily-ref-kpi:hover{box-shadow:0 12px 31px rgba(44,27,52,.12)!important}
 #dailyActivity .hdaily-ref-kpi.hdaily-ref-gold{
-  background:linear-gradient(155deg,#835094 0%,#491e62 66%,#351248 100%)!important;
-  border:1px solid #b69bc0!important;box-shadow:0 10px 26px rgba(71,23,86,.2)!important;
-  padding:17px 14px 14px!important;
+  color:#fff;background:linear-gradient(152deg,#89509a 0%,#6c327c 28%,#4e1c65 68%,#391445 100%)!important;
+  border-color:#ac80b2!important;box-shadow:0 11px 27px #4d23563b!important;
+  padding:17px 15px 14px!important;
 }
-#dailyActivity .hdaily-ref-kpi.hdaily-ref-gold:after{background:linear-gradient(160deg,transparent 0%,#3e164e 80%)!important;opacity:.35!important}
-#dailyActivity .hdaily-ref-kpi.hdaily-ref-blue{background:linear-gradient(165deg,#fff,#f1f7ff 85%)!important;border-color:#e0eafa!important}
-#dailyActivity .hdaily-ref-kpi.hdaily-ref-blue:after{background:linear-gradient(165deg,#d4e6ff,#aac8fa)!important}
-#dailyActivity .hdaily-ref-kpi.hdaily-ref-red{background:linear-gradient(165deg,#fff,#fff7f8 85%)!important;border-color:#f7e1e6!important}
-#dailyActivity .hdaily-ref-kpi.hdaily-ref-red:after{background:linear-gradient(165deg,#ffe1e8,#f6bbc6)!important}
-#dailyActivity .hd-ref-card-core{display:flex;align-items:center;min-height:97px;gap:12px;min-width:0;z-index:1}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-green{background:linear-gradient(155deg,#fffefa,#fdfef9 58%,#f4f9ec)!important;border-color:#efe9d8!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-blue{background:linear-gradient(155deg,#fff,#f9fbff 60%,#f0f5ff)!important;border-color:#dce7fa!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-red{background:linear-gradient(155deg,#fff,#fffafb 60%,#fff3f6)!important;border-color:#f4dbe0!important}
+/* SVG natural, no pseudo-elipses: onda con borde luminoso igual a la referencia. */
+#dailyActivity .hd-ref-card-wave{
+  display:block;position:absolute;bottom:-1px;left:0;width:100%;height:79px;
+  overflow:visible;z-index:0;pointer-events:none;
+}
+#dailyActivity .hd-ref-card-wave .wave-fill{fill:#d4e8bd}
+#dailyActivity .hd-ref-card-wave .wave-trace{fill:none;stroke:#fff;stroke-width:5;opacity:.75}
+#dailyActivity .hdaily-ref-green .hd-ref-card-wave .wave-fill{fill:#d3e8bd}
+#dailyActivity .hdaily-ref-blue .hd-ref-card-wave .wave-fill{fill:#b9d4fa}
+#dailyActivity .hdaily-ref-red .hd-ref-card-wave .wave-fill{fill:#f6c6d0}
+#dailyActivity .hdaily-ref-gold .hd-ref-card-wave{height:130px;opacity:.65}
+#dailyActivity .hdaily-ref-gold .hd-ref-card-wave .wave-fill{fill:#3a124c}
+#dailyActivity .hdaily-ref-gold .hd-ref-card-wave .wave-trace{stroke:#e1b65f;stroke-width:2;opacity:1}
+#dailyActivity .hd-ref-card-core{display:flex;align-items:center;gap:12px;min-height:108px;
+  min-width:0;position:relative;z-index:1;padding-right:29px}
 #dailyActivity .hdaily-ref-kpi-icon{
-  position:static!important;display:grid;place-items:center;flex:0 0 59px!important;
-  width:59px!important;height:63px!important;border-radius:22px!important;
-  background:linear-gradient(135deg,#e9f5df,#d7eccb)!important;color:#318145!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.7)!important;border:0!important;
+  position:static!important;display:grid;place-items:center;flex:0 0 64px!important;
+  width:64px!important;height:70px!important;border-radius:22px!important;
+  background:linear-gradient(140deg,#f0f8e7,#d8edc9)!important;color:#2b843c!important;
+  border:0!important;box-shadow:inset 0 1px 0 #ffffffa8!important;
 }
-#dailyActivity .hdaily-ref-gold .hdaily-ref-kpi-icon{background:linear-gradient(150deg,#fffbe9,#f5dfab)!important;color:#3c184d!important}
-#dailyActivity .hdaily-ref-blue .hdaily-ref-kpi-icon{background:linear-gradient(150deg,#e6efff,#bbd4fe)!important;color:#174aaf!important}
-#dailyActivity .hdaily-ref-red .hdaily-ref-kpi-icon{background:linear-gradient(150deg,#fff1f1,#f3b7c4)!important;color:#9c2131!important}
-#dailyActivity .hdaily-ref-kpi-icon svg{width:31px!important;height:31px!important;stroke-width:2.2!important}
-#dailyActivity .hdaily-ref-kpi-text{flex:1;min-width:0;min-height:0!important;width:auto!important;display:flex;flex-direction:column;justify-content:center;gap:3px}
+#dailyActivity .hdaily-ref-gold .hdaily-ref-kpi-icon{
+  background:linear-gradient(150deg,#fffbed,#f5dc97)!important;color:#381644!important;
+}
+#dailyActivity .hdaily-ref-blue .hdaily-ref-kpi-icon{background:linear-gradient(155deg,#eaf3ff,#c0d6fb)!important;color:#1946a0!important}
+#dailyActivity .hdaily-ref-red .hdaily-ref-kpi-icon{background:linear-gradient(155deg,#fff0f2,#f4c0c9)!important;color:#9b2133!important}
+#dailyActivity .hdaily-ref-kpi-icon svg{width:34px!important;height:34px!important;stroke-width:2.1!important}
+#dailyActivity .hdaily-ref-kpi-text{
+  flex:1;min-width:0;min-height:0!important;display:flex;flex-direction:column;justify-content:center;
+  position:relative;padding-left:13px;border-left:2px solid #d5a558;
+}
 #dailyActivity .hdaily-ref-kpi-label{
-  max-width:100%!important;min-height:0!important;display:flex;flex-wrap:wrap;align-items:center;gap:5px;
-  font-size:clamp(10px,.96vw,14px)!important;font-weight:780!important;color:#32173f!important;line-height:1.25;
+  font-size:clamp(10px,.96vw,13px)!important;line-height:1.35;min-height:0!important;
+  max-width:none!important;display:flex;align-items:center;gap:4px;flex-wrap:wrap;
+  font-weight:780;color:#29143d!important;
 }
-#dailyActivity .hdaily-ref-gold .hdaily-ref-kpi-label{color:#fceeff!important}
-#dailyActivity .hdaily-ref-kpi-label .hdaily-ref-help{background:#f6eef9;color:#67497d}
+#dailyActivity .hdaily-ref-gold .hdaily-ref-kpi-label{color:#fceaff!important}
+#dailyActivity .hdaily-ref-kpi-label .hdaily-ref-help{width:17px;height:17px;background:#f1eaf3;color:#71527b;flex:0 0 auto}
 #dailyActivity .hdaily-ref-value,#dailyActivity .hdaily-ref-value.hdaily-ref-value-long{
-  font-size:clamp(18px,1.85vw,30px)!important;letter-spacing:-.6px!important;font-weight:900!important;line-height:1.12!important;
-  margin:5px 0 0!important;white-space:nowrap!important;overflow-wrap:normal!important;color:#261134!important;
+  font-size:clamp(18px,1.86vw,31px)!important;line-height:1.15!important;
+  color:#271033!important;font-weight:900!important;letter-spacing:-.45px!important;
+  margin:6px 0 0!important;max-width:100%;font-variant-numeric:tabular-nums;
+  white-space:nowrap!important;overflow:visible!important;overflow-wrap:normal!important;
 }
 #dailyActivity .hdaily-ref-gold .hdaily-ref-value,#dailyActivity .hdaily-ref-gold .hdaily-ref-value.hdaily-ref-value-long{color:#fff!important}
 #dailyActivity .hd-ref-card-arrow{
-  position:absolute;right:12px;top:13px;z-index:2;width:33px;height:33px;display:grid;place-items:center;
-  padding:0;border-radius:50%;border:1px solid #e8e6ef;color:#28143a;font-size:27px;line-height:1;
-  background:rgba(255,255,255,.72);box-shadow:0 3px 10px rgba(22,12,38,.06);cursor:pointer;
+  position:absolute;top:17px;right:13px;z-index:4;display:grid;place-items:center;
+  width:37px;height:37px;border-radius:50%;border:1px solid #f2e5d2;
+  color:#321646;background:linear-gradient(155deg,#fff,#f9f8ff);
+  box-shadow:0 2px 8px #28163a12;font-size:28px;line-height:1;cursor:pointer;
 }
-#dailyActivity .hdaily-ref-gold .hd-ref-card-arrow{color:#fff;border-color:#bca3c3;background:rgba(255,255,255,.19)}
-#dailyActivity .hd-ref-card-arrow:hover{transform:translateX(2px);background:#fff}
+#dailyActivity .hdaily-ref-gold .hd-ref-card-arrow{color:#fff;border-color:#eacdf188;background:#ffffff26}
+#dailyActivity .hd-ref-card-arrow:hover{transform:translateX(2px);box-shadow:0 4px 11px #28163a26}
 #dailyActivity .hd-ref-card-status{
-  display:flex;align-items:center;justify-content:center;gap:8px;min-height:43px;padding:8px 10px;margin-top:auto;
-  z-index:1;border:0;border-radius:999px;background:linear-gradient(130deg,#eaf6e1,#dcedd1);color:#19622d;
-  font-size:clamp(10px,1vw,13px);font-weight:850;white-space:normal;text-align:center;cursor:pointer;
+  position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;max-width:100%;min-height:45px;margin-top:auto;margin-bottom:28px;
+  padding:8px 12px;background:linear-gradient(180deg,#eff8e6,#e5f3d9);
+  border:1px solid #e9f2de;border-radius:999px;color:#1a652a;
+  font-size:clamp(11px,.93vw,14px);font-weight:830;text-align:center;cursor:pointer;
+  box-shadow:inset 0 1px 0 #fff9;
 }
-#dailyActivity .hd-ref-card-status .hd-ref-status-symbol{font-size:16px;flex:0 0 22px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#fff9}
-#dailyActivity .hdaily-ref-blue .hd-ref-card-status{background:linear-gradient(130deg,#eaf3ff,#dce9ff);color:#1e50a5}
-#dailyActivity .hdaily-ref-red .hd-ref-card-status{background:linear-gradient(130deg,#fff0f1,#fbd7df);color:#a02733}
+#dailyActivity .hd-ref-card-status .hd-ref-status-symbol{
+  flex:0 0 26px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  background:#ffffffc7;color:inherit;
+}
+#dailyActivity .hd-ref-status-symbol svg{width:18px;height:18px;stroke-width:2.1}
+#dailyActivity .hdaily-ref-blue .hd-ref-card-status{background:linear-gradient(#edf4ff,#dfeafb);border-color:#e0ebfc;color:#1e4d9b}
+#dailyActivity .hdaily-ref-red .hd-ref-card-status{background:linear-gradient(#ffedf2,#fbdce3);border-color:#f9e2e8;color:#9a2436}
 #dailyActivity .hd-ref-sales-comparison{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:auto;z-index:1;
-  background:linear-gradient(160deg,#fbf6fe,#f6edf9);border:1px solid #eee0f0;border-radius:21px;padding:12px 8px;
-  box-shadow:0 5px 10px rgba(34,15,49,.18);
+  position:relative;z-index:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  width:100%;max-width:100%;margin-top:auto;gap:0;padding:13px 9px 12px;
+  border:1px solid #f6e5fa;border-radius:24px;
+  background:linear-gradient(155deg,#fcf7fe,#f3e7f9);
+  box-shadow:0 7px 13px #32143d24,inset 0 2px 0 #ffffffa8;
 }
 #dailyActivity .hd-ref-sales-kind{
-  display:flex;align-items:center;gap:7px;min-width:0;padding:3px 6px;
-  background:transparent;border:0;color:#2e143b;cursor:pointer;text-align:left;
+  display:flex;align-items:center;gap:9px;min-width:0;padding:4px 8px;
+  background:transparent;border:0;color:#2e153e;text-align:left;cursor:pointer;
 }
-#dailyActivity .hd-ref-sales-kind.credit{border-left:1px solid #dfb676;padding-left:10px}
-#dailyActivity .hd-ref-split-icon{width:37px;height:37px;flex:0 0 37px;display:grid;place-items:center;border-radius:15px;background:#eaf8ed;color:#176a42}
-#dailyActivity .hd-ref-sales-kind.credit .hd-ref-split-icon{background:#eee1fb;color:#7525a8}
-#dailyActivity .hd-ref-split-icon svg{width:23px;height:23px}
-#dailyActivity .hd-ref-split-body{min-width:0;display:flex;flex-direction:column;gap:2px}
-#dailyActivity .hd-ref-split-body b{font-size:12px;font-weight:830;line-height:1.1;white-space:nowrap}
-#dailyActivity .hd-ref-split-body strong{font-size:clamp(14px,1.35vw,20px);font-weight:890;line-height:1.15;letter-spacing:-.6px;white-space:nowrap;font-variant-numeric:tabular-nums}
-#dailyActivity .hd-ref-split-body small{font-size:11px;color:#813995;white-space:nowrap;font-weight:750}
+#dailyActivity .hd-ref-sales-kind.credit{border-left:2px solid #dcb274;padding-left:13px}
+#dailyActivity .hd-ref-split-icon{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;
+  border-radius:15px;background:#e4f6e7;color:#225b35}
+#dailyActivity .hd-ref-sales-kind.credit .hd-ref-split-icon{background:#eddef8;color:#71339a}
+#dailyActivity .hd-ref-split-icon svg{width:25px;height:25px}
+#dailyActivity .hd-ref-split-body{min-width:0;display:flex;flex-direction:column;gap:4px}
+#dailyActivity .hd-ref-split-body b{font-size:clamp(11px,.95vw,14px);line-height:1.15;font-weight:850;white-space:nowrap}
+#dailyActivity .hd-ref-split-body strong{font-size:clamp(14px,1.24vw,20px);line-height:1.18;letter-spacing:-.4px;
+  color:#2a123a;white-space:nowrap;font-weight:900;font-variant-numeric:tabular-nums}
+#dailyActivity .hd-ref-split-body small{font-size:clamp(10px,.84vw,12px);font-weight:780;color:#843da0;white-space:nowrap}
 #dailyActivity .hd-ref-sales-kind:hover .hd-ref-split-body b{text-decoration:underline}
-/* Resumen financiero: panel blanco, venta en dos mitades, importes monetarios y resultado dorado. */
-#dailyActivity .hdaily-ref-overview{padding:19px 16px!important;background:#fff!important;border:1px solid #eedbcd!important;box-shadow:0 12px 27px rgba(55,38,18,.045)!important}
-#dailyActivity .hdaily-ref-overview h2{font-size:18px!important;font-weight:850!important;color:#1b1c39!important;margin-bottom:4px!important}
-#dailyActivity .hd-ref-summary-subtitle{font-size:10.5px;line-height:1.4;color:#8490a0;margin:2px 0 16px}
-#dailyActivity .hdaily-ref-side-icon{background:linear-gradient(135deg,#fff4d9,#f9d995);color:#aa6716}
-#dailyActivity .hd-ref-summary-hero{border:1px solid #f2ddc6;border-radius:20px;padding:13px 12px;margin-bottom:13px;background:linear-gradient(155deg,#fff,#fffdfa);box-shadow:0 5px 13px #b2804b0b}
-#dailyActivity .hd-ref-summary-sales-header{display:grid;grid-template-columns:37px minmax(0,1fr);gap:8px;align-items:center;color:#1b1c39;font-size:13px;font-weight:850;margin-bottom:11px}
-#dailyActivity .hd-ref-summary-sales-header strong{grid-column:2;justify-self:start;color:#91590f;font-weight:900;font-size:clamp(18px,1.7vw,25px);font-variant-numeric:tabular-nums;white-space:nowrap}
-#dailyActivity .hd-ref-summary-symbol{display:grid;place-items:center;width:37px;height:37px;border-radius:13px;background:#fff1d8;color:#ad7016;flex:0 0 37px}
-#dailyActivity .hd-ref-summary-symbol svg{height:23px;width:23px}
+/* Resumen derecho: comparación en dos tarjetas y valores monetarios. */
+#dailyActivity .hdaily-ref-overview{
+  padding:18px 16px!important;background:#fff!important;
+  border:1px solid #f1dfcf!important;box-shadow:0 12px 29px #7d5b3222!important;
+}
+#dailyActivity .hdaily-ref-overview h2{font-size:18px!important;color:#18162e!important;font-weight:860!important;margin-bottom:4px!important}
+#dailyActivity .hdaily-ref-side-icon{background:linear-gradient(145deg,#fff5dc,#f3cc7f);color:#a46b13}
+#dailyActivity .hd-ref-summary-subtitle{font-size:11px;line-height:1.4;color:#8290a5;margin:3px 0 15px}
+#dailyActivity .hd-ref-summary-hero{border:1px solid #efdec8;border-radius:19px;padding:13px 10px;
+  margin-bottom:14px;background:linear-gradient(155deg,#fff,#fffcf8);box-shadow:0 5px 14px #b1814820;min-width:0}
+#dailyActivity .hd-ref-summary-sales-header{display:grid;grid-template-columns:36px minmax(0,1fr);gap:8px;
+  align-items:center;color:#1c1a33;font-weight:850;font-size:12px;margin-bottom:11px}
+#dailyActivity .hd-ref-summary-sales-header strong{grid-column:2;justify-self:start;
+  color:#92580b;font-size:clamp(17px,1.8vw,25px);font-weight:900;white-space:nowrap;font-variant-numeric:tabular-nums}
+#dailyActivity .hd-ref-summary-symbol{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;
+  border-radius:13px;background:#fff0d8;color:#ab7017}
+#dailyActivity .hd-ref-summary-symbol svg{width:23px;height:23px}
 #dailyActivity .hd-ref-summary-sales-split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-#dailyActivity .hd-ref-summary-sale{display:flex;align-items:center;gap:7px;min-width:0;border-radius:15px;padding:10px 6px;background:#f4faf5;border-left:4px solid #319456}
-#dailyActivity .hd-ref-summary-sale.credit{background:#f8f3ff;border-left-color:#8d40d7}
-#dailyActivity .hd-ref-summary-sale .hd-ref-summary-symbol{width:27px;height:27px;flex-basis:27px;border-radius:10px;background:#e2f4e9;color:#178047}
-#dailyActivity .hd-ref-summary-sale.credit .hd-ref-summary-symbol{background:#eee2fc;color:#7332b0}
-#dailyActivity .hd-ref-summary-sale .hd-ref-summary-symbol svg{width:17px;height:17px}
-#dailyActivity .hd-ref-summary-sale div{min-width:0;display:flex;flex-direction:column;gap:4px}
-#dailyActivity .hd-ref-summary-sale b{font-size:11px;color:#184a2b}
-#dailyActivity .hd-ref-summary-sale.credit b{color:#52258c}
-#dailyActivity .hd-ref-summary-sale strong{font-size:clamp(12px,1.12vw,17px);line-height:1.15;font-weight:900;white-space:nowrap;color:#172037;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
-#dailyActivity .hd-ref-summary-money-row{display:grid;grid-template-columns:35px minmax(0,1fr);gap:8px;align-items:center;margin-bottom:10px;padding:11px 9px;border-radius:16px;border:1px solid #ebecf0;background:#fff;min-width:0}
-#dailyActivity .hd-ref-summary-money-row>span:nth-child(2){font-size:12px;color:#2c2d4c;line-height:1.3}
-#dailyActivity .hd-ref-summary-money-row strong{grid-column:2;min-width:0;justify-self:end;text-align:right;font-weight:900;font-size:clamp(16px,1.55vw,22px);line-height:1.15;white-space:nowrap;color:#14213b;font-variant-numeric:tabular-nums}
-#dailyActivity .hd-ref-summary-money-row.green .hd-ref-summary-symbol{background:#e7f7eb;color:#19874b}
-#dailyActivity .hd-ref-summary-money-row.blue .hd-ref-summary-symbol{background:#e4efff;color:#2b69ba}
-#dailyActivity .hd-ref-summary-money-row.red .hd-ref-summary-symbol{background:#ffeded;color:#b83239}
-#dailyActivity .hd-ref-summary-money-row.green strong{color:#14692e}
-#dailyActivity .hd-ref-summary-money-row.red strong{color:#a32930}
-#dailyActivity .hd-ref-summary-result{
-  position:relative;isolation:isolate;display:flex;flex-wrap:wrap;align-items:center;gap:8px;overflow:hidden;
-  border:1px solid #e2a84c;border-radius:18px;padding:12px 11px;
-  background:linear-gradient(130deg,#d69b35,#f4c873 50%,#e5a83d);color:#fff;
-  box-shadow:0 7px 14px #bb832122;min-width:0;
-}
-#dailyActivity .hd-ref-summary-result:after{content:"";position:absolute;z-index:-1;inset:auto -20% -62px 15%;height:105px;border:2px solid #fff6;border-radius:50%;transform:rotate(-11deg)}
-#dailyActivity .hd-ref-summary-result-icon{width:36px;height:36px;flex:0 0 36px;border:1px solid #fff9;border-radius:50%;display:grid;place-items:center;color:#fff}
-#dailyActivity .hd-ref-summary-result-icon svg{width:23px;height:23px}
-#dailyActivity .hd-ref-summary-result-copy{flex:1 1 90px;min-width:0;display:flex;flex-direction:column;gap:3px}
-#dailyActivity .hd-ref-summary-result-copy b{font-size:12px;color:#fff;line-height:1.25}
-#dailyActivity .hd-ref-summary-result-copy small{font-size:10px;color:#fff9}
-#dailyActivity .hd-ref-summary-result>strong{display:block;flex:1 1 100%;border-radius:11px;text-align:center;padding:8px 6px;background:#fffcf5;color:#93600d;font-size:clamp(19px,1.9vw,28px);font-weight:930;font-variant-numeric:tabular-nums;letter-spacing:-.3px;white-space:nowrap}
-/* Modalidades: 2x2 a anchuras de tablet; lectura segura de cifras millonarias */
-@media(min-width:1500px){
-  #dailyActivity .hd-ref-card-core{gap:15px}
-  #dailyActivity .hd-ref-split-body strong{font-size:clamp(16px,1.15vw,21px)}
-}
-@media(max-width:1499px){
+#dailyActivity .hd-ref-summary-sale{display:flex;align-items:center;min-width:0;gap:7px;padding:11px 8px;border-radius:15px;
+  background:linear-gradient(145deg,#f6fcf7,#eaf7ee);border:1px solid #dcf0e1;border-left:5px solid #3b9b59}
+#dailyActivity .hd-ref-summary-sale.credit{background:linear-gradient(145deg,#fcf9ff,#f0e9fa);border:1px solid #e9def8;border-left:5px solid #8c48c4}
+#dailyActivity .hd-ref-summary-sale .hd-ref-summary-symbol{width:30px;height:30px;flex-basis:30px;border-radius:11px;background:#e3f4e6;color:#177a3a}
+#dailyActivity .hd-ref-summary-sale.credit .hd-ref-summary-symbol{background:#eadcf9;color:#7138a2}
+#dailyActivity .hd-ref-summary-sale .hd-ref-summary-symbol svg{width:18px;height:18px}
+#dailyActivity .hd-ref-summary-sale div{min-width:0;display:flex;flex-direction:column;gap:5px}
+#dailyActivity .hd-ref-summary-sale b{font-size:11px;color:#164c2d}
+#dailyActivity .hd-ref-summary-sale.credit b{color:#5d2b8f}
+#dailyActivity .hd-ref-summary-sale strong{font-weight:900;letter-spacing:-.4px;font-size:clamp(12px,1.2vw,17px);
+  color:#1c1833;white-space:nowrap;line-height:1.2;font-variant-numeric:tabular-nums}
+#dailyActivity .hd-ref-summary-money-row{display:grid;grid-template-columns:36px minmax(0,1fr);gap:8px;
+  align-items:center;margin-bottom:10px;padding:11px 9px;min-width:0;background:#fff;
+  border:1px solid #eaedf2;border-radius:16px}
+#dailyActivity .hd-ref-summary-money-row>span:nth-child(2){font-size:12px;line-height:1.3;color:#2e2b45}
+#dailyActivity .hd-ref-summary-money-row strong{grid-column:2;min-width:0;justify-self:end;
+  font-weight:900;font-size:clamp(16px,1.65vw,22px);white-space:nowrap;
+  color:#20193a;font-variant-numeric:tabular-nums}
+#dailyActivity .hd-ref-summary-money-row.green .hd-ref-summary-symbol{background:#e5f6e9;color:#17844d}
+#dailyActivity .hd-ref-summary-money-row.blue .hd-ref-summary-symbol{background:#e8f1ff;color:#2365b7}
+#dailyActivity .hd-ref-summary-money-row.red .hd-ref-summary-symbol{background:#fdebed;color:#ae3141}
+#dailyActivity .hd-ref-summary-money-row.green strong{color:#126c35}
+#dailyActivity .hd-ref-summary-money-row.red strong{color:#af2535}
+#dailyActivity .hd-ref-summary-result{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+  padding:13px 11px;overflow:hidden;border-radius:19px;color:white;border:1px solid #cb8e27;
+  background:linear-gradient(120deg,#c78521,#edb954 58%,#e4a63a);box-shadow:0 8px 17px #b4812930}
+#dailyActivity .hd-ref-summary-result::after{content:"";position:absolute;pointer-events:none;bottom:-56px;left:15%;right:-20%;height:100px;
+  border:2px solid #ffe9b78e;border-radius:50%;transform:rotate(-9deg)}
+#dailyActivity .hd-ref-summary-result-icon{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;
+  border-radius:50%;border:1px solid #ffffffb8;color:white}
+#dailyActivity .hd-ref-summary-result-icon svg{width:25px;height:25px}
+#dailyActivity .hd-ref-summary-result-copy{flex:1 1 100px;min-width:0;display:flex;flex-direction:column;gap:4px}
+#dailyActivity .hd-ref-summary-result-copy b{color:#fff;font-size:13px;font-weight:850}
+#dailyActivity .hd-ref-summary-result-copy small{color:#fff9;font-size:10px}
+#dailyActivity .hd-ref-summary-result>strong{position:relative;z-index:1;display:block;flex:1 1 100%;
+  padding:9px 6px;border-radius:12px;background:#fffcf5;text-align:center;
+  color:#95600d;font-size:clamp(20px,1.85vw,27px);font-weight:920;
+  font-variant-numeric:tabular-nums;white-space:nowrap;max-width:100%}
+/* Pantallas amplias: 4 tarjetas como la referencia; tablets: 2x2 para mantener todos los importes completos. */
+@media(max-width:1550px){
   #dailyActivity .hdaily-ref-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  #dailyActivity .hdaily-ref-kpi{min-height:230px!important}
-  #dailyActivity .hdaily-ref-value{font-size:clamp(22px,2.8vw,31px)!important}
-  #dailyActivity .hd-ref-split-body strong{font-size:clamp(15px,2vw,21px)}
+  #dailyActivity .hdaily-ref-kpi{min-height:244px!important}
+  #dailyActivity .hdaily-ref-value,#dailyActivity .hdaily-ref-value.hdaily-ref-value-long{font-size:clamp(22px,2.9vw,32px)!important}
+  #dailyActivity .hd-ref-split-body strong{font-size:clamp(16px,1.85vw,21px)}
 }
-@media(min-width:1150px){
-  #dailyActivity .hd-ref-summary-money-row{grid-template-columns:35px minmax(0,1fr);}
-}
-@media(min-width:1650px){
-  #dailyActivity .hd-ref-summary-money-row{grid-template-columns:40px minmax(0,1fr) auto;}
-  #dailyActivity .hd-ref-summary-money-row strong{grid-column:3}
-  #dailyActivity .hd-ref-summary-sales-header{grid-template-columns:40px minmax(0,1fr) auto}
-  #dailyActivity .hd-ref-summary-sales-header strong{grid-column:3}
-  #dailyActivity .hd-ref-summary-result>strong{flex:0 0 auto;font-size:20px}
-}
-@media(max-width:1009px){
-  #dailyActivity .hdaily-ref-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  #dailyActivity .hdaily-ref-kpi{min-height:218px!important}
-  #dailyActivity .hdaily-ref-side{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:start}
-  #dailyActivity .hd-ref-summary-money-row strong{font-size:clamp(15px,2vw,20px)}
-  #dailyActivity .hd-ref-summary-sale strong{font-size:clamp(11px,1.5vw,17px)}
+@media(max-width:1080px){
+  #dailyActivity .hdaily-ref-layout{grid-template-columns:1fr}
+  #dailyActivity .hdaily-ref-side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  #dailyActivity .hdaily-ref-kpi{min-height:224px!important}
+  body.hilen-daily-open .top-title-line{flex-wrap:wrap}
+  body.hilen-daily-open #hilenDailyTopPicker{order:2;margin-left:0}
 }
 @media(max-width:700px){
-  #dailyActivity .hdaily-ref-kpis{grid-template-columns:1fr!important;gap:11px!important}
-  #dailyActivity .hdaily-ref-kpi{min-height:190px!important;padding:15px 13px!important}
+  #dailyActivity .hdaily-ref-kpis{grid-template-columns:1fr!important;gap:12px!important}
+  #dailyActivity .hdaily-ref-kpi{min-height:212px!important;padding:14px 13px!important}
   #dailyActivity .hdaily-ref-side{grid-template-columns:1fr!important}
-  #dailyActivity .hd-ref-summary-money-row{grid-template-columns:35px minmax(0,1fr) auto}
+  #dailyActivity .hdaily-ref-kpi-icon{width:53px!important;height:58px!important;flex-basis:53px!important}
+  #dailyActivity .hdaily-ref-kpi-icon svg{width:29px!important;height:29px!important}
+  #dailyActivity .hd-ref-card-core{min-height:90px;padding-right:30px;gap:9px}
+  #dailyActivity .hdaily-ref-value,#dailyActivity .hdaily-ref-value.hdaily-ref-value-long{font-size:clamp(20px,5vw,30px)!important}
+  #dailyActivity .hdaily-ref-kpi-label{font-size:12px!important}
+  #dailyActivity .hd-ref-split-body strong{font-size:clamp(15px,4.1vw,20px)}
+  #dailyActivity .hd-ref-card-status{margin-bottom:26px}
+  #dailyActivity .hd-ref-summary-money-row{grid-template-columns:36px minmax(0,1fr) auto}
   #dailyActivity .hd-ref-summary-money-row strong{grid-column:3;font-size:clamp(14px,4vw,20px)}
-  #dailyActivity .hd-ref-summary-sales-header{grid-template-columns:37px minmax(0,1fr) auto}
+  #dailyActivity .hd-ref-summary-sales-header{grid-template-columns:36px minmax(0,1fr) auto}
   #dailyActivity .hd-ref-summary-sales-header strong{grid-column:3;font-size:clamp(16px,4.2vw,22px)}
-  #dailyActivity .hd-ref-summary-sale strong{font-size:clamp(12px,4vw,17px)}
-  body.hilen-daily-open .page-heading-copy{grid-template-columns:42px minmax(0,1fr);column-gap:10px}
-  body.hilen-daily-open .hdaily-page-mark{width:42px;height:42px;border-radius:13px}
-  body.hilen-daily-open .page-heading-copy:before{left:49px}
-  body.hilen-daily-open .hdaily-page-mark svg{width:24px;height:24px}
+  #dailyActivity .hd-ref-summary-sale strong{font-size:clamp(13px,3.6vw,18px)}
+  body.hilen-daily-open .page-heading-copy{grid-template-columns:47px minmax(0,1fr);gap:0 12px}
+  body.hilen-daily-open .hdaily-page-mark{width:47px;height:47px;border-radius:14px}
+  body.hilen-daily-open .page-heading-copy::before{left:55px;top:6px;bottom:8px}
+  body.hilen-daily-open .hdaily-page-mark svg{width:27px;height:27px}
+  body.hilen-daily-open #pageTitle{font-size:clamp(23px,6vw,32px)}
 }
-@media(max-width:410px){
-  #dailyActivity .hd-ref-sales-comparison{padding:9px 4px}
-  #dailyActivity .hd-ref-sales-kind{padding:2px 4px;gap:4px}
-  #dailyActivity .hd-ref-sales-kind.credit{padding-left:7px}
-  #dailyActivity .hd-ref-split-icon{width:30px;height:30px;flex-basis:30px;border-radius:11px}
-  #dailyActivity .hd-ref-split-icon svg{width:18px;height:18px}
-  #dailyActivity .hd-ref-split-body strong{font-size:clamp(13px,3.65vw,16px)}
+@media(max-width:420px){
+  #dailyActivity .hd-ref-sales-comparison{padding:10px 4px}
+  #dailyActivity .hd-ref-sales-kind{padding:3px 5px;gap:5px}
+  #dailyActivity .hd-ref-sales-kind.credit{padding-left:8px}
+  #dailyActivity .hd-ref-split-icon{width:31px;height:31px;flex-basis:31px;border-radius:11px}
+  #dailyActivity .hd-ref-split-icon svg{width:20px;height:20px}
+  #dailyActivity .hd-ref-split-body strong{font-size:clamp(13px,3.6vw,16px)}
   #dailyActivity .hd-ref-summary-sale .hd-ref-summary-symbol{display:none}
-  #dailyActivity .hd-ref-summary-sale strong{font-size:clamp(11px,3.1vw,14px)}
-  #dailyActivity .hd-ref-summary-sales-header{grid-template-columns:33px minmax(0,1fr)}
+  #dailyActivity .hd-ref-summary-sale strong{font-size:clamp(11px,3.15vw,14px)}
+  #dailyActivity .hd-ref-summary-sales-header{grid-template-columns:34px minmax(0,1fr)}
   #dailyActivity .hd-ref-summary-sales-header strong{grid-column:2}
+  #dailyActivity .hd-ref-summary-money-row{grid-template-columns:32px minmax(0,1fr)}
+  #dailyActivity .hd-ref-summary-money-row strong{grid-column:2;justify-self:start}
 }
-
-
-/* Corrección de ancho: las franjas de ventas y abonos ocupan toda la tarjeta. */
-#dailyActivity .hdaily-ref-kpi{align-items:stretch!important}
-#dailyActivity .hd-ref-sales-comparison,#dailyActivity .hd-ref-card-status{width:100%;max-width:100%;box-sizing:border-box}
-#dailyActivity .hdaily-ref-kpi:after{left:0!important;right:0!important;width:100%!important;transform:none!important;border-radius:50% 50% 0 0 / 33% 48% 0 0!important}
-#dailyActivity .hd-ref-summary-result>strong{overflow-wrap:anywhere;max-width:100%}
 </style>
 </head>
 <body>
@@ -4830,105 +4885,170 @@ function applyBusinessState(state){
 function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
 let cloudDirty=false;
 let cloudRetryTimer=null;
+// Una transacción puede seguir pendiente aunque haya vencido el tiempo de espera de la interfaz.
+// Mantener su promesa evita lanzar otra escritura que compita contra la anterior.
+let hilenCloudTransactionPending=null;
+let hilenCloudSavePhase='sin iniciar';
+let hilenCloudFailureCount=0;
+function hilenCloudScheduleRetry(delay){
+  clearTimeout(cloudRetryTimer);cloudRetryTimer=null;
+  if(localMode||cloudConflict||!cloudDb||!currentUser?.id||!cloudDirty||hilenCloudTransactionPending)return;
+  if(typeof navigator!=='undefined'&&navigator.onLine===false){
+    setCloudStatus('error','Sin sincronizar','Sin Internet. Tus registros siguen guardados localmente; HILEN volverá a intentar al recuperar la conexión.');
+    return;
+  }
+  const wait=delay??Math.min(60000,5000*Math.pow(2,Math.min(4,hilenCloudFailureCount)));
+  cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;if(!cloudSaveInFlight)void cloudSaveNow()},wait);
+}
+function hilenCloudPendingReason(){
+  return (cloudLastError||'Firebase todavía no confirmó el guardado.')+' Etapa: '+hilenCloudSavePhase+'.';
+}
+async function hilenCloudConnected(){
+  // .info/connected describe la conexión REAL con el servidor de RTDB.
+  try{const s=await hilenCloudWithTimeout(cloudDb.ref('.info/connected').once('value'),4500);return s.val()===true}
+  catch(_){return false}
+}
 async function cloudSaveNow(options={}){
   const notify=!!options.notify;
-  if(localMode){setCloudStatus('error','Sin sincronizar','Modo local: no hay una sesión de Firebase activa.');return false}
-  if(!cloudDb||!currentUser?.id){setCloudStatus('error','Sin sincronizar','Debes iniciar sesión con Firebase.');return false}
-  if(cloudLoading||cloudBaseRevision===null||cloudLoadedUid!==currentUser.id){cloudDirty=true;return false}
-  if(cloudSaveInFlight){cloudDirty=true;return false}
+  if(localMode){cloudLastError='La aplicación está en modo local, sin sesión de Firebase.';setCloudStatus('error','Sin sincronizar',cloudLastError);return false}
+  if(!cloudDb||!currentUser?.id){cloudLastError='Inicia sesión con tu correo para guardar en Firebase.';setCloudStatus('error','Sin sincronizar',cloudLastError);return false}
+  if(cloudLoading||cloudBaseRevision===null||cloudLoadedUid!==currentUser.id){
+    cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+    cloudLastError='Firebase aún está cargando los datos iniciales de esta cuenta.';
+    setCloudStatus('work','Esperando a Firebase…',cloudLastError);
+    return false;
+  }
+  if(cloudSaveInFlight||hilenCloudTransactionPending){
+    cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+    if(notify)showToast('Guardado aún en proceso','Firebase todavía no ha contestado la escritura anterior. HILEN no iniciará otra operación encima.','warning',6500);
+    return false;
+  }
   clearTimeout(cloudSaveTimer);clearTimeout(cloudRetryTimer);cloudRetryTimer=null;
   cloudSaveInFlight=true;
   let succeeded=false;
   try{
-    // El conflicto es real solo si dos equipos cambiaron el MISMO registro.
     if(cloudConflict){
-      const resolved=await hilenReconcileCloud('guardado manual tras conflicto');
-      if(!resolved){if(notify)showToast('Revisión necesaria','Descarga los cambios locales antes de seleccionar una versión.','error');return false}
+      if(!await hilenReconcileCloud('revisión antes de guardar')){
+        cloudLastError='Hay registros modificados de dos formas distintas. Descarga la copia local antes de resolver el conflicto.';
+        if(notify)showToast('Guardado detenido por seguridad',cloudLastError,'error',8000);
+        return false;
+      }
     }
-    let retries=0;
-    while(retries<5){
-      retries++;
-      cloudDirty=false;
+    for(let attempt=0;attempt<3;attempt++){
+      cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+      if(!await hilenCloudConnected()){
+        const error=new Error('Realtime Database no ha confirmado una conexión activa. Comprueba Internet, permisos de red o bloqueadores del navegador.');
+        error.code='firebase/disconnected';throw error;
+      }
       const uid=currentUser.id,expectedRevision=cloudBaseRevision,expectedSignature=cloudBaseSignature;
       const snapshot=structuredClone(businessState()),generation=cloudEditGeneration;
       const target=cloudDb.ref(userCloudPath(uid,'state'));
-      setCloudStatus('work','Guardando en Firebase…','Comparando con el último estado confirmado para no borrar datos de otro dispositivo.');
-      // Precargar el estado del servidor antes de iniciar la transacción.
-      // Firebase puede llamar inicialmente al callback con null aunque el registro
-      // exista en el servidor y aún no esté en caché. La versión anterior abortaba
-      // en esa primera llamada, dejando la aplicación «Sin sincronizar».
-      const preflight=(await hilenCloudWithTimeout(target.once('value'))).val();
-      // NO declarar éxito por una lectura idéntica: .once('value') puede
-      // devolver la caché local incluso si Firebase todavía no recibió nada.
-      // La transacción siguiente solo se resuelve como committed cuando el
-      // servidor confirma el estado. Esto protege también el cierre manual.
+      hilenCloudSavePhase='leer estado previo';
+      setCloudStatus('work','Guardando en Firebase…','Revisando la última versión confirmada para no reemplazar registros de otro dispositivo.');
+      const preflight=(await hilenCloudWithTimeout(target.once('value'),16000)).val();
       if(!hilenCloudBaseMatches(preflight)){
-        if(!await hilenReconcileCloud('revisión detectada antes de guardar'))return false;
+        hilenCloudSavePhase='combinar cambios';
+        if(!await hilenReconcileCloud('nueva versión detectada al guardar')){
+          cloudLastError=cloudConflict?'Otro equipo modificó el mismo registro. Descarga tus cambios antes de continuar.':'No se pudo comprobar la versión remota. Revisa el diagnóstico de conexión.';
+          return false;
+        }
         continue;
       }
       const newCloudValue={data:snapshot,updated_at:new Date().toISOString(),revision:expectedRevision+1};
       let observedServerRecord=false;
-      const result=await hilenCloudWithTimeout(target.transaction(current=>{
+      hilenCloudSavePhase='esperar confirmación de escritura';
+      const transaction=target.transaction(current=>{
         if(current===null&&expectedRevision!==0&&!observedServerRecord){
-          // Estado provisional: RTDB lo volverá a evaluar con el dato del servidor
-          // si el nodo remoto no era realmente null. No confirmar hasta recibir commit.
+          // Firebase puede iniciar con null en caché; el servidor reevalúa.
           return newCloudValue;
         }
         observedServerRecord=true;
-        const revision=Number(current?.revision)||0;
-        if(revision!==expectedRevision||hilenCloudSignature(current?.data??null)!==expectedSignature)return;
+        if((Number(current?.revision)||0)!==expectedRevision||hilenCloudSignature(current?.data??null)!==expectedSignature)return;
         return newCloudValue;
-      },undefined,false));
+      },undefined,false);
+      // Guardar la promesa SUBYACENTE, no la promesa con tiempo límite.
+      // Se define abajo mediante el controlador de una transacción única.
+      let result=await hilenCloudSingleFlight(transaction,uid,30000);
       if(!result?.committed){
-        if(!await hilenReconcileCloud('escritura de otra pestaña'))return false;
+        hilenCloudSavePhase='revisar cambio simultáneo';
+        if(!await hilenReconcileCloud('Firebase cambió durante la escritura')){
+          cloudLastError=cloudConflict?'Los dos equipos modificaron el mismo registro. No se reemplazó Firebase.':'No se pudo reconciliar la versión de Firebase.';
+          return false;
+        }
         continue;
       }
-      const written=result.snapshot.val();
-      if(!written||Number(written.revision)!==expectedRevision+1)throw new Error('Firebase no confirmó la escritura esperada.');
-      const checked=(await hilenCloudWithTimeout(target.once('value'))).val();
-      if(!checked||Number(checked.revision)!==Number(written.revision)||hilenCloudSignature(checked.data??null)!==hilenCloudSignature(written.data??null)){
-        if(!await hilenReconcileCloud('cambio concurrente durante la lectura'))return false;
-        continue;
+      const committed=result.snapshot.val();
+      if(!committed||Number(committed.revision)!==expectedRevision+1||hilenCloudSignature(committed.data??null)!==hilenCloudSignature(snapshot)){
+        throw Object.assign(new Error('Firebase confirmó una versión diferente de la que se intentó guardar.'),{code:'firebase/verification-mismatch'});
       }
-      hilenRememberCloudBase(Number(checked.revision),checked.data??null,uid);
-      cloudLastError='';cloudLastVerifiedAt=new Date().toISOString();
+      // El resultado committed=true de la transacción es el ACK del servidor.
+      // Una lectura posterior que vea cambios de OTRO equipo NO anula esta confirmación.
+      hilenRememberCloudBase(Number(committed.revision),committed.data??null,uid);
+      cloudLastVerifiedAt=new Date().toISOString();cloudLastError='';hilenCloudFailureCount=0;
       localStorage.setItem(CLOUD_OWNER_KEY,uid);
-      localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(checked.updated_at||new Date().toISOString()));
-      if(generation===cloudEditGeneration&&hilenCloudSignature(businessState())===hilenCloudSignature(checked.data)){
-        localStorage.setItem(CLOUD_DIRTY_KEY,'0');
-        cloudDirty=false;
-      }else{
-        cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
-      }
-      // Copia diaria es independiente de la confirmación del guardado principal.
+      localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(committed.updated_at||cloudLastVerifiedAt));
+      try{localStorage.setItem(CLOUD_VERIFIED_KEY+uid,cloudLastVerifiedAt)}catch(_){}
       void maybeDailyCloudBackup(snapshot).catch(e=>console.warn('Copia diaria pendiente',e));
-      if(cloudDirty){setCloudStatus('work','Guardando cambios nuevos…','Hay datos nuevos añadidos durante la escritura anterior.');continue}
-      const c=stateCounts(snapshot);
-      setCloudStatus('ok','Guardado en Firebase · verificado',`${c.sales} venta(s) · ${c.clients} cliente(s) · ${c.cash} movimientos manuales. Revisión ${cloudBaseRevision}`);
-      try{localStorage.setItem(CLOUD_VERIFIED_KEY+uid,cloudLastVerifiedAt)}catch(e){console.warn('No se pudo conservar la hora de confirmación',e)}
+      if(generation!==cloudEditGeneration||hilenCloudSignature(businessState())!==hilenCloudSignature(committed.data)){
+        setCloudStatus('work','Hay cambios más recientes…','Firebase confirmó una versión; HILEN debe enviar las modificaciones hechas durante esa operación.');
+        continue;
+      }
+      cloudDirty=false;localStorage.setItem(CLOUD_DIRTY_KEY,'0');
+      const counts=stateCounts(snapshot);
+      setCloudStatus('ok','Guardado en Firebase · verificado',`${counts.sales} venta(s) · ${counts.clients} cliente(s) · ${counts.cash} movimientos de caja. Revisión ${cloudBaseRevision}. Confirmado ${new Date(cloudLastVerifiedAt).toLocaleString('es-CO')}.`);
       succeeded=true;break;
     }
     if(!succeeded&&!cloudConflict){
       cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
-      cloudLastError='Firebase no confirmó la escritura tras varios intentos. Puede deberse a escrituras simultáneas o a que el servidor rechazó la operación. Abre «Diagnosticar conexión» y comprueba el estado antes de cerrar.';
+      cloudLastError='No se completó la sincronización después de tres intentos de conciliación. Comprueba si otro equipo está escribiendo los mismos registros.';
       setCloudStatus('error','Sin sincronizar',cloudLastError);
-      if(!cloudRetryTimer)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},12000);
+      hilenCloudFailureCount++;hilenCloudScheduleRetry();
     }
-    if(notify)showToast(succeeded?'Firebase confirmado':'Firebase pendiente',succeeded?'HILEN guardó los datos y los volvió a leer correctamente en la nube.':'Los datos permanecen en este dispositivo. Se reintentará la sincronización.',succeeded?'success':'error',6500);
+    if(notify)showToast(succeeded?'Firebase verificado':'Firebase pendiente',succeeded?'La escritura fue confirmada por el servidor. Última verificación: '+new Date(cloudLastVerifiedAt).toLocaleString('es-CO'):hilenCloudPendingReason(),succeeded?'success':'error',8000);
     return succeeded;
   }catch(err){
-    console.error('HILEN Firebase save:',err);
+    console.error('HILEN Firebase · etapa '+hilenCloudSavePhase,err);
     cloudLastError=firebaseDbErrorText(err);cloudDirty=true;
     localStorage.setItem(CLOUD_DIRTY_KEY,'1');
-    setCloudStatus('error','Sin sincronizar',cloudLastError);
-    if(notify)showToast('Firebase no confirmó el guardado',cloudLastError,'error',8000);
-    if(!cloudConflict)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},12000);
+    hilenCloudFailureCount++;
+    setCloudStatus('error','Sin sincronizar',hilenCloudPendingReason());
+    if(notify)showToast('Firebase no confirmó el guardado',hilenCloudPendingReason(),'error',9000);
+    hilenCloudScheduleRetry();
     return false;
   }finally{
     cloudSaveInFlight=false;
-    if(cloudDirty&&!cloudRetryTimer&&!cloudConflict)cloudRetryTimer=setTimeout(()=>{cloudRetryTimer=null;cloudSaveNow()},1200);
+    if(cloudDirty&&!cloudConflict&&!cloudRetryTimer)hilenCloudScheduleRetry();
   }
 }
+// Ejecuta una sola transacción hasta que Firebase responda de verdad.
+// Si la interfaz agota el tiempo, NO arranca una segunda transacción encima.
+async function hilenCloudSingleFlight(transaction,uid,deadline=30000){
+  let timedOut=false;
+  hilenCloudTransactionPending=transaction;
+  // En caso de respuesta tardía, esperar a que termine y solicitar una nueva
+  // lectura de estado antes de reintentar; NUNCA encadenar escrituras solapadas.
+  void transaction.then(
+    result=>{
+      if(hilenCloudTransactionPending===transaction)hilenCloudTransactionPending=null;
+      if(timedOut&&currentUser?.id===uid){
+        cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+        hilenCloudSavePhase=result?.committed?'escritura tardía confirmada; verificar estado':'escritura tardía rechazada';
+        if(!cloudSaveInFlight)hilenCloudScheduleRetry(1200);
+      }
+    },
+    error=>{
+      if(hilenCloudTransactionPending===transaction)hilenCloudTransactionPending=null;
+      if(timedOut&&currentUser?.id===uid){
+        cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+        cloudLastError=firebaseDbErrorText(error);
+        if(!cloudSaveInFlight)hilenCloudScheduleRetry(2000);
+      }
+    }
+  );
+  try{return await hilenCloudWithTimeout(transaction,deadline)}
+  catch(error){if(error?.code==='firebase/timeout')timedOut=true;throw error}
+}
+
 async function hilenDiagnoseFirebase(){
   const box=$('hilenFirebaseDiagnosis'),button=$('hilenFirebaseDiagnoseBtn');
   const present=(text,kind='')=>{if(box){box.textContent=text;box.className='hilen-firebase-diagnosis'+(kind?' '+kind:'')}};
@@ -4948,7 +5068,7 @@ async function hilenDiagnoseFirebase(){
     const same=hilenCloudSignature(remote?.data??null)===hilenCloudSignature(businessState());
     const pending=cloudDirty||cloudConflict||localStorage.getItem(CLOUD_DIRTY_KEY)==='1';
     const counts=stateCounts(remote?.data);
-    present(`Lectura de Realtime Database: correcta. Indicador de conexión: ${connected?'conectado':'iniciando o intermitente'}. En Firebase hay ${counts.sales} ventas, ${counts.payments} abonos y ${counts.cash} movimientos manuales (revisión ${Number(remote?.revision)||0}). ${same?'Los registros visibles coinciden con la lectura (para comprobar la escritura, pulsa «Guardar y verificar»).':cloudConflict?'Hay un conflicto entre registros que requiere revisión: descarga primero tus cambios locales.':'Hay diferencias o cambios pendientes. Pulsa «Guardar y verificar en Firebase» para sincronizar.'} ${cloudLastError?'Último error: '+cloudLastError:''}`,same?'good':'');
+    present(`Lectura de Realtime Database: correcta. Indicador de conexión: ${connected?'conectado':'DESCONECTADO o iniciando'}. En Firebase hay ${counts.sales} ventas, ${counts.payments} abonos y ${counts.cash} movimientos manuales (revisión ${Number(remote?.revision)||0}). ${same?'Los registros visibles coinciden con la lectura, pero debes pulsar «Guardar y verificar» para confirmar escritura.':cloudConflict?'CONFLICTO: descarga primero tus cambios locales.':'Existen cambios pendientes o diferentes. Usa «Guardar y verificar». '} ${cloudLastError?'Último error de escritura: '+cloudLastError:''} Etapa: ${hilenCloudSavePhase}. ${hilenCloudTransactionPending?'ATENCIÓN: todavía hay una escritura anterior en espera de respuesta del servidor.':''}`,same?'good':'');
     return true;
   }catch(e){console.error('Diagnóstico Firebase:',e);present('Firebase respondió con un error: '+firebaseDbErrorText(e)+' Si dice permiso denegado, revisa las Reglas de Realtime Database.','bad');return false}
   finally{if(button)button.disabled=false}
@@ -6260,7 +6380,10 @@ function hilenRenderDailyActivity(){
     coins:'<ellipse cx="9" cy="7" rx="6.5" ry="3"/><path d="M2.5 7v4c0 1.7 3 3 6.5 3s6.5-1.3 6.5-3V7M2.5 11v4c0 1.7 3 3 6.5 3s6.5-1.3 6.5-3v-4M15.5 12c3.3 0 6-1.2 6-2.7V6c0-1.5-2.7-2.8-6-2.8-1.6 0-3 .3-4.1.9M15.5 17c3.3 0 6-1.2 6-2.7V10"/>',
     wallet:'<rect x="3" y="6" width="18" height="15" rx="2.5"/><path d="M3 10h18 M15 14h6v4h-6z"/>',
     receipt:'<path d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Z"/><path d="M9 7h6M9 12h6M9 16h4"/>',
-    card:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18 M7 15h5"/>'
+    card:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18 M7 15h5"/>',
+    check:'<circle cx="12" cy="12" r="9"/><path d="m7.5 12 3 3 6-6"/>',
+    down:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10m-4-4 4 4 4-4"/>',
+    up:'<circle cx="12" cy="12" r="9"/><path d="M12 17V7m-4 4 4-4 4 4"/>'
   };
   const pict=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]||icons.wallet}</svg>`;
   const headingSuffix=day===today()?' hoy':'';
@@ -6275,7 +6398,7 @@ function hilenRenderDailyActivity(){
       </button>
     </div>`:'';
     const quantity=k.tone==='green'?`${data.payments.length} ${data.payments.length===1?'abono registrado':'abonos registrados'}`:k.tone==='blue'?k.count:k.tone==='red'?k.count:'';
-    const tagIcon=k.tone==='green'?'✓':k.tone==='blue'?'↓':'↑';
+    const tagIcon=k.tone==='green'?pict('check'):k.tone==='blue'?pict('down'):pict('up');
     return `<article class="hdaily-ref-kpi hdaily-ref-${k.tone}">
       <button type="button" class="hd-ref-card-arrow" onclick="hilenDailyFilter('${k.filter}')" title="Ver detalle de ${esc(k.title)}" aria-label="Consultar ${esc(k.title)}">›</button>
       <div class="hd-ref-card-core"><div class="hdaily-ref-kpi-icon">${pict(k.icon)}</div>
@@ -6283,6 +6406,7 @@ function hilenRenderDailyActivity(){
           <strong class="hdaily-ref-value ${String(Math.round(Math.abs(Number(k.value)||0))).length>8?'hdaily-ref-value-long':''}">${money(k.value)}</strong>
         </div></div>
       ${extra||`<button type="button" class="hd-ref-card-status" onclick="hilenDailyFilter('${k.filter}')"><span class="hd-ref-status-symbol" aria-hidden="true">${tagIcon}</span><span>${esc(quantity)}</span></button>`}
+      <svg class="hd-ref-card-wave" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true"><path class="wave-fill" d="M0 44 C118 46 170 101 292 80 C414 60 488 90 600 22 L600 90 L0 90 Z"/><path class="wave-trace" d="M0 44 C118 46 170 101 292 80 C414 60 488 90 600 22"/></svg>
     </article>`;
   }).join('');
   const countSales=data.sales.length,countPay=data.payments.length,countExp=data.manual.filter(m=>m.type==='expense').length;
@@ -7537,6 +7661,7 @@ window.addEventListener('storage',event=>{
 });
 window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');cloudSaveNow()}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync();hilenCheckDailyGoogleSheets()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){hilenCheckDailyGoogleSheets();if(cloudDirty&&!cloudConflict&&!localMode&&cloudDb&&currentUser?.id&&!cloudSaveInFlight)queueCloudSave()}});
+window.addEventListener('online',()=>{if((cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1')&&!cloudConflict&&!localMode&&cloudDb&&currentUser?.id&&!cloudSaveInFlight&&!hilenCloudTransactionPending)hilenCloudScheduleRetry(500)});
 /* HILEN · Facturas por compra y aplicación de pagos · 2026-10-26.
    No genera ventas ni abonos nuevos: cada aplicación referencia un pago existente. */
 function hilenNum(x){return Math.max(0,Math.round(Number(x)||0))}
