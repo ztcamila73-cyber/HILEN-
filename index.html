@@ -3596,6 +3596,306 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
   #dailyActivity .hdaily-sales-breakdown-row strong{grid-column:2}
 }
 
+
+/* HILEN · Rediseño sobrio del Resumen diario: CTA ligero, jerarquía clara y lectura tablet. */
+#dailyActivity .hdaily-ref-kpis{gap:14px!important;align-items:stretch}
+#dailyActivity .hdaily-ref-kpi{
+  --hd-accent:#b68437;--hd-weak:#f9f0e0;--hd-accent-strong:#7e551d;
+  display:flex!important;flex-direction:column!important;position:relative;
+  min-width:0;min-height:194px!important;padding:19px 19px 14px!important;
+  border:1px solid #e7e9ee!important;border-radius:20px!important;
+  border-top:1px solid #e7e9ee!important;
+  background:linear-gradient(155deg,#fff 54%,#fcfdff 100%)!important;
+  box-shadow:0 7px 24px rgba(16,28,52,.045)!important;
+  isolation:isolate;overflow:hidden!important;
+}
+#dailyActivity .hdaily-ref-kpi::before{
+  content:"";position:absolute;z-index:0;left:0;top:21px;width:3px;height:45px;
+  background:var(--hd-accent);border-radius:0 5px 5px 0;
+}
+#dailyActivity .hdaily-ref-kpi::after{
+  content:"";position:absolute;z-index:0;right:-54px;top:-85px;width:180px;height:180px;
+  border-radius:50%;background:radial-gradient(circle,var(--hd-weak),transparent 72%);opacity:.65;pointer-events:none;
+}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-gold{--hd-accent:#b68437;--hd-weak:#f9efdf;--hd-accent-strong:#855b20;background:#fff!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-green{--hd-accent:#288764;--hd-weak:#e5f5ed;--hd-accent-strong:#18704d;background:#fff!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-blue{--hd-accent:#3d70be;--hd-weak:#e8f0fe;--hd-accent-strong:#2b5da6;background:#fff!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-red{--hd-accent:#b95662;--hd-weak:#fbeced;--hd-accent-strong:#a64350;background:#fff!important}
+#dailyActivity .hdaily-ref-kpi:hover{border-color:#d5dbe4!important;box-shadow:0 12px 30px rgba(16,28,52,.08)!important}
+#dailyActivity .hdaily-ref-kpi-icon{
+  position:absolute!important;right:17px!important;top:15px!important;z-index:1;
+  display:grid;place-items:center;width:40px!important;height:40px!important;flex:0 0 40px!important;
+  border-radius:13px!important;border:1px solid color-mix(in srgb,var(--hd-accent) 14%,white);
+  color:var(--hd-accent-strong)!important;background:var(--hd-weak)!important;
+  box-shadow:0 1px 2px #10203a08!important;
+}
+#dailyActivity .hdaily-ref-kpi-icon svg{width:21px!important;height:21px!important;stroke-width:2.1!important}
+#dailyActivity .hdaily-ref-kpi-text{z-index:1;position:relative;display:flex;flex-direction:column;min-width:0;width:100%;min-height:0!important;flex:1}
+#dailyActivity .hdaily-ref-kpi-label{
+  display:flex;flex-wrap:wrap;align-items:center;gap:5px;
+  max-width:calc(100% - 42px)!important;min-height:27px!important;
+  color:#5b6980!important;font-size:12px!important;font-weight:740!important;line-height:1.35;
+}
+#dailyActivity .hdaily-ref-help{width:17px;height:17px;font-size:10px;flex:0 0 17px}
+#dailyActivity .hdaily-ref-value{
+  margin:13px 0 6px!important;max-width:100%;color:#14213c!important;
+  font-size:clamp(22px,2.4vw,31px)!important;line-height:1.15!important;
+  font-weight:880!important;letter-spacing:-1px!important;
+  font-variant-numeric:tabular-nums;white-space:nowrap!important;
+}
+#dailyActivity .hdaily-ref-value.hdaily-ref-value-long{font-size:clamp(17px,1.8vw,23px)!important;white-space:normal!important;overflow-wrap:anywhere}
+#dailyActivity .hdaily-ref-kpi-meta{
+  display:inline-flex;align-self:flex-start;color:#75839a;font-size:11px;
+  font-weight:550;line-height:1.35;margin:0 0 13px;
+}
+#dailyActivity .hdaily-ref-kpi-foot{
+  margin-top:auto!important;width:100%;min-height:41px!important;
+  padding:8px 0 0!important;display:flex!important;align-items:center!important;
+  justify-content:space-between!important;gap:10px;
+  background:transparent!important;color:var(--hd-accent-strong)!important;
+  border:0!important;border-top:1px solid #edf0f4!important;
+  border-radius:0!important;box-shadow:none!important;
+  text-align:left;cursor:pointer;transition:color .15s ease;
+}
+#dailyActivity .hdaily-ref-kpi-foot .hdaily-ref-foot-text{
+  display:block!important;flex:1 1 auto!important;min-width:0;
+  font-size:11.5px!important;font-weight:830!important;line-height:1.2;
+  overflow:visible!important;text-overflow:clip!important;white-space:normal!important;color:inherit!important;
+}
+#dailyActivity .hdaily-ref-kpi-foot .hdaily-ref-foot-arrow{
+  display:grid!important;place-items:center!important;flex:0 0 27px!important;
+  width:27px!important;height:27px!important;border-radius:50%!important;
+  background:var(--hd-weak)!important;color:var(--hd-accent-strong)!important;
+  border:1px solid color-mix(in srgb,var(--hd-accent) 17%,white)!important;
+  box-shadow:none!important;font-size:16px!important;line-height:1!important;font-weight:750!important;
+  transition:transform .16s ease,background .16s ease;
+}
+#dailyActivity .hdaily-ref-kpi-foot:hover{transform:none!important;filter:none!important;color:#10213c!important}
+#dailyActivity .hdaily-ref-kpi-foot:hover .hdaily-ref-foot-arrow{background:#e6eaf0!important;transform:translateX(3px)}
+#dailyActivity .hdaily-ref-kpi-foot:focus-visible{outline:2px solid #4b85d0;outline-offset:3px;border-radius:5px!important}
+@media(min-width:1010px) and (max-width:1400px){
+  #dailyActivity .hdaily-ref-kpi{min-height:189px!important;padding:17px 13px 12px!important}
+  #dailyActivity .hdaily-ref-kpi-icon{width:35px!important;height:35px!important;flex-basis:35px!important;top:13px!important;right:11px!important}
+  #dailyActivity .hdaily-ref-kpi-icon svg{width:19px!important;height:19px!important}
+  #dailyActivity .hdaily-ref-kpi-label{max-width:calc(100% - 35px)!important;font-size:10.5px!important}
+  #dailyActivity .hdaily-ref-value{font-size:clamp(20px,2.1vw,27px)!important}
+  #dailyActivity .hdaily-ref-value.hdaily-ref-value-long{font-size:18px!important}
+  #dailyActivity .hdaily-ref-kpi-meta{font-size:10px}
+  #dailyActivity .hdaily-ref-kpi-foot .hdaily-ref-foot-text{font-size:10.5px!important}
+}
+@media(max-width:1009px){
+  #dailyActivity .hdaily-ref-kpi{min-height:184px!important;padding:17px 17px 13px!important}
+  #dailyActivity .hdaily-ref-kpi-label{font-size:12px!important}
+  #dailyActivity .hdaily-ref-value{font-size:clamp(23px,3.4vw,30px)!important}
+}
+@media(max-width:650px){
+  #dailyActivity .hdaily-ref-kpis{gap:9px!important}
+  #dailyActivity .hdaily-ref-kpi{min-height:168px!important;padding:14px 11px 11px!important;border-radius:16px!important}
+  #dailyActivity .hdaily-ref-kpi-icon{top:12px!important;right:10px!important;width:32px!important;height:32px!important;flex-basis:32px!important;border-radius:10px!important}
+  #dailyActivity .hdaily-ref-kpi-icon svg{width:18px!important;height:18px!important}
+  #dailyActivity .hdaily-ref-kpi-label{font-size:10px!important;max-width:calc(100% - 29px)!important}
+  #dailyActivity .hdaily-ref-value{font-size:clamp(17px,4.2vw,22px)!important;letter-spacing:-.6px!important}
+  #dailyActivity .hdaily-ref-value.hdaily-ref-value-long{font-size:16px!important}
+  #dailyActivity .hdaily-ref-kpi-meta{font-size:9.5px;margin-bottom:8px}
+  #dailyActivity .hdaily-ref-kpi-foot .hdaily-ref-foot-text{font-size:10px!important}
+  #dailyActivity .hdaily-ref-kpi-foot .hdaily-ref-foot-arrow{width:23px!important;height:23px!important;flex-basis:23px!important}
+}
+
+
+/* HILEN · Diseño solicitado: panel morado y resumen financiero dorado (31 oct 2026).
+   Solo presentación: no modifica Firebase, los importes ni los movimientos. */
+.hdaily-page-mark{display:none}
+body.hilen-daily-open .page-heading-copy{display:grid;grid-template-columns:60px minmax(0,1fr);align-items:center;column-gap:16px;position:relative}
+body.hilen-daily-open .hdaily-page-mark{display:grid;grid-row:1 / span 2;place-items:center;width:60px;height:60px;border-radius:18px;color:#fff;background:linear-gradient(145deg,#9256a5,#3f1658);box-shadow:0 7px 18px rgba(64,22,80,.19)}
+body.hilen-daily-open .hdaily-page-mark svg{width:31px;height:31px}
+body.hilen-daily-open .page-heading-copy:before{content:"";position:absolute;left:72px;top:5px;bottom:5px;width:2px;background:#d6a14e}
+body.hilen-daily-open .page-heading-copy #pageTitle{grid-column:2;grid-row:1;color:#2d153b;letter-spacing:-1.4px}
+body.hilen-daily-open .page-heading-copy #pageSubtitle{grid-column:2;grid-row:2;color:#7a7184}
+body.hilen-daily-open .hdaily-ref-date-arrow{border-radius:50%;box-shadow:0 3px 12px #3e24530b;color:#321645}
+body.hilen-daily-open .hdaily-ref-date-display{border-radius:25px;color:#2f1641}
+#dailyActivity .hdaily-ref-kpis{grid-template-columns:minmax(0,1.35fr) repeat(3,minmax(0,1fr));gap:13px!important;margin:12px 0 21px!important;align-items:stretch!important}
+#dailyActivity .hdaily-ref-kpi{
+  position:relative;display:flex!important;flex-direction:column!important;justify-content:space-between!important;gap:9px!important;
+  min-width:0;min-height:255px!important;padding:18px 17px 21px!important;
+  border-radius:25px!important;border:1px solid #f0e4ed!important;
+  background:linear-gradient(155deg,#fffdf8,#f9fbff 65%,#f3f8ee)!important;
+  box-shadow:0 12px 28px rgba(24,22,45,.065)!important;overflow:hidden!important;
+  isolation:isolate;
+}
+#dailyActivity .hdaily-ref-kpi:before{content:none!important}
+#dailyActivity .hdaily-ref-kpi:after{
+  content:""!important;position:absolute;z-index:-1!important;top:auto!important;bottom:-80px!important;right:-10%!important;left:-10%!important;
+  width:120%!important;height:138px!important;border-radius:48% 55% 0 0 / 42% 54% 0 0!important;
+  opacity:.85!important;background:linear-gradient(175deg,#e9f6df,#d9edca)!important;transform:rotate(-4deg);pointer-events:none;
+}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-gold{
+  background:linear-gradient(155deg,#835094 0%,#491e62 66%,#351248 100%)!important;
+  border:1px solid #b69bc0!important;box-shadow:0 10px 26px rgba(71,23,86,.2)!important;
+  padding:17px 14px 14px!important;
+}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-gold:after{background:linear-gradient(160deg,transparent 0%,#3e164e 80%)!important;opacity:.35!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-blue{background:linear-gradient(165deg,#fff,#f1f7ff 85%)!important;border-color:#e0eafa!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-blue:after{background:linear-gradient(165deg,#d4e6ff,#aac8fa)!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-red{background:linear-gradient(165deg,#fff,#fff7f8 85%)!important;border-color:#f7e1e6!important}
+#dailyActivity .hdaily-ref-kpi.hdaily-ref-red:after{background:linear-gradient(165deg,#ffe1e8,#f6bbc6)!important}
+#dailyActivity .hd-ref-card-core{display:flex;align-items:center;min-height:97px;gap:12px;min-width:0;z-index:1}
+#dailyActivity .hdaily-ref-kpi-icon{
+  position:static!important;display:grid;place-items:center;flex:0 0 59px!important;
+  width:59px!important;height:63px!important;border-radius:22px!important;
+  background:linear-gradient(135deg,#e9f5df,#d7eccb)!important;color:#318145!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7)!important;border:0!important;
+}
+#dailyActivity .hdaily-ref-gold .hdaily-ref-kpi-icon{background:linear-gradient(150deg,#fffbe9,#f5dfab)!important;color:#3c184d!important}
+#dailyActivity .hdaily-ref-blue .hdaily-ref-kpi-icon{background:linear-gradient(150deg,#e6efff,#bbd4fe)!important;color:#174aaf!important}
+#dailyActivity .hdaily-ref-red .hdaily-ref-kpi-icon{background:linear-gradient(150deg,#fff1f1,#f3b7c4)!important;color:#9c2131!important}
+#dailyActivity .hdaily-ref-kpi-icon svg{width:31px!important;height:31px!important;stroke-width:2.2!important}
+#dailyActivity .hdaily-ref-kpi-text{flex:1;min-width:0;min-height:0!important;width:auto!important;display:flex;flex-direction:column;justify-content:center;gap:3px}
+#dailyActivity .hdaily-ref-kpi-label{
+  max-width:100%!important;min-height:0!important;display:flex;flex-wrap:wrap;align-items:center;gap:5px;
+  font-size:clamp(10px,.96vw,14px)!important;font-weight:780!important;color:#32173f!important;line-height:1.25;
+}
+#dailyActivity .hdaily-ref-gold .hdaily-ref-kpi-label{color:#fceeff!important}
+#dailyActivity .hdaily-ref-kpi-label .hdaily-ref-help{background:#f6eef9;color:#67497d}
+#dailyActivity .hdaily-ref-value,#dailyActivity .hdaily-ref-value.hdaily-ref-value-long{
+  font-size:clamp(18px,1.85vw,30px)!important;letter-spacing:-.6px!important;font-weight:900!important;line-height:1.12!important;
+  margin:5px 0 0!important;white-space:nowrap!important;overflow-wrap:normal!important;color:#261134!important;
+}
+#dailyActivity .hdaily-ref-gold .hdaily-ref-value,#dailyActivity .hdaily-ref-gold .hdaily-ref-value.hdaily-ref-value-long{color:#fff!important}
+#dailyActivity .hd-ref-card-arrow{
+  position:absolute;right:12px;top:13px;z-index:2;width:33px;height:33px;display:grid;place-items:center;
+  padding:0;border-radius:50%;border:1px solid #e8e6ef;color:#28143a;font-size:27px;line-height:1;
+  background:rgba(255,255,255,.72);box-shadow:0 3px 10px rgba(22,12,38,.06);cursor:pointer;
+}
+#dailyActivity .hdaily-ref-gold .hd-ref-card-arrow{color:#fff;border-color:#bca3c3;background:rgba(255,255,255,.19)}
+#dailyActivity .hd-ref-card-arrow:hover{transform:translateX(2px);background:#fff}
+#dailyActivity .hd-ref-card-status{
+  display:flex;align-items:center;justify-content:center;gap:8px;min-height:43px;padding:8px 10px;margin-top:auto;
+  z-index:1;border:0;border-radius:999px;background:linear-gradient(130deg,#eaf6e1,#dcedd1);color:#19622d;
+  font-size:clamp(10px,1vw,13px);font-weight:850;white-space:normal;text-align:center;cursor:pointer;
+}
+#dailyActivity .hd-ref-card-status .hd-ref-status-symbol{font-size:16px;flex:0 0 22px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#fff9}
+#dailyActivity .hdaily-ref-blue .hd-ref-card-status{background:linear-gradient(130deg,#eaf3ff,#dce9ff);color:#1e50a5}
+#dailyActivity .hdaily-ref-red .hd-ref-card-status{background:linear-gradient(130deg,#fff0f1,#fbd7df);color:#a02733}
+#dailyActivity .hd-ref-sales-comparison{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:auto;z-index:1;
+  background:linear-gradient(160deg,#fbf6fe,#f6edf9);border:1px solid #eee0f0;border-radius:21px;padding:12px 8px;
+  box-shadow:0 5px 10px rgba(34,15,49,.18);
+}
+#dailyActivity .hd-ref-sales-kind{
+  display:flex;align-items:center;gap:7px;min-width:0;padding:3px 6px;
+  background:transparent;border:0;color:#2e143b;cursor:pointer;text-align:left;
+}
+#dailyActivity .hd-ref-sales-kind.credit{border-left:1px solid #dfb676;padding-left:10px}
+#dailyActivity .hd-ref-split-icon{width:37px;height:37px;flex:0 0 37px;display:grid;place-items:center;border-radius:15px;background:#eaf8ed;color:#176a42}
+#dailyActivity .hd-ref-sales-kind.credit .hd-ref-split-icon{background:#eee1fb;color:#7525a8}
+#dailyActivity .hd-ref-split-icon svg{width:23px;height:23px}
+#dailyActivity .hd-ref-split-body{min-width:0;display:flex;flex-direction:column;gap:2px}
+#dailyActivity .hd-ref-split-body b{font-size:12px;font-weight:830;line-height:1.1;white-space:nowrap}
+#dailyActivity .hd-ref-split-body strong{font-size:clamp(14px,1.35vw,20px);font-weight:890;line-height:1.15;letter-spacing:-.6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+#dailyActivity .hd-ref-split-body small{font-size:11px;color:#813995;white-space:nowrap;font-weight:750}
+#dailyActivity .hd-ref-sales-kind:hover .hd-ref-split-body b{text-decoration:underline}
+/* Resumen financiero: panel blanco, venta en dos mitades, importes monetarios y resultado dorado. */
+#dailyActivity .hdaily-ref-overview{padding:19px 16px!important;background:#fff!important;border:1px solid #eedbcd!important;box-shadow:0 12px 27px rgba(55,38,18,.045)!important}
+#dailyActivity .hdaily-ref-overview h2{font-size:18px!important;font-weight:850!important;color:#1b1c39!important;margin-bottom:4px!important}
+#dailyActivity .hd-ref-summary-subtitle{font-size:10.5px;line-height:1.4;color:#8490a0;margin:2px 0 16px}
+#dailyActivity .hdaily-ref-side-icon{background:linear-gradient(135deg,#fff4d9,#f9d995);color:#aa6716}
+#dailyActivity .hd-ref-summary-hero{border:1px solid #f2ddc6;border-radius:20px;padding:13px 12px;margin-bottom:13px;background:linear-gradient(155deg,#fff,#fffdfa);box-shadow:0 5px 13px #b2804b0b}
+#dailyActivity .hd-ref-summary-sales-header{display:grid;grid-template-columns:37px minmax(0,1fr);gap:8px;align-items:center;color:#1b1c39;font-size:13px;font-weight:850;margin-bottom:11px}
+#dailyActivity .hd-ref-summary-sales-header strong{grid-column:2;justify-self:start;color:#91590f;font-weight:900;font-size:clamp(18px,1.7vw,25px);font-variant-numeric:tabular-nums;white-space:nowrap}
+#dailyActivity .hd-ref-summary-symbol{display:grid;place-items:center;width:37px;height:37px;border-radius:13px;background:#fff1d8;color:#ad7016;flex:0 0 37px}
+#dailyActivity .hd-ref-summary-symbol svg{height:23px;width:23px}
+#dailyActivity .hd-ref-summary-sales-split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#dailyActivity .hd-ref-summary-sale{display:flex;align-items:center;gap:7px;min-width:0;border-radius:15px;padding:10px 6px;background:#f4faf5;border-left:4px solid #319456}
+#dailyActivity .hd-ref-summary-sale.credit{background:#f8f3ff;border-left-color:#8d40d7}
+#dailyActivity .hd-ref-summary-sale .hd-ref-summary-symbol{width:27px;height:27px;flex-basis:27px;border-radius:10px;background:#e2f4e9;color:#178047}
+#dailyActivity .hd-ref-summary-sale.credit .hd-ref-summary-symbol{background:#eee2fc;color:#7332b0}
+#dailyActivity .hd-ref-summary-sale .hd-ref-summary-symbol svg{width:17px;height:17px}
+#dailyActivity .hd-ref-summary-sale div{min-width:0;display:flex;flex-direction:column;gap:4px}
+#dailyActivity .hd-ref-summary-sale b{font-size:11px;color:#184a2b}
+#dailyActivity .hd-ref-summary-sale.credit b{color:#52258c}
+#dailyActivity .hd-ref-summary-sale strong{font-size:clamp(12px,1.12vw,17px);line-height:1.15;font-weight:900;white-space:nowrap;color:#172037;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+#dailyActivity .hd-ref-summary-money-row{display:grid;grid-template-columns:35px minmax(0,1fr);gap:8px;align-items:center;margin-bottom:10px;padding:11px 9px;border-radius:16px;border:1px solid #ebecf0;background:#fff;min-width:0}
+#dailyActivity .hd-ref-summary-money-row>span:nth-child(2){font-size:12px;color:#2c2d4c;line-height:1.3}
+#dailyActivity .hd-ref-summary-money-row strong{grid-column:2;min-width:0;justify-self:end;text-align:right;font-weight:900;font-size:clamp(16px,1.55vw,22px);line-height:1.15;white-space:nowrap;color:#14213b;font-variant-numeric:tabular-nums}
+#dailyActivity .hd-ref-summary-money-row.green .hd-ref-summary-symbol{background:#e7f7eb;color:#19874b}
+#dailyActivity .hd-ref-summary-money-row.blue .hd-ref-summary-symbol{background:#e4efff;color:#2b69ba}
+#dailyActivity .hd-ref-summary-money-row.red .hd-ref-summary-symbol{background:#ffeded;color:#b83239}
+#dailyActivity .hd-ref-summary-money-row.green strong{color:#14692e}
+#dailyActivity .hd-ref-summary-money-row.red strong{color:#a32930}
+#dailyActivity .hd-ref-summary-result{
+  position:relative;isolation:isolate;display:flex;flex-wrap:wrap;align-items:center;gap:8px;overflow:hidden;
+  border:1px solid #e2a84c;border-radius:18px;padding:12px 11px;
+  background:linear-gradient(130deg,#d69b35,#f4c873 50%,#e5a83d);color:#fff;
+  box-shadow:0 7px 14px #bb832122;min-width:0;
+}
+#dailyActivity .hd-ref-summary-result:after{content:"";position:absolute;z-index:-1;inset:auto -20% -62px 15%;height:105px;border:2px solid #fff6;border-radius:50%;transform:rotate(-11deg)}
+#dailyActivity .hd-ref-summary-result-icon{width:36px;height:36px;flex:0 0 36px;border:1px solid #fff9;border-radius:50%;display:grid;place-items:center;color:#fff}
+#dailyActivity .hd-ref-summary-result-icon svg{width:23px;height:23px}
+#dailyActivity .hd-ref-summary-result-copy{flex:1 1 90px;min-width:0;display:flex;flex-direction:column;gap:3px}
+#dailyActivity .hd-ref-summary-result-copy b{font-size:12px;color:#fff;line-height:1.25}
+#dailyActivity .hd-ref-summary-result-copy small{font-size:10px;color:#fff9}
+#dailyActivity .hd-ref-summary-result>strong{display:block;flex:1 1 100%;border-radius:11px;text-align:center;padding:8px 6px;background:#fffcf5;color:#93600d;font-size:clamp(19px,1.9vw,28px);font-weight:930;font-variant-numeric:tabular-nums;letter-spacing:-.3px;white-space:nowrap}
+/* Modalidades: 2x2 a anchuras de tablet; lectura segura de cifras millonarias */
+@media(min-width:1500px){
+  #dailyActivity .hd-ref-card-core{gap:15px}
+  #dailyActivity .hd-ref-split-body strong{font-size:clamp(16px,1.15vw,21px)}
+}
+@media(max-width:1499px){
+  #dailyActivity .hdaily-ref-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #dailyActivity .hdaily-ref-kpi{min-height:230px!important}
+  #dailyActivity .hdaily-ref-value{font-size:clamp(22px,2.8vw,31px)!important}
+  #dailyActivity .hd-ref-split-body strong{font-size:clamp(15px,2vw,21px)}
+}
+@media(min-width:1150px){
+  #dailyActivity .hd-ref-summary-money-row{grid-template-columns:35px minmax(0,1fr);}
+}
+@media(min-width:1650px){
+  #dailyActivity .hd-ref-summary-money-row{grid-template-columns:40px minmax(0,1fr) auto;}
+  #dailyActivity .hd-ref-summary-money-row strong{grid-column:3}
+  #dailyActivity .hd-ref-summary-sales-header{grid-template-columns:40px minmax(0,1fr) auto}
+  #dailyActivity .hd-ref-summary-sales-header strong{grid-column:3}
+  #dailyActivity .hd-ref-summary-result>strong{flex:0 0 auto;font-size:20px}
+}
+@media(max-width:1009px){
+  #dailyActivity .hdaily-ref-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #dailyActivity .hdaily-ref-kpi{min-height:218px!important}
+  #dailyActivity .hdaily-ref-side{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:start}
+  #dailyActivity .hd-ref-summary-money-row strong{font-size:clamp(15px,2vw,20px)}
+  #dailyActivity .hd-ref-summary-sale strong{font-size:clamp(11px,1.5vw,17px)}
+}
+@media(max-width:700px){
+  #dailyActivity .hdaily-ref-kpis{grid-template-columns:1fr!important;gap:11px!important}
+  #dailyActivity .hdaily-ref-kpi{min-height:190px!important;padding:15px 13px!important}
+  #dailyActivity .hdaily-ref-side{grid-template-columns:1fr!important}
+  #dailyActivity .hd-ref-summary-money-row{grid-template-columns:35px minmax(0,1fr) auto}
+  #dailyActivity .hd-ref-summary-money-row strong{grid-column:3;font-size:clamp(14px,4vw,20px)}
+  #dailyActivity .hd-ref-summary-sales-header{grid-template-columns:37px minmax(0,1fr) auto}
+  #dailyActivity .hd-ref-summary-sales-header strong{grid-column:3;font-size:clamp(16px,4.2vw,22px)}
+  #dailyActivity .hd-ref-summary-sale strong{font-size:clamp(12px,4vw,17px)}
+  body.hilen-daily-open .page-heading-copy{grid-template-columns:42px minmax(0,1fr);column-gap:10px}
+  body.hilen-daily-open .hdaily-page-mark{width:42px;height:42px;border-radius:13px}
+  body.hilen-daily-open .page-heading-copy:before{left:49px}
+  body.hilen-daily-open .hdaily-page-mark svg{width:24px;height:24px}
+}
+@media(max-width:410px){
+  #dailyActivity .hd-ref-sales-comparison{padding:9px 4px}
+  #dailyActivity .hd-ref-sales-kind{padding:2px 4px;gap:4px}
+  #dailyActivity .hd-ref-sales-kind.credit{padding-left:7px}
+  #dailyActivity .hd-ref-split-icon{width:30px;height:30px;flex-basis:30px;border-radius:11px}
+  #dailyActivity .hd-ref-split-icon svg{width:18px;height:18px}
+  #dailyActivity .hd-ref-split-body strong{font-size:clamp(13px,3.65vw,16px)}
+  #dailyActivity .hd-ref-summary-sale .hd-ref-summary-symbol{display:none}
+  #dailyActivity .hd-ref-summary-sale strong{font-size:clamp(11px,3.1vw,14px)}
+  #dailyActivity .hd-ref-summary-sales-header{grid-template-columns:33px minmax(0,1fr)}
+  #dailyActivity .hd-ref-summary-sales-header strong{grid-column:2}
+}
+
+
+/* Corrección de ancho: las franjas de ventas y abonos ocupan toda la tarjeta. */
+#dailyActivity .hdaily-ref-kpi{align-items:stretch!important}
+#dailyActivity .hd-ref-sales-comparison,#dailyActivity .hd-ref-card-status{width:100%;max-width:100%;box-sizing:border-box}
+#dailyActivity .hdaily-ref-kpi:after{left:0!important;right:0!important;width:100%!important;transform:none!important;border-radius:50% 50% 0 0 / 33% 48% 0 0!important}
+#dailyActivity .hd-ref-summary-result>strong{overflow-wrap:anywhere;max-width:100%}
 </style>
 </head>
 <body>
@@ -3704,7 +4004,7 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
         <span id="shellUserInitial" class="shell-avatar">H</span><span class="shell-user-copy"><b id="shellUserName">HILEN</b><small>Administrador</small></span><span class="shell-chevron">⌄</span>
       </button>
     </header>
-    <div class="top"><div class="top-title-line"><div class="page-heading-copy"><h1 id="pageTitle" class="title">Inicio</h1><div id="pageSubtitle" class="page-subtitle">Resumen general de tu negocio.</div></div><div id="hilenDailyTopPicker" class="hdaily-ref-datebar hidden" role="group" aria-label="Fecha de movimientos del día">
+    <div class="top"><div class="top-title-line"><div class="page-heading-copy"><span class="hdaily-page-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 20v-5 M11 20V9 M17 20V4"/></svg></span><h1 id="pageTitle" class="title">Inicio</h1><div id="pageSubtitle" class="page-subtitle">Resumen general de tu negocio.</div></div><div id="hilenDailyTopPicker" class="hdaily-ref-datebar hidden" role="group" aria-label="Fecha de movimientos del día">
       <button type="button" class="hdaily-ref-date-arrow" onclick="hilenDailyShift(-1)" aria-label="Día anterior" title="Día anterior">‹</button>
       <label class="hdaily-ref-date-display" title="Seleccionar otro día">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 2v6M17 2v6M3 10h18"/></svg>
@@ -3780,7 +4080,7 @@ body.hilen-daily-open .top-title-line .hilen-save-top{flex:0 0 auto}
             <div id="hilenDailySalesChart" aria-label="Cantidad de ventas de contado y a crédito"></div>
           </div>
           <div class="hdaily-ref-panel hdaily-ref-overview">
-            <h2><span class="hdaily-ref-side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span> Resumen del día</h2>
+            <h2><span class="hdaily-ref-side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span> Resumen del día</h2><p class="hd-ref-summary-subtitle">Movimientos registrados en la fecha seleccionada.</p>
             <div id="hilenDailySideSummary"></div>
           </div>
           <div id="hilenDailyHistoricalNotice"></div>
@@ -5898,7 +6198,7 @@ function hilenDailyShift(days){
 function hilenDailyToday(){hilenDailySetDate(today())}
 function hilenDailyYesterday(){hilenDailySetDate((()=>{const d=new Date();d.setDate(d.getDate()-1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`})())}
 function hilenDailyFilter(type){
-  if(!['all','sale','payment','expense'].includes(type))return;
+  if(!['all','sale','sale_paid','sale_credit','payment','expense'].includes(type))return;
   hilenDailySelectedType=type;hilenRenderDailyActivity();
 }
 function hilenDailyDataset(day){
@@ -5949,27 +6249,57 @@ function hilenRenderDailyActivity(){
   if($('hilenDailyDateLabel'))$('hilenDailyDateLabel').textContent=human;
   // La suma recibida NO incluye ventas a crédito que aún no se han cobrado.
   const kpis=[
-    {title:'Total vendido',value:data.totalSold,count:`${data.sales.length} ${data.sales.length===1?'venta realizada':'ventas realizadas'}`,icon:'bag',tone:'gold',filter:'sale',help:'Importe de todas las ventas, de contado y a crédito; no equivale a dinero recaudado.'},
-    {title:'Total de abonos',value:data.abonos,count:`${data.payments.length} ${data.payments.length===1?'abono registrado':'abonos registrados'}`,icon:'people',tone:'green',filter:'payment',help:'Pagos recibidos de clientes por compras a crédito anteriores o pendientes.'},
-    {title:'Total de ingresos',value:data.received,count:`${data.sales.filter(s=>s.type==='paid').length+data.credit.filter(s=>hilenNum(s.initialPaid)>0).length+data.payments.length+data.manual.filter(m=>m.type==='income').length} movimientos de ingreso`,icon:'wallet',tone:'blue',filter:'all',help:`Dinero realmente recibido: contado ${money(data.paidAmount)}, iniciales ${money(data.initials)}, abonos ${money(data.abonos)} e ingresos adicionales ${money(data.extraIncome)}.`},
-    {title:'Total de egresos',value:data.expenses,count:`${data.manual.filter(m=>m.type==='expense').length} ${data.manual.filter(m=>m.type==='expense').length===1?'egreso registrado':'egresos registrados'}`,icon:'card',tone:'red',filter:'expense',help:'Salidas manuales de caja registradas ese día, sin contar transferencias entre cuentas.'}
+    {title:'Total vendido',value:data.totalSold,count:`${data.sales.length} ${data.sales.length===1?'venta realizada':'ventas realizadas'}`,icon:'bag',tone:'gold',filter:'sale',help:'Total vendido: suma de las ventas de contado y las ventas a crédito. El crédito no cobrado no entra en el efectivo.'},
+    {title:'Total de abonos',value:data.abonos,count:`${data.payments.length} ${data.payments.length===1?'abono registrado':'abonos registrados'}`,icon:'coins',tone:'green',filter:'payment',help:'Dinero recibido en abonos de clientes.'},
+    {title:'Total de ingresos',value:data.received,count:`${data.sales.filter(s=>s.type==='paid').length+data.credit.filter(s=>hilenNum(s.initialPaid)>0).length+data.payments.length+data.manual.filter(m=>m.type==='income').length} movimientos de ingreso`,icon:'wallet',tone:'blue',filter:'all',help:`Dinero recibido: contado ${money(data.paidAmount)}, pagos iniciales ${money(data.initials)}, abonos ${money(data.abonos)} e ingresos adicionales ${money(data.extraIncome)}.`},
+    {title:'Total de egresos',value:data.expenses,count:`${data.manual.filter(m=>m.type==='expense').length} ${data.manual.filter(m=>m.type==='expense').length===1?'egreso registrado':'egresos registrados'}`,icon:'receipt',tone:'red',filter:'expense',help:'Dinero gastado o retirado de la caja. No incluye transferencias entre Efectivo y Nequi.'}
   ];
-  const icons={bag:'<path d="M5 9h14l1 11H4L5 9Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2"/><path d="M17 10a3 3 0 0 1 0 6M17 20h4v-2a4 4 0 0 0-3-4"/>',up:'<path d="M12 21V3M4 11l8-8 8 8"/>',down:'<path d="M12 3v18M4 13l8 8 8-8"/>',wallet:'<rect x="3" y="6" width="18" height="15" rx="2.5"/><path d="M3 10h18 M15 14h6v4h-6z"/>',card:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18 M7 15h5"/>'};
-  const pict=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
+  const icons={
+    bag:'<path d="M5 9h14l1 11H4L5 9Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/>',
+    people:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2"/><path d="M17 10a3 3 0 0 1 0 6M17 20h4v-2a4 4 0 0 0-3-4"/>',
+    coins:'<ellipse cx="9" cy="7" rx="6.5" ry="3"/><path d="M2.5 7v4c0 1.7 3 3 6.5 3s6.5-1.3 6.5-3V7M2.5 11v4c0 1.7 3 3 6.5 3s6.5-1.3 6.5-3v-4M15.5 12c3.3 0 6-1.2 6-2.7V6c0-1.5-2.7-2.8-6-2.8-1.6 0-3 .3-4.1.9M15.5 17c3.3 0 6-1.2 6-2.7V10"/>',
+    wallet:'<rect x="3" y="6" width="18" height="15" rx="2.5"/><path d="M3 10h18 M15 14h6v4h-6z"/>',
+    receipt:'<path d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Z"/><path d="M9 7h6M9 12h6M9 16h4"/>',
+    card:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18 M7 15h5"/>'
+  };
+  const pict=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]||icons.wallet}</svg>`;
   const headingSuffix=day===today()?' hoy':'';
   root.innerHTML=kpis.map(k=>{
-    return `<article class="hdaily-ref-kpi hdaily-ref-${k.tone}"><div class="hdaily-ref-kpi-icon">${pict(k.icon)}</div><div class="hdaily-ref-kpi-text"><div class="hdaily-ref-kpi-label">${k.title}${headingSuffix} <button class="hdaily-ref-help" type="button" title="${esc(k.help)}" aria-label="${esc(k.help)}">?</button></div><strong class="hdaily-ref-value ${String(Math.round(Math.abs(Number(k.value)||0))).length>8?'hdaily-ref-value-long':''}">${money(k.value)}</strong><button type="button" class="hdaily-ref-kpi-foot" onclick="hilenDailyFilter('${k.filter}')" title="Ver movimientos relacionados"><span class="hdaily-ref-foot-text">${esc(k.count)}</span><span class="hdaily-ref-foot-arrow" aria-hidden="true">→</span></button></div></article>`
+    const isSales=k.tone==='gold';
+    const extra=isSales?`<div class="hd-ref-sales-comparison" aria-label="Ventas de contado y ventas a crédito">
+      <button class="hd-ref-sales-kind paid" type="button" onclick="hilenDailyFilter('sale_paid')" title="Ver las ventas de contado">
+        <span class="hd-ref-split-icon" aria-hidden="true">${pict('coins')}</span><span class="hd-ref-split-body"><b>Contado</b><strong>${money(data.paidAmount)}</strong><small>${data.paid.length} ${data.paid.length===1?'venta':'ventas'}</small></span>
+      </button>
+      <button class="hd-ref-sales-kind credit" type="button" onclick="hilenDailyFilter('sale_credit')" title="Ver las ventas a crédito">
+        <span class="hd-ref-split-icon" aria-hidden="true">${pict('card')}</span><span class="hd-ref-split-body"><b>Crédito</b><strong>${money(data.creditAmount)}</strong><small>${data.credit.length} ${data.credit.length===1?'venta':'ventas'}</small></span>
+      </button>
+    </div>`:'';
+    const quantity=k.tone==='green'?`${data.payments.length} ${data.payments.length===1?'abono registrado':'abonos registrados'}`:k.tone==='blue'?k.count:k.tone==='red'?k.count:'';
+    const tagIcon=k.tone==='green'?'✓':k.tone==='blue'?'↓':'↑';
+    return `<article class="hdaily-ref-kpi hdaily-ref-${k.tone}">
+      <button type="button" class="hd-ref-card-arrow" onclick="hilenDailyFilter('${k.filter}')" title="Ver detalle de ${esc(k.title)}" aria-label="Consultar ${esc(k.title)}">›</button>
+      <div class="hd-ref-card-core"><div class="hdaily-ref-kpi-icon">${pict(k.icon)}</div>
+        <div class="hdaily-ref-kpi-text"><div class="hdaily-ref-kpi-label">${k.title}${headingSuffix} <button class="hdaily-ref-help" type="button" title="${esc(k.help)}" aria-label="${esc(k.help)}">?</button></div>
+          <strong class="hdaily-ref-value ${String(Math.round(Math.abs(Number(k.value)||0))).length>8?'hdaily-ref-value-long':''}">${money(k.value)}</strong>
+        </div></div>
+      ${extra||`<button type="button" class="hd-ref-card-status" onclick="hilenDailyFilter('${k.filter}')"><span class="hd-ref-status-symbol" aria-hidden="true">${tagIcon}</span><span>${esc(quantity)}</span></button>`}
+    </article>`;
   }).join('');
   const countSales=data.sales.length,countPay=data.payments.length,countExp=data.manual.filter(m=>m.type==='expense').length;
   const incomeCount=data.sales.filter(s=>s.type==='paid').length+data.credit.filter(s=>hilenNum(s.initialPaid)>0).length+data.payments.length+data.manual.filter(m=>m.type==='income').length;
-  const sideRows=[
-    {icon:'bag',text:'Ventas realizadas',count:data.sales.length,value:money(data.totalSold),tone:'gold'},
-    {icon:'people',text:'Abonos recibidos',count:data.payments.length,value:money(data.abonos),tone:'green'},
-    {icon:'wallet',text:'Ingresos del día',count:incomeCount,value:money(data.received),tone:'blue'},
-    {icon:'card',text:'Egresos del día',count:data.manual.filter(m=>m.type==='expense').length,value:money(data.expenses),tone:'red'}
-  ];
-  const salesTypeRows=`<div class="hdaily-sales-breakdown" aria-label="Ventas del día divididas por contado y crédito"><div class="hdaily-sales-breakdown-row paid"><span>↳ Contado</span><b>${data.paid.length} ${data.paid.length===1?'venta':'ventas'}</b><strong>${money(data.paidAmount)}</strong></div><div class="hdaily-sales-breakdown-row credit"><span>↳ Crédito</span><b>${data.credit.length} ${data.credit.length===1?'venta':'ventas'}</b><strong>${money(data.creditAmount)}</strong></div></div>`;
-  $('hilenDailySideSummary').innerHTML=sideRows.map((x,i)=>`<div class="hdaily-ref-overview-row"><span class="hdaily-ref-row-icon hdaily-ref-${x.tone}">${pict(x.icon)}</span><span class="hdaily-ref-row-title">${x.text}</span><b class="hdaily-ref-row-count">${x.count}</b><strong class="hdaily-ref-row-amount">${x.value}</strong></div>${i===0?salesTypeRows:''}`).join('')+`<div class="hdaily-ref-result"><span class="hdaily-ref-result-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M6 7V5h12v2M16 13h5v5h-5z"/></svg></span><div><b>Resultado del día</b><strong>${money(data.net)}</strong><small>Ingresos − Egresos</small></div></div>`;
+  // Resumen financiero: todos los importes en dinero. Los contadores quedan en el gráfico y filtros.
+  $('hilenDailySideSummary').innerHTML=`
+    <div class="hd-ref-summary-hero">
+      <div class="hd-ref-summary-sales-header"><span class="hd-ref-summary-symbol gold">${pict('bag')}</span><span>Ventas del día</span><strong>${money(data.totalSold)}</strong></div>
+      <div class="hd-ref-summary-sales-split">
+        <div class="hd-ref-summary-sale paid"><span class="hd-ref-summary-symbol">${pict('coins')}</span><div><b>Contado</b><strong>${money(data.paidAmount)}</strong></div></div>
+        <div class="hd-ref-summary-sale credit"><span class="hd-ref-summary-symbol">${pict('card')}</span><div><b>Crédito</b><strong>${money(data.creditAmount)}</strong></div></div>
+      </div>
+    </div>
+    <div class="hd-ref-summary-money-row green"><span class="hd-ref-summary-symbol">${pict('people')}</span><span>Abonos del día</span><strong>${money(data.abonos)}</strong></div>
+    <div class="hd-ref-summary-money-row blue"><span class="hd-ref-summary-symbol">${pict('wallet')}</span><span>Ingresos del día</span><strong>${money(data.received)}</strong></div>
+    <div class="hd-ref-summary-money-row red"><span class="hd-ref-summary-symbol">${pict('receipt')}</span><span>Egresos del día</span><strong>${money(data.expenses)}</strong></div>
+    <div class="hd-ref-summary-result"><span class="hd-ref-summary-result-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 20v-5 M11 20V9 M17 20V4"/></svg></span><div class="hd-ref-summary-result-copy"><b>Resultado del día</b><small>Ingresos − Egresos</small></div><strong>${money(data.net)}</strong></div>`;
   const chartTotal=data.sales.length;
   const paidPct=chartTotal>0?Math.round(data.paid.length/chartTotal*100):0;
   const creditPct=chartTotal>0?100-paidPct:0;
@@ -5978,10 +6308,10 @@ function hilenRenderDailyActivity(){
   const months=[['sales','ventas'],['payments','abonos'],['expenses','egresos']];
   const historical=months.filter(([key])=>monthlyEffectiveTotal(day.slice(0,7),key).useHistorical).map(([,label])=>label);
   $('hilenDailyHistoricalNotice').innerHTML=historical.length?`<div class="notice warn" style="margin-top:12px"><b>Histórico mensual sin detalle:</b> hay totales de ${esc(historical.join(', '))} en el mes, pero no existen fechas individuales para asignarlos a este día.</div>`:'';
-  const matchType=e=>hilenDailySelectedType==='all'||(hilenDailySelectedType==='sale'&&e.kind==='sale')||(hilenDailySelectedType==='payment'&&e.kind==='payment')||(hilenDailySelectedType==='expense'&&e.type==='expense');
+  const matchType=e=>hilenDailySelectedType==='all'||(hilenDailySelectedType==='sale'&&e.kind==='sale')||(hilenDailySelectedType==='sale_paid'&&e.kind==='sale'&&e.type==='paid')||(hilenDailySelectedType==='sale_credit'&&e.kind==='sale'&&e.type==='credit')||(hilenDailySelectedType==='payment'&&e.kind==='payment')||(hilenDailySelectedType==='expense'&&e.type==='expense');
   const needle=String($('hilenDailySearch')?.value||'').trim().toLocaleLowerCase('es');
   const visible=data.events.filter(e=>matchType(e)&&(!needle||[e.label,e.client,e.sub,e.reference,e.time,String(e.amount),money(e.amount)].join(' ').toLocaleLowerCase('es').includes(needle))).sort((a,b)=>String(a.time||'').localeCompare(String(b.time||''))||String(a.createdAt||'').localeCompare(String(b.createdAt||''))||String(a.id).localeCompare(String(b.id)));
-  document.querySelectorAll('#dailyActivity [data-hdaily-filter]').forEach(btn=>{const active=btn.dataset.hdailyFilter===hilenDailySelectedType;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))});
+  document.querySelectorAll('#dailyActivity [data-hdaily-filter]').forEach(btn=>{const active=btn.dataset.hdailyFilter===hilenDailySelectedType||(btn.dataset.hdailyFilter==='sale'&&['sale_paid','sale_credit'].includes(hilenDailySelectedType));btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))});
   [['hilenDailyCountAll',data.events.length],['hilenDailyCountSales',countSales],['hilenDailyCountPayments',countPay],['hilenDailyCountExpenses',countExp]].forEach(([id,n])=>{const el=$(id);if(el)el.textContent=`(${n})`});
   $('hilenDailyEventCount').textContent=`Mostrando ${visible.length} de ${data.events.length} movimientos del día · ${day===today()?'Hoy':human}`;
   const typePill=e=>e.kind==='sale'?'Venta':e.kind==='payment'?'Abono':e.type==='expense'?'Egreso':e.type==='income'?'Ingreso':'Transferencia';
