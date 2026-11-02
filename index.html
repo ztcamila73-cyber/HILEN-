@@ -4638,23 +4638,29 @@ let hilenCloudRebaseInFlight=false;
 // Una comparación literal JSON marcaría permanentemente "Sin sincronizar" aunque
 // la venta/abono/egreso exista en la nube. Comparar la forma REAL de RTDB.
 function hilenStableCloudValue(value){
+  if(value===undefined||value===null)return null;
   if(Array.isArray(value))return value.map(hilenStableCloudValue);
-  if(!value||typeof value!=='object')return value;
-  const result={};
-  Object.keys(value).sort().forEach(key=>{
-    const item=hilenStableCloudValue(value[key]);
-    if(item===undefined||item===null)return;
-    if(Array.isArray(item)&&item.length===0)return;
-    if(item&&typeof item==='object'&&!Array.isArray(item)&&Object.keys(item).length===0)return;
-    result[key]=item;
-  });
-  return result;
+  if(typeof value!=="object")return value;
+  const keys=Object.keys(value);
+  if(keys.length&&keys.every(k=>/^(0|[1-9]\d*)$/.test(k))){
+    const n=Math.max(...keys.map(Number));
+    if(n<100000){const arr=Array(n+1).fill(null);for(const k of keys)arr[Number(k)]=hilenStableCloudValue(value[k]);return arr;}
+  }
+  const out={};
+  for(const key of keys.sort()){
+    const val=hilenStableCloudValue(value[key]);
+    if(val===null)continue;
+    if(Array.isArray(val)&&!val.length)continue;
+    if(val&&typeof val==="object"&&!Array.isArray(val)&&!Object.keys(val).length)continue;
+    out[key]=val;
+  }
+  return out;
 }
 function hilenCloudSignature(value){return JSON.stringify(hilenStableCloudValue(value??null))}
 function hilenCloudBaseMatches(value){
   if(cloudBaseRevision===null)return false;
   const rev=Number(value?.revision)||0;
-  return rev===cloudBaseRevision&&hilenCloudSignature(value?.data??null)===cloudBaseSignature;
+  return hilenCloudSignature(value?.data??null)===cloudBaseSignature;
 }
 // Baseline confirmado del servidor: sirve para distinguir cambios propios y ajenos.
 function hilenRememberCloudBase(revision,data,uid=currentUser?.id){
@@ -4934,19 +4940,22 @@ async function cloudSaveNow(options={}){
         return false;
       }
     }
-    for(let attempt=0;attempt<3;attempt++){
+    for(let attempt=0;attempt<8;attempt++){
       cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
-      if(!await hilenCloudConnected()){
-        const error=new Error('Realtime Database no ha confirmado una conexión activa. Comprueba Internet, permisos de red o bloqueadores del navegador.');
+      // .info/connected es orientativo: en móviles puede marcar false durante
+      // reconexiones breves. No impedir la escritura por ese indicador; la
+      // promesa de la transacción decidirá si Firebase la confirma realmente.
+      if(typeof navigator!=='undefined'&&navigator.onLine===false){
+        const error=new Error('Sin Internet. Los cambios permanecen en este dispositivo.');
         error.code='firebase/disconnected';throw error;
       }
       const uid=currentUser.id,expectedRevision=cloudBaseRevision,expectedSignature=cloudBaseSignature;
-      const snapshot=structuredClone(businessState()),generation=cloudEditGeneration;
+      const snapshot=structuredClone(businessState());
       const target=cloudDb.ref(userCloudPath(uid,'state'));
       hilenCloudSavePhase='leer estado previo';
       setCloudStatus('work','Guardando en Firebase…','Revisando la última versión confirmada para no reemplazar registros de otro dispositivo.');
       const preflight=(await hilenCloudWithTimeout(target.once('value'),16000)).val();
-      if(!hilenCloudBaseMatches(preflight)){
+      if(hilenCloudSignature(preflight?.data??null)!==expectedSignature){
         hilenCloudSavePhase='combinar cambios';
         if(!await hilenReconcileCloud('nueva versión detectada al guardar')){
           cloudLastError=cloudConflict?'Otro equipo modificó el mismo registro. Descarga tus cambios antes de continuar.':'No se pudo comprobar la versión remota. Revisa el diagnóstico de conexión.';
@@ -4954,53 +4963,90 @@ async function cloudSaveNow(options={}){
         }
         continue;
       }
-      const newCloudValue={data:snapshot,updated_at:new Date().toISOString(),revision:expectedRevision+1};
-      let observedServerRecord=false;
-      hilenCloudSavePhase='esperar confirmación de escritura';
+      // Un mismo estado puede cambiar de revisión durante el envío. Firebase
+      // vuelve a ejecutar este callback con los datos más recientes del servidor.
+      // Conciliar DENTRO de esa transacción evita el ciclo de "abortado/releer/3 intentos"
+      // y no pierde ventas de otros dispositivos.
+      const baseline=hilenReadCloudBase(uid);
+      let committedProposal=null;
+      let transactionConflicts=[];
+      let callbackRuns=0;
+      hilenCloudSavePhase='transacción atómica de Firebase';
       const transaction=target.transaction(current=>{
-        if(current===null&&expectedRevision!==0&&!observedServerRecord){
-          // Firebase puede iniciar con null en caché; el servidor reevalúa.
-          return newCloudValue;
+        callbackRuns++;
+        const actualRevision=Number(current?.revision)||0;
+        const sameBase=actualRevision===expectedRevision&&hilenCloudSignature(current?.data??null)===expectedSignature;
+        // Firebase puede pasar null ANTES de cargar el registro real.
+        // El servidor reevalúa la transacción si tiene otra versión; nunca
+        // se toma una lectura de caché como confirmación del guardado.
+        if(current===null&&expectedRevision>0){
+          transactionConflicts=['La versión remota desapareció durante la escritura'];
+          return;
         }
-        observedServerRecord=true;
-        if((Number(current?.revision)||0)!==expectedRevision||hilenCloudSignature(current?.data??null)!==expectedSignature)return;
-        return newCloudValue;
+        let nextData=snapshot;
+        if(!sameBase && current!==null){
+          const result=hilenMergeBusinessStates(baseline,snapshot,current.data||businessStateEmpty(),{additive:!baseline});
+          if(result.conflicts.length){transactionConflicts=result.conflicts;return;}
+          nextData=result.state;
+        }else if(!sameBase && current===null && expectedRevision===0){
+          // Estado nuevo: combinar solo si no hubo otro dato remoto.
+          nextData=snapshot;
+        }
+        transactionConflicts=[];
+        committedProposal={data:nextData,updated_at:new Date().toISOString(),revision:actualRevision+1};
+        return committedProposal;
       },undefined,false);
-      // Guardar la promesa SUBYACENTE, no la promesa con tiempo límite.
-      // Se define abajo mediante el controlador de una transacción única.
       let result=await hilenCloudSingleFlight(transaction,uid,30000);
       if(!result?.committed){
-        hilenCloudSavePhase='revisar cambio simultáneo';
-        if(!await hilenReconcileCloud('Firebase cambió durante la escritura')){
-          cloudLastError=cloudConflict?'Los dos equipos modificaron el mismo registro. No se reemplazó Firebase.':'No se pudo reconciliar la versión de Firebase.';
+        hilenCloudSavePhase='revisar conflicto real de registros';
+        if(transactionConflicts.length){
+          hilenMarkCloudConflict('Cambios incompatibles: '+transactionConflicts.slice(0,3).join(', ')+'. La nube no fue reemplazada.');
+          cloudLastError='Hay registros editados de manera incompatible. Descarga la copia local para proteger tus cambios.';
+          return false;
+        }
+        // Cancelación sin conflicto identificable: volver a consultar el estado.
+        if(!await hilenReconcileCloud('Firebase canceló la transacción')){
+          cloudLastError=cloudConflict?'Los dos equipos modificaron el mismo registro. No se reemplazó Firebase.':'Firebase canceló la escritura y no se pudo revisar la versión actual.';
           return false;
         }
         continue;
       }
       const committed=result.snapshot.val();
-      if(!committed||Number(committed.revision)!==expectedRevision+1||hilenCloudSignature(committed.data??null)!==hilenCloudSignature(snapshot)){
-        throw Object.assign(new Error('Firebase confirmó una versión diferente de la que se intentó guardar.'),{code:'firebase/verification-mismatch'});
+      if(!committed||!committedProposal||Number(committed.revision)!==Number(committedProposal.revision)||hilenCloudSignature(committed.data??null)!==hilenCloudSignature(committedProposal.data)){
+        throw Object.assign(new Error('Firebase devolvió un contenido diferente del aprobado por la transacción.'),{code:'firebase/verification-mismatch'});
       }
-      // El resultado committed=true de la transacción es el ACK del servidor.
-      // Una lectura posterior que vea cambios de OTRO equipo NO anula esta confirmación.
+      // Confirmación real del servidor: guardar la NUEVA base remota y, si
+      // Firebase incorporó otras ventas/abonos, traer también esas altas a HILEN.
       hilenRememberCloudBase(Number(committed.revision),committed.data??null,uid);
       cloudLastVerifiedAt=new Date().toISOString();cloudLastError='';hilenCloudFailureCount=0;
       localStorage.setItem(CLOUD_OWNER_KEY,uid);
       localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(committed.updated_at||cloudLastVerifiedAt));
       try{localStorage.setItem(CLOUD_VERIFIED_KEY+uid,cloudLastVerifiedAt)}catch(_){}
-      void maybeDailyCloudBackup(snapshot).catch(e=>console.warn('Copia diaria pendiente',e));
-      if(generation!==cloudEditGeneration||hilenCloudSignature(businessState())!==hilenCloudSignature(committed.data)){
-        setCloudStatus('work','Hay cambios más recientes…','Firebase confirmó una versión; HILEN debe enviar las modificaciones hechas durante esa operación.');
+      const live=structuredClone(businessState());
+      if(hilenCloudSignature(live)!==hilenCloudSignature(committed.data)){
+        const after=hilenMergeBusinessStates(snapshot,live,committed.data??businessStateEmpty());
+        if(after.conflicts.length){
+          hilenMarkCloudConflict('Se guardó una versión en Firebase, pero un registro cambió durante la sincronización: '+after.conflicts.slice(0,3).join(', '));
+          return false;
+        }
+        hilenStoreRescueCopy('antes de incorporar cambios concurrentes confirmados');
+        applyBusinessState(after.state);
+        hilenPersistMergedLocal();
+        refreshAll();
+      }
+      void maybeDailyCloudBackup(committed.data).catch(e=>console.warn('Copia diaria pendiente',e));
+      if(hilenCloudSignature(businessState())!==hilenCloudSignature(committed.data)){
+        setCloudStatus('work','Hay cambios más recientes…','Firebase confirmó una revisión; quedan modificaciones locales por enviar.');
         continue;
       }
       cloudDirty=false;localStorage.setItem(CLOUD_DIRTY_KEY,'0');
-      const counts=stateCounts(snapshot);
+      const counts=stateCounts(committed.data);
       setCloudStatus('ok','Guardado en Firebase · verificado',`${counts.sales} venta(s) · ${counts.clients} cliente(s) · ${counts.cash} movimientos de caja. Revisión ${cloudBaseRevision}. Confirmado ${new Date(cloudLastVerifiedAt).toLocaleString('es-CO')}.`);
       succeeded=true;break;
     }
     if(!succeeded&&!cloudConflict){
       cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
-      cloudLastError='No se completó la sincronización después de tres intentos de conciliación. Comprueba si otro equipo está escribiendo los mismos registros.';
+      cloudLastError='Firebase no completó la escritura tras revisar las versiones. Abre «Diagnosticar conexión» para ver si hay una escritura antigua, un problema de permisos o un conflicto de registros.';
       setCloudStatus('error','Sin sincronizar',cloudLastError);
       hilenCloudFailureCount++;hilenCloudScheduleRetry();
     }
