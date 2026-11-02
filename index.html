@@ -3951,6 +3951,21 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   #dailyActivity .hd-ref-summary-money-row{grid-template-columns:32px minmax(0,1fr)}
   #dailyActivity .hd-ref-summary-money-row strong{grid-column:2;justify-self:start}
 }
+/* HILEN · área segura para barra de estado del teléfono (nov. 2026) */
+@media (max-width:900px){
+  html,body{min-height:100%;min-height:100dvh}
+  .top{top:8px!important}
+  .main{padding-left:max(14px,env(safe-area-inset-left))!important;padding-right:max(14px,env(safe-area-inset-right))!important}
+}
+@media (max-width:900px) and (display-mode:standalone){
+  body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .side{padding-top:max(20px,env(safe-area-inset-top,0px))}
+  .top{top:8px!important}
+}
+@media (max-width:900px) and (display-mode:fullscreen){
+  body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .top{top:8px!important}
+}
 </style>
 </head>
 <body>
