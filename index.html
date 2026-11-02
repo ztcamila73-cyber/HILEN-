@@ -4034,8 +4034,8 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 
 <div id="app" class="app hidden">
   <div id="hilenCloudConflictBanner" class="hilen-cloud-conflict hidden" role="alert">
-    <div><strong>Hay datos diferentes que necesitan revisión.</strong><span> HILEN intentó combinar los cambios sin perder información, pero encontró ediciones incompatibles. Los cambios locales están protegidos: descarga una copia antes de escoger una versión.</span></div>
-    <div class="hilen-conflict-actions"><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenManualFirebaseSave()">Reintentar combinación</button><button type="button" onclick="hilenUseCloudVersion()">Cargar versión de Firebase</button></div>
+    <div><strong>Sincronización pausada para proteger tus registros.</strong><span> Hay datos diferentes entre este dispositivo y Firebase. No se reemplazará ninguna versión automáticamente.</span><div id="hilenConflictReason" class="small" style="margin-top:4px;max-width:720px;overflow-wrap:anywhere"></div></div>
+    <div class="hilen-conflict-actions"><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenReviewCloudConflicts()">Revisar diferencias</button><button type="button" onclick="hilenManualFirebaseSave()">Reintentar combinación</button></div>
   </div>
   <aside id="side" class="side">
     <button type="button" class="side-close" onclick="closeSide()" aria-label="Cerrar menú" title="Cerrar menú">×</button>
@@ -4671,7 +4671,23 @@ function hilenStableCloudValue(value){
   }
   return out;
 }
-function hilenCloudSignature(value){return JSON.stringify(hilenStableCloudValue(value??null))}
+function hilenCloudSignature(value){
+  const normalized=hilenStableCloudValue(value??null);
+  // Los grupos del negocio se identifican por ID. Su orden en memoria no
+  // debe hacer que Firebase considere distintas dos colecciones idénticas.
+  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
+  if(normalized&&typeof normalized==='object'&&!Array.isArray(normalized)&&groups.some(g=>Array.isArray(normalized[g]))){
+    for(const group of groups){
+      if(Array.isArray(normalized[group])){
+        normalized[group].sort((a,b)=>{
+          const key=row=>String(row?.id??(group==='monthlyRecords'?'month:'+String(row?.month||''):group==='annualReports'?'year:'+String(row?.year||''):'')); 
+          return key(a).localeCompare(key(b))||JSON.stringify(a).localeCompare(JSON.stringify(b));
+        });
+      }
+    }
+  }
+  return JSON.stringify(normalized);
+}
 function hilenCloudBaseMatches(value){
   if(cloudBaseRevision===null)return false;
   const rev=Number(value?.revision)||0;
@@ -4698,18 +4714,40 @@ function hilenMergeRecordKey(group,row){
   if(group==='annualReports')return 'year:'+String(row?.year||'');
   return null;
 }
+function hilenMergeRecordFields(base,local,remote,path=''){
+  const eq=(a,b)=>hilenCloudSignature(a)===hilenCloudSignature(b);
+  if(eq(local,remote))return {value:structuredClone(local),conflicts:[]};
+  if(eq(local,base))return {value:structuredClone(remote),conflicts:[]};
+  if(eq(remote,base))return {value:structuredClone(local),conflicts:[]};
+  const plain=v=>!!v&&typeof v==='object'&&!Array.isArray(v);
+  if(plain(base)&&plain(local)&&plain(remote)){
+    const value={},conflicts=[],keys=new Set([...Object.keys(base),...Object.keys(local),...Object.keys(remote)]);
+    for(const key of keys){
+      const sub=hilenMergeRecordFields(base[key],local[key],remote[key],path?path+'.'+key:key);
+      if(sub.conflicts.length)conflicts.push(...sub.conflicts);
+      else if(sub.value!==undefined)value[key]=sub.value;
+    }
+    return {value,conflicts};
+  }
+  return {value:undefined,conflicts:[path||'registro completo']};
+}
 function hilenMergeBusinessStates(base,local,remote,{additive=false}={}){
   const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
-  const merged={version:13},conflicts=[];
+  const merged={version:13},conflicts=[],details=[];
   for(const group of groups){
     const input=[base,local,remote].map(st=>Array.isArray(st?.[group])?st[group]:[]);
-    const maps=input.map((arr,source)=>{
+    const maps=input.map(arr=>{
       const map=new Map();
-      for(const row of arr){const key=hilenMergeRecordKey(group,row);
+      for(const row of arr){
+        const key=hilenMergeRecordKey(group,row);
         if(!key){conflicts.push(group+': registro sin identificador');continue}
-        if(map.has(key)&&hilenCloudSignature(map.get(key))!==hilenCloudSignature(row))conflicts.push(group+': identificador duplicado '+key);
+        if(map.has(key)&&hilenCloudSignature(map.get(key))!==hilenCloudSignature(row)){
+          conflicts.push(group+': identificador duplicado '+key);
+          continue;
+        }
         map.set(key,row);
-      }return map;
+      }
+      return map;
     });
     const [before,loc,rem]=maps,ids=new Set([...before.keys(),...loc.keys(),...rem.keys()]),out=[];
     for(const key of ids){
@@ -4717,21 +4755,51 @@ function hilenMergeBusinessStates(base,local,remote,{additive=false}={}){
       const eq=(x,y)=>hilenCloudSignature(x)===hilenCloudSignature(y);
       let chosen;
       if(additive){
-        // Compatibilidad con el archivo anterior, que no conservaba línea base.
-        // Solo combina altas de IDs distintos; no modifica registros en conflicto.
-        if(l!==undefined&&r!==undefined&&!eq(l,r)){conflicts.push(group+':'+key);continue}
+        // Una base histórica que se haya reemplazado durante un conflicto no
+        // demuestra qué lado editó el registro; evitar sobrescrituras silenciosas.
+        if(l!==undefined&&r!==undefined&&!eq(l,r)){
+          conflicts.push(group+':'+key+' (versiones diferentes)');
+          details.push({group,key,local:l,remote:r,fields:['registro completo']});
+          continue;
+        }
         chosen=l===undefined?r:l;
       }else{
         const localChanged=!eq(l,b),remoteChanged=!eq(r,b);
-        if(localChanged&&remoteChanged&&!eq(l,r)){conflicts.push(group+':'+key);continue}
-        chosen=localChanged?l:r;
+        if(localChanged&&remoteChanged&&!eq(l,r)){
+          // Fusionar cambios independientes en campos distintos del mismo
+          // registro; si ambos cambiaron el mismo campo, pedir decisión.
+          if(b!==undefined&&l!==undefined&&r!==undefined){
+            const byField=hilenMergeRecordFields(b,l,r);
+            if(!byField.conflicts.length)chosen=byField.value;
+            else{
+              conflicts.push(group+':'+key+' ('+byField.conflicts.slice(0,4).join(', ')+')');
+              details.push({group,key,local:l,remote:r,fields:byField.conflicts});
+              continue;
+            }
+          }else{
+            conflicts.push(group+':'+key+' (registro eliminado o creado de forma incompatible)');
+            details.push({group,key,local:l,remote:r,fields:['registro completo']});
+            continue;
+          }
+        }else chosen=localChanged?l:r;
       }
       if(chosen!==undefined)out.push(structuredClone(chosen));
     }
     merged[group]=out;
   }
-  // Nunca hacer un write si un elemento tiene ediciones incompatibles.
-  return {state:merged,conflicts};
+  return {state:merged,conflicts,details};
+}
+function hilenLegacyConflictUncertain(uid){
+  // La versión anterior podía actualizar la línea base pese a un conflicto.
+  // Un respaldo de conflicto posterior a la última verificación obliga a
+  // comparar conservadoramente antes de permitir cualquier escritura.
+  try{
+    const rescue=JSON.parse(localStorage.getItem(CLOUD_RESCUE_KEY+'_'+uid)||'null');
+    const reason=String(rescue?.reason||'');
+    if(!/incompatible|conflicto|cambios mientras existe conflicto/i.test(reason))return false;
+    const verified=localStorage.getItem(CLOUD_VERIFIED_KEY+uid)||'';
+    return !verified||String(rescue.saved_at||'')>verified;
+  }catch(_){return false}
 }
 function hilenPersistMergedLocal(){
   try{localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));localStorage.setItem(CLOUD_OWNER_KEY,currentUser.id)}
@@ -4747,7 +4815,7 @@ async function hilenReconcileCloud(reason='diferencia de Firebase'){
     const local=structuredClone(businessState());
     const prior=hilenReadCloudBase(uid);
     const changed=hilenCloudSignature(local)!==hilenCloudSignature(incoming);
-    const merged=changed?hilenMergeBusinessStates(prior,local,incoming,{additive:!prior}):{state:local,conflicts:[]};
+    const merged=changed?hilenMergeBusinessStates(prior,local,incoming,{additive:!prior||hilenLegacyConflictUncertain(uid)}):{state:local,conflicts:[]};
     if(merged.conflicts.length){hilenMarkCloudConflict('Hay modificaciones incompatibles en '+merged.conflicts.slice(0,3).join(', ')+'. No se reemplazó ningún registro.');return false}
     hilenRememberCloudBase(revision,remote?.data??null,uid);
     cloudLoadedUid=uid;cloudConflict=false;hilenRenderCloudConflict();
@@ -4778,10 +4846,16 @@ function hilenExportRescueCopy(){
   document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
   showToast('Copia local descargada','Incluye los cambios actuales de este dispositivo. Consérvala antes de resolver Firebase.');
 }
+let hilenLatestCloudConflictReason='';
 function hilenRenderCloudConflict(){
-  const banner=document.getElementById('hilenCloudConflictBanner');if(banner)banner.classList.toggle('hidden',!cloudConflict);
+  const banner=document.getElementById('hilenCloudConflictBanner');
+  if(banner)banner.classList.toggle('hidden',!cloudConflict);
+  const detail=document.getElementById('hilenConflictReason');
+  if(detail)detail.textContent=cloudConflict?hilenLatestCloudConflictReason:'';
 }
 function hilenMarkCloudConflict(reason){
+  const repeated=cloudConflict&&hilenLatestCloudConflictReason===reason;
+  hilenLatestCloudConflictReason=reason;
   cloudConflict=true;cloudDirty=true;
   localStorage.setItem(CLOUD_DIRTY_KEY,'1');
   hilenStoreRescueCopy(reason);
@@ -4789,7 +4863,7 @@ function hilenMarkCloudConflict(reason){
   clearTimeout(googleSheetsSyncTimer);clearTimeout(googleDriveSyncTimer);
   setCloudStatus('error','Actualización de Firebase detenida por seguridad',reason);
   hilenRenderCloudConflict();
-  showToast('Protección de datos activada','Detectamos una versión más reciente en Firebase. Tus cambios locales se conservaron y NO se reemplazó la nube.','error',9500);
+  if(!repeated)showToast('Protección de datos activada','Hay diferencias reales entre registros. Pulsa «Revisar diferencias» para identificarlas. No se reemplazó Firebase.','error',7500);
 }
 async function hilenUseCloudVersion(){
   if(!cloudConflict||!cloudDb||!currentUser?.id)return;
@@ -5002,7 +5076,7 @@ async function cloudSaveNow(options={}){
         }
         let nextData=snapshot;
         if(!sameBase && current!==null){
-          const result=hilenMergeBusinessStates(baseline,snapshot,current.data||businessStateEmpty(),{additive:!baseline});
+          const result=hilenMergeBusinessStates(baseline,snapshot,current.data||businessStateEmpty(),{additive:!baseline||hilenLegacyConflictUncertain(uid)});
           if(result.conflicts.length){transactionConflicts=result.conflicts;return;}
           nextData=result.state;
         }else if(!sameBase && current===null && expectedRevision===0){
@@ -5209,7 +5283,7 @@ async function loadCloudState(userId,options={}){
       applyBusinessState(incoming||{});cloudConflict=false;
       localStorage.setItem(CLOUD_DIRTY_KEY,'0');
     }else if(incoming&&localDirty&&different){
-      const attempt=hilenMergeBusinessStates(prior,localCandidate,incoming,{additive:!prior});
+      const attempt=hilenMergeBusinessStates(prior,localCandidate,incoming,{additive:!prior||hilenLegacyConflictUncertain(userId)});
       if(attempt.conflicts.length){
         applyBusinessState(localCandidate);
         hilenMarkCloudConflict('Se encontraron registros editados de manera incompatible: '+attempt.conflicts.slice(0,3).join(', '));
@@ -5231,7 +5305,9 @@ async function loadCloudState(userId,options={}){
       applyBusinessState({});cloudConflict=false;
       localStorage.setItem(CLOUD_DIRTY_KEY,'0');
     }
-    hilenRememberCloudBase(serverRev,incoming,userId);
+    // No sustituir la referencia anterior por Firebase si el merge falló.
+    // Hacerlo falsearía la comparación y podría causar sobrescrituras.
+    if(!cloudConflict)hilenRememberCloudBase(serverRev,incoming,userId);
     localStorage.setItem(CLOUD_OWNER_KEY,userId);
     localStorage.setItem(KEY,JSON.stringify({...db,users:[],session:null}));
     localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(remote?.updated_at||new Date().toISOString()));
