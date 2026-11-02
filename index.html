@@ -4769,12 +4769,14 @@ function hilenStoreRescueCopy(reason){
   catch(err){console.warn('No fue posible conservar otra copia local',err);return false}
 }
 function hilenExportRescueCopy(){
-  let payload=localStorage.getItem(CLOUD_RESCUE_KEY+'_'+(currentUser?.id||'local'));
-  if(!payload)payload=JSON.stringify({saved_at:new Date().toISOString(),userId:currentUser?.id||'',data:businessState()});
+  // Siempre exportar el estado ACTUAL. Una copia de rescate anterior podría
+  // omitir ventas o abonos registrados después del primer aviso.
+  const payload=JSON.stringify({app:'HILEN',backupVersion:1,saved_at:new Date().toISOString(),
+    reason:'Recuperación local antes de resolver Firebase',userId:currentUser?.id||'',data:businessState()},null,2);
   const url=URL.createObjectURL(new Blob([payload],{type:'application/json;charset=utf-8'}));
-  const a=document.createElement('a');a.href=url;a.download=`HILEN_cambios_locales_${today()}.json`;
+  const a=document.createElement('a');a.href=url;a.download=`HILEN_cambios_locales_${today()}_${Date.now()}.json`;
   document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
-  showToast('Copia local descargada','Guarda este archivo antes de cargar datos de Firebase.');
+  showToast('Copia local descargada','Incluye los cambios actuales de este dispositivo. Consérvala antes de resolver Firebase.');
 }
 function hilenRenderCloudConflict(){
   const banner=document.getElementById('hilenCloudConflictBanner');if(banner)banner.classList.toggle('hidden',!cloudConflict);
@@ -7172,6 +7174,7 @@ function renderGoogleSheetsStatus(){
   if(!googleOAuthConfigured()){el.className='google-sheets-status warn';el.textContent='Google Sheets: el administrador todavía debe configurar el acceso.';return}
   if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){el.className='google-sheets-status warn';el.textContent='Google Sheets sin conectar. Aún no existe una copia confirmada.';return}
   const last=hilenSheetsLastSuccess(),stamp=last?last.toLocaleString('es-CO'):'ninguna';
+  if(cloudConflict){el.className='google-sheets-status warn';el.textContent='Firebase tiene cambios sin resolver: la copia automática de Sheets está en pausa para no reemplazar el respaldo anterior. Descarga los cambios locales o usa Respaldar ahora para crear una copia separada en Drive.';return}
   if(!hilenSheetsUpdatedToday()){
     el.className='google-sheets-status warn';
     el.textContent=`Sin copia confirmada hoy. Última actualización verificada: ${stamp}. ${googleSheetsAccessToken?'HILEN intentará actualizarla automáticamente.':'Pulsa «Actualizar Google Sheets ahora» para sincronizar y autorizar si es necesario.'}`;
@@ -7231,6 +7234,7 @@ async function persistGoogleSheetsConfig(){
 }
 function renderGoogleDriveStatus(){
   const el=$('googleDriveStatus');if(!el)return;
+  if(cloudConflict){el.className='google-sheets-status warn';el.textContent='Firebase tiene diferencias. Pulsa Respaldar ahora para guardar una copia local independiente en Drive sin sobrescribir el respaldo anterior.';return}
   if(!googleDriveConfig.enabled||!googleDriveConfig.folderId){el.className='google-sheets-status warn';el.textContent='Google Drive: todavía no conectado. Al conectarlo, HILEN creará tu carpeta de respaldos automáticamente.';return}
   const last=googleDriveConfig.lastSentAt?new Date(googleDriveConfig.lastSentAt):null;
   const stamp=last&&!Number.isNaN(last.getTime())?last.toLocaleString('es-CO'):'ninguna';
@@ -7329,7 +7333,7 @@ async function cleanupOldDriveDailyBackups(){
   if(!googleDriveConfig.folderId)return;try{const q=encodeURIComponent(`'${googleDriveConfig.folderId}' in parents and trashed=false`),r=await googleApi(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name,createdTime)&orderBy=createdTime desc&pageSize=100`),daily=(r?.files||[]).filter(f=>/^(?:HILEN|HILEN)_\d{4}-\d{2}-\d{2}\.json$/.test(f.name)).sort((a,b)=>String(b.createdTime||'').localeCompare(String(a.createdTime||'')));await Promise.all(daily.slice(30).map(f=>googleApi(`https://www.googleapis.com/drive/v3/files/${f.id}`,{method:'DELETE'})))}catch(e){console.warn('No se pudieron depurar respaldos de Drive',e)}
 }
 async function syncGoogleDriveNow(showResult=false){
-  if(cloudConflict){if(showResult)showToast('Copia en pausa','Resuelve primero la diferencia entre Firebase y los datos locales.','error');return false}
+  if(cloudConflict){if(showResult)showToast('Copia automática en pausa','Para guardar los cambios locales sin reemplazar el respaldo principal, pulsa «Respaldar ahora» en Configuración.','warning');return false}
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','El respaldo de Google Drive se hará cuando vuelva Internet.','error');return false}
   if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;
   const pendingAtStart=googleDriveConfig.pendingAt,hadPending=!!pendingAtStart;
@@ -7380,12 +7384,38 @@ function queueGoogleDriveSync(delayMs=90000,changed=false){
   googleDriveSyncTimer=setTimeout(()=>{googleDriveSyncTimer=null;syncGoogleDriveNow(false)},delayMs);
 }
 function openGoogleDriveBackup(){if(!googleDriveConfig.folderUrl)return showToast('Google Drive no está conectado','Ve a Configuración y pulsa “Conectar Google Drive”.','error');window.open(googleDriveConfig.folderUrl,'_blank','noopener')}
-async function syncGoogleBackupNow(showResult=false){
-  const previousGooglePromptState=googleAuthMayPrompt,previousManualRun=googleBackupManualRun;if(showResult)googleAuthMayPrompt=true;googleBackupManualRun=!!showResult;
+async function hilenBackupRecoveryToGoogleDrive(){
+  if(!navigator.onLine){showToast('Sin conexión','Descarga primero la copia JSON local.','error');return false}
   try{
+    const folderId=await ensureGoogleDriveFolder();
+    const stamp=new Date().toISOString().replace(/[:.]/g,'-');
+    const name='HILEN_RECUPERACION_LOCAL_'+stamp+'.json';
+    await driveMultipartUpload({name,mimeType:'application/json',parents:[folderId],
+      appProperties:{hilenBackup:'local-conflict-recovery'}},backupJsonText());
+    showToast('Copia de recuperación en Google Drive','Guardamos tus cambios locales en un archivo nuevo. No se modificó el respaldo principal ni Google Sheets.','success',8000);
+    return true;
+  }catch(err){console.error('HILEN respaldo de recuperación',err);
+    showToast('No se pudo crear la copia en Drive',err?.message||'Descarga el JSON local para conservarlo.','error',8000);
+    return false}
+}
+async function syncGoogleBackupNow(showResult=false){
+  const previousGooglePromptState=googleAuthMayPrompt,previousManualRun=googleBackupManualRun;
+  if(showResult)googleAuthMayPrompt=true;
+  googleBackupManualRun=!!showResult;
+  try{
+    // Los clics explícitos pueden solicitar OAuth; hacerlo ANTES del primer
+    // await evita que el navegador móvil bloquee la ventana de Google.
+    if(showResult&&!googleSheetsAccessToken)await requestGoogleAccessToken(true);
+    if(cloudConflict){
+      if(!showResult)return false;
+      return await hilenBackupRecoveryToGoogleDrive();
+    }
     const a=await syncGoogleSheetsNow(false),b=await syncGoogleDriveNow(false);
     if(showResult)showToast(a&&b?'Respaldos actualizados':'Respaldo incompleto',a&&b?'Google Sheets y Google Drive quedaron actualizados.':'Revisa la conexión con Google e intenta nuevamente.',a&&b?'success':'error',6200);
-    return a&&b
+    return a&&b;
+  }catch(err){console.error('HILEN respaldos Google',err);
+    if(showResult)showToast('No se pudo autorizar el respaldo',err?.message||'Descarga la copia JSON local y vuelve a intentar conectar Google.','error',8500);
+    return false;
   }finally{googleAuthMayPrompt=previousGooglePromptState;googleBackupManualRun=previousManualRun}
 }
 
@@ -7406,7 +7436,7 @@ function requestGoogleAccessToken(interactive=true){
 
     let settled=false;
     const done=(fn,value)=>{if(settled)return;settled=true;clearTimeout(timer);fn(value)};
-    const timer=setTimeout(()=>done(reject,new Error('GOOGLE_TOKEN_UNAVAILABLE')),8000);
+    const timer=setTimeout(()=>done(reject,new Error('GOOGLE_TOKEN_UNAVAILABLE')),90000);
 
     googleSheetsTokenClient=google.accounts.oauth2.initTokenClient({
       client_id:HILEN_GOOGLE_OAUTH_CLIENT_ID,
