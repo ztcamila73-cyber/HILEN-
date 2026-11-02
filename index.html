@@ -4865,6 +4865,26 @@ function hilenMarkCloudConflict(reason){
   hilenRenderCloudConflict();
   if(!repeated)showToast('Protección de datos activada','Hay diferencias reales entre registros. Pulsa «Revisar diferencias» para identificarlas. No se reemplazó Firebase.','error',7500);
 }
+async function hilenReviewCloudConflicts(){
+  if(!cloudDb||!currentUser?.id){showToast('Firebase no disponible','Inicia sesión antes de revisar las diferencias.','error');return}
+  try{
+    const uid=currentUser.id;
+    const remote=(await hilenCloudWithTimeout(cloudDb.ref(userCloudPath(uid,'state')).once('value'))).val();
+    const base=hilenReadCloudBase(uid),local=structuredClone(businessState()),incoming=remote?.data||businessStateEmpty();
+    const diff=hilenMergeBusinessStates(base,local,incoming,{additive:!base||hilenLegacyConflictUncertain(uid)});
+    if(!diff.conflicts.length){
+      showToast('Sin incompatibilidades','No encontramos registros incompatibles en esta lectura. Pulsa Reintentar combinación.','info');
+      return;
+    }
+    const groupNames={clients:'Clientes',sales:'Ventas',payments:'Abonos',cashMovements:'Movimientos de caja',statementDownloads:'Documentos',encargos:'Encargos',monthlyRecords:'Registros mensuales',annualReports:'Reportes anuales'};
+    const rows=diff.conflicts.slice(0,30).map(v=>{
+      const parts=v.split(':'),label=groupNames[parts[0]]||parts[0];
+      return '<li style="margin:7px 0;overflow-wrap:anywhere"><b>'+esc(label)+'</b>: '+esc(parts.slice(1).join(':'))+'</li>';
+    }).join('');
+    $('modalContent').innerHTML='<h2>Registros que requieren revisión</h2><p class="notice warn">Firebase y este dispositivo tienen cambios incompatibles. La aplicación no los sobrescribirá automáticamente.</p><p><b>'+diff.conflicts.length+' diferencia(s)</b> identificada(s). La lista muestra hasta 30.</p><ul style="padding-left:22px;max-height:40vh;overflow:auto">'+rows+'</ul><div class="action-group"><button class="primary" onclick="hilenExportRescueCopy()">Descargar datos de este dispositivo</button><button class="secondary" onclick="closeModal()">Cerrar</button></div><p class="small muted">Antes de resolver registros de ventas, abonos o caja, verifica ambas versiones y conserva respaldos de cada una.</p>';
+    $('modal').classList.remove('hidden');
+  }catch(err){console.error('Revisión de diferencias Firebase',err);showToast('No se pudieron revisar las diferencias',firebaseDbErrorText(err),'error')}
+}
 async function hilenUseCloudVersion(){
   if(!cloudConflict||!cloudDb||!currentUser?.id)return;
   confirmAction('Recargar datos de Firebase','Hay cambios locales sin combinar con la nube. Se guardará una copia local de recuperación, pero los datos visibles se reemplazarán por la versión de Firebase. Descarga también la copia local si quieres conservarla fuera del dispositivo.',async()=>{
