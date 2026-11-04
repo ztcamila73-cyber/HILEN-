@@ -4880,11 +4880,25 @@ async function hilenReviewCloudConflicts(){
       return;
     }
     const groupNames={clients:'Clientes',sales:'Ventas',payments:'Abonos',cashMovements:'Movimientos de caja',statementDownloads:'Documentos',encargos:'Encargos',monthlyRecords:'Registros mensuales',annualReports:'Reportes anuales'};
-    const rows=diff.conflicts.slice(0,30).map(v=>{
-      const parts=v.split(':'),label=groupNames[parts[0]]||parts[0];
-      return '<li style="margin:7px 0;overflow-wrap:anywhere"><b>'+esc(label)+'</b>: '+esc(parts.slice(1).join(':'))+'</li>';
+    const formatValue=value=>value===undefined?'(campo ausente)':value===null?'null':typeof value==='object'?JSON.stringify(value,null,2):String(value);
+    const formatCell=value=>'<pre style="margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto;font:12px/1.45 ui-monospace,monospace">'+esc(formatValue(value))+'</pre>';
+    const review=diff.conflicts.slice(0,30).map((item,index)=>{
+      const split=item.indexOf(':'),group=split<0?'':item.slice(0,split);
+      // Buscar cada registro por ID sin depender de su posición en la colección.
+      const source=diff.details?.find(d=>d.group===group && item.includes(group+':'+d.key));
+      const key=source?.key || (split>=0?item.slice(split+1).split(' (')[0]:'');
+      const findRecord=(data)=>Array.isArray(data?.[group])?data[group].find(row=>hilenMergeRecordKey(group,row)===key):undefined;
+      const left=findRecord(local),right=findRecord(incoming);
+      const keys=[...new Set([...Object.keys(left||{}),...Object.keys(right||{})])];
+      const changed=keys.filter(k=>hilenCloudSignature(left?.[k])!==hilenCloudSignature(right?.[k]));
+      const label=groupNames[group]||group;
+      const fields=changed.map(field=>'<div style="margin:10px 0;padding:11px;border:1px solid #e1e5ec;border-radius:12px"><b>'+esc(field)+'</b><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:8px"><div style="padding:9px;border-radius:9px;background:#f7f9fc"><b>Este dispositivo</b>'+formatCell(left?.[field])+'</div><div style="padding:9px;border-radius:9px;background:#f7f9fc"><b>Firebase</b>'+formatCell(right?.[field])+'</div></div></div>').join('');
+      const detail=left===undefined||right===undefined
+        ?'<p class="notice warn">El registro completo no está presente en '+(left===undefined?'este dispositivo':'Firebase')+'. Comprueba el respaldo antes de decidir.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px"><div><b>Este dispositivo</b>'+formatCell(left)+'</div><div><b>Firebase</b>'+formatCell(right)+'</div></div>'
+        :fields||'<p>No se encontraron diferencias de campos en esta lectura. El aviso puede deberse a una base histórica pendiente de conciliación.</p>';
+      return '<details '+(index===0?'open':'')+' style="border:1px solid #dee4ed;border-radius:12px;padding:12px;margin:10px 0"><summary style="cursor:pointer;font-weight:700">'+esc(label)+' · '+esc(key)+' ('+changed.length+' campo(s) distinto(s))</summary><div style="margin-top:12px">'+detail+'</div></details>';
     }).join('');
-    $('modalContent').innerHTML='<h2>Registros que requieren revisión</h2><p class="notice warn">Firebase y este dispositivo tienen cambios incompatibles. La aplicación no los sobrescribirá automáticamente.</p><p class="small muted">Cuenta: '+esc(currentUser?.email||'—')+'. Esta revisión corresponde al dispositivo actual, no al computador o la tablet por separado.</p><p><b>'+diff.conflicts.length+' diferencia(s)</b> identificada(s). La lista muestra hasta 30.</p><ul style="padding-left:22px;max-height:40vh;overflow:auto">'+rows+'</ul><div class="action-group"><button class="primary" onclick="hilenExportRescueCopy()">Descargar datos de este dispositivo</button><button class="secondary" onclick="closeModal()">Cerrar</button></div><p class="small muted">Antes de resolver registros de ventas, abonos o caja, verifica ambas versiones y conserva respaldos de cada una.</p>';
+    $('modalContent').innerHTML='<h2>Comparar diferencias con Firebase</h2><p class="notice warn">Esta pantalla es de solo lectura: no guarda, borra ni sustituye ventas. Compara los datos de esta sesión con Firebase.</p><p class="small muted">Cuenta: '+esc(currentUser?.email||'—')+'.</p><p><b>'+diff.conflicts.length+' conflicto(s)</b>. Revisa los campos distintos de cada registro:</p><div style="max-height:55vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch">'+review+'</div><div class="action-group"><button class="primary" onclick="hilenExportRescueCopy()">Descargar datos de este dispositivo</button><button class="secondary" onclick="closeModal()">Cerrar</button></div><p class="small muted">No pulses Reintentar combinación hasta comprobar qué versión es correcta y conservar ambos respaldos.</p>';
     $('modal').classList.remove('hidden');
   }catch(err){console.error('Revisión de diferencias Firebase',err);showToast('No se pudieron revisar las diferencias',firebaseDbErrorText(err),'error')}
 }
