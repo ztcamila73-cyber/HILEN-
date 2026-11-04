@@ -3966,6 +3966,26 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
   .top{top:8px!important}
 }
+
+/* HILEN · Aviso de Firebase minimizable (sin desactivar la protección) */
+.hilen-cloud-conflict .hilen-cloud-compact{display:none}
+.hilen-cloud-conflict.is-minimized{
+  top:max(10px,env(safe-area-inset-top,0px))!important;
+  right:12px!important;left:auto!important;transform:none!important;
+  width:auto!important;max-width:calc(100vw - 24px)!important;
+  padding:7px 9px!important;max-height:none!important;overflow:visible!important;
+  border-radius:13px!important;gap:0!important
+}
+.hilen-cloud-conflict.is-minimized .hilen-cloud-conflict-copy,
+.hilen-cloud-conflict.is-minimized .hilen-conflict-actions{display:none!important}
+.hilen-cloud-conflict.is-minimized .hilen-cloud-compact{
+  display:flex!important;align-items:center;gap:10px;
+  flex-wrap:nowrap;white-space:nowrap;font-size:12px;line-height:1.3
+}
+.hilen-cloud-conflict.is-minimized .hilen-cloud-compact button{
+  padding:7px 9px!important;border-radius:9px!important;min-height:32px;
+  background:#1a2741;color:#fff;border-color:#1a2741
+}
 </style>
 </head>
 <body>
@@ -4034,8 +4054,9 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 
 <div id="app" class="app hidden">
   <div id="hilenCloudConflictBanner" class="hilen-cloud-conflict hidden" role="alert">
-    <div><strong>Sincronización pausada para proteger tus registros.</strong><span> Hay datos diferentes entre este dispositivo y Firebase. No se reemplazará ninguna versión automáticamente.</span><div id="hilenConflictReason" class="small" style="margin-top:4px;max-width:720px;overflow-wrap:anywhere"></div></div>
-    <div class="hilen-conflict-actions"><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenReviewCloudConflicts()">Revisar diferencias</button><button type="button" onclick="hilenManualFirebaseSave()">Reintentar combinación</button></div>
+    <div class="hilen-cloud-conflict-copy"><strong>Sincronización pausada para proteger tus registros.</strong><span> Hay datos diferentes entre este dispositivo y Firebase. No se reemplazará ninguna versión automáticamente.</span><div id="hilenConflictReason" class="small" style="margin-top:4px;max-width:720px;overflow-wrap:anywhere"></div></div>
+    <div class="hilen-conflict-actions"><button type="button" onclick="hilenSetCloudBannerMinimized(true)" aria-label="Minimizar aviso de sincronización">Minimizar</button><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenReviewCloudConflicts()">Revisar diferencias</button><button type="button" onclick="hilenManualFirebaseSave()">Reintentar combinación</button></div>
+    <div class="hilen-cloud-compact"><strong>Sin sincronizar</strong><button type="button" onclick="hilenSetCloudBannerMinimized(false)" aria-label="Mostrar aviso completo de Firebase">Ver aviso</button></div>
   </div>
   <aside id="side" class="side">
     <button type="button" class="side-close" onclick="closeSide()" aria-label="Cerrar menú" title="Cerrar menú">×</button>
@@ -4187,7 +4208,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
           </div>
         </div>
         <div class="hilen-sales-table-subbar">
-          <div class="sales-client-search"><label class="label" for="salesClientSearch">Buscar cliente</label><input id="salesClientSearch" class="input" placeholder="Inicio del nombre (ej. N)" oninput="renderSalesView()" autocomplete="off"></div>
+          <div class="sales-client-search"><label class="label" for="salesClientSearch">Buscar venta</label><input id="salesClientSearch" class="input" placeholder="Nombre, teléfono o factura (ej. H-000129)" oninput="renderSalesView()" autocomplete="off"></div>
           <div class="hilen-sales-visible-count" id="hilenSalesVisibleCount" role="status"></div>
         </div>
         <div id="dayTable"></div>
@@ -4847,14 +4868,25 @@ function hilenExportRescueCopy(){
   showToast('Copia local descargada','Incluye los cambios actuales de este dispositivo. Consérvala antes de resolver Firebase.');
 }
 let hilenLatestCloudConflictReason='';
+let hilenCloudBannerMinimized=false;
+function hilenSetCloudBannerMinimized(minimized){
+  hilenCloudBannerMinimized=!!minimized;
+  hilenRenderCloudConflict();
+}
 function hilenRenderCloudConflict(){
   const banner=document.getElementById('hilenCloudConflictBanner');
-  if(banner)banner.classList.toggle('hidden',!cloudConflict);
+  if(!cloudConflict)hilenCloudBannerMinimized=false;
+  if(banner){
+    banner.classList.toggle('hidden',!cloudConflict);
+    banner.classList.toggle('is-minimized',!!cloudConflict&&hilenCloudBannerMinimized);
+    banner.setAttribute('role',hilenCloudBannerMinimized?'status':'alert');
+  }
   const detail=document.getElementById('hilenConflictReason');
   if(detail)detail.textContent=cloudConflict?hilenLatestCloudConflictReason:'';
 }
 function hilenMarkCloudConflict(reason){
   const repeated=cloudConflict&&hilenLatestCloudConflictReason===reason;
+  if(!repeated)hilenCloudBannerMinimized=false;
   hilenLatestCloudConflictReason=reason;
   cloudConflict=true;cloudDirty=true;
   localStorage.setItem(CLOUD_DIRTY_KEY,'1');
@@ -5571,6 +5603,8 @@ function globalSearchGo(){
   const low=normalizeClientSearchText(q);
   const clientHit=(db.clients||[]).some(c=>normalizeClientSearchText(`${c.name||''} ${c.phone||''}`).includes(low));
   const productHit=(db.sales||[]).some(s=>(s.items||[]).some(i=>String(i.name||'').toLocaleLowerCase('es').includes(low)));
+  const invoiceHit=(db.sales||[]).some(s=>hilenInvoiceNumberMatches(s,q));
+  if(invoiceHit){goSection('day');if($('salesClientSearch')){$('salesClientSearch').value=q;hilenSalesTypeFilter='all';renderSalesView()}return}
   if(clientHit){goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}return}
   if(productHit){goSection('inventory');if($('inventorySearch')){$('inventorySearch').value=q;renderInventory()}return}
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
@@ -5783,6 +5817,17 @@ async function savePayment(){
  }finally{hilenSavingPayment=false}
 }
 
+function hilenInvoiceNumberMatches(sale,query){
+  const strip=v=>String(v??'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const wanted=strip(query),number=strip(sale?.invoiceNo||'');
+  if(!wanted||!number)return false;
+  if(/^H\d+/.test(wanted))return number.startsWith(wanted);
+  if(/^\d+$/.test(wanted)&&wanted.length>=2){
+    const digits=number.match(/(\d+)$/)?.[1];
+    return !!digits&&(digits===wanted||Number(digits)===Number(wanted));
+  }
+  return false;
+}
 let salesPeriod='day';
 let hilenSalesTypeFilter='all';
 function hilenSetSalesTypeFilter(type){
@@ -5846,11 +5891,19 @@ function hilenAdjustReadingZoom(scope,change){
 function hilenResetReadingZoom(scope){if(scope==='sales'||scope==='debt'){hilenReadingZoom[scope]=100;hilenAdjustReadingZoom(scope,0)}}
 function renderSalesView(){
   let rows=[...db.sales],label='Ventas',historicalTotal=0,overlapCount=0,selectedMonth='';
-  if(salesPeriod==='day'){const d=$('dayDate').value||today();rows=rows.filter(s=>s.date===d);label='Ventas del '+normalizeDateLabel(d)}
-  else if(salesPeriod==='month'){const m=$('salesMonth').value||today().slice(0,7);selectedMonth=m;rows=rows.filter(s=>String(s.date||'').startsWith(m));const [y,mo]=m.split('-');label='Ventas de '+new Date(+y,+mo-1,1).toLocaleDateString('es-CO',{month:'long',year:'numeric'})}
-  else if(salesPeriod==='year'){const y=String($('salesYear').value||new Date().getFullYear());rows=rows.filter(s=>String(s.date||'').startsWith(y+'-'));label='Ventas del año '+y}
-  const clientQuery=normalizeClientSearchText($('salesClientSearch')?.value||'');
-  if(clientQuery)rows=rows.filter(s=>clientSearchMatches({name:clientNameById(s.clientId),phone:(db.clients||[]).find(c=>c.id===s.clientId)?.phone||''},clientQuery));
+  const searchText=($('salesClientSearch')?.value||'').trim();
+  const clientQuery=normalizeClientSearchText(searchText);
+  const matchingInvoices=searchText?(db.sales||[]).filter(s=>hilenInvoiceNumberMatches(s,searchText)):[];
+  const invoiceMode=!!searchText&&(matchingInvoices.length>0||/^h[\s-]*\d+/i.test(searchText));
+  if(invoiceMode){
+    // Una factura se puede encontrar aunque pertenezca a otro día, mes o año.
+    rows=matchingInvoices;label='Resultado de búsqueda por factura';
+  }else{
+    if(salesPeriod==='day'){const d=$('dayDate').value||today();rows=rows.filter(s=>s.date===d);label='Ventas del '+normalizeDateLabel(d)}
+    else if(salesPeriod==='month'){const m=$('salesMonth').value||today().slice(0,7);selectedMonth=m;rows=rows.filter(s=>String(s.date||'').startsWith(m));const [y,mo]=m.split('-');label='Ventas de '+new Date(+y,+mo-1,1).toLocaleDateString('es-CO',{month:'long',year:'numeric'})}
+    else if(salesPeriod==='year'){const y=String($('salesYear').value||new Date().getFullYear());rows=rows.filter(s=>String(s.date||'').startsWith(y+'-'));label='Ventas del año '+y}
+    if(clientQuery)rows=rows.filter(s=>clientSearchMatches({name:clientNameById(s.clientId),phone:(db.clients||[]).find(c=>c.id===s.clientId)?.phone||''},clientQuery));
+  }
   if(!clientQuery&&salesPeriod==='month'){
     const data=monthlyEffectiveTotal(selectedMonth,'sales');
     if(data.useHistorical)historicalTotal=data.total;
@@ -5880,8 +5933,8 @@ function renderSalesView(){
     <div class="card hilen-period-stat hilen-sales-kpi-credit"><span class="sales-kpi-icon gold">▤</span><div class="stat-wrap"><div class="stat-label">Ventas a crédito</div><div class="stat">${money(credit)}</div><div class="hilen-sale-count"><b>${creditCount}</b> ${creditCount===1?'venta':'ventas'} a crédito</div></div></div>
   </div>`;
   if($('hilenSalesOverview'))$('hilenSalesOverview').innerHTML=summary;
-  const table=visibleRows.length?`<div class="hilen-zoom-toolbar"><div><div class="hilen-zoom-caption">Tabla de ventas</div><div class="hilen-zoom-hint">Amplía o reduce las letras de esta tabla.</div></div>${hilenReadingZoomControls('sales')}</div><div id="hilenSalesZoomArea" class="table-wrap table-fit-wrap" style="--hilen-sales-zoom:${hilenReadingZoom.sales/100}"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${visibleRows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div></td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(hilenSaleNetTotal(s))}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:
-    `<div class="sales-empty-state"><div><b>${hilenSalesTypeFilter==='paid'?'No hay ventas de contado':hilenSalesTypeFilter==='credit'?'No hay ventas a crédito':'No hay ventas individuales'} en este período.</b><div class="muted">${hilenSalesTypeFilter==='all'?'Los totales históricos se muestran en el resumen cuando existen.':'Elige «Todas» o cambia el período para consultar otras ventas.'}</div></div></div>`;
+  const table=visibleRows.length?`<div class="hilen-zoom-toolbar"><div><div class="hilen-zoom-caption">Tabla de ventas</div><div class="hilen-zoom-hint">Amplía o reduce las letras de esta tabla.</div></div>${hilenReadingZoomControls('sales')}</div><div id="hilenSalesZoomArea" class="table-wrap table-fit-wrap" style="--hilen-sales-zoom:${hilenReadingZoom.sales/100}"><table class="table table-fit"><thead><tr><th style="width:15%">Fecha / hora</th><th style="width:16%">Cliente</th><th style="width:28%">Productos</th><th style="width:15%">Pago</th><th style="width:13%">Total</th><th style="width:13%">Acciones</th></tr></thead><tbody>${visibleRows.map(s=>`<tr><td><b>${normalizeDateLabel(s.date)}</b><div class="small muted">${esc(s.time||'')}</div>${s.invoiceNo?'<div class="small muted">Factura '+esc(s.invoiceNo)+'</div>':''}</td><td>${esc(clientNameById(s.clientId))}</td><td>${(s.items||[]).map(i=>esc(i.name)+' × '+i.qty).join(', ')}</td><td><span class="badge ${s.type==='credit'?'credit':'paid'}">${s.type==='credit'?'Crédito':'Pagada'}</span>${s.type==='credit'?'':`<div class="small muted" style="margin-top:5px">${s.destination==='bank'?'Nequi':'Efectivo'}</div>`}</td><td><b>${money(hilenSaleNetTotal(s))}</b></td><td><div class="action-group"><button class="action-mini view" onclick="showSale('${s.id}')">Ver</button><button class="action-mini edit" onclick="editSale('${s.id}')">Editar</button><button class="action-mini danger" onclick="deleteSale('${s.id}')">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div>`:
+    `<div class="sales-empty-state"><div><b>${invoiceMode?'No se encontró esa factura':hilenSalesTypeFilter==='paid'?'No hay ventas de contado':hilenSalesTypeFilter==='credit'?'No hay ventas a crédito':'No hay ventas individuales'}${invoiceMode?'.':' en este período.'}</b><div class="muted">${hilenSalesTypeFilter==='all'?'Los totales históricos se muestran en el resumen cuando existen.':'Elige «Todas» o cambia el período para consultar otras ventas.'}</div></div></div>`;
   const note=historicalTotal>0?historicalSummaryNotice('Ventas históricas incluidas en el total',historicalTotal,overlapCount>0):'';
   const overlapNotice=overlapCount?`<div class="notice blue" style="margin:12px 0">${overlapCount} mes(es) contienen un total histórico y movimientos individuales. Se usan los movimientos detallados para no sumar dos veces.</div>`:'';
   const emptyNote=clientQuery?'<div class="small muted" style="margin:10px 0">La búsqueda por cliente muestra solo ventas individuales; los totales históricos no contienen nombres de clientes.</div>':historicalTotal>0&&!rows.length?'<div class="small muted" style="margin:10px 0">No existen ventas individuales para este período. El total histórico se muestra arriba.</div>':'';
