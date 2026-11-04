@@ -4897,6 +4897,176 @@ function hilenMarkCloudConflict(reason){
   hilenRenderCloudConflict();
   if(!repeated)showToast('Protección de datos activada','Hay diferencias reales entre registros. Pulsa «Revisar diferencias» para identificarlas. No se reemplazó Firebase.','error',7500);
 }
+
+/* HILEN · Resolución explícita de una venta sin sobrescribir otros registros.
+   La revisión y la elección de campos son locales. Solo el botón final realiza
+   una transacción que exige que Firebase no haya cambiado desde la revisión. */
+let hilenSaleConflictPlan=null;
+let hilenSaleConflictBusy=false;
+async function hilenOpenSaleConflictResolution(saleId){
+  if(!cloudDb||!currentUser?.id||cloudSaveInFlight||hilenCloudTransactionPending){
+    showToast('No se puede abrir la resolución','Firebase debe estar disponible y sin otra escritura en curso.','error');return;
+  }
+  try{
+    const uid=currentUser.id,target=cloudDb.ref(userCloudPath(uid,'state'));
+    const server=(await hilenCloudWithTimeout(target.once('value'),16000)).val();
+    if(!server?.data||!Array.isArray(server.data.sales))throw new Error('No se pudo leer la lista de ventas de Firebase.');
+    const local=structuredClone(businessState()),ls=local.sales.find(s=>String(s.id)===String(saleId));
+    const rs=server.data.sales.find(s=>String(s.id)===String(saleId));
+    if(!ls||!rs){showToast('Factura no disponible','La factura debe existir tanto en este dispositivo como en Firebase.','error');return}
+    const changed=[...new Set([...Object.keys(ls),...Object.keys(rs)])]
+      .filter(field=>hilenCloudSignature(ls[field])!==hilenCloudSignature(rs[field]));
+    if(!changed.length){showToast('Sin diferencias','Esta factura ya coincide. Vuelve a revisar la sincronización.');return}
+    hilenSaleConflictPlan={
+      uid,saleId:String(saleId),localState:local,remoteState:structuredClone(server.data),
+      remoteRevision:Number(server.revision)||0,remoteSignature:hilenCloudSignature(server.data),
+      localSignature:hilenCloudSignature(local),changed,backupDownloaded:false
+    };
+    const label=ls.invoiceNo||rs.invoiceNo||saleId;
+    const formatValue=value=>value===undefined?'(campo ausente)':typeof value==='object'?JSON.stringify(value,null,2):String(value);
+    const preview=value=>'<pre style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:150px;overflow:auto;font:11px/1.5 ui-monospace,monospace;margin:5px 0">'+esc(formatValue(value))+'</pre>';
+    const rows=changed.map(field=>{
+      const l=ls[field],r=rs[field];
+      return '<div style="border:1px solid #e1e6ed;border-radius:12px;padding:12px;margin:10px 0">'+
+        '<label style="display:block;font-weight:800;margin-bottom:8px">'+esc(field)+'</label>'+
+        '<select class="input hilen-sale-conflict-choice" data-field="'+esc(field)+'" aria-label="Qué versión conservar de '+esc(field)+'">'+
+        '<option value="">Elegir cuál conservar…</option><option value="local">Conservar valor de este dispositivo</option>'+
+        '<option value="remote">Conservar valor de Firebase</option></select>'+
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px;margin-top:9px">'+
+        '<div style="padding:9px;background:#f3f6fb;border-radius:10px"><b>Este dispositivo</b>'+preview(l)+'</div>'+
+        '<div style="padding:9px;background:#f3f6fb;border-radius:10px"><b>Firebase</b>'+preview(r)+'</div></div></div>';
+    }).join('');
+    const hint=String(label).toUpperCase().replace(/\s/g,'')==='H-000129'
+      ?'<p class="notice blue"><b>Fecha confirmada para H-000129:</b> 13/09/2026. En el campo date selecciona el valor del dispositivo si muestra esa fecha. Revisa los otros campos por separado.</p>':'';
+    $('modalContent').innerHTML='<h2>Resolver factura '+esc(label)+'</h2>'+
+      '<p class="notice warn">Antes de guardar, revisa cada campo. No basta con corregir la fecha si los productos o los totales también son diferentes. No se perderá la copia local.</p>'+
+      hint+'<p class="small muted">Cuenta: '+esc(currentUser?.email||'—')+'. No se modificará ningún otro registro.</p>'+
+      '<div style="max-height:46vh;overflow-y:auto;overscroll-behavior:contain">'+rows+'</div>'+
+      '<div class="action-group" style="margin-top:12px">'+
+      '<button type="button" class="secondary" onclick="hilenDownloadSaleConflictBackup()">1. Descargar respaldo de ambas versiones</button>'+
+      '<button type="button" id="hilenResolveSaleBtn" class="primary" onclick="hilenApplySaleConflictResolution()">2. Guardar resolución en Firebase</button>'+
+      '<button type="button" class="secondary" onclick="closeModal()">Cancelar</button></div>'+
+      '<p class="small muted">El segundo paso solo funcionará si elegiste todos los campos y descargaste primero el respaldo. Si otro equipo cambia Firebase durante la revisión, se cancelará sin sobrescribir datos.</p>';
+    $('modal').classList.remove('hidden');
+  }catch(error){console.error('Revisión de factura incompatible',error);showToast('No fue posible revisar la factura',firebaseDbErrorText(error),'error')}
+}
+function hilenDownloadSaleConflictBackup(){
+  const plan=hilenSaleConflictPlan;
+  if(!plan||currentUser?.id!==plan.uid){showToast('Sesión diferente','Vuelve a abrir la revisión de la factura.','error');return}
+  if(hilenCloudSignature(businessState())!==plan.localSignature){
+    showToast('Datos cambiados','Vuelve a abrir la resolución para descargar las versiones actuales.','error');return
+  }
+  const payload={app:'HILEN',type:'respaldo de resolución de conflicto',at:new Date().toISOString(),
+    userId:plan.uid,saleId:plan.saleId,remoteRevision:plan.remoteRevision,
+    esteDispositivo:plan.localState,firebase:plan.remoteState};
+  const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download='HILEN_ambas_versiones_venta_'+plan.saleId+'_'+Date.now()+'.json';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+  plan.backupDownloaded=true;
+  showToast('Respaldo preparado','El archivo incluye los datos de ambos lados antes de modificar Firebase.');
+}
+async function hilenApplySaleConflictResolution(){
+  if(hilenSaleConflictBusy)return;
+  const plan=hilenSaleConflictPlan;
+  if(!plan||!cloudDb||!currentUser?.id||currentUser.id!==plan.uid||cloudAuth?.currentUser?.uid!==plan.uid){
+    showToast('Sesión no válida','Vuelve a abrir la comparación con la cuenta correcta.','error');return
+  }
+  if(!plan.backupDownloaded){
+    showToast('Primero conserva ambos respaldos','Descarga el archivo con la versión de la tablet y Firebase.','error');return
+  }
+  if(cloudSaveInFlight||hilenCloudTransactionPending||cloudLoading){
+    showToast('Hay otra operación en proceso','No se puede resolver la venta hasta que termine la operación actual.','error');return
+  }
+  const selects=[...document.querySelectorAll('.hilen-sale-conflict-choice')];
+  if(selects.length!==plan.changed.length||selects.some(s=>!['local','remote'].includes(s.value))){
+    showToast('Faltan campos por decidir','Selecciona qué versión conservar en cada campo diferente.','error');return
+  }
+  const decisions=Object.fromEntries(selects.map(s=>[s.dataset.field,s.value]));
+  const localSale=plan.localState.sales.find(s=>String(s.id)===plan.saleId);
+  const remoteSale=plan.remoteState.sales.find(s=>String(s.id)===plan.saleId);
+  if(!localSale||!remoteSale)return;
+  const resolved=structuredClone(remoteSale);
+  for(const field of plan.changed){
+    if(decisions[field]!=='local')continue;
+    if(Object.prototype.hasOwnProperty.call(localSale,field))resolved[field]=structuredClone(localSale[field]);
+    else delete resolved[field];
+  }
+  if(resolved.id!==plan.saleId||!Array.isArray(resolved.items)||!resolved.items.length||
+    !/^\d{4}-\d{2}-\d{2}$/.test(String(resolved.date||''))||
+    !['credit','paid'].includes(resolved.type)){
+    showToast('Venta inconsistente','Revisa las decisiones. La fecha, tipo de pago y productos deben ser válidos.','error');return
+  }
+  const expectedTotal=resolved.items.reduce((n,item)=>n+hilenItemLineTotal(item),0);
+  if(Math.abs(expectedTotal-(Number(resolved.total)||0))>0.01||
+    hilenSaleNetTotal(resolved)<=0){
+    showToast('Productos y total diferentes','La suma de los productos seleccionados no coincide con el total. Elige versiones compatibles antes de guardar.','error',8000);return
+  }
+  const rem=structuredClone(plan.remoteState),loc=structuredClone(plan.localState);
+  const ri=rem.sales.findIndex(s=>String(s.id)===plan.saleId),li=loc.sales.findIndex(s=>String(s.id)===plan.saleId);
+  if(ri<0||li<0)return;
+  rem.sales[ri]=structuredClone(resolved);
+  loc.sales[li]=structuredClone(resolved);
+  const base=hilenReadCloudBase(plan.uid);
+  const trial=hilenMergeBusinessStates(base,loc,rem,{additive:!base||hilenLegacyConflictUncertain(plan.uid)});
+  if(trial.conflicts.length){
+    showToast('Hay otros conflictos','La combinación todavía contiene diferencias en otros registros. No se guardó nada.','error',8000);return
+  }
+  const ok=window.confirm('¿Confirmas la resolución de esta factura? Se guardarán únicamente los campos elegidos para esa venta y se conservará el resto de la información de Firebase.');
+  if(!ok)return;
+  hilenSaleConflictBusy=true;
+  const button=document.getElementById('hilenResolveSaleBtn');
+  if(button){button.disabled=true;button.textContent='Verificando y guardando…'}
+  try{
+    if(hilenCloudSignature(businessState())!==plan.localSignature)throw new Error('Este dispositivo cambió desde la comparación. Abre de nuevo la revisión.');
+    const uid=plan.uid,target=cloudDb.ref(userCloudPath(uid,'state'));
+    const before=(await hilenCloudWithTimeout(target.once('value'),16000)).val();
+    if((Number(before?.revision)||0)!==plan.remoteRevision||
+      hilenCloudSignature(before?.data)!==plan.remoteSignature)
+      throw new Error('Firebase cambió desde que abriste la comparación. Debes revisar nuevamente las diferencias.');
+    let proposed=null;
+    const tx=target.transaction(current=>{
+      if(!current||(Number(current.revision)||0)!==plan.remoteRevision||
+        hilenCloudSignature(current.data)!==plan.remoteSignature)return;
+      const index=current.data?.sales?.findIndex(s=>String(s.id)===plan.saleId);
+      if(index===undefined||index<0)return;
+      const data=structuredClone(current.data);
+      data.sales[index]=structuredClone(resolved);
+      proposed={...current,data,revision:(Number(current.revision)||0)+1,updated_at:new Date().toISOString()};
+      return proposed;
+    },undefined,false);
+    const result=await hilenCloudSingleFlight(tx,uid,30000);
+    if(!result?.committed){
+      showToast('Resolución detenida por seguridad','Firebase cambió o no confirmó la transacción. No fuerces el guardado; revisa de nuevo la diferencia.','error',8000);
+      return
+    }
+    const committed=result.snapshot.val();
+    if(!committed||!proposed||hilenCloudSignature(committed.data)!==hilenCloudSignature(proposed.data)||
+      Number(committed.revision)!==Number(proposed.revision))
+      throw new Error('Firebase no confirmó el contenido esperado; revisa el diagnóstico antes de continuar.');
+    if(hilenCloudSignature(businessState())!==plan.localSignature)
+      throw new Error('Los datos de este dispositivo cambiaron durante la resolución; Firebase sí guardó la factura. Revisa las diferencias antes de continuar.');
+    hilenRememberCloudBase(Number(committed.revision),committed.data,uid);
+    applyBusinessState(trial.state);
+    hilenPersistMergedLocal();
+    cloudLoadedUid=uid;cloudConflict=false;cloudLastError='';
+    cloudDirty=hilenCloudSignature(businessState())!==hilenCloudSignature(committed.data);
+    localStorage.setItem(CLOUD_DIRTY_KEY,cloudDirty?'1':'0');
+    cloudLastVerifiedAt=new Date().toISOString();
+    localStorage.setItem(CLOUD_VERIFIED_KEY+uid,cloudLastVerifiedAt);
+    hilenSaleConflictPlan=null;
+    hilenRenderCloudConflict();closeModal();refreshAll();
+    setCloudStatus('ok',cloudDirty?'Factura conciliada; quedan cambios por sincronizar':'Firebase verificado','La resolución fue confirmada por una transacción del servidor.');
+    showToast('Factura conciliada','Firebase confirmó la resolución. El resto de los registros se conservó.');
+    if(cloudDirty)queueCloudSave();
+  }catch(error){
+    console.error('Resolución segura de factura',error);
+    showToast('Resolución no confirmada',firebaseDbErrorText(error)+'. Conserva los respaldos y vuelve a revisar la factura.','error',9500);
+  }finally{
+    hilenSaleConflictBusy=false;
+    if(button&&button.isConnected){button.disabled=false;button.textContent='2. Guardar resolución en Firebase'}
+  }
+}
+
 async function hilenReviewCloudConflicts(){
   if(!cloudDb||!currentUser?.id){showToast('Firebase no disponible','Inicia sesión antes de revisar las diferencias.','error');return}
   try{
@@ -4928,7 +5098,9 @@ async function hilenReviewCloudConflicts(){
       const detail=left===undefined||right===undefined
         ?'<p class="notice warn">El registro completo no está presente en '+(left===undefined?'este dispositivo':'Firebase')+'. Comprueba el respaldo antes de decidir.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px"><div><b>Este dispositivo</b>'+formatCell(left)+'</div><div><b>Firebase</b>'+formatCell(right)+'</div></div>'
         :fields||'<p>No se encontraron diferencias de campos en esta lectura. El aviso puede deberse a una base histórica pendiente de conciliación.</p>';
-      return '<details '+(index===0?'open':'')+' style="border:1px solid #dee4ed;border-radius:12px;padding:12px;margin:10px 0"><summary style="cursor:pointer;font-weight:700">'+esc(label)+' · '+esc(key)+' ('+changed.length+' campo(s) distinto(s))</summary><div style="margin-top:12px">'+detail+'</div></details>';
+      const resolveButton=group==='sales'&&left&&right
+        ?'<button type="button" class="secondary" data-sale-id="'+esc(key)+'" onclick="hilenOpenSaleConflictResolution(this.dataset.saleId)" style="margin-top:10px">Resolver esta factura (revisión segura)</button>':'';
+      return '<details '+(index===0?'open':'')+' style="border:1px solid #dee4ed;border-radius:12px;padding:12px;margin:10px 0"><summary style="cursor:pointer;font-weight:700">'+esc(label)+' · '+esc(key)+' ('+changed.length+' campo(s) distinto(s))</summary><div style="margin-top:12px">'+detail+resolveButton+'</div></details>';
     }).join('');
     $('modalContent').innerHTML='<h2>Comparar diferencias con Firebase</h2><p class="notice warn">Esta pantalla es de solo lectura: no guarda, borra ni sustituye ventas. Compara los datos de esta sesión con Firebase.</p><p class="small muted">Cuenta: '+esc(currentUser?.email||'—')+'.</p><p><b>'+diff.conflicts.length+' conflicto(s)</b>. Revisa los campos distintos de cada registro:</p><div style="max-height:55vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch">'+review+'</div><div class="action-group"><button class="primary" onclick="hilenExportRescueCopy()">Descargar datos de este dispositivo</button><button class="secondary" onclick="closeModal()">Cerrar</button></div><p class="small muted">No pulses Reintentar combinación hasta comprobar qué versión es correcta y conservar ambos respaldos.</p>';
     $('modal').classList.remove('hidden');
@@ -6004,8 +6176,32 @@ function saveSaleEdits(sid){
  let c=db.clients.find(x=>normalizeClientName(x.name)===normalizeClientName(name));
  const newClient=!c;
  if(!c)c={id:id(),name,phone:'',gender:'',createdAt:new Date().toISOString()};
- Object.assign(s,{date,clientId:c.id,clientName:c.name,clientPhone:c.phone||'',clientGender:c.gender||'',type,destination:type==='paid'?$('esDest').value:null,items,total,manualDiscount,initialPaid:type==='credit'?initialPaid:0,initialDestination:$('esInitialDestination')?.value||'cash',editedAt:new Date().toISOString()});
- if(!hilenAfterMutationValid(priorId)||(c.id!==priorId&&!hilenAfterMutationValid(c.id))){Object.assign(s,old);return}
+ // No reescribir campos que el usuario no modificó: evita cambios
+ // artificiales (por ejemplo discount:0, destination:null o initialPaid:0).
+ const normItems=list=>(list||[]).map(i=>({
+   name:String(i.name||'').trim(),qty:Number(i.qty)||0,
+   price:Number(i.price)||0,discount:Number(i.discount)||0
+ }));
+ const itemsChanged=hilenCloudSignature(normItems(old.items))!==hilenCloudSignature(normItems(items));
+ const proposed={date,clientId:c.id,clientName:c.name,clientPhone:c.phone||'',clientGender:c.gender||'',type};
+ if(itemsChanged)proposed.items=items;
+ if(itemsChanged||Math.abs((Number(old.total)||0)-total)>0.001)proposed.total=total;
+ if(Math.abs((Number(old.manualDiscount)||0)-manualDiscount)>0.001)proposed.manualDiscount=manualDiscount;
+ if(type==='paid'){
+   if(old.type!=='paid'||old.destination!==$('esDest').value)proposed.destination=$('esDest').value;
+   if(old.type==='credit'){proposed.initialPaid=0;proposed.initialDestination='cash'}
+ }else{
+   if(old.type==='paid')proposed.destination=null;
+   if(Math.abs((Number(old.initialPaid)||0)-initialPaid)>0.001)proposed.initialPaid=initialPaid;
+   const dest=$('esInitialDestination')?.value||'cash';
+   if(initialPaid>0&&(old.initialDestination||'cash')!==dest)proposed.initialDestination=dest;
+ }
+ const changed=Object.fromEntries(Object.entries(proposed).filter(([field,value])=>hilenCloudSignature(old[field])!==hilenCloudSignature(value)));
+ if(!Object.keys(changed).length){
+   closeModal();return showToast('Sin cambios','La venta no necesitaba actualizarse.');
+ }
+ Object.assign(s,changed,{editedAt:new Date().toISOString()});
+ if(!hilenAfterMutationValid(priorId)||(c.id!==priorId&&!hilenAfterMutationValid(c.id))){Object.keys(s).forEach(key=>delete s[key]);Object.assign(s,old);return}
  if(newClient)db.clients.push(c);
  saveDB();closeModal();refreshAfterChange();showToast('Venta actualizada',money(hilenSaleNetTotal(s)));
 }
