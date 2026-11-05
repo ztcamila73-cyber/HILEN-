@@ -5085,21 +5085,42 @@ async function hilenApplySaleConflictResolution(){
     if((Number(before?.revision)||0)!==plan.remoteRevision||
       hilenCloudSignature(before?.data)!==plan.remoteSignature)
       throw new Error('Firebase cambió desde que abriste la comparación. Debes revisar nuevamente las diferencias.');
-    let proposed=null;
+    let proposed=null,cancelReason='',startedFromEmptyCache=false;
     const tx=target.transaction(current=>{
-      if(!current||(Number(current.revision)||0)!==plan.remoteRevision||
-        hilenCloudSignature(current.data)!==plan.remoteSignature)return;
-      const index=current.data?.sales?.findIndex(s=>String(s.id)===plan.saleId);
-      if(index===undefined||index<0)return;
-      const data=structuredClone(current.data);
+      // Firebase RTDB puede ejecutar el primer callback con null desde su
+      // caché local, aunque la lectura inmediatamente anterior haya confirmado
+      // una versión existente. Abortar allí impedía resolver cualquier factura.
+      // Se ofrece como propuesta la versión ya leída; Firebase volverá a
+      // ejecutar la transacción con el estado real si existe otro valor remoto.
+      const source=current===null?before:current;
+      if(current===null)startedFromEmptyCache=true;
+      if(!source){
+        cancelReason='Firebase no devolvió una versión utilizable.';return;
+      }
+      if((Number(source.revision)||0)!==plan.remoteRevision||
+        hilenCloudSignature(source.data)!==plan.remoteSignature){
+        cancelReason='Otro dispositivo cambió Firebase durante la resolución. No se reemplazó su versión.';return;
+      }
+      const index=source.data?.sales?.findIndex(s=>String(s.id)===plan.saleId);
+      if(index===undefined||index<0){
+        cancelReason='La factura ya no aparece en la versión actual de Firebase.';return;
+      }
+      const data=structuredClone(source.data);
       data.sales[index]=structuredClone(resolved);
-      proposed={...current,data,revision:(Number(current.revision)||0)+1,updated_at:new Date().toISOString()};
+      cancelReason='';
+      proposed={...source,data,revision:(Number(source.revision)||0)+1,updated_at:new Date().toISOString()};
       return proposed;
     },undefined,false);
     const result=await hilenCloudSingleFlight(tx,uid,30000);
     if(!result?.committed){
-      showToast('Resolución detenida por seguridad','Firebase cambió o no confirmó la transacción. No fuerces el guardado; revisa de nuevo la diferencia.','error',8000);
-      return
+      const detail=cancelReason||(
+        startedFromEmptyCache?
+        'Firebase no confirmó la transacción iniciada desde la caché del dispositivo. Los registros no se reemplazaron.':
+        'Firebase canceló la transacción sin confirmar escritura.'
+      );
+      setCloudStatus('error','Resolución no confirmada',detail);
+      showToast('Resolución detenida por seguridad',detail,'error',10000);
+      return;
     }
     const committed=result.snapshot.val();
     if(!committed||!proposed||hilenCloudSignature(committed.data)!==hilenCloudSignature(proposed.data)||
@@ -5190,7 +5211,7 @@ async function hilenQuickFixConfirmedInvoice(){
     }
     const choices=[...document.querySelectorAll('.hilen-sale-conflict-choice')];
     if(choices.length!==plan.changed.length||!choices.length)throw Error('No se pudieron comprobar todos los campos de la factura.');
-    for(const el of choices)el.value='local';
+    for(const el of choices)el.value=(el.dataset.field==='date'||el.dataset.field==='editedAt')?'local':'remote';
     // Descarga copia completa de AMBAS versiones antes de llamar a la transacción.
     hilenDownloadSaleConflictBackup();
     if(!plan.backupDownloaded)throw Error('No se pudo preparar el respaldo previo.');
@@ -6362,7 +6383,7 @@ function saveSaleEdits(sid){
  Object.assign(s,changed,{editedAt:new Date().toISOString()});
  if(!hilenAfterMutationValid(priorId)||(c.id!==priorId&&!hilenAfterMutationValid(c.id))){Object.keys(s).forEach(key=>delete s[key]);Object.assign(s,old);return}
  if(newClient)db.clients.push(c);
- saveDB();closeModal();refreshAfterChange();showToast('Venta actualizada',money(hilenSaleNetTotal(s)));
+ saveDB();closeModal();refreshAfterChange();showToast('Venta actualizada en este dispositivo',money(hilenSaleNetTotal(s))+' · La sincronización con Firebase requiere confirmación.',cloudConflict?'warning':'success');
 }
 
 function deleteSale(sid){const s=db.sales.find(x=>x.id===sid);if(!s)return;
