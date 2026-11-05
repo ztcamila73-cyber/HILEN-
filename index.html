@@ -4047,6 +4047,18 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   border-color:#1a2741!important;
   box-shadow:0 4px 12px #1a274126!important;
 }
+
+/* Progreso real de copias de seguridad, sin modificar el diseño general. */
+.hilen-backup-progress{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px;margin:12px 0}
+.hilen-backup-progress-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.hilen-backup-progress-title span{font-size:11px;color:var(--muted)}
+.hilen-backup-progress-row{display:flex;align-items:flex-start;gap:11px;padding:10px 2px;border-top:1px solid var(--line);font-size:13px}
+.hilen-backup-progress-row strong{display:block;margin-bottom:3px}
+.hilen-backup-progress-row small{display:block;color:var(--muted);margin-top:3px;font-size:11px}
+.hilen-backup-progress-dot{display:block;flex:0 0 10px;width:10px;height:10px;border-radius:50%;margin-top:4px;background:#9ca3af}
+.hilen-backup-progress-dot.ok{background:#16915c}.hilen-backup-progress-dot.work{background:#286ddb;animation:hilen-backup-pulse 1.1s infinite}
+.hilen-backup-progress-dot.pending{background:#c88a10}.hilen-backup-progress-dot.error{background:#c03434}
+@keyframes hilen-backup-pulse{50%{opacity:.35}}
 </style>
 </head>
 <body>
@@ -4557,13 +4569,14 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
             <div class="hilen-firebase-buttons"><button type="button" id="hilenManualFirebaseBtn" class="primary" onclick="hilenManualFirebaseSave()">Guardar y verificar en Firebase</button><button type="button" class="secondary" id="hilenFirebaseDiagnoseBtn" onclick="hilenDiagnoseFirebase()">Diagnosticar conexión</button><button type="button" class="secondary" onclick="hilenReviewCloudConflicts()">Revisar diferencias</button></div>
           </div>
           <div class="hilen-firebase-diagnosis" id="hilenFirebaseDiagnosis" role="status" aria-live="polite">Si HILEN indica «Sin sincronizar», pulsa «Diagnosticar conexión» para conocer el motivo sin modificar tus datos.</div>
+          <div id="hilenBackupProgress" class="hilen-backup-progress" role="status" aria-live="polite"></div>
           <div class="settings-status-grid">
             <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">▤</span><span>Google Sheets · copia diaria</span></div><div id="googleSheetsStatus" class="google-sheets-status" role="status" aria-live="polite"></div><button class="secondary hilen-sheet-verify" type="button" onclick="hilenUpdateGoogleSheetsManually()">Actualizar Google Sheets ahora</button></div>
             <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">☁</span><span>Copia de recuperación</span></div><div id="googleDriveStatus" class="google-sheets-status"></div></div>
           </div>
           <div class="settings-actions">
             <button class="primary drive-connect-btn" onclick="openGoogleSheetsSetup()">▲&nbsp; Conectar Google Drive</button>
-            <button class="secondary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button>
+            <button class="secondary" id="hilenBackupAllBtn" onclick="hilenBackupEverythingNow()">Guardar y respaldar ahora</button>
             <button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button>
             <button class="secondary" onclick="openGoogleSheetBackup()">Ver copia organizada</button>
           </div>
@@ -5314,6 +5327,7 @@ function setCloudStatus(kind,text,detail=''){
   if(dot)dot.style.background=kind==='ok'?'#22a06b':kind==='work'?'#d9a11e':kind==='error'?'#d64545':'#aaa';
   const top=document.getElementById('hilenSaveIndicator');
   if(top){top.dataset.kind=kind;top.textContent=kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Guardado en Firebase':kind==='error'?'⚠ Sin sincronizar':kind==='work'&&/modo local/i.test(String(text))?'Modo local':kind==='work'?'◷ Sincronizando…':'Consultar Firebase';top.title=(detail||text||'')+' · Pulsar para guardar y verificar';}
+  hilenRenderBackupProgress();
   const setting=document.getElementById('hilenFirebaseVerifiedStatus');
   if(setting){const stamp=cloudLastVerifiedAt?('Última confirmación: '+new Date(cloudLastVerifiedAt).toLocaleString('es-CO')):'Todavía no hay una confirmación de escritura registrada para esta cuenta';setting.textContent=(kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Datos confirmados en Firebase. ':kind==='error'?'⚠ Sin confirmar en Firebase. ':'Estado: '+(text||'Pendiente')+'. ')+stamp+(kind==='error'&&detail?' · '+detail:'')}
 
@@ -7780,6 +7794,73 @@ function maybePromptGoogleBackupOnboarding(){
 }
 
 function googleOAuthConfigured(){return HILEN_GOOGLE_OAUTH_CLIENT_ID&&HILEN_GOOGLE_OAUTH_CLIENT_ID.includes('.apps.googleusercontent.com')&&!HILEN_GOOGLE_OAUTH_CLIENT_ID.startsWith('PEGA_AQUI')}
+
+/* Indicadores de avance: los tiempos son espera programada o tiempo transcurrido,
+   nunca estimaciones falsas del fin de la subida. */
+const hilenBackupProgress={
+  sheets:{scheduledUntil:0,startedAt:0,error:''},
+  drive:{scheduledUntil:0,startedAt:0,error:''}
+};
+function hilenBackupProgressStamp(value){
+  if(!value)return 'Sin copia confirmada';
+  const d=new Date(value);
+  return Number.isNaN(d.getTime())?'Sin copia confirmada':'Última confirmación: '+d.toLocaleString('es-CO');
+}
+function hilenBackupProgressRow(label,kind,description,stamp){
+  return '<div class="hilen-backup-progress-row"><span class="hilen-backup-progress-dot '+kind+'"></span><div><strong>'+esc(label)+'</strong><div>'+esc(description)+'</div><small>'+esc(stamp)+'</small></div></div>';
+}
+function hilenRenderBackupProgress(){
+  const el=document.getElementById('hilenBackupProgress');
+  if(!el)return;
+  const firebasePending=cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1';
+  const cloudKind=localMode||!currentUser?.id?'off':cloudConflict?'error':cloudSaveInFlight?'work':firebasePending?'pending':cloudBaseRevision===null?'pending':'ok';
+  const cloudMessage=cloudKind==='off'?'Inicia sesión para sincronizar':
+    cloudKind==='error'?'Conflicto pendiente: revisar diferencias':
+    cloudKind==='work'?'Guardando en Firebase…':
+    cloudKind==='pending'?'Cambios pendientes de confirmar':
+    'Datos cargados; sin cambios locales pendientes';
+  const format=(service,cfg,connected,working)=>{
+    const p=hilenBackupProgress[service],pending=!!cfg.pendingAt;
+    if(!connected)return {kind:'off',msg:'Conecta y autoriza Google para crear copias'};
+    if(cloudConflict)return {kind:'error',msg:'En pausa por conflicto de Firebase'};
+    if(working)return {kind:'work',msg:'Subiendo a Google… tiempo transcurrido '+Math.floor((Date.now()-p.startedAt)/1000)+' s'};
+    if(p.error)return {kind:'error',msg:p.error};
+    if(pending||!cfg.lastSentAt||(service==='drive'&&cfg.lastDailyDay!==today())||
+      (service==='sheets'&&!hilenSheetsUpdatedToday())){
+      const left=Math.ceil((p.scheduledUntil-Date.now())/1000);
+      return {kind:'pending',msg:!navigator.onLine?'Sin Internet; esperando reconexión':
+        !googleSheetsAccessToken?'Esperando autorización de Google':
+        left>0?'Copia programada; comienza en aproximadamente '+left+' s':'Copia pendiente; esperando inicio'};
+    }
+    return {kind:'ok',msg:'Copia confirmada en Google'};
+  };
+  const sh=format('sheets',googleSheetsConfig,!!googleSheetsConfig.enabled&&!!googleSheetsConfig.sheetId,googleSheetsSyncInFlight);
+  const dr=format('drive',googleDriveConfig,!!googleDriveConfig.enabled&&!!googleDriveConfig.folderId,googleDriveSyncInFlight);
+  el.innerHTML='<div class="hilen-backup-progress-title"><strong>Estado de protección</strong><span>Los tiempos de espera no incluyen la subida</span></div>'+
+    hilenBackupProgressRow('Firebase',cloudKind,cloudMessage,cloudLastVerifiedAt?'Última escritura confirmada: '+new Date(cloudLastVerifiedAt).toLocaleString('es-CO'):'Escritura no confirmada en esta sesión')+
+    hilenBackupProgressRow('Google Sheets',sh.kind,sh.msg,hilenBackupProgressStamp(googleSheetsConfig.lastSentAt))+
+    hilenBackupProgressRow('Google Drive',dr.kind,dr.msg,hilenBackupProgressStamp(googleDriveConfig.lastSentAt));
+}
+function hilenBackupProgressStart(service){
+  const p=hilenBackupProgress[service];p.startedAt=Date.now();p.scheduledUntil=0;p.error='';hilenRenderBackupProgress();
+}
+function hilenBackupProgressFinish(service,error=''){
+  const p=hilenBackupProgress[service];p.startedAt=0;p.error=error;hilenRenderBackupProgress();
+}
+async function hilenBackupEverythingNow(){
+  const btn=document.getElementById('hilenBackupAllBtn');
+  if(btn?.disabled)return false;
+  if(btn){btn.disabled=true;btn.textContent='Verificando y respaldando…'}
+  try{
+    if(localMode||!currentUser?.id||!cloudDb){showToast('Sin conexión Firebase','Inicia sesión para confirmar antes de respaldar.','error');return false}
+    const ok=await hilenManualFirebaseSave(false);
+    if(!ok){showToast('Firebase pendiente','No se actualizarán copias de Google como si la nube estuviera confirmada. Revisa la sincronización.','error');return false}
+    return await syncGoogleBackupNow(true);
+  }finally{if(btn){btn.disabled=false;btn.textContent='Guardar y respaldar ahora'}hilenRenderBackupProgress()}
+}
+setInterval(()=>{if(!document.getElementById('settings')?.classList.contains('active'))return;
+  if(googleSheetsSyncInFlight||googleDriveSyncInFlight||hilenBackupProgress.sheets.scheduledUntil>Date.now()||hilenBackupProgress.drive.scheduledUntil>Date.now())hilenRenderBackupProgress();
+},1000);
 function hilenSheetsLastSuccess(){
   const d=new Date(googleSheetsConfig.lastSentAt||'');
   return !Number.isNaN(d.getTime())?d:null;
@@ -7812,7 +7893,7 @@ function renderGoogleSheetsStatus(){
 function hilenCheckDailyGoogleSheets(){
   if(cloudConflict)return;
   if(localMode||!currentUser?.id)return;
-  renderGoogleSheetsStatus();renderGoogleDriveStatus();
+  renderGoogleSheetsStatus();renderGoogleDriveStatus();hilenRenderBackupProgress();
   if(document.visibilityState==='hidden'||!navigator.onLine||!googleSheetsAccessToken)return;
   // Aunque no se hayan registrado ventas nuevas, Drive debe tener una copia del día.
   if(googleDriveConnected()&&(googleDriveConfig.lastDailyDay!==today()||googleDriveConfig.pendingAt)
@@ -7955,6 +8036,7 @@ async function syncGoogleDriveNow(showResult=false){
   if(cloudConflict){if(showResult)showToast('Copia automática en pausa','Para guardar los cambios locales sin reemplazar el respaldo principal, pulsa «Respaldar ahora» en Configuración.','warning');return false}
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','El respaldo de Google Drive se hará cuando vuelva Internet.','error');return false}
   if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;
+  hilenBackupProgressStart('drive');
   const pendingAtStart=googleDriveConfig.pendingAt,hadPending=!!pendingAtStart;
   try{
     const folderId=await ensureGoogleDriveFolder(),content=backupJsonText(),latestMeta={name:'HILEN_ultimo_respaldo.json',mimeType:'application/json',parents:googleDriveConfig.latestFileId?undefined:[folderId],appProperties:{hilenBackup:'latest'}};
@@ -7991,7 +8073,7 @@ async function syncGoogleDriveNow(showResult=false){
       googleDriveConfig.pendingAt=googleDriveConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();return false
     }
     console.error('Google Drive backup:',err);if(showResult)showToast('No se pudo respaldar en Google Drive',err.message||'Revisa tu conexión e intenta nuevamente.','error');return false
-  }finally{googleDriveSyncInFlight=false}
+  }finally{googleDriveSyncInFlight=false;hilenBackupProgressFinish('drive',googleDriveConfig.pendingAt?'Copia pendiente; revisa Google o la conexión':'')}
 }
 function queueGoogleDriveSync(delayMs=90000,changed=false){
   if(cloudConflict)return;
@@ -7999,6 +8081,9 @@ function queueGoogleDriveSync(delayMs=90000,changed=false){
   if(changed||!googleDriveConfig.pendingAt)googleDriveConfig.pendingAt=new Date().toISOString();
   localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));
   renderGoogleDriveStatus();clearTimeout(googleDriveSyncTimer);googleDriveSyncTimer=null;
+  hilenBackupProgress.drive.scheduledUntil=Date.now()+delayMs;
+  hilenBackupProgress.drive.error='';
+  hilenRenderBackupProgress();
   if(!navigator.onLine||!googleSheetsAccessToken)return;
   googleDriveSyncTimer=setTimeout(()=>{googleDriveSyncTimer=null;syncGoogleDriveNow(false)},delayMs);
 }
@@ -8167,6 +8252,9 @@ function queueGoogleSheetsSync(delayMs=45000,changed=false){
   if(changed||!googleSheetsConfig.pendingAt)googleSheetsConfig.pendingAt=new Date().toISOString();
   localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));
   renderGoogleSheetsStatus();clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=null;
+  hilenBackupProgress.sheets.scheduledUntil=Date.now()+delayMs;
+  hilenBackupProgress.sheets.error='';
+  hilenRenderBackupProgress();
   if(!googleSheetsAccessToken||!navigator.onLine)return;
   googleSheetsSyncTimer=setTimeout(()=>{googleSheetsSyncTimer=null;syncGoogleSheetsNow(false)},delayMs);
 }
@@ -8208,6 +8296,7 @@ async function syncGoogleSheetsNow(showResult=false){
   if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){if(showResult)showToast('Google Sheets no está conectado','Pulsa “Conectar con Google Sheets” y HILEN creará el archivo automáticamente.','error');return false}
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','HILEN intentará respaldar cuando vuelvas a tener Internet.','error');return false}
   if(googleSheetsSyncInFlight)return false;googleSheetsSyncInFlight=true;
+  hilenBackupProgressStart('sheets');
   const pendingAtStart=googleSheetsConfig.pendingAt;
   try{
     await ensureGoogleSheetInBackupFolder();
@@ -8240,7 +8329,7 @@ async function syncGoogleSheetsNow(showResult=false){
       googleSheetsConfig.pendingAt=googleSheetsConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();return false
     }
     console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Revisa tu conexión e intenta nuevamente.','error');return false
-  }finally{googleSheetsSyncInFlight=false}
+  }finally{googleSheetsSyncInFlight=false;hilenBackupProgressFinish('sheets',googleSheetsConfig.pendingAt?'Copia pendiente; revisa Google o la conexión':'')}
 }
 function encargoStatusLabel(status){return ({pending:'Pendiente',supplier:'Proveedor contactado',response:'Proveedor respondió',client:'Cliente informado',completed:'Completado',cancelled:'Cancelado'})[status]||'Pendiente'}
 function encargoStatusClass(status){return ({pending:'encargo-status-pending',supplier:'encargo-status-supplier',response:'encargo-status-response',client:'encargo-status-client',completed:'encargo-status-completed',cancelled:'encargo-status-cancelled'})[status]||'encargo-status-pending'}
