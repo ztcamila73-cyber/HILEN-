@@ -3986,6 +3986,60 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   padding:7px 9px!important;border-radius:9px!important;min-height:32px;
   background:#1a2741;color:#fff;border-color:#1a2741
 }
+
+/* HILEN · Menú lateral tablet: desplazamiento táctil, pie separado. */
+#side.side {
+  display:flex!important;
+  flex-direction:column!important;
+  box-sizing:border-box!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+  overflow:hidden!important;
+  padding-bottom:max(14px,env(safe-area-inset-bottom,0px))!important;
+}
+#side.side > .brand,
+#side.side > #cloudStatus,
+#side.side > #cloudStatusDetail {
+  flex:0 0 auto!important;
+}
+#side.side > .nav {
+  display:flex!important;
+  flex-direction:column!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;
+  scrollbar-width:thin;
+  scrollbar-color:#cbd5e1 transparent;
+  padding-top:5px!important;
+  padding-bottom:30px!important;
+  scroll-padding-bottom:30px;
+}
+#side.side > .nav button {
+  flex:0 0 auto!important;
+}
+#side.side > #logoutBtn.logout {
+  position:relative!important;
+  flex:0 0 auto!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  top:auto!important;
+  width:100%!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  margin:18px 0 0!important;
+  min-height:44px!important;
+  z-index:2!important;
+}
+@media (min-width:700px) and (max-height:850px){
+  #side.side > .brand {padding-bottom:12px!important}
+  #side.side > .nav {gap:4px!important}
+}
 </style>
 </head>
 <body>
