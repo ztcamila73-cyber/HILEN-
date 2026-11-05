@@ -4040,6 +4040,13 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   #side.side > .brand {padding-bottom:12px!important}
   #side.side > .nav {gap:4px!important}
 }
+
+/* HILEN: acceso inmediato a resolución sin repetir reintentos de combinación. */
+#hilenCloudConflictBanner .hilen-conflict-primary{
+  color:#fff!important;background:#1a2741!important;
+  border-color:#1a2741!important;
+  box-shadow:0 4px 12px #1a274126!important;
+}
 </style>
 </head>
 <body>
@@ -4109,7 +4116,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 <div id="app" class="app hidden">
   <div id="hilenCloudConflictBanner" class="hilen-cloud-conflict hidden" role="alert">
     <div class="hilen-cloud-conflict-copy"><strong>Sincronización pausada para proteger tus registros.</strong><span> Hay datos diferentes entre este dispositivo y Firebase. No se reemplazará ninguna versión automáticamente.</span><div id="hilenConflictReason" class="small" style="margin-top:4px;max-width:720px;overflow-wrap:anywhere"></div></div>
-    <div class="hilen-conflict-actions"><button type="button" onclick="hilenSetCloudBannerMinimized(true)" aria-label="Minimizar aviso de sincronización">Minimizar</button><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenReviewCloudConflicts()">Revisar diferencias</button><button type="button" onclick="hilenManualFirebaseSave()">Reintentar combinación</button></div>
+    <div class="hilen-conflict-actions"><button type="button" onclick="hilenSetCloudBannerMinimized(true)" aria-label="Minimizar aviso de sincronización">Minimizar</button><button type="button" onclick="hilenExportRescueCopy()">Descargar mis cambios</button><button type="button" onclick="hilenReviewCloudConflicts()">Revisar diferencias</button><button type="button" class="hilen-conflict-primary" onclick="hilenOpenCloudConflictResolution()">Resolver factura</button></div>
     <div class="hilen-cloud-compact"><strong>Sin sincronizar</strong><button type="button" onclick="hilenSetCloudBannerMinimized(false)" aria-label="Mostrar aviso completo de Firebase">Ver aviso</button></div>
   </div>
   <aside id="side" class="side">
@@ -5002,6 +5009,7 @@ async function hilenOpenSaleConflictResolution(saleId){
       '<button type="button" class="secondary" onclick="closeModal()">Cancelar</button></div>'+
       '<p class="small muted">El segundo paso solo funcionará si elegiste todos los campos y descargaste primero el respaldo. Si otro equipo cambia Firebase durante la revisión, se cancelará sin sobrescribir datos.</p>';
     $('modal').classList.remove('hidden');
+    hilenSetCloudBannerMinimized(true);
   }catch(error){console.error('Revisión de factura incompatible',error);showToast('No fue posible revisar la factura',firebaseDbErrorText(error),'error')}
 }
 function hilenDownloadSaleConflictBackup(){
@@ -5121,6 +5129,27 @@ async function hilenApplySaleConflictResolution(){
   }
 }
 
+async function hilenOpenCloudConflictResolution(){
+  if(!cloudDb||!currentUser?.id){
+    showToast('Sin sesión de Firebase','Inicia sesión en HILEN para revisar la venta.','error');return;
+  }
+  try{
+    const uid=currentUser.id;
+    const remote=(await hilenCloudWithTimeout(cloudDb.ref(userCloudPath(uid,'state')).once('value'),16000)).val();
+    const base=hilenReadCloudBase(uid),local=structuredClone(businessState()),incoming=remote?.data||businessStateEmpty();
+    const diff=hilenMergeBusinessStates(base,local,incoming,{additive:!base||hilenLegacyConflictUncertain(uid)});
+    const saleConflicts=diff.details.filter(d=>d.group==='sales'&&d.local&&d.remote);
+    if(diff.conflicts.length!==1||saleConflicts.length!==1){
+      // Si existen conflictos diferentes, no asumir cuál corresponde resolver.
+      return await hilenReviewCloudConflicts();
+    }
+    hilenSetCloudBannerMinimized(true);
+    await hilenOpenSaleConflictResolution(saleConflicts[0].key);
+  }catch(error){
+    console.error('Abrir resolución de diferencias',error);
+    showToast('No se pudo abrir la resolución',firebaseDbErrorText(error),'error');
+  }
+}
 async function hilenReviewCloudConflicts(){
   if(!cloudDb||!currentUser?.id){showToast('Firebase no disponible','Inicia sesión antes de revisar las diferencias.','error');return}
   try{
@@ -5156,8 +5185,11 @@ async function hilenReviewCloudConflicts(){
         ?'<button type="button" class="secondary" data-sale-id="'+esc(key)+'" onclick="hilenOpenSaleConflictResolution(this.dataset.saleId)" style="margin-top:10px">Resolver esta factura (revisión segura)</button>':'';
       return '<details '+(index===0?'open':'')+' style="border:1px solid #dee4ed;border-radius:12px;padding:12px;margin:10px 0"><summary style="cursor:pointer;font-weight:700">'+esc(label)+' · '+esc(key)+' ('+changed.length+' campo(s) distinto(s))</summary><div style="margin-top:12px">'+detail+resolveButton+'</div></details>';
     }).join('');
-    $('modalContent').innerHTML='<h2>Comparar diferencias con Firebase</h2><p class="notice warn">Esta pantalla es de solo lectura: no guarda, borra ni sustituye ventas. Compara los datos de esta sesión con Firebase.</p><p class="small muted">Cuenta: '+esc(currentUser?.email||'—')+'.</p><p><b>'+diff.conflicts.length+' conflicto(s)</b>. Revisa los campos distintos de cada registro:</p><div style="max-height:55vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch">'+review+'</div><div class="action-group"><button class="primary" onclick="hilenExportRescueCopy()">Descargar datos de este dispositivo</button><button class="secondary" onclick="closeModal()">Cerrar</button></div><p class="small muted">No pulses Reintentar combinación hasta comprobar qué versión es correcta y conservar ambos respaldos.</p>';
+    const soleSale=diff.conflicts.length===1?diff.details.find(d=>d.group==='sales'&&d.local&&d.remote):null;
+    const shortcut=soleSale?'<div style="padding:10px 0 14px"><button type="button" class="primary" data-sale-id="'+esc(soleSale.key)+'" onclick="hilenOpenSaleConflictResolution(this.dataset.saleId)">Resolver esta factura (revisión segura)</button><p class="small muted">Primero selecciona qué versión conservar de cada campo y descarga ambas copias. No se guarda nada al abrir.</p></div>':'';
+    $('modalContent').innerHTML='<h2>Comparar diferencias con Firebase</h2><p class="notice warn">Esta pantalla compara las versiones y no modifica tus ventas. Para corregir la factura, usa el botón de resolución.</p><p class="small muted">Cuenta: '+esc(currentUser?.email||'—')+'.</p><p><b>'+diff.conflicts.length+' conflicto(s)</b>. Revisa los campos distintos de cada registro:</p>'+shortcut+'<div style="max-height:47vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch">'+review+'</div><div class="action-group"><button class="secondary" onclick="hilenExportRescueCopy()">Descargar datos de este dispositivo</button><button class="secondary" onclick="closeModal()">Cerrar</button></div><p class="small muted">La resolución exige descargar un respaldo de ambas versiones, seleccionar los campos y confirmar la escritura.</p>';
     $('modal').classList.remove('hidden');
+    hilenSetCloudBannerMinimized(true);
   }catch(err){console.error('Revisión de diferencias Firebase',err);showToast('No se pudieron revisar las diferencias',firebaseDbErrorText(err),'error')}
 }
 async function hilenUseCloudVersion(){
