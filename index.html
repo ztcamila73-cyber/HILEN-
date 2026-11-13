@@ -6083,7 +6083,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['stStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenStartObligationReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -8516,6 +8516,162 @@ function checkEncargoReminders(force=false){
   if(force)renderEncargos();
 }
 function startEncargoReminderWatcher(){clearInterval(encargoReminderTimer);checkEncargoReminders(true);encargoReminderTimer=setInterval(()=>checkEncargoReminders(false),30000)}
+
+/* Obligaciones del negocio: seguimiento separado de los egresos contables. */
+let hilenObligationTab='supplier';
+let hilenObligationReminderTimer=null;
+function hilenSetObligationTab(type){
+  if(type!=='supplier'&&type!=='service')return;
+  hilenObligationTab=type;
+  hilenRenderObligations();
+}
+function hilenObligationIsPaid(o){return o.status==='paid'}
+function hilenObligationState(o){
+  if(hilenObligationIsPaid(o))return {label:'Pagado / realizado',kind:'paid'};
+  if(o.dueDate&&o.dueDate<today())return {label:'Vencido',kind:'overdue'};
+  if(o.dueDate===today())return {label:'Vence hoy',kind:'pending'};
+  return {label:'Pendiente',kind:'pending'};
+}
+function hilenRenderObligations(){
+  const root=document.getElementById('hilenObligationList');if(!root)return;
+  const all=Array.isArray(db.obligations)?db.obligations:[];
+  const pending=all.filter(o=>!hilenObligationIsPaid(o));
+  const now=today();const week=new Date(now+'T12:00:00');week.setDate(week.getDate()+7);
+  const endDate=week.getFullYear()+'-'+String(week.getMonth()+1).padStart(2,'0')+'-'+String(week.getDate()).padStart(2,'0');
+  const put=(element,value)=>{const e=document.getElementById(element);if(e)e.textContent=value};
+  put('hilenObligationPending',pending.length);
+  put('hilenObligationUpcoming',pending.filter(o=>o.dueDate>=now&&o.dueDate<=endDate).length);
+  put('hilenObligationOverdue',pending.filter(o=>o.dueDate&&o.dueDate<now).length);
+  put('hilenObligationAmount',money(pending.reduce((n,o)=>n+(Number(o.amount)||0),0)));
+  const supplier=hilenObligationTab==='supplier';
+  for(const [name,type] of [['hilenObligationsSuppliersTab','supplier'],['hilenObligationsServicesTab','service']]){
+    const tab=document.getElementById(name);if(!tab)continue;
+    const active=hilenObligationTab===type;tab.classList.toggle('active',active);
+    tab.setAttribute('aria-selected',active?'true':'false');
+  }
+  const q=String(document.getElementById('hilenObligationSearch')?.value||'').trim().toLowerCase();
+  const filter=document.getElementById('hilenObligationFilter')?.value||'all';
+  const shown=all.filter(o=>(o.type==='service'?'service':'supplier')===hilenObligationTab)
+    .filter(o=>!q||[o.title,o.party,o.notes,o.reference].some(v=>String(v||'').toLowerCase().includes(q)))
+    .filter(o=>filter==='all'||(filter==='paid'?hilenObligationIsPaid(o):
+      filter==='overdue'?!hilenObligationIsPaid(o)&&!!o.dueDate&&o.dueDate<now:!hilenObligationIsPaid(o)))
+    .sort((a,b)=>Number(hilenObligationIsPaid(a))-Number(hilenObligationIsPaid(b))||
+      String(a.dueDate||'9999').localeCompare(String(b.dueDate||'9999'))||
+      String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+  if(!shown.length){
+    root.innerHTML='<div class="hilen-obligation-empty">'+
+      (all.some(o=>o.type===hilenObligationTab)?'No hay obligaciones con esos filtros.':
+       supplier?'Aún no tienes pagos a proveedores registrados.':'Aún no tienes servicios o mantenimientos registrados.')+
+      '</div>';
+    return;
+  }
+  root.innerHTML=shown.map(o=>{
+    const status=hilenObligationState(o),when=o.dueDate?normalizeDateLabel(o.dueDate):'Sin fecha';
+    const remind=o.reminderDate?'Recordatorio: '+normalizeDateLabel(o.reminderDate):'Sin recordatorio';
+    return '<div class="hilen-obligation-row">'+
+      '<div><b>'+esc(o.title||'Sin concepto')+'</b><div class="hilen-obligation-meta">'+esc(o.party||'Sin proveedor')+
+      (o.notes?' · '+esc(o.notes):'')+'</div></div>'+
+      '<div><b>'+money(o.amount||0)+'</b><div class="hilen-obligation-meta">'+esc(when)+'</div></div>'+
+      '<div><span class="hilen-obligation-pill '+status.kind+'">'+esc(status.label)+'</span><div class="hilen-obligation-meta">'+esc(remind)+'</div></div>'+
+      '<div class="hilen-obligation-actions"><button class="secondary" type="button" onclick="hilenOpenObligationForm(\''+esc(o.id)+'\')">Editar</button>'+
+      (hilenObligationIsPaid(o)?'<button class="secondary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',false)">Reabrir</button>':
+        '<button class="primary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',true)">Marcar pagado</button>')+
+      '<button class="secondary" type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button></div></div>';
+  }).join('');
+}
+function hilenOpenObligationForm(oid=''){
+  const old=oid?(db.obligations||[]).find(x=>x.id===oid):null;
+  if(oid&&!old)return;
+  const type=old?.type||hilenObligationTab;
+  const selectType='<option value="supplier">Pago a proveedor</option><option value="service">Servicio / mantenimiento</option>';
+  document.getElementById('modalContent').innerHTML=
+    '<div class="encargo-modal"><h2 style="margin:0">'+(old?'Editar obligación':'Nueva obligación')+'</h2>'+
+    '<p class="small muted">Registra fechas, compromisos y recordatorios. No se crea un egreso automáticamente.</p>'+
+    '<div class="form-grid" style="margin-top:16px">'+
+    '<div><label class="label">Apartado</label><select id="hilenOblType" class="input">'+selectType+'</select></div>'+
+    '<div><label class="label">Concepto *</label><input id="hilenOblTitle" class="input" maxlength="140" placeholder="Ej. Mantenimiento del aire"></div>'+
+    '<div><label class="label">Proveedor / entidad</label><input id="hilenOblParty" class="input" maxlength="140" placeholder="Ej. Técnico de aire o Cámara de Comercio"></div>'+
+    '<div><label class="label">Valor estimado (COP)</label><input id="hilenOblAmount" class="input" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"></div>'+
+    '<div><label class="label">Fecha de vencimiento *</label><input id="hilenOblDue" type="date" class="input"></div>'+
+    '<div><label class="label">Recordarme el</label><input id="hilenOblReminder" type="date" class="input"></div>'+
+    '<div><label class="label">Hora del aviso</label><input id="hilenOblReminderTime" type="time" class="input"></div>'+
+    '<div><label class="label">Referencia / comprobante</label><input id="hilenOblReference" class="input" maxlength="140" placeholder="Referencia opcional"></div>'+
+    '<div class="fullcol"><label class="label">Observaciones</label><textarea id="hilenOblNotes" class="input" rows="3" maxlength="1000"></textarea></div></div>'+
+    '<div class="row-actions" style="justify-content:flex-end"><button class="secondary" onclick="closeModal()">Cancelar</button>'+
+    '<button class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar obligación</button></div></div>';
+  document.getElementById('hilenOblType').value=type;
+  document.getElementById('hilenOblTitle').value=old?.title||'';
+  document.getElementById('hilenOblParty').value=old?.party||'';
+  document.getElementById('hilenOblAmount').value=old?.amount?new Intl.NumberFormat('es-CO').format(old.amount):'';
+  document.getElementById('hilenOblDue').value=old?.dueDate||today();
+  document.getElementById('hilenOblReminder').value=old?.reminderDate||'';
+  document.getElementById('hilenOblReminderTime').value=old?.reminderTime||'09:00';
+  document.getElementById('hilenOblReference').value=old?.reference||'';
+  document.getElementById('hilenOblNotes').value=old?.notes||'';
+  document.getElementById('modal').classList.remove('hidden');
+}
+function hilenSaveObligation(oid=''){
+  const title=document.getElementById('hilenOblTitle')?.value.trim()||'';
+  const dueDate=document.getElementById('hilenOblDue')?.value||'';
+  if(!title)return showToast('Falta el concepto','Escribe el pago o mantenimiento.','error');
+  if(!dueDate)return showToast('Falta la fecha','Selecciona el vencimiento.','error');
+  const amount=parseMoneyInput(document.getElementById('hilenOblAmount')?.value||'');
+  const type=document.getElementById('hilenOblType').value;
+  const payload={type:type==='service'?'service':'supplier',title,party:document.getElementById('hilenOblParty').value.trim(),
+    amount:Math.max(0,amount),dueDate,reminderDate:document.getElementById('hilenOblReminder').value||'',
+    reminderTime:document.getElementById('hilenOblReminderTime').value||'09:00',
+    reference:document.getElementById('hilenOblReference').value.trim(),
+    notes:document.getElementById('hilenOblNotes').value.trim(),updatedAt:new Date().toISOString()};
+  db.obligations ||= [];
+  if(oid){const old=db.obligations.find(x=>x.id===oid);if(!old)return;Object.assign(old,payload)}
+  else db.obligations.unshift({id:id(),status:'pending',createdAt:new Date().toISOString(),...payload});
+  hilenObligationTab=payload.type;
+  saveDB();closeModal();hilenRenderObligations();hilenCheckObligationReminders();
+  showToast('Obligación registrada en este dispositivo','Comprueba el indicador de Firebase para confirmar el guardado en la nube.','info');
+}
+function hilenMarkObligation(oid,paid){
+  const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
+  const apply=()=>{
+    item.status=paid?'paid':'pending';
+    item.paidDate=paid?today():'';
+    item.updatedAt=new Date().toISOString();saveDB();hilenRenderObligations();
+    showToast(paid?'Marcado como pagado':'Obligación reabierta','Este cambio no crea ni elimina egresos de caja. Verifica Firebase.','info');
+  };
+  if(paid)confirmAction('Confirmar pago o mantenimiento',
+    '¿Confirmas que realizaste '+item.title+'? Solo cambia el estado del recordatorio; no afecta Flujo de caja.',apply,
+    {confirmText:'Confirmar realizado',workingText:'Guardando…'});
+  else apply();
+}
+function hilenDeleteObligation(oid){
+  const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
+  confirmAction('Eliminar obligación','¿Eliminar '+item.title+'? Este registro dejará de aparecer en los recordatorios.',()=>{
+    db.obligations=db.obligations.filter(x=>x.id!==oid);
+    saveDB();hilenRenderObligations();showToast('Obligación eliminada','Verifica la sincronización de Firebase.','info');
+  },{confirmText:'Eliminar',workingText:'Eliminando…',red:true});
+}
+function hilenCheckObligationReminders(){
+  if(!currentUser?.id)return;
+  const now=new Date();
+  for(const o of db.obligations||[]){
+    if(hilenObligationIsPaid(o)||!o.reminderDate)continue;
+    const due=new Date(o.reminderDate+'T'+(o.reminderTime||'09:00')+':00');
+    if(!Number.isFinite(due.getTime())||due>now)continue;
+    const alertKey='HILEN_OBL_REM_'+currentUser.id+'_'+o.id+'_'+o.reminderDate+'_'+(o.reminderTime||'09:00');
+    if(localStorage.getItem(alertKey)==='1')continue;
+    localStorage.setItem(alertKey,'1');
+    const message=o.title+(o.amount?' · '+money(o.amount):'')+' · vence '+(o.dueDate||'sin fecha');
+    showToast('Recordatorio de obligación',message,'warning',8500);
+    if('Notification' in window&&Notification.permission==='granted'){
+      try{new Notification('HILEN · Obligación pendiente',{body:message})}catch(_){}
+    }
+  }
+}
+function hilenStartObligationReminderWatcher(){
+  clearInterval(hilenObligationReminderTimer);
+  hilenCheckObligationReminders();
+  hilenObligationReminderTimer=setInterval(hilenCheckObligationReminders,60000);
+}
+
 function refreshAll(){
   syncDataRelations();
   [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['actividad diaria',()=>{if($('dailyActivity')?.classList.contains('active'))hilenRenderDailyActivity()}],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
