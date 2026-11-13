@@ -4048,6 +4048,10 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   box-shadow:0 4px 12px #1a274126!important;
 }
 
+/* overflow-x:hidden en .main crea un contenedor de desplazamiento que impide que la cabecera sticky siga al usuario. clip evita el desbordamiento sin bloquear sticky. */
+@media (max-width:1399px){
+  .main{overflow-x:clip!important;overflow-y:visible!important}
+}
 /* HILEN · Navegación ágil en pantallas pequeñas.
    Botón de menú disponible al desplazarse; panel independiente y sin saltos. */
 @media (max-width:1399px) {
