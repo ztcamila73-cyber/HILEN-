@@ -4065,6 +4065,24 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 .hilen-save-guide-status.ok{background:#e9f7ee;color:#17613d}.hilen-save-guide-status.error{background:#ffecec;color:#9a2929}
 .hilen-save-guide p{font-size:12px;margin:10px 0 0;color:#444}
 @keyframes hilen-backup-pulse{50%{opacity:.35}}
+
+.hilen-obligations-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:16px}
+.hilen-obligations-header h2{margin:0 0 5px}
+.hilen-obligations-header p{margin:0}
+.hilen-obligations-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.hilen-obligations-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.hilen-obligations-tabs button{border:1px solid var(--line);border-radius:12px;padding:11px 16px;background:#fff;font-weight:750;color:#555}
+.hilen-obligations-tabs button.active{background:#111;color:#fff;border-color:#111}
+.hilen-obligations-toolbar{margin-bottom:14px}.hilen-obligations-toolbar>div{flex:1;min-width:175px}
+.hilen-obligation-row{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(120px,.8fr) minmax(120px,.7fr) auto;gap:12px;align-items:center;padding:15px 5px;border-bottom:1px solid var(--line)}
+.hilen-obligation-row:last-child{border-bottom:0}.hilen-obligation-row b{overflow-wrap:anywhere}
+.hilen-obligation-meta{font-size:12px;color:var(--muted);margin-top:5px}
+.hilen-obligation-pill{display:inline-block;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:750;background:#eef5ff;color:#3359aa}
+.hilen-obligation-pill.overdue{background:#fff0ee;color:#b13333}.hilen-obligation-pill.paid{background:#e9f8f0;color:#197047}
+.hilen-obligation-actions{display:flex;gap:6px;flex-wrap:wrap}
+.hilen-obligation-empty{text-align:center;padding:30px 15px;color:var(--muted)}
+@media(max-width:1050px){.hilen-obligations-stats{grid-template-columns:repeat(2,1fr)}.hilen-obligation-row{grid-template-columns:1fr 1fr}.hilen-obligation-actions{grid-column:1/-1}}
+@media(max-width:620px){.hilen-obligations-stats{grid-template-columns:1fr 1fr}.hilen-obligation-row{grid-template-columns:1fr}.hilen-obligation-actions{grid-column:auto}.hilen-obligations-tabs button{flex:1}}
 </style>
 </head>
 <body>
@@ -4152,6 +4170,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
       <button onclick="section('cashflow',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M7 7V5h10v2M8 13h8"/><circle cx="12" cy="13" r="2.5"/></svg></span>Flujo de caja</button>
       <button onclick="section('customers',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span>Clientes</button>
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estado de cuenta</button>
+      <button onclick="section('obligations',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h5M8 18h8"/></svg></span>Obligaciones y mantenimiento</button>
       <button onclick="section('encargos',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></span>Encargos</button>
       <button onclick="section('reports',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Reportes</button>
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
@@ -4605,6 +4624,32 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
       </div>
     </section>
 
+
+    <section id="obligations" class="section hilen-view">
+      <div class="card hilen-obligations-header">
+        <div><h2>Obligaciones y mantenimiento</h2><p class="muted small">Organiza los compromisos de pago y mantenimiento de HILEN, sin modificar automáticamente el flujo de caja.</p></div>
+        <div class="row-actions"><button type="button" class="secondary" onclick="requestReminderPermission()">Activar avisos</button><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Agregar obligación</button></div>
+      </div>
+      <div class="hilen-obligations-stats">
+        <div class="card"><div class="stat-label">Pendientes</div><div class="stat" id="hilenObligationPending">0</div></div>
+        <div class="card"><div class="stat-label">Próximas (7 días)</div><div class="stat" id="hilenObligationUpcoming">0</div></div>
+        <div class="card"><div class="stat-label">Vencidas</div><div class="stat" id="hilenObligationOverdue">0</div></div>
+        <div class="card"><div class="stat-label">Por pagar</div><div class="stat" id="hilenObligationAmount">$ 0</div></div>
+      </div>
+      <div class="card">
+        <div class="hilen-obligations-tabs" role="tablist" aria-label="Tipo de obligación">
+          <button type="button" id="hilenObligationsSuppliersTab" class="active" onclick="hilenSetObligationTab('supplier')" role="tab" aria-selected="true">Pagos a proveedores</button>
+          <button type="button" id="hilenObligationsServicesTab" onclick="hilenSetObligationTab('service')" role="tab" aria-selected="false">Servicios y mantenimiento</button>
+        </div>
+        <div class="toolbar hilen-obligations-toolbar">
+          <div><label class="label" for="hilenObligationSearch">Buscar</label><input id="hilenObligationSearch" class="input" oninput="hilenRenderObligations()" placeholder="Proveedor, servicio o descripción"></div>
+          <div><label class="label" for="hilenObligationFilter">Estado</label><select id="hilenObligationFilter" class="input" onchange="hilenRenderObligations()"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="overdue">Vencidos</option><option value="paid">Pagados / realizados</option></select></div>
+        </div>
+        <div id="hilenObligationList" class="hilen-obligations-list"></div>
+        <p class="small muted" style="margin:15px 0 0">Los pagos se marcan como realizados manualmente. Este apartado es un recordatorio y no crea egresos en Flujo de caja. Si pagaste, registra el egreso aparte.</p>
+      </div>
+    </section>
+
     <section id="encargos" class="section hilen-view hilen-encargos">
       <div class="encargos-head card">
         <div class="encargos-head-copy">
@@ -4684,7 +4729,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 <script>
 const KEY="HILEN_DEMO_V2";
 const OLD_KEY="HILEN_DEMO_V1";
-const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[],annualReports:[]};
+const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],obligations:[],monthlyRecords:[],annualReports:[]};
 let db;
 try{db=JSON.parse(localStorage.getItem(KEY)||"null")||null}catch(e){db=null}
 if(!db){
@@ -4694,7 +4739,7 @@ if(!db){
   }catch(e){}
 }
 if(!db) db=structuredClone(emptyDB);
-db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; db.monthlyRecords ||= []; db.annualReports ||= []; if(!('session' in db))db.session=null;
+db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; db.obligations ||= []; db.monthlyRecords ||= []; db.annualReports ||= []; if(!('session' in db))db.session=null;
 let currentUser=null;
 const GOOGLE_SHEETS_SYNC_KEY="HILEN_GOOGLE_SHEETS_SYNC_V2";
 const GOOGLE_DRIVE_BACKUP_KEY="HILEN_GOOGLE_DRIVE_BACKUP_V1";
@@ -4785,7 +4830,7 @@ function hilenCloudSignature(value){
   const normalized=hilenStableCloudValue(value??null);
   // Los grupos del negocio se identifican por ID. Su orden en memoria no
   // debe hacer que Firebase considere distintas dos colecciones idénticas.
-  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
+  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','obligations','monthlyRecords','annualReports'];
   if(normalized&&typeof normalized==='object'&&!Array.isArray(normalized)&&groups.some(g=>Array.isArray(normalized[g]))){
     for(const group of groups){
       if(Array.isArray(normalized[group])){
@@ -4812,7 +4857,7 @@ function hilenRememberCloudBase(revision,data,uid=currentUser?.id){
   try{localStorage.setItem(CLOUD_BASE_SNAPSHOT_KEY+uid,JSON.stringify({revision:cloudBaseRevision,data:cloudBaseData}))}
   catch(e){console.warn('Sin espacio para guardar la base de reconciliación',e)}
 }
-function businessStateEmpty(){return {version:13,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[],annualReports:[]}}
+function businessStateEmpty(){return {version:13,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],obligations:[],monthlyRecords:[],annualReports:[]}}
 function hilenReadCloudBase(uid){
   if(cloudBaseData)return structuredClone(cloudBaseData);
   try{const b=JSON.parse(localStorage.getItem(CLOUD_BASE_SNAPSHOT_KEY+uid)||'null');return b?.data&&typeof b.data==='object'?b.data:null}
@@ -4842,7 +4887,7 @@ function hilenMergeRecordFields(base,local,remote,path=''){
   return {value:undefined,conflicts:[path||'registro completo']};
 }
 function hilenMergeBusinessStates(base,local,remote,{additive=false}={}){
-  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
+  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','obligations','monthlyRecords','annualReports'];
   const merged={version:13},conflicts=[],details=[];
   for(const group of groups){
     const input=[base,local,remote].map(st=>Array.isArray(st?.[group])?st[group]:[]);
@@ -5421,12 +5466,12 @@ function initCloud(){
   }catch(err){console.error('Firebase init:',err);setCloudStatus('error','Error configurando Firebase');return false}
 }
 function businessState(){
-  return {version:13,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[],monthlyRecords:db.monthlyRecords||[],annualReports:db.annualReports||[]};
+  return {version:13,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[],obligations:db.obligations||[],monthlyRecords:db.monthlyRecords||[],annualReports:db.annualReports||[]};
 }
 function hasBusinessData(state=businessState()){return (state.clients?.length||0)+(state.sales?.length||0)+(state.payments?.length||0)+(state.cashMovements?.length||0)+(state.monthlyRecords?.length||0)>0}
 function applyBusinessState(state){
   const safe=state||{};
-  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[],monthlyRecords:Array.isArray(safe.monthlyRecords)?safe.monthlyRecords:[],annualReports:Array.isArray(safe.annualReports)?safe.annualReports:[]};
+  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[],obligations:Array.isArray(safe.obligations)?safe.obligations:[],monthlyRecords:Array.isArray(safe.monthlyRecords)?safe.monthlyRecords:[],annualReports:Array.isArray(safe.annualReports)?safe.annualReports:[]};
   syncDataRelations();
 }
 function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
@@ -6062,7 +6107,7 @@ function globalSearchGo(){
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',obligations:'Obligaciones y mantenimiento',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',obligations:'Pagos a proveedores, servicios, trámites y mantenimientos con fechas y recordatorios.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,obligations:hilenRenderObligations,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -6110,7 +6155,7 @@ function calcTotal(){
 }
 function refreshAfterChange(){
   syncDataRelations();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['actividad diaria',()=>{if($('dailyActivity')?.classList.contains('active'))hilenRenderDailyActivity()}],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['actividad diaria',()=>{if($('dailyActivity')?.classList.contains('active'))hilenRenderDailyActivity()}],['encargos',renderEncargos],['obligaciones',hilenRenderObligations],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
 }
 function clientNameById(cid){return db.clients.find(c=>c.id===cid)?.name||db.sales.find(s=>s.clientId===cid&&s.clientName)?.clientName||'Cliente'}
 function refreshClientsSelects(){const opts=db.clients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone):''}</option>`).join('');if($('statementClientList'))$('statementClientList').innerHTML=opts;if($('saleClientList'))$('saleClientList').innerHTML=opts;const creditClients=db.clients.filter(c=>clientBalance(c.id).balance>0);if($('payClientList'))$('payClientList').innerHTML=creditClients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone)+' · ':''}Saldo ${money(clientBalance(c.id).balance)}</option>`).join('')}
@@ -7688,8 +7733,8 @@ function buildBackupTables(){
       }
     }
   }
-  const b=getBalances(),summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Estados de cuenta descargados',Valor:(db.statementDownloads||[]).length},{Indicador:'Encargos registrados',Valor:(db.encargos||[]).length},{Indicador:'Dinero en efectivo',Valor:b.cash},{Indicador:'Dinero en Nequi',Valor:b.bank},{Indicador:'Disponible total',Valor:b.total}];
-  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Reportes anuales':annualArchives,'Encargos':encargos,'Registros mensuales':monthly,'Facturas a credito':invoices,'Asignacion de abonos':allocations,'Datos completos':complete};
+  const b=getBalances(),summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Estados de cuenta descargados',Valor:(db.statementDownloads||[]).length},{Indicador:'Encargos registrados',Valor:(db.encargos||[]).length},{Indicador:'Obligaciones registradas',Valor:(db.obligations||[]).length},{Indicador:'Dinero en efectivo',Valor:b.cash},{Indicador:'Dinero en Nequi',Valor:b.bank},{Indicador:'Disponible total',Valor:b.total}];
+  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Reportes anuales':annualArchives,'Encargos':encargos,'Obligaciones':(db.obligations||[]).map(o=>({ID:o.id,Tipo:o.type,Concepto:o.title,Proveedor:o.party||'',Valor:o.amount||0,Vencimiento:o.dueDate||'',Recordatorio:o.reminderDate||'',Estado:o.status||'pending',Fecha_de_pago:o.paidDate||'',Detalles:JSON.stringify(o)})),'Registros mensuales':monthly,'Facturas a credito':invoices,'Asignacion de abonos':allocations,'Datos completos':complete};
 }
 function exportAllToExcel(){
   if(!window.XLSX)return showToast('No se pudo cargar Excel','Verifica tu conexión a Internet y vuelve a intentar.','error');
