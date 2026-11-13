@@ -4047,6 +4047,50 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   border-color:#1a2741!important;
   box-shadow:0 4px 12px #1a274126!important;
 }
+
+/* HILEN · Navegación ágil en pantallas pequeñas.
+   Botón de menú disponible al desplazarse; panel independiente y sin saltos. */
+@media (max-width:1399px) {
+  .shell-toolbar{
+    position:sticky!important;
+    top:0!important;
+    z-index:45!important;
+    padding:8px max(4px,env(safe-area-inset-right))!important;
+    margin-top:-8px!important;
+    border-radius:0 0 15px 15px!important;
+    background:rgba(250,249,247,.97)!important;
+    box-shadow:0 5px 14px rgba(12,12,12,.045)!important;
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+  }
+  .shell-menu{
+    position:relative!important;
+    min-width:44px!important;
+    min-height:44px!important;
+    flex-shrink:0!important;
+    touch-action:manipulation!important;
+  }
+  #side.side{
+    position:fixed!important;
+    top:0!important;
+    bottom:0!important;
+    will-change:transform;
+  }
+  #side.side.open{
+    transition-duration:.14s!important;
+  }
+  #side.side > .nav{
+    overscroll-behavior:contain!important;
+    scroll-behavior:auto!important;
+  }
+  .side-backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){
+  .shell-toolbar{top:0!important}
+}
+@media (min-width:1400px){
+  .shell-toolbar{position:relative!important}
+}
 </style>
 </head>
 <body>
