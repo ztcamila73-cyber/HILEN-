@@ -9587,6 +9587,67 @@ function checkEncargoReminders(force=false){
 }
 function startEncargoReminderWatcher(){clearInterval(encargoReminderTimer);checkEncargoReminders(true);encargoReminderTimer=setInterval(()=>checkEncargoReminders(false),30000)}
 
+
+/* Agenda HILEN · herramientas de calendario y filtros. */
+let hilenAgendaMonthCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+let hilenAgendaSelectedDate='';
+function hilenSetObligationFilter(value){
+  const sel=document.getElementById('hilenObligationFilter');
+  if(sel)sel.value=value;
+  hilenRenderObligations();
+}
+function hilenRenderAgendaCalendar(){
+  const grid=document.getElementById('hilenAgendaCalendarDays');
+  if(!grid)return;
+  const y=hilenAgendaMonthCursor.getFullYear(),m=hilenAgendaMonthCursor.getMonth();
+  const first=new Date(y,m,1),count=new Date(y,m+1,0).getDate();
+  const label=document.getElementById('hilenAgendaCalendarMonth');
+  if(label)label.textContent=first.toLocaleDateString('es-CO',{month:'long',year:'numeric'});
+  let html='',leading=(first.getDay()+6)%7;
+  for(let j=0;j<leading;j++)html+='<span aria-hidden="true"></span>';
+  const dates=(db.obligations||[]).filter(o=>o.dueDate);
+  for(let d=1;d<=count;d++){
+    const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const events=dates.filter(o=>o.dueDate===key);
+    html+='<button type="button" class="'+(events.length?'has-event ':'')+(key===today()?'is-today ':'')+(key===hilenAgendaSelectedDate?'is-selected':'')+'" onclick="hilenSelectAgendaDate(\''+key+'\')" aria-label="'+key+' · '+events.length+' obligaciones">'+d+(events.length?'<span class="event-dot"></span>':'')+'</button>';
+  }
+  grid.innerHTML=html;
+  const box=document.getElementById('hilenAgendaCalendarSelected');
+  if(box){
+    const selection=hilenAgendaSelectedDate||today();
+    const items=dates.filter(o=>o.dueDate===selection);
+    box.innerHTML='<b>'+esc(normalizeDateLabel(selection))+'</b>'+(items.length?
+      items.map(o=>'<div class="event-label">'+esc(o.title||'Obligación')+' · '+(o.status==='paid'?'Atendida':'Pendiente')+'</div>').join(''):
+      '<span>Sin obligaciones para este día.</span>');
+  }
+}
+function hilenShiftAgendaMonth(n){
+  hilenAgendaMonthCursor=new Date(hilenAgendaMonthCursor.getFullYear(),hilenAgendaMonthCursor.getMonth()+Number(n||0),1);
+  hilenRenderAgendaCalendar();
+}
+function hilenSelectAgendaDate(key){
+  hilenAgendaSelectedDate=key;
+  hilenRenderAgendaCalendar();
+}
+function hilenOpenAgendaGoogleCalendar(){
+  const list=(db.obligations||[]).filter(o=>o.status!=='paid'&&o.dueDate).sort((a,b)=>a.dueDate.localeCompare(b.dueDate));
+  if(!list.length)return window.open('https://calendar.google.com/calendar/u/0/r','_blank','noopener,noreferrer');
+  const first=list[0];
+  const start=first.dueDate.replace(/-/g,'')+'T090000',end=first.dueDate.replace(/-/g,'')+'T093000';
+  const url='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('HILEN · '+first.title)+
+    '&dates='+start+'/'+end+'&ctz=America%2FBogota&details='+encodeURIComponent('Obligación de HILEN: '+(first.party||'')+'. Agrega alertas en Google Calendar.');
+  window.open(url,'_blank','noopener,noreferrer');
+  showToast('Google Calendar','Se abrió el próximo vencimiento. Comprueba y guarda el evento en tu calendario.','info');
+}
+function hilenOpenObligationInGoogleCalendar(oid){
+ const item=(db.obligations||[]).find(x=>String(x.id)===String(oid));
+ if(!item?.dueDate)return;
+ const day=item.dueDate.replace(/-/g,''),start=day+'T090000',end=day+'T093000';
+ const url='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('HILEN · '+item.title)+
+ '&dates='+start+'/'+end+'&ctz=America%2FBogota&details='+encodeURIComponent((item.party||'')+' · '+(item.notes||'')+' · Recuerda configurar tus notificaciones.');
+ window.open(url,'_blank','noopener,noreferrer');
+}
+
 /* Obligaciones del negocio: seguimiento separado de los egresos contables. */
 let hilenObligationTab='supplier';
 let hilenObligationReminderTimer=null;
@@ -9612,8 +9673,10 @@ function hilenRenderObligations(){
   put('hilenObligationPending',pending.length);
   put('hilenObligationUpcoming',pending.filter(o=>o.dueDate>=now&&o.dueDate<=endDate).length);
   put('hilenObligationOverdue',pending.filter(o=>o.dueDate&&o.dueDate<now).length);
-  put('hilenObligationAmount',money(pending.reduce((n,o)=>n+(Number(o.amount)||0),0)));
+  put('hilenObligationAmount',money(all.filter(o=>hilenObligationIsPaid(o)&&String(o.paidDate||'').slice(0,7)===now.slice(0,7)).reduce((n,o)=>n+(Number(o.amount)||0),0)));
   const supplier=hilenObligationTab==='supplier';
+  const activeFilter=document.getElementById('hilenObligationFilter')?.value||'all';
+  document.querySelectorAll('#obligations [data-oblfilter]').forEach(b=>{const selected=b.dataset.oblfilter===activeFilter;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',selected?'true':'false')});
   for(const [name,type] of [['hilenObligationsSuppliersTab','supplier'],['hilenObligationsServicesTab','service']]){
     const tab=document.getElementById(name);if(!tab)continue;
     const active=hilenObligationTab===type;tab.classList.toggle('active',active);
@@ -9642,11 +9705,13 @@ function hilenRenderObligations(){
     return '<div class="hilen-obligation-row">'+
       '<div><b>'+esc(o.title||'Sin concepto')+'</b><div class="hilen-obligation-meta">'+esc(o.party||'Sin proveedor')+
       (o.notes?' · '+esc(o.notes):'')+'</div></div>'+
-      '<div><b>'+esc(when)+'</b><div class="hilen-obligation-meta">'+(Number(o.amount)?'Valor previsto: '+money(o.amount):'Sin valor estimado')+'</div></div>'+
-      '<div><span class="hilen-obligation-pill '+status.kind+'">'+esc(status.label)+'</span><div class="hilen-obligation-meta">'+esc(remind)+'</div></div>'+
+      '<div><b>'+esc(when)+'</b><div class="hilen-obligation-meta">'+esc(o.reminderDate?'Aviso: '+o.reminderDate:'Sin aviso')+'</div></div>'+ 
+      '<div><b>'+money(o.amount||0)+'</b><div class="hilen-obligation-meta">Referencia</div></div>'+
+      '<div><span class="hilen-obligation-pill '+status.kind+'">'+esc(status.label)+'</span></div>'+
       '<div class="hilen-obligation-actions"><button class="secondary" type="button" onclick="hilenOpenObligationForm(\''+esc(o.id)+'\')">Editar</button>'+
       (hilenObligationIsPaid(o)?'<button class="secondary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',false)">Reabrir</button>':
         '<button class="primary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',true)">Marcar atendido</button>')+
+      '<button class="secondary" type="button" onclick="hilenOpenObligationInGoogleCalendar(\''+esc(o.id)+'\')">Calendario</button>'+ 
       '<button class="secondary" type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button></div></div>';
   }).join('');
   hilenRenderAgendaCalendar();
