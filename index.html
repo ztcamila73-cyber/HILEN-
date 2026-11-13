@@ -4706,6 +4706,38 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 @media(max-width:1200px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:750px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))}#obligations .hilen-obligation-row{grid-template-columns:1fr!important}#obligations .hilen-obligation-actions{justify-content:flex-start}#obligations .hilen-agenda-separation button{width:100%}#obligations .hilen-agenda-hero-actions{width:100%}}
 @media(max-width:480px){#obligations .hilen-obligations-stats{grid-template-columns:1fr}#obligations .hilen-obligations-tabs{flex-direction:column}}
+
+/* Agenda: calendario mensual y panel tipo referencia, adaptable a tablet/PC. */
+#obligations .hilen-agenda-content-grid{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(290px,.85fr);gap:16px;align-items:start}
+#obligations .hilen-agenda-content-grid>.card,#obligations .hilen-agenda-calendar-stack{min-width:0}
+#obligations .hilen-agenda-workspace{margin:0!important}
+#obligations .hilen-agenda-calendar-stack{display:flex;flex-direction:column;gap:13px}
+#obligations .hilen-agenda-calendar-card{border:1px solid #e9eaf0!important;border-radius:20px!important;padding:18px!important}
+#obligations .hilen-agenda-calendar-head{display:flex;flex-direction:column;gap:13px;margin-bottom:17px}
+#obligations .hilen-agenda-calendar-head h3{font-size:15px;font-weight:850;letter-spacing:-.3px;margin:0;color:#132038}
+#obligations .hilen-agenda-calendar-nav{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#obligations .hilen-agenda-calendar-nav strong{font-size:13px;color:#23304a}
+#obligations .hilen-agenda-calendar-nav button{border:1px solid #e7eaf0;background:#fff;border-radius:11px;width:35px;height:34px;font-size:22px;color:#24314b}
+#obligations .hilen-agenda-calendar-weekdays,#obligations .hilen-agenda-calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+#obligations .hilen-agenda-calendar-weekdays{margin-bottom:7px}
+#obligations .hilen-agenda-calendar-weekdays span{text-align:center;color:#8791a3;font-size:11px;font-weight:800}
+#obligations .hilen-agenda-calendar-days button{height:37px;min-height:37px;max-height:37px;width:100%;border-radius:11px;border:1px solid transparent;background:transparent;font-size:12px;color:#273347;font-weight:650;position:relative;padding:0}
+#obligations .hilen-agenda-calendar-days button:disabled{opacity:.22;cursor:default}
+#obligations .hilen-agenda-calendar-days button.has-event{background:#fff3db;border-color:#eed9ae;color:#966218}
+#obligations .hilen-agenda-calendar-days button.is-today{box-shadow:inset 0 0 0 1px #b4bed0}
+#obligations .hilen-agenda-calendar-days button.is-selected{background:#d7a746!important;color:#1d1a15!important;border-color:#c59638!important}
+#obligations .hilen-agenda-calendar-days button .event-dot{position:absolute;bottom:3px;left:calc(50% - 2px);height:4px;width:4px;background:#976317;border-radius:50%}
+#obligations .hilen-agenda-calendar-selected{margin-top:14px;padding:11px 0 0;border-top:1px solid #e9ebef;font-size:11px;color:#768198;line-height:1.5}
+#obligations .hilen-agenda-calendar-selected b{display:block;color:#303b53;font-size:12px;margin-bottom:5px}
+#obligations .hilen-agenda-calendar-selected .event-label{display:block;padding:6px 0;border-bottom:1px solid #f0f2f5}
+#obligations .hilen-agenda-calendar-note{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #e8eaf0;border-radius:16px;padding:13px}
+#obligations .hilen-agenda-calendar-note-icon{flex:0 0 33px;width:33px;height:33px;display:grid;place-items:center;background:#fff3dd;color:#ad750e;border-radius:11px;font-weight:900;font-size:19px}
+#obligations .hilen-agenda-calendar-note>div{min-width:0;flex:1}
+#obligations .hilen-agenda-calendar-note strong{font-size:12px;color:#26334b}
+#obligations .hilen-agenda-calendar-note p{font-size:10px;line-height:1.35;margin:4px 0 0;color:#728099}
+#obligations .hilen-agenda-calendar-note button{font-size:10px!important;padding:7px 10px!important;min-height:34px!important;white-space:nowrap;border-radius:9px!important}
+@media(max-width:1150px){#obligations .hilen-agenda-content-grid{grid-template-columns:1fr}#obligations .hilen-agenda-calendar-stack{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#obligations .hilen-agenda-calendar-card{grid-row:span 2}}
+@media(max-width:700px){#obligations .hilen-agenda-calendar-stack{display:flex;flex-direction:column}}
 </style>
 </head>
 <body>
@@ -5262,6 +5294,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
         <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon green">$</span><div><div class="stat-label">Valor previsto (referencia)</div><div class="stat" id="hilenObligationAmount">$ 0</div></div></div>
       </div>
       <div class="hilen-agenda-separation"><span class="hilen-agenda-separation-icon">i</span><div><strong>Esta sección es una agenda, no un registro de egresos.</strong><p>Aquí organizas fechas, avisos y compromisos. Aunque marques un recordatorio como atendido, no se registra ningún pago real. Para descontar dinero y contabilizarlo, utiliza <b>Flujo de caja → Egresos</b>.</p></div><button type="button" class="secondary" onclick="goSection('cashflow')">Ir a Flujo de caja</button></div>
+      <div class="hilen-agenda-content-grid">
       <div class="card hilen-agenda-workspace">
         <div class="hilen-obligations-tabs" role="tablist" aria-label="Tipo de obligación">
           <button type="button" id="hilenObligationsSuppliersTab" class="active" onclick="hilenSetObligationTab('supplier')" role="tab" aria-selected="true">Proveedores y pagos previstos</button>
@@ -5273,6 +5306,17 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
         </div>
         <div id="hilenObligationList" class="hilen-obligations-list"></div>
         <p class="hilen-agenda-footnote">Los valores son estimados, no dinero descontado. Para registrar un pago efectuado y reflejarlo en los reportes, utiliza Flujo de caja → Egresos.</p>
+      </div>
+      <div class="hilen-agenda-calendar-stack">
+        <div class="card hilen-agenda-calendar-card">
+          <div class="hilen-agenda-calendar-head"><h3>Calendario de vencimientos</h3><div class="hilen-agenda-calendar-nav"><button type="button" aria-label="Mes anterior" onclick="hilenShiftAgendaMonth(-1)">‹</button><strong id="hilenAgendaCalendarMonth"></strong><button type="button" aria-label="Mes siguiente" onclick="hilenShiftAgendaMonth(1)">›</button></div></div>
+          <div class="hilen-agenda-calendar-weekdays"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+          <div id="hilenAgendaCalendarDays" class="hilen-agenda-calendar-days"></div>
+          <div id="hilenAgendaCalendarSelected" class="hilen-agenda-calendar-selected"></div>
+        </div>
+        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">◷</span><div><strong>Recordatorios en HILEN</strong><p>HILEN te avisará cuando la aplicación esté abierta y el navegador permita notificaciones.</p></div><button type="button" class="secondary" onclick="requestReminderPermission()">Activar</button></div>
+        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">▦</span><div><strong>Agregar al calendario</strong><p>Descarga un archivo de calendario con los próximos vencimientos para importarlo a tu calendario.</p></div><button type="button" class="secondary" onclick="hilenDownloadAgendaCalendar()">Descargar</button></div>
+      </div>
       </div>
     </section>
 
@@ -9262,6 +9306,7 @@ function hilenRenderObligations(){
       (all.some(o=>o.type===hilenObligationTab)?'No hay recordatorios con esos filtros.':
        supplier?'Aún no hay fechas de proveedores registradas.':'Aún no hay servicios o mantenimientos agendados.')+
       '</div>';
+    hilenRenderAgendaCalendar();
     return;
   }
   root.innerHTML=shown.map(o=>{
@@ -9277,12 +9322,13 @@ function hilenRenderObligations(){
         '<button class="primary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',true)">Marcar atendido</button>')+
       '<button class="secondary" type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button></div></div>';
   }).join('');
+  hilenRenderAgendaCalendar();
 }
 function hilenOpenObligationForm(oid=''){
   const old=oid?(db.obligations||[]).find(x=>x.id===oid):null;
   if(oid&&!old)return;
   const type=old?.type||hilenObligationTab;
-  const selectType='<option value="supplier">Pago a proveedor</option><option value="service">Servicio / mantenimiento</option>';
+  const selectType='<option value="supplier">Proveedor o pago previsto</option><option value="service">Servicio, trámite o mantenimiento</option>';
   document.getElementById('modalContent').innerHTML=
     '<div class="encargo-modal"><h2 style="margin:0">'+(old?'Editar recordatorio':'Nuevo recordatorio')+'</h2>'+
     '<p class="small muted">Solo para programar fechas y avisos; no registra dinero ni crea egresos en caja.</p>'+
@@ -9294,6 +9340,7 @@ function hilenOpenObligationForm(oid=''){
     '<div><label class="label">Fecha de vencimiento *</label><input id="hilenOblDue" type="date" class="input"></div>'+
     '<div><label class="label">Recordarme el</label><input id="hilenOblReminder" type="date" class="input"></div>'+
     '<div><label class="label">Hora del aviso</label><input id="hilenOblReminderTime" type="time" class="input"></div>'+
+    '<div><label class="label">Repetir recordatorio</label><select id="hilenOblRepeat" class="input"><option value="none">No repetir</option><option value="monthly">Mensual</option><option value="quarterly">Cada 3 meses</option><option value="yearly">Anual</option></select></div>'+
     '<div><label class="label">Referencia / comprobante</label><input id="hilenOblReference" class="input" maxlength="140" placeholder="Referencia opcional"></div>'+
     '<div class="fullcol"><label class="label">Observaciones</label><textarea id="hilenOblNotes" class="input" rows="3" maxlength="1000"></textarea></div></div>'+
     '<div class="row-actions" style="justify-content:flex-end"><button class="secondary" onclick="closeModal()">Cancelar</button>'+
@@ -9305,6 +9352,7 @@ function hilenOpenObligationForm(oid=''){
   document.getElementById('hilenOblDue').value=old?.dueDate||today();
   document.getElementById('hilenOblReminder').value=old?.reminderDate||'';
   document.getElementById('hilenOblReminderTime').value=old?.reminderTime||'09:00';
+  document.getElementById('hilenOblRepeat').value=old?.repeat||'none';
   document.getElementById('hilenOblReference').value=old?.reference||'';
   document.getElementById('hilenOblNotes').value=old?.notes||'';
   document.getElementById('modal').classList.remove('hidden');
@@ -9319,6 +9367,7 @@ function hilenSaveObligation(oid=''){
   const payload={type:type==='service'?'service':'supplier',title,party:document.getElementById('hilenOblParty').value.trim(),
     amount:Math.max(0,amount),dueDate,reminderDate:document.getElementById('hilenOblReminder').value||'',
     reminderTime:document.getElementById('hilenOblReminderTime').value||'09:00',
+    repeat:document.getElementById('hilenOblRepeat').value||'none',
     reference:document.getElementById('hilenOblReference').value.trim(),
     notes:document.getElementById('hilenOblNotes').value.trim(),updatedAt:new Date().toISOString()};
   db.obligations ||= [];
