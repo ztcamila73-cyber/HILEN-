@@ -5057,6 +5057,53 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 @media(max-width:1200px){#obligations .hilen-agenda-content-grid{grid-template-columns:1fr!important}#obligations .hilen-agenda-calendar-stack{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:850px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}#obligations .hilen-reference-table{overflow-x:auto}#obligations .hilen-reference-table-head,#obligations .hilen-obligation-row{min-width:620px}}
 @media(max-width:560px){#obligations .hilen-agenda-calendar-stack{display:flex!important;flex-direction:column!important}.hilen-reference-form{grid-template-columns:1fr}}
+
+/* Barra anclada a la ventana; el scroll vertical vive únicamente en main. */
+@media(min-width:768px) and (max-width:1366px){
+  html:has(#app:not(.hidden)),body:has(#app:not(.hidden)){
+    height:100%!important;overflow:hidden!important;overscroll-behavior:none!important;
+  }
+  #app.app:not(.hidden){
+    display:block!important;position:relative!important;height:100dvh!important;
+    min-height:0!important;max-height:100dvh!important;
+    overflow:hidden!important;transform:none!important;filter:none!important;
+    perspective:none!important;
+  }
+  #app:not(.hidden) #side.side,
+  #app:not(.hidden) #side.side.open,
+  body.hilen-side-collapsed #app:not(.hidden) #side.side{
+    display:flex!important;position:absolute!important;top:0!important;left:0!important;bottom:0!important;
+    height:100%!important;max-height:100%!important;
+    transform:none!important;transition:none!important;animation:none!important;
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+    overflow:hidden!important;visibility:visible!important;opacity:1!important;
+    will-change:auto!important;pointer-events:auto!important;z-index:80!important;
+  }
+  #app:not(.hidden)>.main{
+    height:100%!important;max-height:100%!important;min-height:0!important;
+    overflow-y:auto!important;overflow-x:clip!important;
+    overscroll-behavior-y:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    position:relative!important;
+    scroll-behavior:auto!important;
+  }
+  #app #side>.hilen-brand-separator{
+    height:1px!important;min-height:1px!important;
+    padding:0!important;
+    margin:10px 9px 12px!important;
+    border-top:1px solid rgba(229,182,97,.86)!important;
+    background:linear-gradient(90deg,transparent,rgba(229,182,97,.18),transparent)!important;
+  }
+  #app #side>.hilen-brand-separator span{display:none!important}
+  body.hilen-side-collapsed #app #side>.brand{
+    margin:0!important;padding:12px 0 10px!important;justify-content:center!important;
+  }
+  body.hilen-side-collapsed #app #side>.hilen-brand-separator{
+    margin:14px 10px 16px!important;
+    border-top:1px solid #e4b86b!important;
+  }
+  #app .side-backdrop,#app .shell-menu{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -5134,7 +5181,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
     <div class="brand"><div class="logo-mark">H</div><div class="brand-copy"><strong>HILEN</strong><span>Tu negocio, más simple.</span></div></div>
     <div id="cloudStatus" class="small muted" style="padding:0 12px 4px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
     <div id="cloudStatusDetail" class="small muted" style="padding:0 12px 12px;line-height:1.35">Tus datos se guardan automáticamente.</div>
-    <div class="hilen-brand-separator" role="separator" aria-label="Opciones del menú"><span>MENÚ</span></div>
+    <div class="hilen-brand-separator" role="separator" aria-label="Separador entre logo y navegación"></div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('dailyActivity',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7 2v4M17 2v4M3 10h18M7 14h3M7 18h7"/></svg></span>Resumen diario</button>
@@ -5642,7 +5689,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
           <div id="hilenAgendaCalendarSelected" class="hilen-agenda-calendar-selected"></div>
         </div>
         <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">◷</span><div><strong>Recordatorios en HILEN</strong><p>HILEN te avisará cuando la aplicación esté abierta y el navegador permita notificaciones.</p></div><button type="button" class="secondary" onclick="requestReminderPermission()">Activar</button></div>
-        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">▦</span><div><strong>Conectar calendario</strong><p>Abre Google Calendar y agrega tus vencimientos. No hay sincronización automática activa.</p></div><button type="button" class="secondary" onclick="hilenOpenAgendaGoogleCalendar()">Abrir</button></div>
+        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">▦</span><div><strong>Google Calendar</strong><p id="hilenCalendarStatus">Conecta una vez tu calendario para guardar los vencimientos automáticamente.</p></div><button type="button" class="secondary" onclick="hilenConnectAgendaCalendar()">Conectar</button></div>
       </div>
       </div>
     </section>
@@ -9573,11 +9620,26 @@ function saveEncargo(encargoId=''){
   const clientName=$('encClient').value.trim(),request=$('encRequest').value.trim();if(!clientName)return showToast('Falta el cliente','Escribe el nombre del cliente.','error');if(!request)return showToast('Falta el encargo','Escribe qué necesita que averigües.','error');
   const now=new Date().toISOString(),payload={clientName,phone:$('encPhone').value.trim(),request,supplier:$('encSupplier').value.trim(),status:$('encStatus').value,createdDate:$('encCreatedDate').value||today(),reminderDate:$('encReminderDate').value||'',reminderTime:$('encReminderTime').value||'09:00',notes:$('encNotes').value.trim(),updatedAt:now};
   if(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;Object.assign(e,payload)}else{db.encargos.unshift({id:id(),createdAt:now,...payload})}
-  saveDB();closeModal();renderEncargos();showToast(encargoId?'Encargo actualizado':'Encargo guardado',encargoId?'El seguimiento quedó actualizado.':'HILEN guardó el encargo y su recordatorio.','success');checkEncargoReminders(true);
+  saveDB();closeModal();renderEncargos();
+  const savedEncargo=encargoId?db.encargos.find(x=>x.id===encargoId):db.encargos[0];
+  if(savedEncargo?.reminderDate){
+    savedEncargo.calendarNeedsSync=true;saveDB();
+    if(hilenCalendarAuthorized())hilenSyncEncargoCalendar(savedEncargo.id);
+    else hilenConnectAgendaCalendar();
+  }
+  showToast(encargoId?'Encargo actualizado':'Encargo guardado',encargoId?'El seguimiento quedó actualizado.':'HILEN guardó el encargo y su recordatorio.','success');checkEncargoReminders(true);
 }
 function changeEncargoStatus(encargoId,status){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;e.status=status;e.updatedAt=new Date().toISOString();saveDB();renderEncargos();showToast('Estado actualizado',`${e.clientName}: ${encargoStatusLabel(status)}.`,'success');}
 function viewEncargo(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;const r=encargoReminderInfo(e);$('modalContent').innerHTML=`<div class="encargo-modal"><div class="icon-title"><div class="encargos-title-icon">✓</div><div><h2 style="margin:0">${esc(e.clientName)}</h2><div class="muted small">Detalle del encargo</div></div></div><div class="encargo-modal-grid" style="margin-top:18px"><div class="card"><span class="label">Qué pidió</span><b>${esc(e.request)}</b></div><div class="card"><span class="label">Estado</span><b>${encargoStatusLabel(e.status)}</b></div><div class="card"><span class="label">Proveedor</span><b>${esc(e.supplier||'Por averiguar')}</b></div><div class="card"><span class="label">Teléfono</span><b>${esc(e.phone||'No registrado')}</b></div><div class="card"><span class="label">Recordatorio</span><b class="${r.class}">${esc(r.text)}</b></div><div class="card"><span class="label">Fecha del encargo</span><b>${esc(e.createdDate||'—')}</b></div><div class="card fullcol"><span class="label">Notas</span><div>${esc(e.notes||'Sin notas')}</div></div></div><div class="encargo-modal-actions"><button class="secondary" onclick="openEncargoForm('${e.id}')">Editar</button><button class="primary" onclick="closeModal()">Cerrar</button></div></div>`;document.getElementById('modal').classList.remove('hidden')}
-function deleteEncargo(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;confirmAction('Eliminar encargo',`Se eliminará el seguimiento de ${e.clientName}. Esta acción no se puede deshacer.`,()=>{db.encargos=db.encargos.filter(x=>x.id!==encargoId);saveDB();renderEncargos();showToast('Encargo eliminado','El seguimiento fue eliminado.')},{confirmText:'Eliminar',workingText:'Eliminando…'});}
+function deleteEncargo(encargoId){
+ const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;
+ confirmAction('Eliminar encargo',`Se eliminará el seguimiento de ${e.clientName}.`,()=>{
+   const removeLocal=()=>{db.encargos=db.encargos.filter(x=>x.id!==encargoId);saveDB();renderEncargos();showToast('Encargo eliminado','Seguimiento eliminado de HILEN.','info')};
+   if(!e.calendarEventId)return removeLocal();
+   if(!hilenCalendarAuthorized())return showToast('Conecta Google Calendar','Conecta Google para eliminar también el evento del encargo.','warning');
+   hilenCalendarRequest('/'+encodeURIComponent(e.calendarEventId),'DELETE').then(removeLocal).catch(err=>showToast('No se pudo eliminar el evento',String(err.message||err),'warning'));
+ },{confirmText:'Eliminar',workingText:'Eliminando…'});
+}
 function requestReminderPermission(){if(!('Notification' in window))return showToast('Alertas del navegador no disponibles','HILEN seguirá mostrando los recordatorios dentro de la aplicación.','info');Notification.requestPermission().then(p=>showToast(p==='granted'?'Alertas activadas':'Alertas no activadas',p==='granted'?'También recibirás avisos del navegador cuando HILEN esté abierto.':'Puedes seguir usando los recordatorios dentro de HILEN.','info'))}
 let encargoReminderTimer=null;
 function checkEncargoReminders(force=false){
@@ -9629,7 +9691,7 @@ function hilenSelectAgendaDate(key){
   hilenAgendaSelectedDate=key;
   hilenRenderAgendaCalendar();
 }
-function hilenOpenAgendaGoogleCalendar(){
+function hilenLegacyOpenAgendaGoogleCalendar(){
   const list=(db.obligations||[]).filter(o=>o.status!=='paid'&&o.dueDate).sort((a,b)=>a.dueDate.localeCompare(b.dueDate));
   if(!list.length)return window.open('https://calendar.google.com/calendar/u/0/r','_blank','noopener,noreferrer');
   const first=list[0];
@@ -9639,7 +9701,7 @@ function hilenOpenAgendaGoogleCalendar(){
   window.open(url,'_blank','noopener,noreferrer');
   showToast('Google Calendar','Se abrió el próximo vencimiento. Comprueba y guarda el evento en tu calendario.','info');
 }
-function hilenOpenObligationInGoogleCalendar(oid){
+function hilenLegacyOpenObligationInGoogleCalendar(oid){
  const item=(db.obligations||[]).find(x=>String(x.id)===String(oid));
  if(!item?.dueDate)return;
  const day=item.dueDate.replace(/-/g,''),start=day+'T090000',end=day+'T093000';
@@ -9647,6 +9709,135 @@ function hilenOpenObligationInGoogleCalendar(oid){
  '&dates='+start+'/'+end+'&ctz=America%2FBogota&details='+encodeURIComponent((item.party||'')+' · '+(item.notes||'')+' · Recuerda configurar tus notificaciones.');
  window.open(url,'_blank','noopener,noreferrer');
 }
+
+/* Google Calendar: se escribe por API después de conceder permiso una sola vez.
+   Nunca se marca como sincronizado si Google no confirma la operación. */
+const HILEN_CALENDAR_SCOPE='https://www.googleapis.com/auth/calendar.events';
+let hilenCalendarToken='',hilenCalendarTokenExpiry=0,hilenCalendarClient=null;
+const hilenCalendarBusy=new Set();
+function hilenCalendarAuthorized(){return !!hilenCalendarToken&&Date.now()<hilenCalendarTokenExpiry-90000}
+function hilenRenderCalendarStatus(){
+ const el=document.getElementById('hilenCalendarStatus');
+ if(el)el.textContent=hilenCalendarAuthorized()?
+   'Conectado. Los compromisos se guardan directamente en Google Calendar.':
+   'Conecta tu cuenta Google para autorizar el guardado automático, sin confirmar eventos uno a uno.';
+}
+function hilenAuthorizeCalendar(){
+ return new Promise((resolve,reject)=>{
+   if(!window.google?.accounts?.oauth2||!googleOAuthConfigured())return reject(new Error('Google todavía no está disponible'));
+   hilenCalendarClient=google.accounts.oauth2.initTokenClient({
+     client_id:HILEN_GOOGLE_OAUTH_CLIENT_ID,scope:HILEN_CALENDAR_SCOPE,
+     callback:response=>{
+       if(response?.error)return reject(new Error(response.error_description||response.error));
+       if(!response?.access_token)return reject(new Error('No se recibió autorización'));
+       hilenCalendarToken=response.access_token;
+       hilenCalendarTokenExpiry=Date.now()+(Math.max(60,Number(response.expires_in)||3600)*1000);
+       hilenRenderCalendarStatus();resolve();
+     },
+     error_callback:err=>reject(new Error(err?.type||'Autorización cancelada'))
+   });
+   hilenCalendarClient.requestAccessToken({prompt:'consent'});
+ });
+}
+async function hilenConnectAgendaCalendar(){
+ try{
+   if(!hilenCalendarAuthorized())await hilenAuthorizeCalendar();
+   showToast('Google Calendar conectado','Ahora HILEN puede registrar eventos directamente.','success');
+   for(const o of db.obligations||[])if(o.calendarChoice!==false&&o.dueDate&&(!o.calendarEventId||o.calendarNeedsSync))await hilenSyncCalendarRecord(o.id,true);
+   for(const e of db.encargos||[])if(e.reminderDate&&(!e.calendarEventId||e.calendarNeedsSync))await hilenSyncEncargoCalendar(e.id,true);
+ }catch(err){showToast('No se conectó Google Calendar',String(err.message||err),'warning')}
+ hilenRenderCalendarStatus();
+}
+async function hilenCalendarRequest(path,method,body){
+ if(!hilenCalendarAuthorized())throw new Error('Vuelve a conectar Google Calendar');
+ const resp=await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events'+path,{
+   method,headers:{Authorization:'Bearer '+hilenCalendarToken,...(body?{'Content-Type':'application/json'}:{})},
+   ...(body?{body:JSON.stringify(body)}:{})
+ });
+ if(resp.status===401){hilenCalendarToken='';hilenRenderCalendarStatus()}
+ if(!resp.ok){let error='Google Calendar rechazó la operación';try{error=(await resp.json()).error?.message||error}catch(_){}throw new Error(error)}
+ return resp.status===204?{}:resp.json();
+}
+function hilenCalendarEventPayload(item,kind){
+ const date=kind==='encargo'?item.reminderDate:item.dueDate;
+ const time=kind==='encargo'?item.reminderTime:item.reminderTime;
+ const hour=/^\d{2}:\d{2}$/.test(time||'')?time:'09:00';
+ const start=new Date(date+'T'+hour+':00');
+ const finish=new Date(start.getTime()+30*60000);
+ const toIsoLocal=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':00';
+ const days=(kind==='encargo'?[0]:Array.isArray(item.alertDays)?item.alertDays:[7,3,1,0]);
+ const reminders=[...new Set(days)].filter(n=>Number.isInteger(n)&&n>=0&&n<=28).map(n=>({method:'popup',minutes:n*1440}));
+ return {
+   summary:'HILEN · '+(kind==='encargo'?'Encargo: '+item.request:item.title),
+   description:kind==='encargo'?'Cliente: '+(item.clientName||'')+'\n'+(item.notes||''):
+      (item.party||'')+'\nValor previsto: '+(item.amount||0)+' COP\n'+(item.notes||''),
+   start:{dateTime:toIsoLocal(start),timeZone:'America/Bogota'},
+   end:{dateTime:toIsoLocal(finish),timeZone:'America/Bogota'},
+   reminders:{useDefault:false,overrides:reminders.length?reminders:[{method:'popup',minutes:0}]},
+   extendedProperties:{private:{hilenId:String(item.id),hilenKind:kind}}
+ };
+}
+async function hilenCalendarUpsert(item,kind){
+ const payload=hilenCalendarEventPayload(item,kind);
+ const existing=String(item.calendarEventId||'');
+ try{
+   return await hilenCalendarRequest(existing?'/'+encodeURIComponent(existing):'',existing?'PUT':'POST',payload);
+ }catch(error){
+   if(existing&&/not found|404/i.test(String(error.message||'')))return hilenCalendarRequest('','POST',payload);
+   throw error;
+ }
+}
+async function hilenSyncCalendarRecord(id,quiet=false){
+ const item=(db.obligations||[]).find(x=>String(x.id)===String(id));
+ if(!item||!item.dueDate||item.calendarChoice===false)return;
+ if(!hilenCalendarAuthorized()){
+   item.calendarNeedsSync=true;saveDB();hilenRenderCalendarStatus();
+   if(!quiet)showToast('Google Calendar pendiente','Conecta Google Calendar una vez. HILEN conserva el recordatorio mientras tanto.','warning');
+   return;
+ }
+ const key='obligation:'+id;if(hilenCalendarBusy.has(key))return;
+ hilenCalendarBusy.add(key);
+ try{
+   const result=await hilenCalendarUpsert(item,'obligation');
+   const current=(db.obligations||[]).find(x=>String(x.id)===String(id));
+   if(current){current.calendarEventId=result.id;current.calendarNeedsSync=false;current.calendarSyncedAt=new Date().toISOString();saveDB();}
+   if(!quiet)showToast('Guardado en Google Calendar','Evento confirmado en tu calendario, sin pasos manuales.','success');
+   hilenRenderObligations();
+ }catch(error){
+   item.calendarNeedsSync=true;saveDB();
+   if(!quiet)showToast('Calendario pendiente',String(error.message||error),'warning');
+ }finally{hilenCalendarBusy.delete(key);hilenRenderCalendarStatus()}
+}
+async function hilenSyncEncargoCalendar(id,quiet=false){
+ const item=(db.encargos||[]).find(x=>String(x.id)===String(id));
+ if(!item?.reminderDate)return;
+ if(!hilenCalendarAuthorized()){item.calendarNeedsSync=true;saveDB();return}
+ const key='encargo:'+id;if(hilenCalendarBusy.has(key))return;
+ hilenCalendarBusy.add(key);
+ try{
+   const result=await hilenCalendarUpsert(item,'encargo');
+   const current=(db.encargos||[]).find(x=>String(x.id)===String(id));
+   if(current){current.calendarEventId=result.id;current.calendarNeedsSync=false;current.calendarSyncedAt=new Date().toISOString();saveDB()}
+   if(!quiet)showToast('Encargo en Google Calendar','Evento guardado directamente.','success');
+ }catch(err){item.calendarNeedsSync=true;saveDB();if(!quiet)showToast('Encargo pendiente de calendario',String(err.message||err),'warning')}
+ finally{hilenCalendarBusy.delete(key)}
+}
+async function hilenRemoveCalendarRecord(id){
+ const item=(db.obligations||[]).find(x=>String(x.id)===String(id));
+ if(!item?.calendarEventId)return;
+ if(!hilenCalendarAuthorized())return showToast('Calendario pendiente','Vuelve a conectar Google para eliminar el evento del calendario.','warning');
+ try{
+  await hilenCalendarRequest('/'+encodeURIComponent(item.calendarEventId),'DELETE');
+  item.calendarEventId='';item.calendarNeedsSync=false;saveDB();hilenRenderObligations();
+ }catch(error){showToast('No se eliminó el evento',String(error.message||error),'warning')}
+}
+async function hilenCalendarDeleteById(eventId){
+ if(!hilenCalendarAuthorized())return showToast('Evento de Google pendiente','Conecta Google Calendar para eliminar el evento asociado.','warning');
+ try{await hilenCalendarRequest('/'+encodeURIComponent(eventId),'DELETE')}
+ catch(err){showToast('No se eliminó del calendario',String(err.message||err),'warning')}
+}
+function hilenOpenAgendaGoogleCalendar(){return hilenConnectAgendaCalendar()}
+function hilenOpenObligationInGoogleCalendar(id){return hilenSyncCalendarRecord(id)}
 
 /* Obligaciones del negocio: seguimiento separado de los egresos contables. */
 let hilenObligationTab='supplier';
@@ -9711,7 +9902,7 @@ function hilenRenderObligations(){
       '<div class="hilen-obligation-actions"><button class="secondary" type="button" onclick="hilenOpenObligationForm(\''+esc(o.id)+'\')">Editar</button>'+
       (hilenObligationIsPaid(o)?'<button class="secondary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',false)">Reabrir</button>':
         '<button class="primary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',true)">Marcar atendido</button>')+
-      '<button class="secondary" type="button" onclick="hilenOpenObligationInGoogleCalendar(\''+esc(o.id)+'\')">Calendario</button>'+ 
+      '<button class="secondary" type="button" onclick="hilenSyncCalendarRecord(\''+esc(o.id)+'\')">'+(o.calendarEventId&&!o.calendarNeedsSync?'En calendario':'Sincronizar')+'</button>'+ 
       '<button class="secondary" type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button></div></div>';
   }).join('');
   hilenRenderAgendaCalendar();
@@ -9736,7 +9927,7 @@ function hilenOpenObligationForm(oid=''){
     '<div class="fullcol"><label class="label">Referencia o comprobante</label><input id="hilenOblReference" class="input" maxlength="140"></div>'+
     '<div class="fullcol"><label class="label">Notas</label><textarea id="hilenOblNotes" class="input" rows="2" maxlength="1000"></textarea></div>'+
     '<div class="fullcol"><label class="label">Notificaciones y calendario (solo esta sección)</label><div class="hilen-reference-switches">'+
-    '<label>Google Calendar <small>Crear evento al pulsar «Calendario»</small><input type="checkbox" id="hilenOblCalendarChoice"></label>'+
+    '<label>Google Calendar <small>Guardar y actualizar el evento directamente tras conectar la cuenta</small><input type="checkbox" id="hilenOblCalendarChoice"></label>'+
     '<label>Notificaciones en HILEN <small>Mientras la aplicación esté abierta</small><input type="checkbox" id="hilenOblNotifyApp" checked></label>'+
     '<label>WhatsApp <small>Requiere integración; no envía mensajes todavía</small><input type="checkbox" disabled></label>'+
     '</div></div></div>'+
@@ -9752,7 +9943,7 @@ function hilenOpenObligationForm(oid=''){
   field('hilenOblReference',old?.reference||'');
   field('hilenOblNotes',old?.notes||'');
   document.getElementById('hilenOblNotifyApp').checked=old?.notifyApp!==false;
-  document.getElementById('hilenOblCalendarChoice').checked=!!old?.calendarChoice;
+  document.getElementById('hilenOblCalendarChoice').checked=old?.calendarChoice!==false;
   document.getElementById('modal').classList.remove('hidden');
 }
 function hilenSaveObligation(oid=''){
@@ -9777,7 +9968,14 @@ function hilenSaveObligation(oid=''){
   hilenObligationTab=payload.type;
   saveDB();closeModal();hilenRenderObligations();hilenCheckObligationReminders();
   showToast('Obligación guardada','Comprueba Firebase para confirmar el guardado en la nube.','success');
-  if(payload.calendarChoice)hilenOpenObligationInGoogleCalendar(oid||db.obligations[0]?.id);
+  const item=oid?db.obligations.find(x=>x.id===oid):db.obligations[0];
+  if(item){
+    item.calendarNeedsSync=!!payload.calendarChoice;saveDB();
+    if(payload.calendarChoice){
+      if(hilenCalendarAuthorized())hilenSyncCalendarRecord(item.id);
+      else hilenConnectAgendaCalendar();
+    }else if(item.calendarEventId)hilenRemoveCalendarRecord(item.id);
+  }
 }
 function hilenNextObligationDate(o){
   if(!o?.dueDate||!o.repeat||o.repeat==='none')return '';
@@ -9802,12 +10000,16 @@ function hilenMarkObligation(oid,paid){
     if(paid&&!wasPaid){
       const due=hilenNextObligationDate(item);
       if(due&&!db.obligations.some(o=>o.recurringFrom===item.id&&o.dueDate===due)){
-        db.obligations.unshift({...structuredClone(item),id:id(),recurringFrom:item.id,
+        const created={...structuredClone(item),id:id(),recurringFrom:item.id,
           status:'pending',paidDate:'',dueDate:due,reminderDate:due,
-          createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+          calendarEventId:'',calendarNeedsSync:item.calendarChoice!==false,
+          createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+        db.obligations.unshift(created);
+        if(created.calendarChoice!==false)queueMicrotask(()=>hilenSyncCalendarRecord(created.id,true));
       }
     }
     saveDB();hilenRenderObligations();
+    if(item.calendarEventId||item.calendarChoice)hilenSyncCalendarRecord(item.id);
     showToast(paid?'Recordatorio atendido':'Recordatorio reabierto','Este cambio no registra pagos ni modifica Flujo de caja. Verifica Firebase.','info');
   };
   if(paid)confirmAction('Marcar recordatorio como atendido',
@@ -9818,8 +10020,18 @@ function hilenMarkObligation(oid,paid){
 function hilenDeleteObligation(oid){
   const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
   confirmAction('Eliminar recordatorio','¿Eliminar '+item.title+'? Este aviso dejará de aparecer en la agenda.',()=>{
-    db.obligations=db.obligations.filter(x=>x.id!==oid);
-    saveDB();hilenRenderObligations();showToast('Recordatorio eliminado','Verifica la sincronización de Firebase.','info');
+    if(item.calendarEventId&&!hilenCalendarAuthorized()){
+      showToast('Conecta Google Calendar','Para eliminar también el evento de Google, conecta el calendario antes de borrar esta obligación.','warning');
+      return;
+    }
+    const removeLocal=()=>{
+      db.obligations=db.obligations.filter(x=>x.id!==oid);
+      saveDB();hilenRenderObligations();showToast('Recordatorio eliminado','Se eliminó de la agenda.','info');
+    };
+    if(item.calendarEventId){
+      hilenCalendarRequest('/'+encodeURIComponent(item.calendarEventId),'DELETE').then(removeLocal)
+        .catch(e=>showToast('No se eliminó','Google Calendar no confirmó la eliminación: '+String(e.message||e),'warning'));
+    }else removeLocal();
   },{confirmText:'Eliminar',workingText:'Eliminando…',red:true});
 }
 function hilenCheckObligationReminders(){
