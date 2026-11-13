@@ -9622,12 +9622,24 @@ function saveEncargo(encargoId=''){
   if(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;Object.assign(e,payload)}else{db.encargos.unshift({id:id(),createdAt:now,...payload})}
   saveDB();closeModal();renderEncargos();
   const savedEncargo=encargoId?db.encargos.find(x=>x.id===encargoId):db.encargos[0];
-  if(savedEncargo?.reminderDate)hilenSyncEncargoCalendar(savedEncargo.id);
+  if(savedEncargo?.reminderDate){
+    savedEncargo.calendarNeedsSync=true;saveDB();
+    if(hilenCalendarAuthorized())hilenSyncEncargoCalendar(savedEncargo.id);
+    else hilenConnectAgendaCalendar();
+  }
   showToast(encargoId?'Encargo actualizado':'Encargo guardado',encargoId?'El seguimiento quedó actualizado.':'HILEN guardó el encargo y su recordatorio.','success');checkEncargoReminders(true);
 }
 function changeEncargoStatus(encargoId,status){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;e.status=status;e.updatedAt=new Date().toISOString();saveDB();renderEncargos();showToast('Estado actualizado',`${e.clientName}: ${encargoStatusLabel(status)}.`,'success');}
 function viewEncargo(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;const r=encargoReminderInfo(e);$('modalContent').innerHTML=`<div class="encargo-modal"><div class="icon-title"><div class="encargos-title-icon">✓</div><div><h2 style="margin:0">${esc(e.clientName)}</h2><div class="muted small">Detalle del encargo</div></div></div><div class="encargo-modal-grid" style="margin-top:18px"><div class="card"><span class="label">Qué pidió</span><b>${esc(e.request)}</b></div><div class="card"><span class="label">Estado</span><b>${encargoStatusLabel(e.status)}</b></div><div class="card"><span class="label">Proveedor</span><b>${esc(e.supplier||'Por averiguar')}</b></div><div class="card"><span class="label">Teléfono</span><b>${esc(e.phone||'No registrado')}</b></div><div class="card"><span class="label">Recordatorio</span><b class="${r.class}">${esc(r.text)}</b></div><div class="card"><span class="label">Fecha del encargo</span><b>${esc(e.createdDate||'—')}</b></div><div class="card fullcol"><span class="label">Notas</span><div>${esc(e.notes||'Sin notas')}</div></div></div><div class="encargo-modal-actions"><button class="secondary" onclick="openEncargoForm('${e.id}')">Editar</button><button class="primary" onclick="closeModal()">Cerrar</button></div></div>`;document.getElementById('modal').classList.remove('hidden')}
-function deleteEncargo(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;confirmAction('Eliminar encargo',`Se eliminará el seguimiento de ${e.clientName}. Esta acción no se puede deshacer.`,()=>{db.encargos=db.encargos.filter(x=>x.id!==encargoId);saveDB();renderEncargos();showToast('Encargo eliminado','El seguimiento fue eliminado.')},{confirmText:'Eliminar',workingText:'Eliminando…'});}
+function deleteEncargo(encargoId){
+ const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;
+ confirmAction('Eliminar encargo',`Se eliminará el seguimiento de ${e.clientName}.`,()=>{
+   const removeLocal=()=>{db.encargos=db.encargos.filter(x=>x.id!==encargoId);saveDB();renderEncargos();showToast('Encargo eliminado','Seguimiento eliminado de HILEN.','info')};
+   if(!e.calendarEventId)return removeLocal();
+   if(!hilenCalendarAuthorized())return showToast('Conecta Google Calendar','Conecta Google para eliminar también el evento del encargo.','warning');
+   hilenCalendarRequest('/'+encodeURIComponent(e.calendarEventId),'DELETE').then(removeLocal).catch(err=>showToast('No se pudo eliminar el evento',String(err.message||err),'warning'));
+ },{confirmText:'Eliminar',workingText:'Eliminando…'});
+}
 function requestReminderPermission(){if(!('Notification' in window))return showToast('Alertas del navegador no disponibles','HILEN seguirá mostrando los recordatorios dentro de la aplicación.','info');Notification.requestPermission().then(p=>showToast(p==='granted'?'Alertas activadas':'Alertas no activadas',p==='granted'?'También recibirás avisos del navegador cuando HILEN esté abierto.':'Puedes seguir usando los recordatorios dentro de HILEN.','info'))}
 let encargoReminderTimer=null;
 function checkEncargoReminders(force=false){
@@ -9810,6 +9822,15 @@ async function hilenSyncEncargoCalendar(id,quiet=false){
  }catch(err){item.calendarNeedsSync=true;saveDB();if(!quiet)showToast('Encargo pendiente de calendario',String(err.message||err),'warning')}
  finally{hilenCalendarBusy.delete(key)}
 }
+async function hilenRemoveCalendarRecord(id){
+ const item=(db.obligations||[]).find(x=>String(x.id)===String(id));
+ if(!item?.calendarEventId)return;
+ if(!hilenCalendarAuthorized())return showToast('Calendario pendiente','Vuelve a conectar Google para eliminar el evento del calendario.','warning');
+ try{
+  await hilenCalendarRequest('/'+encodeURIComponent(item.calendarEventId),'DELETE');
+  item.calendarEventId='';item.calendarNeedsSync=false;saveDB();hilenRenderObligations();
+ }catch(error){showToast('No se eliminó el evento',String(error.message||error),'warning')}
+}
 async function hilenCalendarDeleteById(eventId){
  if(!hilenCalendarAuthorized())return showToast('Evento de Google pendiente','Conecta Google Calendar para eliminar el evento asociado.','warning');
  try{await hilenCalendarRequest('/'+encodeURIComponent(eventId),'DELETE')}
@@ -9948,7 +9969,13 @@ function hilenSaveObligation(oid=''){
   saveDB();closeModal();hilenRenderObligations();hilenCheckObligationReminders();
   showToast('Obligación guardada','Comprueba Firebase para confirmar el guardado en la nube.','success');
   const item=oid?db.obligations.find(x=>x.id===oid):db.obligations[0];
-  if(item){item.calendarNeedsSync=!!payload.calendarChoice;saveDB();if(payload.calendarChoice)hilenSyncCalendarRecord(item.id);else if(item.calendarEventId)hilenRemoveCalendarRecord(item.id);}
+  if(item){
+    item.calendarNeedsSync=!!payload.calendarChoice;saveDB();
+    if(payload.calendarChoice){
+      if(hilenCalendarAuthorized())hilenSyncCalendarRecord(item.id);
+      else hilenConnectAgendaCalendar();
+    }else if(item.calendarEventId)hilenRemoveCalendarRecord(item.id);
+  }
 }
 function hilenNextObligationDate(o){
   if(!o?.dueDate||!o.repeat||o.repeat==='none')return '';
@@ -9973,9 +10000,12 @@ function hilenMarkObligation(oid,paid){
     if(paid&&!wasPaid){
       const due=hilenNextObligationDate(item);
       if(due&&!db.obligations.some(o=>o.recurringFrom===item.id&&o.dueDate===due)){
-        db.obligations.unshift({...structuredClone(item),id:id(),recurringFrom:item.id,
+        const created={...structuredClone(item),id:id(),recurringFrom:item.id,
           status:'pending',paidDate:'',dueDate:due,reminderDate:due,
-          createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+          calendarEventId:'',calendarNeedsSync:item.calendarChoice!==false,
+          createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+        db.obligations.unshift(created);
+        if(created.calendarChoice!==false)queueMicrotask(()=>hilenSyncCalendarRecord(created.id,true));
       }
     }
     saveDB();hilenRenderObligations();
@@ -9990,9 +10020,18 @@ function hilenMarkObligation(oid,paid){
 function hilenDeleteObligation(oid){
   const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
   confirmAction('Eliminar recordatorio','¿Eliminar '+item.title+'? Este aviso dejará de aparecer en la agenda.',()=>{
-    if(item.calendarEventId)hilenCalendarDeleteById(item.calendarEventId);
-    db.obligations=db.obligations.filter(x=>x.id!==oid);
-    saveDB();hilenRenderObligations();showToast('Recordatorio eliminado','Verifica la sincronización de Firebase.','info');
+    if(item.calendarEventId&&!hilenCalendarAuthorized()){
+      showToast('Conecta Google Calendar','Para eliminar también el evento de Google, conecta el calendario antes de borrar esta obligación.','warning');
+      return;
+    }
+    const removeLocal=()=>{
+      db.obligations=db.obligations.filter(x=>x.id!==oid);
+      saveDB();hilenRenderObligations();showToast('Recordatorio eliminado','Se eliminó de la agenda.','info');
+    };
+    if(item.calendarEventId){
+      hilenCalendarRequest('/'+encodeURIComponent(item.calendarEventId),'DELETE').then(removeLocal)
+        .catch(e=>showToast('No se eliminó','Google Calendar no confirmó la eliminación: '+String(e.message||e),'warning'));
+    }else removeLocal();
   },{confirmText:'Eliminar',workingText:'Eliminando…',red:true});
 }
 function hilenCheckObligationReminders(){
