@@ -4054,6 +4054,41 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 }
 
 
+
+/* HILEN · Separadores visibles: logo | navegación | controles inferiores */
+#side.side > .brand{
+  border-bottom:0!important;
+  padding-bottom:12px!important;
+}
+#side.side > .hilen-menu-divider{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  height:16px!important;width:calc(100% - 16px)!important;
+  margin:3px 8px 9px!important;
+  background:transparent!important;box-shadow:none!important;
+  border-top:1px solid #d1aa65!important;
+  position:relative!important;
+}
+#side.side > .hilen-menu-divider::after{
+  content:"MENÚ";display:block;
+  position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  font:700 9px/16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  letter-spacing:1.8px;color:#98723c;
+  padding:0 12px;background:#fff;
+}
+#side.side > .hilen-side-footer{
+  border-top:1px solid #c99b50!important;
+  padding-top:15px!important;
+  margin-top:0!important;
+  background:linear-gradient(180deg,#faf5e9 0,#fff 14px,#fff 100%)!important;
+}
+#side.side > .hilen-side-footer::before{display:none!important}
+#side.side.hilen-nav-short > .hilen-menu-divider{
+  border-top-width:2px!important;margin-bottom:14px!important;
+}
+#side.side.hilen-nav-short > .hilen-side-footer{
+  border-top:2px solid #c99b50!important;
+}
+
 /* Pie de menú HILEN: controles horizontales como referencia aprobada. */
 #side.side > .hilen-side-footer{
   position:relative!important;display:flex!important;flex:0 0 auto!important;
