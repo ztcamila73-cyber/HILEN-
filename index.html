@@ -4258,6 +4258,35 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
  body.hilen-side-collapsed #side .nav{padding-bottom:10px!important}
 }
 @media(max-width:767px){#side #hilenDesktopSideToggle{display:none!important}}
+
+/* Menú: control discreto y separación visual clara del cierre de sesión. */
+@media(min-width:768px){
+ #side::after{
+   content:""!important;position:absolute!important;left:14px!important;right:14px!important;
+   bottom:70px!important;height:1px!important;background:#e7e9ed!important;
+   pointer-events:none!important;z-index:2!important;
+ }
+ #side #hilenDesktopSideToggle,
+ body:not(.hilen-side-collapsed) #side #hilenDesktopSideToggle{
+   background:#f7f8fa!important;color:#596477!important;border:1px solid #e6e8ed!important;
+   box-shadow:none!important;font-size:12px!important;font-weight:600!important;
+   height:39px!important;min-height:39px!important;bottom:85px!important;
+   transition:background .15s ease,color .15s ease!important;
+ }
+ #side #hilenDesktopSideToggle svg{color:#687486!important;stroke:#687486!important;width:18px!important;height:18px!important}
+ #side #hilenDesktopSideToggle:hover{background:#eff1f5!important;color:#303949!important;border-color:#d9dce3!important}
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle{
+   background:#f5f6f8!important;color:#536074!important;border:1px solid #e1e4e9!important;
+   box-shadow:none!important;width:42px!important;min-width:42px!important;max-width:42px!important;
+   height:42px!important;min-height:42px!important;left:17px!important;bottom:85px!important;
+   border-radius:12px!important;
+ }
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle svg{color:#596579!important;stroke:#596579!important}
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle:hover{background:#ebedf1!important;border-color:#d9dce3!important}
+ body.hilen-side-collapsed #side #logoutBtn{bottom:14px!important}
+ body:not(.hilen-side-collapsed) #side #logoutBtn{bottom:18px!important}
+ body.hilen-side-collapsed #side{padding-bottom:150px!important}
+}
 </style>
 </head>
 <body>
