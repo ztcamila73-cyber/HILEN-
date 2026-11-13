@@ -4636,6 +4636,76 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
  #app #side>.nav{gap:1px!important}
 }
 /* El área principal sigue siendo la única que se desplaza con el documento. */
+
+/* Agenda de recordatorios: diseño claro de HILEN y separación contable evidente. */
+#obligations .hilen-obligations-header{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:16px!important;flex-wrap:wrap!important;
+  padding:21px 23px!important;border:1px solid #e8dfce!important;
+  background:linear-gradient(110deg,#fff,#fffbf4)!important;
+  border-radius:22px!important;box-shadow:0 9px 24px rgba(36,34,30,.035)!important;
+}
+#obligations .hilen-agenda-kicker{display:block;color:#b47713;font-size:10px;font-weight:900;letter-spacing:1.7px;margin-bottom:9px}
+#obligations .hilen-agenda-title-line{display:flex;align-items:center;gap:14px}
+#obligations .hilen-agenda-hero-icon{
+  width:53px;height:53px;flex:0 0 53px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#f9eac7,#e7bb60);color:#77500e;border:1px solid #e4bb69;
+  border-radius:16px;box-shadow:0 5px 15px rgba(181,130,46,.12);
+}
+#obligations .hilen-agenda-hero-icon svg{width:27px;height:27px}
+#obligations .hilen-obligations-header h2{font-size:clamp(20px,2vw,27px)!important;color:#101b32!important;letter-spacing:-.65px;margin:0 0 5px!important}
+#obligations .hilen-obligations-header p{color:#6e7890!important;line-height:1.5;font-size:12px!important}
+#obligations .hilen-agenda-hero-actions{align-items:center!important}
+#obligations .hilen-agenda-hero-actions .primary{background:#171717!important;color:#fff!important;border-radius:12px!important;padding:12px 17px!important}
+#obligations .hilen-agenda-hero-actions .secondary{border:1px solid #e8d7bb!important;color:#96651f!important;background:#fff!important;border-radius:12px!important}
+#obligations .hilen-obligations-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px!important;margin-bottom:16px!important}
+#obligations .hilen-agenda-stat{
+  display:flex!important;align-items:center!important;gap:13px!important;min-width:0!important;
+  padding:17px!important;border-radius:18px!important;border:1px solid #e7e9ee!important;
+  box-shadow:0 5px 19px rgba(21,34,58,.035)!important;background:#fff!important
+}
+#obligations .hilen-agenda-stat .stat-label{color:#67758c!important;font-size:11px!important;line-height:1.35!important;margin:0 0 3px!important}
+#obligations .hilen-agenda-stat .stat{font-size:clamp(19px,2vw,27px)!important;color:#111c32!important;font-weight:900!important}
+#obligations .hilen-agenda-stat-icon{
+  width:43px;height:43px;flex:0 0 43px;border-radius:13px;display:grid;place-items:center;
+  font-size:22px;font-weight:900
+}
+#obligations .hilen-agenda-stat-icon.neutral{background:#edf2f9;color:#3d587e}
+#obligations .hilen-agenda-stat-icon.gold{background:#fff2d8;color:#ae710f}
+#obligations .hilen-agenda-stat-icon.red{background:#fff0ef;color:#ba4747}
+#obligations .hilen-agenda-stat-icon.green{background:#e8f8ee;color:#178b58}
+#obligations .hilen-agenda-separation{
+  display:flex;align-items:center;gap:13px;flex-wrap:wrap;
+  padding:15px 17px;margin:4px 0 16px;
+  border:1px solid #e9d8b7;border-radius:16px;background:#fffbf2;
+}
+#obligations .hilen-agenda-separation-icon{
+  width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;
+  border-radius:11px;background:#f6e6c3;color:#9c6a17;font-size:20px;font-weight:900
+}
+#obligations .hilen-agenda-separation>div{flex:1 1 320px;min-width:0}
+#obligations .hilen-agenda-separation strong{display:block;font-size:13px;color:#594323;margin-bottom:4px}
+#obligations .hilen-agenda-separation p{margin:0;color:#806943;font-size:12px;line-height:1.5}
+#obligations .hilen-agenda-separation button{white-space:nowrap;border-color:#d7ba83!important;color:#77501c!important;background:#fff!important}
+#obligations .hilen-agenda-workspace{border:1px solid #e9eaf0!important;border-radius:20px!important;padding:19px!important}
+#obligations .hilen-obligations-tabs{padding:5px;border:1px solid #ebeef4;border-radius:14px;background:#f5f6f9!important;gap:5px}
+#obligations .hilen-obligations-tabs button{flex:1;min-width:0;border:0!important;background:transparent!important;color:#657084!important;font-size:12px!important;border-radius:10px!important;padding:12px 14px!important}
+#obligations .hilen-obligations-tabs button.active{background:#171717!important;color:#fff!important;box-shadow:0 3px 11px rgba(0,0,0,.12)!important}
+#obligations .hilen-obligations-toolbar{margin-top:8px!important}
+#obligations .hilen-obligation-row{padding:14px!important;margin:9px 0!important;border:1px solid #e8eaf0!important;border-radius:15px!important;background:#fff!important;gap:12px!important}
+#obligations .hilen-obligation-row>div{min-width:0}
+#obligations .hilen-obligation-row>div>b{font-size:13px;color:#1a2740}
+#obligations .hilen-obligation-pill{border-radius:999px;font-weight:800;padding:6px 10px}
+#obligations .hilen-obligation-pill.pending{background:#fff5e2;color:#a46a12}
+#obligations .hilen-obligation-pill.overdue{background:#ffebeb;color:#b63333}
+#obligations .hilen-obligation-pill.paid{background:#e6f7ef;color:#167849}
+#obligations .hilen-obligation-actions{justify-content:flex-end}
+#obligations .hilen-obligation-actions button{border-radius:10px!important;font-size:11px!important;min-height:36px!important;padding:7px 10px!important}
+#obligations .hilen-obligation-actions .primary{background:#151515!important;color:#fff!important}
+#obligations .hilen-agenda-footnote{border-top:1px solid #edf0f4;padding-top:12px;margin:15px 0 0;color:#788498;font-size:11px;line-height:1.5}
+@media(max-width:1200px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:750px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))}#obligations .hilen-obligation-row{grid-template-columns:1fr!important}#obligations .hilen-obligation-actions{justify-content:flex-start}#obligations .hilen-agenda-separation button{width:100%}#obligations .hilen-agenda-hero-actions{width:100%}}
+@media(max-width:480px){#obligations .hilen-obligations-stats{grid-template-columns:1fr}#obligations .hilen-obligations-tabs{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -4723,7 +4793,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
       <button onclick="section('cashflow',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M7 7V5h10v2M8 13h8"/><circle cx="12" cy="13" r="2.5"/></svg></span>Flujo de caja</button>
       <button onclick="section('customers',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span>Clientes</button>
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estado de cuenta</button>
-      <button onclick="section('obligations',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h5M8 18h8"/></svg></span>Pagos y mantenimiento</button>
+      <button onclick="section('obligations',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h5M8 18h8"/></svg></span>Agenda de recordatorios</button>
       <button onclick="section('encargos',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></span>Encargos</button>
       <button onclick="section('reports',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Reportes</button>
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
@@ -5182,26 +5252,27 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 
     <section id="obligations" class="section hilen-view">
       <div class="card hilen-obligations-header">
-        <div><h2>Pagos y mantenimiento</h2><p class="muted small">Organiza los compromisos de pago y mantenimiento de HILEN, sin modificar automáticamente el flujo de caja.</p></div>
-        <div class="row-actions"><button type="button" class="secondary" onclick="requestReminderPermission()">Activar avisos</button><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Agregar obligación</button></div>
+        <div class="hilen-agenda-heading"><span class="hilen-agenda-kicker">ORGANIZACIÓN DEL NEGOCIO</span><div class="hilen-agenda-title-line"><span class="hilen-agenda-hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18m5 5 2 2 4-4"/></svg></span><div><h2>Agenda de recordatorios</h2><p class="muted small">Programa fechas de pagos, renovación de Cámara de Comercio, servicios y mantenimiento del negocio.</p></div></div></div>
+        <div class="row-actions hilen-agenda-hero-actions"><button type="button" class="secondary" onclick="requestReminderPermission()">Activar avisos</button><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Nuevo recordatorio</button></div>
       </div>
       <div class="hilen-obligations-stats">
-        <div class="card"><div class="stat-label">Pendientes</div><div class="stat" id="hilenObligationPending">0</div></div>
-        <div class="card"><div class="stat-label">Próximas (7 días)</div><div class="stat" id="hilenObligationUpcoming">0</div></div>
-        <div class="card"><div class="stat-label">Vencidas</div><div class="stat" id="hilenObligationOverdue">0</div></div>
-        <div class="card"><div class="stat-label">Por pagar</div><div class="stat" id="hilenObligationAmount">$ 0</div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon neutral">☷</span><div><div class="stat-label">Recordatorios pendientes</div><div class="stat" id="hilenObligationPending">0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon gold">◷</span><div><div class="stat-label">Próximos 7 días</div><div class="stat" id="hilenObligationUpcoming">0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon red">!</span><div><div class="stat-label">Fechas vencidas</div><div class="stat" id="hilenObligationOverdue">0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon green">$</span><div><div class="stat-label">Valor previsto (referencia)</div><div class="stat" id="hilenObligationAmount">$ 0</div></div></div>
       </div>
-      <div class="card">
+      <div class="hilen-agenda-separation"><span class="hilen-agenda-separation-icon">i</span><div><strong>Esta sección es una agenda, no un registro de egresos.</strong><p>Aquí organizas fechas, avisos y compromisos. Aunque marques un recordatorio como atendido, no se registra ningún pago real. Para descontar dinero y contabilizarlo, utiliza <b>Flujo de caja → Egresos</b>.</p></div><button type="button" class="secondary" onclick="goSection('cashflow')">Ir a Flujo de caja</button></div>
+      <div class="card hilen-agenda-workspace">
         <div class="hilen-obligations-tabs" role="tablist" aria-label="Tipo de obligación">
-          <button type="button" id="hilenObligationsSuppliersTab" class="active" onclick="hilenSetObligationTab('supplier')" role="tab" aria-selected="true">Pagos a proveedores</button>
-          <button type="button" id="hilenObligationsServicesTab" onclick="hilenSetObligationTab('service')" role="tab" aria-selected="false">Servicios y mantenimiento</button>
+          <button type="button" id="hilenObligationsSuppliersTab" class="active" onclick="hilenSetObligationTab('supplier')" role="tab" aria-selected="true">Proveedores y pagos previstos</button>
+          <button type="button" id="hilenObligationsServicesTab" onclick="hilenSetObligationTab('service')" role="tab" aria-selected="false">Servicios, trámites y mantenimiento</button>
         </div>
         <div class="toolbar hilen-obligations-toolbar">
           <div><label class="label" for="hilenObligationSearch">Buscar</label><input id="hilenObligationSearch" class="input" oninput="hilenRenderObligations()" placeholder="Proveedor, servicio o descripción"></div>
-          <div><label class="label" for="hilenObligationFilter">Estado</label><select id="hilenObligationFilter" class="input" onchange="hilenRenderObligations()"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="overdue">Vencidos</option><option value="paid">Pagados / realizados</option></select></div>
+          <div><label class="label" for="hilenObligationFilter">Estado</label><select id="hilenObligationFilter" class="input" onchange="hilenRenderObligations()"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="overdue">Vencidos</option><option value="paid">Atendidos</option></select></div>
         </div>
         <div id="hilenObligationList" class="hilen-obligations-list"></div>
-        <p class="small muted" style="margin:15px 0 0">Los pagos se marcan como realizados manualmente. Este apartado es un recordatorio y no crea egresos en Flujo de caja. Si pagaste, registra el egreso aparte.</p>
+        <p class="hilen-agenda-footnote">Los valores son estimados, no dinero descontado. Para registrar un pago efectuado y reflejarlo en los reportes, utiliza Flujo de caja → Egresos.</p>
       </div>
     </section>
 
@@ -6735,7 +6806,7 @@ function hilenRestoreDesktopSidebar(){
   }catch(_){}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',obligations:'Pagos y mantenimiento',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',obligations:'Pagos a proveedores, servicios, trámites y mantenimientos con fechas y recordatorios.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,obligations:hilenRenderObligations,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',obligations:'Agenda de recordatorios',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',obligations:'Programa fechas y recordatorios para proveedores, trámites, servicios y mantenimiento. No contabiliza egresos.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,obligations:hilenRenderObligations,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -9155,7 +9226,7 @@ function hilenSetObligationTab(type){
 }
 function hilenObligationIsPaid(o){return o.status==='paid'}
 function hilenObligationState(o){
-  if(hilenObligationIsPaid(o))return {label:'Pagado / realizado',kind:'paid'};
+  if(hilenObligationIsPaid(o))return {label:'Atendido',kind:'paid'};
   if(o.dueDate&&o.dueDate<today())return {label:'Vencido',kind:'overdue'};
   if(o.dueDate===today())return {label:'Vence hoy',kind:'pending'};
   return {label:'Pendiente',kind:'pending'};
@@ -9188,8 +9259,8 @@ function hilenRenderObligations(){
       String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
   if(!shown.length){
     root.innerHTML='<div class="hilen-obligation-empty">'+
-      (all.some(o=>o.type===hilenObligationTab)?'No hay obligaciones con esos filtros.':
-       supplier?'Aún no tienes pagos a proveedores registrados.':'Aún no tienes servicios o mantenimientos registrados.')+
+      (all.some(o=>o.type===hilenObligationTab)?'No hay recordatorios con esos filtros.':
+       supplier?'Aún no hay fechas de proveedores registradas.':'Aún no hay servicios o mantenimientos agendados.')+
       '</div>';
     return;
   }
@@ -9199,11 +9270,11 @@ function hilenRenderObligations(){
     return '<div class="hilen-obligation-row">'+
       '<div><b>'+esc(o.title||'Sin concepto')+'</b><div class="hilen-obligation-meta">'+esc(o.party||'Sin proveedor')+
       (o.notes?' · '+esc(o.notes):'')+'</div></div>'+
-      '<div><b>'+money(o.amount||0)+'</b><div class="hilen-obligation-meta">'+esc(when)+'</div></div>'+
+      '<div><b>'+esc(when)+'</b><div class="hilen-obligation-meta">'+(Number(o.amount)?'Valor previsto: '+money(o.amount):'Sin valor estimado')+'</div></div>'+
       '<div><span class="hilen-obligation-pill '+status.kind+'">'+esc(status.label)+'</span><div class="hilen-obligation-meta">'+esc(remind)+'</div></div>'+
       '<div class="hilen-obligation-actions"><button class="secondary" type="button" onclick="hilenOpenObligationForm(\''+esc(o.id)+'\')">Editar</button>'+
       (hilenObligationIsPaid(o)?'<button class="secondary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',false)">Reabrir</button>':
-        '<button class="primary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',true)">Marcar pagado</button>')+
+        '<button class="primary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',true)">Marcar atendido</button>')+
       '<button class="secondary" type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button></div></div>';
   }).join('');
 }
@@ -9213,20 +9284,20 @@ function hilenOpenObligationForm(oid=''){
   const type=old?.type||hilenObligationTab;
   const selectType='<option value="supplier">Pago a proveedor</option><option value="service">Servicio / mantenimiento</option>';
   document.getElementById('modalContent').innerHTML=
-    '<div class="encargo-modal"><h2 style="margin:0">'+(old?'Editar obligación':'Nueva obligación')+'</h2>'+
-    '<p class="small muted">Registra fechas, compromisos y recordatorios. No se crea un egreso automáticamente.</p>'+
+    '<div class="encargo-modal"><h2 style="margin:0">'+(old?'Editar recordatorio':'Nuevo recordatorio')+'</h2>'+
+    '<p class="small muted">Solo para programar fechas y avisos; no registra dinero ni crea egresos en caja.</p>'+
     '<div class="form-grid" style="margin-top:16px">'+
     '<div><label class="label">Apartado</label><select id="hilenOblType" class="input">'+selectType+'</select></div>'+
     '<div><label class="label">Concepto *</label><input id="hilenOblTitle" class="input" maxlength="140" placeholder="Ej. Mantenimiento del aire"></div>'+
     '<div><label class="label">Proveedor / entidad</label><input id="hilenOblParty" class="input" maxlength="140" placeholder="Ej. Técnico de aire o Cámara de Comercio"></div>'+
-    '<div><label class="label">Valor estimado (COP)</label><input id="hilenOblAmount" class="input" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"></div>'+
+    '<div><label class="label">Valor estimado (opcional, COP)</label><input id="hilenOblAmount" class="input" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"></div>'+
     '<div><label class="label">Fecha de vencimiento *</label><input id="hilenOblDue" type="date" class="input"></div>'+
     '<div><label class="label">Recordarme el</label><input id="hilenOblReminder" type="date" class="input"></div>'+
     '<div><label class="label">Hora del aviso</label><input id="hilenOblReminderTime" type="time" class="input"></div>'+
     '<div><label class="label">Referencia / comprobante</label><input id="hilenOblReference" class="input" maxlength="140" placeholder="Referencia opcional"></div>'+
     '<div class="fullcol"><label class="label">Observaciones</label><textarea id="hilenOblNotes" class="input" rows="3" maxlength="1000"></textarea></div></div>'+
     '<div class="row-actions" style="justify-content:flex-end"><button class="secondary" onclick="closeModal()">Cancelar</button>'+
-    '<button class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar obligación</button></div></div>';
+    '<button class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar recordatorio</button></div></div>';
   document.getElementById('hilenOblType').value=type;
   document.getElementById('hilenOblTitle').value=old?.title||'';
   document.getElementById('hilenOblParty').value=old?.party||'';
@@ -9255,7 +9326,7 @@ function hilenSaveObligation(oid=''){
   else db.obligations.unshift({id:id(),status:'pending',createdAt:new Date().toISOString(),...payload});
   hilenObligationTab=payload.type;
   saveDB();closeModal();hilenRenderObligations();hilenCheckObligationReminders();
-  showToast('Obligación registrada en este dispositivo','Comprueba el indicador de Firebase para confirmar el guardado en la nube.','info');
+  showToast('Recordatorio guardado en este dispositivo','Comprueba el indicador de Firebase para confirmar el guardado en la nube.','info');
 }
 function hilenMarkObligation(oid,paid){
   const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
@@ -9263,18 +9334,18 @@ function hilenMarkObligation(oid,paid){
     item.status=paid?'paid':'pending';
     item.paidDate=paid?today():'';
     item.updatedAt=new Date().toISOString();saveDB();hilenRenderObligations();
-    showToast(paid?'Marcado como pagado':'Obligación reabierta','Este cambio no crea ni elimina egresos de caja. Verifica Firebase.','info');
+    showToast(paid?'Recordatorio atendido':'Recordatorio reabierto','Este cambio no registra pagos ni modifica Flujo de caja. Verifica Firebase.','info');
   };
-  if(paid)confirmAction('Confirmar pago o mantenimiento',
-    '¿Confirmas que realizaste '+item.title+'? Solo cambia el estado del recordatorio; no afecta Flujo de caja.',apply,
+  if(paid)confirmAction('Marcar recordatorio como atendido',
+    '¿Marcar como atendido '+item.title+'? Esto NO registra el egreso ni confirma un pago en caja. Si salió dinero, regístralo por separado en Flujo de caja.',apply,
     {confirmText:'Confirmar realizado',workingText:'Guardando…'});
   else apply();
 }
 function hilenDeleteObligation(oid){
   const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
-  confirmAction('Eliminar obligación','¿Eliminar '+item.title+'? Este registro dejará de aparecer en los recordatorios.',()=>{
+  confirmAction('Eliminar recordatorio','¿Eliminar '+item.title+'? Este aviso dejará de aparecer en la agenda.',()=>{
     db.obligations=db.obligations.filter(x=>x.id!==oid);
-    saveDB();hilenRenderObligations();showToast('Obligación eliminada','Verifica la sincronización de Firebase.','info');
+    saveDB();hilenRenderObligations();showToast('Recordatorio eliminado','Verifica la sincronización de Firebase.','info');
   },{confirmText:'Eliminar',workingText:'Eliminando…',red:true});
 }
 function hilenCheckObligationReminders(){
