@@ -4106,6 +4106,34 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 @media (min-width:820px) and (max-width:1099px){body:not(.hilen-side-collapsed) .hilen-desktop-side-toggle{left:197px!important}}
 @media (min-width:900px) and (max-width:1366px) and (orientation:landscape){body:not(.hilen-side-collapsed) .hilen-desktop-side-toggle{left:202px!important}}
 @media (max-width:819px){.hilen-desktop-side-toggle{display:none!important}}
+
+/* Tablet 10–11": contraer a una barra de iconos, sin ocultar las opciones. */
+@media (min-width:820px) and (max-width:1366px){
+  body.hilen-side-collapsed .side{
+    transform:none!important;visibility:visible!important;pointer-events:auto!important;
+    width:72px!important;max-width:72px!important;padding:14px 7px 78px!important;
+    overflow-x:hidden!important;z-index:30!important;box-shadow:none!important;
+  }
+  body.hilen-side-collapsed .side .brand{justify-content:center!important;padding:8px 0 13px!important}
+  body.hilen-side-collapsed .side .brand-copy,
+  body.hilen-side-collapsed #cloudStatus,
+  body.hilen-side-collapsed #cloudStatusDetail,
+  body.hilen-side-collapsed .side-help,
+  body.hilen-side-collapsed .logout-label{display:none!important}
+  body.hilen-side-collapsed .side .nav{gap:6px!important}
+  body.hilen-side-collapsed .side .nav button{
+    font-size:0!important;color:transparent!important;display:flex!important;align-items:center!important;
+    justify-content:center!important;padding:0!important;margin:0!important;width:56px!important;max-width:56px!important;
+    min-height:48px!important;border-radius:13px!important;gap:0!important;
+  }
+  body.hilen-side-collapsed .side .nav button .ico{width:24px!important;height:24px!important;flex:0 0 24px!important;color:inherit!important}
+  body.hilen-side-collapsed .side .nav button svg{width:23px!important;height:23px!important}
+  body.hilen-side-collapsed .side .logout{left:8px!important;width:56px!important;min-width:56px!important;justify-content:center!important;padding:0!important}
+  body.hilen-side-collapsed .side .logout .ico{flex:0 0 24px!important}
+  body.hilen-side-collapsed .main{margin-left:72px!important;width:calc(100% - 72px)!important;max-width:calc(100vw - 72px)!important}
+  body.hilen-side-collapsed .hilen-desktop-side-toggle{left:82px!important}
+  .hilen-desktop-side-toggle{display:inline-flex!important}
+}
 </style>
 </head>
 <body>
@@ -6159,24 +6187,38 @@ function globalSearchGo(){
 }
 function hilenToggleDesktopSidebar(){
   const collapsed=document.body.classList.toggle('hilen-side-collapsed');
+  hilenLabelSidebarButtons();
+  const tablet=window.matchMedia('(min-width:820px) and (max-width:1366px)').matches;
+  const shownLabel=tablet?(collapsed?'Mostrar nombres':'Solo iconos'):(collapsed?'Mostrar menú':'Ocultar menú');
   const btn=document.getElementById('hilenDesktopSideToggle');
   if(btn){
     btn.setAttribute('aria-expanded',collapsed?'false':'true');
-    btn.setAttribute('aria-label',collapsed?'Mostrar menú lateral':'Ocultar menú lateral');
-    btn.title=collapsed?'Mostrar menú lateral':'Ocultar menú lateral';
+    btn.setAttribute('aria-label',shownLabel);
+    btn.title=shownLabel;
   }
   const label=document.getElementById('hilenDesktopSideToggleLabel');
-  if(label)label.textContent=collapsed?'Mostrar menú':'Ocultar menú';
+  if(label)label.textContent=shownLabel;
   try{localStorage.setItem('HILEN_SIDE_COLLAPSED_V1',collapsed?'1':'0')}catch(_){}
 }
+function hilenLabelSidebarButtons(){
+  document.querySelectorAll('#side .nav button').forEach(btn=>{
+    const label=btn.textContent.trim();
+    if(label){btn.setAttribute('aria-label',label);btn.title=label}
+  });
+  const logout=document.getElementById('logoutBtn');
+  if(logout){logout.setAttribute('aria-label','Cerrar sesión');logout.title='Cerrar sesión'}
+}
 function hilenRestoreDesktopSidebar(){
+  hilenLabelSidebarButtons();
   try{
     const collapsed=localStorage.getItem('HILEN_SIDE_COLLAPSED_V1')==='1';
+    const tablet=window.matchMedia('(min-width:820px) and (max-width:1366px)').matches;
+    const shownLabel=tablet?(collapsed?'Mostrar nombres':'Solo iconos'):(collapsed?'Mostrar menú':'Ocultar menú');
     document.body.classList.toggle('hilen-side-collapsed',collapsed);
     const btn=document.getElementById('hilenDesktopSideToggle');
-    if(btn){btn.setAttribute('aria-expanded',collapsed?'false':'true');btn.setAttribute('aria-label',collapsed?'Mostrar menú lateral':'Ocultar menú lateral');btn.title=collapsed?'Mostrar menú lateral':'Ocultar menú lateral'}
+    if(btn){btn.setAttribute('aria-expanded',collapsed?'false':'true');btn.setAttribute('aria-label',shownLabel);btn.title=shownLabel}
     const label=document.getElementById('hilenDesktopSideToggleLabel');
-    if(label)label.textContent=collapsed?'Mostrar menú':'Ocultar menú';
+    if(label)label.textContent=shownLabel;
   }catch(_){}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
