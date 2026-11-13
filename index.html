@@ -4093,6 +4093,19 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   body.hilen-side-collapsed .main{margin-left:0!important;max-width:none!important}
   body.hilen-side-collapsed .hilen-desktop-side-toggle{background:#111;color:#fff}
 }
+
+/* Control flotante que no modifica columnas ni desplazamientos del encabezado. */
+@media (min-width:820px){
+  .hilen-desktop-side-toggle{display:inline-flex!important;position:fixed!important;top:auto!important;bottom:18px!important;left:calc(235px + 12px)!important;z-index:45!important;
+    grid-column:auto!important;box-shadow:0 9px 25px rgba(0,0,0,.10)}
+  body.hilen-side-collapsed .hilen-desktop-side-toggle{left:12px!important}
+  body.hilen-side-collapsed .side{transform:translateX(-110%)!important;visibility:hidden!important;pointer-events:none!important}
+  body.hilen-side-collapsed .main{margin-left:0!important;width:100%!important;max-width:100%!important}
+}
+@media (min-width:1100px) and (max-width:1399px){body:not(.hilen-side-collapsed) .hilen-desktop-side-toggle{left:222px!important}}
+@media (min-width:820px) and (max-width:1099px){body:not(.hilen-side-collapsed) .hilen-desktop-side-toggle{left:197px!important}}
+@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){body:not(.hilen-side-collapsed) .hilen-desktop-side-toggle{left:202px!important}}
+@media (max-width:819px){.hilen-desktop-side-toggle{display:none!important}}
 </style>
 </head>
 <body>
@@ -5488,6 +5501,7 @@ function applyBusinessState(state){
 function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
 
 function hilenStopLiveSync(){
+  clearTimeout(hilenAutoVerifyTimer);hilenAutoVerifyTimer=null;hilenAutoVerifyUid='';
   clearTimeout(hilenLiveRefreshTimer);hilenLiveRefreshTimer=null;hilenLiveIncoming=null;
   if(hilenLiveStateRef&&hilenLiveStateHandler)hilenLiveStateRef.off('value',hilenLiveStateHandler);
   hilenLiveStateRef=null;hilenLiveStateHandler=null;hilenLiveStateUid='';
@@ -5533,6 +5547,28 @@ function hilenLiveSyncProcess(){
     console.error('HILEN tiempo real:',error);
     setCloudStatus('error','Sin sincronizar','No se pudo incorporar el cambio remoto; revisa la copia local.');
   }
+}
+let hilenAutoVerifyTimer=null;
+let hilenAutoVerifyUid='';
+function hilenScheduleAutomaticVerification(uid){
+  clearTimeout(hilenAutoVerifyTimer);
+  hilenAutoVerifyUid=uid;
+  if(!uid||localMode||cloudConflict||cloudLoading||cloudLoadedUid!==uid)return;
+  hilenAutoVerifyTimer=setTimeout(async()=>{
+    hilenAutoVerifyTimer=null;
+    if(currentUser?.id!==uid||localMode||cloudConflict||cloudLoading||cloudLoadedUid!==uid)return;
+    if(!navigator.onLine){
+      setCloudStatus('error','Sin sincronizar','Sin Internet. HILEN verificará cuando vuelva la conexión.');
+      return;
+    }
+    if(cloudSaveInFlight||hilenCloudTransactionPending)return;
+    if(cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1'){
+      queueCloudSave();return;
+    }
+    // Verificación sin intervención, utilizando el mismo procedimiento
+    // seguro del botón: lectura, conciliación y confirmación de transacción.
+    await hilenManualFirebaseSave(false);
+  },1200);
 }
 function hilenStartLiveSync(uid){
   hilenStopLiveSync();
@@ -5852,7 +5888,7 @@ async function loadCloudState(userId,options={}){
     const localOwner=localStorage.getItem(CLOUD_OWNER_KEY);
     const localDirty=localStorage.getItem(CLOUD_DIRTY_KEY)==='1';
     const canUseLocal=hasBusinessData(localCandidate)&&(!localOwner||localOwner===userId);
-    const remote=(await cloudDb.ref(userCloudPath(userId,'state')).once('value')).val();
+    const remote=(await hilenCloudWithTimeout(cloudDb.ref(userCloudPath(userId,'state')).once('value'),18000)).val();
     const incoming=remote?.data??null;
     const serverRev=Number(remote?.revision)||0;
     const different=canUseLocal&&hilenCloudSignature(localCandidate)!==hilenCloudSignature(incoming);
@@ -5963,6 +5999,9 @@ async function startCloudSession(user){
     await loadGoogleDriveConfigFromCloud();
     await openApp(user);
     hilenStartLiveSync(user.uid);
+    // El inicio verifica automáticamente sin esperar al botón manual.
+    // Si hay cambios locales, se usa el guardado transaccional ya existente.
+    hilenScheduleAutomaticVerification(user.uid);
   })();
   try{return await hilenSessionLoadPromise}
   finally{hilenSessionLoadPromise=null;hilenSessionLoadUid=''}
@@ -8717,7 +8756,7 @@ async function bootstrapApp(){
   if(cloudReady){
     cloudAuth.onAuthStateChanged(async user=>{
       try{
-        if(user){if(!currentUser||currentUser.id!==user.uid)await startCloudSession(user);else setCloudStatus('work','Sesión Firebase activa','Guarda una venta o pulsa “Verificar nube ahora” para confirmar escritura y lectura.')}
+        if(user){if(!currentUser||currentUser.id!==user.uid)await startCloudSession(user);else if(cloudConflict){hilenRenderCloudConflict()}else if(cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1'){queueCloudSave()}else if(!cloudSaveInFlight&&!hilenCloudTransactionPending){setCloudStatus('work','Comprobando Firebase…','La sincronización está activa. La verificación de escritura se realiza automáticamente.')}}
         else{hilenStopLiveSync();currentUser=null;if(!$('app').classList.contains('hidden')){$('app').classList.add('hidden');$('auth').classList.remove('hidden');showLogin()}setCloudStatus(firebaseAuthReady===false?'error':'ok',firebaseAuthReady===false?'Firebase Auth requiere prueba':'Firebase listo · inicia sesión')}
       }catch(e){console.error(e);setCloudStatus('error','Error de conexión')}
     });
@@ -8734,7 +8773,7 @@ window.addEventListener('storage',event=>{
     },600);
   }
 });
-window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');cloudSaveNow()}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync();hilenCheckDailyGoogleSheets()});
+window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');if(cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1')cloudSaveNow();else hilenScheduleAutomaticVerification(currentUser.id)}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync();hilenCheckDailyGoogleSheets()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){hilenCheckDailyGoogleSheets();if(cloudDirty&&!cloudConflict&&!localMode&&cloudDb&&currentUser?.id&&!cloudSaveInFlight)queueCloudSave()}});
 window.addEventListener('online',()=>{if((cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1')&&!cloudConflict&&!localMode&&cloudDb&&currentUser?.id&&!cloudSaveInFlight&&!hilenCloudTransactionPending)hilenCloudScheduleRetry(500)});
 /* HILEN · Facturas por compra y aplicación de pagos · 2026-10-26.
