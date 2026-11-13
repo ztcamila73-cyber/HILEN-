@@ -4052,6 +4052,67 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 @media (max-width:1399px){
   .main{overflow-x:clip!important;overflow-y:visible!important}
 }
+
+/* HILEN · Encabezado y pie fijos, solo lista de opciones desplazable. */
+#side.side{
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+}
+#side.side > .brand{
+  flex:0 0 auto!important;
+  margin:0!important;
+}
+#side.side > #cloudStatus,
+#side.side > #cloudStatusDetail{
+  flex:0 0 auto!important;
+}
+#side.side > .hilen-menu-divider{
+  flex:0 0 auto!important;
+  height:1px;
+  width:calc(100% - 20px);
+  margin:6px 10px 12px;
+  background:linear-gradient(90deg,transparent 0%,#d5a24c 14%,#b98836 50%,#d5a24c 86%,transparent 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.8);
+}
+#side.side > .nav{
+  flex:1 1 0%!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  scroll-behavior:auto!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding:3px 4px 14px!important;
+  margin:0!important;
+}
+#side.side > .nav button{flex-shrink:0!important}
+#side.side > #logoutBtn.logout{
+  flex:0 0 auto!important;
+  position:relative!important;
+  margin:12px 0 0!important;
+  min-height:44px!important;
+  bottom:auto!important;
+  left:auto!important;
+  width:100%!important;
+  z-index:2!important;
+}
+#side.side > #logoutBtn.logout::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:-12px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#c59c58 12%,#c59c58 88%,transparent);
+  pointer-events:none;
+}
+@media (max-height:640px){
+  #side.side > .brand{padding-bottom:8px!important}
+  #side.side > #cloudStatusDetail{padding-bottom:5px!important}
+  #side.side > .hilen-menu-divider{margin-bottom:5px}
+}
+
 /* HILEN · Navegación ágil en pantallas pequeñas.
    Botón de menú disponible al desplazarse; panel independiente y sin saltos. */
 @media (max-width:1399px) {
@@ -4172,6 +4233,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
     <div class="brand"><div class="logo-mark">H</div><div class="brand-copy"><strong>HILEN</strong><span>Tu negocio, más simple.</span></div></div>
     <div id="cloudStatus" class="small muted" style="padding:0 12px 4px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
     <div id="cloudStatusDetail" class="small muted" style="padding:0 12px 12px;line-height:1.35">Tus datos se guardan automáticamente.</div>
+    <div class="hilen-menu-divider" role="separator" aria-label="Separación del encabezado y las opciones del menú"></div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('dailyActivity',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7 2v4M17 2v4M3 10h18M7 14h3M7 18h7"/></svg></span>Resumen diario</button>
