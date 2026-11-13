@@ -4997,6 +4997,66 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   #app #side>.nav button{font-size:10px!important}
   body.hilen-side-collapsed #app #side>.nav button{font-size:0!important;line-height:0!important}
 }
+
+/* HILEN · Referencia visual de obligaciones: marfil, dorado, tabla y calendario lateral. */
+#obligations .hilen-obligations-header{background:#fff!important;box-shadow:none!important;border:0!important;padding:8px 6px 14px!important}
+#obligations .hilen-agenda-kicker,#obligations .hilen-agenda-hero-icon{display:none!important}
+#obligations .hilen-obligations-header h2{font-size:clamp(22px,2.5vw,29px)!important;color:#171717!important}
+#obligations .hilen-obligations-header p{color:#737373!important}
+#obligations .hilen-agenda-hero-actions .primary{background:linear-gradient(120deg,#dbaf55,#a87824)!important;border-color:#ba8b36!important;color:white!important}
+#obligations .hilen-obligations-stats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
+#obligations .hilen-agenda-stat{background:linear-gradient(120deg,#fff,#faf5ea)!important;border:1px solid #eee8de!important;box-shadow:none!important;padding:16px 13px!important}
+#obligations .hilen-agenda-stat:nth-child(3){background:linear-gradient(120deg,#fff,#fcf0ed)!important}
+#obligations .hilen-agenda-stat:nth-child(4){background:linear-gradient(120deg,#fff,#eef6ed)!important}
+#obligations .hilen-agenda-stat-icon{background:transparent!important;width:30px!important;flex-basis:30px!important;font-size:20px!important}
+#obligations .hilen-agenda-stat .stat{font-size:clamp(18px,2vw,25px)!important;color:#181818!important}
+#obligations .hilen-agenda-separation{padding:10px 14px!important;margin:0 0 12px!important}
+#obligations .hilen-agenda-separation strong{font-size:12px!important}
+#obligations .hilen-agenda-separation p{font-size:11px!important}
+#obligations .hilen-agenda-content-grid{grid-template-columns:minmax(0,1.65fr) minmax(260px,.95fr)!important;gap:15px!important}
+#obligations .hilen-agenda-workspace,#obligations .hilen-agenda-calendar-card{border:1px solid #ece9e4!important;box-shadow:0 3px 16px rgba(0,0,0,.025)!important;border-radius:17px!important}
+#obligations .hilen-obligations-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+#obligations .hilen-obligations-heading h3{font-size:17px!important;color:#151515!important;margin:0}
+#obligations .hilen-obligations-heading .primary{background:linear-gradient(120deg,#d6a647,#a97624)!important;border:0!important;border-radius:10px!important;font-size:12px!important}
+#obligations .hilen-obligations-tabs{background:transparent!important;border:0!important;padding:0!important;margin-bottom:8px!important}
+#obligations .hilen-obligations-tabs button{padding:6px 10px!important;background:#faf8f5!important;color:#777!important}
+#obligations .hilen-obligations-tabs button.active{background:#f3e6cc!important;color:#815b27!important;box-shadow:none!important}
+#obligations .hilen-reference-filters{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin:8px 0 4px}
+#obligations .hilen-reference-filters button{background:transparent;border:0;padding:8px 12px;border-radius:30px;color:#676767;font-size:11px;font-weight:650}
+#obligations .hilen-reference-filters button.active{background:#f3e5c7;color:#29241b}
+#obligations .hilen-obligations-toolbar{display:flex!important;gap:10px!important;align-items:flex-end!important;margin-bottom:8px!important}
+#obligations .hilen-obligations-toolbar>div{flex:1 1 120px;min-width:0}
+#obligations .hilen-obligations-toolbar .input{width:100%!important}
+#obligations .hilen-reference-table-head,#obligations .hilen-obligation-row{display:grid!important;grid-template-columns:minmax(125px,1.4fr) minmax(95px,.9fr) minmax(90px,.8fr) minmax(80px,.7fr) minmax(100px,1fr)!important;gap:9px!important;align-items:center!important}
+#obligations .hilen-reference-table-head{font-size:10px;font-weight:750;color:#6e6e6e;padding:11px 9px;border-bottom:1px solid #eee}
+#obligations .hilen-obligation-row{padding:12px 9px!important;margin:0!important;border:0!important;border-bottom:1px solid #efeeec!important;border-radius:0!important}
+#obligations .hilen-obligation-row>div>b{font-size:12px!important}
+#obligations .hilen-obligation-meta{font-size:10px!important;color:#888!important}
+#obligations .hilen-obligation-actions{display:flex!important;gap:4px!important;flex-wrap:wrap!important}
+#obligations .hilen-obligation-actions button{font-size:10px!important;padding:5px 6px!important;min-height:27px!important}
+#obligations .hilen-agenda-calendar-head{flex-direction:row!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important}
+#obligations .hilen-agenda-calendar-head h3{display:none!important}
+#obligations .hilen-agenda-calendar-nav{width:100%!important}
+#obligations .hilen-agenda-calendar-days button.has-event{border-radius:50%!important;background:#f5d995!important}
+#obligations .hilen-agenda-calendar-note{background:#fff!important}
+#obligations .hilen-agenda-calendar-note-icon{background:#fff4df!important;color:#b1832f!important}
+.hilen-reference-modal-title{font-size:18px;color:#161616;margin:0 0 4px}
+.hilen-reference-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.hilen-reference-form .fullcol{grid-column:1/-1}
+.hilen-reference-form .label{font-weight:750;font-size:11px;margin-bottom:4px}
+.hilen-reference-form .input{min-height:39px}
+.hilen-reference-alerts{display:flex;gap:12px;flex-wrap:wrap;background:#faf7f1;border-radius:10px;padding:10px}
+.hilen-reference-alerts label{display:flex;align-items:center;gap:5px;font-size:11px}
+.hilen-reference-alerts input{accent-color:#b2853b}
+.hilen-reference-switches{display:grid;grid-template-columns:1fr;gap:7px}
+.hilen-reference-switches label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;padding:6px 0}
+.hilen-reference-switches input{accent-color:#b2853b}
+.hilen-reference-switches small{color:#888;font-size:10px}
+.hilen-reference-modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:15px}
+.hilen-reference-modal-actions .primary{background:linear-gradient(120deg,#d6a647,#a97624)!important;color:white!important;border:0!important}
+@media(max-width:1200px){#obligations .hilen-agenda-content-grid{grid-template-columns:1fr!important}#obligations .hilen-agenda-calendar-stack{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}#obligations .hilen-reference-table{overflow-x:auto}#obligations .hilen-reference-table-head,#obligations .hilen-obligation-row{min-width:620px}}
+@media(max-width:560px){#obligations .hilen-agenda-calendar-stack{display:flex!important;flex-direction:column!important}.hilen-reference-form{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -5544,27 +5604,34 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 
     <section id="obligations" class="section hilen-view">
       <div class="card hilen-obligations-header">
-        <div class="hilen-agenda-heading"><span class="hilen-agenda-kicker">ORGANIZACIÓN DEL NEGOCIO</span><div class="hilen-agenda-title-line"><span class="hilen-agenda-hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18m5 5 2 2 4-4"/></svg></span><div><h2>Agenda de recordatorios</h2><p class="muted small">Programa fechas de pagos, renovación de Cámara de Comercio, servicios y mantenimiento del negocio.</p></div></div></div>
+        <div class="hilen-agenda-heading"><span class="hilen-agenda-kicker">ORGANIZACIÓN DEL NEGOCIO</span><div class="hilen-agenda-title-line"><span class="hilen-agenda-hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18m5 5 2 2 4-4"/></svg></span><div><h2>Agenda de pagos y recordatorios</h2><p class="muted small">Controla tus próximos vencimientos y mantenimientos.</p></div></div></div>
         <div class="row-actions hilen-agenda-hero-actions"><button type="button" class="secondary" onclick="requestReminderPermission()">Activar avisos</button><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Nuevo recordatorio</button></div>
       </div>
       <div class="hilen-obligations-stats">
-        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon neutral">☷</span><div><div class="stat-label">Recordatorios pendientes</div><div class="stat" id="hilenObligationPending">0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon neutral">☷</span><div><div class="stat-label">Por atender</div><div class="stat" id="hilenObligationPending">0</div></div></div>
         <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon gold">◷</span><div><div class="stat-label">Próximos 7 días</div><div class="stat" id="hilenObligationUpcoming">0</div></div></div>
-        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon red">!</span><div><div class="stat-label">Fechas vencidas</div><div class="stat" id="hilenObligationOverdue">0</div></div></div>
-        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon green">$</span><div><div class="stat-label">Valor previsto (referencia)</div><div class="stat" id="hilenObligationAmount">$ 0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon red">!</span><div><div class="stat-label">Vencidos</div><div class="stat" id="hilenObligationOverdue">0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon green">$</span><div><div class="stat-label">Atendidos este mes</div><div class="stat" id="hilenObligationAmount">$ 0</div></div></div>
       </div>
       <div class="hilen-agenda-separation"><span class="hilen-agenda-separation-icon">i</span><div><strong>Esta sección es una agenda, no un registro de egresos.</strong><p>Aquí organizas fechas, avisos y compromisos. Aunque marques un recordatorio como atendido, no se registra ningún pago real. Para descontar dinero y contabilizarlo, utiliza <b>Flujo de caja → Egresos</b>.</p></div><button type="button" class="secondary" onclick="goSection('cashflow')">Ir a Flujo de caja</button></div>
       <div class="hilen-agenda-content-grid">
       <div class="card hilen-agenda-workspace">
+        <div class="hilen-obligations-heading"><h3>Mis obligaciones</h3><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Nueva obligación</button></div>
         <div class="hilen-obligations-tabs" role="tablist" aria-label="Tipo de obligación">
           <button type="button" id="hilenObligationsSuppliersTab" class="active" onclick="hilenSetObligationTab('supplier')" role="tab" aria-selected="true">Proveedores y pagos previstos</button>
           <button type="button" id="hilenObligationsServicesTab" onclick="hilenSetObligationTab('service')" role="tab" aria-selected="false">Servicios, trámites y mantenimiento</button>
+        </div>
+        <div class="hilen-reference-filters" role="group" aria-label="Filtrar recordatorios">
+          <button type="button" data-oblfilter="all" onclick="hilenSetObligationFilter('all')">Todas</button>
+          <button type="button" data-oblfilter="pending" onclick="hilenSetObligationFilter('pending')">Por atender</button>
+          <button type="button" data-oblfilter="paid" onclick="hilenSetObligationFilter('paid')">Atendidas</button>
+          <button type="button" data-oblfilter="overdue" onclick="hilenSetObligationFilter('overdue')">Vencidas</button>
         </div>
         <div class="toolbar hilen-obligations-toolbar">
           <div><label class="label" for="hilenObligationSearch">Buscar</label><input id="hilenObligationSearch" class="input" oninput="hilenRenderObligations()" placeholder="Proveedor, servicio o descripción"></div>
           <div><label class="label" for="hilenObligationFilter">Estado</label><select id="hilenObligationFilter" class="input" onchange="hilenRenderObligations()"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="overdue">Vencidos</option><option value="paid">Atendidos</option></select></div>
         </div>
-        <div id="hilenObligationList" class="hilen-obligations-list"></div>
+        <div class="hilen-reference-table"><div class="hilen-reference-table-head"><span>Obligación</span><span>Vencimiento</span><span>Valor</span><span>Estado</span><span>Acciones</span></div><div id="hilenObligationList" class="hilen-obligations-list"></div></div>
         <p class="hilen-agenda-footnote">Los valores son estimados, no dinero descontado. Para registrar un pago efectuado y reflejarlo en los reportes, utiliza Flujo de caja → Egresos.</p>
       </div>
       <div class="hilen-agenda-calendar-stack">
@@ -5575,7 +5642,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
           <div id="hilenAgendaCalendarSelected" class="hilen-agenda-calendar-selected"></div>
         </div>
         <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">◷</span><div><strong>Recordatorios en HILEN</strong><p>HILEN te avisará cuando la aplicación esté abierta y el navegador permita notificaciones.</p></div><button type="button" class="secondary" onclick="requestReminderPermission()">Activar</button></div>
-        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">▦</span><div><strong>Agregar al calendario</strong><p>Descarga un archivo de calendario con los próximos vencimientos para importarlo a tu calendario.</p></div><button type="button" class="secondary" onclick="hilenDownloadAgendaCalendar()">Descargar</button></div>
+        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">▦</span><div><strong>Conectar calendario</strong><p>Abre Google Calendar y agrega tus vencimientos. No hay sincronización automática activa.</p></div><button type="button" class="secondary" onclick="hilenOpenAgendaGoogleCalendar()">Abrir</button></div>
       </div>
       </div>
     </section>
