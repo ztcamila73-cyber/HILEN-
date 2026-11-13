@@ -4047,6 +4047,54 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   border-color:#1a2741!important;
   box-shadow:0 4px 12px #1a274126!important;
 }
+
+/* overflow-x:hidden en .main crea un contenedor de desplazamiento que impide que la cabecera sticky siga al usuario. clip evita el desbordamiento sin bloquear sticky. */
+@media (max-width:1399px){
+  .main{overflow-x:clip!important;overflow-y:visible!important}
+}
+/* HILEN · Navegación ágil en pantallas pequeñas.
+   Botón de menú disponible al desplazarse; panel independiente y sin saltos. */
+@media (max-width:1399px) {
+  .shell-toolbar{
+    position:sticky!important;
+    top:0!important;
+    z-index:45!important;
+    padding:8px max(4px,env(safe-area-inset-right))!important;
+    margin-top:-8px!important;
+    border-radius:0 0 15px 15px!important;
+    background:rgba(250,249,247,.97)!important;
+    box-shadow:0 5px 14px rgba(12,12,12,.045)!important;
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+  }
+  .shell-menu{
+    position:relative!important;
+    min-width:44px!important;
+    min-height:44px!important;
+    flex-shrink:0!important;
+    touch-action:manipulation!important;
+  }
+  #side.side{
+    position:fixed!important;
+    top:0!important;
+    bottom:0!important;
+    will-change:transform;
+  }
+  #side.side.open{
+    transition-duration:.14s!important;
+  }
+  #side.side > .nav{
+    overscroll-behavior:contain!important;
+    scroll-behavior:auto!important;
+  }
+  .side-backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){
+  .shell-toolbar{top:0!important}
+}
+@media (min-width:1400px){
+  .shell-toolbar{position:relative!important}
+}
 </style>
 </head>
 <body>
@@ -4658,7 +4706,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 <script>
 const KEY="HILEN_DEMO_V2";
 const OLD_KEY="HILEN_DEMO_V1";
-const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[],annualReports:[]};
+const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],agenda:[],monthlyRecords:[],annualReports:[]};
 let db;
 try{db=JSON.parse(localStorage.getItem(KEY)||"null")||null}catch(e){db=null}
 if(!db){
@@ -4668,7 +4716,7 @@ if(!db){
   }catch(e){}
 }
 if(!db) db=structuredClone(emptyDB);
-db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; db.monthlyRecords ||= []; db.annualReports ||= []; if(!('session' in db))db.session=null;
+db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; db.agenda ||= []; db.monthlyRecords ||= []; db.annualReports ||= []; if(!('session' in db))db.session=null;
 let currentUser=null;
 const GOOGLE_SHEETS_SYNC_KEY="HILEN_GOOGLE_SHEETS_SYNC_V2";
 const GOOGLE_DRIVE_BACKUP_KEY="HILEN_GOOGLE_DRIVE_BACKUP_V1";
@@ -4757,7 +4805,7 @@ function hilenCloudSignature(value){
   const normalized=hilenStableCloudValue(value??null);
   // Los grupos del negocio se identifican por ID. Su orden en memoria no
   // debe hacer que Firebase considere distintas dos colecciones idénticas.
-  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
+  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','agenda','monthlyRecords','annualReports'];
   if(normalized&&typeof normalized==='object'&&!Array.isArray(normalized)&&groups.some(g=>Array.isArray(normalized[g]))){
     for(const group of groups){
       if(Array.isArray(normalized[group])){
@@ -4784,7 +4832,7 @@ function hilenRememberCloudBase(revision,data,uid=currentUser?.id){
   try{localStorage.setItem(CLOUD_BASE_SNAPSHOT_KEY+uid,JSON.stringify({revision:cloudBaseRevision,data:cloudBaseData}))}
   catch(e){console.warn('Sin espacio para guardar la base de reconciliación',e)}
 }
-function businessStateEmpty(){return {version:13,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[],annualReports:[]}}
+function businessStateEmpty(){return {version:14,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],agenda:[],monthlyRecords:[],annualReports:[]}}
 function hilenReadCloudBase(uid){
   if(cloudBaseData)return structuredClone(cloudBaseData);
   try{const b=JSON.parse(localStorage.getItem(CLOUD_BASE_SNAPSHOT_KEY+uid)||'null');return b?.data&&typeof b.data==='object'?b.data:null}
@@ -4814,8 +4862,8 @@ function hilenMergeRecordFields(base,local,remote,path=''){
   return {value:undefined,conflicts:[path||'registro completo']};
 }
 function hilenMergeBusinessStates(base,local,remote,{additive=false}={}){
-  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
-  const merged={version:13},conflicts=[],details=[];
+  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','agenda','monthlyRecords','annualReports'];
+  const merged={version:14},conflicts=[],details=[];
   for(const group of groups){
     const input=[base,local,remote].map(st=>Array.isArray(st?.[group])?st[group]:[]);
     const maps=input.map(arr=>{
@@ -5392,12 +5440,12 @@ function initCloud(){
   }catch(err){console.error('Firebase init:',err);setCloudStatus('error','Error configurando Firebase');return false}
 }
 function businessState(){
-  return {version:13,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[],monthlyRecords:db.monthlyRecords||[],annualReports:db.annualReports||[]};
+  return {version:14,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[],agenda:db.agenda||[],monthlyRecords:db.monthlyRecords||[],annualReports:db.annualReports||[]};
 }
 function hasBusinessData(state=businessState()){return (state.clients?.length||0)+(state.sales?.length||0)+(state.payments?.length||0)+(state.cashMovements?.length||0)+(state.monthlyRecords?.length||0)>0}
 function applyBusinessState(state){
   const safe=state||{};
-  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[],monthlyRecords:Array.isArray(safe.monthlyRecords)?safe.monthlyRecords:[],annualReports:Array.isArray(safe.annualReports)?safe.annualReports:[]};
+  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[],agenda:Array.isArray(safe.agenda)?safe.agenda:[],monthlyRecords:Array.isArray(safe.monthlyRecords)?safe.monthlyRecords:[],annualReports:Array.isArray(safe.annualReports)?safe.annualReports:[]};
   syncDataRelations();
 }
 function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
@@ -8918,5 +8966,6 @@ hilenInstallAllTableZoom();
 
 bootstrapApp();
 </script>
+<script src="agenda-recordatorios.js" defer></script>
 </body>
 </html>
