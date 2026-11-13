@@ -9779,12 +9779,35 @@ function hilenSaveObligation(oid=''){
   showToast('Obligación guardada','Comprueba Firebase para confirmar el guardado en la nube.','success');
   if(payload.calendarChoice)hilenOpenObligationInGoogleCalendar(oid||db.obligations[0]?.id);
 }
+function hilenNextObligationDate(o){
+  if(!o?.dueDate||!o.repeat||o.repeat==='none')return '';
+  const [year,month,day]=o.dueDate.split('-').map(Number);
+  if(o.repeat==='weekly'){
+    const dt=new Date(year,month-1,day+7);
+    return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+  }
+  const months={monthly:1,quarterly:3,yearly:12}[o.repeat];
+  if(!months)return '';
+  const first=new Date(year,month-1+months,1);
+  const last=new Date(first.getFullYear(),first.getMonth()+1,0).getDate();
+  return first.getFullYear()+'-'+String(first.getMonth()+1).padStart(2,'0')+'-'+String(Math.min(last,day)).padStart(2,'0');
+}
 function hilenMarkObligation(oid,paid){
   const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
   const apply=()=>{
+    const wasPaid=hilenObligationIsPaid(item);
     item.status=paid?'paid':'pending';
     item.paidDate=paid?today():'';
-    item.updatedAt=new Date().toISOString();saveDB();hilenRenderObligations();
+    item.updatedAt=new Date().toISOString();
+    if(paid&&!wasPaid){
+      const due=hilenNextObligationDate(item);
+      if(due&&!db.obligations.some(o=>o.recurringFrom===item.id&&o.dueDate===due)){
+        db.obligations.unshift({...structuredClone(item),id:id(),recurringFrom:item.id,
+          status:'pending',paidDate:'',dueDate:due,reminderDate:due,
+          createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+      }
+    }
+    saveDB();hilenRenderObligations();
     showToast(paid?'Recordatorio atendido':'Recordatorio reabierto','Este cambio no registra pagos ni modifica Flujo de caja. Verifica Firebase.','info');
   };
   if(paid)confirmAction('Marcar recordatorio como atendido',
