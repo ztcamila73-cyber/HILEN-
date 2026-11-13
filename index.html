@@ -4047,6 +4047,1016 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
   border-color:#1a2741!important;
   box-shadow:0 4px 12px #1a274126!important;
 }
+
+/* Progreso real de copias de seguridad, sin modificar el diseño general. */
+.hilen-backup-progress{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px;margin:12px 0}
+.hilen-backup-progress-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.hilen-backup-progress-title span{font-size:11px;color:var(--muted)}
+.hilen-backup-progress-row{display:flex;align-items:flex-start;gap:11px;padding:10px 2px;border-top:1px solid var(--line);font-size:13px}
+.hilen-backup-progress-row strong{display:block;margin-bottom:3px}
+.hilen-backup-progress-row small{display:block;color:var(--muted);margin-top:3px;font-size:11px}
+.hilen-backup-progress-dot{display:block;flex:0 0 10px;width:10px;height:10px;border-radius:50%;margin-top:4px;background:#9ca3af}
+.hilen-backup-progress-dot.ok{background:#16915c}.hilen-backup-progress-dot.work{background:#286ddb;animation:hilen-backup-pulse 1.1s infinite}
+.hilen-backup-progress-dot.pending{background:#c88a10}.hilen-backup-progress-dot.error{background:#c03434}
+.hilen-save-guide{border:1px solid var(--line);border-radius:16px;background:#fafbfc;padding:15px;margin:12px 0;line-height:1.5}
+.hilen-save-guide-title{display:flex;gap:9px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:9px}
+.hilen-save-guide-title span{font-size:12px;color:var(--muted)}
+.hilen-save-guide-status{border-radius:10px;padding:10px 12px;font-size:13px;font-weight:650;background:#fff3da;color:#805508}
+.hilen-save-guide-status.ok{background:#e9f7ee;color:#17613d}.hilen-save-guide-status.error{background:#ffecec;color:#9a2929}
+.hilen-save-guide p{font-size:12px;margin:10px 0 0;color:#444}
+@keyframes hilen-backup-pulse{50%{opacity:.35}}
+
+.hilen-obligations-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:16px}
+.hilen-obligations-header h2{margin:0 0 5px}
+.hilen-obligations-header p{margin:0}
+.hilen-obligations-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.hilen-obligations-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.hilen-obligations-tabs button{border:1px solid var(--line);border-radius:12px;padding:11px 16px;background:#fff;font-weight:750;color:#555}
+.hilen-obligations-tabs button.active{background:#111;color:#fff;border-color:#111}
+.hilen-obligations-toolbar{margin-bottom:14px}.hilen-obligations-toolbar>div{flex:1;min-width:175px}
+.hilen-obligation-row{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(120px,.8fr) minmax(120px,.7fr) auto;gap:12px;align-items:center;padding:15px 5px;border-bottom:1px solid var(--line)}
+.hilen-obligation-row:last-child{border-bottom:0}.hilen-obligation-row b{overflow-wrap:anywhere}
+.hilen-obligation-meta{font-size:12px;color:var(--muted);margin-top:5px}
+.hilen-obligation-pill{display:inline-block;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:750;background:#eef5ff;color:#3359aa}
+.hilen-obligation-pill.overdue{background:#fff0ee;color:#b13333}.hilen-obligation-pill.paid{background:#e9f8f0;color:#197047}
+.hilen-obligation-actions{display:flex;gap:6px;flex-wrap:wrap}
+.hilen-obligation-empty{text-align:center;padding:30px 15px;color:var(--muted)}
+@media(max-width:1050px){.hilen-obligations-stats{grid-template-columns:repeat(2,1fr)}.hilen-obligation-row{grid-template-columns:1fr 1fr}.hilen-obligation-actions{grid-column:1/-1}}
+@media(max-width:620px){.hilen-obligations-stats{grid-template-columns:1fr 1fr}.hilen-obligation-row{grid-template-columns:1fr}.hilen-obligation-actions{grid-column:auto}.hilen-obligations-tabs button{flex:1}}
+
+/* Menú plegable para PC y tablet, sin alterar el menú flotante de móvil. */
+.hilen-desktop-side-toggle{display:none;border:1px solid var(--line);background:#fff;color:#222;border-radius:12px;padding:8px 10px;align-items:center;gap:7px;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
+.hilen-desktop-side-toggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+@media(min-width:901px){
+  .hilen-desktop-side-toggle{display:inline-flex!important;grid-column:1;justify-self:start;position:relative;z-index:2}
+  body.hilen-side-collapsed .side{transform:translateX(-110%)!important;visibility:hidden!important;pointer-events:none!important}
+  body.hilen-side-collapsed .main{margin-left:0!important;max-width:none!important}
+  body.hilen-side-collapsed .hilen-desktop-side-toggle{background:#111;color:#fff}
+}
+
+/* Control flotante que no modifica columnas ni desplazamientos del encabezado. */
+@media (min-width:768px){
+  .hilen-desktop-side-toggle{display:inline-flex!important;position:fixed!important;top:auto!important;bottom:18px!important;left:calc(235px + 12px)!important;z-index:45!important;
+    grid-column:auto!important;box-shadow:0 9px 25px rgba(0,0,0,.10)}
+  body.hilen-side-collapsed .hilen-desktop-side-toggle{left:12px!important}
+  body.hilen-side-collapsed .side{transform:translateX(-110%)!important;visibility:hidden!important;pointer-events:none!important}
+  body.hilen-side-collapsed .main{margin-left:0!important;width:100%!important;max-width:100%!important}
+}
+@media (min-width:1100px) and (max-width:1399px){body:not(.hilen-side-collapsed) .hilen-desktop-side-toggle{left:222px!important}}
+@media (min-width:820px) and (max-width:1099px){body:not(.hilen-side-collapsed) .hilen-desktop-side-toggle{left:197px!important}}
+@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){body:not(.hilen-side-collapsed) .hilen-desktop-side-toggle{left:202px!important}}
+@media (max-width:767px){.hilen-desktop-side-toggle{display:none!important}}
+
+/* Tablet 10–11": contraer a una barra de iconos, sin ocultar las opciones. */
+@media (min-width:768px) and (max-width:1366px){
+  body.hilen-side-collapsed .side{
+    transform:none!important;visibility:visible!important;pointer-events:auto!important;
+    width:72px!important;max-width:72px!important;padding:14px 7px 78px!important;
+    overflow-x:hidden!important;z-index:30!important;box-shadow:none!important;
+  }
+  body.hilen-side-collapsed .side .brand{justify-content:center!important;padding:8px 0 13px!important}
+  body.hilen-side-collapsed .side .brand-copy,
+  body.hilen-side-collapsed #cloudStatus,
+  body.hilen-side-collapsed #cloudStatusDetail,
+  body.hilen-side-collapsed .side-help,
+  body.hilen-side-collapsed .logout-label{display:none!important}
+  body.hilen-side-collapsed .side .nav{gap:6px!important}
+  body.hilen-side-collapsed .side .nav button{
+    font-size:0!important;display:flex!important;align-items:center!important;
+    justify-content:center!important;padding:0!important;margin:0!important;width:56px!important;max-width:56px!important;
+    min-height:48px!important;border-radius:13px!important;gap:0!important;
+  }
+  body.hilen-side-collapsed .side .nav button .ico{width:24px!important;height:24px!important;flex:0 0 24px!important;color:#242424!important}
+  body.hilen-side-collapsed .side .nav button svg{width:23px!important;height:23px!important}
+  body.hilen-side-collapsed .side .logout{left:8px!important;width:56px!important;min-width:56px!important;justify-content:center!important;padding:0!important}
+  body.hilen-side-collapsed .side .logout .ico{flex:0 0 24px!important}
+  body.hilen-side-collapsed .main{margin-left:72px!important;width:calc(100% - 72px)!important;max-width:calc(100vw - 72px)!important}
+  body.hilen-side-collapsed .hilen-desktop-side-toggle{left:82px!important}
+  .hilen-desktop-side-toggle{display:inline-flex!important}
+}
+
+/* Tablet de 768–819 px en vertical: barra lateral compacta disponible. */
+@media (min-width:768px) and (max-width:819px){
+  body.hilen-side-collapsed .side{position:fixed!important;left:0!important;top:0!important;bottom:0!important;display:flex!important}
+  body.hilen-side-collapsed .side-backdrop{display:none!important}
+  body.hilen-side-collapsed .side-close{display:none!important}
+  body.hilen-side-collapsed .shell-menu{display:none!important}
+  body.hilen-side-collapsed .main{margin-left:72px!important}
+  .hilen-desktop-side-toggle{display:inline-flex!important;left:12px!important}
+}
+
+/* Menú reducido estable: iconos completos y botón reversible. */
+@media (min-width:768px){
+ body.hilen-side-collapsed #side{position:fixed!important;inset:0 auto 0 0!important;left:0!important;display:block!important;transform:translateX(0)!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;width:76px!important;min-width:76px!important;max-width:76px!important;padding:12px 8px 76px!important;box-sizing:border-box!important;overflow-x:hidden!important;overflow-y:auto!important;background:#fff!important;z-index:40!important}
+ body.hilen-side-collapsed #side .brand{display:flex!important;justify-content:center!important;padding:8px 0 14px!important}
+ body.hilen-side-collapsed #side .brand .logo-mark{margin:0!important;flex-shrink:0!important}
+ body.hilen-side-collapsed #side .brand-copy,body.hilen-side-collapsed #side #cloudStatus,body.hilen-side-collapsed #side #cloudStatusDetail,body.hilen-side-collapsed #side .side-help,body.hilen-side-collapsed #side .logout-label,body.hilen-side-collapsed #side .side-close{display:none!important}
+ body.hilen-side-collapsed #side .nav{display:flex!important;flex-direction:column!important;align-items:center!important;gap:5px!important;width:100%!important;padding:0!important;margin:0!important}
+ body.hilen-side-collapsed #side .nav button{box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;width:56px!important;min-width:56px!important;max-width:56px!important;height:48px!important;min-height:48px!important;max-height:48px!important;margin:0!important;padding:0!important;border-radius:13px!important;gap:0!important;font-size:0!important;line-height:0!important;white-space:nowrap!important;overflow:hidden!important;text-indent:0!important}
+ body.hilen-side-collapsed #side .nav button .ico{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 24px!important;width:24px!important;height:24px!important;margin:0!important;opacity:1!important;color:#253047!important}
+ body.hilen-side-collapsed #side .nav button .ico svg{display:block!important;stroke:currentColor!important;opacity:1!important;width:22px!important;height:22px!important;max-width:22px!important}
+ body.hilen-side-collapsed #side .nav button.active .ico{color:#9a6206!important}
+ body.hilen-side-collapsed #side #logoutBtn{left:10px!important;bottom:14px!important;width:56px!important;min-width:56px!important;max-width:56px!important;display:flex!important;justify-content:center!important;align-items:center!important;padding:0!important}
+ body.hilen-side-collapsed .main{margin-left:76px!important;width:calc(100% - 76px)!important;max-width:calc(100vw - 76px)!important;min-width:0!important}
+ body.hilen-side-collapsed #hilenDesktopSideToggle{display:inline-flex!important;position:fixed!important;left:86px!important;bottom:16px!important;z-index:90!important}
+ body:not(.hilen-side-collapsed) #hilenDesktopSideToggle{z-index:90!important}
+}
+
+/* HILEN · Navegación refinada: dorado sobrio y botón de expansión integrado. */
+@media (min-width:768px){
+ #side .nav button{position:relative!important;transition:background .18s ease,color .18s ease,box-shadow .18s ease!important}
+ #side .nav button.active{
+   background:linear-gradient(125deg,#f4dca4 0%,#e8b858 100%)!important;
+   color:#5c3907!important;
+   box-shadow:inset 0 0 0 1px #d8a64e,0 3px 11px rgba(149,96,20,.13)!important;
+ }
+ #side .nav button.active .ico,#side .nav button.active .ico svg{color:#65400a!important;stroke:#65400a!important}
+ #side .nav button.active::after{display:none!important;content:none!important}
+ #side .nav button:not(.active):hover{background:#fff7e8!important;color:#9f641b!important}
+ #side .nav button:focus-visible{outline:2px solid #b78027!important;outline-offset:2px}
+ body.hilen-side-collapsed #side{width:76px!important;min-width:76px!important;max-width:76px!important;border-right:1px solid #ebdfca!important}
+ body.hilen-side-collapsed #side .nav{align-items:center!important;gap:7px!important}
+ body.hilen-side-collapsed #side .nav button{
+    position:relative!important;width:50px!important;min-width:50px!important;max-width:50px!important;
+    height:47px!important;min-height:47px!important;max-height:47px!important;
+    border-radius:14px!important;background:transparent!important;border:1px solid transparent!important;
+    box-shadow:none!important;transition:background .18s ease,box-shadow .18s ease!important
+ }
+ body.hilen-side-collapsed #side .nav button.active{
+    background:linear-gradient(145deg,#f7e4b6,#e6b655)!important;
+    border-color:#d6a448!important;
+    box-shadow:0 3px 12px rgba(161,107,16,.17)!important;
+ }
+ body.hilen-side-collapsed #side .nav button:not(.active):hover{background:#fff5e3!important;border-color:#f6dfac!important}
+ body.hilen-side-collapsed #side .nav button.active::before{
+    content:""!important;position:absolute!important;left:-12px!important;top:11px!important;
+    width:3px!important;height:25px!important;border-radius:0 3px 3px 0!important;background:#c58b2c!important;
+ }
+ body.hilen-side-collapsed #side .nav button .ico{color:#3e485b!important}
+ body.hilen-side-collapsed #side .nav button.active .ico{color:#65400a!important}
+ body.hilen-side-collapsed #side .nav button.active .ico svg{stroke:#65400a!important}
+ #hilenDesktopSideToggle{
+    box-sizing:border-box!important;position:fixed!important;bottom:20px!important;
+    height:40px!important;min-height:40px!important;
+    border:1px solid #e9d7b6!important;border-radius:12px!important;
+    background:#fffaf1!important;color:#76501d!important;
+    box-shadow:0 5px 15px rgba(64,47,17,.10)!important;
+    font-size:12px!important;font-weight:740!important;
+    padding:8px 11px!important;gap:7px!important;z-index:90!important
+ }
+ #hilenDesktopSideToggle:hover{background:#f9ebce!important;color:#67420c!important}
+ #hilenDesktopSideToggle:focus-visible{outline:2px solid #be862d!important;outline-offset:3px}
+ #hilenDesktopSideToggle svg{color:#94641f!important;stroke:currentColor!important;flex-shrink:0!important}
+ body.hilen-side-collapsed #hilenDesktopSideToggle{
+    left:16px!important;bottom:13px!important;width:44px!important;min-width:44px!important;
+    height:44px!important;padding:9px!important;border-radius:14px!important;justify-content:center!important;
+    background:#fff9ea!important;box-shadow:0 2px 10px rgba(149,96,20,.10)!important
+ }
+ body.hilen-side-collapsed #hilenDesktopSideToggleLabel{display:none!important}
+ body:not(.hilen-side-collapsed) #hilenDesktopSideToggleLabel{display:inline!important}
+ body.hilen-side-collapsed #side #logoutBtn{bottom:68px!important;background:#181818!important;color:#fff!important}
+ body.hilen-side-collapsed #side{padding-bottom:126px!important}
+}
+@media (min-width:768px) and (max-width:1099px){body:not(.hilen-side-collapsed) #hilenDesktopSideToggle{left:calc(185px + 10px)!important}}
+@media (min-width:1100px) and (max-width:1399px){body:not(.hilen-side-collapsed) #hilenDesktopSideToggle{left:calc(210px + 10px)!important}}
+@media (min-width:1400px){body:not(.hilen-side-collapsed) #hilenDesktopSideToggle{left:calc(235px + 10px)!important}}
+@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){body:not(.hilen-side-collapsed) #hilenDesktopSideToggle{left:calc(190px + 10px)!important}}
+
+/* El control de expandir el menú compacto es negro; el logo sigue dorado. */
+@media (min-width:768px){
+ body.hilen-side-collapsed #hilenDesktopSideToggle{
+  background:#151515!important;color:#fff!important;border:1px solid #151515!important;
+  box-shadow:0 6px 16px rgba(0,0,0,.18)!important;
+ }
+ body.hilen-side-collapsed #hilenDesktopSideToggle svg{
+  color:#fff!important;stroke:#fff!important;
+ }
+ body.hilen-side-collapsed #hilenDesktopSideToggle:hover{
+  background:#2c2c2c!important;color:#fff!important;border-color:#2c2c2c!important;
+ }
+}
+
+/* El control del menú vive DENTRO de la barra lateral, no sobre los datos. */
+@media (min-width:768px){
+ #side{position:fixed!important}
+ #side #hilenDesktopSideToggle,
+ body:not(.hilen-side-collapsed) #side #hilenDesktopSideToggle{
+   position:absolute!important;top:auto!important;left:12px!important;right:12px!important;
+   bottom:77px!important;width:calc(100% - 24px)!important;min-width:0!important;
+   max-width:calc(100% - 24px)!important;display:flex!important;align-items:center!important;justify-content:center!important;
+   z-index:3!important;margin:0!important;
+ }
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle{
+   position:absolute!important;top:auto!important;left:15px!important;right:auto!important;bottom:14px!important;
+   width:44px!important;min-width:44px!important;max-width:44px!important;height:44px!important;
+   margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important;
+   background:#151515!important;border-color:#151515!important;color:#fff!important;
+ }
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle svg{color:#fff!important;stroke:#fff!important}
+ body:not(.hilen-side-collapsed) #side #logoutBtn{bottom:18px!important}
+ body.hilen-side-collapsed #side #logoutBtn{bottom:70px!important}
+ body.hilen-side-collapsed #side .nav{padding-bottom:10px!important}
+}
+@media(max-width:767px){#side #hilenDesktopSideToggle{display:none!important}}
+
+/* Menú: control discreto y separación visual clara del cierre de sesión. */
+@media(min-width:768px){
+ #side::after{
+   content:""!important;position:absolute!important;left:14px!important;right:14px!important;
+   bottom:70px!important;height:1px!important;background:#e7e9ed!important;
+   pointer-events:none!important;z-index:2!important;
+ }
+ #side #hilenDesktopSideToggle,
+ body:not(.hilen-side-collapsed) #side #hilenDesktopSideToggle{
+   background:#f7f8fa!important;color:#596477!important;border:1px solid #e6e8ed!important;
+   box-shadow:none!important;font-size:12px!important;font-weight:600!important;
+   height:39px!important;min-height:39px!important;bottom:85px!important;
+   transition:background .15s ease,color .15s ease!important;
+ }
+ #side #hilenDesktopSideToggle svg{color:#687486!important;stroke:#687486!important;width:18px!important;height:18px!important}
+ #side #hilenDesktopSideToggle:hover{background:#eff1f5!important;color:#303949!important;border-color:#d9dce3!important}
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle{
+   background:#f5f6f8!important;color:#536074!important;border:1px solid #e1e4e9!important;
+   box-shadow:none!important;width:42px!important;min-width:42px!important;max-width:42px!important;
+   height:42px!important;min-height:42px!important;left:17px!important;bottom:85px!important;
+   border-radius:12px!important;
+ }
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle svg{color:#596579!important;stroke:#596579!important}
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle:hover{background:#ebedf1!important;border-color:#d9dce3!important}
+ body.hilen-side-collapsed #side #logoutBtn{bottom:14px!important}
+ body:not(.hilen-side-collapsed) #side #logoutBtn{bottom:18px!important}
+ body.hilen-side-collapsed #side{padding-bottom:150px!important}
+}
+
+/* Pie del menú: separador sobre las acciones, botón compacto iconográfico
+   al lado de Cerrar sesión (cuando la barra está expandida). */
+@media (min-width:768px){
+  #side::after{
+    bottom:75px!important;
+    left:12px!important;right:12px!important;
+    background:#e4e5e9!important;
+  }
+  body:not(.hilen-side-collapsed) #side #hilenDesktopSideToggle{
+    position:absolute!important;bottom:16px!important;left:10px!important;right:auto!important;
+    width:40px!important;min-width:40px!important;max-width:40px!important;
+    height:44px!important;min-height:44px!important;max-height:44px!important;
+    padding:0!important;display:flex!important;justify-content:center!important;
+    background:#f5f6f8!important;color:#586173!important;border:1px solid #e4e6eb!important;
+    border-radius:11px!important;box-shadow:none!important;
+  }
+  #side #hilenDesktopSideToggleLabel{display:none!important}
+  body:not(.hilen-side-collapsed) #side #logoutBtn{
+    position:absolute!important;bottom:16px!important;left:58px!important;
+    width:calc(100% - 68px)!important;min-width:0!important;
+    height:44px!important;padding:0 8px!important;
+    gap:5px!important;white-space:nowrap!important;
+    font-size:clamp(10px,0.9vw,13px)!important;
+  }
+  body:not(.hilen-side-collapsed) #side #logoutBtn .ico{width:17px!important;min-width:17px!important;flex:0 0 17px!important}
+  body.hilen-side-collapsed #side::after{bottom:128px!important;left:12px!important;right:12px!important}
+  body.hilen-side-collapsed #side #logoutBtn{bottom:70px!important}
+  body.hilen-side-collapsed #side #hilenDesktopSideToggle{bottom:15px!important}
+}
+@media (min-width:768px) and (max-width:1050px){
+ body:not(.hilen-side-collapsed) #side #logoutBtn{font-size:11px!important}
+}
+
+/* HILEN · Menú Apple glass oscuro, aprobado visualmente.
+   Solo navegación: no altera tarjetas, ventas, abonos ni la nube. */
+#side{
+  background:
+    radial-gradient(ellipse at 105% 100%,rgba(187,126,39,.25) 0%,transparent 36%),
+    radial-gradient(ellipse at 0% 0%,rgba(255,225,151,.12) 0%,transparent 34%),
+    linear-gradient(165deg,rgba(25,24,24,.94),rgba(12,12,14,.96) 59%,rgba(42,35,27,.95))!important;
+  -webkit-backdrop-filter:blur(26px) saturate(130%)!important;
+  backdrop-filter:blur(26px) saturate(130%)!important;
+  border-right:1px solid rgba(221,167,76,.65)!important;
+  box-shadow:inset 1px 0 0 rgba(237,185,97,.32),8px 0 28px rgba(15,12,11,.11)!important;
+  color:#f9f8f6!important;
+}
+#side .brand-copy strong{color:#fff!important;letter-spacing:-.8px!important}
+#side .brand-copy span{color:#c6bfb3!important;opacity:.95}
+#side .brand .logo-mark{
+  background:linear-gradient(145deg,#f0bd5b,#bd790d)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 4px 13px rgba(0,0,0,.28)!important
+}
+#side .nav{gap:5px!important}
+#side .nav button{
+  color:#f4f1eb!important;font-weight:600!important;
+  background:transparent!important;border:1px solid transparent!important;
+  border-radius:12px!important;
+  transition:background .18s ease,border-color .18s ease,color .18s ease!important
+}
+#side .nav button .ico,#side .nav button .ico svg{color:#f6efe3!important;stroke:currentColor!important}
+#side .nav button:not(.active):hover{
+  background:rgba(248,222,178,.12)!important;
+  border-color:rgba(233,185,104,.22)!important;
+  color:#fff!important
+}
+#side .nav button.active{
+  background:linear-gradient(120deg,#fce6a5 0%,#eabc5e 74%,#d9a348 100%)!important;
+  color:#21190f!important;
+  border:1px solid #f5d282!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.57),0 3px 12px rgba(0,0,0,.24)!important;
+}
+#side .nav button.active .ico,#side .nav button.active .ico svg{
+  color:#20180c!important;stroke:#20180c!important
+}
+#side .nav button.active::after,
+#side .nav button.active::before{display:none!important;content:none!important}
+#side .nav button:focus-visible,#side #hilenDesktopSideToggle:focus-visible{
+  outline:2px solid #f3c364!important;outline-offset:2px!important
+}
+#side::after{
+  background:linear-gradient(90deg,transparent,rgba(231,183,94,.92),transparent)!important;
+  height:1px!important
+}
+#side #hilenDesktopSideToggle{
+  background:rgba(255,255,255,.065)!important;
+  color:#e9d8bb!important;
+  border:1px solid rgba(238,192,111,.52)!important;
+  box-shadow:none!important;
+  border-radius:12px!important
+}
+#side #hilenDesktopSideToggle svg{
+  color:#efd5a5!important;stroke:#efd5a5!important
+}
+#side #hilenDesktopSideToggle:hover{
+  background:rgba(238,181,91,.17)!important;border-color:#e5b45c!important
+}
+#side #logoutBtn{
+  background:rgba(9,9,11,.88)!important;color:#f9f7f2!important;
+  border:1px solid #b9893a!important;
+  box-shadow:inset 0 1px 0 rgba(255,220,148,.08),0 3px 11px rgba(0,0,0,.18)!important
+}
+#side #logoutBtn:hover{background:#28231e!important;border-color:#e4b75e!important}
+#side .side-close{background:#201e1a!important;color:#f5d795!important;border-color:#b68b43!important}
+@media (min-width:768px){
+  body.hilen-side-collapsed #side{
+    background:linear-gradient(165deg,#292522,#101013 68%,#3b2f21)!important;
+    border-right:1px solid #c49a54!important;
+  }
+  body.hilen-side-collapsed #side .nav button{border-color:transparent!important;background:transparent!important}
+  body.hilen-side-collapsed #side .nav button .ico,
+  body.hilen-side-collapsed #side .nav button .ico svg{color:#f4e8d1!important;stroke:#f4e8d1!important}
+  body.hilen-side-collapsed #side .nav button.active{
+    background:linear-gradient(140deg,#fce6a5,#dbaa50)!important;
+    border-color:#f1c56d!important;box-shadow:0 3px 10px rgba(0,0,0,.2)!important
+  }
+  body.hilen-side-collapsed #side .nav button.active .ico,
+  body.hilen-side-collapsed #side .nav button.active .ico svg{color:#25180b!important;stroke:#25180b!important}
+  body.hilen-side-collapsed #side .nav button:not(.active):hover{background:rgba(255,222,171,.13)!important}
+  body.hilen-side-collapsed #side #hilenDesktopSideToggle{
+    background:rgba(255,255,255,.075)!important;color:#e9d6b4!important;
+    border:1px solid #b9893a!important;box-shadow:none!important
+  }
+  body.hilen-side-collapsed #side #hilenDesktopSideToggle svg{color:#efd5a5!important;stroke:#efd5a5!important}
+  body.hilen-side-collapsed #side #logoutBtn{background:#111!important;border-color:#b9893a!important}
+}
+/* Diseño responsive sin superponer la navegación a las pantallas del negocio. */
+@media (min-width:1400px){
+ body:not(.hilen-side-collapsed) #side{width:252px!important}
+ body:not(.hilen-side-collapsed) .main{margin-left:252px!important}
+}
+@media (min-width:1100px) and (max-width:1399px){
+ body:not(.hilen-side-collapsed) #side{width:220px!important}
+ body:not(.hilen-side-collapsed) .main{margin-left:220px!important;width:calc(100% - 220px)!important;max-width:calc(100vw - 220px)!important}
+}
+@media (min-width:820px) and (max-width:1099px){
+ body:not(.hilen-side-collapsed) #side{width:195px!important}
+ body:not(.hilen-side-collapsed) .main{margin-left:195px!important;width:calc(100% - 195px)!important;max-width:calc(100vw - 195px)!important}
+ body:not(.hilen-side-collapsed) #side .nav button{font-size:12px!important;gap:7px!important;padding:0 8px!important}
+}
+@media (min-width:768px) and (max-width:819px){
+ body:not(.hilen-side-collapsed) #side.open{background:linear-gradient(165deg,#282321,#111 80%,#443224)!important}
+}
+@media (max-width:767px){
+ #side{background:linear-gradient(155deg,rgba(37,32,28,.98),rgba(13,13,15,.98))!important}
+}
+
+/* HILEN · Barra lateral estable al desplazar: logo, lista y pie independientes. */
+#side{
+  display:flex!important;
+  flex-direction:column!important;
+  height:100dvh!important;max-height:100dvh!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  padding-bottom:10px!important;
+}
+#side>.brand{
+  flex:0 0 auto!important;
+  position:relative!important;
+  z-index:2!important;
+}
+#side>.nav{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  scrollbar-width:thin!important;
+  scrollbar-color:rgba(210,165,88,.45) transparent!important;
+  padding:4px 3px 15px!important;
+}
+#side>.nav::-webkit-scrollbar{width:4px}
+#side>.nav::-webkit-scrollbar-thumb{background:rgba(210,165,88,.35);border-radius:12px}
+#side>.hilen-side-footer{
+  flex:0 0 auto!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:12px 0 2px!important;
+  border-top:1px solid rgba(231,183,94,.42)!important;
+  position:relative!important;
+  z-index:3!important;
+}
+#side::after{display:none!important}
+#side>.hilen-side-footer #hilenDesktopSideToggle{
+  position:static!important;
+  inset:auto!important;
+  flex:0 0 41px!important;
+  width:41px!important;
+  min-width:41px!important;
+  max-width:41px!important;
+  height:43px!important;
+  min-height:43px!important;
+  max-height:43px!important;
+  padding:0!important;
+  margin:0!important;
+  display:inline-flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  background:rgba(255,255,255,.06)!important;
+  color:#e9cf9c!important;
+  border:1px solid rgba(226,181,103,.4)!important;
+  border-radius:13px!important;
+  box-shadow:none!important;
+}
+#side>.hilen-side-footer #hilenDesktopSideToggle svg{
+  width:20px!important;height:20px!important;
+  color:#e9cf9c!important;stroke:#e9cf9c!important;
+}
+#side>.hilen-side-footer #logoutBtn{
+  position:static!important;
+  inset:auto!important;
+  flex:1 1 auto!important;
+  width:auto!important;max-width:none!important;min-width:0!important;
+  height:43px!important;min-height:43px!important;max-height:43px!important;
+  padding:0 8px!important;
+  margin:0!important;
+  display:inline-flex!important;
+  justify-content:center!important;
+  gap:6px!important;
+  font-size:12px!important;
+  white-space:nowrap!important;
+}
+#side>.hilen-side-footer #logoutBtn .logout-label{
+  display:inline!important;
+  white-space:nowrap!important;
+}
+#side>.hilen-side-footer #logoutBtn .ico{flex:0 0 18px!important;width:18px!important;height:18px!important}
+#side>.hilen-side-footer #logoutBtn .ico svg{width:18px!important;height:18px!important}
+
+/* Nueva selección: cristal oscuro con barra de oro y halo ligero, no bloque dorado. */
+#side>.nav button.active{
+  background:linear-gradient(90deg,rgba(219,169,77,.20),rgba(207,162,84,.045))!important;
+  color:#fff7e8!important;
+  border:1px solid rgba(220,175,101,.24)!important;
+  box-shadow:inset 0 0 0 1px rgba(242,194,111,.055)!important;
+  position:relative!important;
+}
+#side>.nav button.active::before{
+  content:""!important;display:block!important;
+  position:absolute!important;
+  left:0!important;top:20%!important;
+  width:3px!important;height:60%!important;
+  border-radius:0 3px 3px 0!important;
+  background:#eab95f!important;
+  box-shadow:0 0 9px rgba(233,178,77,.45)!important;
+}
+#side>.nav button.active::after{display:none!important;content:none!important}
+#side>.nav button.active .ico,#side>.nav button.active .ico svg{
+  color:#f1c677!important;stroke:#f1c677!important;
+}
+#side>.nav button:not(.active):hover{
+  background:rgba(246,214,154,.09)!important;
+  border-color:rgba(220,175,101,.18)!important;
+}
+@media(min-width:768px){
+ body.hilen-side-collapsed #side{
+   display:flex!important;flex-direction:column!important;
+   overflow:hidden!important;
+   padding-bottom:10px!important;
+ }
+ body.hilen-side-collapsed #side>.nav{
+   display:flex!important;flex:1 1 auto!important;
+   min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+   align-items:center!important;padding:4px 0 10px!important;
+ }
+ body.hilen-side-collapsed #side>.nav button.active{
+   background:rgba(210,161,76,.16)!important;
+   border:1px solid rgba(229,182,105,.45)!important;
+   box-shadow:inset 0 0 0 1px rgba(231,177,78,.075)!important;
+ }
+ body.hilen-side-collapsed #side>.nav button.active::before{
+   display:block!important;left:0!important;top:11px!important;height:25px!important;
+ }
+ body.hilen-side-collapsed #side>.nav button.active .ico,
+ body.hilen-side-collapsed #side>.nav button.active .ico svg{color:#f1c677!important;stroke:#f1c677!important}
+ body.hilen-side-collapsed #side>.hilen-side-footer{
+   flex-direction:column!important;gap:9px!important;padding:11px 0 1px!important;
+ }
+ body.hilen-side-collapsed #side>.hilen-side-footer #hilenDesktopSideToggle{
+   position:static!important;inset:auto!important;display:flex!important;
+   width:49px!important;min-width:49px!important;max-width:49px!important;
+   height:45px!important;min-height:45px!important;max-height:45px!important;
+   flex:0 0 45px!important;
+   background:rgba(255,255,255,.07)!important;color:#f3dfb9!important;
+   border:1px solid rgba(225,174,87,.45)!important;
+ }
+ body.hilen-side-collapsed #side>.hilen-side-footer #hilenDesktopSideToggle svg{
+   color:#f3dfb9!important;stroke:#f3dfb9!important;
+ }
+ body.hilen-side-collapsed #side>.hilen-side-footer #logoutBtn{
+   position:static!important;inset:auto!important;
+   flex:0 0 45px!important;width:49px!important;min-width:49px!important;max-width:49px!important;
+   height:45px!important;min-height:45px!important;max-height:45px!important;
+   padding:0!important;display:flex!important;
+ }
+ body.hilen-side-collapsed #side>.hilen-side-footer #logoutBtn .logout-label{display:none!important}
+}
+/* En teléfonos, conservar el menú móvil existente y su cierre. */
+@media(max-width:767px){
+ #side>.hilen-side-footer #hilenDesktopSideToggle{display:none!important}
+ #side>.hilen-side-footer #logoutBtn{flex:1 1 auto!important}
+ #side{padding-bottom:max(10px,env(safe-area-inset-bottom))!important}
+}
+@media(max-height:700px){
+ #side>.brand{padding-bottom:8px!important}
+ #side>.nav button{min-height:40px!important}
+ #side>.hilen-side-footer{padding-top:8px!important}
+}
+
+/* Barra permanente en PC/tablet: el scroll de los informes no mueve la navegación. */
+@media(min-width:820px){
+ #app #side{
+  position:fixed!important;top:0!important;bottom:0!important;left:0!important;right:auto!important;
+  height:100dvh!important;max-height:100dvh!important;
+  overflow:hidden!important;transform:translateX(0)!important;
+  overscroll-behavior:contain!important;
+ }
+ #app #side>.brand,#app #side>.hilen-side-footer{flex-shrink:0!important}
+ #app #side>.nav{flex-grow:1!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+}
+@media(min-width:820px) and (max-width:1100px) and (orientation:portrait){
+ /* La barra es fija también en tablet vertical, abierta o reducida. */
+ #app #side{transform:translateX(0)!important;visibility:visible!important}
+ #app #side.open{transform:translateX(0)!important}
+ body:not(.hilen-side-collapsed) #app #side{width:195px!important;max-width:195px!important}
+ body:not(.hilen-side-collapsed) #app .main{margin-left:195px!important;width:calc(100% - 195px)!important;max-width:calc(100vw - 195px)!important}
+ body.hilen-side-collapsed #app #side{width:76px!important;max-width:76px!important}
+ body.hilen-side-collapsed #app .main{margin-left:76px!important;width:calc(100% - 76px)!important;max-width:calc(100vw - 76px)!important}
+ #app .side-backdrop{display:none!important}
+ #app .shell-menu{display:none!important}
+}
+@media(min-width:820px) and (max-height:850px){
+ #app #side>.brand{padding-bottom:9px!important}
+ #app #side>.nav{gap:2px!important;padding-top:1px!important;padding-bottom:3px!important}
+ #app #side>.nav button{min-height:39px!important;height:39px!important;max-height:39px!important;border-radius:10px!important}
+ #app #side>.hilen-side-footer{gap:6px!important;padding-top:8px!important}
+ body.hilen-side-collapsed #app #side>.nav button{min-height:39px!important;height:39px!important;max-height:39px!important}
+}
+@media(min-width:820px) and (max-height:650px){
+ #app #side>.brand{padding-bottom:5px!important}
+ #app #side>.nav button{min-height:35px!important;height:35px!important;max-height:35px!important}
+ #app #side>.nav{gap:1px!important}
+}
+/* El área principal sigue siendo la única que se desplaza con el documento. */
+
+/* Agenda de recordatorios: diseño claro de HILEN y separación contable evidente. */
+#obligations .hilen-obligations-header{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:16px!important;flex-wrap:wrap!important;
+  padding:21px 23px!important;border:1px solid #e8dfce!important;
+  background:linear-gradient(110deg,#fff,#fffbf4)!important;
+  border-radius:22px!important;box-shadow:0 9px 24px rgba(36,34,30,.035)!important;
+}
+#obligations .hilen-agenda-kicker{display:block;color:#b47713;font-size:10px;font-weight:900;letter-spacing:1.7px;margin-bottom:9px}
+#obligations .hilen-agenda-title-line{display:flex;align-items:center;gap:14px}
+#obligations .hilen-agenda-hero-icon{
+  width:53px;height:53px;flex:0 0 53px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#f9eac7,#e7bb60);color:#77500e;border:1px solid #e4bb69;
+  border-radius:16px;box-shadow:0 5px 15px rgba(181,130,46,.12);
+}
+#obligations .hilen-agenda-hero-icon svg{width:27px;height:27px}
+#obligations .hilen-obligations-header h2{font-size:clamp(20px,2vw,27px)!important;color:#101b32!important;letter-spacing:-.65px;margin:0 0 5px!important}
+#obligations .hilen-obligations-header p{color:#6e7890!important;line-height:1.5;font-size:12px!important}
+#obligations .hilen-agenda-hero-actions{align-items:center!important}
+#obligations .hilen-agenda-hero-actions .primary{background:#171717!important;color:#fff!important;border-radius:12px!important;padding:12px 17px!important}
+#obligations .hilen-agenda-hero-actions .secondary{border:1px solid #e8d7bb!important;color:#96651f!important;background:#fff!important;border-radius:12px!important}
+#obligations .hilen-obligations-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px!important;margin-bottom:16px!important}
+#obligations .hilen-agenda-stat{
+  display:flex!important;align-items:center!important;gap:13px!important;min-width:0!important;
+  padding:17px!important;border-radius:18px!important;border:1px solid #e7e9ee!important;
+  box-shadow:0 5px 19px rgba(21,34,58,.035)!important;background:#fff!important
+}
+#obligations .hilen-agenda-stat .stat-label{color:#67758c!important;font-size:11px!important;line-height:1.35!important;margin:0 0 3px!important}
+#obligations .hilen-agenda-stat .stat{font-size:clamp(19px,2vw,27px)!important;color:#111c32!important;font-weight:900!important}
+#obligations .hilen-agenda-stat-icon{
+  width:43px;height:43px;flex:0 0 43px;border-radius:13px;display:grid;place-items:center;
+  font-size:22px;font-weight:900
+}
+#obligations .hilen-agenda-stat-icon.neutral{background:#edf2f9;color:#3d587e}
+#obligations .hilen-agenda-stat-icon.gold{background:#fff2d8;color:#ae710f}
+#obligations .hilen-agenda-stat-icon.red{background:#fff0ef;color:#ba4747}
+#obligations .hilen-agenda-stat-icon.green{background:#e8f8ee;color:#178b58}
+#obligations .hilen-agenda-separation{
+  display:flex;align-items:center;gap:13px;flex-wrap:wrap;
+  padding:15px 17px;margin:4px 0 16px;
+  border:1px solid #e9d8b7;border-radius:16px;background:#fffbf2;
+}
+#obligations .hilen-agenda-separation-icon{
+  width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;
+  border-radius:11px;background:#f6e6c3;color:#9c6a17;font-size:20px;font-weight:900
+}
+#obligations .hilen-agenda-separation>div{flex:1 1 320px;min-width:0}
+#obligations .hilen-agenda-separation strong{display:block;font-size:13px;color:#594323;margin-bottom:4px}
+#obligations .hilen-agenda-separation p{margin:0;color:#806943;font-size:12px;line-height:1.5}
+#obligations .hilen-agenda-separation button{white-space:nowrap;border-color:#d7ba83!important;color:#77501c!important;background:#fff!important}
+#obligations .hilen-agenda-workspace{border:1px solid #e9eaf0!important;border-radius:20px!important;padding:19px!important}
+#obligations .hilen-obligations-tabs{padding:5px;border:1px solid #ebeef4;border-radius:14px;background:#f5f6f9!important;gap:5px}
+#obligations .hilen-obligations-tabs button{flex:1;min-width:0;border:0!important;background:transparent!important;color:#657084!important;font-size:12px!important;border-radius:10px!important;padding:12px 14px!important}
+#obligations .hilen-obligations-tabs button.active{background:#171717!important;color:#fff!important;box-shadow:0 3px 11px rgba(0,0,0,.12)!important}
+#obligations .hilen-obligations-toolbar{margin-top:8px!important}
+#obligations .hilen-obligation-row{padding:14px!important;margin:9px 0!important;border:1px solid #e8eaf0!important;border-radius:15px!important;background:#fff!important;gap:12px!important}
+#obligations .hilen-obligation-row>div{min-width:0}
+#obligations .hilen-obligation-row>div>b{font-size:13px;color:#1a2740}
+#obligations .hilen-obligation-pill{border-radius:999px;font-weight:800;padding:6px 10px}
+#obligations .hilen-obligation-pill.pending{background:#fff5e2;color:#a46a12}
+#obligations .hilen-obligation-pill.overdue{background:#ffebeb;color:#b63333}
+#obligations .hilen-obligation-pill.paid{background:#e6f7ef;color:#167849}
+#obligations .hilen-obligation-actions{justify-content:flex-end}
+#obligations .hilen-obligation-actions button{border-radius:10px!important;font-size:11px!important;min-height:36px!important;padding:7px 10px!important}
+#obligations .hilen-obligation-actions .primary{background:#151515!important;color:#fff!important}
+#obligations .hilen-agenda-footnote{border-top:1px solid #edf0f4;padding-top:12px;margin:15px 0 0;color:#788498;font-size:11px;line-height:1.5}
+@media(max-width:1200px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:750px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))}#obligations .hilen-obligation-row{grid-template-columns:1fr!important}#obligations .hilen-obligation-actions{justify-content:flex-start}#obligations .hilen-agenda-separation button{width:100%}#obligations .hilen-agenda-hero-actions{width:100%}}
+@media(max-width:480px){#obligations .hilen-obligations-stats{grid-template-columns:1fr}#obligations .hilen-obligations-tabs{flex-direction:column}}
+
+/* Agenda: calendario mensual y panel tipo referencia, adaptable a tablet/PC. */
+#obligations .hilen-agenda-content-grid{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(290px,.85fr);gap:16px;align-items:start}
+#obligations .hilen-agenda-content-grid>.card,#obligations .hilen-agenda-calendar-stack{min-width:0}
+#obligations .hilen-agenda-workspace{margin:0!important}
+#obligations .hilen-agenda-calendar-stack{display:flex;flex-direction:column;gap:13px}
+#obligations .hilen-agenda-calendar-card{border:1px solid #e9eaf0!important;border-radius:20px!important;padding:18px!important}
+#obligations .hilen-agenda-calendar-head{display:flex;flex-direction:column;gap:13px;margin-bottom:17px}
+#obligations .hilen-agenda-calendar-head h3{font-size:15px;font-weight:850;letter-spacing:-.3px;margin:0;color:#132038}
+#obligations .hilen-agenda-calendar-nav{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#obligations .hilen-agenda-calendar-nav strong{font-size:13px;color:#23304a}
+#obligations .hilen-agenda-calendar-nav button{border:1px solid #e7eaf0;background:#fff;border-radius:11px;width:35px;height:34px;font-size:22px;color:#24314b}
+#obligations .hilen-agenda-calendar-weekdays,#obligations .hilen-agenda-calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+#obligations .hilen-agenda-calendar-weekdays{margin-bottom:7px}
+#obligations .hilen-agenda-calendar-weekdays span{text-align:center;color:#8791a3;font-size:11px;font-weight:800}
+#obligations .hilen-agenda-calendar-days button{height:37px;min-height:37px;max-height:37px;width:100%;border-radius:11px;border:1px solid transparent;background:transparent;font-size:12px;color:#273347;font-weight:650;position:relative;padding:0}
+#obligations .hilen-agenda-calendar-days button:disabled{opacity:.22;cursor:default}
+#obligations .hilen-agenda-calendar-days button.has-event{background:#fff3db;border-color:#eed9ae;color:#966218}
+#obligations .hilen-agenda-calendar-days button.is-today{box-shadow:inset 0 0 0 1px #b4bed0}
+#obligations .hilen-agenda-calendar-days button.is-selected{background:#d7a746!important;color:#1d1a15!important;border-color:#c59638!important}
+#obligations .hilen-agenda-calendar-days button .event-dot{position:absolute;bottom:3px;left:calc(50% - 2px);height:4px;width:4px;background:#976317;border-radius:50%}
+#obligations .hilen-agenda-calendar-selected{margin-top:14px;padding:11px 0 0;border-top:1px solid #e9ebef;font-size:11px;color:#768198;line-height:1.5}
+#obligations .hilen-agenda-calendar-selected b{display:block;color:#303b53;font-size:12px;margin-bottom:5px}
+#obligations .hilen-agenda-calendar-selected .event-label{display:block;padding:6px 0;border-bottom:1px solid #f0f2f5}
+#obligations .hilen-agenda-calendar-note{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #e8eaf0;border-radius:16px;padding:13px}
+#obligations .hilen-agenda-calendar-note-icon{flex:0 0 33px;width:33px;height:33px;display:grid;place-items:center;background:#fff3dd;color:#ad750e;border-radius:11px;font-weight:900;font-size:19px}
+#obligations .hilen-agenda-calendar-note>div{min-width:0;flex:1}
+#obligations .hilen-agenda-calendar-note strong{font-size:12px;color:#26334b}
+#obligations .hilen-agenda-calendar-note p{font-size:10px;line-height:1.35;margin:4px 0 0;color:#728099}
+#obligations .hilen-agenda-calendar-note button{font-size:10px!important;padding:7px 10px!important;min-height:34px!important;white-space:nowrap;border-radius:9px!important}
+@media(max-width:1150px){#obligations .hilen-agenda-content-grid{grid-template-columns:1fr}#obligations .hilen-agenda-calendar-stack{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#obligations .hilen-agenda-calendar-card{grid-row:span 2}}
+@media(max-width:700px){#obligations .hilen-agenda-calendar-stack{display:flex;flex-direction:column}}
+
+/* HILEN · Corrección definitiva de menú en tablet: sin recorte ni retardo al desplazar.
+   El panel está anclado al viewport; solamente su lista interna se desplaza. */
+#app #side.side{
+  display:flex!important;
+  flex-direction:column!important;
+  position:fixed!important;
+  top:0!important;bottom:0!important;left:0!important;
+  height:100vh!important;height:100dvh!important;
+  max-height:100vh!important;max-height:100dvh!important;
+  overflow:hidden!important;
+  overscroll-behavior:contain!important;
+  contain:layout!important;
+}
+#app #side>.brand,
+#app #side>#cloudStatus,
+#app #side>#cloudStatusDetail,
+#app #side>.hilen-brand-separator,
+#app #side>.hilen-side-footer{
+  flex-grow:0!important;flex-shrink:0!important;
+}
+#app #side>.hilen-brand-separator{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  position:relative!important;height:24px!important;
+  margin:3px 8px 8px!important;
+  padding:0!important;
+  border-top:1px solid rgba(224,176,89,.67)!important;
+  color:#e6bf78!important;
+}
+#app #side>.hilen-brand-separator span{
+  position:absolute!important;top:-9px!important;
+  padding:1px 10px!important;
+  background:#221e1c!important;
+  color:#e8bf72!important;
+  font-size:9px!important;font-weight:750!important;letter-spacing:1.5px!important;
+  border-radius:8px!important;
+}
+#app #side>.nav{
+  flex:1 1 0%!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  overscroll-behavior-y:contain!important;
+  scroll-behavior:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  padding:4px 3px 12px!important;
+  margin:0!important;
+  scrollbar-width:thin!important;
+}
+#app #side>.nav button{flex:0 0 auto!important}
+#app #side>.hilen-side-footer{
+  position:relative!important;
+  width:100%!important;
+  margin:0!important;
+  padding:13px 0 max(7px,env(safe-area-inset-bottom,0px))!important;
+  border-top:1px solid rgba(224,176,89,.7)!important;
+  background:linear-gradient(180deg,rgba(233,187,105,.09),transparent 18px)!important;
+  z-index:3!important;
+}
+@media(min-width:768px) and (max-width:1100px){
+  #app #side.side{will-change:auto!important;transition:none!important}
+  #app #side>.nav{scrollbar-gutter:stable!important}
+  #app .main{overflow-x:clip!important;overflow-y:visible!important}
+}
+@media(min-width:768px) and (max-height:750px){
+  #app #side>.hilen-brand-separator{height:17px!important;margin-bottom:3px!important}
+  #app #side>.nav{padding-top:1px!important;padding-bottom:4px!important}
+  #app #side>.hilen-side-footer{padding-top:9px!important}
+}
+@media(min-width:768px) and (max-width:819px){
+  /* En tablets estrechas, el menú también permanece disponible y no depende del scroll. */
+  #app #side.side.open{transform:translateX(0)!important}
+}
+
+
+/* TABLET 768–1366: barra real y permanentemente fija.
+   Resuelve reglas antiguas que ocultan el panel y efectos de blur que demoran
+   la pintura al desplazarse en Safari/Chrome de tablet. */
+@media (min-width:768px) and (max-width:1366px){
+  html,body{overflow-x:clip!important}
+  #app #side.side,
+  #app #side.side.open,
+  body.hilen-side-collapsed #app #side.side{
+    display:flex!important;flex-direction:column!important;
+    position:fixed!important;
+    inset:0 auto 0 0!important;top:0!important;left:0!important;bottom:0!important;
+    height:100vh!important;height:100dvh!important;
+    max-height:100vh!important;max-height:100dvh!important;
+    min-height:0!important;
+    overflow:hidden!important;
+    transform:none!important;
+    transition:none!important;
+    visibility:visible!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    will-change:auto!important;
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+    background:linear-gradient(160deg,#28231e,#121114 72%,#302820)!important;
+    z-index:80!important;
+  }
+  #app #side>.brand,
+  #app #side>#cloudStatus,
+  #app #side>#cloudStatusDetail,
+  #app #side>.hilen-brand-separator,
+  #app #side>.hilen-side-footer{
+    flex:0 0 auto!important;
+    transform:none!important;
+  }
+  #app #side>.nav,
+  body.hilen-side-collapsed #app #side>.nav{
+    flex:1 1 0%!important;min-height:0!important;
+    overflow-y:auto!important;overflow-x:hidden!important;
+    scroll-behavior:auto!important;
+    overscroll-behavior-y:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-y!important;
+  }
+  #app #side>.hilen-side-footer{
+    position:relative!important;bottom:auto!important;
+    min-height:58px!important;
+    padding-bottom:max(8px,env(safe-area-inset-bottom,0px))!important;
+  }
+  #app #side>.hilen-side-footer #hilenDesktopSideToggle,
+  #app #side>.hilen-side-footer #logoutBtn{
+    position:static!important;inset:auto!important;transform:none!important;
+  }
+  #app .side-backdrop{display:none!important;pointer-events:none!important}
+  #app .shell-menu{display:none!important}
+  #app .main{
+    overflow-x:clip!important;overflow-y:visible!important;
+    min-width:0!important;
+  }
+  body.hilen-side-collapsed #app #side{width:76px!important;min-width:76px!important;max-width:76px!important}
+  body.hilen-side-collapsed #app .main{
+    margin-left:76px!important;width:calc(100% - 76px)!important;
+    max-width:calc(100vw - 76px)!important;
+  }
+}
+@media (min-width:768px) and (max-width:1099px){
+  body:not(.hilen-side-collapsed) #app #side{
+    width:195px!important;min-width:195px!important;max-width:195px!important;
+  }
+  body:not(.hilen-side-collapsed) #app .main{
+    margin-left:195px!important;width:calc(100% - 195px)!important;
+    max-width:calc(100vw - 195px)!important;
+  }
+}
+@media (min-width:1100px) and (max-width:1366px){
+  body:not(.hilen-side-collapsed) #app #side{
+    width:220px!important;min-width:220px!important;max-width:220px!important;
+  }
+  body:not(.hilen-side-collapsed) #app .main{
+    margin-left:220px!important;width:calc(100% - 220px)!important;
+    max-width:calc(100vw - 220px)!important;
+  }
+}
+@media (min-width:768px) and (max-width:1366px) and (max-height:650px){
+  #app #side>.brand{padding-top:3px!important;padding-bottom:3px!important}
+  #app #side>#cloudStatusDetail{padding-bottom:2px!important}
+  #app #side>.hilen-brand-separator{height:14px!important;margin-bottom:2px!important}
+  #app #side>.nav{padding-bottom:2px!important}
+}
+
+/* HILEN · Tablet: menú completamente inmóvil; solo cambia con botón de contraer.
+   Quita el scroll del menú (fuente del movimiento y recortes), repartiendo
+   sus 14 opciones en la altura disponible. Prioridad sobre estilos anteriores. */
+@media (min-width:768px) and (max-width:1366px){
+  #app{transform:none!important;filter:none!important;perspective:none!important}
+  #app #side.side,body.hilen-side-collapsed #app #side.side{
+    position:fixed!important;
+    inset:0 auto 0 0!important;
+    top:0!important;left:0!important;bottom:0!important;
+    height:100dvh!important;max-height:100dvh!important;
+    display:flex!important;flex-direction:column!important;
+    overflow:hidden!important;
+    transform:none!important;translate:none!important;
+    transition:none!important;animation:none!important;
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+    will-change:auto!important;visibility:visible!important;
+    overscroll-behavior:none!important;
+  }
+  #app #side>.brand,
+  #app #side>#cloudStatus,
+  #app #side>#cloudStatusDetail,
+  #app #side>.hilen-brand-separator{
+    flex:0 0 auto!important;
+    position:relative!important;
+  }
+  #app #side>.nav,
+  body.hilen-side-collapsed #app #side>.nav{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-rows:repeat(14,minmax(0,1fr))!important;
+    flex:1 1 0%!important;
+    min-height:0!important;
+    height:auto!important;
+    overflow:hidden!important;
+    overflow-y:hidden!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:none!important;
+    scroll-behavior:auto!important;
+    touch-action:manipulation!important;
+    gap:2px!important;
+    padding:2px 3px 3px!important;
+    margin:0!important;
+    scrollbar-width:none!important;
+  }
+  #app #side>.nav button,
+  body.hilen-side-collapsed #app #side>.nav button{
+    height:100%!important;min-height:0!important;max-height:none!important;
+    flex:none!important;
+    margin:0!important;
+    padding-top:0!important;padding-bottom:0!important;
+    display:flex!important;align-items:center!important;
+    overflow:hidden!important;
+    transition:background .13s ease,color .13s ease!important;
+  }
+  #app #side>.nav::-webkit-scrollbar{display:none!important}
+  #app #side>.hilen-side-footer{
+    flex:0 0 auto!important;min-height:48px!important;
+    position:relative!important;
+    margin:0!important;
+    overflow:visible!important;
+    transform:none!important;
+  }
+  #app #side>.hilen-side-footer #hilenDesktopSideToggle,
+  #app #side>.hilen-side-footer #logoutBtn{
+    position:static!important;bottom:auto!important;
+    min-height:37px!important;max-height:40px!important;
+    height:39px!important;flex-shrink:0!important;
+  }
+  body:not(.hilen-side-collapsed) #app #side>.hilen-side-footer{
+    flex-direction:row!important;
+  }
+  #app .side-backdrop{display:none!important}
+  #app .shell-menu{display:none!important}
+}
+@media (min-width:768px) and (max-width:1366px) and (max-height:760px){
+  #app #side>.brand{padding-top:5px!important;padding-bottom:5px!important}
+  #app #side>#cloudStatusDetail{display:none!important}
+  #app #side>.hilen-brand-separator{
+    height:14px!important;margin-top:2px!important;margin-bottom:3px!important;
+  }
+  #app #side>.nav{gap:1px!important;padding-top:1px!important}
+  #app #side>.nav button,
+  body.hilen-side-collapsed #app #side>.nav button{
+    border-radius:8px!important;
+    font-size:11px!important;line-height:1.15!important;
+  }
+  body.hilen-side-collapsed #app #side>.nav button{font-size:0!important;line-height:0!important}
+  #app #side>.hilen-side-footer{padding-top:7px!important;padding-bottom:4px!important}
+}
+@media (min-width:768px) and (max-width:1366px) and (max-height:590px){
+  #app #side>#cloudStatus{display:none!important}
+  #app #side>.brand{padding-top:2px!important;padding-bottom:2px!important}
+  #app #side>.nav button{font-size:10px!important}
+  body.hilen-side-collapsed #app #side>.nav button{font-size:0!important;line-height:0!important}
+}
+
+/* HILEN · Referencia visual de obligaciones: marfil, dorado, tabla y calendario lateral. */
+#obligations .hilen-obligations-header{background:#fff!important;box-shadow:none!important;border:0!important;padding:8px 6px 14px!important}
+#obligations .hilen-agenda-kicker,#obligations .hilen-agenda-hero-icon{display:none!important}
+#obligations .hilen-obligations-header h2{font-size:clamp(22px,2.5vw,29px)!important;color:#171717!important}
+#obligations .hilen-obligations-header p{color:#737373!important}
+#obligations .hilen-agenda-hero-actions .primary{background:linear-gradient(120deg,#dbaf55,#a87824)!important;border-color:#ba8b36!important;color:white!important}
+#obligations .hilen-obligations-stats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
+#obligations .hilen-agenda-stat{background:linear-gradient(120deg,#fff,#faf5ea)!important;border:1px solid #eee8de!important;box-shadow:none!important;padding:16px 13px!important}
+#obligations .hilen-agenda-stat:nth-child(3){background:linear-gradient(120deg,#fff,#fcf0ed)!important}
+#obligations .hilen-agenda-stat:nth-child(4){background:linear-gradient(120deg,#fff,#eef6ed)!important}
+#obligations .hilen-agenda-stat-icon{background:transparent!important;width:30px!important;flex-basis:30px!important;font-size:20px!important}
+#obligations .hilen-agenda-stat .stat{font-size:clamp(18px,2vw,25px)!important;color:#181818!important}
+#obligations .hilen-agenda-separation{padding:10px 14px!important;margin:0 0 12px!important}
+#obligations .hilen-agenda-separation strong{font-size:12px!important}
+#obligations .hilen-agenda-separation p{font-size:11px!important}
+#obligations .hilen-agenda-content-grid{grid-template-columns:minmax(0,1.65fr) minmax(260px,.95fr)!important;gap:15px!important}
+#obligations .hilen-agenda-workspace,#obligations .hilen-agenda-calendar-card{border:1px solid #ece9e4!important;box-shadow:0 3px 16px rgba(0,0,0,.025)!important;border-radius:17px!important}
+#obligations .hilen-obligations-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+#obligations .hilen-obligations-heading h3{font-size:17px!important;color:#151515!important;margin:0}
+#obligations .hilen-obligations-heading .primary{background:linear-gradient(120deg,#d6a647,#a97624)!important;border:0!important;border-radius:10px!important;font-size:12px!important}
+#obligations .hilen-obligations-tabs{background:transparent!important;border:0!important;padding:0!important;margin-bottom:8px!important}
+#obligations .hilen-obligations-tabs button{padding:6px 10px!important;background:#faf8f5!important;color:#777!important}
+#obligations .hilen-obligations-tabs button.active{background:#f3e6cc!important;color:#815b27!important;box-shadow:none!important}
+#obligations .hilen-reference-filters{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin:8px 0 4px}
+#obligations .hilen-reference-filters button{background:transparent;border:0;padding:8px 12px;border-radius:30px;color:#676767;font-size:11px;font-weight:650}
+#obligations .hilen-reference-filters button.active{background:#f3e5c7;color:#29241b}
+#obligations .hilen-obligations-toolbar{display:flex!important;gap:10px!important;align-items:flex-end!important;margin-bottom:8px!important}
+#obligations .hilen-obligations-toolbar>div{flex:1 1 120px;min-width:0}
+#obligations .hilen-obligations-toolbar .input{width:100%!important}
+#obligations .hilen-reference-table-head,#obligations .hilen-obligation-row{display:grid!important;grid-template-columns:minmax(125px,1.4fr) minmax(95px,.9fr) minmax(90px,.8fr) minmax(80px,.7fr) minmax(100px,1fr)!important;gap:9px!important;align-items:center!important}
+#obligations .hilen-reference-table-head{font-size:10px;font-weight:750;color:#6e6e6e;padding:11px 9px;border-bottom:1px solid #eee}
+#obligations .hilen-obligation-row{padding:12px 9px!important;margin:0!important;border:0!important;border-bottom:1px solid #efeeec!important;border-radius:0!important}
+#obligations .hilen-obligation-row>div>b{font-size:12px!important}
+#obligations .hilen-obligation-meta{font-size:10px!important;color:#888!important}
+#obligations .hilen-obligation-actions{display:flex!important;gap:4px!important;flex-wrap:wrap!important}
+#obligations .hilen-obligation-actions button{font-size:10px!important;padding:5px 6px!important;min-height:27px!important}
+#obligations .hilen-agenda-calendar-head{flex-direction:row!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important}
+#obligations .hilen-agenda-calendar-head h3{display:none!important}
+#obligations .hilen-agenda-calendar-nav{width:100%!important}
+#obligations .hilen-agenda-calendar-days button.has-event{border-radius:50%!important;background:#f5d995!important}
+#obligations .hilen-agenda-calendar-note{background:#fff!important}
+#obligations .hilen-agenda-calendar-note-icon{background:#fff4df!important;color:#b1832f!important}
+.hilen-reference-modal-title{font-size:18px;color:#161616;margin:0 0 4px}
+.hilen-reference-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.hilen-reference-form .fullcol{grid-column:1/-1}
+.hilen-reference-form .label{font-weight:750;font-size:11px;margin-bottom:4px}
+.hilen-reference-form .input{min-height:39px}
+.hilen-reference-alerts{display:flex;gap:12px;flex-wrap:wrap;background:#faf7f1;border-radius:10px;padding:10px}
+.hilen-reference-alerts label{display:flex;align-items:center;gap:5px;font-size:11px}
+.hilen-reference-alerts input{accent-color:#b2853b}
+.hilen-reference-switches{display:grid;grid-template-columns:1fr;gap:7px}
+.hilen-reference-switches label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;padding:6px 0}
+.hilen-reference-switches input{accent-color:#b2853b}
+.hilen-reference-switches small{color:#888;font-size:10px}
+.hilen-reference-modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:15px}
+.hilen-reference-modal-actions .primary{background:linear-gradient(120deg,#d6a647,#a97624)!important;color:white!important;border:0!important}
+@media(max-width:1200px){#obligations .hilen-agenda-content-grid{grid-template-columns:1fr!important}#obligations .hilen-agenda-calendar-stack{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){#obligations .hilen-obligations-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}#obligations .hilen-reference-table{overflow-x:auto}#obligations .hilen-reference-table-head,#obligations .hilen-obligation-row{min-width:620px}}
+@media(max-width:560px){#obligations .hilen-agenda-calendar-stack{display:flex!important;flex-direction:column!important}.hilen-reference-form{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -4124,6 +5134,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
     <div class="brand"><div class="logo-mark">H</div><div class="brand-copy"><strong>HILEN</strong><span>Tu negocio, más simple.</span></div></div>
     <div id="cloudStatus" class="small muted" style="padding:0 12px 4px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
     <div id="cloudStatusDetail" class="small muted" style="padding:0 12px 12px;line-height:1.35">Tus datos se guardan automáticamente.</div>
+    <div class="hilen-brand-separator" role="separator" aria-label="Opciones del menú"><span>MENÚ</span></div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('dailyActivity',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7 2v4M17 2v4M3 10h18M7 14h3M7 18h7"/></svg></span>Resumen diario</button>
@@ -4134,13 +5145,16 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
       <button onclick="section('cashflow',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M7 7V5h10v2M8 13h8"/><circle cx="12" cy="13" r="2.5"/></svg></span>Flujo de caja</button>
       <button onclick="section('customers',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span>Clientes</button>
       <button onclick="section('statements',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg></span>Estado de cuenta</button>
+      <button onclick="section('obligations',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h5M8 18h8"/></svg></span>Agenda de recordatorios</button>
       <button onclick="section('encargos',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m15.5 14.5 1.5 1.5 3-3"/></svg></span>Encargos</button>
       <button onclick="section('reports',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Reportes</button>
       <button onclick="section('history',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m3 7 6-4 6 5 6-5"/></svg></span>Historial anual</button>
       <button onclick="section('settings',this)"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H10v-.08a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V10h.08A1.7 1.7 0 0 0 4.66 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3H14v.08A1.7 1.7 0 0 0 15.1 4.66a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.38.36.72.6 1 .3.3.7.45 1.1.4H21V14h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span>Configuración</button>
     </nav>
-    
+    <div class="hilen-side-footer" aria-label="Controles del menú">
+      <button type="button" id="hilenDesktopSideToggle" class="hilen-desktop-side-toggle" onclick="hilenToggleDesktopSidebar()" aria-label="Ocultar menú lateral" aria-expanded="true" title="Ocultar menú lateral"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM10 5v14M7 11l-2 2 2 2"/></svg><span id="hilenDesktopSideToggleLabel">Ocultar menú</span></button>
     <button type="button" id="logoutBtn" class="logout" onclick="logout(event)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span class="logout-label">Cerrar sesión</span></button>
+    </div>
   </aside>
   <div id="sideBackdrop" class="side-backdrop" onclick="closeSide()" aria-hidden="true"></div>
   <main class="main">
@@ -4557,13 +5571,21 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
             <div class="hilen-firebase-buttons"><button type="button" id="hilenManualFirebaseBtn" class="primary" onclick="hilenManualFirebaseSave()">Guardar y verificar en Firebase</button><button type="button" class="secondary" id="hilenFirebaseDiagnoseBtn" onclick="hilenDiagnoseFirebase()">Diagnosticar conexión</button><button type="button" class="secondary" onclick="hilenReviewCloudConflicts()">Revisar diferencias</button></div>
           </div>
           <div class="hilen-firebase-diagnosis" id="hilenFirebaseDiagnosis" role="status" aria-live="polite">Si HILEN indica «Sin sincronizar», pulsa «Diagnosticar conexión» para conocer el motivo sin modificar tus datos.</div>
+          <div id="hilenBackupProgress" class="hilen-backup-progress" role="status" aria-live="polite"></div>
+          <div class="hilen-save-guide" aria-label="Instrucciones para guardar y comprobar tus datos">
+            <div class="hilen-save-guide-title"><strong>Antes de cerrar HILEN</strong><span>Comprobación de guardado</span></div>
+            <div id="hilenSaveGuideStatus" class="hilen-save-guide-status" role="status" aria-live="polite">Revisando confirmaciones…</div>
+            <p>Al registrar una venta o un abono, verifica el indicador de Firebase. <b>«Pendiente» o «Sin sincronizar» NO significa que la nube lo haya guardado.</b></p>
+            <p>Cuando termines de trabajar, pulsa <b>«Guardar y respaldar ahora»</b>. Solo considera el respaldo completo cuando Firebase, Google Sheets y Google Drive muestren confirmaciones recientes y no haya cambios pendientes.</p>
+            <p>Si aparece un conflicto, error de conexión o copia pendiente, <b>no borres información ni restaures respaldos anteriores</b>. Usa «Diagnosticar conexión» y descarga una copia JSON adicional si hace falta.</p>
+          </div>
           <div class="settings-status-grid">
             <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">▤</span><span>Google Sheets · copia diaria</span></div><div id="googleSheetsStatus" class="google-sheets-status" role="status" aria-live="polite"></div><button class="secondary hilen-sheet-verify" type="button" onclick="hilenUpdateGoogleSheetsManually()">Actualizar Google Sheets ahora</button></div>
             <div class="settings-status-card"><div class="status-title"><span class="settings-status-icon">☁</span><span>Copia de recuperación</span></div><div id="googleDriveStatus" class="google-sheets-status"></div></div>
           </div>
           <div class="settings-actions">
             <button class="primary drive-connect-btn" onclick="openGoogleSheetsSetup()">▲&nbsp; Conectar Google Drive</button>
-            <button class="secondary" onclick="syncGoogleBackupNow(true)">Respaldar ahora</button>
+            <button class="secondary" id="hilenBackupAllBtn" onclick="hilenBackupEverythingNow()">Guardar y respaldar ahora</button>
             <button class="secondary" onclick="openGoogleDriveBackup()">Ver mis respaldos</button>
             <button class="secondary" onclick="openGoogleSheetBackup()">Ver copia organizada</button>
           </div>
@@ -4576,6 +5598,52 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
         <div class="pro-card-head compact"><span class="pro-icon gold">↓</span><div><h2>Descargar o recuperar información</h2><p>Estas opciones son adicionales. El respaldo automático de Google funciona sin que tengas que descargar archivos todos los días.</p></div></div>
         <div class="history-backup"><button class="primary" onclick="exportAllToExcel()">↓&nbsp; Descargar Excel completo</button><button class="secondary" onclick="downloadBackup()">▣&nbsp; Descargar copia JSON</button><label class="secondary restore-label">↻&nbsp; Restaurar una copia<input id="backupFile" type="file" accept="application/json,.json" class="hidden" onchange="restoreBackup(this.files[0])"></label></div>
         <div class="muted small settings-download-help">Usa “Restaurar una copia” solamente cuando necesites recuperar información desde un archivo de respaldo anterior.</div>
+      </div>
+    </section>
+
+
+    <section id="obligations" class="section hilen-view">
+      <div class="card hilen-obligations-header">
+        <div class="hilen-agenda-heading"><span class="hilen-agenda-kicker">ORGANIZACIÓN DEL NEGOCIO</span><div class="hilen-agenda-title-line"><span class="hilen-agenda-hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18m5 5 2 2 4-4"/></svg></span><div><h2>Agenda de pagos y recordatorios</h2><p class="muted small">Controla tus próximos vencimientos y mantenimientos.</p></div></div></div>
+        <div class="row-actions hilen-agenda-hero-actions"><button type="button" class="secondary" onclick="requestReminderPermission()">Activar avisos</button><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Nuevo recordatorio</button></div>
+      </div>
+      <div class="hilen-obligations-stats">
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon neutral">☷</span><div><div class="stat-label">Por atender</div><div class="stat" id="hilenObligationPending">0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon gold">◷</span><div><div class="stat-label">Próximos 7 días</div><div class="stat" id="hilenObligationUpcoming">0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon red">!</span><div><div class="stat-label">Vencidos</div><div class="stat" id="hilenObligationOverdue">0</div></div></div>
+        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon green">$</span><div><div class="stat-label">Atendidos este mes</div><div class="stat" id="hilenObligationAmount">$ 0</div></div></div>
+      </div>
+      <div class="hilen-agenda-separation"><span class="hilen-agenda-separation-icon">i</span><div><strong>Esta sección es una agenda, no un registro de egresos.</strong><p>Aquí organizas fechas, avisos y compromisos. Aunque marques un recordatorio como atendido, no se registra ningún pago real. Para descontar dinero y contabilizarlo, utiliza <b>Flujo de caja → Egresos</b>.</p></div><button type="button" class="secondary" onclick="goSection('cashflow')">Ir a Flujo de caja</button></div>
+      <div class="hilen-agenda-content-grid">
+      <div class="card hilen-agenda-workspace">
+        <div class="hilen-obligations-heading"><h3>Mis obligaciones</h3><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Nueva obligación</button></div>
+        <div class="hilen-obligations-tabs" role="tablist" aria-label="Tipo de obligación">
+          <button type="button" id="hilenObligationsSuppliersTab" class="active" onclick="hilenSetObligationTab('supplier')" role="tab" aria-selected="true">Proveedores y pagos previstos</button>
+          <button type="button" id="hilenObligationsServicesTab" onclick="hilenSetObligationTab('service')" role="tab" aria-selected="false">Servicios, trámites y mantenimiento</button>
+        </div>
+        <div class="hilen-reference-filters" role="group" aria-label="Filtrar recordatorios">
+          <button type="button" data-oblfilter="all" onclick="hilenSetObligationFilter('all')">Todas</button>
+          <button type="button" data-oblfilter="pending" onclick="hilenSetObligationFilter('pending')">Por atender</button>
+          <button type="button" data-oblfilter="paid" onclick="hilenSetObligationFilter('paid')">Atendidas</button>
+          <button type="button" data-oblfilter="overdue" onclick="hilenSetObligationFilter('overdue')">Vencidas</button>
+        </div>
+        <div class="toolbar hilen-obligations-toolbar">
+          <div><label class="label" for="hilenObligationSearch">Buscar</label><input id="hilenObligationSearch" class="input" oninput="hilenRenderObligations()" placeholder="Proveedor, servicio o descripción"></div>
+          <div><label class="label" for="hilenObligationFilter">Estado</label><select id="hilenObligationFilter" class="input" onchange="hilenRenderObligations()"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="overdue">Vencidos</option><option value="paid">Atendidos</option></select></div>
+        </div>
+        <div class="hilen-reference-table"><div class="hilen-reference-table-head"><span>Obligación</span><span>Vencimiento</span><span>Valor</span><span>Estado</span><span>Acciones</span></div><div id="hilenObligationList" class="hilen-obligations-list"></div></div>
+        <p class="hilen-agenda-footnote">Los valores son estimados, no dinero descontado. Para registrar un pago efectuado y reflejarlo en los reportes, utiliza Flujo de caja → Egresos.</p>
+      </div>
+      <div class="hilen-agenda-calendar-stack">
+        <div class="card hilen-agenda-calendar-card">
+          <div class="hilen-agenda-calendar-head"><h3>Calendario de vencimientos</h3><div class="hilen-agenda-calendar-nav"><button type="button" aria-label="Mes anterior" onclick="hilenShiftAgendaMonth(-1)">‹</button><strong id="hilenAgendaCalendarMonth"></strong><button type="button" aria-label="Mes siguiente" onclick="hilenShiftAgendaMonth(1)">›</button></div></div>
+          <div class="hilen-agenda-calendar-weekdays"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+          <div id="hilenAgendaCalendarDays" class="hilen-agenda-calendar-days"></div>
+          <div id="hilenAgendaCalendarSelected" class="hilen-agenda-calendar-selected"></div>
+        </div>
+        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">◷</span><div><strong>Recordatorios en HILEN</strong><p>HILEN te avisará cuando la aplicación esté abierta y el navegador permita notificaciones.</p></div><button type="button" class="secondary" onclick="requestReminderPermission()">Activar</button></div>
+        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">▦</span><div><strong>Conectar calendario</strong><p>Abre Google Calendar y agrega tus vencimientos. No hay sincronización automática activa.</p></div><button type="button" class="secondary" onclick="hilenOpenAgendaGoogleCalendar()">Abrir</button></div>
+      </div>
       </div>
     </section>
 
@@ -4658,7 +5726,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 <script>
 const KEY="HILEN_DEMO_V2";
 const OLD_KEY="HILEN_DEMO_V1";
-const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[],annualReports:[]};
+const emptyDB={users:[],session:null,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],obligations:[],monthlyRecords:[],annualReports:[]};
 let db;
 try{db=JSON.parse(localStorage.getItem(KEY)||"null")||null}catch(e){db=null}
 if(!db){
@@ -4668,7 +5736,7 @@ if(!db){
   }catch(e){}
 }
 if(!db) db=structuredClone(emptyDB);
-db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; db.monthlyRecords ||= []; db.annualReports ||= []; if(!('session' in db))db.session=null;
+db.users ||= []; db.clients ||= []; db.sales ||= []; db.payments ||= []; db.cashMovements ||= []; db.statementDownloads ||= []; db.encargos ||= []; db.obligations ||= []; db.monthlyRecords ||= []; db.annualReports ||= []; if(!('session' in db))db.session=null;
 let currentUser=null;
 const GOOGLE_SHEETS_SYNC_KEY="HILEN_GOOGLE_SHEETS_SYNC_V2";
 const GOOGLE_DRIVE_BACKUP_KEY="HILEN_GOOGLE_DRIVE_BACKUP_V1";
@@ -4730,6 +5798,8 @@ let cloudBaseData=null;
 const CLOUD_BASE_SNAPSHOT_KEY='HILEN_FIREBASE_BASE_SNAPSHOT_V3_';
 const CLOUD_VERIFIED_KEY='HILEN_FIREBASE_ULTIMA_CONFIRMACION_V1_';
 let hilenCloudRebaseInFlight=false;
+let hilenLiveStateRef=null,hilenLiveStateHandler=null,hilenLiveStateUid='';
+let hilenLiveRefreshTimer=null,hilenLiveIncoming=null;
 
 // Firebase RTDB omite propiedades con null, objetos vacíos y arrays vacíos.
 // Una comparación literal JSON marcaría permanentemente "Sin sincronizar" aunque
@@ -4757,7 +5827,7 @@ function hilenCloudSignature(value){
   const normalized=hilenStableCloudValue(value??null);
   // Los grupos del negocio se identifican por ID. Su orden en memoria no
   // debe hacer que Firebase considere distintas dos colecciones idénticas.
-  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
+  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','obligations','monthlyRecords','annualReports'];
   if(normalized&&typeof normalized==='object'&&!Array.isArray(normalized)&&groups.some(g=>Array.isArray(normalized[g]))){
     for(const group of groups){
       if(Array.isArray(normalized[group])){
@@ -4784,7 +5854,7 @@ function hilenRememberCloudBase(revision,data,uid=currentUser?.id){
   try{localStorage.setItem(CLOUD_BASE_SNAPSHOT_KEY+uid,JSON.stringify({revision:cloudBaseRevision,data:cloudBaseData}))}
   catch(e){console.warn('Sin espacio para guardar la base de reconciliación',e)}
 }
-function businessStateEmpty(){return {version:13,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],monthlyRecords:[],annualReports:[]}}
+function businessStateEmpty(){return {version:13,clients:[],sales:[],payments:[],cashMovements:[],statementDownloads:[],encargos:[],obligations:[],monthlyRecords:[],annualReports:[]}}
 function hilenReadCloudBase(uid){
   if(cloudBaseData)return structuredClone(cloudBaseData);
   try{const b=JSON.parse(localStorage.getItem(CLOUD_BASE_SNAPSHOT_KEY+uid)||'null');return b?.data&&typeof b.data==='object'?b.data:null}
@@ -4814,7 +5884,7 @@ function hilenMergeRecordFields(base,local,remote,path=''){
   return {value:undefined,conflicts:[path||'registro completo']};
 }
 function hilenMergeBusinessStates(base,local,remote,{additive=false}={}){
-  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','monthlyRecords','annualReports'];
+  const groups=['clients','sales','payments','cashMovements','statementDownloads','encargos','obligations','monthlyRecords','annualReports'];
   const merged={version:13},conflicts=[],details=[];
   for(const group of groups){
     const input=[base,local,remote].map(st=>Array.isArray(st?.[group])?st[group]:[]);
@@ -5312,6 +6382,7 @@ function setCloudStatus(kind,text,detail=''){
   if(dot)dot.style.background=kind==='ok'?'#22a06b':kind==='work'?'#d9a11e':kind==='error'?'#d64545':'#aaa';
   const top=document.getElementById('hilenSaveIndicator');
   if(top){top.dataset.kind=kind;top.textContent=kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Guardado en Firebase':kind==='error'?'⚠ Sin sincronizar':kind==='work'&&/modo local/i.test(String(text))?'Modo local':kind==='work'?'◷ Sincronizando…':'Consultar Firebase';top.title=(detail||text||'')+' · Pulsar para guardar y verificar';}
+  hilenRenderBackupProgress();
   const setting=document.getElementById('hilenFirebaseVerifiedStatus');
   if(setting){const stamp=cloudLastVerifiedAt?('Última confirmación: '+new Date(cloudLastVerifiedAt).toLocaleString('es-CO')):'Todavía no hay una confirmación de escritura registrada para esta cuenta';setting.textContent=(kind==='ok'&&/verificada|verificado/i.test(String(text))?'✓ Datos confirmados en Firebase. ':kind==='error'?'⚠ Sin confirmar en Firebase. ':'Estado: '+(text||'Pendiente')+'. ')+stamp+(kind==='error'&&detail?' · '+detail:'')}
 
@@ -5392,15 +6463,117 @@ function initCloud(){
   }catch(err){console.error('Firebase init:',err);setCloudStatus('error','Error configurando Firebase');return false}
 }
 function businessState(){
-  return {version:13,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[],monthlyRecords:db.monthlyRecords||[],annualReports:db.annualReports||[]};
+  return {version:13,clients:db.clients||[],sales:db.sales||[],payments:db.payments||[],cashMovements:db.cashMovements||[],statementDownloads:db.statementDownloads||[],encargos:db.encargos||[],obligations:db.obligations||[],monthlyRecords:db.monthlyRecords||[],annualReports:db.annualReports||[]};
 }
 function hasBusinessData(state=businessState()){return (state.clients?.length||0)+(state.sales?.length||0)+(state.payments?.length||0)+(state.cashMovements?.length||0)+(state.monthlyRecords?.length||0)>0}
 function applyBusinessState(state){
   const safe=state||{};
-  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[],monthlyRecords:Array.isArray(safe.monthlyRecords)?safe.monthlyRecords:[],annualReports:Array.isArray(safe.annualReports)?safe.annualReports:[]};
+  db={...structuredClone(emptyDB),users:[],session:null,clients:Array.isArray(safe.clients)?safe.clients:[],sales:Array.isArray(safe.sales)?safe.sales:[],payments:Array.isArray(safe.payments)?safe.payments:[],cashMovements:Array.isArray(safe.cashMovements)?safe.cashMovements:[],statementDownloads:Array.isArray(safe.statementDownloads)?safe.statementDownloads:[],encargos:Array.isArray(safe.encargos)?safe.encargos:[],obligations:Array.isArray(safe.obligations)?safe.obligations:[],monthlyRecords:Array.isArray(safe.monthlyRecords)?safe.monthlyRecords:[],annualReports:Array.isArray(safe.annualReports)?safe.annualReports:[]};
   syncDataRelations();
 }
 function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
+
+function hilenStopLiveSync(){
+  clearTimeout(hilenAutoVerifyTimer);hilenAutoVerifyTimer=null;hilenAutoVerifyUid='';
+  clearTimeout(hilenLiveRefreshTimer);hilenLiveRefreshTimer=null;hilenLiveIncoming=null;
+  if(hilenLiveStateRef&&hilenLiveStateHandler)hilenLiveStateRef.off('value',hilenLiveStateHandler);
+  hilenLiveStateRef=null;hilenLiveStateHandler=null;hilenLiveStateUid='';
+}
+function hilenLiveSyncProcess(){
+  hilenLiveRefreshTimer=null;
+  const packet=hilenLiveIncoming;hilenLiveIncoming=null;
+  if(!packet||localMode||!cloudDb||currentUser?.id!==packet.uid||
+     cloudLoadedUid!==packet.uid||cloudLoading||cloudConflict||cloudBaseRevision===null)return;
+  const remote=packet.remote,revision=Number(remote?.revision)||0;
+  // Ignorar notificaciones antiguas u optimistas de nuestras transacciones.
+  if(revision<=Number(cloudBaseRevision||0))return;
+  if(cloudSaveInFlight||hilenCloudTransactionPending||hilenCloudRebaseInFlight){
+    hilenLiveIncoming=packet;
+    hilenLiveRefreshTimer=setTimeout(hilenLiveSyncProcess,800);
+    return;
+  }
+  const incoming=remote?.data??null,local=businessState();
+  const hasPending=cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1'||
+    hilenCloudSignature(local)!==cloudBaseSignature;
+  if(hasPending){
+    // Guardar mediante la conciliación transaccional preexistente.
+    // Nunca sustituir ventas o abonos pendientes por el estado entrante.
+    cloudDirty=true;localStorage.setItem(CLOUD_DIRTY_KEY,'1');
+    if(!cloudConflict)queueCloudSave();
+    return;
+  }
+  const changed=hilenCloudSignature(local)!==hilenCloudSignature(incoming);
+  try{
+    if(changed){
+      if(!hilenStoreRescueCopy('antes de recibir actualización en tiempo real'))
+        throw new Error('No se pudo crear la copia de seguridad local.');
+      applyBusinessState(incoming||{});
+      hilenPersistMergedLocal();
+    }
+    hilenRememberCloudBase(revision,incoming,packet.uid);
+    cloudLoadedUid=packet.uid;
+    cloudDirty=false;localStorage.setItem(CLOUD_DIRTY_KEY,'0');
+    localStorage.setItem(CLOUD_LOCAL_UPDATED_KEY,String(remote?.updated_at||new Date().toISOString()));
+    if(changed){refreshAll();renderSettings();}
+    setCloudStatus('ok','Datos sincronizados','Cambios recibidos desde Firebase. Revisión '+revision+'.');
+  }catch(error){
+    console.error('HILEN tiempo real:',error);
+    setCloudStatus('error','Sin sincronizar','No se pudo incorporar el cambio remoto; revisa la copia local.');
+  }
+}
+let hilenAutoVerifyTimer=null;
+let hilenAutoVerifyUid='';
+function hilenScheduleAutomaticVerification(uid){
+  clearTimeout(hilenAutoVerifyTimer);
+  hilenAutoVerifyUid=uid;
+  if(!uid||localMode||cloudConflict||cloudLoading||cloudLoadedUid!==uid)return;
+  hilenAutoVerifyTimer=setTimeout(async()=>{
+    hilenAutoVerifyTimer=null;
+    if(currentUser?.id!==uid||localMode||cloudConflict||cloudLoading||cloudLoadedUid!==uid)return;
+    if(!navigator.onLine){
+      setCloudStatus('error','Sin sincronizar','Sin Internet. HILEN verificará cuando vuelva la conexión.');
+      return;
+    }
+    if(cloudSaveInFlight||hilenCloudTransactionPending){
+      // Nunca competir con una transacción en curso, pero tampoco abandonar
+      // definitivamente la verificación automática si estaba ocupada.
+      hilenAutoVerifyTimer=setTimeout(()=>hilenScheduleAutomaticVerification(uid),3500);
+      return;
+    }
+    if(cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1'){
+      queueCloudSave();return;
+    }
+    // Verificación sin intervención, utilizando el mismo procedimiento
+    // seguro del botón: lectura, conciliación y confirmación de transacción.
+    const ok=await hilenManualFirebaseSave(false);
+    if(!ok&&!cloudConflict&&currentUser?.id===uid&&!hilenCloudTransactionPending&&navigator.onLine){
+      // Una falla no demuestra guardado. La cola de reintentos de Firebase
+      // continúa siendo responsable del envío cuando exista trabajo pendiente.
+      hilenCloudScheduleRetry();
+    }
+  },1200);
+}
+function hilenStartLiveSync(uid){
+  hilenStopLiveSync();
+  if(localMode||!cloudDb||!uid||cloudLoadedUid!==uid||cloudBaseRevision===null)return;
+  hilenLiveStateUid=uid;
+  const ref=cloudDb.ref(userCloudPath(uid,'state'));
+  const onValue=snapshot=>{
+    if(hilenLiveStateUid!==uid||currentUser?.id!==uid||localMode)return;
+    const remote=snapshot.val(),revision=Number(remote?.revision)||0;
+    if(revision<=Number(cloudBaseRevision||0))return;
+    hilenLiveIncoming={uid,remote};
+    clearTimeout(hilenLiveRefreshTimer);
+    hilenLiveRefreshTimer=setTimeout(hilenLiveSyncProcess,180);
+  };
+  const onError=error=>{
+    if(hilenLiveStateUid!==uid)return;
+    console.error('HILEN Firebase listener:',error);
+    setCloudStatus('error','Sin sincronizar',firebaseDbErrorText(error));
+  };
+  hilenLiveStateRef=ref;hilenLiveStateHandler=onValue;
+  ref.on('value',onValue,onError);
+}
 let cloudDirty=false;
 let cloudRetryTimer=null;
 // Una transacción puede seguir pendiente aunque haya vencido el tiempo de espera de la interfaz.
@@ -5698,7 +6871,7 @@ async function loadCloudState(userId,options={}){
     const localOwner=localStorage.getItem(CLOUD_OWNER_KEY);
     const localDirty=localStorage.getItem(CLOUD_DIRTY_KEY)==='1';
     const canUseLocal=hasBusinessData(localCandidate)&&(!localOwner||localOwner===userId);
-    const remote=(await cloudDb.ref(userCloudPath(userId,'state')).once('value')).val();
+    const remote=(await hilenCloudWithTimeout(cloudDb.ref(userCloudPath(userId,'state')).once('value'),18000)).val();
     const incoming=remote?.data??null;
     const serverRev=Number(remote?.revision)||0;
     const different=canUseLocal&&hilenCloudSignature(localCandidate)!==hilenCloudSignature(incoming);
@@ -5799,7 +6972,7 @@ async function startCloudSession(user){
   if(hilenSessionLoadPromise){try{await hilenSessionLoadPromise}catch(e){console.warn(e)}}
   hilenSessionLoadUid=user.uid;
   hilenSessionLoadPromise=(async()=>{
-    if(cloudLoadedUid!==user.uid){cloudBaseRevision=null;cloudBaseSignature=null;cloudBaseData=null;cloudConflict=false;cloudDirty=false;cloudLoadedUid='';}
+    if(cloudLoadedUid!==user.uid){hilenStopLiveSync();cloudBaseRevision=null;cloudBaseSignature=null;cloudBaseData=null;cloudConflict=false;cloudDirty=false;cloudLoadedUid='';}
     currentUser=cloudUserModel(user);
     try{cloudLastVerifiedAt=localStorage.getItem(CLOUD_VERIFIED_KEY+user.uid)||''}catch(_){cloudLastVerifiedAt=''}
     // Solo lee la configuración local; no solicita permiso a Google al entrar.
@@ -5808,6 +6981,10 @@ async function startCloudSession(user){
     await loadGoogleSheetsConfigFromCloud();
     await loadGoogleDriveConfigFromCloud();
     await openApp(user);
+    hilenStartLiveSync(user.uid);
+    // El inicio verifica automáticamente sin esperar al botón manual.
+    // Si hay cambios locales, se usa el guardado transaccional ya existente.
+    hilenScheduleAutomaticVerification(user.uid);
   })();
   try{return await hilenSessionLoadPromise}
   finally{hilenSessionLoadPromise=null;hilenSessionLoadUid=''}
@@ -5925,12 +7102,14 @@ async function login(){
   catch(error){if(await migrateLegacyLocalAccount(email,pass))return;showToast('No se pudo iniciar sesión',firebaseAuthErrorText(error),'error')}
 }
 async function logout(ev){
+  hilenStopLiveSync();
   if(ev){ev.preventDefault();ev.stopPropagation()}
   const wasLocal=localMode,leavingUserId=currentUser?.id||'';clearTimeout(cloudSaveTimer);if(!wasLocal&&cloudConfigured()&&cloudDb&&currentUser?.id)await cloudSaveNow();if(!wasLocal&&cloudAuth)await cloudAuth.signOut();
   if(leavingUserId)sessionStorage.removeItem(`HILEN_GOOGLE_BACKUP_PROMPT_${leavingUserId}`);
   localMode=false;db.session=null;currentUser=null;cloudBaseRevision=null;cloudBaseSignature=null;cloudBaseData=null;cloudLoadedUid='';cloudConflict=false;hilenRenderCloudConflict();$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Firebase listo · inicia sesión':'Firebase sin configurar');window.scrollTo(0,0);setTimeout(()=>verifyFirebaseAuthHealth(),50)
 }
 function finishOpenApp(){
+  hilenRestoreDesktopSidebar();
   $('auth').classList.add('hidden');$('app').classList.remove('hidden');hilenRenderCloudConflict();
   $('todayLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   if($('shellUserName'))$('shellUserName').textContent=(currentUser?.name||'HILEN').split(' ')[0];
@@ -5938,7 +7117,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['stStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenStartObligationReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -5961,8 +7140,44 @@ function globalSearchGo(){
   if(productHit){goSection('inventory');if($('inventorySearch')){$('inventorySearch').value=q;renderInventory()}return}
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
+function hilenToggleDesktopSidebar(){
+  const collapsed=document.body.classList.toggle('hilen-side-collapsed');
+  hilenLabelSidebarButtons();
+  const tablet=window.matchMedia('(min-width:768px)').matches;
+  const shownLabel=tablet?(collapsed?'Mostrar nombres':'Solo iconos'):(collapsed?'Mostrar menú':'Ocultar menú');
+  const btn=document.getElementById('hilenDesktopSideToggle');
+  if(btn){
+    btn.setAttribute('aria-expanded',collapsed?'false':'true');
+    btn.setAttribute('aria-label',shownLabel);
+    btn.title=shownLabel;
+  }
+  const label=document.getElementById('hilenDesktopSideToggleLabel');
+  if(label)label.textContent=shownLabel;
+  try{localStorage.setItem('HILEN_SIDE_COLLAPSED_V1',collapsed?'1':'0')}catch(_){}
+}
+function hilenLabelSidebarButtons(){
+  document.querySelectorAll('#side .nav button').forEach(btn=>{
+    const label=btn.textContent.trim();
+    if(label){btn.setAttribute('aria-label',label);btn.title=label}
+  });
+  const logout=document.getElementById('logoutBtn');
+  if(logout){logout.setAttribute('aria-label','Cerrar sesión');logout.title='Cerrar sesión'}
+}
+function hilenRestoreDesktopSidebar(){
+  hilenLabelSidebarButtons();
+  try{
+    const collapsed=localStorage.getItem('HILEN_SIDE_COLLAPSED_V1')==='1';
+    const tablet=window.matchMedia('(min-width:768px)').matches;
+    const shownLabel=tablet?(collapsed?'Mostrar nombres':'Solo iconos'):(collapsed?'Mostrar menú':'Ocultar menú');
+    document.body.classList.toggle('hilen-side-collapsed',collapsed);
+    const btn=document.getElementById('hilenDesktopSideToggle');
+    if(btn){btn.setAttribute('aria-expanded',collapsed?'false':'true');btn.setAttribute('aria-label',shownLabel);btn.title=shownLabel}
+    const label=document.getElementById('hilenDesktopSideToggleLabel');
+    if(label)label.textContent=shownLabel;
+  }catch(_){}
+}
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',obligations:'Agenda de recordatorios',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',obligations:'Programa fechas y recordatorios para proveedores, trámites, servicios y mantenimiento. No contabiliza egresos.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale')$('saleTime').value=nowTime();const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,obligations:hilenRenderObligations,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -6010,7 +7225,7 @@ function calcTotal(){
 }
 function refreshAfterChange(){
   syncDataRelations();
-  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['actividad diaria',()=>{if($('dailyActivity')?.classList.contains('active'))hilenRenderDailyActivity()}],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
+  [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['actividad diaria',()=>{if($('dailyActivity')?.classList.contains('active'))hilenRenderDailyActivity()}],['encargos',renderEncargos],['obligaciones',hilenRenderObligations],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
 }
 function clientNameById(cid){return db.clients.find(c=>c.id===cid)?.name||db.sales.find(s=>s.clientId===cid&&s.clientName)?.clientName||'Cliente'}
 function refreshClientsSelects(){const opts=db.clients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone):''}</option>`).join('');if($('statementClientList'))$('statementClientList').innerHTML=opts;if($('saleClientList'))$('saleClientList').innerHTML=opts;const creditClients=db.clients.filter(c=>clientBalance(c.id).balance>0);if($('payClientList'))$('payClientList').innerHTML=creditClients.map(c=>`<option value="${esc(c.name)}">${c.phone?esc(c.phone)+' · ':''}Saldo ${money(clientBalance(c.id).balance)}</option>`).join('')}
@@ -7588,8 +8803,8 @@ function buildBackupTables(){
       }
     }
   }
-  const b=getBalances(),summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Estados de cuenta descargados',Valor:(db.statementDownloads||[]).length},{Indicador:'Encargos registrados',Valor:(db.encargos||[]).length},{Indicador:'Dinero en efectivo',Valor:b.cash},{Indicador:'Dinero en Nequi',Valor:b.bank},{Indicador:'Disponible total',Valor:b.total}];
-  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Reportes anuales':annualArchives,'Encargos':encargos,'Registros mensuales':monthly,'Facturas a credito':invoices,'Asignacion de abonos':allocations,'Datos completos':complete};
+  const b=getBalances(),summary=[{Indicador:'Fecha del respaldo',Valor:new Date().toLocaleString('es-CO')},{Indicador:'Clientes registrados',Valor:(db.clients||[]).length},{Indicador:'Ventas registradas',Valor:(db.sales||[]).length},{Indicador:'Abonos registrados',Valor:(db.payments||[]).length},{Indicador:'Movimientos manuales de caja',Valor:(db.cashMovements||[]).length},{Indicador:'Estados de cuenta descargados',Valor:(db.statementDownloads||[]).length},{Indicador:'Encargos registrados',Valor:(db.encargos||[]).length},{Indicador:'Obligaciones registradas',Valor:(db.obligations||[]).length},{Indicador:'Dinero en efectivo',Valor:b.cash},{Indicador:'Dinero en Nequi',Valor:b.bank},{Indicador:'Disponible total',Valor:b.total}];
+  return {'Resumen':summary,'Clientes':clients,'Ventas':sales,'Productos vendidos':products,'Abonos':pays,'Flujo de caja':cash,'Productos y demanda':inv,'Resumen por año':years,'Deudas pendientes por año':debtCarry,'Reportes anuales':annualArchives,'Encargos':encargos,'Obligaciones':(db.obligations||[]).map(o=>({ID:o.id,Tipo:o.type,Concepto:o.title,Proveedor:o.party||'',Valor:o.amount||0,Vencimiento:o.dueDate||'',Recordatorio:o.reminderDate||'',Estado:o.status||'pending',Fecha_de_pago:o.paidDate||'',Detalles:JSON.stringify(o)})),'Registros mensuales':monthly,'Facturas a credito':invoices,'Asignacion de abonos':allocations,'Datos completos':complete};
 }
 function exportAllToExcel(){
   if(!window.XLSX)return showToast('No se pudo cargar Excel','Verifica tu conexión a Internet y vuelve a intentar.','error');
@@ -7677,7 +8892,7 @@ function renderSettings(){
     $('settingsGoogleDriveState').className='google-account-state '+(driveConnected?'connected':'disconnected');
     $('settingsGoogleDriveState').innerHTML=`<span class="dot"></span>${driveConnected?'Conectada':'No conectada'}`;
   }
-  renderGoogleSheetsStatus();renderGoogleDriveStatus();renderGoogleBackupReconnectAlert();
+  renderGoogleSheetsStatus();renderGoogleDriveStatus();hilenRenderBackupProgress();renderGoogleBackupReconnectAlert();
   if($('cloudBackupPanel')&&$('settings')?.classList.contains('active'))renderCloudBackups();
 }
 
@@ -7707,6 +8922,101 @@ function maybePromptGoogleBackupOnboarding(){
 }
 
 function googleOAuthConfigured(){return HILEN_GOOGLE_OAUTH_CLIENT_ID&&HILEN_GOOGLE_OAUTH_CLIENT_ID.includes('.apps.googleusercontent.com')&&!HILEN_GOOGLE_OAUTH_CLIENT_ID.startsWith('PEGA_AQUI')}
+
+/* Indicadores de avance: los tiempos son espera programada o tiempo transcurrido,
+   nunca estimaciones falsas del fin de la subida. */
+const hilenBackupProgress={
+  sheets:{scheduledUntil:0,startedAt:0,error:''},
+  drive:{scheduledUntil:0,startedAt:0,error:''}
+};
+function hilenBackupProgressStamp(value){
+  if(!value)return 'Sin copia confirmada';
+  const d=new Date(value);
+  return Number.isNaN(d.getTime())?'Sin copia confirmada':'Última confirmación: '+d.toLocaleString('es-CO');
+}
+function hilenBackupProgressRow(label,kind,description,stamp){
+  return '<div class="hilen-backup-progress-row"><span class="hilen-backup-progress-dot '+kind+'"></span><div><strong>'+esc(label)+'</strong><div>'+esc(description)+'</div><small>'+esc(stamp)+'</small></div></div>';
+}
+function hilenRenderBackupProgress(){
+  const el=document.getElementById('hilenBackupProgress');
+  if(!el)return;
+  const firebasePending=cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1';
+  const firebaseKnown=!!cloudLastVerifiedAt;
+  const cloudKind=localMode||!currentUser?.id?'off':cloudConflict?'error':cloudSaveInFlight?'work':
+    firebasePending||cloudLoading||cloudBaseRevision===null?'pending':firebaseKnown?'ok':'pending';
+  const cloudMessage=cloudKind==='off'?'Inicia sesión para sincronizar':
+    cloudKind==='error'?'Conflicto pendiente: revisar diferencias':
+    cloudKind==='work'?'Guardando en Firebase…':
+    cloudKind==='pending'?'Cambios pendientes de confirmar':
+    'Sin cambios locales pendientes. Última escritura confirmada indicada abajo';
+  const format=(service,cfg,connected,working)=>{
+    const p=hilenBackupProgress[service],pending=!!cfg.pendingAt;
+    if(!connected)return {kind:'off',msg:'Conecta y autoriza Google para crear copias'};
+    if(cloudConflict)return {kind:'error',msg:'En pausa por conflicto de Firebase'};
+    if(working)return {kind:'work',msg:'Subiendo a Google… tiempo transcurrido '+Math.floor((Date.now()-p.startedAt)/1000)+' s'};
+    if(p.error)return {kind:'error',msg:p.error};
+    if(pending||!cfg.lastSentAt||(service==='drive'&&cfg.lastDailyDay!==today())||
+      (service==='sheets'&&!hilenSheetsUpdatedToday())){
+      const left=Math.ceil((p.scheduledUntil-Date.now())/1000);
+      return {kind:'pending',msg:!navigator.onLine?'Sin Internet; esperando reconexión':
+        !googleSheetsAccessToken?'Esperando autorización de Google':
+        left>0?'Copia programada; comienza en aproximadamente '+left+' s':'Copia pendiente; esperando inicio'};
+    }
+    return {kind:'ok',msg:'Copia confirmada en Google'};
+  };
+  const sh=format('sheets',googleSheetsConfig,!!googleSheetsConfig.enabled&&!!googleSheetsConfig.sheetId,googleSheetsSyncInFlight);
+  const dr=format('drive',googleDriveConfig,!!googleDriveConfig.enabled&&!!googleDriveConfig.folderId,googleDriveSyncInFlight);
+  el.innerHTML='<div class="hilen-backup-progress-title"><strong>Estado de protección</strong><span>Los tiempos de espera no incluyen la subida</span></div>'+
+    hilenBackupProgressRow('Firebase',cloudKind,cloudMessage,cloudLastVerifiedAt?'Última escritura confirmada: '+new Date(cloudLastVerifiedAt).toLocaleString('es-CO'):'Escritura no confirmada en esta sesión')+
+    hilenBackupProgressRow('Google Sheets',sh.kind,sh.msg,hilenBackupProgressStamp(googleSheetsConfig.lastSentAt))+
+    hilenBackupProgressRow('Google Drive',dr.kind,dr.msg,hilenBackupProgressStamp(googleDriveConfig.lastSentAt));
+  hilenRenderSaveGuide(cloudKind,sh,dr);
+}
+function hilenRenderSaveGuide(firebaseKind,sheets,drive){
+  const el=document.getElementById('hilenSaveGuideStatus');if(!el)return;
+  const firebaseOk=firebaseKind==='ok';
+  const googleOk=sheets.kind==='ok'&&drive.kind==='ok';
+  const newestFirebase=Date.parse(cloudLastVerifiedAt||'')||0;
+  const sheetAt=Date.parse(googleSheetsConfig.lastSentAt||'')||0;
+  const driveAt=Date.parse(googleDriveConfig.lastSentAt||'')||0;
+  const backupsCurrent=googleOk&&(!newestFirebase||(sheetAt>=newestFirebase&&driveAt>=newestFirebase));
+  if(localMode||!currentUser?.id){
+    el.className='hilen-save-guide-status pending';
+    el.textContent='Modo local o sin sesión: no se ha confirmado un guardado en Firebase.';
+  }else if(cloudConflict){
+    el.className='hilen-save-guide-status error';
+    el.textContent='Hay un conflicto pendiente. Los cambios locales no están confirmados; revisa las diferencias.';
+  }else if(!firebaseOk){
+    el.className='hilen-save-guide-status pending';
+    el.textContent='Firebase pendiente de confirmación. Antes de cerrar, utiliza «Guardar y verificar en Firebase».';
+  }else if(!backupsCurrent){
+    el.className='hilen-save-guide-status pending';
+    el.textContent='Firebase sin cambios locales pendientes; faltan copias de Google o pueden ser anteriores a la última escritura. Usa «Guardar y respaldar ahora».';
+  }else{
+    el.className='hilen-save-guide-status ok';
+    el.textContent='✓ Firebase, Google Sheets y Google Drive muestran confirmaciones recientes. No hay cambios locales pendientes detectados en este dispositivo.';
+  }
+}
+function hilenBackupProgressStart(service){
+  const p=hilenBackupProgress[service];p.startedAt=Date.now();p.scheduledUntil=0;p.error='';hilenRenderBackupProgress();
+}
+function hilenBackupProgressFinish(service,error=''){
+  const p=hilenBackupProgress[service];p.startedAt=0;p.error=error;hilenRenderBackupProgress();
+}
+async function hilenBackupEverythingNow(){
+  const btn=document.getElementById('hilenBackupAllBtn');
+  if(btn?.disabled)return false;
+  if(btn){btn.disabled=true;btn.textContent='Verificando y respaldando…'}
+  try{
+    if(localMode||!currentUser?.id||!cloudDb){showToast('Sin conexión Firebase','Inicia sesión para confirmar antes de respaldar.','error');return false}
+    const ok=await hilenManualFirebaseSave(false);
+    if(!ok){showToast('Firebase pendiente','No se actualizarán copias de Google como si la nube estuviera confirmada. Revisa la sincronización.','error');return false}
+    return await syncGoogleBackupNow(true);
+  }finally{if(btn){btn.disabled=false;btn.textContent='Guardar y respaldar ahora'}hilenRenderBackupProgress()}
+}
+setInterval(()=>{if(!document.getElementById('settings')?.classList.contains('active'))return;
+  if(googleSheetsSyncInFlight||googleDriveSyncInFlight||hilenBackupProgress.sheets.scheduledUntil>Date.now()||hilenBackupProgress.drive.scheduledUntil>Date.now())hilenRenderBackupProgress();
+},1000);
 function hilenSheetsLastSuccess(){
   const d=new Date(googleSheetsConfig.lastSentAt||'');
   return !Number.isNaN(d.getTime())?d:null;
@@ -7739,7 +9049,7 @@ function renderGoogleSheetsStatus(){
 function hilenCheckDailyGoogleSheets(){
   if(cloudConflict)return;
   if(localMode||!currentUser?.id)return;
-  renderGoogleSheetsStatus();renderGoogleDriveStatus();
+  renderGoogleSheetsStatus();renderGoogleDriveStatus();hilenRenderBackupProgress();
   if(document.visibilityState==='hidden'||!navigator.onLine||!googleSheetsAccessToken)return;
   // Aunque no se hayan registrado ventas nuevas, Drive debe tener una copia del día.
   if(googleDriveConnected()&&(googleDriveConfig.lastDailyDay!==today()||googleDriveConfig.pendingAt)
@@ -7882,6 +9192,7 @@ async function syncGoogleDriveNow(showResult=false){
   if(cloudConflict){if(showResult)showToast('Copia automática en pausa','Para guardar los cambios locales sin reemplazar el respaldo principal, pulsa «Respaldar ahora» en Configuración.','warning');return false}
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','El respaldo de Google Drive se hará cuando vuelva Internet.','error');return false}
   if(googleDriveSyncInFlight)return false;googleDriveSyncInFlight=true;
+  hilenBackupProgressStart('drive');
   const pendingAtStart=googleDriveConfig.pendingAt,hadPending=!!pendingAtStart;
   try{
     const folderId=await ensureGoogleDriveFolder(),content=backupJsonText(),latestMeta={name:'HILEN_ultimo_respaldo.json',mimeType:'application/json',parents:googleDriveConfig.latestFileId?undefined:[folderId],appProperties:{hilenBackup:'latest'}};
@@ -7918,7 +9229,7 @@ async function syncGoogleDriveNow(showResult=false){
       googleDriveConfig.pendingAt=googleDriveConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));renderGoogleDriveStatus();return false
     }
     console.error('Google Drive backup:',err);if(showResult)showToast('No se pudo respaldar en Google Drive',err.message||'Revisa tu conexión e intenta nuevamente.','error');return false
-  }finally{googleDriveSyncInFlight=false}
+  }finally{googleDriveSyncInFlight=false;hilenBackupProgressFinish('drive',googleDriveConfig.pendingAt?'Copia pendiente; revisa Google o la conexión':'')}
 }
 function queueGoogleDriveSync(delayMs=90000,changed=false){
   if(cloudConflict)return;
@@ -7926,6 +9237,9 @@ function queueGoogleDriveSync(delayMs=90000,changed=false){
   if(changed||!googleDriveConfig.pendingAt)googleDriveConfig.pendingAt=new Date().toISOString();
   localStorage.setItem(GOOGLE_DRIVE_BACKUP_KEY,JSON.stringify(googleDriveConfig));
   renderGoogleDriveStatus();clearTimeout(googleDriveSyncTimer);googleDriveSyncTimer=null;
+  hilenBackupProgress.drive.scheduledUntil=Date.now()+delayMs;
+  hilenBackupProgress.drive.error='';
+  hilenRenderBackupProgress();
   if(!navigator.onLine||!googleSheetsAccessToken)return;
   googleDriveSyncTimer=setTimeout(()=>{googleDriveSyncTimer=null;syncGoogleDriveNow(false)},delayMs);
 }
@@ -8094,6 +9408,9 @@ function queueGoogleSheetsSync(delayMs=45000,changed=false){
   if(changed||!googleSheetsConfig.pendingAt)googleSheetsConfig.pendingAt=new Date().toISOString();
   localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));
   renderGoogleSheetsStatus();clearTimeout(googleSheetsSyncTimer);googleSheetsSyncTimer=null;
+  hilenBackupProgress.sheets.scheduledUntil=Date.now()+delayMs;
+  hilenBackupProgress.sheets.error='';
+  hilenRenderBackupProgress();
   if(!googleSheetsAccessToken||!navigator.onLine)return;
   googleSheetsSyncTimer=setTimeout(()=>{googleSheetsSyncTimer=null;syncGoogleSheetsNow(false)},delayMs);
 }
@@ -8135,6 +9452,7 @@ async function syncGoogleSheetsNow(showResult=false){
   if(!googleSheetsConfig.enabled||!googleSheetsConfig.sheetId){if(showResult)showToast('Google Sheets no está conectado','Pulsa “Conectar con Google Sheets” y HILEN creará el archivo automáticamente.','error');return false}
   if(!navigator.onLine){if(showResult)showToast('Sin conexión','HILEN intentará respaldar cuando vuelvas a tener Internet.','error');return false}
   if(googleSheetsSyncInFlight)return false;googleSheetsSyncInFlight=true;
+  hilenBackupProgressStart('sheets');
   const pendingAtStart=googleSheetsConfig.pendingAt;
   try{
     await ensureGoogleSheetInBackupFolder();
@@ -8167,7 +9485,7 @@ async function syncGoogleSheetsNow(showResult=false){
       googleSheetsConfig.pendingAt=googleSheetsConfig.pendingAt||new Date().toISOString();localStorage.setItem(GOOGLE_SHEETS_SYNC_KEY,JSON.stringify(googleSheetsConfig));renderGoogleSheetsStatus();return false
     }
     console.error('Google Sheets backup:',err);if(showResult)showToast('No se pudo sincronizar Google Sheets',err.message||'Revisa tu conexión e intenta nuevamente.','error');return false
-  }finally{googleSheetsSyncInFlight=false}
+  }finally{googleSheetsSyncInFlight=false;hilenBackupProgressFinish('sheets',googleSheetsConfig.pendingAt?'Copia pendiente; revisa Google o la conexión':'')}
 }
 function encargoStatusLabel(status){return ({pending:'Pendiente',supplier:'Proveedor contactado',response:'Proveedor respondió',client:'Cliente informado',completed:'Completado',cancelled:'Cancelado'})[status]||'Pendiente'}
 function encargoStatusClass(status){return ({pending:'encargo-status-pending',supplier:'encargo-status-supplier',response:'encargo-status-response',client:'encargo-status-client',completed:'encargo-status-completed',cancelled:'encargo-status-cancelled'})[status]||'encargo-status-pending'}
@@ -8268,6 +9586,269 @@ function checkEncargoReminders(force=false){
   if(force)renderEncargos();
 }
 function startEncargoReminderWatcher(){clearInterval(encargoReminderTimer);checkEncargoReminders(true);encargoReminderTimer=setInterval(()=>checkEncargoReminders(false),30000)}
+
+
+/* Agenda HILEN · herramientas de calendario y filtros. */
+let hilenAgendaMonthCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+let hilenAgendaSelectedDate='';
+function hilenSetObligationFilter(value){
+  const sel=document.getElementById('hilenObligationFilter');
+  if(sel)sel.value=value;
+  hilenRenderObligations();
+}
+function hilenRenderAgendaCalendar(){
+  const grid=document.getElementById('hilenAgendaCalendarDays');
+  if(!grid)return;
+  const y=hilenAgendaMonthCursor.getFullYear(),m=hilenAgendaMonthCursor.getMonth();
+  const first=new Date(y,m,1),count=new Date(y,m+1,0).getDate();
+  const label=document.getElementById('hilenAgendaCalendarMonth');
+  if(label)label.textContent=first.toLocaleDateString('es-CO',{month:'long',year:'numeric'});
+  let html='',leading=(first.getDay()+6)%7;
+  for(let j=0;j<leading;j++)html+='<span aria-hidden="true"></span>';
+  const dates=(db.obligations||[]).filter(o=>o.dueDate);
+  for(let d=1;d<=count;d++){
+    const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const events=dates.filter(o=>o.dueDate===key);
+    html+='<button type="button" class="'+(events.length?'has-event ':'')+(key===today()?'is-today ':'')+(key===hilenAgendaSelectedDate?'is-selected':'')+'" onclick="hilenSelectAgendaDate(\''+key+'\')" aria-label="'+key+' · '+events.length+' obligaciones">'+d+(events.length?'<span class="event-dot"></span>':'')+'</button>';
+  }
+  grid.innerHTML=html;
+  const box=document.getElementById('hilenAgendaCalendarSelected');
+  if(box){
+    const selection=hilenAgendaSelectedDate||today();
+    const items=dates.filter(o=>o.dueDate===selection);
+    box.innerHTML='<b>'+esc(normalizeDateLabel(selection))+'</b>'+(items.length?
+      items.map(o=>'<div class="event-label">'+esc(o.title||'Obligación')+' · '+(o.status==='paid'?'Atendida':'Pendiente')+'</div>').join(''):
+      '<span>Sin obligaciones para este día.</span>');
+  }
+}
+function hilenShiftAgendaMonth(n){
+  hilenAgendaMonthCursor=new Date(hilenAgendaMonthCursor.getFullYear(),hilenAgendaMonthCursor.getMonth()+Number(n||0),1);
+  hilenRenderAgendaCalendar();
+}
+function hilenSelectAgendaDate(key){
+  hilenAgendaSelectedDate=key;
+  hilenRenderAgendaCalendar();
+}
+function hilenOpenAgendaGoogleCalendar(){
+  const list=(db.obligations||[]).filter(o=>o.status!=='paid'&&o.dueDate).sort((a,b)=>a.dueDate.localeCompare(b.dueDate));
+  if(!list.length)return window.open('https://calendar.google.com/calendar/u/0/r','_blank','noopener,noreferrer');
+  const first=list[0];
+  const start=first.dueDate.replace(/-/g,'')+'T090000',end=first.dueDate.replace(/-/g,'')+'T093000';
+  const url='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('HILEN · '+first.title)+
+    '&dates='+start+'/'+end+'&ctz=America%2FBogota&details='+encodeURIComponent('Obligación de HILEN: '+(first.party||'')+'. Agrega alertas en Google Calendar.');
+  window.open(url,'_blank','noopener,noreferrer');
+  showToast('Google Calendar','Se abrió el próximo vencimiento. Comprueba y guarda el evento en tu calendario.','info');
+}
+function hilenOpenObligationInGoogleCalendar(oid){
+ const item=(db.obligations||[]).find(x=>String(x.id)===String(oid));
+ if(!item?.dueDate)return;
+ const day=item.dueDate.replace(/-/g,''),start=day+'T090000',end=day+'T093000';
+ const url='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('HILEN · '+item.title)+
+ '&dates='+start+'/'+end+'&ctz=America%2FBogota&details='+encodeURIComponent((item.party||'')+' · '+(item.notes||'')+' · Recuerda configurar tus notificaciones.');
+ window.open(url,'_blank','noopener,noreferrer');
+}
+
+/* Obligaciones del negocio: seguimiento separado de los egresos contables. */
+let hilenObligationTab='supplier';
+let hilenObligationReminderTimer=null;
+function hilenSetObligationTab(type){
+  if(type!=='supplier'&&type!=='service')return;
+  hilenObligationTab=type;
+  hilenRenderObligations();
+}
+function hilenObligationIsPaid(o){return o.status==='paid'}
+function hilenObligationState(o){
+  if(hilenObligationIsPaid(o))return {label:'Atendido',kind:'paid'};
+  if(o.dueDate&&o.dueDate<today())return {label:'Vencido',kind:'overdue'};
+  if(o.dueDate===today())return {label:'Vence hoy',kind:'pending'};
+  return {label:'Pendiente',kind:'pending'};
+}
+function hilenRenderObligations(){
+  const root=document.getElementById('hilenObligationList');if(!root)return;
+  const all=Array.isArray(db.obligations)?db.obligations:[];
+  const pending=all.filter(o=>!hilenObligationIsPaid(o));
+  const now=today();const week=new Date(now+'T12:00:00');week.setDate(week.getDate()+7);
+  const endDate=week.getFullYear()+'-'+String(week.getMonth()+1).padStart(2,'0')+'-'+String(week.getDate()).padStart(2,'0');
+  const put=(element,value)=>{const e=document.getElementById(element);if(e)e.textContent=value};
+  put('hilenObligationPending',pending.length);
+  put('hilenObligationUpcoming',pending.filter(o=>o.dueDate>=now&&o.dueDate<=endDate).length);
+  put('hilenObligationOverdue',pending.filter(o=>o.dueDate&&o.dueDate<now).length);
+  put('hilenObligationAmount',money(all.filter(o=>hilenObligationIsPaid(o)&&String(o.paidDate||'').slice(0,7)===now.slice(0,7)).reduce((n,o)=>n+(Number(o.amount)||0),0)));
+  const supplier=hilenObligationTab==='supplier';
+  const activeFilter=document.getElementById('hilenObligationFilter')?.value||'all';
+  document.querySelectorAll('#obligations [data-oblfilter]').forEach(b=>{const selected=b.dataset.oblfilter===activeFilter;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',selected?'true':'false')});
+  for(const [name,type] of [['hilenObligationsSuppliersTab','supplier'],['hilenObligationsServicesTab','service']]){
+    const tab=document.getElementById(name);if(!tab)continue;
+    const active=hilenObligationTab===type;tab.classList.toggle('active',active);
+    tab.setAttribute('aria-selected',active?'true':'false');
+  }
+  const q=String(document.getElementById('hilenObligationSearch')?.value||'').trim().toLowerCase();
+  const filter=document.getElementById('hilenObligationFilter')?.value||'all';
+  const shown=all.filter(o=>(o.type==='service'?'service':'supplier')===hilenObligationTab)
+    .filter(o=>!q||[o.title,o.party,o.notes,o.reference].some(v=>String(v||'').toLowerCase().includes(q)))
+    .filter(o=>filter==='all'||(filter==='paid'?hilenObligationIsPaid(o):
+      filter==='overdue'?!hilenObligationIsPaid(o)&&!!o.dueDate&&o.dueDate<now:!hilenObligationIsPaid(o)))
+    .sort((a,b)=>Number(hilenObligationIsPaid(a))-Number(hilenObligationIsPaid(b))||
+      String(a.dueDate||'9999').localeCompare(String(b.dueDate||'9999'))||
+      String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+  if(!shown.length){
+    root.innerHTML='<div class="hilen-obligation-empty">'+
+      (all.some(o=>o.type===hilenObligationTab)?'No hay recordatorios con esos filtros.':
+       supplier?'Aún no hay fechas de proveedores registradas.':'Aún no hay servicios o mantenimientos agendados.')+
+      '</div>';
+    hilenRenderAgendaCalendar();
+    return;
+  }
+  root.innerHTML=shown.map(o=>{
+    const status=hilenObligationState(o),when=o.dueDate?normalizeDateLabel(o.dueDate):'Sin fecha';
+    const remind=o.reminderDate?'Recordatorio: '+normalizeDateLabel(o.reminderDate):'Sin recordatorio';
+    return '<div class="hilen-obligation-row">'+
+      '<div><b>'+esc(o.title||'Sin concepto')+'</b><div class="hilen-obligation-meta">'+esc(o.party||'Sin proveedor')+
+      (o.notes?' · '+esc(o.notes):'')+'</div></div>'+
+      '<div><b>'+esc(when)+'</b><div class="hilen-obligation-meta">'+esc(o.reminderDate?'Aviso: '+o.reminderDate:'Sin aviso')+'</div></div>'+ 
+      '<div><b>'+money(o.amount||0)+'</b><div class="hilen-obligation-meta">Referencia</div></div>'+
+      '<div><span class="hilen-obligation-pill '+status.kind+'">'+esc(status.label)+'</span></div>'+
+      '<div class="hilen-obligation-actions"><button class="secondary" type="button" onclick="hilenOpenObligationForm(\''+esc(o.id)+'\')">Editar</button>'+
+      (hilenObligationIsPaid(o)?'<button class="secondary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',false)">Reabrir</button>':
+        '<button class="primary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',true)">Marcar atendido</button>')+
+      '<button class="secondary" type="button" onclick="hilenOpenObligationInGoogleCalendar(\''+esc(o.id)+'\')">Calendario</button>'+ 
+      '<button class="secondary" type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button></div></div>';
+  }).join('');
+  hilenRenderAgendaCalendar();
+}
+function hilenOpenObligationForm(oid=''){
+  const old=oid?(db.obligations||[]).find(x=>x.id===oid):null;
+  if(oid&&!old)return;
+  const type=old?.type||hilenObligationTab;
+  const periods=Array.isArray(old?.alertDays)?old.alertDays:[7,3,1,0];
+  const checks=[7,3,1,0].map(day=>'<label><input type="checkbox" data-oblalert="'+day+'" '+(periods.includes(day)?'checked':'')+'> '+(day?day+' días antes':'El mismo día')+'</label>').join('');
+  document.getElementById('modalContent').innerHTML=
+    '<div class="encargo-modal hilen-reference-modal"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2 class="hilen-reference-modal-title">'+(old?'Editar obligación':'Nueva obligación')+'</h2><p class="muted small">Programa los próximos vencimientos de HILEN.</p></div><button type="button" class="secondary" onclick="closeModal()" aria-label="Cerrar formulario">×</button></div>'+
+    '<div class="hilen-reference-form">'+
+    '<div class="fullcol"><label class="label">Nombre *</label><input id="hilenOblTitle" class="input" maxlength="140" placeholder="Ej. Arriendo del local"></div>'+
+    '<div><label class="label">Valor estimado (COP)</label><input id="hilenOblAmount" class="input" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"></div>'+
+    '<div><label class="label">Fecha de vencimiento *</label><input id="hilenOblDue" type="date" class="input"></div>'+
+    '<div><label class="label">Repetir</label><select id="hilenOblRepeat" class="input"><option value="none">No repetir</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option><option value="quarterly">Cada 3 meses</option><option value="yearly">Anual</option></select></div>'+
+    '<div><label class="label">Tipo de compromiso</label><select id="hilenOblType" class="input"><option value="supplier">Proveedor o pago previsto</option><option value="service">Servicio, trámite o mantenimiento</option></select></div>'+
+    '<div class="fullcol"><label class="label">Avisarme antes del vencimiento</label><div class="hilen-reference-alerts">'+checks+'</div></div>'+
+    '<div><label class="label">Hora del aviso</label><input id="hilenOblReminderTime" type="time" class="input"></div>'+
+    '<div><label class="label">Proveedor o entidad</label><input id="hilenOblParty" class="input" maxlength="140"></div>'+
+    '<div class="fullcol"><label class="label">Referencia o comprobante</label><input id="hilenOblReference" class="input" maxlength="140"></div>'+
+    '<div class="fullcol"><label class="label">Notas</label><textarea id="hilenOblNotes" class="input" rows="2" maxlength="1000"></textarea></div>'+
+    '<div class="fullcol"><label class="label">Notificaciones y calendario (solo esta sección)</label><div class="hilen-reference-switches">'+
+    '<label>Google Calendar <small>Crear evento al pulsar «Calendario»</small><input type="checkbox" id="hilenOblCalendarChoice"></label>'+
+    '<label>Notificaciones en HILEN <small>Mientras la aplicación esté abierta</small><input type="checkbox" id="hilenOblNotifyApp" checked></label>'+
+    '<label>WhatsApp <small>Requiere integración; no envía mensajes todavía</small><input type="checkbox" disabled></label>'+
+    '</div></div></div>'+
+    '<div class="hilen-reference-modal-actions"><button type="button" class="secondary" onclick="closeModal()">Cancelar</button><button type="button" class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar obligación</button></div></div>';
+  const field=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value};
+  field('hilenOblType',type);
+  field('hilenOblTitle',old?.title||'');
+  field('hilenOblParty',old?.party||'');
+  field('hilenOblAmount',old?.amount?new Intl.NumberFormat('es-CO').format(old.amount):'');
+  field('hilenOblDue',old?.dueDate||today());
+  field('hilenOblReminderTime',old?.reminderTime||'09:00');
+  field('hilenOblRepeat',old?.repeat||'none');
+  field('hilenOblReference',old?.reference||'');
+  field('hilenOblNotes',old?.notes||'');
+  document.getElementById('hilenOblNotifyApp').checked=old?.notifyApp!==false;
+  document.getElementById('hilenOblCalendarChoice').checked=!!old?.calendarChoice;
+  document.getElementById('modal').classList.remove('hidden');
+}
+function hilenSaveObligation(oid=''){
+  const title=document.getElementById('hilenOblTitle')?.value.trim()||'';
+  const dueDate=document.getElementById('hilenOblDue')?.value||'';
+  if(!title)return showToast('Falta el concepto','Escribe el pago o mantenimiento.','error');
+  if(!dueDate)return showToast('Falta la fecha','Selecciona el vencimiento.','error');
+  const amount=parseMoneyInput(document.getElementById('hilenOblAmount')?.value||'');
+  const type=document.getElementById('hilenOblType').value;
+  const payload={type:type==='service'?'service':'supplier',title,party:document.getElementById('hilenOblParty').value.trim(),
+    amount:Math.max(0,amount),dueDate,reminderDate:dueDate,
+    alertDays:[...document.querySelectorAll('[data-oblalert]:checked')].map(el=>Number(el.dataset.oblalert)),
+    notifyApp:document.getElementById('hilenOblNotifyApp').checked,
+    calendarChoice:document.getElementById('hilenOblCalendarChoice').checked,
+    reminderTime:document.getElementById('hilenOblReminderTime').value||'09:00',
+    repeat:document.getElementById('hilenOblRepeat').value||'none',
+    reference:document.getElementById('hilenOblReference').value.trim(),
+    notes:document.getElementById('hilenOblNotes').value.trim(),updatedAt:new Date().toISOString()};
+  db.obligations ||= [];
+  if(oid){const old=db.obligations.find(x=>x.id===oid);if(!old)return;Object.assign(old,payload)}
+  else db.obligations.unshift({id:id(),status:'pending',createdAt:new Date().toISOString(),...payload});
+  hilenObligationTab=payload.type;
+  saveDB();closeModal();hilenRenderObligations();hilenCheckObligationReminders();
+  showToast('Obligación guardada','Comprueba Firebase para confirmar el guardado en la nube.','success');
+  if(payload.calendarChoice)hilenOpenObligationInGoogleCalendar(oid||db.obligations[0]?.id);
+}
+function hilenNextObligationDate(o){
+  if(!o?.dueDate||!o.repeat||o.repeat==='none')return '';
+  const [year,month,day]=o.dueDate.split('-').map(Number);
+  if(o.repeat==='weekly'){
+    const dt=new Date(year,month-1,day+7);
+    return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+  }
+  const months={monthly:1,quarterly:3,yearly:12}[o.repeat];
+  if(!months)return '';
+  const first=new Date(year,month-1+months,1);
+  const last=new Date(first.getFullYear(),first.getMonth()+1,0).getDate();
+  return first.getFullYear()+'-'+String(first.getMonth()+1).padStart(2,'0')+'-'+String(Math.min(last,day)).padStart(2,'0');
+}
+function hilenMarkObligation(oid,paid){
+  const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
+  const apply=()=>{
+    const wasPaid=hilenObligationIsPaid(item);
+    item.status=paid?'paid':'pending';
+    item.paidDate=paid?today():'';
+    item.updatedAt=new Date().toISOString();
+    if(paid&&!wasPaid){
+      const due=hilenNextObligationDate(item);
+      if(due&&!db.obligations.some(o=>o.recurringFrom===item.id&&o.dueDate===due)){
+        db.obligations.unshift({...structuredClone(item),id:id(),recurringFrom:item.id,
+          status:'pending',paidDate:'',dueDate:due,reminderDate:due,
+          createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+      }
+    }
+    saveDB();hilenRenderObligations();
+    showToast(paid?'Recordatorio atendido':'Recordatorio reabierto','Este cambio no registra pagos ni modifica Flujo de caja. Verifica Firebase.','info');
+  };
+  if(paid)confirmAction('Marcar recordatorio como atendido',
+    '¿Marcar como atendido '+item.title+'? Esto NO registra el egreso ni confirma un pago en caja. Si salió dinero, regístralo por separado en Flujo de caja.',apply,
+    {confirmText:'Confirmar realizado',workingText:'Guardando…'});
+  else apply();
+}
+function hilenDeleteObligation(oid){
+  const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
+  confirmAction('Eliminar recordatorio','¿Eliminar '+item.title+'? Este aviso dejará de aparecer en la agenda.',()=>{
+    db.obligations=db.obligations.filter(x=>x.id!==oid);
+    saveDB();hilenRenderObligations();showToast('Recordatorio eliminado','Verifica la sincronización de Firebase.','info');
+  },{confirmText:'Eliminar',workingText:'Eliminando…',red:true});
+}
+function hilenCheckObligationReminders(){
+  if(!currentUser?.id)return;
+  const now=new Date(),date=today();
+  for(const o of db.obligations||[]){
+    if(hilenObligationIsPaid(o)||!o.dueDate||o.notifyApp===false)continue;
+    const day=new Date(o.dueDate+'T12:00:00'),base=new Date(date+'T12:00:00');
+    const days=Math.round((day-base)/86400000);
+    const alertDays=Array.isArray(o.alertDays)?o.alertDays:[0];
+    if(!alertDays.includes(days))continue;
+    const time=o.reminderTime||'09:00',hour=new Date(date+'T'+time+':00');
+    if(now<hour)continue;
+    const key='HILEN_OBL_ALERT_'+currentUser.id+'_'+o.id+'_'+o.dueDate+'_'+days;
+    if(localStorage.getItem(key)==='1')continue;
+    localStorage.setItem(key,'1');
+    const message=o.title+(o.amount?' · '+money(o.amount):'')+' · '+(days===0?'vence hoy':'vence en '+days+' días');
+    showToast('Recordatorio de HILEN',message,'warning',8500);
+    if('Notification' in window&&Notification.permission==='granted'){
+      try{new Notification('HILEN · Vencimiento',{body:message})}catch(_){}
+    }
+  }
+}
+function hilenStartObligationReminderWatcher(){
+  clearInterval(hilenObligationReminderTimer);
+  hilenCheckObligationReminders();
+  hilenObligationReminderTimer=setInterval(hilenCheckObligationReminders,60000);
+}
+
 function refreshAll(){
   syncDataRelations();
   [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['actividad diaria',()=>{if($('dailyActivity')?.classList.contains('active'))hilenRenderDailyActivity()}],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
@@ -8279,8 +9860,12 @@ async function bootstrapApp(){
   if(cloudReady){
     cloudAuth.onAuthStateChanged(async user=>{
       try{
-        if(user){if(!currentUser||currentUser.id!==user.uid)await startCloudSession(user);else setCloudStatus('work','Sesión Firebase activa','Guarda una venta o pulsa “Verificar nube ahora” para confirmar escritura y lectura.')}
-        else{currentUser=null;if(!$('app').classList.contains('hidden')){$('app').classList.add('hidden');$('auth').classList.remove('hidden');showLogin()}setCloudStatus(firebaseAuthReady===false?'error':'ok',firebaseAuthReady===false?'Firebase Auth requiere prueba':'Firebase listo · inicia sesión')}
+        if(user){if(!currentUser||currentUser.id!==user.uid)await startCloudSession(user);else if(cloudConflict){hilenRenderCloudConflict()}else if(cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1'){queueCloudSave()}else if(!cloudSaveInFlight&&!hilenCloudTransactionPending){
+          // Un callback de Auth repetido no debe borrar «Guardado en Firebase».
+          if(!cloudLastVerifiedAt)setCloudStatus('work','Comprobando Firebase…','La sincronización está activa. La verificación de escritura se realiza automáticamente.');
+          hilenScheduleAutomaticVerification(user.uid);
+        }}
+        else{hilenStopLiveSync();currentUser=null;if(!$('app').classList.contains('hidden')){$('app').classList.add('hidden');$('auth').classList.remove('hidden');showLogin()}setCloudStatus(firebaseAuthReady===false?'error':'ok',firebaseAuthReady===false?'Firebase Auth requiere prueba':'Firebase listo · inicia sesión')}
       }catch(e){console.error(e);setCloudStatus('error','Error de conexión')}
     });
   }
@@ -8296,7 +9881,7 @@ window.addEventListener('storage',event=>{
     },600);
   }
 });
-window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');cloudSaveNow()}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync();hilenCheckDailyGoogleSheets()});
+window.addEventListener('online',()=>{if(!localMode&&cloudConfigured()&&currentUser?.id){setCloudStatus('work','Reconectando…');if(cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1')cloudSaveNow();else hilenScheduleAutomaticVerification(currentUser.id)}else if(!localMode){verifyFirebaseAuthHealth()}queueGoogleSheetsSync();queueGoogleDriveSync();hilenCheckDailyGoogleSheets()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){hilenCheckDailyGoogleSheets();if(cloudDirty&&!cloudConflict&&!localMode&&cloudDb&&currentUser?.id&&!cloudSaveInFlight)queueCloudSave()}});
 window.addEventListener('online',()=>{if((cloudDirty||localStorage.getItem(CLOUD_DIRTY_KEY)==='1')&&!cloudConflict&&!localMode&&cloudDb&&currentUser?.id&&!cloudSaveInFlight&&!hilenCloudTransactionPending)hilenCloudScheduleRetry(500)});
 /* HILEN · Facturas por compra y aplicación de pagos · 2026-10-26.
