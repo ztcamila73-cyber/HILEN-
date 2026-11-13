@@ -9720,33 +9720,39 @@ function hilenOpenObligationForm(oid=''){
   const old=oid?(db.obligations||[]).find(x=>x.id===oid):null;
   if(oid&&!old)return;
   const type=old?.type||hilenObligationTab;
-  const selectType='<option value="supplier">Proveedor o pago previsto</option><option value="service">Servicio, trámite o mantenimiento</option>';
+  const periods=Array.isArray(old?.alertDays)?old.alertDays:[7,3,1,0];
+  const checks=[7,3,1,0].map(day=>'<label><input type="checkbox" data-oblalert="'+day+'" '+(periods.includes(day)?'checked':'')+'> '+(day?day+' días antes':'El mismo día')+'</label>').join('');
   document.getElementById('modalContent').innerHTML=
-    '<div class="encargo-modal"><h2 style="margin:0">'+(old?'Editar recordatorio':'Nuevo recordatorio')+'</h2>'+
-    '<p class="small muted">Solo para programar fechas y avisos; no registra dinero ni crea egresos en caja.</p>'+
-    '<div class="form-grid" style="margin-top:16px">'+
-    '<div><label class="label">Apartado</label><select id="hilenOblType" class="input">'+selectType+'</select></div>'+
-    '<div><label class="label">Concepto *</label><input id="hilenOblTitle" class="input" maxlength="140" placeholder="Ej. Mantenimiento del aire"></div>'+
-    '<div><label class="label">Proveedor / entidad</label><input id="hilenOblParty" class="input" maxlength="140" placeholder="Ej. Técnico de aire o Cámara de Comercio"></div>'+
-    '<div><label class="label">Valor estimado (opcional, COP)</label><input id="hilenOblAmount" class="input" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"></div>'+
+    '<div class="encargo-modal hilen-reference-modal"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2 class="hilen-reference-modal-title">'+(old?'Editar obligación':'Nueva obligación')+'</h2><p class="muted small">Programa los próximos vencimientos de HILEN.</p></div><button type="button" class="secondary" onclick="closeModal()" aria-label="Cerrar formulario">×</button></div>'+
+    '<div class="hilen-reference-form">'+
+    '<div class="fullcol"><label class="label">Nombre *</label><input id="hilenOblTitle" class="input" maxlength="140" placeholder="Ej. Arriendo del local"></div>'+
+    '<div><label class="label">Valor estimado (COP)</label><input id="hilenOblAmount" class="input" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"></div>'+
     '<div><label class="label">Fecha de vencimiento *</label><input id="hilenOblDue" type="date" class="input"></div>'+
-    '<div><label class="label">Recordarme el</label><input id="hilenOblReminder" type="date" class="input"></div>'+
+    '<div><label class="label">Repetir</label><select id="hilenOblRepeat" class="input"><option value="none">No repetir</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option><option value="quarterly">Cada 3 meses</option><option value="yearly">Anual</option></select></div>'+
+    '<div><label class="label">Tipo de compromiso</label><select id="hilenOblType" class="input"><option value="supplier">Proveedor o pago previsto</option><option value="service">Servicio, trámite o mantenimiento</option></select></div>'+
+    '<div class="fullcol"><label class="label">Avisarme antes del vencimiento</label><div class="hilen-reference-alerts">'+checks+'</div></div>'+
     '<div><label class="label">Hora del aviso</label><input id="hilenOblReminderTime" type="time" class="input"></div>'+
-    '<div><label class="label">Repetir recordatorio</label><select id="hilenOblRepeat" class="input"><option value="none">No repetir</option><option value="monthly">Mensual</option><option value="quarterly">Cada 3 meses</option><option value="yearly">Anual</option></select></div>'+
-    '<div><label class="label">Referencia / comprobante</label><input id="hilenOblReference" class="input" maxlength="140" placeholder="Referencia opcional"></div>'+
-    '<div class="fullcol"><label class="label">Observaciones</label><textarea id="hilenOblNotes" class="input" rows="3" maxlength="1000"></textarea></div></div>'+
-    '<div class="row-actions" style="justify-content:flex-end"><button class="secondary" onclick="closeModal()">Cancelar</button>'+
-    '<button class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar recordatorio</button></div></div>';
-  document.getElementById('hilenOblType').value=type;
-  document.getElementById('hilenOblTitle').value=old?.title||'';
-  document.getElementById('hilenOblParty').value=old?.party||'';
-  document.getElementById('hilenOblAmount').value=old?.amount?new Intl.NumberFormat('es-CO').format(old.amount):'';
-  document.getElementById('hilenOblDue').value=old?.dueDate||today();
-  document.getElementById('hilenOblReminder').value=old?.reminderDate||'';
-  document.getElementById('hilenOblReminderTime').value=old?.reminderTime||'09:00';
-  document.getElementById('hilenOblRepeat').value=old?.repeat||'none';
-  document.getElementById('hilenOblReference').value=old?.reference||'';
-  document.getElementById('hilenOblNotes').value=old?.notes||'';
+    '<div><label class="label">Proveedor o entidad</label><input id="hilenOblParty" class="input" maxlength="140"></div>'+
+    '<div class="fullcol"><label class="label">Referencia o comprobante</label><input id="hilenOblReference" class="input" maxlength="140"></div>'+
+    '<div class="fullcol"><label class="label">Notas</label><textarea id="hilenOblNotes" class="input" rows="2" maxlength="1000"></textarea></div>'+
+    '<div class="fullcol"><label class="label">Notificaciones y calendario (solo esta sección)</label><div class="hilen-reference-switches">'+
+    '<label>Google Calendar <small>Crear evento al pulsar «Calendario»</small><input type="checkbox" id="hilenOblCalendarChoice"></label>'+
+    '<label>Notificaciones en HILEN <small>Mientras la aplicación esté abierta</small><input type="checkbox" id="hilenOblNotifyApp" checked></label>'+
+    '<label>WhatsApp <small>Requiere integración; no envía mensajes todavía</small><input type="checkbox" disabled></label>'+
+    '</div></div></div>'+
+    '<div class="hilen-reference-modal-actions"><button type="button" class="secondary" onclick="closeModal()">Cancelar</button><button type="button" class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar obligación</button></div></div>';
+  const field=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value};
+  field('hilenOblType',type);
+  field('hilenOblTitle',old?.title||'');
+  field('hilenOblParty',old?.party||'');
+  field('hilenOblAmount',old?.amount?new Intl.NumberFormat('es-CO').format(old.amount):'');
+  field('hilenOblDue',old?.dueDate||today());
+  field('hilenOblReminderTime',old?.reminderTime||'09:00');
+  field('hilenOblRepeat',old?.repeat||'none');
+  field('hilenOblReference',old?.reference||'');
+  field('hilenOblNotes',old?.notes||'');
+  document.getElementById('hilenOblNotifyApp').checked=old?.notifyApp!==false;
+  document.getElementById('hilenOblCalendarChoice').checked=!!old?.calendarChoice;
   document.getElementById('modal').classList.remove('hidden');
 }
 function hilenSaveObligation(oid=''){
@@ -9757,7 +9763,10 @@ function hilenSaveObligation(oid=''){
   const amount=parseMoneyInput(document.getElementById('hilenOblAmount')?.value||'');
   const type=document.getElementById('hilenOblType').value;
   const payload={type:type==='service'?'service':'supplier',title,party:document.getElementById('hilenOblParty').value.trim(),
-    amount:Math.max(0,amount),dueDate,reminderDate:document.getElementById('hilenOblReminder').value||'',
+    amount:Math.max(0,amount),dueDate,reminderDate:dueDate,
+    alertDays:[...document.querySelectorAll('[data-oblalert]:checked')].map(el=>Number(el.dataset.oblalert)),
+    notifyApp:document.getElementById('hilenOblNotifyApp').checked,
+    calendarChoice:document.getElementById('hilenOblCalendarChoice').checked,
     reminderTime:document.getElementById('hilenOblReminderTime').value||'09:00',
     repeat:document.getElementById('hilenOblRepeat').value||'none',
     reference:document.getElementById('hilenOblReference').value.trim(),
@@ -9767,7 +9776,8 @@ function hilenSaveObligation(oid=''){
   else db.obligations.unshift({id:id(),status:'pending',createdAt:new Date().toISOString(),...payload});
   hilenObligationTab=payload.type;
   saveDB();closeModal();hilenRenderObligations();hilenCheckObligationReminders();
-  showToast('Recordatorio guardado en este dispositivo','Comprueba el indicador de Firebase para confirmar el guardado en la nube.','info');
+  showToast('Obligación guardada','Comprueba Firebase para confirmar el guardado en la nube.','success');
+  if(payload.calendarChoice)hilenOpenObligationInGoogleCalendar(oid||db.obligations[0]?.id);
 }
 function hilenMarkObligation(oid,paid){
   const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
@@ -9791,18 +9801,22 @@ function hilenDeleteObligation(oid){
 }
 function hilenCheckObligationReminders(){
   if(!currentUser?.id)return;
-  const now=new Date();
+  const now=new Date(),date=today();
   for(const o of db.obligations||[]){
-    if(hilenObligationIsPaid(o)||!o.reminderDate)continue;
-    const due=new Date(o.reminderDate+'T'+(o.reminderTime||'09:00')+':00');
-    if(!Number.isFinite(due.getTime())||due>now)continue;
-    const alertKey='HILEN_OBL_REM_'+currentUser.id+'_'+o.id+'_'+o.reminderDate+'_'+(o.reminderTime||'09:00');
-    if(localStorage.getItem(alertKey)==='1')continue;
-    localStorage.setItem(alertKey,'1');
-    const message=o.title+(o.amount?' · '+money(o.amount):'')+' · vence '+(o.dueDate||'sin fecha');
-    showToast('Recordatorio de obligación',message,'warning',8500);
+    if(hilenObligationIsPaid(o)||!o.dueDate||o.notifyApp===false)continue;
+    const day=new Date(o.dueDate+'T12:00:00'),base=new Date(date+'T12:00:00');
+    const days=Math.round((day-base)/86400000);
+    const alertDays=Array.isArray(o.alertDays)?o.alertDays:[0];
+    if(!alertDays.includes(days))continue;
+    const time=o.reminderTime||'09:00',hour=new Date(date+'T'+time+':00');
+    if(now<hour)continue;
+    const key='HILEN_OBL_ALERT_'+currentUser.id+'_'+o.id+'_'+o.dueDate+'_'+days;
+    if(localStorage.getItem(key)==='1')continue;
+    localStorage.setItem(key,'1');
+    const message=o.title+(o.amount?' · '+money(o.amount):'')+' · '+(days===0?'vence hoy':'vence en '+days+' días');
+    showToast('Recordatorio de HILEN',message,'warning',8500);
     if('Notification' in window&&Notification.permission==='granted'){
-      try{new Notification('HILEN · Obligación pendiente',{body:message})}catch(_){}
+      try{new Notification('HILEN · Vencimiento',{body:message})}catch(_){}
     }
   }
 }
