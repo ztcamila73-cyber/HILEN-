@@ -4320,6 +4320,119 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 @media (min-width:768px) and (max-width:1050px){
  body:not(.hilen-side-collapsed) #side #logoutBtn{font-size:11px!important}
 }
+
+/* HILEN · Menú Apple glass oscuro, aprobado visualmente.
+   Solo navegación: no altera tarjetas, ventas, abonos ni la nube. */
+#side{
+  background:
+    radial-gradient(ellipse at 105% 100%,rgba(187,126,39,.25) 0%,transparent 36%),
+    radial-gradient(ellipse at 0% 0%,rgba(255,225,151,.12) 0%,transparent 34%),
+    linear-gradient(165deg,rgba(25,24,24,.94),rgba(12,12,14,.96) 59%,rgba(42,35,27,.95))!important;
+  -webkit-backdrop-filter:blur(26px) saturate(130%)!important;
+  backdrop-filter:blur(26px) saturate(130%)!important;
+  border-right:1px solid rgba(221,167,76,.65)!important;
+  box-shadow:inset 1px 0 0 rgba(237,185,97,.32),8px 0 28px rgba(15,12,11,.11)!important;
+  color:#f9f8f6!important;
+}
+#side .brand-copy strong{color:#fff!important;letter-spacing:-.8px!important}
+#side .brand-copy span{color:#c6bfb3!important;opacity:.95}
+#side .brand .logo-mark{
+  background:linear-gradient(145deg,#f0bd5b,#bd790d)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 4px 13px rgba(0,0,0,.28)!important
+}
+#side .nav{gap:5px!important}
+#side .nav button{
+  color:#f4f1eb!important;font-weight:600!important;
+  background:transparent!important;border:1px solid transparent!important;
+  border-radius:12px!important;
+  transition:background .18s ease,border-color .18s ease,color .18s ease!important
+}
+#side .nav button .ico,#side .nav button .ico svg{color:#f6efe3!important;stroke:currentColor!important}
+#side .nav button:not(.active):hover{
+  background:rgba(248,222,178,.12)!important;
+  border-color:rgba(233,185,104,.22)!important;
+  color:#fff!important
+}
+#side .nav button.active{
+  background:linear-gradient(120deg,#fce6a5 0%,#eabc5e 74%,#d9a348 100%)!important;
+  color:#21190f!important;
+  border:1px solid #f5d282!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.57),0 3px 12px rgba(0,0,0,.24)!important;
+}
+#side .nav button.active .ico,#side .nav button.active .ico svg{
+  color:#20180c!important;stroke:#20180c!important
+}
+#side .nav button.active::after,
+#side .nav button.active::before{display:none!important;content:none!important}
+#side .nav button:focus-visible,#side #hilenDesktopSideToggle:focus-visible{
+  outline:2px solid #f3c364!important;outline-offset:2px!important
+}
+#side::after{
+  background:linear-gradient(90deg,transparent,rgba(231,183,94,.92),transparent)!important;
+  height:1px!important
+}
+#side #hilenDesktopSideToggle{
+  background:rgba(255,255,255,.065)!important;
+  color:#e9d8bb!important;
+  border:1px solid rgba(238,192,111,.52)!important;
+  box-shadow:none!important;
+  border-radius:12px!important
+}
+#side #hilenDesktopSideToggle svg{
+  color:#efd5a5!important;stroke:#efd5a5!important
+}
+#side #hilenDesktopSideToggle:hover{
+  background:rgba(238,181,91,.17)!important;border-color:#e5b45c!important
+}
+#side #logoutBtn{
+  background:rgba(9,9,11,.88)!important;color:#f9f7f2!important;
+  border:1px solid #b9893a!important;
+  box-shadow:inset 0 1px 0 rgba(255,220,148,.08),0 3px 11px rgba(0,0,0,.18)!important
+}
+#side #logoutBtn:hover{background:#28231e!important;border-color:#e4b75e!important}
+#side .side-close{background:#201e1a!important;color:#f5d795!important;border-color:#b68b43!important}
+@media (min-width:768px){
+  body.hilen-side-collapsed #side{
+    background:linear-gradient(165deg,#292522,#101013 68%,#3b2f21)!important;
+    border-right:1px solid #c49a54!important;
+  }
+  body.hilen-side-collapsed #side .nav button{border-color:transparent!important;background:transparent!important}
+  body.hilen-side-collapsed #side .nav button .ico,
+  body.hilen-side-collapsed #side .nav button .ico svg{color:#f4e8d1!important;stroke:#f4e8d1!important}
+  body.hilen-side-collapsed #side .nav button.active{
+    background:linear-gradient(140deg,#fce6a5,#dbaa50)!important;
+    border-color:#f1c56d!important;box-shadow:0 3px 10px rgba(0,0,0,.2)!important
+  }
+  body.hilen-side-collapsed #side .nav button.active .ico,
+  body.hilen-side-collapsed #side .nav button.active .ico svg{color:#25180b!important;stroke:#25180b!important}
+  body.hilen-side-collapsed #side .nav button:not(.active):hover{background:rgba(255,222,171,.13)!important}
+  body.hilen-side-collapsed #side #hilenDesktopSideToggle{
+    background:rgba(255,255,255,.075)!important;color:#e9d6b4!important;
+    border:1px solid #b9893a!important;box-shadow:none!important
+  }
+  body.hilen-side-collapsed #side #hilenDesktopSideToggle svg{color:#efd5a5!important;stroke:#efd5a5!important}
+  body.hilen-side-collapsed #side #logoutBtn{background:#111!important;border-color:#b9893a!important}
+}
+/* Diseño responsive sin superponer la navegación a las pantallas del negocio. */
+@media (min-width:1400px){
+ body:not(.hilen-side-collapsed) #side{width:252px!important}
+ body:not(.hilen-side-collapsed) .main{margin-left:252px!important}
+}
+@media (min-width:1100px) and (max-width:1399px){
+ body:not(.hilen-side-collapsed) #side{width:220px!important}
+ body:not(.hilen-side-collapsed) .main{margin-left:220px!important;width:calc(100% - 220px)!important;max-width:calc(100vw - 220px)!important}
+}
+@media (min-width:820px) and (max-width:1099px){
+ body:not(.hilen-side-collapsed) #side{width:195px!important}
+ body:not(.hilen-side-collapsed) .main{margin-left:195px!important;width:calc(100% - 195px)!important;max-width:calc(100vw - 195px)!important}
+ body:not(.hilen-side-collapsed) #side .nav button{font-size:12px!important;gap:7px!important;padding:0 8px!important}
+}
+@media (min-width:768px) and (max-width:819px){
+ body:not(.hilen-side-collapsed) #side.open{background:linear-gradient(165deg,#282321,#111 80%,#443224)!important}
+}
+@media (max-width:767px){
+ #side{background:linear-gradient(155deg,rgba(37,32,28,.98),rgba(13,13,15,.98))!important}
+}
 </style>
 </head>
 <body>
