@@ -1,0 +1,13 @@
+/* HILEN · Control fijo en la parte superior de Registrar venta */
+#newSale .hilen-sale-zoom-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 13px;padding:11px 14px;background:#fffdf9;border:1px solid #e9d9bd;border-radius:15px;box-shadow:0 3px 11px #88622714}
+#newSale .hilen-sale-zoom-heading{display:flex;align-items:center;gap:8px;color:#76551d;font-size:13px;font-weight:800}
+#newSale .hilen-sale-zoom-heading svg{width:19px;height:19px;flex:0 0 19px}
+#newSale .hilen-sale-zoom-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+#newSale .hilen-sale-zoom-actions button{display:grid;place-items:center;min-width:39px;min-height:37px;padding:6px 11px;background:#fffaf1;color:#885c18;border:1px solid #e5ce9f;border-radius:11px;font-size:21px;font-weight:800;cursor:pointer}
+#newSale .hilen-sale-zoom-actions button:hover:not(:disabled){background:#f7ecd3}
+#newSale .hilen-sale-zoom-actions button:disabled{opacity:.4;cursor:default}
+#newSale .hilen-sale-zoom-actions output{display:grid;place-items:center;min-width:58px;min-height:37px;background:#f7efdd;color:#6a4811;font-size:13px;font-weight:850;border-radius:10px;font-variant-numeric:tabular-nums}
+#newSale .hilen-sale-zoom-actions .hilen-sale-zoom-reset{font-size:12px;font-weight:750;min-width:92px}
+#newSale .sale-layout-pro{zoom:var(--hilen-new-sale-zoom,1)}
+#newSale .sale-info-banner{zoom:var(--hilen-new-sale-zoom,1)}
+@media(max-width:600px){#newSale .hilen-sale-zoom-toolbar{padding:9px 11px}#newSale .hilen-sale-zoom-heading{font-size:12px}#newSale .hilen-sale-zoom-actions{gap:5px}#newSale .hilen-sale-zoom-actions button{min-width:35px;min-height:35px}#newSale .hilen-sale-zoom-actions .hilen-sale-zoom-reset{min-width:82px}}
