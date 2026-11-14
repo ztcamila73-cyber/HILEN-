@@ -5462,6 +5462,9 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 .hrs-settings-icon{overflow:hidden!important}
 .hrs-settings-icon .hrs-reference-calendar,.hrs-settings-icon .hrs-reference-bell{width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;border-radius:10px!important}
 
+
+#hilenReminderSettings .hrs-verify-btn{margin-left:7px;background:#f8f1e6;color:#775820;border-color:#e3d5b9}
+#hilenReminderSettings .hrs-connection p{font-weight:750}
 </style>
 </head>
 <body>
@@ -5969,7 +5972,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 
       <div class="card" id="hilenReminderSettings" style="margin-bottom:18px;padding:20px;border-radius:19px">
 <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h2>Agenda de recordatorios · Conexiones</h2><p class="muted small">Configura Google Calendar y los avisos de tus compromisos.</p></div><button type="button" class="secondary" onclick="hilenShowReminderSetup(true)">Ver configuración</button></div>
-<div class="hrs-connections"><div class="hrs-connection"><div class="hrs-connection-head"><span class="hrs-settings-icon hrs-gcal"><img class="hrs-reference-calendar" src="data:image/webp;base64,UklGRv4BAABXRUJQVlA4IPIBAACwDQCdASpGAEYAPwF0slMrJqUipnM8YWAgCWgA0HVe/v4Hm2L52bTmd6OK+5nlh2Y7/fpSx4suhqRNykFO0b8sT0hhklF/i+L8mXArQ8gV4puJzIXAveVKs4lPZEDcwMlHVmVgdPiuqBWdp0mxGyE+iqTspbkAAP72AN4XB6/ODs1YMaaOBujf8mP2C0/UTKeT0MMIhsMQOhQdzQBOW6NRqxf97A3p/DioLibnvZrCcClFf1pNTgkg6vN0MNZiUyocahpDJaWy+mGhQCmYloo3dkKTwCjEJw96YDcJfgw5aFN86HS1Ph1TxXow0c1Q9OvdtYohNSuiOBIHX6Eq1UPfVhvIZ6mUwbQ/7mOArgQrmWeVOkjFRD6rAhZdEOdQWZX3r+PoK9U8L4gvIz8/xTfO5uXqsmI325kCn1pgRuctyYodp3S9Zf4AfHx2OovXvKFhjZ0XZuB4VWOhE+e3awR5pmY/aKWs6SraO1PN5vA8i9enK17gmSW+CJ3lS4iy+N4wRuSsMp6X4hVUR7xLS0RAlloeDpKHOy+nQShqa4l8phz7aJ4TeRO1yyTLMoobYF0XyUnHwlbznW5BfCoV90iG2mNvOeSZ3aSQIiImbgFv5k+ZVY0iO9a2ceZvlBDDwEHhmswdvzlscJnOzxUcNYmgAAA=" alt="Google Calendar" loading="eager"></span><b>Google Calendar</b></div><p id="hilenSettingsCalendarStatus">No conectado</p><button type="button" onclick="hilenConnectAgendaCalendar()">Conectar</button></div><div class="hrs-connection"><div class="hrs-connection-head"><span class="hrs-settings-icon hrs-bell-icon"><img class="hrs-reference-bell" src="data:image/webp;base64,UklGRlIBAABXRUJQVlA4IEYBAADQCQCdASpGAEYAPwF6tlMrKCUoKlQI8WAgCUAYl73IluAACzFKLL/0Cio8e9vj6mRAMNlDXGsULdUIG3Mpc8KVGBAQo12INS48b/YV0pL3lRDcereTOgAA/vE5WDa7E7K16ZhkP03hJLdaoxl/nHR0GscbnKlKsSwfit3EckNsmNb364RNfJ66bWnbHIZmTQw9f8VkOPoAdLuSl0C/136+64S0wKpA6KdEdb7mdmoGzZ+ydNJpmxbMORXEQuPAeaegAYvGAJeg3+Hyr8gSNG4tmYtrT3w0PtGhJzwkQyUvNs+DHxsr4XoB4GSv3vpysnj8pyjQHfr7iTN59ij4zt1VjQJlmCfXRK9VBRGDUWYJuTNDJm6HasS8sqZ9ZgNOwYLiem2MwGyHTgDdtcBgaxmZ7FU9P8egfnRpAyPkQoRQxoYp92AAAA==" alt="Notificaciones" loading="eager"></span><b>Notificaciones en HILEN</b></div><p id="hilenSettingsNotificationStatus">No activado</p><button type="button" onclick="hilenEnableReminderNotifications()">Activar</button></div></div></div>
+<div class="hrs-connections"><div class="hrs-connection"><div class="hrs-connection-head"><span class="hrs-settings-icon hrs-gcal"><img class="hrs-reference-calendar" src="data:image/webp;base64,UklGRv4BAABXRUJQVlA4IPIBAACwDQCdASpGAEYAPwF0slMrJqUipnM8YWAgCWgA0HVe/v4Hm2L52bTmd6OK+5nlh2Y7/fpSx4suhqRNykFO0b8sT0hhklF/i+L8mXArQ8gV4puJzIXAveVKs4lPZEDcwMlHVmVgdPiuqBWdp0mxGyE+iqTspbkAAP72AN4XB6/ODs1YMaaOBujf8mP2C0/UTKeT0MMIhsMQOhQdzQBOW6NRqxf97A3p/DioLibnvZrCcClFf1pNTgkg6vN0MNZiUyocahpDJaWy+mGhQCmYloo3dkKTwCjEJw96YDcJfgw5aFN86HS1Ph1TxXow0c1Q9OvdtYohNSuiOBIHX6Eq1UPfVhvIZ6mUwbQ/7mOArgQrmWeVOkjFRD6rAhZdEOdQWZX3r+PoK9U8L4gvIz8/xTfO5uXqsmI325kCn1pgRuctyYodp3S9Zf4AfHx2OovXvKFhjZ0XZuB4VWOhE+e3awR5pmY/aKWs6SraO1PN5vA8i9enK17gmSW+CJ3lS4iy+N4wRuSsMp6X4hVUR7xLS0RAlloeDpKHOy+nQShqa4l8phz7aJ4TeRO1yyTLMoobYF0XyUnHwlbznW5BfCoV90iG2mNvOeSZ3aSQIiImbgFv5k+ZVY0iO9a2ceZvlBDDwEHhmswdvzlscJnOzxUcNYmgAAA=" alt="Google Calendar" loading="eager"></span><b>Google Calendar</b></div><p id="hilenSettingsCalendarStatus">No conectado</p><button type="button" id="hilenSettingsCalendarAction" onclick="hilenConnectAgendaCalendar()">Conectar</button><button type="button" class="hrs-verify-btn" onclick="hilenVerifyCalendarConnection()">Verificar conexión</button></div><div class="hrs-connection"><div class="hrs-connection-head"><span class="hrs-settings-icon hrs-bell-icon"><img class="hrs-reference-bell" src="data:image/webp;base64,UklGRlIBAABXRUJQVlA4IEYBAADQCQCdASpGAEYAPwF6tlMrKCUoKlQI8WAgCUAYl73IluAACzFKLL/0Cio8e9vj6mRAMNlDXGsULdUIG3Mpc8KVGBAQo12INS48b/YV0pL3lRDcereTOgAA/vE5WDa7E7K16ZhkP03hJLdaoxl/nHR0GscbnKlKsSwfit3EckNsmNb364RNfJ66bWnbHIZmTQw9f8VkOPoAdLuSl0C/136+64S0wKpA6KdEdb7mdmoGzZ+ydNJpmxbMORXEQuPAeaegAYvGAJeg3+Hyr8gSNG4tmYtrT3w0PtGhJzwkQyUvNs+DHxsr4XoB4GSv3vpysnj8pyjQHfr7iTN59ij4zt1VjQJlmCfXRK9VBRGDUWYJuTNDJm6HasS8sqZ9ZgNOwYLiem2MwGyHTgDdtcBgaxmZ7FU9P8egfnRpAyPkQoRQxoYp92AAAA==" alt="Notificaciones" loading="eager"></span><b>Notificaciones en HILEN</b></div><p id="hilenSettingsNotificationStatus">No activado</p><button type="button" onclick="hilenEnableReminderNotifications()">Activar</button></div></div></div>
 <div class="settings-grid settings-grid-reference">
         <div class="card settings-protection-card">
           <div class="pro-card-head compact"><span class="pro-icon gold">♢</span><div><h2>Protección de tus datos</h2><p>Esta protección pertenece únicamente a tu cuenta de HILEN.</p></div></div>
@@ -10006,7 +10009,13 @@ function deleteEncargo(encargoId){
    hilenCalendarRequest('/'+encodeURIComponent(e.calendarEventId),'DELETE').then(removeLocal).catch(err=>showToast('No se pudo eliminar el evento',String(err.message||err),'warning'));
  },{confirmText:'Eliminar',workingText:'Eliminando…'});
 }
-function requestReminderPermission(){if(!('Notification' in window))return showToast('Alertas del navegador no disponibles','HILEN seguirá mostrando los recordatorios dentro de la aplicación.','info');Notification.requestPermission().then(p=>showToast(p==='granted'?'Alertas activadas':'Alertas no activadas',p==='granted'?'También recibirás avisos del navegador cuando HILEN esté abierto.':'Puedes seguir usando los recordatorios dentro de HILEN.','info'))}
+
+async function requestReminderPermission(){
+ if(!('Notification' in window)){showToast('Alertas del navegador no disponibles','HILEN seguirá mostrando los recordatorios dentro de la aplicación.','info');hilenRefreshReminderSetupStates();return}
+ try{const p=await Notification.requestPermission();showToast(p==='granted'?'Alertas activadas':'Alertas no activadas',p==='granted'?'Recibirás avisos cuando HILEN esté abierto.':'Puedes seguir usando los recordatorios dentro de HILEN.','info')}
+ catch(e){showToast('Permiso pendiente',String(e.message||e),'warning')}
+ finally{hilenRefreshReminderSetupStates()}
+}
 let encargoReminderTimer=null;
 function checkEncargoReminders(force=false){
   const now=new Date(),keyTime=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
@@ -10083,11 +10092,33 @@ const HILEN_CALENDAR_SCOPE='https://www.googleapis.com/auth/calendar.events';
 let hilenCalendarToken='',hilenCalendarTokenExpiry=0,hilenCalendarClient=null;
 const hilenCalendarBusy=new Set();
 function hilenCalendarAuthorized(){return !!hilenCalendarToken&&Date.now()<hilenCalendarTokenExpiry-90000}
+
 function hilenRenderCalendarStatus(){
  const el=document.getElementById('hilenCalendarStatus');
- if(el)el.textContent=hilenCalendarAuthorized()?
-   'Conectado. Los compromisos se guardan directamente en Google Calendar.':
-   'Conecta tu cuenta Google para autorizar el guardado automático, sin confirmar eventos uno a uno.';
+ if(el)el.textContent=hilenCalendarCheckPending?'Verificando acceso con Google…':
+ hilenCalendarAuthorized()&&hilenCalendarConnectionVerified?'Conectado y verificado. Los eventos se guardan directamente en Google Calendar.':
+ hilenCalendarAuthorized()?'Google autorizó el acceso; falta comprobar el calendario.':
+ 'No conectado. Autoriza Google Calendar para sincronizar automáticamente.';
+ hilenRefreshReminderSetupStates();
+}
+async function hilenVerifyCalendarConnection(quiet=false){
+ if(hilenCalendarCheckPending)return false;
+ if(!hilenCalendarAuthorized()){hilenCalendarConnectionVerified=false;hilenRenderCalendarStatus();if(!quiet)showToast('Google Calendar sin conectar','Conecta primero tu cuenta Google.','warning');return false}
+ hilenCalendarCheckPending=true;hilenRenderCalendarStatus();
+ try{
+  const resp=await fetch('https://www.googleapis.com/calendar/v3/calendars/primary',{headers:{Authorization:'Bearer '+hilenCalendarToken}});
+  if(!resp.ok){
+   let msg='Google Calendar no respondió correctamente ('+resp.status+').';
+   try{msg=(await resp.json()).error?.message||msg}catch(_){}
+   if(resp.status===401||resp.status===403){hilenCalendarToken='';hilenCalendarTokenExpiry=0}
+   throw new Error(msg);
+  }
+  const cal=await resp.json();if(!cal?.id)throw new Error('Google no confirmó el calendario principal.');
+  hilenCalendarConnectionVerified=true;
+  if(!quiet)showToast('Google Calendar verificado','Google confirmó el acceso al calendario principal.','success');
+  return true;
+ }catch(e){hilenCalendarConnectionVerified=false;if(!quiet)showToast('Conexión pendiente',String(e.message||e),'warning');return false}
+ finally{hilenCalendarCheckPending=false;hilenRenderCalendarStatus()}
 }
 function hilenAuthorizeCalendar(){
  return new Promise((resolve,reject)=>{
@@ -10097,7 +10128,7 @@ function hilenAuthorizeCalendar(){
      callback:response=>{
        if(response?.error)return reject(new Error(response.error_description||response.error));
        if(!response?.access_token)return reject(new Error('No se recibió autorización'));
-       hilenCalendarToken=response.access_token;
+       hilenCalendarToken=response.access_token;hilenCalendarConnectionVerified=false;
        hilenCalendarTokenExpiry=Date.now()+(Math.max(60,Number(response.expires_in)||3600)*1000);
        hilenRenderCalendarStatus();resolve();
      },
@@ -10106,14 +10137,25 @@ function hilenAuthorizeCalendar(){
    hilenCalendarClient.requestAccessToken({prompt:'consent'});
  });
 }
+
 async function hilenConnectAgendaCalendar(){
  try{
-   if(!hilenCalendarAuthorized())await hilenAuthorizeCalendar();
-   showToast('Google Calendar conectado','Ahora HILEN puede registrar eventos directamente.','success');
-   for(const o of db.obligations||[])if(o.calendarChoice!==false&&o.dueDate&&(!o.calendarEventId||o.calendarNeedsSync))await hilenSyncCalendarRecord(o.id,true);
-   for(const e of db.encargos||[])if(e.reminderDate&&(!e.calendarEventId||e.calendarNeedsSync))await hilenSyncEncargoCalendar(e.id,true);
- }catch(err){showToast('No se conectó Google Calendar',String(err.message||err),'warning')}
- hilenRenderCalendarStatus();
+  if(!hilenCalendarAuthorized())await hilenAuthorizeCalendar();
+  if(!await hilenVerifyCalendarConnection(false))return false;
+  showToast('Google Calendar conectado','Acceso confirmado. Sincronizando recordatorios pendientes…','success');
+  let pending=0;
+  for(const o of db.obligations||[])if(o.calendarChoice!==false&&o.dueDate&&(!o.calendarEventId||o.calendarNeedsSync)){
+   await hilenSyncCalendarRecord(o.id,true);
+   if(o.calendarNeedsSync)pending++;
+  }
+  for(const e of db.encargos||[])if(e.reminderDate&&(!e.calendarEventId||e.calendarNeedsSync)){
+   await hilenSyncEncargoCalendar(e.id,true);
+   if(e.calendarNeedsSync)pending++;
+  }
+  if(pending)showToast('Eventos pendientes',pending+' evento(s) no se sincronizaron. Revisa la conexión.','warning');
+  hilenCloseReminderSetup();return true;
+ }catch(err){hilenCalendarConnectionVerified=false;showToast('No se conectó Google Calendar',String(err.message||err),'warning');return false}
+ finally{hilenRenderCalendarStatus()}
 }
 async function hilenCalendarRequest(path,method,body){
  if(!hilenCalendarAuthorized())throw new Error('Vuelve a conectar Google Calendar');
@@ -10121,7 +10163,7 @@ async function hilenCalendarRequest(path,method,body){
    method,headers:{Authorization:'Bearer '+hilenCalendarToken,...(body?{'Content-Type':'application/json'}:{})},
    ...(body?{body:JSON.stringify(body)}:{})
  });
- if(resp.status===401){hilenCalendarToken='';hilenRenderCalendarStatus()}
+ if(resp.status===401||resp.status===403){hilenCalendarToken='';hilenCalendarTokenExpiry=0;hilenCalendarConnectionVerified=false;hilenRenderCalendarStatus()}
  if(!resp.ok){let error='Google Calendar rechazó la operación';try{error=(await resp.json()).error?.message||error}catch(_){}throw new Error(error)}
  return resp.status===204?{}:resp.json();
 }
@@ -10212,27 +10254,34 @@ let hilenAgendaView='agenda';
 let hilenAgendaEventOpen='';
 let hilenObligationReminderTimer=null;
 
-function hilenReminderPromptKey(){return 'HILEN_REMINDER_SETUP_SHOWN_'+String(currentUser?.id||'guest')}
+
+let hilenCalendarConnectionVerified=false;
+let hilenCalendarCheckPending=false;
 function hilenRefreshReminderSetupStates(){
- const calendar=hilenCalendarAuthorized(),notify='Notification' in window&&Notification.permission==='granted';
+ const hasToken=hilenCalendarAuthorized(),calendar=hasToken&&hilenCalendarConnectionVerified;
+ const notify='Notification' in window&&Notification.permission==='granted';
+ const status=hilenCalendarCheckPending?'Verificando conexión…':calendar?'Conectado · verificado con Google':hasToken?'Autorizado · falta verificar Google Calendar':'No conectado · requiere autorización';
  const set=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value};
- set('hrsCalendarState',calendar?'Conectado':'No conectado');
+ set('hrsCalendarState',hilenCalendarCheckPending?'Verificando…':calendar?'Conectado':hasToken?'Verificación pendiente':'No conectado');
  set('hrsNotificationsState',notify?'Activado':('Notification' in window&&Notification.permission==='denied'?'Bloqueado':'No activado'));
- set('hilenSettingsCalendarStatus',calendar?'Conectado · autorización vigente':'No conectado · requiere autorización');
+ set('hilenSettingsCalendarStatus',status);
  set('hilenSettingsNotificationStatus',notify?'Avisos del navegador activados':'Avisos dentro de HILEN; navegador sin activar');
+ const btn=document.getElementById('hilenSettingsCalendarAction');if(btn)btn.textContent=calendar?'Reconectar':hasToken?'Reautorizar':'Conectar';
  document.getElementById('hrsCalendarToggle')?.classList.toggle('connected',calendar);
  document.getElementById('hrsNotificationsToggle')?.classList.toggle('connected',notify);
 }
 function hilenShowReminderSetup(force=false){
  if(!currentUser?.id)return;
- if(!force){try{if(sessionStorage.getItem(hilenReminderPromptKey())==='1')return}catch(e){}}
- try{sessionStorage.setItem(hilenReminderPromptKey(),'1')}catch(e){}
+ if(!force&&hilenCalendarAuthorized()&&hilenCalendarConnectionVerified)return;
  hilenRefreshReminderSetupStates();
  document.getElementById('hilenReminderSetup')?.classList.add('visible');
  document.body.classList.add('hilen-reminders-setup-open');
 }
-function hilenMaybePromptReminderSetup(){if(!hilenCalendarAuthorized())hilenShowReminderSetup(false)}
-function hilenCloseReminderSetup(){document.getElementById('hilenReminderSetup')?.classList.remove('visible');document.body.classList.remove('hilen-reminders-setup-open')}
+function hilenMaybePromptReminderSetup(){if(!hilenCalendarAuthorized()||!hilenCalendarConnectionVerified)hilenShowReminderSetup(false)}
+function hilenCloseReminderSetup(){
+ document.getElementById('hilenReminderSetup')?.classList.remove('visible');
+ document.body.classList.remove('hilen-reminders-setup-open');
+}
 async function hilenEnableReminderNotifications(){
  await requestReminderPermission();
  hilenRefreshReminderSetupStates();
@@ -10240,7 +10289,7 @@ async function hilenEnableReminderNotifications(){
 async function hilenReminderConnectContinue(){
  if(!hilenCalendarAuthorized())await hilenConnectAgendaCalendar();
  hilenRefreshReminderSetupStates();
- if(hilenCalendarAuthorized())hilenCloseReminderSetup();
+ if(hilenCalendarAuthorized()&&hilenCalendarConnectionVerified)hilenCloseReminderSetup();
 }
 function hilenSetObligationTab(type){
  if(!['all','supplier','service'].includes(type))return;
