@@ -5333,6 +5333,76 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 #obligations .ha2-calendar .hilen-agenda-calendar-selected{display:none!important}
 #obligations .ha2-header-copy p{max-width:850px}
 #obligations .ha2-panel,.ha2-stats .card{backdrop-filter:none!important}
+
+/* HILEN AGENDA · Referencia visual aprobada 13 nov 2026 · solo presentación */
+#obligations.hilen-agenda-v2{
+ --ha-gold:#b98722;--ha-ink:#201911;--ha-border:#e9e5df;
+ background:transparent!important;color:var(--ha-ink)!important;
+}
+#obligations .ha2-header{background:transparent!important;border:0!important;padding:9px 5px 22px!important;box-shadow:none!important;gap:15px!important}
+#obligations .ha2-header-icon{
+ width:55px!important;height:55px!important;flex:0 0 55px!important;border-radius:16px!important;
+ background:linear-gradient(145deg,#f8d783 0%,#c89422 65%,#ae750b 100%)!important;
+ border:1px solid #f1cf85!important;color:white!important;box-shadow:0 6px 14px #ae832c35!important
+}
+#obligations .ha2-header-icon svg{width:31px!important;height:31px!important}
+#obligations .ha2-header-copy h2{color:#211910!important;font-weight:850!important;font-size:clamp(23px,2.7vw,33px)!important;letter-spacing:-.7px!important}
+#obligations .ha2-header-copy p{color:#4b463f!important;font-size:12px!important}
+#obligations .ha2-bell{background:#fff!important;color:#4c3823!important;border:1px solid #e5ddd2!important;border-radius:50%!important;box-shadow:0 3px 8px #37291417!important}
+#obligations .ha2-stats{gap:12px!important;margin-bottom:19px!important}
+#obligations .ha2-stat{background:linear-gradient(130deg,#fff,#fcf4e5)!important;border:1px solid #eee4d4!important;border-radius:17px!important;box-shadow:0 5px 13px #3a2a160f!important;min-height:83px!important;padding:15px!important}
+#obligations .ha2-stat.soon{background:linear-gradient(130deg,#fff,#eaf2ff)!important;border-color:#e3e9f4!important}
+#obligations .ha2-stat.late{background:linear-gradient(130deg,#fff,#ffebed)!important;border-color:#f0dfe3!important}
+#obligations .ha2-stat.done{background:linear-gradient(130deg,#fff,#e9f5e9)!important;border-color:#deebdf!important}
+#obligations .ha2-stat .stat-label{color:#332b25!important;font-weight:700!important}
+#obligations .ha2-stat .stat{color:#251a14!important;font-weight:850!important;font-size:27px!important}
+#obligations .ha2-stat.late .stat{color:#b92a29!important}
+#obligations .ha2-stat-icon{background:transparent!important;color:#bb8518!important}
+#obligations .ha2-stat.soon .ha2-stat-icon{color:#1265dc!important}
+#obligations .ha2-stat.late .ha2-stat-icon{color:#d3292b!important}
+#obligations .ha2-stat.done .ha2-stat-icon{color:#159337!important}
+#obligations .ha2-columns{grid-template-columns:minmax(195px,.82fr) minmax(310px,1.4fr) minmax(258px,1.07fr)!important;gap:13px!important;align-items:stretch!important}
+#obligations .ha2-panel{background:#fff!important;border:1px solid #e9e4dd!important;border-radius:22px!important;box-shadow:0 5px 17px #34240e0c!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-nav strong{font-size:17px!important;font-weight:800!important;color:#241b15!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-nav button,#obligations .ha2-monthrow button{background:#faf6ef!important;color:#241b15!important;border:0!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-days button.has-event{background:#fdf2d8!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-days button.is-selected{background:linear-gradient(135deg,#e0b552,#bd8617)!important;color:#fff!important;box-shadow:0 4px 11px #bd861733!important}
+#obligations .ha2-switch button,#obligations .ha2-add{border-radius:999px!important;box-shadow:0 3px 7px #2a1c0b12!important}
+#obligations .ha2-switch button.active,#obligations .ha2-add{background:linear-gradient(160deg,#f1cc70,#bf8617 80%,#a46c03)!important;border:1px solid #d2a24d!important;color:#fff!important}
+#obligations .ha2-monthrow h3{color:#211b15!important;font-weight:850!important}
+#obligations .ha2-events .hilen-obligation-row{background:#fffdfb!important;border:1px solid #ece5dd!important;border-radius:17px!important;box-shadow:0 4px 10px #2d211011!important}
+#obligations .ha2-events .hilen-obligation-row b{color:#211c16!important}
+#obligations .ha2-form-panel{background:#fff!important}
+#obligations .ha2-formtop{background:linear-gradient(95deg,#fffdf9,#fcf7ef)!important;border-bottom:1px solid #f0e9df!important}
+#obligations .ha2-formtop-icon{background:#fff0c9!important;color:#b57b16!important}
+#obligations .ha2-formtop h3{color:#251b14!important;font-weight:850!important}
+#obligations .ha2-inline{background:#fff!important}
+#obligations .ha2-inline .hilen-reference-form .input{background:#fff!important;border:1px solid #dcd7d0!important;color:#251f1a!important}
+#obligations .ha2-inline .hilen-reference-form .input:focus{border-color:#bb902e!important;box-shadow:0 0 0 3px #c99a3025!important}
+#obligations .ha2-inline .hilen-reference-modal-actions .primary{background:linear-gradient(155deg,#eac066,#b47b11)!important;border-color:#d6a14b!important;border-radius:999px!important}
+#obligations .ha2-inline .hilen-reference-modal-actions .secondary{border-radius:999px!important;background:#fff!important}
+#obligations .ha2-inline .hilen-reference-alerts label{background:#fff!important;border-color:#eee8df!important;border-radius:10px!important}
+#obligations .ha2-calendar-connect{background:#fffaf2!important;border-color:#eddfc5!important}
+#obligations .ha2-calendar-connect button{color:#805a1a!important}
+@media(max-width:1499px){
+ #obligations .ha2-columns{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)!important}
+ #obligations .ha2-form-panel{grid-column:1/-1!important}
+}
+@media(max-width:950px){
+ #obligations .ha2-columns{grid-template-columns:minmax(0,1fr)!important}
+ #obligations .ha2-form-panel{grid-column:auto!important}
+ #obligations .ha2-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:520px){
+ #obligations .ha2-header{align-items:flex-start!important}
+ #obligations .ha2-header-copy h2{font-size:23px!important}
+ #obligations .ha2-stats{gap:8px!important}
+ #obligations .ha2-stat{padding:11px!important;min-height:78px!important}
+ #obligations .ha2-center-top{gap:8px!important}
+ #obligations .ha2-switch button,#obligations .ha2-add{padding:9px 11px!important;font-size:11px!important}
+ #obligations .ha2-panel{padding:13px!important}
+}
+
 </style>
 </head>
 <body>
