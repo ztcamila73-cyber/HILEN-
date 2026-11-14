@@ -1,0 +1,22 @@
+/* HILEN · Selector amigable para todos los campos de fecha, sin cambiar el valor original. */
+.hilen-friendly-date{display:flex;align-items:center;gap:7px;position:relative;min-width:0;width:100%;max-width:100%}
+.hilen-friendly-date .hilen-friendly-date-source{position:absolute!important;opacity:0!important;width:1px!important;height:1px!important;pointer-events:none!important;overflow:hidden!important;inset:auto!important;left:0!important}
+.hilen-friendly-date .hilen-friendly-date-text{flex:1!important;min-width:0!important;font-variant-numeric:tabular-nums!important;letter-spacing:.2px!important}
+.hilen-friendly-date .hilen-friendly-date-open{flex:0 0 43px;width:43px;height:43px;display:grid;place-items:center;background:#fff8ec;color:#a97b28;border:1px solid #e7d7ba;border-radius:12px;cursor:pointer}
+.hilen-friendly-date .hilen-friendly-date-open svg{width:21px;height:21px}
+.hilen-friendly-date .hilen-friendly-date-invalid{border-color:#c94848!important;box-shadow:0 0 0 2px #c9484825!important}
+.hilen-global-date-picker{position:fixed;z-index:200000;display:none;box-sizing:border-box;width:min(328px,calc(100vw - 16px));padding:15px;background:#fff;border:1px solid #e8d5b4;border-radius:18px;box-shadow:0 18px 48px #25180a40;font-family:inherit}
+.hilen-global-date-picker.is-open{display:block}
+.hilen-global-date-bar{display:grid;grid-template-columns:32px minmax(0,1fr) 80px 32px;gap:5px;align-items:center;margin-bottom:13px}
+.hilen-global-date-bar button{border:0;border-radius:8px;height:34px;background:#fbf3e7;color:#966b26;font-size:24px;cursor:pointer}
+.hilen-global-date-bar select{width:100%;min-width:0;border:1px solid #e6d9c5;background:#fff;color:#403020;border-radius:8px;padding:7px 4px;font-size:12px}
+.hilen-global-date-days-head,.hilen-global-date-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.hilen-global-date-days-head span{font-size:11px;color:#887b6b;font-weight:750;padding-bottom:7px}
+.hilen-global-date-days button{height:35px;min-height:0;border:0;border-radius:9px;background:#fff;color:#302920;cursor:pointer}
+.hilen-global-date-days button:hover{background:#fbefd8}
+.hilen-global-date-days button.selected{background:linear-gradient(135deg,#e4bb67,#ac7720);color:#fff}
+.hilen-global-date-days button.today:not(.selected){border:1px solid #caa35b;color:#936822}
+.hilen-global-date-days button:disabled{opacity:.25;cursor:not-allowed}
+.hilen-global-date-actions{display:flex;justify-content:space-between;border-top:1px solid #f0e8de;margin-top:11px;padding-top:9px}
+.hilen-global-date-actions button{border:0;background:transparent;color:#976923;font-weight:800;font-size:12px;padding:7px;cursor:pointer}
+@media(max-width:650px){.hilen-friendly-date .hilen-friendly-date-open{flex-basis:41px;width:41px}.hilen-global-date-picker{padding:11px}}
