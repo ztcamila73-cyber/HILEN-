@@ -7579,7 +7579,7 @@ async function login(){
 async function logout(ev){
   hilenStopLiveSync();
   if(ev){ev.preventDefault();ev.stopPropagation()}
-  const wasLocal=localMode,leavingUserId=currentUser?.id||'';clearTimeout(cloudSaveTimer);if(!wasLocal&&cloudConfigured()&&cloudDb&&currentUser?.id)await cloudSaveNow();if(!wasLocal&&cloudAuth)await cloudAuth.signOut();
+  const wasLocal=localMode,leavingUserId=currentUser?.id||'';clearTimeout(hilenCalendarExpiryTimer);hilenCalendarToken='';hilenCalendarTokenExpiry=0;hilenCalendarConnectionVerified=false;hilenCalendarLastConnectedUid='';clearTimeout(cloudSaveTimer);if(!wasLocal&&cloudConfigured()&&cloudDb&&currentUser?.id)await cloudSaveNow();if(!wasLocal&&cloudAuth)await cloudAuth.signOut();
   if(leavingUserId)sessionStorage.removeItem(`HILEN_GOOGLE_BACKUP_PROMPT_${leavingUserId}`);
   localMode=false;db.session=null;currentUser=null;cloudBaseRevision=null;cloudBaseSignature=null;cloudBaseData=null;cloudLoadedUid='';cloudConflict=false;hilenRenderCloudConflict();$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('side').classList.remove('open');showLogin();if($('loginPass'))$('loginPass').value='';setCloudStatus(cloudConfigured()?'work':'off',cloudConfigured()?'Firebase listo · inicia sesión':'Firebase sin configurar');window.scrollTo(0,0);setTimeout(()=>verifyFirebaseAuthHealth(),50)
 }
@@ -7592,7 +7592,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['stStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();maybePromptGoogleBackupOnboarding();if(backupOnboardingJustCreated)setTimeout(()=>hilenShowReminderSetup(false),1200);startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenStartObligationReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();void hilenCalendarRestoreExistingSession();maybePromptGoogleBackupOnboarding();if(backupOnboardingJustCreated)setTimeout(()=>hilenShowReminderSetup(false),1200);startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenStartObligationReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -10158,7 +10158,7 @@ function hilenRenderCalendarStatus(){
  if(el)el.textContent=hilenCalendarCheckPending?'Verificando acceso con Google…':
  hilenCalendarAuthorized()&&hilenCalendarConnectionVerified?'Conectado y verificado. Los eventos se guardan directamente en Google Calendar.':
  hilenCalendarAuthorized()?'Google autorizó el acceso; falta comprobar el calendario.':
- hilenCalendarPreviouslyVerified()?'La sesión anterior caducó. Reconecta Google Calendar.':'No conectado. Autoriza Google Calendar para sincronizar automáticamente.';
+ hilenCalendarPreviouslyVerified()?'Google Calendar fue vinculado antes. Pulsa Reconectar para renovar el acceso.':'No conectado. Autoriza Google Calendar para sincronizar automáticamente.';
  hilenRefreshReminderSetupStates();
 }
 async function hilenVerifyCalendarConnection(quiet=false){
@@ -10191,11 +10191,11 @@ function hilenAuthorizeCalendar(){
        if(!response?.access_token)return reject(new Error('No se recibió autorización'));
        hilenCalendarToken=response.access_token;hilenCalendarConnectionVerified=false;hilenCalendarConnectionError='';hilenCalendarLastConnectedUid=currentUser?.id||'';
        hilenCalendarTokenExpiry=Date.now()+(Math.max(60,Number(response.expires_in)||3600)*1000);
-       hilenRenderCalendarStatus();resolve();
+       hilenCalendarScheduleExpiryCheck();hilenRenderCalendarStatus();resolve();
      },
      error_callback:err=>reject(new Error(err?.type||'Autorización cancelada'))
    });
-   hilenCalendarClient.requestAccessToken({prompt:'consent'});
+   hilenCalendarClient.requestAccessToken({prompt:hilenCalendarPreviouslyVerified()?'':'select_account'});
  });
 }
 
@@ -10214,7 +10214,7 @@ async function hilenConnectAgendaCalendar(){
    if(e.calendarNeedsSync)pending++;
   }
   if(pending)showToast('Eventos pendientes',pending+' evento(s) no se sincronizaron. Revisa la conexión.','warning');
-  hilenCloseReminderSetup();return true;
+  hilenCalendarScheduleExpiryCheck();hilenCloseReminderSetup();return true;
  }catch(err){hilenCalendarConnectionVerified=false;hilenCalendarConnectionError=String(err.message||err);showToast('No se conectó Google Calendar',hilenCalendarConnectionError,'warning');return false}
  finally{hilenRenderCalendarStatus()}
 }
@@ -10224,7 +10224,7 @@ async function hilenCalendarRequest(path,method,body){
    method,headers:{Authorization:'Bearer '+hilenCalendarToken,...(body?{'Content-Type':'application/json'}:{})},
    ...(body?{body:JSON.stringify(body)}:{})
  });
- if(resp.status===401||resp.status===403){hilenCalendarToken='';hilenCalendarTokenExpiry=0;hilenCalendarConnectionVerified=false;hilenRenderCalendarStatus()}
+ if(resp.status===401||resp.status===403){hilenCalendarToken='';hilenCalendarTokenExpiry=0;hilenCalendarConnectionVerified=false;clearTimeout(hilenCalendarExpiryTimer);hilenRenderCalendarStatus()}
  if(!resp.ok){let error='Google Calendar rechazó la operación';try{error=(await resp.json()).error?.message||error}catch(_){}throw new Error(error)}
  return resp.status===204?{}:resp.json();
 }
@@ -10320,6 +10320,38 @@ let hilenCalendarConnectionVerified=false;
 let hilenCalendarCheckPending=false;
 function hilenReminderConnectedKey(){return 'HILEN_CALENDAR_VERIFIED_'+String(currentUser?.id||'guest')}
 function hilenCalendarPreviouslyVerified(){try{return !!localStorage.getItem(hilenReminderConnectedKey())}catch(_){return false}}
+/* Google exige una acción del usuario para obtener nuevos tokens.
+   Se conserva únicamente el dato de vinculación; nunca tokens en storage. */
+let hilenCalendarExpiryTimer=null,hilenCalendarLastCheckAt=0,hilenCalendarRestorePromise=null;
+function hilenCalendarScheduleExpiryCheck(){
+ clearTimeout(hilenCalendarExpiryTimer);
+ if(!hilenCalendarAuthorized())return;
+ const wait=Math.max(500,Math.min(2147483647,hilenCalendarTokenExpiry-Date.now()-88000));
+ hilenCalendarExpiryTimer=setTimeout(()=>{
+   if(!currentUser?.id)return;
+   hilenRenderCalendarStatus();
+   if(!hilenCalendarAuthorized()&&hilenCalendarPreviouslyVerified())
+     showToast('Google Calendar requiere reconexión','Pulsa Reconectar para seguir sincronizando tus recordatorios.','warning');
+ },wait);
+}
+async function hilenCalendarRestoreExistingSession(){
+ if(!currentUser?.id)return false;
+ if(!hilenCalendarAuthorized()){hilenCalendarConnectionVerified=false;hilenRenderCalendarStatus();return false}
+ if(hilenCalendarRestorePromise)return hilenCalendarRestorePromise;
+ hilenCalendarRestorePromise=(async()=>{
+  const ok=await hilenVerifyCalendarConnection(true);
+  hilenCalendarScheduleExpiryCheck();
+  return ok;
+ })();
+ try{return await hilenCalendarRestorePromise}finally{hilenCalendarRestorePromise=null}
+}
+function hilenCalendarOnForeground(){
+ if(!currentUser?.id||Date.now()-hilenCalendarLastCheckAt<90000)return;
+ hilenCalendarLastCheckAt=Date.now();
+ void hilenCalendarRestoreExistingSession();
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)hilenCalendarOnForeground()});
+window.addEventListener('focus',hilenCalendarOnForeground);
 function hilenRefreshReminderSetupStates(){
  const hasToken=hilenCalendarAuthorized(),calendar=hasToken&&hilenCalendarConnectionVerified;
  const notify='Notification' in window&&Notification.permission==='granted';
@@ -10331,7 +10363,7 @@ function hilenRefreshReminderSetupStates(){
  calendar?(pendingCount?'Calendario conectado · '+pendingCount+' evento(s) pendientes de sincronizar':'Tu calendario de Google está conectado con HILEN.'):
  hilenCalendarConnectionError?'Error de conexión: '+hilenCalendarConnectionError:
  hasToken?'Autorizado · falta verificar Google Calendar':
- hilenCalendarPreviouslyVerified()?'La sesión de Google caducó · vuelve a conectar':'No conectado · requiere autorización';
+ hilenCalendarPreviouslyVerified()?'Cuenta vinculada anteriormente · pulsa Reconectar':'No conectado · requiere autorización';
  const set=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value};
  set('hrsCalendarState',hilenCalendarCheckPending?'Verificando…':calendar?'Conectado':hilenCalendarPreviouslyVerified()?'Reconectar':'No conectado');
  set('hrsNotificationsState',notify?'Activado':denied?'Bloqueado':'No activado');
