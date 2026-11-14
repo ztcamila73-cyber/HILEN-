@@ -5310,6 +5310,24 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 @media(max-width:1200px){#obligations .ha2-columns{grid-template-columns:minmax(0,1fr) minmax(0,1.45fr)}#obligations .ha2-form-panel{grid-column:1/-1;min-height:0}#obligations .ha2-inline .hilen-reference-form{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:800px){#obligations .hilen-obligations-stats.ha2-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}#obligations .ha2-columns{grid-template-columns:1fr}#obligations .ha2-form-panel{grid-column:auto}#obligations .ha2-calendar{min-height:0}}
 @media(max-width:480px){#obligations .ha2-header-icon{width:46px;height:46px;flex-basis:46px}#obligations .ha2-header-icon svg{width:27px;height:27px}#obligations .ha2-header-copy h2{font-size:21px}#obligations .ha2-panel{padding:12px!important}#obligations .ha2-event-status{font-size:9px}#obligations .ha2-datechip{flex-basis:47px;width:47px}#obligations .ha2-center-top{gap:8px}#obligations .ha2-inline .hilen-reference-form{grid-template-columns:1fr}}
+
+#obligations .ha2-event-form{display:flex;flex-direction:column;gap:13px}
+#obligations .ha2-field{min-width:0}
+#obligations .ha2-field label{font-size:12px;font-weight:750;color:#282019;display:block;margin:0 0 6px}
+#obligations .ha2-field label em{color:#b74a37;font-style:normal}
+#obligations .ha2-event-form .input{display:block;width:100%;margin:0!important;padding:11px 12px!important;min-height:43px!important;background:#fff!important;border:1px solid #dcd7d0!important;border-radius:11px!important;font-size:12px!important;color:#2c231d!important}
+#obligations .ha2-event-form .input:focus{border-color:#b38a40!important;box-shadow:0 0 0 3px rgba(180,134,54,.11)!important}
+#obligations .ha2-formrow{display:grid;grid-template-columns:1.18fr 1fr;gap:10px}
+#obligations .ha2-reminders{border:0;padding:0;margin:8px 0 5px;min-width:0}
+#obligations .ha2-reminders legend{font-size:12px;color:#302820;font-weight:750;margin-bottom:12px}
+#obligations .ha2-reminders .hilen-reference-alerts{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;padding:0!important;background:none!important}
+#obligations .ha2-reminders .ha2-alert-choice{display:flex!important;align-items:center!important;gap:6px!important;padding:10px 7px!important;border-radius:9px!important;border:1px solid #eee8dd!important;background:#fff!important;font-size:10px!important;white-space:nowrap!important;font-weight:600!important;cursor:pointer}
+#obligations .ha2-alert-choice input{accent-color:#b58730;flex:0 0 auto}
+#obligations .ha2-form-actions{display:flex;gap:10px;align-items:center;margin-top:30px}
+#obligations .ha2-form-actions button{height:43px;border-radius:23px;font-size:12px;font-weight:750}
+#obligations .ha2-cancel{flex:0 0 37%;border:1px solid #e1dbd1;background:white;color:#514333}
+#obligations .ha2-save{flex:1;border:1px solid #b48732;background:linear-gradient(135deg,#d7ad59,#9e711f);color:white}
+@media(max-width:480px){#obligations .ha2-formrow{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -10140,43 +10158,33 @@ function hilenRenderObligations(){
  hilenRenderCalendarStatus();
 }
 function hilenOpenObligationForm(oid=''){
-  const old=oid?(db.obligations||[]).find(x=>x.id===oid):null;
-  if(oid&&!old)return;
-  const type=old?.type||hilenObligationTab;
-  const periods=Array.isArray(old?.alertDays)?old.alertDays:[7,3,1,0];
-  const checks=[7,3,1,0].map(day=>'<label><input type="checkbox" data-oblalert="'+day+'" '+(periods.includes(day)?'checked':'')+'> '+(day?day+' días antes':'El mismo día')+'</label>').join('');
-  document.getElementById('hilenAgendaInlineForm').innerHTML=
-    '<div class="encargo-modal hilen-reference-modal"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2 class="hilen-reference-modal-title">'+(old?'Editar obligación':'Nueva obligación')+'</h2><p class="muted small">Programa los próximos vencimientos de HILEN.</p></div><button type="button" class="secondary" onclick="closeModal()" aria-label="Cerrar formulario">×</button></div>'+
-    '<div class="hilen-reference-form">'+
-    '<div class="fullcol"><label class="label">Nombre *</label><input id="hilenOblTitle" class="input" maxlength="140" placeholder="Ej. Arriendo del local"></div>'+
-    '<div><label class="label">Valor estimado (COP)</label><input id="hilenOblAmount" class="input" inputmode="numeric" placeholder="0" oninput="formatMoneyField(this)"></div>'+
-    '<div><label class="label">Fecha de vencimiento *</label><input id="hilenOblDue" type="date" class="input"></div>'+
-    '<div><label class="label">Repetir</label><select id="hilenOblRepeat" class="input"><option value="none">No repetir</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option><option value="quarterly">Cada 3 meses</option><option value="yearly">Anual</option></select></div>'+
-    '<div><label class="label">Tipo de compromiso</label><select id="hilenOblType" class="input"><option value="supplier">Proveedor o pago previsto</option><option value="service">Servicio, trámite o mantenimiento</option></select></div>'+
-    '<div class="fullcol"><label class="label">Avisarme antes del vencimiento</label><div class="hilen-reference-alerts">'+checks+'</div></div>'+
-    '<div><label class="label">Hora del aviso</label><input id="hilenOblReminderTime" type="time" class="input"></div>'+
-    '<div><label class="label">Proveedor o entidad</label><input id="hilenOblParty" class="input" maxlength="140"></div>'+
-    '<div class="fullcol"><label class="label">Referencia o comprobante</label><input id="hilenOblReference" class="input" maxlength="140"></div>'+
-    '<div class="fullcol"><label class="label">Notas</label><textarea id="hilenOblNotes" class="input" rows="2" maxlength="1000"></textarea></div>'+
-    '<div class="fullcol"><label class="label">Notificaciones y calendario (solo esta sección)</label><div class="hilen-reference-switches">'+
-    '<label>Google Calendar <small>Guardar y actualizar el evento directamente tras conectar la cuenta</small><input type="checkbox" id="hilenOblCalendarChoice"></label>'+
-    '<label>Notificaciones en HILEN <small>Mientras la aplicación esté abierta</small><input type="checkbox" id="hilenOblNotifyApp" checked></label>'+
-    
-    '</div></div></div>'+
-    '<div class="hilen-reference-modal-actions"><button type="button" class="secondary" onclick="hilenResetObligationForm()">Cancelar</button><button type="button" class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar evento</button></div></div>';
-  const field=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value};
-  field('hilenOblType',type);
-  field('hilenOblTitle',old?.title||'');
-  field('hilenOblParty',old?.party||'');
-  field('hilenOblAmount',old?.amount?new Intl.NumberFormat('es-CO').format(old.amount):'');
-  field('hilenOblDue',old?.dueDate||today());
-  field('hilenOblReminderTime',old?.reminderTime||'09:00');
-  field('hilenOblRepeat',old?.repeat||'none');
-  field('hilenOblReference',old?.reference||'');
-  field('hilenOblNotes',old?.notes||'');
-  document.getElementById('hilenOblNotifyApp').checked=old?.notifyApp!==false;
-  document.getElementById('hilenOblCalendarChoice').checked=old?.calendarChoice!==false;
-  const heading=document.getElementById('hilenAgendaFormHeading');if(heading)heading.textContent=old?'Editar evento':'Agregar evento';
+ const old=oid?(db.obligations||[]).find(o=>String(o.id)===String(oid)):null;
+ if(oid&&!old)return;
+ const type=old?.type||'supplier',periods=Array.isArray(old?.alertDays)?old.alertDays:[7,3,1,0];
+ const checks=[7,3,1,0].map(n=>
+  '<label class="ha2-alert-choice"><input type="checkbox" data-oblalert="'+n+'" '+(periods.includes(n)?'checked':'')+'> '+(n===0?'El mismo día':n+' día'+(n===1?'':'s')+' antes')+'</label>').join('');
+ const ui=document.getElementById('hilenAgendaInlineForm');if(!ui)return;
+ ui.innerHTML='<form class="ha2-event-form" onsubmit="event.preventDefault();hilenSaveObligation(\''+esc(oid)+'\')">'+
+  '<div class="ha2-field"><label for="hilenOblTitle">Título del evento <em>*</em></label><input id="hilenOblTitle" class="input" maxlength="140" required placeholder="Ej. Arriendo del local"></div>'+
+  '<div class="ha2-field"><label for="hilenOblNotes">Descripción (opcional)</label><input id="hilenOblNotes" class="input" maxlength="1000" placeholder="Detalle o referencia"></div>'+
+  '<div class="ha2-formrow"><div class="ha2-field"><label for="hilenOblDue">Fecha <em>*</em></label><input id="hilenOblDue" type="date" class="input" required></div>'+
+  '<div class="ha2-field"><label for="hilenOblReminderTime">Hora (opcional)</label><input id="hilenOblReminderTime" type="time" class="input"></div></div>'+
+  '<div class="ha2-field"><label for="hilenOblRepeat">Repetir</label><select id="hilenOblRepeat" class="input"><option value="none">No repetir</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option><option value="quarterly">Cada 3 meses</option><option value="yearly">Anual</option></select></div>'+
+  '<div class="ha2-field"><label for="hilenOblType">Tipo</label><select id="hilenOblType" class="input"><option value="supplier">Proveedor</option><option value="service">Servicio o mantenimiento</option></select></div>'+
+  '<fieldset class="ha2-reminders"><legend>Recordatorio</legend><div class="hilen-reference-alerts">'+checks+'</div></fieldset>'+
+  '<input id="hilenOblAmount" type="hidden"><input id="hilenOblParty" type="hidden"><input id="hilenOblReference" type="hidden">'+
+  '<input id="hilenOblNotifyApp" type="checkbox" hidden checked aria-label="Notificaciones en HILEN">'+
+  '<input id="hilenOblCalendarChoice" type="checkbox" hidden checked aria-label="Sincronizar con Google Calendar">'+
+  '<div class="ha2-form-actions"><button type="button" class="ha2-cancel" onclick="hilenResetObligationForm()">Cancelar</button><button class="ha2-save" type="submit">✓ &nbsp;'+(oid?'Guardar cambios':'Guardar evento')+'</button></div>'+
+  '</form>';
+ const set=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value};
+ set('hilenOblTitle',old?.title||'');set('hilenOblNotes',old?.notes||'');
+ set('hilenOblDue',old?.dueDate||today());set('hilenOblReminderTime',old?.reminderTime||'10:00');
+ set('hilenOblRepeat',old?.repeat||'none');set('hilenOblType',type);
+ set('hilenOblAmount',old?.amount||0);set('hilenOblParty',old?.party||'');set('hilenOblReference',old?.reference||'');
+ document.getElementById('hilenOblNotifyApp').checked=old?.notifyApp!==false;
+ document.getElementById('hilenOblCalendarChoice').checked=old?.calendarChoice!==false;
+ document.getElementById('hilenAgendaFormHeading').textContent=oid?'Editar evento':'Agregar evento';
 }
 function hilenSaveObligation(oid=''){
   const title=document.getElementById('hilenOblTitle')?.value.trim()||'';
