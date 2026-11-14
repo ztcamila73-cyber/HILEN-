@@ -5328,6 +5328,11 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
 #obligations .ha2-cancel{flex:0 0 37%;border:1px solid #e1dbd1;background:white;color:#514333}
 #obligations .ha2-save{flex:1;border:1px solid #b48732;background:linear-gradient(135deg,#d7ad59,#9e711f);color:white}
 @media(max-width:480px){#obligations .ha2-formrow{grid-template-columns:1fr 1fr}}
+/* Mantener la composición de referencia: los filtros históricos se conservan como lógica, sin duplicar controles visuales. */
+#obligations .ha2-list-controls{display:none!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-selected{display:none!important}
+#obligations .ha2-header-copy p{max-width:850px}
+#obligations .ha2-panel,.ha2-stats .card{backdrop-filter:none!important}
 </style>
 </head>
 <body>
