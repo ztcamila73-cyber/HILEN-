@@ -5489,7 +5489,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 #hilenReminderSettings .hrs-sync-main:disabled{opacity:1!important;cursor:default!important}
 #hilenReminderSettings .hrs-sync-outline{color:#81540c!important;background:#fffcf7!important;border:1px solid #bb8524!important}
 #hilenReminderSettings .hrs-sync-notify-status{font-size:13px;font-weight:800;background:#fff0cb;color:#83570b;padding:11px 15px;border-radius:999px;box-shadow:0 2px 7px #b8872430}
-#hilenReminderSettings .hrs-sync-notify.is-active .hrs-sync-notify-status{background:#fff0cb;color:#83570b}
+#hilenReminderSettings .hrs-sync-notify.is-active .hrs-sync-notify-status{background:linear-gradient(135deg,#61c878,#1b9d43)!important;color:#fff!important;border:1px solid #319b4d!important;box-shadow:0 4px 12px #269c4a30!important}
 #hilenReminderSettings .hrs-sync-decor{position:absolute;right:20px;top:26px;width:72px;height:72px;opacity:.18;z-index:-1;color:#73be4c}
 #hilenReminderSettings .hrs-sync-notify .hrs-sync-decor{color:#dda32a}
 #hilenReminderSettings .hrs-sync-decor svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
@@ -5497,6 +5497,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 @media(max-width:1250px){#hilenReminderSettings .hrs-sync-grid{grid-template-columns:1fr}#hilenReminderSettings .hrs-sync-card{min-height:155px}}
 @media(max-width:650px){#hilenReminderSettings .hrs-sync-card{padding:15px;gap:11px;border-radius:17px;align-items:flex-start}#hilenReminderSettings .hrs-sync-icon{width:54px;height:54px;flex-basis:54px;padding:8px;border-radius:13px}#hilenReminderSettings .hrs-sync-rule{height:56px}#hilenReminderSettings .hrs-sync-heading h2{font-size:17px}#hilenReminderSettings .hrs-sync-content>p{font-size:12px}#hilenReminderSettings .hrs-sync-actions button{font-size:11px;padding:9px 12px}#hilenReminderSettings .hrs-sync-decor{display:none}}
 
+#hilenReminderSettings .hrs-sync-notify.is-active{border-color:#bce3c7!important;background:linear-gradient(115deg,#fffdf9,#fff 55%,#f2fbf4)!important}
 </style>
 </head>
 <body>
@@ -10336,8 +10337,8 @@ function hilenRefreshReminderSetupStates(){
  set('hrsNotificationsState',notify?'Activado':denied?'Bloqueado':'No activado');
  set('hilenSettingsCalendarStatus',status);
  set('hilenSettingsCalendarBadge',hilenCalendarCheckPending?'Verificando…':calendar?'✓ Verificado por Google':hilenCalendarPreviouslyVerified()?'Reconexión necesaria':'No verificado');
- set('hilenSettingsNotificationStatus',notify?'Recibe avisos y recordatorios en tu navegador.':denied?'Las notificaciones están bloqueadas en el navegador.':'Activa los avisos para recibir recordatorios en tu navegador.');
- set('hilenSettingsNotificationBadge',notify?'♧ Notificaciones activadas':denied?'Notificaciones bloqueadas':'Notificaciones sin activar');
+ set('hilenSettingsNotificationStatus',notify?'Conectado · el navegador tiene las notificaciones autorizadas.':denied?'Las notificaciones están bloqueadas en el navegador.':'Activa los avisos para recibir recordatorios en tu navegador.');
+ set('hilenSettingsNotificationBadge',notify?'✓ Conectado y activado':denied?'Notificaciones bloqueadas':'Notificaciones sin activar');
  const calendarCard=document.getElementById('hilenSettingsCalendarCard');
  if(calendarCard){calendarCard.classList.toggle('is-connected',calendar);calendarCard.classList.toggle('is-checking',hilenCalendarCheckPending)}
  const verifyBtn=document.getElementById('hilenSettingsCalendarVerify');if(verifyBtn)verifyBtn.disabled=hilenCalendarCheckPending;
