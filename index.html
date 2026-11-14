@@ -5498,6 +5498,29 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 @media(max-width:650px){#hilenReminderSettings .hrs-sync-card{padding:15px;gap:11px;border-radius:17px;align-items:flex-start}#hilenReminderSettings .hrs-sync-icon{width:54px;height:54px;flex-basis:54px;padding:8px;border-radius:13px}#hilenReminderSettings .hrs-sync-rule{height:56px}#hilenReminderSettings .hrs-sync-heading h2{font-size:17px}#hilenReminderSettings .hrs-sync-content>p{font-size:12px}#hilenReminderSettings .hrs-sync-actions button{font-size:11px;padding:9px 12px}#hilenReminderSettings .hrs-sync-decor{display:none}}
 
 #hilenReminderSettings .hrs-sync-notify.is-active{border-color:#bce3c7!important;background:linear-gradient(115deg,#fffdf9,#fff 55%,#f2fbf4)!important}
+
+/* Venta: calendario legible, selección rápida de mes y año. */
+#newSale .hilen-sale-date-wrap{position:relative;min-width:0}
+#newSale .hilen-date-control{display:flex;gap:8px;align-items:center}
+#newSale .hilen-date-control>.input{flex:1;min-width:0;font-variant-numeric:tabular-nums}
+#newSale .hilen-date-control>button{height:43px;width:44px;flex:0 0 44px;background:#fff8ec;color:#aa7a28;border:1px solid #e6d6b9;border-radius:12px;font-size:24px;cursor:pointer}
+#newSale .hilen-hidden-date{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+#newSale .hilen-sale-hint{display:block;color:#8c7f70;margin-top:6px;font-size:11px}
+#newSale .hilen-date-error{border-color:#c94040!important;box-shadow:0 0 0 2px #c9404025!important}
+#newSale .hilen-sale-calendar{position:absolute;z-index:4000;left:0;top:76px;width:min(325px,calc(100vw - 40px));padding:15px;border:1px solid #e5d2b1;border-radius:18px;background:#fff;box-shadow:0 17px 45px #26160738}
+#newSale .hilen-sale-calendar.hidden{display:none!important}
+#newSale .hilen-sale-cal-bar{display:grid;grid-template-columns:32px minmax(0,1fr) 83px 32px;gap:5px;align-items:center;margin-bottom:13px}
+#newSale .hilen-sale-cal-bar select{width:100%;min-width:0;padding:8px 5px;background:#fff;color:#4b3724;border:1px solid #e4d8c5;border-radius:8px;font-size:12px}
+#newSale .hilen-sale-cal-bar button{height:34px;border:0;background:#faf4e9;border-radius:8px;color:#997128;font-size:23px}
+#newSale .hilen-sale-cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+#newSale .hilen-sale-cal-week{font-size:11px;color:#8c7c6d;font-weight:750;margin-bottom:6px}
+#newSale .hilen-sale-cal-grid button{height:36px;background:#fff;border:0;border-radius:9px;cursor:pointer;color:#352c22}
+#newSale .hilen-sale-cal-grid button:hover{background:#f9eed7}
+#newSale .hilen-sale-cal-grid button.selected{background:linear-gradient(145deg,#e6bf69,#a77823);color:#fff}
+#newSale .hilen-sale-cal-grid button.today:not(.selected){border:1px solid #c99e50}
+#newSale .hilen-sale-cal-footer{display:flex;justify-content:space-between;margin-top:10px;padding-top:9px;border-top:1px solid #f0e6d8}
+#newSale .hilen-sale-cal-footer button{background:transparent;border:0;color:#986923;font-weight:800;cursor:pointer;padding:7px 10px}
+
 </style>
 </head>
 <body>
@@ -7797,6 +7820,89 @@ function updateSaleClientFromName(){
   else{if(saleMatchedClientId){if($('newClientPhone'))$('newClientPhone').value='';if($('newClientGender'))$('newClientGender').value='';saleMatchedClientId=null}hint.className='notice blue';hint.textContent='Nombre nuevo: al guardar la venta se creará automáticamente el cliente y quedará sincronizado con Clientes, Historial y la nube.'}
 }
 function ensureClientFromSaleForm(name,phone,gender,date){const normalized=normalizeClientName(name);let c=db.clients.find(x=>normalizeClientName(x.name)===normalized);if(!c){c={id:id(),name:name.trim(),phone:phone.trim(),gender,email:'',notes:'',interest:'',registeredDate:date,convertedAt:date,createdAt:new Date().toISOString()};db.clients.push(c)}else{if(phone.trim())c.phone=phone.trim();if(gender)c.gender=gender;if(!c.convertedAt)c.convertedAt=date;c.registeredDate ||= String(c.createdAt||'').slice(0,10)||date}return c}
+
+/* Registro de venta: la fecha visible acepta DD/MM/AAAA y el dato interno sigue siendo AAAA-MM-DD. */
+let hilenSaleCalCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+function hilenSaleClock(){
+ const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+function hilenSaleDateFmt(iso){
+ return /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(iso||'')?iso.slice(8,10)+'/'+iso.slice(5,7)+'/'+iso.slice(0,4):'';
+}
+function hilenSaleDateParse(input){
+ const match=String(input||'').trim().match(/^([0-9]{1,2})[./-]([0-9]{1,2})[./-]([0-9]{4})$/);
+ if(!match)return '';
+ const day=Number(match[1]),month=Number(match[2]),year=Number(match[3]);
+ if(year<1900||year>2100||month<1||month>12||day<1||day>31)return '';
+ const actual=new Date(year,month-1,day);
+ if(actual.getFullYear()!==year||actual.getMonth()!==month-1||actual.getDate()!==day)return '';
+ return String(year).padStart(4,'0')+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+}
+function hilenSaleDateSync(){
+ const el=document.getElementById('saleDate'),manual=document.getElementById('saleDateTyped');
+ if(el&&manual){manual.value=hilenSaleDateFmt(el.value);manual.classList.remove('hilen-date-error')}
+}
+function hilenSaleDateTyping(){
+ const manual=document.getElementById('saleDateTyped');
+ if(!manual)return;manual.classList.remove('hilen-date-error');
+ const value=hilenSaleDateParse(manual.value);
+ if(value)document.getElementById('saleDate').value=value;
+}
+function hilenSaleDateValidate(){
+ const manual=document.getElementById('saleDateTyped');
+ if(!manual)return false;
+ const value=hilenSaleDateParse(manual.value);
+ if(!value){manual.classList.add('hilen-date-error');return false}
+ document.getElementById('saleDate').value=value;
+ manual.value=hilenSaleDateFmt(value);
+ manual.classList.remove('hilen-date-error');return true;
+}
+function hilenSaleCalendarToggle(){
+ const panel=document.getElementById('hilenSaleCalendar');
+ if(!panel)return;
+ if(!panel.classList.contains('hidden'))return hilenSaleCalendarClose();
+ const chosen=hilenSaleDateParse(document.getElementById('saleDateTyped')?.value)||document.getElementById('saleDate')?.value||today();
+ hilenSaleCalCursor=new Date(Number(chosen.slice(0,4)),Number(chosen.slice(5,7))-1,1);
+ panel.classList.remove('hidden');hilenSaleCalendarDraw();
+}
+function hilenSaleCalendarClose(){document.getElementById('hilenSaleCalendar')?.classList.add('hidden')}
+function hilenSaleCalendarShift(shift){
+ hilenSaleCalCursor=new Date(hilenSaleCalCursor.getFullYear(),hilenSaleCalCursor.getMonth()+shift,1);
+ hilenSaleCalendarDraw();
+}
+function hilenSaleCalendarSelectMonthYear(){
+ const m=document.getElementById('hilenSaleMonth'),y=document.getElementById('hilenSaleYear');
+ if(!m||!y)return;
+ hilenSaleCalCursor=new Date(Number(y.value),Number(m.value),1);
+ hilenSaleCalendarDraw();
+}
+function hilenSaleCalendarChoose(iso){
+ document.getElementById('saleDate').value=iso;
+ hilenSaleDateSync();hilenSaleCalendarClose();
+}
+function hilenSaleCalendarToday(){hilenSaleCalendarChoose(today())}
+function hilenSaleCalendarDraw(){
+ const monthEl=document.getElementById('hilenSaleMonth'),yearEl=document.getElementById('hilenSaleYear'),grid=document.getElementById('hilenSaleCalendarDays');
+ if(!monthEl||!yearEl||!grid)return;
+ const m=hilenSaleCalCursor.getMonth(),y=hilenSaleCalCursor.getFullYear();
+ monthEl.innerHTML=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'].map((name,i)=>'<option value="'+i+'">'+name+'</option>').join('');
+ yearEl.innerHTML=Array.from({length:201},(_,i)=>'<option value="'+(1900+i)+'">'+(1900+i)+'</option>').join('');
+ monthEl.value=String(m);yearEl.value=String(y);
+ const first=(new Date(y,m,1).getDay()+6)%7,last=new Date(y,m+1,0).getDate();
+ let out='<span></span>'.repeat(first);
+ const selected=document.getElementById('saleDate')?.value;
+ for(let i=1;i<=last;i++){
+  const iso=y+'-'+String(m+1).padStart(2,'0')+'-'+String(i).padStart(2,'0');
+  out+='<button type="button" class="'+(selected===iso?'selected ':'')+(iso===today()?'today':'')+'" onclick="hilenSaleCalendarChoose(&quot;'+iso+'&quot;)">'+i+'</button>';
+ }
+ grid.innerHTML=out;
+}
+document.addEventListener('pointerdown',ev=>{
+ const cal=document.getElementById('hilenSaleCalendar');
+ if(cal&&!cal.classList.contains('hidden')&&!ev.target.closest('.hilen-sale-date-wrap'))hilenSaleCalendarClose();
+});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape')hilenSaleCalendarClose()});
+
 function resetSaleForm(){
   if($('saleDate'))$('saleDate').value=today();hilenSaleDateSync();hilenSaleCalendarClose();
   if($('saleTime'))$('saleTime').value=hilenSaleClock();
@@ -7816,7 +7922,7 @@ async function saveSale(){
  if(hilenSavingSale)return;
  if(!hilenSaleDateValidate())return showToast('Fecha inválida','Escribe DD/MM/AAAA o usa el calendario.','error');
  const saleTime=$('saleTime')?.value||'';
- if(!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(saleTime))return showToast('Hora inválida','Escribe una hora válida.','error');
+ if(!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(saleTime))return showToast('Hora inválida','Escribe una hora válida.','error');
  const date=$('saleDate').value,type=$('paymentType').value,name=$('newClientName').value.trim();
  if(!date||!name)return showToast('Completa la venta','Fecha y nombre del cliente son obligatorios.','error');
  const gender=$('newClientGender').value,phone=$('newClientPhone').value.trim();if(!gender)return showToast('Selecciona el sexo','Indica si el cliente es mujer u hombre.','error');
