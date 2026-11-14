@@ -5403,6 +5403,28 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
  #obligations .ha2-panel{padding:13px!important}
 }
 
+
+/* HILEN · Formulario de evento en ventana emergente, sin panel lateral permanente. */
+#obligations .ha2-header-add{border-radius:999px!important;padding:12px 20px!important;white-space:nowrap!important;background:linear-gradient(145deg,#e8c167,#b78116)!important;border:1px solid #d1a04b!important;color:#fff!important;box-shadow:0 5px 13px #87601824!important}
+#obligations .ha2-columns{grid-template-columns:minmax(230px,.78fr) minmax(0,1.75fr)!important;align-items:stretch!important}
+#obligations .ha2-modal-backdrop{position:fixed!important;inset:0!important;z-index:10000!important;display:none!important;align-items:center!important;justify-content:center!important;background:rgba(24,20,17,.55)!important;backdrop-filter:blur(4px)!important;padding:18px!important;overflow:auto!important}
+#obligations .ha2-modal-backdrop.is-open{display:flex!important}
+#obligations .ha2-modal-backdrop .ha2-form-panel{width:min(100%,610px)!important;max-height:min(94dvh,820px)!important;overflow:auto!important;min-height:0!important;margin:auto!important;padding:0!important;box-shadow:0 22px 76px #19150f45!important;border:1px solid #decba6!important;border-radius:22px!important;grid-column:auto!important}
+#obligations .ha2-modal-backdrop .ha2-inline{padding:22px!important}
+#obligations .ha2-modal-backdrop .ha2-formtop{position:sticky;top:0;z-index:1;padding:18px 22px!important}
+#obligations .ha2-modal-backdrop .ha2-field label{font-size:12px!important}
+#obligations .ha2-modal-backdrop .ha2-field input,#obligations .ha2-modal-backdrop .ha2-field select{min-height:43px!important}
+#obligations .ha2-modal-backdrop .ha2-calendar-connect{margin:0 22px 20px!important}
+body.hilen-agenda-modal-open{overflow:hidden!important}
+@media(max-width:950px){#obligations .ha2-columns{grid-template-columns:minmax(0,1fr)!important}}
+@media(max-width:600px){
+ #obligations .ha2-header-actions{width:100%;justify-content:flex-start!important}
+ #obligations .ha2-modal-backdrop{padding:10px!important;align-items:center!important}
+ #obligations .ha2-modal-backdrop .ha2-form-panel{max-height:94dvh!important;width:100%!important}
+ #obligations .ha2-modal-backdrop .ha2-inline{padding:15px!important}
+ #obligations .ha2-modal-backdrop .ha2-calendar-connect{margin:0 15px 15px!important}
+}
+
 </style>
 </head>
 <body>
@@ -5952,7 +5974,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
       <header class="ha2-header">
         <span class="ha2-header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>
         <div class="ha2-header-copy"><h2>Agenda de recordatorios</h2><p>Programa fechas y recordatorios para proveedores, trámites, servicios y mantenimiento. No contabiliza egresos.</p></div>
-        <div class="ha2-header-actions"><button type="button" class="ha2-bell" onclick="requestReminderPermission()" aria-label="Activar avisos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg></button></div>
+        <div class="ha2-header-actions"><button type="button" class="ha2-add ha2-header-add" onclick="hilenOpenObligationForm()">＋ Agregar evento</button><button type="button" class="ha2-bell" onclick="requestReminderPermission()" aria-label="Activar avisos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg></button></div>
       </header>
       <div class="hilen-obligations-stats ha2-stats">
         <div class="card hilen-agenda-stat ha2-stat total"><span class="ha2-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><div><div class="stat-label">Total eventos</div><div class="stat" id="hilenObligationPending">0</div></div></div>
@@ -5970,7 +5992,7 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
         <div class="card ha2-panel ha2-center">
           <div class="ha2-center-top">
             <div class="ha2-switch"><button class="active" type="button" data-agenda-view="agenda" onclick="hilenSetAgendaView('agenda')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg> Agenda</button><button type="button" data-agenda-view="history" onclick="hilenSetAgendaView('history')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 1 3 6M3 3v6h6M12 7v5l3 2"/></svg> Historial</button></div>
-            <button class="ha2-add" type="button" onclick="hilenOpenObligationForm()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Agregar evento</button>
+            
           </div>
           <div class="ha2-monthrow"><button type="button" onclick="hilenShiftAgendaMonth(-1)" aria-label="Mes anterior">‹</button><h3 id="hilenAgendaListMonth">Noviembre 2026</h3><div class="ha2-month-actions"><button type="button" onclick="hilenAgendaToday()">Hoy</button><button type="button" onclick="hilenShiftAgendaMonth(1)" aria-label="Mes siguiente">›</button></div></div>
           <div class="ha2-list-controls">
@@ -5981,8 +6003,10 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
           <div id="hilenObligationList" class="hilen-obligations-list ha2-events"></div>
           <div class="ha2-center-foot">Los recordatorios son informativos y no generan egresos. Registra los pagos reales en <button type="button" onclick="goSection('cashflow')">Flujo de caja</button>.</div>
         </div>
-        <aside class="card ha2-panel ha2-form-panel" id="hilenAgendaFormPanel">
-          <div class="ha2-formtop"><span class="ha2-formtop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><h3 id="hilenAgendaFormHeading">Agregar evento</h3><button type="button" onclick="hilenResetObligationForm()" aria-label="Limpiar formulario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div>
+      </div>
+      <div id="hilenAgendaModal" class="ha2-modal-backdrop" role="presentation" onclick="if(event.target===this)hilenCloseObligationForm()">
+        <aside class="card ha2-panel ha2-form-panel" id="hilenAgendaFormPanel" role="dialog" aria-modal="true" aria-labelledby="hilenAgendaFormHeading" tabindex="-1">
+          <div class="ha2-formtop"><span class="ha2-formtop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><h3 id="hilenAgendaFormHeading">Agregar evento</h3><button type="button" onclick="hilenCloseObligationForm()" aria-label="Cerrar formulario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div>
           <div id="hilenAgendaInlineForm" class="ha2-inline"></div>
           <div class="ha2-calendar-connect"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><div><b>Google Calendar</b><p id="hilenCalendarStatus">Conecta tu calendario para guardar eventos automáticamente.</p></div><button type="button" onclick="hilenConnectAgendaCalendar()">Conectar</button></div>
         </aside>
@@ -10156,7 +10180,16 @@ function hilenToggleAgendaEventActions(id){
  hilenAgendaEventOpen=hilenAgendaEventOpen===id?'':id;
  document.querySelectorAll('#hilenObligationList .ha2-event-ops').forEach(el=>el.classList.toggle('open',el.dataset.oid===hilenAgendaEventOpen));
 }
-function hilenResetObligationForm(){hilenOpenObligationForm('')}
+function hilenResetObligationForm(){hilenCloseObligationForm()}
+function hilenCloseObligationForm(){
+ const modal=document.getElementById('hilenAgendaModal');
+ if(!modal)return;
+ modal.classList.remove('is-open');
+ document.body.classList.remove('hilen-agenda-modal-open');
+ const ui=document.getElementById('hilenAgendaInlineForm');if(ui)ui.innerHTML='';
+ const trigger=document.querySelector('#obligations .ha2-header-add');if(trigger&&document.activeElement?.closest('#hilenAgendaModal'))trigger.focus();
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('hilenAgendaModal')?.classList.contains('is-open')){e.preventDefault();hilenCloseObligationForm()}});
 function hilenAgendaIcon(o){
  const title=String(o.title||'').toLowerCase();
  if(/arriendo|alquiler|local/.test(title))return '<path d="m3 11 9-8 9 8M5 10v11h14V10M9 21v-7h6v7"/>';
@@ -10229,7 +10262,6 @@ function hilenRenderObligations(){
    }).join('');
  }
  hilenRenderAgendaCalendar();
- if(!document.getElementById('hilenOblTitle'))hilenOpenObligationForm();
  hilenRenderCalendarStatus();
 }
 function hilenOpenObligationForm(oid=''){
@@ -10239,6 +10271,8 @@ function hilenOpenObligationForm(oid=''){
  const checks=[7,3,1,0].map(n=>
   '<label class="ha2-alert-choice"><input type="checkbox" data-oblalert="'+n+'" '+(periods.includes(n)?'checked':'')+'> '+(n===0?'El mismo día':n+' día'+(n===1?'':'s')+' antes')+'</label>').join('');
  const ui=document.getElementById('hilenAgendaInlineForm');if(!ui)return;
+ const modal=document.getElementById('hilenAgendaModal');if(!modal)return;
+ modal.classList.add('is-open');document.body.classList.add('hilen-agenda-modal-open');
  ui.innerHTML='<form class="ha2-event-form" onsubmit="event.preventDefault();hilenSaveObligation(\''+esc(oid)+'\')">'+
   '<div class="ha2-field"><label for="hilenOblTitle">Título del evento <em>*</em></label><input id="hilenOblTitle" class="input" maxlength="140" required placeholder="Ej. Arriendo del local"></div>'+
   '<div class="ha2-field"><label for="hilenOblNotes">Descripción (opcional)</label><input id="hilenOblNotes" class="input" maxlength="1000" placeholder="Detalle o referencia"></div>'+
@@ -10260,6 +10294,7 @@ function hilenOpenObligationForm(oid=''){
  document.getElementById('hilenOblNotifyApp').checked=old?.notifyApp!==false;
  document.getElementById('hilenOblCalendarChoice').checked=old?.calendarChoice!==false;
  document.getElementById('hilenAgendaFormHeading').textContent=oid?'Editar evento':'Agregar evento';
+ document.getElementById('hilenOblTitle')?.focus();
 }
 function hilenSaveObligation(oid=''){
   const title=document.getElementById('hilenOblTitle')?.value.trim()||'';
