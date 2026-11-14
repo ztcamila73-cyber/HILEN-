@@ -10106,14 +10106,14 @@ async function hilenVerifyCalendarConnection(quiet=false){
  if(!hilenCalendarAuthorized()){hilenCalendarConnectionVerified=false;hilenRenderCalendarStatus();if(!quiet)showToast('Google Calendar sin conectar','Conecta primero tu cuenta Google.','warning');return false}
  hilenCalendarCheckPending=true;hilenRenderCalendarStatus();
  try{
-  const resp=await fetch('https://www.googleapis.com/calendar/v3/calendars/primary',{headers:{Authorization:'Bearer '+hilenCalendarToken}});
+  const resp=await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events?maxResults=1',{headers:{Authorization:'Bearer '+hilenCalendarToken}});
   if(!resp.ok){
    let msg='Google Calendar no respondió correctamente ('+resp.status+').';
    try{msg=(await resp.json()).error?.message||msg}catch(_){}
    if(resp.status===401||resp.status===403){hilenCalendarToken='';hilenCalendarTokenExpiry=0}
    throw new Error(msg);
   }
-  const cal=await resp.json();if(!cal?.id)throw new Error('Google no confirmó el calendario principal.');
+  const cal=await resp.json();if(cal?.kind!=='calendar#events'||!Array.isArray(cal.items))throw new Error('Google no confirmó el acceso a los eventos del calendario.');
   hilenCalendarConnectionVerified=true;
   if(!quiet)showToast('Google Calendar verificado','Google confirmó el acceso al calendario principal.','success');
   return true;
