@@ -9887,11 +9887,12 @@ function hilenRenderAgendaCalendar(){
 }
 function hilenShiftAgendaMonth(n){
   hilenAgendaMonthCursor=new Date(hilenAgendaMonthCursor.getFullYear(),hilenAgendaMonthCursor.getMonth()+Number(n||0),1);
-  hilenRenderAgendaCalendar();
+  hilenAgendaSelectedDate='';
+  hilenRenderObligations();
 }
 function hilenSelectAgendaDate(key){
-  hilenAgendaSelectedDate=key;
-  hilenRenderAgendaCalendar();
+  hilenAgendaSelectedDate=hilenAgendaSelectedDate===key?'':key;
+  hilenRenderObligations();
 }
 function hilenLegacyOpenAgendaGoogleCalendar(){
   const list=(db.obligations||[]).filter(o=>o.status!=='paid'&&o.dueDate).sort((a,b)=>a.dueDate.localeCompare(b.dueDate));
@@ -10042,12 +10043,32 @@ function hilenOpenAgendaGoogleCalendar(){return hilenConnectAgendaCalendar()}
 function hilenOpenObligationInGoogleCalendar(id){return hilenSyncCalendarRecord(id)}
 
 /* Obligaciones del negocio: seguimiento separado de los egresos contables. */
-let hilenObligationTab='supplier';
+let hilenObligationTab='all';
+let hilenAgendaView='agenda';
+let hilenAgendaEventOpen='';
 let hilenObligationReminderTimer=null;
 function hilenSetObligationTab(type){
-  if(type!=='supplier'&&type!=='service')return;
-  hilenObligationTab=type;
-  hilenRenderObligations();
+ if(!['all','supplier','service'].includes(type))return;
+ hilenObligationTab=type;hilenRenderObligations();
+}
+function hilenSetAgendaView(view){
+ if(!['agenda','history'].includes(view))return;
+ hilenAgendaView=view;hilenAgendaSelectedDate='';hilenRenderObligations();
+}
+function hilenAgendaToday(){
+ hilenAgendaMonthCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+ hilenAgendaSelectedDate='';hilenRenderObligations();
+}
+function hilenToggleAgendaEventActions(id){
+ hilenAgendaEventOpen=hilenAgendaEventOpen===id?'':id;
+ document.querySelectorAll('#hilenObligationList .ha2-event-ops').forEach(el=>el.classList.toggle('open',el.dataset.oid===hilenAgendaEventOpen));
+}
+function hilenResetObligationForm(){hilenOpenObligationForm('')}
+function hilenAgendaIcon(o){
+ const title=String(o.title||'').toLowerCase();
+ if(/arriendo|alquiler|local/.test(title))return '<path d="m3 11 9-8 9 8M5 10v11h14V10M9 21v-7h6v7"/>';
+ if(/internet|wifi|red/.test(title))return '<path d="M2 8a16 16 0 0 1 20 0M5 11a11 11 0 0 1 14 0M8.5 14.5a6 6 0 0 1 7 0M12 19h.01"/>';
+ return o.type==='service'?'<path d="m5 4 5 5m-3 2-4 4 5 5 4-4m3-9 6 6m-8 8 4 4 4-4-4-4"/>':'<path d="m12 2 9 5v10l-9 5-9-5V7l9-5ZM3 7l9 5 9-5M12 12v10"/>';
 }
 function hilenObligationIsPaid(o){return o.status==='paid'}
 function hilenObligationState(o){
@@ -10057,57 +10078,66 @@ function hilenObligationState(o){
   return {label:'Pendiente',kind:'pending'};
 }
 function hilenRenderObligations(){
-  const root=document.getElementById('hilenObligationList');if(!root)return;
-  const all=Array.isArray(db.obligations)?db.obligations:[];
-  const pending=all.filter(o=>!hilenObligationIsPaid(o));
-  const now=today();const week=new Date(now+'T12:00:00');week.setDate(week.getDate()+7);
-  const endDate=week.getFullYear()+'-'+String(week.getMonth()+1).padStart(2,'0')+'-'+String(week.getDate()).padStart(2,'0');
-  const put=(element,value)=>{const e=document.getElementById(element);if(e)e.textContent=value};
-  put('hilenObligationPending',pending.length);
-  put('hilenObligationUpcoming',pending.filter(o=>o.dueDate>=now&&o.dueDate<=endDate).length);
-  put('hilenObligationOverdue',pending.filter(o=>o.dueDate&&o.dueDate<now).length);
-  put('hilenObligationAmount',money(all.filter(o=>hilenObligationIsPaid(o)&&String(o.paidDate||'').slice(0,7)===now.slice(0,7)).reduce((n,o)=>n+(Number(o.amount)||0),0)));
-  const supplier=hilenObligationTab==='supplier';
-  const activeFilter=document.getElementById('hilenObligationFilter')?.value||'all';
-  document.querySelectorAll('#obligations [data-oblfilter]').forEach(b=>{const selected=b.dataset.oblfilter===activeFilter;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',selected?'true':'false')});
-  for(const [name,type] of [['hilenObligationsSuppliersTab','supplier'],['hilenObligationsServicesTab','service']]){
-    const tab=document.getElementById(name);if(!tab)continue;
-    const active=hilenObligationTab===type;tab.classList.toggle('active',active);
-    tab.setAttribute('aria-selected',active?'true':'false');
-  }
-  const q=String(document.getElementById('hilenObligationSearch')?.value||'').trim().toLowerCase();
-  const filter=document.getElementById('hilenObligationFilter')?.value||'all';
-  const shown=all.filter(o=>(o.type==='service'?'service':'supplier')===hilenObligationTab)
-    .filter(o=>!q||[o.title,o.party,o.notes,o.reference].some(v=>String(v||'').toLowerCase().includes(q)))
-    .filter(o=>filter==='all'||(filter==='paid'?hilenObligationIsPaid(o):
-      filter==='overdue'?!hilenObligationIsPaid(o)&&!!o.dueDate&&o.dueDate<now:!hilenObligationIsPaid(o)))
-    .sort((a,b)=>Number(hilenObligationIsPaid(a))-Number(hilenObligationIsPaid(b))||
-      String(a.dueDate||'9999').localeCompare(String(b.dueDate||'9999'))||
-      String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
-  if(!shown.length){
-    root.innerHTML='<div class="hilen-obligation-empty">'+
-      (all.some(o=>o.type===hilenObligationTab)?'No hay recordatorios con esos filtros.':
-       supplier?'Aún no hay fechas de proveedores registradas.':'Aún no hay servicios o mantenimientos agendados.')+
-      '</div>';
-    hilenRenderAgendaCalendar();
-    return;
-  }
-  root.innerHTML=shown.map(o=>{
-    const status=hilenObligationState(o),when=o.dueDate?normalizeDateLabel(o.dueDate):'Sin fecha';
-    const remind=o.reminderDate?'Recordatorio: '+normalizeDateLabel(o.reminderDate):'Sin recordatorio';
-    return '<div class="hilen-obligation-row">'+
-      '<div><b>'+esc(o.title||'Sin concepto')+'</b><div class="hilen-obligation-meta">'+esc(o.party||'Sin proveedor')+
-      (o.notes?' · '+esc(o.notes):'')+'</div></div>'+
-      '<div><b>'+esc(when)+'</b><div class="hilen-obligation-meta">'+esc(o.reminderDate?'Aviso: '+o.reminderDate:'Sin aviso')+'</div></div>'+ 
-      '<div><b>'+money(o.amount||0)+'</b><div class="hilen-obligation-meta">Referencia</div></div>'+
-      '<div><span class="hilen-obligation-pill '+status.kind+'">'+esc(status.label)+'</span></div>'+
-      '<div class="hilen-obligation-actions"><button class="secondary" type="button" onclick="hilenOpenObligationForm(\''+esc(o.id)+'\')">Editar</button>'+
-      (hilenObligationIsPaid(o)?'<button class="secondary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',false)">Reabrir</button>':
-        '<button class="primary" type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\',true)">Marcar atendido</button>')+
-      '<button class="secondary" type="button" onclick="hilenSyncCalendarRecord(\''+esc(o.id)+'\')">'+(o.calendarEventId&&!o.calendarNeedsSync?'En calendario':'Sincronizar')+'</button>'+ 
-      '<button class="secondary" type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button></div></div>';
-  }).join('');
-  hilenRenderAgendaCalendar();
+ const root=document.getElementById('hilenObligationList');if(!root)return;
+ const all=Array.isArray(db.obligations)?db.obligations:[];
+ const now=today(),dNow=new Date(now+'T12:00:00');
+ const weekday=(dNow.getDay()+6)%7,weekStart=new Date(dNow);weekStart.setDate(dNow.getDate()-weekday);
+ const weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);
+ const key=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+ const startWeek=key(weekStart),endWeek=key(weekEnd);
+ const pending=all.filter(o=>!hilenObligationIsPaid(o));
+ const put=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value};
+ put('hilenObligationPending',all.length);
+ put('hilenObligationUpcoming',pending.filter(o=>o.dueDate>=startWeek&&o.dueDate<=endWeek).length);
+ put('hilenObligationOverdue',pending.filter(o=>o.dueDate&&o.dueDate<now).length);
+ put('hilenObligationAmount',all.filter(hilenObligationIsPaid).length);
+ const tabLabels=[['hilenObligationsSuppliersTab','supplier'],['hilenObligationsServicesTab','service']];
+ for(const [id,type] of tabLabels){const el=document.getElementById(id);if(el){el.classList.toggle('active',hilenObligationTab===type);el.setAttribute('aria-selected',String(hilenObligationTab===type))}}
+ document.querySelectorAll('#obligations [data-agenda-view]').forEach(el=>{
+   const active=el.dataset.agendaView===hilenAgendaView;el.classList.toggle('active',active);el.setAttribute('aria-pressed',String(active))
+ });
+ const monthLabel=hilenAgendaMonthCursor.toLocaleDateString('es-CO',{month:'long',year:'numeric'});
+ put('hilenAgendaListMonth',monthLabel[0].toUpperCase()+monthLabel.slice(1));
+ const q=String(document.getElementById('hilenObligationSearch')?.value||'').toLocaleLowerCase('es').trim();
+ const filter=document.getElementById('hilenObligationFilter')?.value||'all';
+ const yy=hilenAgendaMonthCursor.getFullYear(),mm=String(hilenAgendaMonthCursor.getMonth()+1).padStart(2,'0');
+ const shown=all.filter(o=>hilenObligationTab==='all'||(o.type==='service'?'service':'supplier')===hilenObligationTab)
+  .filter(o=>!q||[o.title,o.party,o.notes,o.reference].some(v=>String(v||'').toLocaleLowerCase('es').includes(q)))
+  .filter(o=>hilenAgendaView==='history'?hilenObligationIsPaid(o):!hilenObligationIsPaid(o))
+  .filter(o=>filter==='all'||(filter==='paid'?hilenObligationIsPaid(o):
+      filter==='overdue'?!hilenObligationIsPaid(o)&&o.dueDate<now:!hilenObligationIsPaid(o)))
+  .filter(o=>(hilenAgendaView==='history'?(o.paidDate||o.dueDate):o.dueDate||'').startsWith(yy+'-'+mm))
+  .filter(o=>!hilenAgendaSelectedDate||o.dueDate===hilenAgendaSelectedDate)
+  .sort((a,b)=>(hilenAgendaView==='history'?-1:1)*String(a.dueDate||'').localeCompare(String(b.dueDate||'')));
+ if(!shown.length){
+   root.innerHTML='<div class="hilen-obligation-empty">'+(hilenAgendaView==='history'?
+     'No hay eventos cumplidos para este mes.':'No hay eventos pendientes en este mes.')+'</div>';
+ }else{
+   root.innerHTML=shown.map(o=>{
+     const when=new Date(o.dueDate+'T12:00:00');
+     const locale=Number.isNaN(when.getTime())?null:when;
+     const w=locale?locale.toLocaleDateString('es-CO',{weekday:'short'}):'';
+     const mo=locale?locale.toLocaleDateString('es-CO',{month:'short'}):'';
+     const status=hilenObligationState(o);
+     const stateText=hilenObligationIsPaid(o)?'Cumplido':status.kind==='overdue'?'Vencido':o.dueDate===now?'Para hoy':'Pendiente';
+     const path=hilenAgendaIcon(o);
+     return '<div class="ha2-event-wrap"><div class="ha2-event">'+
+       '<div class="ha2-datechip"><small>'+esc(w)+'</small><strong>'+esc(locale?locale.getDate():'–')+'</strong><small>'+esc(mo)+'</small></div>'+
+       '<div class="ha2-event-card"><span class="ha2-event-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+path+'</svg></span>'+
+       '<div class="ha2-event-copy"><b>'+esc(o.title||'Sin título')+'</b><small>'+esc(o.notes||o.party|| (o.repeat&&o.repeat!=='none'?'Evento recurrente':'Recordatorio programado'))+'</small></div>'+
+       '<span class="ha2-event-status '+status.kind+'">'+esc(stateText)+'</span>'+
+       '<button class="ha2-event-more" type="button" onclick="hilenToggleAgendaEventActions(\''+esc(o.id)+'\')" aria-label="Opciones de '+esc(o.title||'evento')+'">⋮</button></div></div>'+
+       '<div data-oid="'+esc(o.id)+'" class="ha2-event-ops '+(hilenAgendaEventOpen===o.id?'open':'')+'">'+
+       '<button type="button" onclick="hilenOpenObligationForm(\''+esc(o.id)+'\')">Editar</button>'+
+       '<button type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\','+(!hilenObligationIsPaid(o))+')">'+(hilenObligationIsPaid(o)?'Reabrir':'Marcar cumplido')+'</button>'+
+       '<button type="button" onclick="hilenSyncCalendarRecord(\''+esc(o.id)+'\')">Google Calendar</button>'+
+       '<button type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button>'+
+       '</div></div>';
+   }).join('');
+ }
+ hilenRenderAgendaCalendar();
+ if(!document.getElementById('hilenOblTitle'))hilenOpenObligationForm();
+ hilenRenderCalendarStatus();
 }
 function hilenOpenObligationForm(oid=''){
   const old=oid?(db.obligations||[]).find(x=>x.id===oid):null;
@@ -10115,7 +10145,7 @@ function hilenOpenObligationForm(oid=''){
   const type=old?.type||hilenObligationTab;
   const periods=Array.isArray(old?.alertDays)?old.alertDays:[7,3,1,0];
   const checks=[7,3,1,0].map(day=>'<label><input type="checkbox" data-oblalert="'+day+'" '+(periods.includes(day)?'checked':'')+'> '+(day?day+' días antes':'El mismo día')+'</label>').join('');
-  document.getElementById('modalContent').innerHTML=
+  document.getElementById('hilenAgendaInlineForm').innerHTML=
     '<div class="encargo-modal hilen-reference-modal"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2 class="hilen-reference-modal-title">'+(old?'Editar obligación':'Nueva obligación')+'</h2><p class="muted small">Programa los próximos vencimientos de HILEN.</p></div><button type="button" class="secondary" onclick="closeModal()" aria-label="Cerrar formulario">×</button></div>'+
     '<div class="hilen-reference-form">'+
     '<div class="fullcol"><label class="label">Nombre *</label><input id="hilenOblTitle" class="input" maxlength="140" placeholder="Ej. Arriendo del local"></div>'+
@@ -10133,7 +10163,7 @@ function hilenOpenObligationForm(oid=''){
     '<label>Notificaciones en HILEN <small>Mientras la aplicación esté abierta</small><input type="checkbox" id="hilenOblNotifyApp" checked></label>'+
     
     '</div></div></div>'+
-    '<div class="hilen-reference-modal-actions"><button type="button" class="secondary" onclick="closeModal()">Cancelar</button><button type="button" class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar obligación</button></div></div>';
+    '<div class="hilen-reference-modal-actions"><button type="button" class="secondary" onclick="hilenResetObligationForm()">Cancelar</button><button type="button" class="primary" onclick="hilenSaveObligation(\''+esc(oid)+'\')">Guardar evento</button></div></div>';
   const field=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value};
   field('hilenOblType',type);
   field('hilenOblTitle',old?.title||'');
@@ -10146,7 +10176,7 @@ function hilenOpenObligationForm(oid=''){
   field('hilenOblNotes',old?.notes||'');
   document.getElementById('hilenOblNotifyApp').checked=old?.notifyApp!==false;
   document.getElementById('hilenOblCalendarChoice').checked=old?.calendarChoice!==false;
-  document.getElementById('modal').classList.remove('hidden');
+  const heading=document.getElementById('hilenAgendaFormHeading');if(heading)heading.textContent=old?'Editar evento':'Agregar evento';
 }
 function hilenSaveObligation(oid=''){
   const title=document.getElementById('hilenOblTitle')?.value.trim()||'';
@@ -10168,7 +10198,7 @@ function hilenSaveObligation(oid=''){
   if(oid){const old=db.obligations.find(x=>x.id===oid);if(!old)return;Object.assign(old,payload)}
   else db.obligations.unshift({id:id(),status:'pending',createdAt:new Date().toISOString(),...payload});
   hilenObligationTab=payload.type;
-  saveDB();closeModal();hilenRenderObligations();hilenCheckObligationReminders();
+  saveDB();hilenAgendaSelectedDate='';hilenAgendaMonthCursor=new Date(dueDate.slice(0,4),Number(dueDate.slice(5,7))-1,1);hilenResetObligationForm();hilenRenderObligations();hilenCheckObligationReminders();
   showToast('Obligación guardada','Comprueba Firebase para confirmar el guardado en la nube.','success');
   const item=oid?db.obligations.find(x=>x.id===oid):db.obligations[0];
   if(item){
