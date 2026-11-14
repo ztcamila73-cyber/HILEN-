@@ -5466,6 +5466,37 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 #hilenReminderSettings .hrs-verify-btn{margin-left:7px;background:#f8f1e6;color:#775820;border-color:#e3d5b9}
 #hilenReminderSettings .hrs-connection p{font-weight:750}
 #hilenReminderSettings .hrs-connected{background:#e8f6ec!important;color:#168144!important;border-color:#b7ddc1!important}#hilenReminderSettings button:disabled{opacity:.85;cursor:default}#hilenSettingsCalendarStatus{overflow-wrap:anywhere}
+
+/* HILEN: conexiones de recordatorios fieles a referencia, sin estados simulados. */
+#hilenReminderSettings{margin-bottom:18px;position:relative}
+#hilenReminderSettings .hrs-sync-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+#hilenReminderSettings .hrs-sync-card{min-width:0;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden;isolation:isolate;padding:23px 25px;min-height:165px;background:linear-gradient(115deg,#fffdf9,#fff 55%,#fbfaf4);border:1px solid #efdcb9;border-radius:24px;box-shadow:0 8px 16px #78541c18}
+#hilenReminderSettings .hrs-sync-card:after{content:"";pointer-events:none;position:absolute;z-index:-1;right:-8%;bottom:-80%;width:43%;height:130%;background:radial-gradient(ellipse,#e8f5e9aa,transparent 67%)}
+#hilenReminderSettings .hrs-sync-notify:after{background:radial-gradient(ellipse,#fff1d6aa,transparent 67%)}
+#hilenReminderSettings .hrs-sync-icon{display:grid;place-items:center;flex:0 0 93px;width:93px;height:93px;background:linear-gradient(145deg,#fff,#faedcc);border:1px solid #fbebca;border-radius:21px;box-shadow:0 4px 11px #b38b3624;padding:15px}
+#hilenReminderSettings .hrs-sync-icon img{display:block;width:100%!important;height:100%!important;object-fit:contain!important}
+#hilenReminderSettings .hrs-sync-rule{height:95px;width:1px;flex:0 0 1px;background:#ede2d3}
+#hilenReminderSettings .hrs-sync-content{position:relative;z-index:2;min-width:0;flex:1}
+#hilenReminderSettings .hrs-sync-heading{display:flex;align-items:center;flex-wrap:wrap;gap:11px}
+#hilenReminderSettings .hrs-sync-heading h2{font-size:clamp(17px,1.55vw,24px);line-height:1.2;font-weight:850;color:#725006;letter-spacing:-.35px;margin:0}
+#hilenReminderSettings .hrs-sync-heading .hrs-sync-verified{font-size:11px;font-weight:800;background:#fff3dd;color:#a0711e;padding:6px 11px;border-radius:999px}
+#hilenReminderSettings .hrs-sync-card.is-connected .hrs-sync-verified{background:#e8f7ed;color:#087c2d}
+#hilenReminderSettings .hrs-sync-content>p{font-size:13px;color:#736e6a;margin:5px 0 16px;line-height:1.35;min-height:17px}
+#hilenReminderSettings .hrs-sync-actions{display:flex;flex-wrap:wrap;align-items:center;gap:11px}
+#hilenReminderSettings .hrs-sync-actions button{font-size:13px;font-weight:800;border-radius:999px;min-height:40px;padding:9px 17px;cursor:pointer;line-height:1.2}
+#hilenReminderSettings .hrs-sync-main{color:#fff!important;background:linear-gradient(150deg,#d1a047,#a36f0c)!important;border:1px solid #b48220!important;box-shadow:0 3px 9px #8e66242b}
+#hilenReminderSettings .hrs-sync-card.is-connected .hrs-sync-main{background:linear-gradient(130deg,#61c577,#19983a)!important;border-color:#3eac58!important;box-shadow:0 4px 10px #2b9f4d2c}
+#hilenReminderSettings .hrs-sync-main:disabled{opacity:1!important;cursor:default!important}
+#hilenReminderSettings .hrs-sync-outline{color:#81540c!important;background:#fffcf7!important;border:1px solid #bb8524!important}
+#hilenReminderSettings .hrs-sync-notify-status{font-size:13px;font-weight:800;background:#fff0cb;color:#83570b;padding:11px 15px;border-radius:999px;box-shadow:0 2px 7px #b8872430}
+#hilenReminderSettings .hrs-sync-notify.is-active .hrs-sync-notify-status{background:#fff0cb;color:#83570b}
+#hilenReminderSettings .hrs-sync-decor{position:absolute;right:20px;top:26px;width:72px;height:72px;opacity:.18;z-index:-1;color:#73be4c}
+#hilenReminderSettings .hrs-sync-notify .hrs-sync-decor{color:#dda32a}
+#hilenReminderSettings .hrs-sync-decor svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#hilenReminderSettings .hrs-sync-settings-link{font-size:11px;color:#8c661f;background:transparent;border:0;text-decoration:underline;margin-top:7px;padding:4px 2px;cursor:pointer}
+@media(max-width:1250px){#hilenReminderSettings .hrs-sync-grid{grid-template-columns:1fr}#hilenReminderSettings .hrs-sync-card{min-height:155px}}
+@media(max-width:650px){#hilenReminderSettings .hrs-sync-card{padding:15px;gap:11px;border-radius:17px;align-items:flex-start}#hilenReminderSettings .hrs-sync-icon{width:54px;height:54px;flex-basis:54px;padding:8px;border-radius:13px}#hilenReminderSettings .hrs-sync-rule{height:56px}#hilenReminderSettings .hrs-sync-heading h2{font-size:17px}#hilenReminderSettings .hrs-sync-content>p{font-size:12px}#hilenReminderSettings .hrs-sync-actions button{font-size:11px;padding:9px 12px}#hilenReminderSettings .hrs-sync-decor{display:none}}
+
 </style>
 </head>
 <body>
@@ -5971,9 +6002,35 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
         </div>
       </div>
 
-      <div class="card" id="hilenReminderSettings" style="margin-bottom:18px;padding:20px;border-radius:19px">
-<div style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h2>Agenda de recordatorios · Conexiones</h2><p class="muted small">Configura Google Calendar y los avisos de tus compromisos.</p></div><button type="button" class="secondary" onclick="hilenShowReminderSetup(true)">Ver configuración</button></div>
-<div class="hrs-connections"><div class="hrs-connection"><div class="hrs-connection-head"><span class="hrs-settings-icon hrs-gcal"><img class="hrs-reference-calendar" src="data:image/webp;base64,UklGRv4BAABXRUJQVlA4IPIBAACwDQCdASpGAEYAPwF0slMrJqUipnM8YWAgCWgA0HVe/v4Hm2L52bTmd6OK+5nlh2Y7/fpSx4suhqRNykFO0b8sT0hhklF/i+L8mXArQ8gV4puJzIXAveVKs4lPZEDcwMlHVmVgdPiuqBWdp0mxGyE+iqTspbkAAP72AN4XB6/ODs1YMaaOBujf8mP2C0/UTKeT0MMIhsMQOhQdzQBOW6NRqxf97A3p/DioLibnvZrCcClFf1pNTgkg6vN0MNZiUyocahpDJaWy+mGhQCmYloo3dkKTwCjEJw96YDcJfgw5aFN86HS1Ph1TxXow0c1Q9OvdtYohNSuiOBIHX6Eq1UPfVhvIZ6mUwbQ/7mOArgQrmWeVOkjFRD6rAhZdEOdQWZX3r+PoK9U8L4gvIz8/xTfO5uXqsmI325kCn1pgRuctyYodp3S9Zf4AfHx2OovXvKFhjZ0XZuB4VWOhE+e3awR5pmY/aKWs6SraO1PN5vA8i9enK17gmSW+CJ3lS4iy+N4wRuSsMp6X4hVUR7xLS0RAlloeDpKHOy+nQShqa4l8phz7aJ4TeRO1yyTLMoobYF0XyUnHwlbznW5BfCoV90iG2mNvOeSZ3aSQIiImbgFv5k+ZVY0iO9a2ceZvlBDDwEHhmswdvzlscJnOzxUcNYmgAAA=" alt="Google Calendar" loading="eager"></span><b>Google Calendar</b></div><p id="hilenSettingsCalendarStatus">No conectado</p><button type="button" id="hilenSettingsCalendarAction" onclick="hilenConnectAgendaCalendar()">Conectar</button><button type="button" class="hrs-verify-btn" onclick="hilenVerifyCalendarConnection()">Verificar conexión</button></div><div class="hrs-connection"><div class="hrs-connection-head"><span class="hrs-settings-icon hrs-bell-icon"><img class="hrs-reference-bell" src="data:image/webp;base64,UklGRlIBAABXRUJQVlA4IEYBAADQCQCdASpGAEYAPwF6tlMrKCUoKlQI8WAgCUAYl73IluAACzFKLL/0Cio8e9vj6mRAMNlDXGsULdUIG3Mpc8KVGBAQo12INS48b/YV0pL3lRDcereTOgAA/vE5WDa7E7K16ZhkP03hJLdaoxl/nHR0GscbnKlKsSwfit3EckNsmNb364RNfJ66bWnbHIZmTQw9f8VkOPoAdLuSl0C/136+64S0wKpA6KdEdb7mdmoGzZ+ydNJpmxbMORXEQuPAeaegAYvGAJeg3+Hyr8gSNG4tmYtrT3w0PtGhJzwkQyUvNs+DHxsr4XoB4GSv3vpysnj8pyjQHfr7iTN59ij4zt1VjQJlmCfXRK9VBRGDUWYJuTNDJm6HasS8sqZ9ZgNOwYLiem2MwGyHTgDdtcBgaxmZ7FU9P8egfnRpAyPkQoRQxoYp92AAAA==" alt="Notificaciones" loading="eager"></span><b>Notificaciones en HILEN</b></div><p id="hilenSettingsNotificationStatus">No activado</p><button type="button" id="hilenSettingsNotificationAction" onclick="hilenEnableReminderNotifications()">Activar</button></div></div></div>
+      <div class="hilen-reminder-settings-v2" id="hilenReminderSettings" aria-label="Conexiones de recordatorios">
+ <div class="hrs-sync-grid">
+  <section class="hrs-sync-card hrs-sync-calendar" id="hilenSettingsCalendarCard">
+   <span class="hrs-sync-icon hrs-sync-calendar-icon"><img class="hrs-reference-calendar" src="data:image/webp;base64,UklGRv4BAABXRUJQVlA4IPIBAACwDQCdASpGAEYAPwF0slMrJqUipnM8YWAgCWgA0HVe/v4Hm2L52bTmd6OK+5nlh2Y7/fpSx4suhqRNykFO0b8sT0hhklF/i+L8mXArQ8gV4puJzIXAveVKs4lPZEDcwMlHVmVgdPiuqBWdp0mxGyE+iqTspbkAAP72AN4XB6/ODs1YMaaOBujf8mP2C0/UTKeT0MMIhsMQOhQdzQBOW6NRqxf97A3p/DioLibnvZrCcClFf1pNTgkg6vN0MNZiUyocahpDJaWy+mGhQCmYloo3dkKTwCjEJw96YDcJfgw5aFN86HS1Ph1TxXow0c1Q9OvdtYohNSuiOBIHX6Eq1UPfVhvIZ6mUwbQ/7mOArgQrmWeVOkjFRD6rAhZdEOdQWZX3r+PoK9U8L4gvIz8/xTfO5uXqsmI325kCn1pgRuctyYodp3S9Zf4AfHx2OovXvKFhjZ0XZuB4VWOhE+e3awR5pmY/aKWs6SraO1PN5vA8i9enK17gmSW+CJ3lS4iy+N4wRuSsMp6X4hVUR7xLS0RAlloeDpKHOy+nQShqa4l8phz7aJ4TeRO1yyTLMoobYF0XyUnHwlbznW5BfCoV90iG2mNvOeSZ3aSQIiImbgFv5k+ZVY0iO9a2ceZvlBDDwEHhmswdvzlscJnOzxUcNYmgAAA=" alt="Google Calendar" loading="eager"></span><div class="hrs-sync-rule"></div>
+   <div class="hrs-sync-content">
+    <div class="hrs-sync-heading"><h2>Google Calendar</h2><span class="hrs-sync-verified" id="hilenSettingsCalendarBadge">Pendiente de conexión</span></div>
+    <p id="hilenSettingsCalendarStatus">No conectado · requiere autorización</p>
+    <div class="hrs-sync-actions">
+      <button type="button" class="hrs-sync-main" id="hilenSettingsCalendarAction" onclick="hilenConnectAgendaCalendar()">Conectar Google Calendar</button>
+      <button type="button" class="hrs-sync-outline" id="hilenSettingsCalendarVerify" onclick="hilenVerifyCalendarConnection()"><span aria-hidden="true">⟳</span> Verificar conexión</button>
+    </div>
+   </div>
+   <div class="hrs-sync-decor"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="12" width="40" height="40" rx="7"/><path d="M21 7v11M43 7v11M12 24h40m-24 15 7 7 13-15"/></svg></div>
+  </section>
+  <section class="hrs-sync-card hrs-sync-notify" id="hilenSettingsNotificationCard">
+   <span class="hrs-sync-icon hrs-sync-bell-icon"><img class="hrs-reference-bell" src="data:image/webp;base64,UklGRlIBAABXRUJQVlA4IEYBAADQCQCdASpGAEYAPwF6tlMrKCUoKlQI8WAgCUAYl73IluAACzFKLL/0Cio8e9vj6mRAMNlDXGsULdUIG3Mpc8KVGBAQo12INS48b/YV0pL3lRDcereTOgAA/vE5WDa7E7K16ZhkP03hJLdaoxl/nHR0GscbnKlKsSwfit3EckNsmNb364RNfJ66bWnbHIZmTQw9f8VkOPoAdLuSl0C/136+64S0wKpA6KdEdb7mdmoGzZ+ydNJpmxbMORXEQuPAeaegAYvGAJeg3+Hyr8gSNG4tmYtrT3w0PtGhJzwkQyUvNs+DHxsr4XoB4GSv3vpysnj8pyjQHfr7iTN59ij4zt1VjQJlmCfXRK9VBRGDUWYJuTNDJm6HasS8sqZ9ZgNOwYLiem2MwGyHTgDdtcBgaxmZ7FU9P8egfnRpAyPkQoRQxoYp92AAAA==" alt="Notificaciones" loading="eager"></span><div class="hrs-sync-rule"></div>
+   <div class="hrs-sync-content">
+    <div class="hrs-sync-heading"><h2>Notificaciones en HILEN</h2></div>
+    <p id="hilenSettingsNotificationStatus">Recibe avisos y recordatorios en tu navegador.</p>
+    <div class="hrs-sync-actions">
+      <span class="hrs-sync-notify-status" id="hilenSettingsNotificationBadge">Notificaciones sin activar</span>
+      <button type="button" class="hrs-sync-outline" id="hilenSettingsNotificationAction" onclick="hilenManageReminderNotifications()">⚙ Gestionar notificaciones</button>
+    </div>
+   </div>
+   <div class="hrs-sync-decor"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 13c-10 0-16 8-16 19v8l-6 8h44l-6-8v-8c0-11-6-19-16-19zM25 53c2 6 12 6 14 0M32 5v4M11 13l-5-5M53 13l5-5"/></svg></div>
+  </section>
+ </div>
+ <button type="button" class="hrs-sync-settings-link" onclick="hilenShowReminderSetup(true)">Ver configuración de recordatorios</button>
+</div>
 <div class="settings-grid settings-grid-reference">
         <div class="card settings-protection-card">
           <div class="pro-card-head compact"><span class="pro-icon gold">♢</span><div><h2>Protección de tus datos</h2><p>Esta protección pertenece únicamente a tu cuenta de HILEN.</p></div></div>
@@ -10265,18 +10322,39 @@ function hilenCalendarPreviouslyVerified(){try{return !!localStorage.getItem(hil
 function hilenRefreshReminderSetupStates(){
  const hasToken=hilenCalendarAuthorized(),calendar=hasToken&&hilenCalendarConnectionVerified;
  const notify='Notification' in window&&Notification.permission==='granted';
- const status=hilenCalendarCheckPending?'Verificando conexión…':calendar?'Conectado · verificado con Google':
- hilenCalendarConnectionError?'Error: '+hilenCalendarConnectionError:
- hasToken?'Autorizado · falta verificar':hilenCalendarPreviouslyVerified()?'Sesión de Google caducada · reconectar':'No conectado · requiere autorización';
+ const denied='Notification' in window&&Notification.permission==='denied';
+ const pendingEvents=Array.isArray(db?.obligations)?db.obligations.filter(o=>o.calendarChoice!==false&&o.dueDate&&o.calendarNeedsSync).length:0;
+ const pendingEncargos=Array.isArray(db?.encargos)?db.encargos.filter(e=>e.reminderDate&&e.calendarNeedsSync).length:0;
+ const pendingCount=pendingEvents+pendingEncargos;
+ const status=hilenCalendarCheckPending?'Comprobando el acceso a Google Calendar…':
+ calendar?(pendingCount?'Calendario conectado · '+pendingCount+' evento(s) pendientes de sincronizar':'Tu calendario de Google está conectado con HILEN.'):
+ hilenCalendarConnectionError?'Error de conexión: '+hilenCalendarConnectionError:
+ hasToken?'Autorizado · falta verificar Google Calendar':
+ hilenCalendarPreviouslyVerified()?'La sesión de Google caducó · vuelve a conectar':'No conectado · requiere autorización';
  const set=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value};
  set('hrsCalendarState',hilenCalendarCheckPending?'Verificando…':calendar?'Conectado':hilenCalendarPreviouslyVerified()?'Reconectar':'No conectado');
- set('hrsNotificationsState',notify?'Activado':('Notification' in window&&Notification.permission==='denied'?'Bloqueado':'No activado'));
+ set('hrsNotificationsState',notify?'Activado':denied?'Bloqueado':'No activado');
  set('hilenSettingsCalendarStatus',status);
- set('hilenSettingsNotificationStatus',notify?'Avisos del navegador activados':('Notification' in window&&Notification.permission==='denied'?'Permiso bloqueado en el navegador':'Avisos en HILEN disponibles · navegador sin activar'));
- const btn=document.getElementById('hilenSettingsCalendarAction');if(btn){btn.textContent=calendar?'Conectado ✓':hilenCalendarPreviouslyVerified()?'Reconectar':'Conectar';btn.classList.toggle('hrs-connected',calendar)}
- const notifyBtn=document.getElementById('hilenSettingsNotificationAction');if(notifyBtn){notifyBtn.textContent=notify?'Activado ✓':('Notification' in window&&Notification.permission==='denied'?'Permiso bloqueado':'Activar');notifyBtn.disabled=notify}
+ set('hilenSettingsCalendarBadge',hilenCalendarCheckPending?'Verificando…':calendar?'✓ Verificado por Google':hilenCalendarPreviouslyVerified()?'Reconexión necesaria':'No verificado');
+ set('hilenSettingsNotificationStatus',notify?'Recibe avisos y recordatorios en tu navegador.':denied?'Las notificaciones están bloqueadas en el navegador.':'Activa los avisos para recibir recordatorios en tu navegador.');
+ set('hilenSettingsNotificationBadge',notify?'♧ Notificaciones activadas':denied?'Notificaciones bloqueadas':'Notificaciones sin activar');
+ const calendarCard=document.getElementById('hilenSettingsCalendarCard');
+ if(calendarCard){calendarCard.classList.toggle('is-connected',calendar);calendarCard.classList.toggle('is-checking',hilenCalendarCheckPending)}
+ const verifyBtn=document.getElementById('hilenSettingsCalendarVerify');if(verifyBtn)verifyBtn.disabled=hilenCalendarCheckPending;
+ const btn=document.getElementById('hilenSettingsCalendarAction');if(btn){
+  btn.textContent=calendar?(pendingCount?'✓ Conectado · sincronización pendiente':'✓ Conectado y sincronizado'):hilenCalendarPreviouslyVerified()?'Reconectar Google Calendar':'Conectar Google Calendar';
+  btn.classList.toggle('hrs-connected',calendar);
+  btn.disabled=calendar||hilenCalendarCheckPending;
+ }
+ const nCard=document.getElementById('hilenSettingsNotificationCard');if(nCard)nCard.classList.toggle('is-active',notify);
  document.getElementById('hrsCalendarToggle')?.classList.toggle('connected',calendar);
  document.getElementById('hrsNotificationsToggle')?.classList.toggle('connected',notify);
+}
+async function hilenManageReminderNotifications(){
+ if(!('Notification' in window)){showToast('Notificaciones no disponibles','Este navegador no admite avisos. HILEN seguirá mostrando recordatorios dentro de la aplicación.','info');return}
+ if(Notification.permission==='default')return hilenEnableReminderNotifications();
+ if(Notification.permission==='denied'){showToast('Permiso bloqueado','Abre los permisos de este sitio desde el candado del navegador, permite las notificaciones y vuelve a HILEN.','warning');return}
+ showToast('Notificaciones activadas','Para cambiar estos permisos, usa los ajustes del sitio en tu navegador. HILEN seguirá mostrando los recordatorios en la aplicación.','info');
 }
 function hilenShowReminderSetup(force=false){
  if(!currentUser?.id)return;
