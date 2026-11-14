@@ -1,0 +1,139 @@
+
+/* HILEN · Resumen financiero diario · diseño de referencia aprobado. */
+#dailyActivity .hdaily-ref-kpis{
+ display:grid!important;
+ grid-template-columns:minmax(0,1.45fr) repeat(3,minmax(0,1fr))!important;
+ gap:18px!important;padding:22px 24px!important;margin:9px 0 22px!important;
+ border:1px solid #edd6a9!important;border-radius:32px!important;
+ background:linear-gradient(125deg,#fffdf8 0%,#fff 50%,#fffdfb 100%)!important;
+ box-shadow:0 9px 22px #624a2112!important;
+ align-items:stretch!important;
+}
+#dailyActivity .hdaily-ref-kpi{
+ position:relative!important;isolation:isolate!important;display:flex!important;flex-direction:column!important;
+ min-height:224px!important;padding:20px 19px 19px!important;
+ border:1px solid #efe4d1!important;border-radius:27px!important;
+ background:linear-gradient(148deg,#fffefd,#fffaf0)!important;
+ box-shadow:0 9px 18px #44331d11!important;overflow:hidden!important;
+}
+#dailyActivity .hdaily-ref-gold{
+ border-color:#e5b04d!important;
+ background:linear-gradient(125deg,#fffdf8 0%,#fff8e5 61%,#fdf0c7 100%)!important;
+ box-shadow:0 9px 19px #aa772b25!important;
+}
+#dailyActivity .hdaily-ref-green{background:linear-gradient(140deg,#fff,#fbfdf8)!important;border-color:#e8eada!important}
+#dailyActivity .hdaily-ref-blue{background:linear-gradient(140deg,#fff,#f6faff)!important;border-color:#e6eaf6!important}
+#dailyActivity .hdaily-ref-red{background:linear-gradient(140deg,#fff,#fff8f9)!important;border-color:#f6e1e5!important}
+#dailyActivity .hdaily-ref-kpi::before{
+ content:"";position:absolute;z-index:0;pointer-events:none;
+ inset:auto -18% -22% -15%;height:62%;border-radius:48%;
+ background:linear-gradient(5deg,#f3dca8a6,#fff9ea00 85%);
+ transform:rotate(-8deg);
+}
+#dailyActivity .hdaily-ref-green::before{background:linear-gradient(5deg,#c8eabbc2,#fafff600 85%)}
+#dailyActivity .hdaily-ref-blue::before{background:linear-gradient(5deg,#b9d2f8bc,#f9fcff00 85%)}
+#dailyActivity .hdaily-ref-red::before{background:linear-gradient(5deg,#f4bcccbb,#fffaff00 85%)}
+#dailyActivity .hd-ref-card-wave{
+ position:absolute!important;bottom:0!important;left:0!important;z-index:0!important;width:100%!important;height:67px!important;
+ pointer-events:none!important;opacity:.55!important;
+}
+#dailyActivity .hdaily-ref-gold .hd-ref-card-wave .wave-fill{fill:#f5d996!important}
+#dailyActivity .hdaily-ref-green .hd-ref-card-wave .wave-fill{fill:#cae5bd!important}
+#dailyActivity .hdaily-ref-blue .hd-ref-card-wave .wave-fill{fill:#bed5fa!important}
+#dailyActivity .hdaily-ref-red .hd-ref-card-wave .wave-fill{fill:#f6cad4!important}
+#dailyActivity .hd-ref-card-wave .wave-trace{stroke:#fff!important;opacity:.8!important;stroke-width:3!important}
+#dailyActivity .hd-ref-card-core{
+ display:flex!important;align-items:center!important;gap:15px!important;
+ flex:0 0 auto!important;padding:0 28px 0 0!important;margin-bottom:15px!important;
+ min-width:0!important;min-height:88px!important;position:relative!important;z-index:2!important;
+}
+#dailyActivity .hdaily-ref-kpi-icon{
+ flex:0 0 72px!important;width:72px!important;height:75px!important;
+ border-radius:25px!important;display:grid!important;place-items:center!important;
+ box-shadow:inset 0 1px 0 #ffffffa8,0 5px 12px #583a1810!important;
+}
+#dailyActivity .hdaily-ref-gold .hdaily-ref-kpi-icon{background:linear-gradient(135deg,#f8c65d,#d49212)!important;color:#2b1a0a!important}
+#dailyActivity .hdaily-ref-green .hdaily-ref-kpi-icon{background:linear-gradient(135deg,#f0f9e8,#c5e7b9)!important;color:#10802c!important}
+#dailyActivity .hdaily-ref-blue .hdaily-ref-kpi-icon{background:linear-gradient(135deg,#e7f2ff,#afcbf7)!important;color:#1548a8!important}
+#dailyActivity .hdaily-ref-red .hdaily-ref-kpi-icon{background:linear-gradient(135deg,#ffeaf0,#f0bac8)!important;color:#9b1738!important}
+#dailyActivity .hdaily-ref-kpi-icon svg{width:36px!important;height:36px!important;stroke-width:2.4!important}
+#dailyActivity .hdaily-ref-kpi-text{
+ display:flex!important;flex-direction:column!important;justify-content:center!important;
+ min-width:0!important;min-height:0!important;gap:3px!important;flex:1!important;
+}
+#dailyActivity .hdaily-ref-kpi-label{
+ display:flex!important;align-items:center!important;flex-wrap:wrap!important;
+ gap:5px!important;min-height:0!important;font-size:clamp(12px,1.02vw,16px)!important;
+ line-height:1.25!important;font-weight:850!important;color:#281d19!important;
+}
+#dailyActivity .hdaily-ref-value{
+ margin:3px 0 0!important;white-space:normal!important;overflow-wrap:anywhere!important;
+ font-weight:900!important;letter-spacing:-.8px!important;line-height:1.1!important;
+ font-size:clamp(23px,2.1vw,35px)!important;color:#211917!important;
+}
+#dailyActivity .hdaily-ref-value-long{font-size:clamp(19px,1.6vw,25px)!important}
+#dailyActivity .hdaily-ref-help{
+ flex:0 0 20px!important;width:20px!important;height:20px!important;
+ background:#eae4dd!important;color:#584d42!important;border-radius:50%!important;font-size:12px!important;
+}
+#dailyActivity .hd-ref-card-arrow{
+ position:absolute!important;z-index:5!important;right:18px!important;top:19px!important;
+ width:36px!important;height:36px!important;display:grid!important;place-items:center!important;
+ border:1px solid #f0ded0!important;border-radius:50%!important;
+ background:#fff!important;color:#211719!important;font-size:29px!important;
+ line-height:1!important;box-shadow:0 3px 9px #46312619!important;
+}
+#dailyActivity .hd-ref-sales-comparison{
+ width:100%!important;max-width:none!important;min-width:0!important;display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:stretch!important;padding:14px 11px!important;margin-top:auto!important;
+ margin-bottom:0!important;gap:0!important;position:relative!important;z-index:3!important;
+ border:1px solid #f4e7d5!important;border-radius:21px!important;
+ background:linear-gradient(145deg,#fffffff5,#fffdf9ef)!important;box-shadow:0 4px 12px #8b5a2412!important;
+}
+#dailyActivity .hd-ref-sales-kind{background:transparent!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;min-width:0!important;padding:2px 8px!important;color:#231a15!important;border-radius:0!important}
+#dailyActivity .hd-ref-sales-kind.credit{border-left:2px solid #d9a852!important;padding-left:13px!important}
+#dailyActivity .hd-ref-split-icon{
+ width:38px!important;height:38px!important;flex:0 0 38px!important;display:grid!important;place-items:center!important;
+ border-radius:12px!important;background:linear-gradient(135deg,#fff3ce,#f6db8b)!important;color:#a87516!important;
+}
+#dailyActivity .hd-ref-split-icon svg{width:25px!important;height:25px!important}
+#dailyActivity .hd-ref-split-body{display:flex!important;flex-direction:column!important;align-items:flex-start!important;min-width:0!important;color:#231a15!important}
+#dailyActivity .hd-ref-split-body b{font-size:clamp(12px,.95vw,15px)!important;font-weight:850!important}
+#dailyActivity .hd-ref-split-body strong{font-size:clamp(16px,1.5vw,24px)!important;color:#221813!important;font-weight:900!important;overflow-wrap:anywhere!important;line-height:1.1!important}
+#dailyActivity .hd-ref-split-body small{font-size:clamp(11px,.85vw,14px)!important;color:#594a3b!important}
+#dailyActivity .hd-ref-card-status{
+ position:relative!important;z-index:2!important;display:flex!important;align-items:center!important;
+ justify-content:center!important;gap:9px!important;min-height:43px!important;
+ width:100%!important;margin:auto 0 0!important;padding:8px 9px!important;
+ border:1px solid #dff0d9!important;border-radius:999px!important;
+ background:linear-gradient(135deg,#ecf9e8,#d6efc9)!important;
+ color:#14752c!important;font-size:clamp(11px,.95vw,15px)!important;font-weight:850!important;
+ white-space:normal!important;
+}
+#dailyActivity .hdaily-ref-blue .hd-ref-card-status{background:linear-gradient(145deg,#eef5ff,#d9e7fc)!important;color:#1655ac!important;border-color:#d7e7ff!important}
+#dailyActivity .hdaily-ref-red .hd-ref-card-status{background:linear-gradient(145deg,#fff0f3,#f7dce3)!important;color:#a01a38!important;border-color:#f2d5dc!important}
+#dailyActivity .hd-ref-status-symbol{width:29px!important;height:29px!important;flex:0 0 29px!important;background:#ffffff91!important;border-radius:50%!important}
+#dailyActivity .hd-ref-status-symbol svg{width:20px!important;height:20px!important}
+@media(max-width:1450px){
+ #dailyActivity .hdaily-ref-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
+ #dailyActivity .hdaily-ref-kpi{min-height:211px!important}
+ #dailyActivity .hdaily-ref-kpi-label{font-size:15px!important}
+ #dailyActivity .hdaily-ref-value{font-size:28px!important}
+}
+@media(max-width:700px){
+ #dailyActivity .hdaily-ref-kpis{grid-template-columns:minmax(0,1fr)!important;padding:10px!important;gap:11px!important;border-radius:19px!important}
+ #dailyActivity .hdaily-ref-kpi{min-height:185px!important;padding:14px!important;border-radius:20px!important}
+ #dailyActivity .hd-ref-card-core{min-height:75px!important;gap:12px!important}
+ #dailyActivity .hdaily-ref-kpi-icon{width:59px!important;height:62px!important;flex-basis:59px!important;border-radius:18px!important}
+ #dailyActivity .hdaily-ref-kpi-icon svg{width:31px!important;height:31px!important}
+ #dailyActivity .hdaily-ref-kpi-label{font-size:14px!important}
+ #dailyActivity .hdaily-ref-value{font-size:29px!important}
+ #dailyActivity .hd-ref-card-arrow{right:13px!important;top:14px!important}
+ #dailyActivity .hd-ref-sales-comparison{padding:11px 7px!important}
+ #dailyActivity .hd-ref-sales-kind{gap:7px!important;padding:0 6px!important}
+ #dailyActivity .hd-ref-sales-kind.credit{padding-left:10px!important}
+ #dailyActivity .hd-ref-split-icon{width:32px!important;height:32px!important;flex-basis:32px!important}
+ #dailyActivity .hd-ref-split-body strong{font-size:19px!important}
+ #dailyActivity .hd-ref-card-status{min-height:42px!important;font-size:13px!important}
+}
