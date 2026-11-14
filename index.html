@@ -5201,6 +5201,115 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
  #app:not(.hidden) #side>.nav button{font-size:11px!important}
  body.hilen-side-collapsed #app:not(.hidden) #side>.nav button{font-size:0!important}
 }
+
+/* Agenda HILEN — misma composición que referencia; paleta de la app y fondo blanco marfil */
+#obligations.hilen-agenda-v2{--ha-ink:#252019;--ha-muted:#746d65;--ha-gold:#b88733;--ha-light:#fbfaf7;--ha-border:#ebe5dc;color:var(--ha-ink);font-family:inherit}
+#obligations.hilen-agenda-v2 .ha2-header{display:flex;gap:14px;align-items:center;padding:7px 5px 22px;position:relative}
+#obligations .ha2-header-icon{flex:0 0 62px;width:62px;height:62px;display:grid;place-items:center;border-radius:17px;background:linear-gradient(140deg,#edc46e,#a9751f);color:white;box-shadow:0 5px 14px #a9751f30}
+#obligations .ha2-header-icon svg{width:34px;height:34px}
+#obligations .ha2-header-copy{flex:1;min-width:0}
+#obligations .ha2-header-copy h2{font-size:clamp(23px,2.55vw,36px);font-weight:850;letter-spacing:-1.3px;margin:0 0 6px;color:var(--ha-ink)}
+#obligations .ha2-header-copy p{margin:0;font-size:12px;line-height:1.5;color:var(--ha-muted)}
+#obligations .ha2-bell{background:#fff;border:1px solid var(--ha-border);border-radius:50%;width:43px;height:43px;display:grid;place-items:center;color:#9b742d}
+#obligations .ha2-bell svg{width:21px;height:21px}
+#obligations .hilen-obligations-stats.ha2-stats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin-bottom:18px!important}
+#obligations .ha2-stat.hilen-agenda-stat{padding:15px!important;display:flex!important;align-items:center!important;gap:12px!important;border-radius:16px!important;min-width:0!important;min-height:92px!important;background:linear-gradient(140deg,#fff,#fbf7ef)!important;border:1px solid #e9e2d7!important;box-shadow:0 4px 13px #3020100a!important}
+#obligations .ha2-stat.soon{background:linear-gradient(140deg,#fff,#f1f5fa)!important}
+#obligations .ha2-stat.late{background:linear-gradient(140deg,#fff,#faf1ef)!important}
+#obligations .ha2-stat.done{background:linear-gradient(140deg,#fff,#f0f6ef)!important}
+#obligations .ha2-stat-icon{flex:0 0 39px;color:#af7f2b;display:grid;place-items:center}
+#obligations .ha2-stat-icon svg{width:32px;height:32px}
+#obligations .ha2-stat.soon .ha2-stat-icon{color:#45709d}
+#obligations .ha2-stat.late .ha2-stat-icon{color:#b44b42}
+#obligations .ha2-stat.done .ha2-stat-icon{color:#468554}
+#obligations .ha2-stat .stat-label{font-size:11px!important;color:#514b45!important;margin:0 0 4px!important}
+#obligations .ha2-stat .stat{font-size:25px!important;font-weight:850!important;line-height:1.1!important;color:#2b241e!important}
+#obligations .ha2-columns{display:grid;grid-template-columns:minmax(215px,.8fr) minmax(320px,1.33fr) minmax(260px,1fr);gap:13px;align-items:start}
+#obligations .ha2-panel{background:#fff!important;border:1px solid var(--ha-border)!important;border-radius:21px!important;padding:16px!important;box-shadow:0 5px 18px #1f180c0b!important;min-width:0}
+#obligations .ha2-calendar{min-height:460px}
+#obligations .ha2-calendar .hilen-agenda-calendar-head{display:block!important;margin-bottom:20px!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-nav{display:flex!important;width:100%;align-items:center;justify-content:space-between!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-nav strong{font-size:16px!important;color:var(--ha-ink)!important;text-transform:capitalize}
+#obligations .ha2-calendar .hilen-agenda-calendar-nav button,#obligations .ha2-monthrow button{border:0!important;border-radius:50%;width:36px;height:36px;background:#f7f5f1;color:#2a241e;font-size:23px;display:grid;place-items:center}
+#obligations .ha2-calendar .hilen-agenda-calendar-weekdays{margin-bottom:19px!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-weekdays span{color:#45413b;font-size:12px}
+#obligations .ha2-calendar .hilen-agenda-calendar-days{gap:6px!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-days button{height:39px!important;min-height:39px!important;border-radius:50%!important;background:transparent!important;color:#292520!important;border:0!important;font-size:13px}
+#obligations .ha2-calendar .hilen-agenda-calendar-days button.has-event{background:#fbefd6!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-days button.is-selected{background:#c39542!important;color:white!important}
+#obligations .ha2-calendar .hilen-agenda-calendar-days button.is-today{box-shadow:inset 0 0 0 1px #d7b775}
+#obligations .ha2-calendar .hilen-agenda-calendar-days .event-dot{background:#b78b40}
+#obligations .ha2-calendar .hilen-agenda-calendar-selected{margin-top:22px;color:#918578;font-size:11px}
+#obligations .ha2-center{min-height:460px}
+#obligations .ha2-center-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 20px}
+#obligations .ha2-switch{display:flex;gap:5px;align-items:center}
+#obligations .ha2-switch button,#obligations .ha2-add{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:22px;font-weight:750;padding:9px 15px;border:1px solid #e5ddd2;background:#fff;color:#322a20}
+#obligations .ha2-switch button svg,#obligations .ha2-add svg{width:19px;height:19px}
+#obligations .ha2-switch button.active,#obligations .ha2-add{background:linear-gradient(140deg,#dfb65c,#9d6a19);color:white;border-color:#d1aa56}
+#obligations .ha2-monthrow{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+#obligations .ha2-monthrow h3{margin:0;flex:1;font-size:19px;color:var(--ha-ink);text-transform:capitalize;white-space:nowrap}
+#obligations .ha2-month-actions{display:flex;gap:6px;align-items:center}
+#obligations .ha2-month-actions button:first-child{width:auto;border-radius:18px;padding:0 12px;font-size:12px}
+#obligations .ha2-searchrow{display:flex;gap:8px;align-items:center}
+#obligations .ha2-searchrow .input{padding:8px 10px;margin:4px 0 9px!important;border-radius:10px!important;font-size:11px;min-width:0}
+#obligations .ha2-searchrow select{max-width:110px}
+#obligations .ha2-hiddenfilters{display:none!important}
+#obligations .hilen-obligations-tabs{display:flex!important;gap:6px!important;border:0!important;background:transparent!important;padding:0!important}
+#obligations .hilen-obligations-tabs button{border:0!important;border-radius:12px!important;padding:7px 9px!important;background:#f7f5f2!important;color:#817365!important;font-size:10px!important;flex:1}
+#obligations .hilen-obligations-tabs button.active{background:#f2e6d0!important;color:#855f21!important;box-shadow:none!important}
+#obligations .ha2-events{display:flex;flex-direction:column;gap:9px}
+#obligations .ha2-event{display:flex;align-items:center;gap:10px;min-width:0}
+#obligations .ha2-datechip{flex:0 0 54px;width:54px;height:69px;border:1px solid #f0dfbe;border-radius:14px;background:#fffaf0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#966723}
+#obligations .ha2-datechip small{font-size:10px;line-height:1.1}
+#obligations .ha2-datechip strong{font-size:25px;line-height:1.15;font-weight:850;color:#271e16}
+#obligations .ha2-event-card{display:flex;align-items:center;gap:10px;flex:1;min-width:0;border:1px solid #eae5dd;border-radius:17px;background:#fff;padding:12px 11px;box-shadow:0 3px 8px #1a120c0b}
+#obligations .ha2-event-icon{flex:0 0 40px;width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:#f9ebcd;color:#a97924}
+#obligations .ha2-event-icon svg{width:22px;height:22px}
+#obligations .ha2-event-copy{flex:1;min-width:0}
+#obligations .ha2-event-copy b{display:block;color:#28221c;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#obligations .ha2-event-copy small{color:#78716a;font-size:11px;display:block;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#obligations .ha2-event-status{border-radius:30px;padding:6px 8px;font-size:10px;font-weight:750;white-space:nowrap;background:#f5ebd7;color:#906624}
+#obligations .ha2-event-status.pending{background:#eff4fb;color:#4b6a9d}
+#obligations .ha2-event-status.overdue{background:#fbebea;color:#ac433b}
+#obligations .ha2-event-status.paid{background:#ebf5ee;color:#37774b}
+#obligations .ha2-event-more{border:0;background:transparent;color:#6b5e50;font-size:19px;padding:5px;line-height:1;flex:0 0 auto}
+#obligations .ha2-event-ops{display:none;flex-wrap:wrap;gap:5px;padding:9px 6px 0 64px}
+#obligations .ha2-event-ops.open{display:flex}
+#obligations .ha2-event-ops button{font-size:10px;border:1px solid #e5ddd0;border-radius:9px;background:#fff;padding:7px 8px;color:#5b4b39}
+#obligations .ha2-center-foot{margin-top:17px;padding-top:13px;border-top:1px solid #eee6da;color:#928473;font-size:10px;line-height:1.5}
+#obligations .ha2-center-foot button{color:#8c692d;border:0;background:transparent;text-decoration:underline;font-weight:700;padding:0}
+#obligations .ha2-form-panel{min-height:510px;padding:0!important;overflow:hidden}
+#obligations .ha2-formtop{display:flex;align-items:center;gap:11px;padding:15px;background:#fbfaf7;border-bottom:1px solid #eee5da}
+#obligations .ha2-formtop-icon{display:grid;place-items:center;background:#f6e8c9;border-radius:12px;width:39px;height:39px;color:#9d7328}
+#obligations .ha2-formtop-icon svg{width:24px;height:24px}
+#obligations .ha2-formtop h3{font-size:19px;color:#2b2219;margin:0;flex:1;letter-spacing:-.5px}
+#obligations .ha2-formtop>button{background:transparent;border:0;color:#6f6255}
+#obligations .ha2-formtop>button svg{width:19px;height:19px}
+#obligations .ha2-inline{padding:15px}
+#obligations .ha2-inline .hilen-reference-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
+#obligations .ha2-inline .hilen-reference-form>div{min-width:0}
+#obligations .ha2-inline .hilen-reference-form .fullcol{grid-column:1/-1}
+#obligations .ha2-inline .hilen-reference-form .input{margin:3px 0 4px!important;padding:9px 10px!important;font-size:12px;min-height:36px!important}
+#obligations .ha2-inline .hilen-reference-form .label{color:#29221c;font-size:11px;font-weight:750}
+#obligations .ha2-inline .hilen-reference-alerts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;background:transparent;padding:0}
+#obligations .ha2-inline .hilen-reference-alerts label{background:#fff;border:1px solid #eee6dc;border-radius:9px;padding:9px 6px;font-size:10px;white-space:nowrap}
+#obligations .ha2-inline .hilen-reference-alerts input{accent-color:#b88839}
+#obligations .ha2-inline .hilen-reference-switches{gap:4px}
+#obligations .ha2-inline .hilen-reference-switches label{font-size:11px}
+#obligations .ha2-inline .hilen-reference-modal-actions{display:flex;gap:8px;margin-top:15px}
+#obligations .ha2-inline .hilen-reference-modal-actions button{flex:1;padding:10px 9px!important;font-size:11px}
+#obligations .ha2-inline .hilen-reference-modal-actions .primary{background:linear-gradient(140deg,#d7a750,#a06f1f)!important;color:white}
+#obligations .ha2-calendar-connect{margin:0 14px 14px;border:1px solid #eee5d7;border-radius:12px;padding:10px;display:flex;align-items:center;gap:9px}
+#obligations .ha2-calendar-connect>span{color:#a4772c}
+#obligations .ha2-calendar-connect svg{width:19px;height:19px}
+#obligations .ha2-calendar-connect>div{min-width:0;flex:1}
+#obligations .ha2-calendar-connect b{display:block;font-size:11px}
+#obligations .ha2-calendar-connect p{font-size:10px;color:#928576;margin:4px 0 0}
+#obligations .ha2-calendar-connect button{background:#fff;border:1px solid #e7ddd0;border-radius:9px;font-size:10px;padding:7px}
+@media(max-width:1470px){#obligations .ha2-columns{grid-template-columns:minmax(200px,.76fr) minmax(300px,1.3fr) minmax(255px,1fr)}}
+@media(max-width:1200px){#obligations .ha2-columns{grid-template-columns:minmax(0,1fr) minmax(0,1.45fr)}#obligations .ha2-form-panel{grid-column:1/-1;min-height:0}#obligations .ha2-inline .hilen-reference-form{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){#obligations .hilen-obligations-stats.ha2-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}#obligations .ha2-columns{grid-template-columns:1fr}#obligations .ha2-form-panel{grid-column:auto}#obligations .ha2-calendar{min-height:0}}
+@media(max-width:480px){#obligations .ha2-header-icon{width:46px;height:46px;flex-basis:46px}#obligations .ha2-header-icon svg{width:27px;height:27px}#obligations .ha2-header-copy h2{font-size:21px}#obligations .ha2-panel{padding:12px!important}#obligations .ha2-event-status{font-size:9px}#obligations .ha2-datechip{flex-basis:47px;width:47px}#obligations .ha2-center-top{gap:8px}#obligations .ha2-inline .hilen-reference-form{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -5746,48 +5855,44 @@ body.hilen-daily-open .hilen-save-indicator{border-radius:999px}
     </section>
 
 
-    <section id="obligations" class="section hilen-view">
-      <div class="card hilen-obligations-header">
-        <div class="hilen-agenda-heading"><span class="hilen-agenda-kicker">ORGANIZACIÓN DEL NEGOCIO</span><div class="hilen-agenda-title-line"><span class="hilen-agenda-hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18m5 5 2 2 4-4"/></svg></span><div><h2>Agenda de pagos y recordatorios</h2><p class="muted small">Controla tus próximos vencimientos y mantenimientos.</p></div></div></div>
-        <div class="row-actions hilen-agenda-hero-actions"><button type="button" class="secondary" onclick="requestReminderPermission()">Activar avisos</button><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Nuevo recordatorio</button></div>
+    <section id="obligations" class="section hilen-view hilen-agenda-v2">
+      <header class="ha2-header">
+        <span class="ha2-header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>
+        <div class="ha2-header-copy"><h2>Agenda de recordatorios</h2><p>Programa fechas y recordatorios para proveedores, trámites, servicios y mantenimiento. No contabiliza egresos.</p></div>
+        <div class="ha2-header-actions"><button type="button" class="ha2-bell" onclick="requestReminderPermission()" aria-label="Activar avisos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg></button></div>
+      </header>
+      <div class="hilen-obligations-stats ha2-stats">
+        <div class="card hilen-agenda-stat ha2-stat total"><span class="ha2-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><div><div class="stat-label">Total eventos</div><div class="stat" id="hilenObligationPending">0</div></div></div>
+        <div class="card hilen-agenda-stat ha2-stat soon"><span class="ha2-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></svg></span><div><div class="stat-label">Esta semana</div><div class="stat" id="hilenObligationUpcoming">0</div></div></div>
+        <div class="card hilen-agenda-stat ha2-stat late"><span class="ha2-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg></span><div><div class="stat-label">Vencidos</div><div class="stat" id="hilenObligationOverdue">0</div></div></div>
+        <div class="card hilen-agenda-stat ha2-stat done"><span class="ha2-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span><div><div class="stat-label">Cumplidos</div><div class="stat" id="hilenObligationAmount">0</div></div></div>
       </div>
-      <div class="hilen-obligations-stats">
-        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon neutral">☷</span><div><div class="stat-label">Por atender</div><div class="stat" id="hilenObligationPending">0</div></div></div>
-        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon gold">◷</span><div><div class="stat-label">Próximos 7 días</div><div class="stat" id="hilenObligationUpcoming">0</div></div></div>
-        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon red">!</span><div><div class="stat-label">Vencidos</div><div class="stat" id="hilenObligationOverdue">0</div></div></div>
-        <div class="card hilen-agenda-stat"><span class="hilen-agenda-stat-icon green">$</span><div><div class="stat-label">Atendidos este mes</div><div class="stat" id="hilenObligationAmount">$ 0</div></div></div>
-      </div>
-      <div class="hilen-agenda-separation"><span class="hilen-agenda-separation-icon">i</span><div><strong>Esta sección es una agenda, no un registro de egresos.</strong><p>Aquí organizas fechas, avisos y compromisos. Aunque marques un recordatorio como atendido, no se registra ningún pago real. Para descontar dinero y contabilizarlo, utiliza <b>Flujo de caja → Egresos</b>.</p></div><button type="button" class="secondary" onclick="goSection('cashflow')">Ir a Flujo de caja</button></div>
-      <div class="hilen-agenda-content-grid">
-      <div class="card hilen-agenda-workspace">
-        <div class="hilen-obligations-heading"><h3>Mis obligaciones</h3><button type="button" class="primary" onclick="hilenOpenObligationForm()">＋ Nueva obligación</button></div>
-        <div class="hilen-obligations-tabs" role="tablist" aria-label="Tipo de obligación">
-          <button type="button" id="hilenObligationsSuppliersTab" class="active" onclick="hilenSetObligationTab('supplier')" role="tab" aria-selected="true">Proveedores y pagos previstos</button>
-          <button type="button" id="hilenObligationsServicesTab" onclick="hilenSetObligationTab('service')" role="tab" aria-selected="false">Servicios, trámites y mantenimiento</button>
-        </div>
-        <div class="hilen-reference-filters" role="group" aria-label="Filtrar recordatorios">
-          <button type="button" data-oblfilter="all" onclick="hilenSetObligationFilter('all')">Todas</button>
-          <button type="button" data-oblfilter="pending" onclick="hilenSetObligationFilter('pending')">Por atender</button>
-          <button type="button" data-oblfilter="paid" onclick="hilenSetObligationFilter('paid')">Atendidas</button>
-          <button type="button" data-oblfilter="overdue" onclick="hilenSetObligationFilter('overdue')">Vencidas</button>
-        </div>
-        <div class="toolbar hilen-obligations-toolbar">
-          <div><label class="label" for="hilenObligationSearch">Buscar</label><input id="hilenObligationSearch" class="input" oninput="hilenRenderObligations()" placeholder="Proveedor, servicio o descripción"></div>
-          <div><label class="label" for="hilenObligationFilter">Estado</label><select id="hilenObligationFilter" class="input" onchange="hilenRenderObligations()"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="overdue">Vencidos</option><option value="paid">Atendidos</option></select></div>
-        </div>
-        <div class="hilen-reference-table"><div class="hilen-reference-table-head"><span>Obligación</span><span>Vencimiento</span><span>Valor</span><span>Estado</span><span>Acciones</span></div><div id="hilenObligationList" class="hilen-obligations-list"></div></div>
-        <p class="hilen-agenda-footnote">Los valores son estimados, no dinero descontado. Para registrar un pago efectuado y reflejarlo en los reportes, utiliza Flujo de caja → Egresos.</p>
-      </div>
-      <div class="hilen-agenda-calendar-stack">
-        <div class="card hilen-agenda-calendar-card">
-          <div class="hilen-agenda-calendar-head"><h3>Calendario de vencimientos</h3><div class="hilen-agenda-calendar-nav"><button type="button" aria-label="Mes anterior" onclick="hilenShiftAgendaMonth(-1)">‹</button><strong id="hilenAgendaCalendarMonth"></strong><button type="button" aria-label="Mes siguiente" onclick="hilenShiftAgendaMonth(1)">›</button></div></div>
+      <div class="ha2-columns">
+        <aside class="card hilen-agenda-calendar-card ha2-panel ha2-calendar">
+          <div class="hilen-agenda-calendar-head"><div class="hilen-agenda-calendar-nav"><button type="button" aria-label="Mes anterior" onclick="hilenShiftAgendaMonth(-1)">‹</button><strong id="hilenAgendaCalendarMonth"></strong><button type="button" aria-label="Mes siguiente" onclick="hilenShiftAgendaMonth(1)">›</button></div></div>
           <div class="hilen-agenda-calendar-weekdays"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
           <div id="hilenAgendaCalendarDays" class="hilen-agenda-calendar-days"></div>
           <div id="hilenAgendaCalendarSelected" class="hilen-agenda-calendar-selected"></div>
+        </aside>
+        <div class="card ha2-panel ha2-center">
+          <div class="ha2-center-top">
+            <div class="ha2-switch"><button class="active" type="button" data-agenda-view="agenda" onclick="hilenSetAgendaView('agenda')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg> Agenda</button><button type="button" data-agenda-view="history" onclick="hilenSetAgendaView('history')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 1 3 6M3 3v6h6M12 7v5l3 2"/></svg> Historial</button></div>
+            <button class="ha2-add" type="button" onclick="hilenOpenObligationForm()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Agregar evento</button>
+          </div>
+          <div class="ha2-monthrow"><button type="button" onclick="hilenShiftAgendaMonth(-1)" aria-label="Mes anterior">‹</button><h3 id="hilenAgendaListMonth">Noviembre 2026</h3><div class="ha2-month-actions"><button type="button" onclick="hilenAgendaToday()">Hoy</button><button type="button" onclick="hilenShiftAgendaMonth(1)" aria-label="Mes siguiente">›</button></div></div>
+          <div class="ha2-list-controls">
+            <div class="hilen-obligations-tabs" role="tablist" aria-label="Tipo de obligación"><button id="hilenObligationsSuppliersTab" type="button" class="active" onclick="hilenSetObligationTab('supplier')" aria-selected="true">Proveedores</button><button id="hilenObligationsServicesTab" type="button" onclick="hilenSetObligationTab('service')" aria-selected="false">Servicios y mantenimiento</button></div>
+            <div class="ha2-searchrow"><input id="hilenObligationSearch" class="input" oninput="hilenRenderObligations()" placeholder="Buscar evento" aria-label="Buscar evento"><select id="hilenObligationFilter" class="input" onchange="hilenRenderObligations()" aria-label="Filtrar"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="overdue">Vencidos</option><option value="paid">Atendidos</option></select></div>
+          </div>
+          <div class="hilen-reference-filters ha2-hiddenfilters" aria-hidden="true"><button data-oblfilter="all">Todas</button><button data-oblfilter="pending">Pendientes</button><button data-oblfilter="paid">Atendidas</button><button data-oblfilter="overdue">Vencidas</button></div>
+          <div id="hilenObligationList" class="hilen-obligations-list ha2-events"></div>
+          <div class="ha2-center-foot">Los recordatorios son informativos y no generan egresos. Registra los pagos reales en <button type="button" onclick="goSection('cashflow')">Flujo de caja</button>.</div>
         </div>
-        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">◷</span><div><strong>Recordatorios en HILEN</strong><p>HILEN te avisará cuando la aplicación esté abierta y el navegador permita notificaciones.</p></div><button type="button" class="secondary" onclick="requestReminderPermission()">Activar</button></div>
-        <div class="hilen-agenda-calendar-note"><span class="hilen-agenda-calendar-note-icon">▦</span><div><strong>Google Calendar</strong><p id="hilenCalendarStatus">Conecta una vez tu calendario para guardar los vencimientos automáticamente.</p></div><button type="button" class="secondary" onclick="hilenConnectAgendaCalendar()">Conectar</button></div>
-      </div>
+        <aside class="card ha2-panel ha2-form-panel" id="hilenAgendaFormPanel">
+          <div class="ha2-formtop"><span class="ha2-formtop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><h3 id="hilenAgendaFormHeading">Agregar evento</h3><button type="button" onclick="hilenResetObligationForm()" aria-label="Limpiar formulario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div>
+          <div id="hilenAgendaInlineForm" class="ha2-inline"></div>
+          <div class="ha2-calendar-connect"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><div><b>Google Calendar</b><p id="hilenCalendarStatus">Conecta tu calendario para guardar eventos automáticamente.</p></div><button type="button" onclick="hilenConnectAgendaCalendar()">Conectar</button></div>
+        </aside>
       </div>
     </section>
 
