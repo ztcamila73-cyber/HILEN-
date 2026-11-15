@@ -5525,6 +5525,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
   <link rel="stylesheet" href="./hilen-date-fields.css">
 <link rel="stylesheet" href="./hilen-sale-zoom.css">
 <link rel="stylesheet" href="./hilen-daily-summary-reference.css">
+<link rel="stylesheet" href="./hilen-customer-profile-2026.css">
 </head>
 <body>
 <!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
@@ -10773,7 +10774,7 @@ function refreshAll(){
   [['selectores',refreshClientsSelects],['clientes',renderCustomers],['abonos',renderPayments],['ventas',renderSalesView],['inicio',renderHome],['actividad diaria',()=>{if($('dailyActivity')?.classList.contains('active'))hilenRenderDailyActivity()}],['encargos',renderEncargos],['caja',renderCashflow],['grafica-ventas',renderSalesChart],['grafica-abonos',renderPaymentChart],['grafica-caja',renderCashflowChart],['grafica-clientes',renderClientChart],['inventario',renderInventory],['historial',renderHistory],['reportes',()=>{if($('reports')?.classList.contains('active'))hilenRenderReports()}],['registros mensuales',()=>{if($('monthlyEntryMonth'))monthlySelectedMonthChanged(false);if(!$('monthlyHistoryModal')?.classList.contains('hidden'))renderMonthlyHistoryRows()}]].forEach(([name,fn])=>safeRender(name,fn));
 }
 
-function closeModal(){$('modal').classList.add('hidden')}
+function closeModal(){$('modal').classList.add('hidden');$('modal').classList.remove('hcf-modal')}
 async function bootstrapApp(){
   const cloudReady=initCloud();
   if(cloudReady){
@@ -11424,5 +11425,6 @@ bootstrapApp();
 </script>
   <script src="./hilen-date-fields.js"></script>
 <script src="./hilen-sale-zoom.js"></script>
+<script src="./hilen-customer-profile-2026.js"></script>
 </body>
 </html>
