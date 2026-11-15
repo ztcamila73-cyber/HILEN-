@@ -68,7 +68,21 @@ function refresh(){
  // Conservar el diseño de tabla y sus botones originales; solo cambiar la
  // descripción visible de las ventas, sin alterar el registro subyacente.
  const heads=root.querySelectorAll('#hilenDailyEvents .hdaily-ref-table th');
- if(heads.length===7)heads[2].textContent='Descripción';
+ if(heads.length===7){
+  const titles=['Hora','Tipo','Descripción','Cliente / Detalle','Valor','Método','Acciones'];
+  const paths=[
+   '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/>',
+   '<path d="M5 6h14m-4-4 4 4-4 4M19 18H5m4-4-4 4 4 4"/>',
+   '<path d="M6 2h9l4 4v16H6zM15 2v5h4M9 12h7M9 16h6"/>',
+   '<circle cx="12" cy="7" r="3"/><path d="M5 21v-2a7 7 0 0 1 14 0v2H5z"/>',
+   svg.coins,
+   svg.card,
+   '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1m10 10 2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/>'
+  ];
+  heads.forEach((th,i)=>{
+   th.innerHTML='<span class="hd2026-th-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+paths[i]+'</svg></span><span>'+titles[i]+'</span>';
+  });
+ }
 }
 function boot(){
  mount();
