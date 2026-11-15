@@ -1,0 +1,10 @@
+/* Selector de artículos recurrentes: HILEN */
+.hilen-product-suggestions{position:fixed;z-index:20000;display:flex;flex-direction:column;overflow:auto;overscroll-behavior:contain;background:#fff;border:1px solid #e9d4b1;border-radius:16px;box-shadow:0 18px 43px #39250b34;padding:5px}
+.hilen-product-suggestions[hidden]{display:none!important}
+.hilen-product-suggestions button{display:flex;align-items:center;gap:11px;text-align:left;padding:10px 12px;background:#fff;border:0;border-radius:10px;width:100%;color:#1b2335;cursor:pointer;font:inherit}
+.hilen-product-suggestions button[aria-selected=true],.hilen-product-suggestions button:hover{background:#fff5e0}
+.hilen-product-suggest-icon{flex:none;display:grid;place-items:center;width:33px;height:33px;border-radius:10px;background:#fff0cf;color:#b57c0a}
+.hilen-product-suggest-icon svg{width:19px;height:19px}
+.hilen-product-suggest-name{font-size:13px;font-weight:800;min-width:0;overflow-wrap:anywhere}
+.hilen-product-suggest-name small{display:block;font-size:11px;font-weight:500;color:#788194;margin-top:2px}
+#newSale .product-row .pname:focus{border-color:#d4a54f!important;box-shadow:0 0 0 3px #d4a54f21!important}
