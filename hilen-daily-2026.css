@@ -106,3 +106,21 @@
 #dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-more{width:43px!important;height:36px!important;display:grid!important;place-items:center!important;border:1px solid #dae0ec!important;border-radius:999px!important;background:#fcfdff!important;color:#183357!important;font-size:17px!important;letter-spacing:1px!important;box-shadow:0 3px 8px #172a4711!important}
 #dailyActivity.hd2026-ready .hd2026-ledger .hdaily-zoom-actions button{border-radius:999px!important;min-width:45px!important;min-height:40px!important}
 @media(max-width:800px){#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-filter-line{align-items:stretch!important;flex-direction:column!important}#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-search{min-width:0!important;width:100%!important}#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs button{font-size:12px!important;padding:8px 11px!important}}
+
+/* Iconografía SVG y ajuste fino fiel a la referencia de Movimiento del día. */
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th:before{content:none!important;display:none!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th{vertical-align:middle!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th>span{vertical-align:middle}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th .hd2026-th-icon{display:inline-flex!important;align-items:center;justify-content:center;margin-right:8px;vertical-align:middle}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th .hd2026-th-icon svg{height:23px;width:23px;color:#c38400;stroke-width:2.2}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs button[data-hdaily-filter="sale"] svg{color:#c58903}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs button[data-hdaily-filter="payment"] svg{color:#19a018}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs button[data-hdaily-filter="expense"] svg{color:#d82a4e}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-method-credit svg{color:#7c2ddd}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-method-cash svg{color:#05981d}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tag-sale svg{color:#0785f4}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tag-payment svg{color:#08aa1f}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-time{font-variant-numeric:tabular-nums}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table tbody tr:hover{background:#fffaf1!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table tbody tr:last-child td{border-bottom:0!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table td:nth-child(7){text-align:center}
