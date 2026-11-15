@@ -68,3 +68,41 @@
 #dailyActivity .hd2026-kpi:hover,#dailyActivity .hd2026-split-item:hover{filter:brightness(.985);transform:translateY(-1px)}
 @media(max-width:1250px){#dailyActivity .hd2026-kpis{gap:11px}#dailyActivity .hd2026-kpi{padding:13px;gap:10px}#dailyActivity .hd2026-kpi-icon{width:58px;height:58px}#dailyActivity .hd2026-kpi-icon svg{width:34px;height:34px}#dailyActivity .hd2026-sales-content{grid-template-columns:1fr}#dailyActivity .hd2026-split{padding-left:0}#dailyActivity .hd2026-chart{border-left:0;border-top:1px solid #decab0;padding:20px 0 0}#dailyActivity .hd2026-cash{flex-wrap:wrap;gap:13px}#dailyActivity .hd2026-cash-label{margin-left:auto}}
 @media(max-width:750px){#dailyActivity .hd2026-kpis{grid-template-columns:1fr!important}#dailyActivity .hd2026-kpi{min-height:95px}#dailyActivity .hd2026-kpi-glint{height:60px}#dailyActivity .hd2026-sales{padding:14px}#dailyActivity .hd2026-split{gap:9px}#dailyActivity .hd2026-split-item{padding:11px;gap:8px}#dailyActivity .hd2026-split-icon{width:41px;height:41px}#dailyActivity .hd2026-split-icon svg{width:25px;height:25px}#dailyActivity .hd2026-split-item b{font-size:19px}#dailyActivity .hd2026-split-item strong{font-size:13px}#dailyActivity .hd2026-split-item small{font-size:12px}#dailyActivity .hd2026-cash{padding:14px;border-radius:20px}#dailyActivity .hd2026-cash-icon{width:45px;height:50px}#dailyActivity .hd2026-cash-icon svg{width:40px;height:40px}#dailyActivity .hd2026-cash>b{width:100%;font-size:34px}#dailyActivity .hd2026-cash-label{margin:0}#dailyActivity .hd2026-ledger{padding:12px}#dailyActivity .hd2026-ledger-title{gap:9px}#dailyActivity .hd2026-list-icon{width:44px;height:44px}#dailyActivity .hd2026-list-icon svg{width:24px;height:24px}#dailyActivity .hd2026-chart .hdaily-ref-donut{width:125px!important;height:125px!important}}
+
+/* Tabla de movimientos: reproducción de la referencia visual aprobada. */
+#dailyActivity.hd2026-ready .hd2026-ledger{padding:19px 23px 22px!important;border-radius:30px!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-filter-line{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;margin:10px 0 12px!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs button{min-height:46px!important;border-radius:999px!important;border:1px solid #f0ddc6!important;background:linear-gradient(120deg,#fff,#fffaf4)!important;color:#18223d!important;padding:8px 17px!important;font-size:14px!important;font-weight:850!important;box-shadow:0 3px 9px #8c62301c!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs button.active{border-color:#dca026!important;color:white!important;background:linear-gradient(125deg,#f3b929,#a56800)!important;box-shadow:0 5px 11px #a8772240!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs button svg{width:22px!important;height:22px!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-search{border:1px solid #f0dec7!important;border-radius:999px!important;box-shadow:0 3px 9px #997a4720!important;min-height:47px!important;min-width:250px!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-search input{font-size:14px!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-scroll{border:1px solid #edf0f4!important;border-radius:20px!important;overflow-x:auto!important;background:#fff!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table{width:100%!important;min-width:990px!important;border-collapse:collapse!important;font-size:14px!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table thead{background:linear-gradient(100deg,#fff3dc,#fff8ed)!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th{padding:15px 15px!important;background:transparent!important;color:#171717!important;font-size:14px!important;font-weight:900!important;border-bottom:1px solid #f1e3cf!important;white-space:nowrap!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th:nth-child(1):before{content:"▣";color:#c38a12;font-size:19px;margin-right:9px}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th:nth-child(2):before{content:"⇅";color:#c38a12;font-size:22px;margin-right:9px}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th:nth-child(3):before{content:"▤";color:#c38a12;font-size:22px;margin-right:9px}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th:nth-child(4):before{content:"♙";color:#c38a12;font-size:21px;margin-right:9px}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th:nth-child(5):before{content:"≋";color:#c38a12;font-size:23px;margin-right:9px}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th:nth-child(6):before{content:"▣";color:#c38a12;font-size:19px;margin-right:9px}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table th:nth-child(7):before{content:"⚙";color:#c38a12;font-size:19px;margin-right:9px}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table td{font-size:14px!important;font-weight:520!important;color:#131e38!important;padding:13px 14px!important;border-bottom:1px solid #e8edf2!important;vertical-align:middle!important;line-height:1.35!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table td:first-child{position:relative;padding-left:24px!important;white-space:nowrap;font-weight:800!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-table td:first-child:before{content:"";position:absolute;left:0;top:5px;bottom:5px;width:6px;border-radius:8px;background:#248bf5}
+#dailyActivity.hd2026-ready .hd2026-ledger tr.hd2026-movement-payment td:first-child:before{background:#4acb39}
+#dailyActivity.hd2026-ready .hd2026-ledger tr.hd2026-movement-expense td:first-child:before{background:#f36a83}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-money{font-weight:900!important;font-size:15px!important;white-space:nowrap!important;color:#0b1328!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tag,#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-method{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;border-radius:999px!important;padding:8px 14px!important;min-width:105px!important;font-size:14px!important;font-weight:850!important;white-space:nowrap!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tag svg,#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-method svg{width:20px;height:20px;flex:none}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tag-sale{background:#e4f2ff!important;color:#0866d5!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tag-payment{background:#e3f8e4!important;color:#06891f!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tag-expense{background:#ffe7ed!important;color:#ca2048!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-method-credit{background:#f1e4ff!important;color:#7830d4!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-method-cash{background:#e5f8e4!important;color:#098d20!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-method-nequi{background:#e4edff!important;color:#3168cc!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-more{width:43px!important;height:36px!important;display:grid!important;place-items:center!important;border:1px solid #dae0ec!important;border-radius:999px!important;background:#fcfdff!important;color:#183357!important;font-size:17px!important;letter-spacing:1px!important;box-shadow:0 3px 8px #172a4711!important}
+#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-zoom-actions button{border-radius:999px!important;min-width:45px!important;min-height:40px!important}
+@media(max-width:800px){#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-filter-line{align-items:stretch!important;flex-direction:column!important}#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-search{min-width:0!important;width:100%!important}#dailyActivity.hd2026-ready .hd2026-ledger .hdaily-ref-tabs button{font-size:12px!important;padding:8px 11px!important}}
