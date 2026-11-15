@@ -60,3 +60,7 @@
 @media(max-width:1100px){.hcf-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.hcf-footer{grid-template-columns:repeat(2,minmax(0,1fr))}.hcf-balance{min-width:220px}}
 @media(max-width:650px){#modal.hcf-modal{padding:0}#modal.hcf-modal>.modal-card{width:100vw!important;max-height:100dvh!important;border-radius:0;padding:15px!important}.hcf-profile{flex-wrap:wrap;gap:11px}.hcf-avatar{width:56px;height:56px}.hcf-identity h2{font-size:24px}.hcf-balance{width:100%;margin:5px 0 0;min-width:0}.hcf-metrics{gap:9px}.hcf-kpi{padding:12px 10px;gap:7px}.hcf-kpi-icon{width:38px;height:38px}.hcf-kpi-icon svg{width:23px;height:23px}.hcf-kpi strong{font-size:17px}.hcf-kpi>div>span{font-size:11px}.hcf-period{width:100%;flex-wrap:wrap}.hcf-period input{width:calc(50% - 33px)}.hcf-actions{width:100%;justify-content:stretch}.hcf-actions button{flex:1 1 auto}.hcf-panel{padding:14px 9px}.hcf-panel-title h3{font-size:19px}.hcf-search{width:100%}.hcf-footer{gap:12px;padding:13px}.hcf-footer-title{font-size:17px}.hcf-pending{grid-column:1/-1}.hcf-footer>div>strong{font-size:18px}}
 @media print{#modal.hcf-modal>.modal-card{box-shadow:none}.hcf-close,.hcf-controls,.hcf-search,.hcf-eye{display:none!important}}
+/* Corrección: el detalle de facturas, compras y abonos debe aparecer
+   por encima de la ficha emergente (z-index 9000). */
+body:has(#modal.hcf-modal:not(.hidden)) #customerPurchaseModal:not(.hidden){z-index:9100!important;}
+body:has(#modal.hcf-modal:not(.hidden)) #customerPurchaseModal:not(.hidden) .customer-purchase-dialog{position:relative;z-index:1;}
