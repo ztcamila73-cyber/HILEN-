@@ -1,0 +1,70 @@
+/* HILEN · Movimiento del día · referencia dorada noviembre 2026 */
+#dailyActivity.hd2026-ready{min-width:0!important;display:block}
+#dailyActivity.hd2026-ready .hd2026-hidden{display:none!important}
+#dailyActivity.hd2026-ready .hd2026-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:5px 0 18px}
+#dailyActivity .hd2026-kpi{position:relative;isolation:isolate;display:flex;align-items:center;gap:19px;min-height:125px;overflow:hidden;text-align:left;border:1px solid #f5d8a4;border-radius:28px;background:linear-gradient(115deg,#fff8ee 0%,#fff 71%,#ffefc4);padding:18px 24px;box-shadow:0 9px 19px #513d2119;cursor:pointer;color:#151515}
+#dailyActivity .hd2026-kpi.hd2026-green{border-color:#dcead4;background:linear-gradient(115deg,#f4fbee,#fff 70%,#e5f6d1)}
+#dailyActivity .hd2026-kpi.hd2026-red{border-color:#f6cdd4;background:linear-gradient(115deg,#fff6f6,#fff 70%,#ffe9ed)}
+#dailyActivity .hd2026-kpi-icon{display:grid;place-items:center;z-index:1;flex:none;width:80px;height:80px;border-radius:23px;background:linear-gradient(145deg,#ffcf5f,#ac6900);color:#fff;box-shadow:inset 0 2px 6px #ffffff55}
+#dailyActivity .hd2026-green .hd2026-kpi-icon{background:linear-gradient(145deg,#c7ed97,#4db80c)}
+#dailyActivity .hd2026-red .hd2026-kpi-icon{background:linear-gradient(145deg,#ffb1bf,#c71a3f)}
+#dailyActivity .hd2026-kpi-icon svg{width:45px;height:45px;stroke-width:2}
+#dailyActivity .hd2026-kpi-rule{height:70px;width:2px;flex:none;background:#dba03c}
+#dailyActivity .hd2026-green .hd2026-kpi-rule{background:#6bbd3e}
+#dailyActivity .hd2026-red .hd2026-kpi-rule{background:#d83254}
+#dailyActivity .hd2026-kpi-copy{z-index:1;display:flex;flex-direction:column;min-width:0}
+#dailyActivity .hd2026-kpi-copy strong{font-size:17px;font-weight:900;line-height:1.2}
+#dailyActivity .hd2026-kpi-copy b{font-size:clamp(23px,2.4vw,36px);letter-spacing:-.8px;line-height:1.2;overflow-wrap:anywhere}
+#dailyActivity .hd2026-kpi-copy small{font-size:15px;color:#222}
+#dailyActivity .hd2026-kpi-glint{position:absolute;right:-8%;bottom:-32px;width:57%;height:76px;transform:rotate(-17deg);border-top:2px solid #ffc849;border-radius:50%;background:linear-gradient(155deg,transparent 30%,#ffd16f85 75%,#f9b629)}
+#dailyActivity .hd2026-green .hd2026-kpi-glint{border-color:#91da65;background:linear-gradient(155deg,transparent 30%,#b9eb9b85 75%,#a4dc79)}
+#dailyActivity .hd2026-red .hd2026-kpi-glint{border-color:#ffa5b3;background:linear-gradient(155deg,transparent 30%,#ffd2d785 75%,#ffa4b4)}
+#dailyActivity .hd2026-sales{padding:18px 27px;border:1px solid #f3e4cd;border-radius:29px;background:linear-gradient(125deg,#fffefd,#fffaf2);box-shadow:0 9px 21px #614d3116;margin-bottom:18px}
+#dailyActivity .hd2026-sales-title{display:flex;align-items:center;gap:16px;color:#b67b00}
+#dailyActivity .hd2026-sales-title svg{width:44px;height:44px}
+#dailyActivity .hd2026-sales-title h2{margin:0;color:#111;font-size:clamp(19px,2vw,27px);font-weight:900}
+#dailyActivity .hd2026-sales-content{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(260px,1fr);align-items:center;gap:35px}
+#dailyActivity .hd2026-split{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-left:42px}
+#dailyActivity .hd2026-split-item{display:flex;gap:16px;align-items:center;text-align:left;min-width:0;border:1px solid #ddecce;border-radius:25px;padding:16px;background:linear-gradient(125deg,#fff,#edf8e5);box-shadow:0 4px 11px #8ba77022;color:#111;cursor:pointer}
+#dailyActivity .hd2026-credit{background:linear-gradient(125deg,#fff,#f1e4ff);border-color:#e9d3fc}
+#dailyActivity .hd2026-split-icon{flex:none;display:grid;place-items:center;width:73px;height:73px;border-radius:50%;background:#e5f7db;color:#16ae13}
+#dailyActivity .hd2026-credit .hd2026-split-icon{color:#8430df;background:#f1e5ff}
+#dailyActivity .hd2026-split-icon svg{width:37px;height:37px}
+#dailyActivity .hd2026-split-item span:last-child{display:flex;flex-direction:column;min-width:0}
+#dailyActivity .hd2026-split-item strong{font-size:17px;font-weight:900}
+#dailyActivity .hd2026-split-item b{font-size:clamp(21px,2vw,31px);font-weight:900;overflow-wrap:anywhere}
+#dailyActivity .hd2026-split-item small{font-size:15px}
+#dailyActivity .hd2026-chart{border-left:1px solid #decab0;padding:0 10px 0 35px;min-width:0}
+#dailyActivity .hd2026-chart .hdaily-ref-chart-inner{display:flex!important;align-items:center!important;justify-content:center!important;gap:25px!important}
+#dailyActivity .hd2026-chart .hdaily-ref-donut{flex:none!important;width:155px!important;height:155px!important}
+#dailyActivity .hd2026-chart .hdaily-ref-legend{display:flex!important;flex-direction:column!important;gap:13px!important}
+#dailyActivity .hd2026-chart .hdaily-ref-legend>div{display:grid!important;grid-template-columns:14px auto!important;gap:2px 12px!important;align-items:center!important}
+#dailyActivity .hd2026-chart .hdaily-ref-legend b{grid-column:2!important;font-size:18px!important;font-weight:900!important}
+#dailyActivity .hd2026-chart .hdaily-ref-legend small{grid-column:2!important}
+#dailyActivity .hd2026-cash{position:relative;overflow:hidden;display:flex;align-items:center;gap:25px;border:2px solid #f3b326;border-radius:30px;background:linear-gradient(105deg,#cb8705,#5f3900 45%,#211407 80%,#9e6100);padding:16px 37px;min-height:92px;color:white;box-shadow:0 9px 20px #6546162b;margin-bottom:18px}
+#dailyActivity .hd2026-cash:after{content:"";position:absolute;right:-20px;bottom:-30px;width:35%;height:80px;border-top:3px solid #ffc32e;border-radius:50%;transform:rotate(-12deg);box-shadow:0 -10px 0 #ffcd4526}
+#dailyActivity .hd2026-cash-icon{display:grid;place-items:center;flex:none;width:80px;height:63px;border-right:2px solid #f5c957;color:#ffd35c}
+#dailyActivity .hd2026-cash-icon svg{height:55px;width:55px}
+#dailyActivity .hd2026-cash>strong{font-size:clamp(19px,2vw,29px);white-space:nowrap}
+#dailyActivity .hd2026-cash>b{font-size:clamp(30px,3.2vw,48px);letter-spacing:-1px;white-space:nowrap}
+#dailyActivity .hd2026-help{border:0;background:#ffffff30;color:white;border-radius:50%;width:25px;height:25px;font-size:17px;cursor:help}
+#dailyActivity .hd2026-cash-label{border-radius:50px;padding:8px 19px;background:linear-gradient(#d6a03b,#92600f);font-weight:800;font-size:13px;z-index:1}
+#dailyActivity .hd2026-ledger{padding:20px 24px;border:1px solid #efe1d4;border-radius:28px;background:white;box-shadow:0 9px 24px #392c1919}
+#dailyActivity .hd2026-ledger-head{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:10px}
+#dailyActivity .hd2026-ledger-title{display:flex;align-items:center;gap:18px}
+#dailyActivity .hd2026-list-icon{flex:none;display:grid;place-items:center;width:57px;height:57px;border-radius:16px;background:linear-gradient(145deg,#ffc650,#a86900);color:white}
+#dailyActivity .hd2026-list-icon svg{width:31px;height:31px}
+#dailyActivity .hd2026-ledger-title h2{margin:0;color:#111;font-size:clamp(20px,2vw,27px);font-weight:900}
+#dailyActivity .hd2026-ledger-title p{margin:0;color:#24385c}
+#dailyActivity .hd2026-ledger .hdaily-ref-filter-line{margin-bottom:14px}
+#dailyActivity .hd2026-ledger .hdaily-ref-events{width:100%}
+#dailyActivity .hd2026-ledger .hdaily-ref-scroll{width:100%;overflow-x:auto}
+#dailyActivity .hd2026-ledger .hdaily-ref-table{min-width:830px}
+#dailyActivity .hd2026-ledger .hdaily-ref-table thead{background:linear-gradient(90deg,#fff4e0,#fff9ec)}
+#dailyActivity .hd2026-ledger .hdaily-ref-table th{background:transparent!important;color:#161616!important}
+#dailyActivity .hd2026-ledger .hdaily-ref-more{border-radius:50%;border:1px solid #e2e8ee;background:#fff;color:#15223f}
+#dailyActivity .hd2026-ledger .hdaily-ref-count{font-size:12px}
+#dailyActivity .hd2026-ledger .hdaily-zoom-bar{margin:0}
+#dailyActivity .hd2026-kpi:hover,#dailyActivity .hd2026-split-item:hover{filter:brightness(.985);transform:translateY(-1px)}
+@media(max-width:1250px){#dailyActivity .hd2026-kpis{gap:11px}#dailyActivity .hd2026-kpi{padding:13px;gap:10px}#dailyActivity .hd2026-kpi-icon{width:58px;height:58px}#dailyActivity .hd2026-kpi-icon svg{width:34px;height:34px}#dailyActivity .hd2026-sales-content{grid-template-columns:1fr}#dailyActivity .hd2026-split{padding-left:0}#dailyActivity .hd2026-chart{border-left:0;border-top:1px solid #decab0;padding:20px 0 0}#dailyActivity .hd2026-cash{flex-wrap:wrap;gap:13px}#dailyActivity .hd2026-cash-label{margin-left:auto}}
+@media(max-width:750px){#dailyActivity .hd2026-kpis{grid-template-columns:1fr!important}#dailyActivity .hd2026-kpi{min-height:95px}#dailyActivity .hd2026-kpi-glint{height:60px}#dailyActivity .hd2026-sales{padding:14px}#dailyActivity .hd2026-split{gap:9px}#dailyActivity .hd2026-split-item{padding:11px;gap:8px}#dailyActivity .hd2026-split-icon{width:41px;height:41px}#dailyActivity .hd2026-split-icon svg{width:25px;height:25px}#dailyActivity .hd2026-split-item b{font-size:19px}#dailyActivity .hd2026-split-item strong{font-size:13px}#dailyActivity .hd2026-split-item small{font-size:12px}#dailyActivity .hd2026-cash{padding:14px;border-radius:20px}#dailyActivity .hd2026-cash-icon{width:45px;height:50px}#dailyActivity .hd2026-cash-icon svg{width:40px;height:40px}#dailyActivity .hd2026-cash>b{width:100%;font-size:34px}#dailyActivity .hd2026-cash-label{margin:0}#dailyActivity .hd2026-ledger{padding:12px}#dailyActivity .hd2026-ledger-title{gap:9px}#dailyActivity .hd2026-list-icon{width:44px;height:44px}#dailyActivity .hd2026-list-icon svg{width:24px;height:24px}#dailyActivity .hd2026-chart .hdaily-ref-donut{width:125px!important;height:125px!important}}
