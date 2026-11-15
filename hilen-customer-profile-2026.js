@@ -45,9 +45,9 @@ function open(cid){
 }
 function movements(cid,end){
   const out=[];
-  (db.sales||[]).filter(s=>String(s.clientId)===String(cid)&&s.type==='credit'&&s.date<=end).forEach(s=>out.push({
-    date:s.date,time:s.time||'',createdAt:s.createdAt||'',kind:'sale',id:s.id,amount:hilenPrincipal(s),
-    reference:hilenInvoiceCode(s),detail:(s.items||[]).map(i=>(i.name||'Artículo')+' × '+(Number(i.qty)||1)).join(', ')||'Compra a crédito'
+  (db.sales||[]).filter(s=>String(s.clientId)===String(cid)&&s.date<=end).forEach(s=>out.push({
+    date:s.date,time:s.time||'',createdAt:s.createdAt||'',kind:s.type==='credit'?'sale':'paidSale',id:s.id,amount:s.type==='credit'?hilenPrincipal(s):hilenSaleNetTotal(s),
+    reference:s.type==='credit'?hilenInvoiceCode(s):'',detail:(s.items||[]).map(i=>(i.name||'Artículo')+' × '+(Number(i.qty)||1)).join(', ')||'Compra a crédito'
   }));
   (db.payments||[]).filter(p=>String(p.clientId)===String(cid)&&p.date<=end).forEach(p=>out.push({
     date:p.date,time:p.time||'',createdAt:p.createdAt||'',kind:'pay',id:p.id,amount:Number(p.amount)||0,
@@ -61,7 +61,7 @@ function movements(cid,end){
   }
   out.sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.time).localeCompare(String(b.time))||String(a.createdAt).localeCompare(String(b.createdAt))||String(a.id).localeCompare(String(b.id)));
   let running=0;
-  return out.map(m=>{running+=m.kind==='sale'?m.amount:m.kind==='pay'?-m.amount:m.amount;return {...m,running:Math.max(0,running)}});
+  return out.map(m=>{running+=m.kind==='sale'?m.amount:m.kind==='pay'?-m.amount:m.kind==='paidSale'?0:m.amount;return {...m,running:Math.max(0,running)}});
 }
 function filter(q){
  state.query=String(q||'').trim().toLocaleLowerCase('es');
@@ -86,15 +86,15 @@ function render(){
  $('hcfMetrics').innerHTML=card('gold','Total comprado',moneySafe(total))+card('green','Total abonado',moneySafe(periodPaid))+card('purple','Total a crédito',moneySafe(creditTotal))+card('blue','Última compra',last?localDate(last.date):'Sin compras');
  const ledger=movements(c.id,end).filter(m=>m.date>=start);
  const rows=ledger.map(m=>{
- const sale=m.kind==='sale',payment=m.kind==='pay';
- const action=payment?'hilenStatementPaymentDetail':sale?'hilenStatementSaleDetail':'';
+ const sale=m.kind==='sale',payment=m.kind==='pay',paidSale=m.kind==='paidSale';
+ const action=payment?'hilenStatementPaymentDetail':sale?'hilenStatementSaleDetail':paidSale?'openCustomerPurchaseDetail':'';
  const actionBtn=action?'<button class="hcf-eye" type="button" title="Ver detalle" aria-label="Ver movimiento" onclick="'+action+'(decodeURIComponent(\''+safeID(m.id)+'\'))">'+svg('eye')+'</button>':'<span class="hcf-muted">—</span>';
- const movement=payment?'Abono recibido':sale?'Compra a crédito':'Ajuste de saldo';
- const description=payment?'Reduce la deuda':sale?'Aumenta la deuda':'Corrección manual';
+ const movement=payment?'Abono recibido':sale?'Compra a crédito':paidSale?'Compra pagada':'Ajuste de saldo';
+ const description=payment?'Reduce la deuda':sale?'Aumenta la deuda':paidSale?'No genera deuda':'Corrección manual';
  const rowContent=(m.reference?'Factura '+m.reference+' ':'')+m.detail+' '+movement;
  return '<tr class="'+(payment?'hcf-payment':sale?'hcf-sale':'hcf-adjust')+'" data-match="'+esc((rowContent+' '+m.date).toLocaleLowerCase('es'))+'">'+
    '<td><b>'+esc(localDate(m.date))+'</b><small>'+esc(m.time)+'</small></td>'+
-   '<td><div class="hcf-move"><span class="hcf-move-icon">'+svg(payment?'coins':sale?'bag':'arrows')+'</span><div><b>'+movement+'</b><small>'+description+'</small></div></div></td>'+
+   '<td><div class="hcf-move"><span class="hcf-move-icon">'+svg(payment?'coins':sale||paidSale?'bag':'arrows')+'</span><div><b>'+movement+'</b><small>'+description+'</small></div></div></td>'+
    '<td><span class="hcf-detail">'+(sale?svg('document')+'<b>Factura '+esc(m.reference)+'</b>':'')+'<small>'+esc(m.detail)+'</small></span></td>'+
    '<td class="hcf-number">'+(m.kind==='adjust'&&m.amount<0?'−':'')+moneySafe(Math.abs(m.amount))+'</td>'+
    '<td class="hcf-number"><b>'+moneySafe(m.running)+'</b></td>'+
@@ -105,6 +105,7 @@ function render(){
  filter(state.query);
  if(typeof hilenAttachTableZooms==='function')requestAnimationFrame(()=>hilenAttachTableZooms());
 }
+const hostModal=$('modal');if(hostModal){new MutationObserver(()=>{if(!hostModal.querySelector('#customerPrintArea.hcf-root'))hostModal.classList.remove('hcf-modal')}).observe($('modalContent'),{childList:true});}
 window.openCustomer=open;
 window.renderCustomerStatement=render;
 window.hilenFilterCustomerMovements=filter;
