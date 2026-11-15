@@ -18,7 +18,7 @@ function mount(){
  const parts={
   totals:take('hilenDailyTotals'), zoom:root.querySelector('.hdaily-zoom-bar'),
   filters:root.querySelector('.hdaily-ref-filter-line'), count:take('hilenDailyEventCount'),
-  events:take('hilenDailyEvents'), chart:take('hilenDailySalesChart'),
+  events:take('hilenDailyEvents'), chart:take('hilenDailySalesChart'), summary:take('hilenDailySideSummary'),
   historical:take('hilenDailyHistoricalNotice'), note:root.querySelector('.hdaily-ref-explainer')
  };
  if(Object.values(parts).some(v=>!v))return;
@@ -28,7 +28,7 @@ function mount(){
  '<section class="hd2026-sales"><div class="hd2026-sales-title">'+icon('bag')+'<h2>Detalle de ventas del día</h2></div><div class="hd2026-sales-content"><div class="hd2026-split" id="hd2026Split"></div><div class="hd2026-chart" id="hd2026Chart"></div></div></section>'+
  '<section class="hd2026-cash"><span class="hd2026-cash-icon">'+icon('coins')+'</span><strong>Dinero recibido <span id="hd2026TodayWord">hoy</span> <button type="button" class="hd2026-help" title="Incluye ventas de contado, pagos iniciales, abonos e ingresos adicionales; no incluye crédito sin cobrar." aria-label="Explicación del dinero recibido">?</button></strong><b id="hd2026Received">$ 0</b><span class="hd2026-cash-label">Contado + pagos iniciales + abonos + otros ingresos</span></section>'+
  '<section class="hd2026-ledger"><div class="hd2026-ledger-head"><div class="hd2026-ledger-title"><span class="hd2026-list-icon">'+icon('list')+'</span><div><h2>Detalle de movimientos del día</h2><p>Lista cronológica de todas las ventas, abonos y egresos del día.</p></div></div><div id="hd2026ZoomSlot"></div></div><div id="hd2026FiltersSlot"></div><div id="hd2026CountSlot"></div><div id="hd2026EventsSlot"></div></section><div id="hd2026HistoricalSlot"></div><div id="hd2026NoteSlot"></div>';
- root.querySelector('#hd2026Original').append(parts.totals);
+ root.querySelector('#hd2026Original').append(parts.totals,parts.summary);
  root.querySelector('#hd2026ZoomSlot').append(parts.zoom);
  root.querySelector('#hd2026FiltersSlot').append(parts.filters);
  root.querySelector('#hd2026CountSlot').append(parts.count);
