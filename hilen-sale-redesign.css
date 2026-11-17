@@ -1,0 +1,65 @@
+/* HILEN · Registrar venta, referencia visual aprobada (solo presentación). */
+#newSale.hs2026{color:#121c35;min-width:0}
+#newSale.hs2026 .sale-layout-pro{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-areas:"data client" "details client" "products products" "total total"!important;gap:15px 18px!important;align-items:stretch!important}
+#newSale.hs2026 .sale-data-card{grid-area:data!important}#newSale.hs2026 .sale-client-card{grid-area:client!important}#newSale.hs2026 .sale-details-card{grid-area:details!important}#newSale.hs2026 .sale-products-card{grid-area:products!important}#newSale.hs2026 .sale-total-bar{grid-area:total!important}
+#newSale.hs2026 .sale-card{border:1px solid #f0e3d1!important;border-radius:20px!important;background:linear-gradient(135deg,#fffdfb,#fff)!important;padding:0 17px 17px!important;overflow:visible!important;box-shadow:0 6px 15px #4a361b12!important}
+#newSale.hs2026 .sale-card.hs2026-empty{display:none}
+#newSale.hs2026 .hs2026-head{display:flex!important;align-items:center!important;gap:12px!important;min-height:65px!important;margin:0 -17px 12px!important;padding:8px 16px!important;border-radius:19px 19px 0 0;background:linear-gradient(105deg,#fffbf5,#fff,#fff7e8)!important;position:relative;overflow:hidden}
+#newSale.hs2026 .hs2026-head:after{content:"";position:absolute;right:-13px;bottom:-18px;width:140px;height:49px;border-top:2px solid #f3b124;border-radius:100% 0 0 0;transform:rotate(-15deg);background:linear-gradient(115deg,transparent 45%,#ffe4aa 80%,#f2ab1eaa);pointer-events:none}
+#newSale.hs2026 .hs2026-head>div:not(.pro-icon){z-index:1;min-width:0}
+#newSale.hs2026 .hs2026-head h2{font-size:clamp(18px,1.45vw,22px)!important;color:#15151b!important;font-weight:900!important;line-height:1.15!important;margin:0 0 3px!important}
+#newSale.hs2026 .hs2026-head p{font-size:12px!important;color:#304064!important;line-height:1.3!important}
+#newSale.hs2026 .hs2026-card-icon{width:48px!important;height:48px!important;flex:0 0 48px!important;border-radius:14px!important;color:#fff!important;background:linear-gradient(140deg,#ffcf51,#c98a08 58%,#a36a00)!important;box-shadow:0 5px 10px #a5722240!important;z-index:1}
+#newSale.hs2026 .hs2026-card-icon svg{height:29px!important;width:29px!important;stroke-width:2!important}
+#newSale.hs2026 .form-grid{gap:11px 16px!important}
+#newSale.hs2026 .sale-two-fields{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#newSale.hs2026 .sale-client-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#newSale.hs2026 .label{display:flex!important;align-items:center!important;gap:7px!important;color:#15213a!important;font-size:12px!important;font-weight:850!important;margin:0 0 7px!important}
+#newSale.hs2026 .hs2026-label-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 19px;color:#b97900}
+#newSale.hs2026 .hs2026-label-icon svg{width:18px;height:18px}
+#newSale.hs2026 .sale-card .input,#newSale.hs2026 .sale-card select{min-height:44px!important;font-size:14px!important;font-weight:570!important;border:1px solid #d8e0ed!important;border-radius:11px!important;background:#fff!important;color:#15213c!important;box-shadow:0 2px 4px #1c304c08!important;min-width:0}
+#newSale.hs2026 .sale-card input:focus,#newSale.hs2026 .sale-card select:focus{border-color:#d2a04e!important;box-shadow:0 0 0 3px #f1d8a657!important}
+#newSale.hs2026 .hilen-date-control{gap:0!important;position:relative}
+#newSale.hs2026 .hilen-date-control #saleDateTyped{padding-right:58px!important}
+#newSale.hs2026 .hs2026-calendar-button{flex:0 0 45px!important;height:44px!important;margin-left:-45px!important;z-index:1!important;background:#fff7e8!important;border:1px solid #f2dfc0!important;border-radius:11px!important;color:#ae780c!important;font-size:22px!important}
+#newSale.hs2026 .hilen-sale-hint{font-size:10.5px!important;color:#5d687a!important;margin-top:5px!important}
+#newSale.hs2026 .sale-client-card .client-sync-note{background:#e5f8eb!important;border:1px solid #b9ebc9!important;border-radius:11px!important;color:#126038!important;font-size:12px!important;line-height:1.55!important;margin-top:19px!important;padding:12px 14px!important}
+#newSale.hs2026 .client-sync-note:before{content:"✓";display:inline-grid;place-items:center;float:left;margin-right:12px;width:27px;height:27px;border-radius:50%;background:#079a45;color:white;font-size:18px;font-weight:900;box-shadow:0 0 0 5px #0ba34d16}
+#newSale.hs2026 .sale-info-banner{border-radius:13px!important;background:#eaf2ff!important;color:#0757c4!important;border:1px solid #a8ccff!important;font-size:12px!important;margin-bottom:16px!important}
+#newSale.hs2026 .sale-info-banner .notice-dot{height:26px;width:26px;border-radius:50%;font-size:17px}
+#newSale.hs2026 .sale-products-card{padding-bottom:15px!important}
+#newSale.hs2026 .sale-products-card .hs2026-head{margin-bottom:10px!important}
+#newSale.hs2026 .hs2026-find-product{display:flex;align-items:center;gap:7px;margin-left:auto;position:relative;z-index:2;flex:none;border:1px solid #f1ddbb;border-radius:13px;background:#fffbf1;color:#713905;font-weight:800;font-size:12px;padding:9px 14px;cursor:pointer;box-shadow:0 3px 8px #7b55171a}
+#newSale.hs2026 .hs2026-find-product svg{width:19px;height:19px}
+#newSale.hs2026 .product-headings,#newSale.hs2026 .product-row{display:grid!important;grid-template-columns:minmax(200px,2.1fr) minmax(118px,.64fr) minmax(120px,1fr) minmax(150px,1.13fr) minmax(90px,.72fr) 41px!important;gap:10px!important;align-items:center!important;min-width:780px!important}
+#newSale.hs2026 .product-headings{border-radius:10px 10px 0 0;background:#fff2dc!important;padding:12px 10px!important;margin:0!important;color:#633906!important;font-size:12px!important;font-weight:850!important}
+#newSale.hs2026 .product-headings>span{display:flex!important;align-items:center!important;gap:8px!important;white-space:normal!important}
+#newSale.hs2026 .product-headings svg{width:19px;height:19px;flex:none;color:#bb7900}
+#newSale.hs2026 .product-row{background:linear-gradient(90deg,#fffefd,#fff)!important;border:1px solid #f0e5d7!important;border-top:0!important;padding:8px 10px!important;margin:0!important;border-radius:0 0 11px 11px!important}
+#newSale.hs2026 .product-row .input{min-height:40px!important;margin:0!important}
+#newSale.hs2026 .product-row .pname{padding-right:16px!important}
+#newSale.hs2026 .product-row .ptotal{font-size:19px!important;font-weight:900!important;color:#11182c!important;white-space:nowrap!important}
+#newSale.hs2026 .product-row>button.secondary{width:37px!important;height:37px!important;min-height:37px!important;border:1px solid #eddbbd!important;border-radius:50%!important;color:#965000!important;background:#fffaf1!important;font-size:24px!important}
+#newSale.hs2026 .hs2026-qty{display:flex!important;align-items:center!important;gap:0!important;border-radius:12px;min-width:0;max-width:150px}
+#newSale.hs2026 .hs2026-qty .pqty{width:100%!important;min-width:40px!important;min-height:39px!important;border:0!important;border-radius:0!important;background:transparent!important;text-align:center!important;font-size:16px!important;font-weight:850!important;padding:4px 1px!important;-moz-appearance:textfield}
+#newSale.hs2026 .hs2026-qty .pqty::-webkit-inner-spin-button,#newSale.hs2026 .hs2026-qty .pqty::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+#newSale.hs2026 .hs2026-qty button{border:1px solid #f0ddbd;border-radius:11px;background:#fff9ee;color:#8c530f;flex:0 0 36px;height:39px;font-size:22px;font-weight:700;cursor:pointer}
+#newSale.hs2026 .add-product-btn{min-height:37px!important;border-radius:13px!important;background:#fff6e7!important;border:1px solid #f4e0bc!important;color:#29190b!important;box-shadow:0 3px 8px #80611f18!important;padding:7px 15px!important;font-size:12px!important;font-weight:850!important}
+#newSale.hs2026 .hs2026-plus{font-size:20px;line-height:1}
+#newSale.hs2026 .sale-total-bar{display:grid!important;grid-template-columns:minmax(190px,1.05fr) minmax(200px,1.16fr) minmax(160px,.83fr) minmax(175px,.65fr)!important;gap:22px!important;align-items:center!important;min-height:100px!important;padding:15px 19px!important;border:1px solid #bb8220!important;border-radius:19px!important;color:white!important;background:linear-gradient(110deg,#432502,#b77c19 32%,#5b3406 64%,#2a1804 91%,#a86a00)!important;box-shadow:0 7px 16px #5c3d121d!important}
+#newSale.hs2026 .sale-total-info{gap:13px!important;min-width:0}
+#newSale.hs2026 .sale-total-info b{color:#fff!important;font-size:19px!important;font-weight:900!important}
+#newSale.hs2026 .sale-total-info small{font-size:11px!important;color:#fff!important}
+#newSale.hs2026 .hs2026-total-icon{width:55px!important;height:55px!important;flex:0 0 55px!important;border-radius:15px!important;background:linear-gradient(140deg,#ffc74c,#ae7004)!important;color:#fff!important}
+#newSale.hs2026 .hs2026-total-icon svg{width:32px!important;height:32px!important}
+#newSale.hs2026 .hilen-whole-sale-discount{border-left:2px solid #ffe2ae;padding-left:20px;min-width:0}
+#newSale.hs2026 .hilen-whole-sale-discount label,#newSale.hs2026 .sale-total-value span{color:#fff!important;font-size:12px!important;font-weight:850!important}
+#newSale.hs2026 .hilen-whole-sale-discount .input{background:#fff!important;border:0!important;color:#212135!important;border-radius:10px!important;min-height:40px!important;font-size:14px!important}
+#newSale.hs2026 .hilen-whole-sale-discount small,#newSale.hs2026 .sale-total-value small{font-size:10px!important;color:#fff1d8!important}
+#newSale.hs2026 .sale-total-value{border-left:2px solid #f5d7a1!important;padding-left:20px!important;min-width:0}
+#newSale.hs2026 .sale-total-value strong{font-size:clamp(26px,2.4vw,37px)!important;line-height:1.1!important;color:#fff!important;overflow-wrap:anywhere;letter-spacing:-1px!important}
+#newSale.hs2026 .save-sale-btn{display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;min-height:53px!important;padding:10px 18px!important;border:1px solid #ffedbb!important;border-radius:999px!important;color:#241402!important;background:linear-gradient(#fff7d4,#ffd76c)!important;font-size:16px!important;font-weight:900!important;box-shadow:0 5px 12px #170e0740!important;white-space:nowrap}
+#newSale.hs2026 .save-sale-btn svg{height:22px;width:22px;stroke-width:2.2}
+@media(min-width:1300px){#newSale.hs2026 .sale-layout-pro{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}}
+@media(max-width:1100px){#newSale.hs2026 .sale-layout-pro{grid-template-columns:1fr!important;grid-template-areas:"data" "client" "details" "products" "total"!important}#newSale.hs2026 .sale-total-bar{grid-template-columns:repeat(2,minmax(0,1fr))!important}#newSale.hs2026 .save-sale-btn{grid-column:auto!important}}
+@media(max-width:700px){#newSale.hs2026 .sale-layout-pro{gap:12px!important}#newSale.hs2026 .sale-card{padding:0 12px 14px!important}#newSale.hs2026 .hs2026-head{margin:0 -12px 10px!important;padding:9px 12px!important;flex-wrap:wrap}#newSale.hs2026 .hs2026-head h2{font-size:18px!important}#newSale.hs2026 .hs2026-head p{font-size:11px!important}#newSale.hs2026 .hs2026-find-product{margin-left:0;max-width:100%}#newSale.hs2026 .sale-client-grid,#newSale.hs2026 .sale-two-fields{grid-template-columns:1fr!important}#newSale.hs2026 .sale-products-card{overflow-x:auto!important}#newSale.hs2026 .product-headings,#newSale.hs2026 .product-row{min-width:780px!important}#newSale.hs2026 .sale-total-bar{grid-template-columns:1fr!important;gap:12px!important}#newSale.hs2026 .hilen-whole-sale-discount,#newSale.hs2026 .sale-total-value{border-left:0!important;border-top:1px solid #e6ba6d!important;padding:12px 0 0!important}#newSale.hs2026 .save-sale-btn{grid-column:auto!important;width:100%!important}}
