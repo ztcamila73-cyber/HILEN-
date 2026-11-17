@@ -11,3 +11,7 @@
 #newSale .sale-layout-pro{zoom:var(--hilen-new-sale-zoom,1)}
 #newSale .sale-info-banner{zoom:var(--hilen-new-sale-zoom,1)}
 @media(max-width:600px){#newSale .hilen-sale-zoom-toolbar{padding:9px 11px}#newSale .hilen-sale-zoom-heading{font-size:12px}#newSale .hilen-sale-zoom-actions{gap:5px}#newSale .hilen-sale-zoom-actions button{min-width:35px;min-height:35px}#newSale .hilen-sale-zoom-actions .hilen-sale-zoom-reset{min-width:82px}}
+
+/* Icono de restablecer integrado, alineado como en la referencia */
+#newSale .hilen-sale-zoom-actions #hilenNewSaleZoomReset{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:9px!important}
+#newSale #hilenNewSaleZoomReset svg{width:20px;height:20px;stroke:currentColor;flex:none}
