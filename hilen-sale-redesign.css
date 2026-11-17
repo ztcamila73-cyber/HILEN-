@@ -151,3 +151,44 @@ body.hilen-sale-heading-open .page-heading-copy>#pageSubtitle{
  }
  #newSale .hilen-sale-zoom-actions #hilenNewSaleZoomReset{min-width:115px!important}
 }
+
+/* Información sobre medios de pago — aviso legible y compacto. */
+#newSale.hs2026 .sale-info-banner.hs2026-guidance{
+ display:flex!important;align-items:flex-start!important;gap:13px!important;
+ padding:14px 19px!important;margin:0 0 17px!important;
+ border:1px solid #b7d0f9!important;border-left:4px solid #2869d9!important;
+ border-radius:16px!important;
+ background:linear-gradient(115deg,#f2f7ff 0%,#e9f2ff 100%)!important;
+ box-shadow:0 3px 11px #234d9f0b!important;color:#1c3767!important;
+ line-height:1.42!important;min-width:0!important;
+}
+#newSale.hs2026 .hs2026-guidance-icon{
+ display:grid!important;place-items:center!important;flex:0 0 38px!important;
+ width:38px!important;height:38px!important;border-radius:12px!important;
+ background:#dceaff!important;color:#2363cf!important;
+}
+#newSale.hs2026 .hs2026-guidance-icon svg{width:25px!important;height:25px!important;stroke-width:2!important}
+#newSale.hs2026 .hs2026-guidance-main{min-width:0!important;flex:1!important}
+#newSale.hs2026 .hs2026-guidance-title{font-size:14px!important;font-weight:850!important;color:#173963!important;margin:0 0 8px!important;line-height:1.3!important}
+#newSale.hs2026 .hs2026-guidance-options{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px 20px!important}
+#newSale.hs2026 .hs2026-guidance-option{display:flex!important;align-items:flex-start!important;gap:9px!important;min-width:0!important;color:#30486d!important;font-size:12.5px!important;line-height:1.48!important}
+#newSale.hs2026 .hs2026-guidance-option>span:last-child{min-width:0!important}
+#newSale.hs2026 .hs2026-guidance-option strong{color:#143d85!important;font-weight:850!important}
+#newSale.hs2026 .hs2026-guidance-pill{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ gap:5px!important;flex:0 0 auto!important;white-space:nowrap!important;
+ border-radius:999px!important;padding:4px 9px!important;font-size:11.5px!important;font-weight:850!important;
+}
+#newSale.hs2026 .hs2026-guidance-pill svg{width:15px!important;height:15px!important;stroke-width:2.2!important}
+#newSale.hs2026 .hs2026-guidance-pill.paid{color:#0b7440!important;background:#dff5e8!important}
+#newSale.hs2026 .hs2026-guidance-pill.credit{color:#6542a8!important;background:#ebe6fd!important}
+@media(max-width:1000px){
+ #newSale.hs2026 .hs2026-guidance-options{grid-template-columns:1fr!important;gap:8px!important}
+}
+@media(max-width:600px){
+ #newSale.hs2026 .sale-info-banner.hs2026-guidance{padding:12px!important;gap:10px!important}
+ #newSale.hs2026 .hs2026-guidance-icon{width:32px!important;height:32px!important;flex-basis:32px!important}
+ #newSale.hs2026 .hs2026-guidance-icon svg{width:22px!important;height:22px!important}
+ #newSale.hs2026 .hs2026-guidance-title{font-size:13px!important}
+ #newSale.hs2026 .hs2026-guidance-option{flex-wrap:wrap!important;gap:5px!important;font-size:12px!important}
+}
