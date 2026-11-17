@@ -76,6 +76,21 @@ function setup(){
  section.querySelector('.sale-data-card .hilen-date-control>button')?.classList.add('hs2026-calendar-button');
  const heads=section.querySelectorAll('.sale-card .pro-card-head');
  heads.forEach(h=>h.classList.add('hs2026-head'));
+ const headerMark=document.querySelector('.page-heading-copy .hdaily-page-mark');
+ const pageTitle=document.getElementById('pageTitle');
+ if(headerMark&&pageTitle){
+  const original=headerMark.innerHTML;
+  const calendarPlus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M12 13v6M9 16h6"/></svg>';
+  const updateHeader=()=>{
+   const sale=pageTitle.textContent.trim()==='Registrar venta';
+   if(headerMark.dataset.hsSaleIconState===(sale?'sale':'other'))return;
+   headerMark.innerHTML=sale?calendarPlus:original;
+   headerMark.dataset.hsSaleIconState=sale?'sale':'other';
+   headerMark.classList.toggle('hs2026-main-title-icon',sale);
+  };
+  new MutationObserver(updateHeader).observe(pageTitle,{childList:true,characterData:true,subtree:true});
+  updateHeader();
+ }
  const list=products?.querySelector('#products');
  if(list){
   const enhance=()=>{
