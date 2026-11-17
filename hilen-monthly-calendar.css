@@ -1,0 +1,23 @@
+/* HILEN · Calendario para Registro mensual */
+#monthlyRecords .hm-calendar-control{display:flex;align-items:center;gap:7px;min-width:0}
+#monthlyRecords .hm-calendar-source{display:none!important}
+#monthlyRecords .hm-calendar-text{min-width:0;flex:1;width:100%;height:50px;border-radius:11px!important;border:1px solid #d9e0eb!important;background:#fff!important;font-size:15px!important;font-weight:550!important;font-variant-numeric:tabular-nums}
+#monthlyRecords .hm-calendar-text:focus{border-color:#d5a659!important;box-shadow:0 0 0 3px #f7e4c6!important}
+#monthlyRecords .hm-calendar-text.hm-calendar-invalid{border-color:#ce3855!important;box-shadow:0 0 0 2px #ffdce3!important}
+#monthlyRecords .hm-calendar-trigger{display:grid;place-items:center;flex:0 0 48px;width:48px;height:50px;border:1px solid #ebd7b7;border-radius:11px;background:#fff7ea;color:#b7821a;cursor:pointer}
+#monthlyRecords .hm-calendar-trigger svg{width:24px;height:24px}
+#monthlyRecords .hm-calendar-hint{display:block;margin-top:7px;color:#77829a;font-size:11px;line-height:1.4}
+.hm-calendar-popup{position:fixed;z-index:26000;width:316px;max-width:calc(100vw - 16px);padding:16px;border:1px solid #e9cda3;border-radius:18px;background:#fffdfb;box-shadow:0 18px 42px #5c411a35;color:#2b261e}
+.hm-calendar-popup[hidden]{display:none!important}
+.hm-calendar-bar{display:grid;grid-template-columns:34px minmax(0,1fr) 86px 34px;gap:5px;align-items:center;margin-bottom:13px}
+.hm-calendar-bar button{height:34px;width:34px;border:0;border-radius:10px;background:#fff5e7;color:#a46d18;font-size:26px;cursor:pointer}
+.hm-calendar-bar select{min-width:0;height:42px;border:1px solid #dbe1ec;border-radius:9px;background:#fff;color:#15213b;font-size:12px;padding:0 6px}
+.hm-calendar-week,.hm-calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;text-align:center}
+.hm-calendar-week{margin-bottom:7px}
+.hm-calendar-week span{font-size:10px;color:#988878;font-weight:800;padding:5px 0}
+.hm-calendar-days button,.hm-calendar-days>span{height:36px;width:100%;display:grid;place-items:center;border:0;border-radius:10px;background:transparent;color:#28231d;font-size:14px;cursor:pointer}
+.hm-calendar-days button:hover{background:#fff1d7}
+.hm-calendar-days button.selected{background:linear-gradient(145deg,#dfb459,#b78627);color:#fff;font-weight:850}
+.hm-calendar-days button.today:not(.selected){border:1px solid #e6cc9c;color:#a46e14;font-weight:900}
+.hm-calendar-footer{display:flex;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid #efe2cf}
+.hm-calendar-footer button{border:0;background:transparent;color:#9d6816;font-weight:850;font-size:14px;cursor:pointer;padding:5px 0}
