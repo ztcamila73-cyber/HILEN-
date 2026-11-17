@@ -60,16 +60,7 @@ function setup(){
  const save=section.querySelector('.save-sale-btn');if(save){save.innerHTML=icon('save')+'<span>Guardar venta</span>'}
  const add=section.querySelector('.add-product-btn');if(add){add.innerHTML='<span class="hs2026-plus">＋</span> Agregar producto'}
  const products=section.querySelector('.sale-products-card'),title=products?.querySelector('.pro-card-head');
- if(title){
-  const find=document.createElement('button');find.type='button';find.className='hs2026-find-product';
-  find.innerHTML=icon('search')+'<span>Buscar producto</span>';find.setAttribute('aria-label','Buscar un producto entre los artículos registrados');
-  find.addEventListener('click',()=>{
-   let input=products.querySelector('.product-row .pname');
-   if(!input&&typeof addProduct==='function'){addProduct();input=products.querySelector('.product-row .pname')}
-   if(input){input.focus();input.select();input.dispatchEvent(new Event('input',{bubbles:true}))}
-  });
-  title.appendChild(find);
- }
+
  const cols=products?.querySelectorAll('.product-headings>span');
  const icons=['box','stack','tag','receipt','coins'];
  cols?.forEach((c,i)=>{if(i<5)c.innerHTML=icon(icons[i])+'<span>'+c.textContent+'</span>'});
