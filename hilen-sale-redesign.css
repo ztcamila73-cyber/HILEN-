@@ -83,3 +83,71 @@
 #newSale.hs2026 .hs2026-head .hs2026-card-icon svg{stroke-width:2.1}
 #newSale.hs2026 .product-row .hs2026-qty{height:40px}
 #newSale.hs2026 .sale-total-bar .hs2026-total-icon{background:linear-gradient(135deg,#fbd269,#ae6b02)!important}
+
+/* HILEN · Correcciones verificadas: icono visible del encabezado y pie del menú. */
+body.hilen-sale-heading-open .page-heading-copy{
+ display:grid!important;grid-template-columns:64px minmax(0,1fr)!important;
+ align-items:center!important;column-gap:18px!important;row-gap:0!important;min-width:0!important
+}
+body.hilen-sale-heading-open .page-heading-copy>.hdaily-page-mark{
+ display:grid!important;grid-column:1!important;grid-row:1 / span 2!important;
+ place-items:center!important;width:64px!important;height:64px!important;
+ border-radius:19px!important;color:#fff!important;
+ background:linear-gradient(145deg,#ffdc81 0%,#d69924 48%,#a46100 100%)!important;
+ box-shadow:inset 0 1px 0 #ffffff80,0 7px 16px #95600b3d!important;
+ border:1px solid #e7b75d!important;visibility:visible!important
+}
+body.hilen-sale-heading-open .page-heading-copy>.hdaily-page-mark svg{
+ display:block!important;width:37px!important;height:37px!important;
+ fill:none!important;stroke:#fff!important;stroke-width:1.9!important;
+ filter:drop-shadow(0 1px 1px #74480c55)
+}
+body.hilen-sale-heading-open .page-heading-copy>#pageTitle{
+ grid-column:2!important;grid-row:1!important;margin:0!important;min-width:0!important
+}
+body.hilen-sale-heading-open .page-heading-copy>#pageSubtitle{
+ grid-column:2!important;grid-row:2!important;margin:0!important;min-width:0!important
+}
+#newSale .hilen-sale-zoom-actions #hilenNewSaleZoomReset{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ gap:10px!important;min-width:130px!important;min-height:39px!important;
+ border-radius:999px!important;color:#6a390d!important;background:#fff9ee!important;
+ font-size:13px!important;font-weight:850!important
+}
+#newSale .hilen-sale-zoom-actions #hilenNewSaleZoomReset svg{
+ display:block!important;flex:none!important;width:22px!important;height:22px!important;
+ fill:none!important;stroke:#98600b!important;stroke-width:2.2!important
+}
+/* En menú compacto, la opción de cerrar sesión no debe existir visualmente;
+   se vuelve a mostrar al expandir sin modificar la sesión del usuario. */
+@media(min-width:768px){
+ body.hilen-side-collapsed #side #logoutBtn,
+ body.hilen-side-collapsed #side .hilen-side-footer #logoutBtn{
+  display:none!important;visibility:hidden!important;pointer-events:none!important;
+ }
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle{
+  display:inline-flex!important;visibility:visible!important;pointer-events:auto!important;
+  position:absolute!important;bottom:17px!important;left:calc(50% - 22px)!important;
+  right:auto!important;width:44px!important;min-width:44px!important;max-width:44px!important;
+  height:44px!important;min-height:44px!important;max-height:44px!important;
+  border-radius:13px!important;background:#f7e8ca!important;color:#6e4412!important;
+  border:1px solid #deb972!important
+ }
+ body.hilen-side-collapsed #side #hilenDesktopSideToggle svg{
+  color:#6e4412!important;stroke:#6e4412!important
+ }
+ body.hilen-side-collapsed #side::after{bottom:76px!important}
+ body.hilen-side-collapsed #side{padding-bottom:82px!important}
+}
+@media(max-width:767px){
+ body.hilen-sale-heading-open .page-heading-copy{
+  grid-template-columns:48px minmax(0,1fr)!important;column-gap:11px!important
+ }
+ body.hilen-sale-heading-open .page-heading-copy>.hdaily-page-mark{
+  width:48px!important;height:48px!important;border-radius:14px!important
+ }
+ body.hilen-sale-heading-open .page-heading-copy>.hdaily-page-mark svg{
+  width:29px!important;height:29px!important
+ }
+ #newSale .hilen-sale-zoom-actions #hilenNewSaleZoomReset{min-width:115px!important}
+}
