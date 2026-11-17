@@ -1,0 +1,53 @@
+/* HILEN · Registro mensual premium. Aprobado 17-11-2026.
+   Estilos acotados a esta sección, sin modificar los datos. */
+#monthlyRecords.hmr26{min-width:0}
+#monthlyRecords.hmr26 .hm-monthly-card{
+ position:relative;isolation:isolate;overflow:visible!important;width:100%;max-width:none!important;
+ padding:0 25px 23px!important;margin:0!important;background:linear-gradient(120deg,#fffefd,#fff)!important;
+ border:1px solid #efe4d5!important;border-radius:24px!important;box-shadow:0 9px 24px #34271419!important;
+}
+#monthlyRecords.hmr26 .hmr26-hero{position:relative;min-height:122px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin:0 -25px 20px;padding:24px 26px 18px;overflow:hidden;border-radius:23px 23px 0 0;background:linear-gradient(115deg,#fffefd 10%,#fff9ed 72%,#ffefce 100%)}
+#monthlyRecords.hmr26 .hmr26-hero:before{content:"";position:absolute;right:-75px;top:-42px;width:330px;height:135px;transform:rotate(-16deg);border-bottom:2px solid #f1a807;border-radius:0 0 100% 100%;background:linear-gradient(160deg,transparent 47%,#ffe0a484 72%,#f7b52e 96%);pointer-events:none}
+#monthlyRecords.hmr26 .hmr26-hero:after{content:"";position:absolute;right:-30px;bottom:-42px;width:300px;height:92px;border-top:2px solid #ffce55;border-radius:50%;transform:rotate(-13deg);pointer-events:none}
+#monthlyRecords.hmr26 .hm-monthly-heading{display:flex;align-items:center;gap:17px;margin:0!important;position:relative;z-index:1}
+#monthlyRecords.hmr26 .hm-monthly-heading .pro-icon{width:58px!important;height:58px!important;flex:0 0 58px!important;display:grid;place-items:center;border-radius:16px!important;background:linear-gradient(145deg,#ffcc4f,#cc8500 68%,#a46600)!important;color:#fff!important;box-shadow:0 5px 12px #b57b244b}
+#monthlyRecords.hmr26 .hm-monthly-heading .pro-icon svg{height:34px!important;width:34px!important;stroke:#fff!important;stroke-width:2.2}
+#monthlyRecords.hmr26 .hm-monthly-heading h2{font-size:clamp(20px,1.8vw,26px)!important;color:#101b36!important;font-weight:900!important;letter-spacing:-.6px!important}
+#monthlyRecords.hmr26 .hm-monthly-heading p{font-size:13px!important;color:#263858!important;margin-top:3px!important}
+#monthlyRecords.hmr26 .hm-tabs{position:relative;z-index:2;display:flex!important;align-items:center;justify-content:center;gap:7px!important;width:min(690px,100%)!important;max-width:none!important;margin:0 auto 18px!important;padding:6px!important;background:#fffaf3!important;border:1px solid #f2e3d0!important;border-radius:24px!important;box-shadow:0 5px 14px #714b1715}
+#monthlyRecords.hmr26 .hm-tab{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;flex:1 1 0!important;min-width:0!important;min-height:48px!important;padding:9px 15px!important;border:1px solid #f4e5d2!important;border-radius:19px!important;background:linear-gradient(140deg,#fff,#fff9f1)!important;color:#653c14!important;font-size:16px!important;font-weight:850!important;box-shadow:0 3px 7px #76502f14!important;white-space:nowrap}
+#monthlyRecords.hmr26 .hm-tab svg{width:23px!important;height:23px!important;stroke:#ac6507!important;stroke-width:2!important}
+#monthlyRecords.hmr26 .hm-tab.active,#monthlyRecords.hmr26[data-monthly-kind="sales"] .hm-tab.active,#monthlyRecords.hmr26[data-monthly-kind="payments"] .hm-tab.active,#monthlyRecords.hmr26[data-monthly-kind="expenses"] .hm-tab.active{background:linear-gradient(155deg,#ffce59 0%,#d59303 52%,#af6d00 100%)!important;border-color:#e4ab3c!important;color:#fff!important;box-shadow:0 5px 11px #a46b1940,inset 0 1px 2px #fff7!important}
+#monthlyRecords.hmr26 .hm-tab.active svg{stroke:#fff!important}
+#monthlyRecords.hmr26 .hmr26-form-content{padding:1px 3px 0}
+#monthlyRecords.hmr26 .pro-card-head.compact{display:flex!important;align-items:center!important;gap:17px!important;margin:0 0 16px!important}
+#monthlyRecords.hmr26 #monthlyCategoryIcon{width:55px!important;height:55px!important;flex:0 0 55px!important;display:grid;place-items:center;border-radius:16px!important;background:linear-gradient(135deg,#fff2d9,#ffe5ba)!important;color:#b47704!important}
+#monthlyRecords.hmr26 #monthlyCategoryIcon svg{height:29px!important;width:29px!important;stroke:#b47704!important;stroke-width:1.9!important}
+#monthlyRecords.hmr26 #monthlyCategoryTitle{font-weight:900!important;font-size:clamp(19px,1.55vw,24px)!important;color:#101a34!important}
+#monthlyRecords.hmr26 #monthlyCategoryDescription{color:#344563!important;font-size:13px!important;margin-top:4px!important}
+#monthlyRecords.hmr26 .hm-fields{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:24px!important;align-items:start!important;margin:10px 0 20px!important}
+#monthlyRecords.hmr26 .hm-fields>div{min-width:0}
+#monthlyRecords.hmr26 .hm-fields label{display:flex!important;align-items:center!important;gap:9px!important;margin:0 0 10px!important;color:#15213b!important;font-size:15px!important;font-weight:900!important}
+#monthlyRecords.hmr26 .hmr26-label-icon{display:inline-flex;color:#b77a0b;align-items:center;justify-content:center;flex:0 0 22px}
+#monthlyRecords.hmr26 .hmr26-label-icon svg{height:21px;width:21px;stroke-width:2}
+#monthlyRecords.hmr26 .hm-fields .input,#monthlyRecords.hmr26 .hm-calendar-text{height:55px!important;min-height:55px!important;border:1px solid #dfe5ee!important;border-radius:13px!important;background:#fff!important;box-shadow:0 3px 7px #14274d0d!important;color:#14213e!important;font-size:17px!important;font-weight:750!important;padding:11px 17px!important}
+#monthlyRecords.hmr26 .hm-calendar-control{display:flex!important;align-items:center!important;gap:0!important}
+#monthlyRecords.hmr26 .hm-calendar-text{min-width:0!important;padding-right:68px!important}
+#monthlyRecords.hmr26 .hm-calendar-trigger{width:55px!important;height:55px!important;flex:0 0 55px!important;margin-left:-55px!important;z-index:1!important;border:1px solid #f1e1c5!important;border-radius:13px!important;background:#fff7e8!important;color:#ad7108!important;box-shadow:0 2px 4px #a27b3c14!important}
+#monthlyRecords.hmr26 .hm-calendar-trigger svg{width:27px!important;height:27px!important}
+#monthlyRecords.hmr26 .hm-calendar-hint{font-size:13px!important;color:#748096!important;margin:12px 0 0!important}
+#monthlyRecords.hmr26 .hm-money-wrap{display:flex;align-items:center;position:relative}
+#monthlyRecords.hmr26 .hm-money-prefix{position:absolute!important;left:24px!important;top:50%!important;transform:translateY(-50%)!important;color:#075ed1!important;font-size:25px!important;font-weight:900!important;pointer-events:none}
+#monthlyRecords.hmr26 .hm-money-wrap .input{padding-left:57px!important;font-size:19px!important;font-weight:850!important}
+#monthlyRecords.hmr26 .hm-actions{display:flex!important;align-items:center!important;gap:13px!important;flex-wrap:wrap!important;margin:25px 0 16px!important}
+#monthlyRecords.hmr26 .hm-actions button{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;min-height:54px!important;padding:11px 23px!important;border-radius:999px!important;font-size:16px!important;font-weight:900!important;white-space:nowrap!important}
+#monthlyRecords.hmr26 #monthlyEntrySaveBtn.primary,#monthlyRecords.hmr26[data-monthly-kind="sales"] #monthlyEntrySaveBtn.primary,#monthlyRecords.hmr26[data-monthly-kind="payments"] #monthlyEntrySaveBtn.primary,#monthlyRecords.hmr26[data-monthly-kind="expenses"] #monthlyEntrySaveBtn.primary{background:linear-gradient(160deg,#ffd45e,#d79006 62%,#bd7700)!important;color:#fff!important;border:1px solid #db9e28!important;box-shadow:0 5px 12px #a56a1c36!important}
+#monthlyRecords.hmr26 #monthlyEntrySaveBtn svg{width:29px!important;height:29px!important}
+#monthlyRecords.hmr26 #monthlyEntryHistoryBtn{border:1px solid #f0dfc6!important;background:linear-gradient(#fff,#fff9f1)!important;color:#2d1e12!important;box-shadow:0 4px 10px #72481f15!important}
+#monthlyRecords.hmr26 #monthlyEntryHistoryBtn svg{width:26px!important;height:26px!important;stroke:#935008!important}
+#monthlyRecords.hmr26 .hm-form-feedback{font-size:13px!important;margin:10px 0!important;min-height:0!important;color:#5e718a!important}
+#monthlyRecords.hmr26 .hm-form-feedback:empty{display:none!important}
+#monthlyRecords.hmr26 .hm-privacy-note{display:flex!important;align-items:center!important;gap:13px!important;padding:15px 17px!important;margin:23px 0 0!important;border:1px solid #c7dcff!important;border-radius:13px!important;background:linear-gradient(110deg,#edf5ff,#f5f9ff)!important;color:#174aa7!important;font-size:13px!important;line-height:1.5!important}
+#monthlyRecords.hmr26 .hm-privacy-note svg{width:23px!important;height:23px!important;stroke:#3a78e7!important;flex:none!important}
+@media(max-width:1000px){#monthlyRecords.hmr26 .hm-monthly-card{padding:0 18px 19px!important}#monthlyRecords.hmr26 .hmr26-hero{margin:0 -18px 18px!important;padding:19px!important;min-height:105px!important}#monthlyRecords.hmr26 .hm-fields{gap:13px!important}#monthlyRecords.hmr26 .hm-tab{font-size:14px!important;padding:9px!important}}
+@media(max-width:650px){#monthlyRecords.hmr26 .hm-monthly-card{padding:0 13px 16px!important}#monthlyRecords.hmr26 .hmr26-hero{margin:0 -13px 16px!important;padding:17px 13px!important;min-height:89px!important}#monthlyRecords.hmr26 .hm-monthly-heading .pro-icon{height:48px!important;width:48px!important;flex-basis:48px!important}#monthlyRecords.hmr26 .hm-monthly-heading h2{font-size:19px!important}#monthlyRecords.hmr26 .hm-monthly-heading p{font-size:11px!important}#monthlyRecords.hmr26 .hm-tabs{gap:4px!important;padding:4px!important;border-radius:16px!important}#monthlyRecords.hmr26 .hm-tab{min-height:43px!important;font-size:12px!important;gap:5px!important;padding:6px 5px!important;border-radius:12px!important}#monthlyRecords.hmr26 .hm-tab svg{width:17px!important;height:17px!important}#monthlyRecords.hmr26 .hm-fields{grid-template-columns:1fr!important;gap:17px!important}#monthlyRecords.hmr26 .hm-fields .input,#monthlyRecords.hmr26 .hm-calendar-text,#monthlyRecords.hmr26 .hm-calendar-trigger{height:49px!important;min-height:49px!important}#monthlyRecords.hmr26 .hm-calendar-trigger{width:49px!important;flex-basis:49px!important;margin-left:-49px!important}#monthlyRecords.hmr26 .hm-actions{display:flex!important;flex-direction:column!important;align-items:stretch!important}#monthlyRecords.hmr26 .hm-actions button{width:100%!important;font-size:14px!important}#monthlyRecords.hmr26 .hm-privacy-note{font-size:11.5px!important;padding:12px!important}}
