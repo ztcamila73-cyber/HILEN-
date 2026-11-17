@@ -83,6 +83,7 @@ function setup(){
   const calendarPlus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M12 13v6M9 16h6"/></svg>';
   const updateHeader=()=>{
    const sale=pageTitle.textContent.trim()==='Registrar venta';
+   document.body.classList.toggle('hilen-sale-heading-open',sale);
    if(headerMark.dataset.hsSaleIconState===(sale?'sale':'other'))return;
    headerMark.innerHTML=sale?calendarPlus:original;
    headerMark.dataset.hsSaleIconState=sale?'sale':'other';
