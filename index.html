@@ -5612,7 +5612,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('dailyActivity',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7 2v4M17 2v4M3 10h18M7 14h3M7 18h7"/></svg></span>Resumen diario</button>
-      <button onclick="section('newSale',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6 6h15l-2 8H8L6 3H3"/><circle cx="9" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/><path d="M13 8v4M11 10h4"/></svg></span>Registrar venta</button>
+      <button onclick="section('newSale',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M12 13v6M9 16h6"/></svg></span>Registrar venta</button>
       <button onclick="section('monthlyRecords',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M7 13h4M7 17h7"/></svg></span>Registro mensual</button>
       <button onclick="section('day',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span>Ventas</button>
       <button onclick="section('payments',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 15h4"/></svg></span>Abonos</button>
@@ -7647,6 +7647,11 @@ function globalSearchGo(){
   if(productHit){goSection('inventory');if($('inventorySearch')){$('inventorySearch').value=q;renderInventory()}return}
   goSection('customers');if($('customerSearch')){$('customerSearch').value=q;renderCustomers()}
 }
+function hilenUpdateSidebarToggleIcon(collapsed){
+ const btn=document.getElementById('hilenDesktopSideToggle');
+ const path=btn?.querySelector('svg path');
+ if(path)path.setAttribute('d',collapsed?'M4 5h16v14H4zM10 5v14M15 11l2 2-2 2':'M4 5h16v14H4zM10 5v14M7 11l-2 2 2 2');
+}
 function hilenToggleDesktopSidebar(){
   const collapsed=document.body.classList.toggle('hilen-side-collapsed');
   hilenLabelSidebarButtons();
@@ -7660,6 +7665,7 @@ function hilenToggleDesktopSidebar(){
   }
   const label=document.getElementById('hilenDesktopSideToggleLabel');
   if(label)label.textContent=shownLabel;
+  hilenUpdateSidebarToggleIcon(collapsed);
   try{localStorage.setItem('HILEN_SIDE_COLLAPSED_V1',collapsed?'1':'0')}catch(_){}
 }
 function hilenLabelSidebarButtons(){
@@ -7681,6 +7687,7 @@ function hilenRestoreDesktopSidebar(){
     if(btn){btn.setAttribute('aria-expanded',collapsed?'false':'true');btn.setAttribute('aria-label',shownLabel);btn.title=shownLabel}
     const label=document.getElementById('hilenDesktopSideToggleLabel');
     if(label)label.textContent=shownLabel;
+    hilenUpdateSidebarToggleIcon(collapsed);
   }catch(_){}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
