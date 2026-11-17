@@ -54,8 +54,18 @@ function setup(){
  hints.forEach(h=>{if(h.querySelector('.hs2026-hint-icon'))return;const el=document.createElement('span');el.className='hs2026-hint-icon';el.innerHTML=icon('info');h.prepend(el)});
  const syncHint=section.querySelector('#saleClientSyncHint');
  if(syncHint&&!syncHint.querySelector('.hs2026-check')){const el=document.createElement('span');el.className='hs2026-check';el.innerHTML=icon('check');syncHint.prepend(el)}
- const notice=section.querySelector('.sale-info-banner .notice-dot');
- if(notice)notice.innerHTML=icon('info');
+ const notice=section.querySelector('.sale-info-banner');
+ if(notice&&!notice.dataset.hsNoticeEnhanced){
+  notice.dataset.hsNoticeEnhanced='1';
+  notice.classList.add('hs2026-guidance');
+  notice.setAttribute('role','note');
+  notice.innerHTML='<span class="hs2026-guidance-icon" aria-hidden="true">'+icon('info')+'</span>'+
+   '<div class="hs2026-guidance-main"><div class="hs2026-guidance-title">¿Cómo registrar el pago de esta venta?</div>'+
+   '<div class="hs2026-guidance-options">'+
+   '<div class="hs2026-guidance-option"><span class="hs2026-guidance-pill paid">'+icon('check')+' Pagada</span><span>Selecciona si el dinero se recibió en <strong>Efectivo</strong> o <strong>Nequi</strong>.</span></div>'+
+   '<div class="hs2026-guidance-option"><span class="hs2026-guidance-pill credit">'+icon('card')+' A crédito</span><span>No aumenta esos saldos hasta registrar un <strong>abono</strong>.</span></div>'+
+   '</div></div>';
+ }
  const totalInfo=section.querySelector('.sale-total-info .pro-icon');if(totalInfo){totalInfo.innerHTML=icon('calc');totalInfo.classList.add('hs2026-total-icon')}
  const save=section.querySelector('.save-sale-btn');if(save){save.innerHTML=icon('save')+'<span>Guardar venta</span>'}
  const add=section.querySelector('.add-product-btn');if(add){add.innerHTML='<span class="hs2026-plus">＋</span> Agregar producto'}
