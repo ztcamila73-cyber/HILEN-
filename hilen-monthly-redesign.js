@@ -27,7 +27,7 @@
     const monthly=pageTitle.textContent.trim()==='Registro mensual';
     document.body.classList.toggle('hilen-monthly-heading-open',monthly);
     if(monthly){pageMark.innerHTML=monthHeaderIcon;}
-    else if(pageMark.dataset.hmrMonthlyMark==='1'){pageMark.innerHTML=previousMark;}
+    else if(pageMark.dataset.hmrMonthlyMark==='1'&&pageTitle.textContent.trim()!=='Registrar venta'){pageMark.innerHTML=previousMark;}
     pageMark.dataset.hmrMonthlyMark=monthly?'1':'0';
    };
    new MutationObserver(updateTitle).observe(pageTitle,{childList:true,subtree:true,characterData:true});
