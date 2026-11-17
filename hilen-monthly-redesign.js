@@ -16,8 +16,23 @@
   const card=root.querySelector('.hm-monthly-card'),heading=card?.querySelector('.hm-monthly-heading'),tabs=card?.querySelector('.hm-tabs');
   if(!card||!heading||!tabs)return;
   root.classList.add('hmr26');
-  const hero=document.createElement('div');hero.className='hmr26-hero';
-  heading.parentNode.insertBefore(hero,heading);hero.append(heading);
+  // Conservar el título principal de la página; eliminar el duplicado dentro de la tarjeta.
+  const monthHeaderIcon=heading.querySelector('.pro-icon svg')?.outerHTML||icon('calendar');
+  heading.remove();
+  const pageTitle=document.getElementById('pageTitle');
+  const pageMark=document.querySelector('.page-heading-copy .hdaily-page-mark');
+  if(pageTitle&&pageMark){
+   const previousMark=pageMark.innerHTML;
+   const updateTitle=()=>{
+    const monthly=pageTitle.textContent.trim()==='Registro mensual';
+    document.body.classList.toggle('hilen-monthly-heading-open',monthly);
+    if(monthly){pageMark.innerHTML=monthHeaderIcon;}
+    else if(pageMark.dataset.hmrMonthlyMark==='1'){pageMark.innerHTML=previousMark;}
+    pageMark.dataset.hmrMonthlyMark=monthly?'1':'0';
+   };
+   new MutationObserver(updateTitle).observe(pageTitle,{childList:true,subtree:true,characterData:true});
+   updateTitle();
+  }
   const content=document.createElement('div');content.className='hmr26-form-content';
   const secondary=card.querySelector('.pro-card-head.compact');
   card.insertBefore(content,secondary);
