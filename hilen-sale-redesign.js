@@ -17,7 +17,11 @@ const icon=(name)=>{
  receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z"/><path d="M9 9h6M9 13h6"/>',
  box:'<path d="m12 2 10 5-10 5L2 7l10-5ZM2 7v10l10 5 10-5V7M12 12v10"/>',
  calc:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8v4H8zM8 14h2m4 0h2M8 18h2m4 0h2"/>',
- save:'<path d="M4 3h14l3 3v15H4zM8 3v7h9V3M8 21v-8h9v8"/>'
+ save:'<path d="M4 3h14l3 3v15H4zM8 3v7h9V3M8 21v-8h9v8"/>',
+ people:'<circle cx="8" cy="8" r="3"/><path d="M2 21v-2a6 6 0 0 1 12 0v2M18 7v8M14 11h8"/>',
+ check:'<circle cx="12" cy="12" r="10"/><path d="m7 12 3.5 3.5L17 9"/>',
+ info:'<circle cx="12" cy="12" r="10"/><path d="M12 11v6M12 7h.01"/>',
+ plusCalendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M12 13v6m-3-3h6"/>'
  };
  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(paths[name]||paths.tag)+'</svg>';
 };
@@ -38,9 +42,20 @@ function setup(){
  fieldIcon(section.querySelector('label[for="saleDateTyped"]'),'calendar');
  fieldIcon(section.querySelector('label[for="saleTime"]'),'clock');
  const clientLabels=section.querySelectorAll('.sale-client-card .sale-client-grid .label');
- fieldIcon(clientLabels[0],'user');fieldIcon(clientLabels[1],'phone');fieldIcon(clientLabels[2],'user');
+ fieldIcon(clientLabels[0],'user');fieldIcon(clientLabels[1],'phone');fieldIcon(clientLabels[2],'people');
  const detailLabels=section.querySelectorAll('.sale-details-card .form-grid>.label, .sale-details-card .form-grid>div>.label');
  fieldIcon(detailLabels[0],'card');fieldIcon(detailLabels[1],'coins');
+ fieldIcon(section.querySelector('label[for="hilenInitialPaid"]'),'coins');
+ fieldIcon(section.querySelector('label[for="hilenInitialDestination"]'),'card');
+ fieldIcon(section.querySelector('.hilen-whole-sale-discount label'),'tag');
+ const totalLabel=section.querySelector('.sale-total-value>span');
+ fieldIcon(totalLabel,'coins');
+ const hints=section.querySelectorAll('.hilen-sale-hint');
+ hints.forEach(h=>{if(h.querySelector('.hs2026-hint-icon'))return;const el=document.createElement('span');el.className='hs2026-hint-icon';el.innerHTML=icon('info');h.prepend(el)});
+ const syncHint=section.querySelector('#saleClientSyncHint');
+ if(syncHint&&!syncHint.querySelector('.hs2026-check')){const el=document.createElement('span');el.className='hs2026-check';el.innerHTML=icon('check');syncHint.prepend(el)}
+ const notice=section.querySelector('.sale-info-banner .notice-dot');
+ if(notice)notice.innerHTML=icon('info');
  const totalInfo=section.querySelector('.sale-total-info .pro-icon');if(totalInfo){totalInfo.innerHTML=icon('calc');totalInfo.classList.add('hs2026-total-icon')}
  const save=section.querySelector('.save-sale-btn');if(save){save.innerHTML=icon('save')+'<span>Guardar venta</span>'}
  const add=section.querySelector('.add-product-btn');if(add){add.innerHTML='<span class="hs2026-plus">＋</span> Agregar producto'}
@@ -67,7 +82,7 @@ function setup(){
    list.querySelectorAll('.product-row').forEach(row=>{
     if(row.dataset.hs2026Row)return;
     row.dataset.hs2026Row='1';const name=row.querySelector('.pname'),qty=row.querySelector('.pqty'),del=row.querySelector('button.secondary');
-    if(name){name.placeholder='Escribe o busca un producto...';name.setAttribute('aria-label','Nombre del producto')}
+    if(name){name.placeholder='Escribe o busca un producto...';name.setAttribute('aria-label','Nombre del producto');const wrap=document.createElement('div');wrap.className='hs2026-product-search-wrap';name.parentNode.insertBefore(wrap,name);wrap.appendChild(name);const glyph=document.createElement('span');glyph.className='hs2026-product-search-icon';glyph.innerHTML=icon('search');wrap.appendChild(glyph)}
     if(qty){
      const holder=document.createElement('div');holder.className='hs2026-qty';
      qty.parentNode.insertBefore(holder,qty);holder.appendChild(qty);
