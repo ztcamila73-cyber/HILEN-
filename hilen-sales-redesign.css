@@ -1,0 +1,75 @@
+/* HILEN | Ventas · referencia noviembre 2026 */
+#day.hsv26{min-width:0!important;color:#101937}
+#day.hsv26>.card{max-width:100%!important;min-width:0!important;margin:0 0 15px!important;padding:17px 19px!important;border:1px solid #ede5dc!important;border-radius:23px!important;background:linear-gradient(125deg,#fffefe,#fffaf5)!important;box-shadow:0 7px 17px #2d211619!important}
+#day.hsv26 .hilen-sales-overview-card{position:relative;overflow:hidden}
+#day.hsv26 .hilen-sales-overview-card:before{content:"";position:absolute;right:-35px;top:27px;width:48%;height:135px;border-top:2px solid #e6a006;border-radius:50%;transform:rotate(-12deg);background:linear-gradient(155deg,transparent 60%,#ffda9140 92%);pointer-events:none}
+#day.hsv26 .sales-filterbar,#day.hsv26 .hilen-sales-list-heading{position:relative;z-index:1;display:flex!important;justify-content:space-between!important;align-items:center!important;gap:16px!important;flex-wrap:wrap!important}
+#day.hsv26 .sales-filter-copy,#day.hsv26 .hilen-sales-list-heading>div:first-child{display:flex!important;align-items:center!important;gap:8px 12px!important;flex-wrap:wrap!important}
+#day.hsv26 .sales-filter-copy .hsv26-header-icon{display:none}
+#day.hsv26 .sales-filter-copy h2,#day.hsv26 #dayTitle{font-size:clamp(19px,1.8vw,26px)!important;letter-spacing:-.5px!important;font-weight:900!important;color:#0e1a42!important;margin:0!important}
+#day.hsv26 .sales-filter-copy .muted,#day.hsv26 .hilen-sales-list-heading .muted{width:100%;font-size:12px!important;color:#283a62!important}
+#day.hsv26 .hilen-sales-list-heading>div:first-child{display:grid!important;grid-template-columns:58px 1fr;column-gap:12px;align-items:center}
+#day.hsv26 .hilen-sales-list-heading .hsv26-header-icon{grid-column:1!important;grid-row:1/span 2!important;width:54px;height:54px;border-radius:16px;background:linear-gradient(140deg,#ffd25f,#c98700 75%);color:white;display:grid;place-items:center;box-shadow:0 5px 10px #a66b2533}
+#day.hsv26 .hilen-sales-list-heading .hsv26-header-icon svg{width:31px;height:31px}
+#day.hsv26 #dayTitle{grid-column:2!important;grid-row:1!important}
+#day.hsv26 .hilen-sales-list-heading>div:first-child>.muted{grid-column:2!important;grid-row:2!important}
+#day.hsv26 #salesPeriodTabs,#day.hsv26 .hilen-sales-type-filter{display:flex!important;gap:4px!important;align-items:center!important;background:#fff9f2!important;border:1px solid #f0e4d6!important;border-radius:999px!important;padding:4px!important;box-shadow:0 4px 10px #7451261a!important}
+#day.hsv26 #salesPeriodTabs button,#day.hsv26 .hilen-sales-type-filter button{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-width:108px!important;min-height:41px!important;padding:9px 16px!important;border-radius:999px!important;border:1px solid #f1e4d4!important;background:#fff!important;color:#66390f!important;font-size:13px!important;font-weight:850!important}
+#day.hsv26 #salesPeriodTabs button svg,#day.hsv26 .hilen-sales-type-filter button svg{width:20px;height:20px;color:#be7907}
+#day.hsv26 #salesPeriodTabs button.active,#day.hsv26 .hilen-sales-type-filter button.active{background:linear-gradient(140deg,#ffc849,#ce8700)!important;border-color:#dd9f2a!important;color:#fff!important;box-shadow:0 3px 9px #b27c2940!important}
+#day.hsv26 #salesPeriodTabs button.active svg,#day.hsv26 .hilen-sales-type-filter button.active svg{color:white!important}
+#day.hsv26 .sales-period-fields{position:relative;z-index:1;margin:13px 0!important}
+#day.hsv26 .sales-period-fields>div{max-width:290px}
+#day.hsv26 .sales-period-fields .label{display:flex!important;align-items:center!important;gap:9px!important;font-size:14px!important;color:#171c31!important;font-weight:900!important;margin-bottom:7px!important}
+#day.hsv26 .hsv26-inline-icon{display:inline-flex;color:#bd7800}
+#day.hsv26 .hsv26-inline-icon svg{width:21px;height:21px}
+#day.hsv26 .sales-period-fields input{min-height:44px!important;border:1px solid #d9e1ed!important;background:white!important;border-radius:12px!important;color:#17223d!important;font-size:16px!important;font-weight:730!important;padding:8px 12px!important;box-shadow:0 2px 5px #142a480d!important}
+#day.hsv26 .hilen-sales-kpis{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:15px!important;position:relative;z-index:1;margin:16px 0 0!important}
+#day.hsv26 .hilen-sales-kpis .hsv26-kpi{display:flex!important;align-items:center!important;gap:14px!important;min-width:0!important;padding:15px 16px!important;border:1px solid #d5f0d9!important;border-radius:17px!important;border-left:1px solid #d5f0d9!important;background:linear-gradient(120deg,#fbfffc,#dfffe7)!important;box-shadow:0 3px 9px #145c2510!important}
+#day.hsv26 .hilen-sales-kpis .hsv26-kpi:nth-child(2){background:linear-gradient(120deg,#fff,#ddecff)!important;border-color:#cfe3ff!important}
+#day.hsv26 .hilen-sales-kpis .hsv26-kpi:nth-child(3){background:linear-gradient(120deg,#fff,#ffefd4)!important;border-color:#f5ddb3!important}
+#day.hsv26 .hsv26-kpi>.sales-kpi-icon{display:grid!important;place-items:center!important;flex:0 0 58px!important;width:58px!important;height:58px!important;border-radius:14px!important;background:linear-gradient(140deg,#7cf65c,#0bc821)!important;color:white!important;font-size:0!important;box-shadow:0 4px 10px #286c2525!important}
+#day.hsv26 .hsv26-kpi:nth-child(2)>.sales-kpi-icon{background:linear-gradient(140deg,#5ac6ff,#005eef)!important}
+#day.hsv26 .hsv26-kpi:nth-child(3)>.sales-kpi-icon{background:linear-gradient(140deg,#ffd25c,#dc8e00)!important}
+#day.hsv26 .hsv26-kpi>.sales-kpi-icon svg{width:31px;height:31px;stroke-width:2}
+#day.hsv26 .hsv26-kpi>.stat-wrap{border-left:2px solid #45cd49!important;padding-left:14px!important}
+#day.hsv26 .hsv26-kpi:nth-child(2)>.stat-wrap{border-color:#198aff!important}
+#day.hsv26 .hsv26-kpi:nth-child(3)>.stat-wrap{border-color:#e5a222!important}
+#day.hsv26 .hsv26-kpi .stat-label{font-size:13px!important;font-weight:900!important;color:#131b34!important}
+#day.hsv26 .hsv26-kpi .stat{font-size:clamp(22px,2.3vw,32px)!important;line-height:1.2!important;color:#111626!important;font-weight:900!important}
+#day.hsv26 .hsv26-kpi .hilen-sale-count{color:#243456!important;font-size:12px!important}
+#day.hsv26 .hilen-sales-table-subbar{display:flex!important;gap:13px!important;margin:17px 0 13px!important}
+#day.hsv26 .sales-client-search{width:100%!important;flex:1!important;max-width:none!important}
+#day.hsv26 .hsv26-visually-hidden{position:absolute!important;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden;white-space:nowrap}
+#day.hsv26 .hsv26-search-box{position:relative;display:flex;align-items:center;min-width:0}
+#day.hsv26 .hsv26-search-box svg{position:absolute;left:15px;width:21px;height:21px;color:#ca8500;pointer-events:none}
+#day.hsv26 #salesClientSearch{width:100%!important;min-height:45px!important;border:1px solid #d7e1ef!important;border-radius:13px!important;background:white!important;padding:9px 12px 9px 46px!important;font-size:14px!important;color:#1b2840!important;box-shadow:0 2px 5px #1931580a!important}
+#day.hsv26 #dayTable>.table-wrap{border:1px solid #e7eaf1!important;border-radius:16px!important;overflow-x:auto!important}
+#day.hsv26 #dayTable table{width:100%!important;min-width:800px!important;border-collapse:collapse!important}
+#day.hsv26 #dayTable th{background:linear-gradient(120deg,#fff2df,#fff8ed)!important;color:#54300e!important;font-weight:900!important;font-size:13px!important;padding:12px!important;white-space:nowrap!important}
+#day.hsv26 #dayTable th svg{width:20px;height:20px;color:#c47f08;vertical-align:middle;margin-right:9px}
+#day.hsv26 #dayTable td{color:#121b41!important;font-size:13px!important;font-weight:690!important;padding:9px 12px!important;border-bottom:1px solid #ecf0f6!important;vertical-align:middle!important}
+#day.hsv26 #dayTable tr:nth-child(even){background:#f7f9fc!important}
+#day.hsv26 #dayTable td:nth-child(2),#day.hsv26 #dayTable td:nth-child(3){white-space:nowrap!important}
+#day.hsv26 .hsv26-time{display:flex;align-items:center;gap:8px;white-space:nowrap}
+#day.hsv26 .hsv26-time svg{width:20px;height:20px;color:#c88600}
+#day.hsv26 .hsv26-date{display:block;font-size:10px;color:#8190a8;margin-left:29px}
+#day.hsv26 .hsv26-customer-icon,#day.hsv26 .hsv26-product-icon{display:inline-grid;place-items:center;vertical-align:middle;margin-right:9px;width:33px;height:33px;border-radius:10px;background:#fff5e2;color:#c47d00}
+#day.hsv26 .hsv26-customer-icon svg,#day.hsv26 .hsv26-product-icon svg{width:22px;height:22px}
+#day.hsv26 .hsv26-payment-pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:#e0f8e7;color:#11632a;padding:6px 12px;white-space:nowrap;font-size:12px;font-weight:850}
+#day.hsv26 .hsv26-payment-pill svg{height:18px;width:18px}
+#day.hsv26 .hsv26-payment-pill.bank{background:#e4efff;color:#075add}
+#day.hsv26 .hsv26-payment-pill.credit{background:#fff0d9;color:#794313}
+#day.hsv26 #dayTable td:nth-child(5) b{font-size:15px;font-weight:900}
+#day.hsv26 #dayTable .action-group{display:flex!important;align-items:center!important;gap:5px!important;flex-wrap:nowrap!important}
+#day.hsv26 #dayTable .action-mini{display:inline-grid!important;place-items:center!important;min-width:35px!important;width:35px!important;height:32px!important;padding:0!important;border-radius:999px!important;background:#e5f1ff!important;color:#0875ec!important;border:1px solid #dce9ff!important;font-size:0!important}
+#day.hsv26 #dayTable .action-mini.edit{background:#fff1dc!important;color:#c17d00!important;border-color:#f4e3c5!important}
+#day.hsv26 #dayTable .action-mini.danger{background:#ffe8ed!important;color:#e21e43!important;border-color:#ffdae1!important}
+#day.hsv26 #dayTable .action-mini svg{width:19px;height:19px;stroke-width:2.1}
+body.hilen-sales-heading-open .page-heading-copy{display:grid!important;grid-template-columns:62px minmax(0,1fr)!important;align-items:center!important;gap:0 16px!important}
+body.hilen-sales-heading-open .page-heading-copy>.hdaily-page-mark{display:grid!important;grid-column:1!important;grid-row:1/span 2!important;place-items:center!important;width:62px!important;height:62px!important;border-radius:17px!important;background:linear-gradient(145deg,#ffcf55,#c88000)!important;color:white!important;border:1px solid #eec570!important;visibility:visible!important;box-shadow:0 6px 14px #84561040!important}
+body.hilen-sales-heading-open .page-heading-copy>.hdaily-page-mark svg{width:34px!important;height:34px!important;stroke:white!important}
+body.hilen-sales-heading-open #pageTitle{grid-column:2!important;grid-row:1!important;margin:0!important}
+body.hilen-sales-heading-open #pageSubtitle{grid-column:2!important;grid-row:2!important;margin:0!important}
+@media(max-width:1200px){#day.hsv26 .hilen-sales-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}#day.hsv26 .hsv26-kpi:first-child{grid-column:1/-1}}
+@media(max-width:700px){#day.hsv26>.card{padding:13px!important}#day.hsv26 .sales-filterbar,#day.hsv26 .hilen-sales-list-heading{align-items:stretch!important;flex-direction:column!important}#day.hsv26 #salesPeriodTabs,#day.hsv26 .hilen-sales-type-filter{width:100%!important}#day.hsv26 #salesPeriodTabs button,#day.hsv26 .hilen-sales-type-filter button{flex:1!important;min-width:0!important;padding:8px 5px!important;font-size:11px!important}#day.hsv26 .hilen-sales-kpis{grid-template-columns:1fr!important}#day.hsv26 .hsv26-kpi:first-child{grid-column:auto}body.hilen-sales-heading-open .page-heading-copy{grid-template-columns:48px minmax(0,1fr)!important}body.hilen-sales-heading-open .page-heading-copy>.hdaily-page-mark{width:48px!important;height:48px!important}body.hilen-sales-heading-open .page-heading-copy>.hdaily-page-mark svg{width:27px!important;height:27px!important}}
