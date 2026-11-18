@@ -5521,6 +5521,70 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 #newSale .hilen-sale-cal-footer{display:flex;justify-content:space-between;margin-top:10px;padding-top:9px;border-top:1px solid #f0e6d8}
 #newSale .hilen-sale-cal-footer button{background:transparent;border:0;color:#986923;font-weight:800;cursor:pointer;padding:7px 10px}
 
+
+/* HILEN · Clientes · armonización visual 17 noviembre 2026 */
+#customers.hilen-customers{--cl-ink:#101e3b;--cl-gold:#c68a23;--cl-line:#e9e3d9;color:var(--cl-ink)}
+#customers .client-kpis-pro{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:11px!important;margin:8px 0 16px!important}
+#customers .client-kpi{position:relative;display:flex!important;align-items:center;gap:10px;min-width:0;min-height:83px;padding:14px 12px!important;border:1px solid #e9e6df!important;border-radius:19px!important;background:linear-gradient(135deg,#fff 35%,#fffbf4)!important;box-shadow:0 7px 18px #5b452514!important;overflow:hidden}
+#customers .client-kpi::after{content:"";position:absolute;right:-18px;bottom:-37px;pointer-events:none;width:125px;height:65px;border-radius:50%;transform:rotate(-18deg);background:linear-gradient(100deg,transparent,#f2cc8639)}
+#customers .client-kpi:nth-child(2){background:linear-gradient(135deg,#fff 34%,#eef6ff)!important;border-color:#dce9f9!important}
+#customers .client-kpi:nth-child(2)::after,#customers .client-kpi:nth-child(6)::after{background:linear-gradient(100deg,transparent,#9bcfff56)}
+#customers .client-kpi:nth-child(3){background:linear-gradient(135deg,#fff 34%,#eef9f2)!important;border-color:#dcece0!important}
+#customers .client-kpi:nth-child(3)::after{background:linear-gradient(100deg,transparent,#91d4a74c)}
+#customers .client-kpi:nth-child(5){background:linear-gradient(135deg,#fff 34%,#fff1f7)!important;border-color:#f5deea!important}
+#customers .client-kpi:nth-child(5)::after{background:linear-gradient(100deg,transparent,#ee9fc756)}
+#customers .client-kpi:nth-child(6){background:linear-gradient(135deg,#fff 34%,#edf4ff)!important;border-color:#dce7fa!important}
+#customers .client-kpi .kpi-round{position:relative;z-index:1;flex:0 0 43px;display:grid;place-items:center;width:43px;height:43px!important;border-radius:14px!important;background:linear-gradient(145deg,#fff8e9,#ffebca)!important;color:#b97812!important}
+#customers .client-kpi:nth-child(2) .kpi-round,#customers .client-kpi:nth-child(6) .kpi-round{background:linear-gradient(145deg,#f0f7ff,#e0edff)!important;color:#2476d8!important}
+#customers .client-kpi:nth-child(3) .kpi-round{background:linear-gradient(145deg,#f0fff5,#dff5e5)!important;color:#1e9c5b!important}
+#customers .client-kpi:nth-child(5) .kpi-round{background:linear-gradient(145deg,#fff1f7,#ffe0ed)!important;color:#e23d85!important}
+#customers .client-kpi .kpi-round svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#customers .client-kpi .label2{font-size:10px!important;font-weight:760;color:#54627b!important}
+#customers .client-kpi .value2{font-size:24px!important;line-height:1.1;margin:2px 0!important;color:#101e3b;font-weight:900}
+#customers .client-kpi small{font-size:10px!important;color:#687894}
+#customers .hilen-client-collections,#customers .customer-registry-card{border:1px solid #ece2d6!important;background:linear-gradient(160deg,#fff,#fffefd)!important;border-radius:23px!important;box-shadow:0 11px 28px #513d2012!important;padding:20px!important;margin-bottom:15px!important}
+#customers .hilen-client-collections{position:relative;overflow:hidden}
+#customers .hilen-client-collections::before{content:"";position:absolute;top:-72px;right:15%;width:320px;height:140px;border-radius:50%;transform:rotate(-19deg);background:linear-gradient(135deg,transparent,#f5c96e28);pointer-events:none}
+#customers .hilen-annual-heading{position:relative;z-index:1;margin-bottom:15px!important}
+#customers .hilen-annual-eyebrow{color:#aa741c!important;letter-spacing:1.4px;font-size:10px!important;font-weight:900}
+#customers .hilen-annual-heading h2,#customers .registry-head h2{font-size:21px!important;letter-spacing:-.5px;color:#101e3b!important}
+#customers .hilen-annual-heading p,#customers .registry-head .muted{font-size:12px;color:#65738e!important}
+#customers .hilen-annual-heading .secondary,#customers .new-client-btn{border-radius:12px!important;min-height:37px;font-weight:790;box-shadow:0 4px 9px #453b1b1b}
+#customers .hilen-annual-heading .secondary,#customers .new-client-btn{background:linear-gradient(180deg,#273957,#0d1930)!important;color:#fff!important;border:1px solid #263753!important}
+#customers .hilen-collection-kpis{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
+#customers .hilen-collection-kpis>div{min-height:74px;border-radius:15px!important;border:1px solid #e1e8f2!important;background:linear-gradient(120deg,#fff,#f2f7ff)!important;padding:12px 15px!important;box-shadow:0 3px 9px #2437550b}
+#customers .hilen-collection-kpis>div:nth-child(3){background:linear-gradient(120deg,#fff,#fff5e5)!important;border-color:#f0dab6!important}
+#customers .hilen-collection-kpis>div:nth-child(4){background:linear-gradient(120deg,#fff,#effaf2)!important;border-color:#d8e9df!important}
+#customers .hilen-collection-alerts{margin-top:12px}
+#customers .hilen-collection-alerts>div{border-radius:13px!important}
+#customers .hilen-collection-filter{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px}
+#customers .hilen-collection-filter button{border-radius:999px!important;background:#fff!important;color:#233754!important;border:1px solid #e0e6ee!important;padding:8px 13px!important;font-weight:760}
+#customers .hilen-collection-filter button.active{background:linear-gradient(135deg,#f6c45e,#ab6e0b)!important;color:#fff!important;border-color:#d19a36!important;box-shadow:0 3px 8px #bd801d34}
+#customers .registry-head{align-items:center!important;margin-bottom:11px!important}
+#customers .registry-filters{display:block!important;margin-bottom:14px!important}
+#customers .registry-filters>div{width:100%!important;grid-column:auto!important}
+#customers #customerSearch{min-height:42px;border-radius:12px!important;border-color:#dbe4f0!important;background:#fff!important;width:100%!important;font-size:13px}
+#customers #customerSearch:focus{outline:none;border-color:#d79b38!important;box-shadow:0 0 0 3px #d79b3829!important}
+#customers .hilen-global-zoom-toolbar{background:linear-gradient(90deg,#fff4e3,#f8fafc)!important;border-color:#ecdec8!important;border-radius:12px!important}
+#customers .hilen-global-zoom-toolbar button{border-radius:11px!important}
+#customers #customersTable{width:100%;min-width:0}
+#customers #customersTable .table-wrap{border:1px solid #e7e2da!important;border-radius:16px!important;overflow-x:auto!important;overflow-y:hidden!important}
+#customers #customersTable table{border-collapse:separate!important;border-spacing:0!important;width:100%!important}
+#customers #customersTable th{background:#fff2dc!important;color:#765022!important;font-weight:850!important;font-size:11px!important;border-bottom:1px solid #efdfc7!important;padding:11px 9px!important;text-align:left}
+#customers #customersTable td{vertical-align:middle!important;border-bottom:1px solid #edf0f4!important;padding:10px 9px!important;font-size:11px!important;color:#1b2944}
+#customers #customersTable tr:nth-child(even) td{background:#fbfcfe}
+#customers #customersTable tr:hover td{background:#fffaf0}
+#customers #customersTable .badge{border-radius:999px!important;padding:5px 8px!important;font-weight:800;font-size:10px!important;white-space:nowrap}
+#customers #customersTable .action-group{display:flex!important;align-items:center!important;justify-content:flex-start;gap:5px!important;white-space:nowrap}
+#customers #customersTable .action-mini{display:inline-grid!important;place-items:center!important;width:35px!important;height:33px!important;min-width:35px!important;padding:0!important;border-radius:12px!important;border:1px solid #dce6fa!important;background:linear-gradient(160deg,#fff,#e7f0ff)!important;box-shadow:0 3px 8px #2c426814!important;color:#1872d3!important;font-size:0!important}
+#customers #customersTable .action-mini.edit{background:linear-gradient(160deg,#fff,#fff0d7)!important;border-color:#f0ddbd!important;color:#aa720e!important}
+#customers #customersTable .action-mini.danger{background:linear-gradient(160deg,#fff,#ffe6eb)!important;border-color:#f8d6e0!important;color:#df3654!important}
+#customers #customersTable .action-mini svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#customers #customersTable .action-mini:hover{transform:translateY(-2px);box-shadow:0 5px 13px #2c426825!important}
+#customers #customersTable .action-mini:focus-visible{outline:2px solid #c78a20;outline-offset:2px}
+@media(max-width:1300px){#customers .client-kpis-pro{grid-template-columns:repeat(3,minmax(0,1fr))!important}#customers .client-kpi{min-height:78px}}
+@media(max-width:800px){#customers .hilen-collection-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}#customers .hilen-client-collections,#customers .customer-registry-card{padding:14px!important}#customers #customersTable table{min-width:870px!important}#customers .registry-head{flex-wrap:wrap}}
+@media(max-width:570px){#customers .client-kpis-pro{grid-template-columns:repeat(2,minmax(0,1fr))!important}#customers .client-kpi{padding:10px!important}#customers .hilen-annual-heading{flex-wrap:wrap}#customers .hilen-annual-heading .secondary{width:100%}}
 </style>
   <link rel="stylesheet" href="./hilen-date-fields.css">
 <link rel="stylesheet" href="./hilen-sale-zoom.css">
@@ -8248,7 +8312,7 @@ function renderCustomers(){
     const status=collection.byId.get(String(x.c.id));
     return hilenClientCollectionFilter==='all'||(hilenClientCollectionFilter==='debt'&&status?.balance>0)||(hilenClientCollectionFilter==='ontime'&&status?.balance>0&&!status?.late)||(hilenClientCollectionFilter==='overdue'&&status?.late);
   }).sort((x,y)=>String(x.c.name||'').localeCompare(String(y.c.name||''),'es',{sensitivity:'base'}));
-  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Cuenta</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td class="hilen-account-cell">${clientAccountStatus(x.c.id)}${collection.byId.get(String(x.c.id))?.late?`<div class="hilen-client-alert-inline" title="Ha pasado más de un mes sin abonar">Aviso · sin abonar +1 mes</div>`:collection.byId.get(String(x.c.id))?.balance>0?`<div class="hilen-client-recent-inline">${collection.byId.get(String(x.c.id))?.lastPayment?`Último abono: ${hilenInvoiceDate(collection.byId.get(String(x.c.id)).lastPayment)}`:'Sin abonos aún'}</div>`:''}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td><div class="action-group"><button class="action-mini view" onclick="openCustomer('${x.c.id}')">Abrir</button><button class="action-mini edit" onclick="editCustomer('${x.c.id}')">Editar</button><button class="action-mini danger" onclick="deleteCustomer('${x.c.id}')">Eliminar</button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
+  if($('customersTable'))$('customersTable').innerHTML=allRows.length?`<div class="table-wrap table-fit-wrap"><table class="table table-fit"><thead><tr><th>Cliente</th><th>Cuenta</th><th>Estado</th><th>Tipo de compra</th><th>Contacto</th><th>Fechas</th><th>Compras</th><th>Acciones</th></tr></thead><tbody>${allRows.map(x=>{const status=x.lifecycle==='potential'?'<span class="badge client-type-potential">Potencial</span>':x.lifecycle==='returning'?'<span class="badge client-type-return">Recurrente</span>':'<span class="badge client-type-new">Nuevo</span>';return `<tr><td><b>${esc(x.c.name)}</b><div class="small muted">${x.c.gender==='male'?'Hombre':x.c.gender==='female'?'Mujer':'Sin especificar'}</div>${x.c.interest?`<div class="small muted">Interés: ${esc(x.c.interest)}</div>`:''}</td><td class="hilen-account-cell">${clientAccountStatus(x.c.id)}${collection.byId.get(String(x.c.id))?.late?`<div class="hilen-client-alert-inline" title="Ha pasado más de un mes sin abonar">Aviso · sin abonar +1 mes</div>`:collection.byId.get(String(x.c.id))?.balance>0?`<div class="hilen-client-recent-inline">${collection.byId.get(String(x.c.id))?.lastPayment?`Último abono: ${hilenInvoiceDate(collection.byId.get(String(x.c.id)).lastPayment)}`:'Sin abonos aún'}</div>`:''}</td><td>${status}</td><td>${purchaseBadge(x.allType)}</td><td>${esc(x.c.phone||'—')}${x.c.email?`<div class="small muted">${esc(x.c.email)}</div>`:''}</td><td><div class="small"><b>Registro:</b> ${normalizeDateLabel(x.registered)||'—'}</div><div class="small muted"><b>Última:</b> ${x.last?normalizeDateLabel(x.last):'—'}</div></td><td><b>${x.allSales.length}</b><div class="small muted">${money(x.allTotal)}</div></td><td><div class="action-group"><button class="action-mini view" title="Ver ficha" aria-label="Ver ficha del cliente" onclick="openCustomer('${x.c.id}')"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg></button><button class="action-mini edit" title="Editar cliente" aria-label="Editar cliente" onclick="editCustomer('${x.c.id}')"><svg viewBox="0 0 24 24"><path d="m4 20 4.8-.9L20 7.9 16.1 4 4.9 15.2 4 20Z"/><path d="m13.7 6.4 3.9 3.9"/></svg></button><button class="action-mini danger" title="Eliminar cliente" aria-label="Eliminar cliente" onclick="deleteCustomer('${x.c.id}')"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg></button></div></td></tr>`}).join('')}</tbody></table></div>`:'<div class="notice">No hay clientes que coincidan con la búsqueda.</div>';
   renderClientChart();
 }
 
