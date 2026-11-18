@@ -56,6 +56,11 @@ function setup(){
   });
  };
  function decorateTable(){
+  // Ocultar solo los avisos técnicos de histórico y superposición. Los importes siguen sumando.
+  tableArea?.querySelectorAll(':scope > .notice.blue').forEach(note=>{
+   const text=note.textContent||'';
+   if(text.includes('Ventas históricas incluidas en el total')||text.includes('Se usan los movimientos detallados para no sumar dos veces'))note.remove();
+  });
   const table=tableArea?.querySelector('table');if(!table)return;
   const headers=table.querySelectorAll('thead th');
   const names=['Hora','Cliente','Productos','Pago','Total','Acciones'];
