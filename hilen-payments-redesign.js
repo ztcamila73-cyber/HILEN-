@@ -34,6 +34,28 @@ function setup(){
  const register=root.querySelector('.payment-register-card'),history=root.querySelector('.payment-history-card');
  if(!portfolio||!layout||!register||!history)return;
  root.classList.add('hp26');
+ // Icono de monedas del encabezado principal, tal como la referencia.
+ const pageTitle=document.getElementById('pageTitle');
+ const pageMark=document.querySelector('.page-heading-copy .hdaily-page-mark');
+ if(pageTitle&&pageMark){
+  const paymentsIcon=svg('coins');
+  const updatePaymentsHeading=()=>{
+   const isPayments=pageTitle.textContent.trim()==='Abonos';
+   document.body.classList.toggle('hilen-payments-heading-open',isPayments);
+   if(isPayments){
+    pageMark.innerHTML=paymentsIcon;
+    pageMark.dataset.hp26Heading='1';
+   }else if(pageMark.dataset.hp26Heading==='1'){
+    pageMark.dataset.hp26Heading='0';
+    const section=pageTitle.textContent.trim();
+    if(!['Registrar venta','Registro mensual','Movimientos del día'].includes(section)){
+     pageMark.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 20v-5 M11 20V9 M17 20V4"/></svg>';
+    }
+   }
+  };
+  new MutationObserver(updatePaymentsHeading).observe(pageTitle,{childList:true,characterData:true,subtree:true});
+  updatePaymentsHeading();
+ }
  // Mover las tarjetas originales, conservando sus campos, eventos y filtros.
  layout.classList.add('hp26-layout');
  const layoutParent=layout.parentNode;
