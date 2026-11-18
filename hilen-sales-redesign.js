@@ -67,7 +67,9 @@ function setup(){
   });
   table.querySelectorAll('tbody tr').forEach(tr=>{
    if(tr.dataset.hsv26)return;tr.dataset.hsv26='1';
-   const time=tr.cells[0];if(time){
+   const time=tr.cells[0];
+   const invoiceNumber=time?.querySelectorAll('.small.muted')[1]?.textContent.trim()||'';
+   if(time){
     const timeText=time.querySelector('.small.muted');
     const dateText=time.querySelector('b');
     if(timeText&&dateText){
@@ -85,8 +87,7 @@ function setup(){
     if(badge){
      const isCredit=badge.classList.contains('credit');
      const method=payment.querySelector('.small.muted')?.textContent.trim()||'Efectivo';
-     const invoice=time?.querySelector('.small.muted')?.textContent.trim()||'';
-     const label=isCredit?'Crédito':('Pagada · '+method);
+     const label=isCredit?('Crédito'+(invoiceNumber?' · '+invoiceNumber:'')):('Pagada · '+method);
      const name=isCredit?'card':/nequi/i.test(method)?'phone':'check';
      const pill=document.createElement('span');pill.className='hsv26-payment-pill '+(isCredit?'credit':/nequi/i.test(method)?'bank':'cash');
      pill.innerHTML=ico(name)+'<span></span>';
