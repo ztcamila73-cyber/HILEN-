@@ -55,7 +55,12 @@ function init(){
   group.append(element);fields.append(group);
  }
  attach(labels[0],document.getElementById('cfType'),'hcf26-cfType');
- attach(labels[1],document.getElementById('cfDate'),'hcf26-cfDate');
+ // El selector global DD/MM/AAAA ya envuelve a cfDate. Mover todo el
+ // componente (campo editable + calendario + fecha nativa oculta), no solo
+ // input#cfDate: de lo contrario queda una segunda fecha visible abajo.
+ const cashDate=document.getElementById('cfDate');
+ const friendlyDate=cashDate?.closest('.hilen-friendly-date');
+ attach(labels[1],friendlyDate||cashDate,'hcf26-cfDate');
  const account=document.getElementById('cfAccountWrap');if(account){markLabel(account.querySelector('label'),'card');account.classList.add('hcf26-field','hcf26-cfAccountWrap');fields.append(account)}
  const transfer=document.getElementById('cfTransferWrap');if(transfer){markLabel(transfer.querySelector('label'),'arrows');transfer.classList.add('hcf26-field','hcf26-cfTransferWrap');fields.append(transfer)}
  attach(labels[2],document.getElementById('cfAmount'),'hcf26-cfAmount');
