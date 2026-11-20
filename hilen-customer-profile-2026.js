@@ -110,3 +110,29 @@ window.openCustomer=open;
 window.renderCustomerStatement=render;
 window.hilenFilterCustomerMovements=filter;
 })();
+
+/* Control de lectura de la tabla Clientes; no modifica datos ni persistencia. */
+(function(){
+'use strict';
+let zoom=1;
+function mount(){
+ const table=document.getElementById('customersTable');
+ const card=table?.closest('.customer-registry-card');
+ if(!table||!card||card.querySelector('.hc-table-tools'))return;
+ const tools=document.createElement('div');
+ tools.className='hc-table-tools';
+ tools.innerHTML='<span>Tabla de clientes - tamaño de lectura</span><div class="hc-zoom-actions"><button type="button" data-hc-zoom="minus" aria-label="Reducir tamaño de tabla">A−</button><output aria-live="polite">100 %</output><button type="button" data-hc-zoom="plus" aria-label="Aumentar tamaño de tabla">A+</button><button type="button" data-hc-zoom="reset" aria-label="Restablecer tamaño de tabla">100 %</button></div>';
+ card.insertBefore(tools,table);
+ const display=tools.querySelector('output');
+ tools.addEventListener('click',event=>{
+  const button=event.target.closest('[data-hc-zoom]');
+  if(!button)return;
+  const action=button.dataset.hcZoom;
+  zoom=action==='reset'?1:Math.max(.8,Math.min(1.5,Math.round((zoom+(action==='plus'?.1:-.1))*10)/10));
+  table.style.setProperty('--hc-zoom',String(zoom));
+  display.textContent=Math.round(zoom*100)+' %';
+ });
+ table.style.setProperty('--hc-zoom',String(zoom));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
+})();
