@@ -5589,6 +5589,62 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 /* HILEN: icono exclusivo de Total de clientes · libreta de contactos */
 #customers .client-kpi:first-child .hilen-client-total-icon{background:linear-gradient(155deg,#ffd672 0%,#f1a51a 46%,#ba7300 100%)!important;color:#fff!important;border:1px solid #e9aa35!important;border-radius:14px!important;box-shadow:inset 0 1px 1px #ffffff99,0 4px 9px #bc7c2435!important}
 #customers .client-kpi:first-child .hilen-client-total-icon svg{width:25px!important;height:25px!important;stroke:#fff!important;fill:none!important;stroke-width:1.9!important;stroke-linecap:round;stroke-linejoin:round}
+
+/* HILEN | Estados de cuenta | estilo aprobado 19-11-2026 */
+#statements.hilen-statements{--st-ink:#12203f;--st-gold:#c68a23;--st-border:#e8dcc9;--st-muted:#66758e;color:var(--st-ink)}
+#statements .statement-simple-card{padding:23px 25px!important;border-radius:23px!important;border:1px solid #e8ddcd!important;box-shadow:0 10px 28px #4d3a2219!important;background:linear-gradient(160deg,#fff,#fffefc)!important;position:relative;overflow:visible}
+#statements .statement-simple-card:before{content:"";position:absolute;right:0;top:0;width:32%;height:110px;border-radius:0 23px 0 100%;background:linear-gradient(142deg,#fff0 36%,#ffcf7942 75%,#f7ae2945);pointer-events:none}
+#statements .statement-simple-head{position:relative;align-items:center;gap:15px;padding-bottom:18px!important}
+#statements .statement-simple-icon{width:55px;height:55px;flex:0 0 55px;border-radius:15px;background:linear-gradient(155deg,#ffe7ba,#f9f1df);color:#b67511;box-shadow:inset 0 1px 0 #fff,0 5px 12px #9e75211c}
+#statements .statement-simple-icon svg{width:28px;height:28px;stroke-width:1.9}
+#statements .statement-simple-head h2{font-size:21px!important;font-weight:870!important;color:#13213e!important;margin:0 0 5px!important}
+#statements .statement-simple-head p{font-size:12.5px!important;color:#5a6983!important;max-width:1100px}
+#statements .statement-toolbar-simple{position:relative;display:grid!important;grid-template-columns:minmax(250px,1fr) minmax(135px,165px) minmax(135px,165px) auto!important;gap:13px!important;align-items:end!important}
+#statements .statement-toolbar-simple .label{font-weight:850!important;font-size:12px!important;color:#16213c!important}
+#statements .statement-toolbar-simple .input{min-height:46px!important;margin-top:7px!important;border:1px solid #d5ddea!important;box-shadow:0 2px 4px #17264a0b!important;border-radius:12px!important;background:#fff!important;color:#16233f!important;font-weight:620;font-size:13px!important;padding:0 13px!important}
+#statements .statement-client-field{position:relative}
+#statements #statementClientName{padding-left:16px!important}
+#statements .statement-toolbar-simple input:focus{border-color:#d09a3c!important;box-shadow:0 0 0 3px #d9aa4d2c!important;outline:none}
+#statements .statement-generate-btn{height:46px!important;min-width:208px!important;padding:0 18px!important;border-radius:12px!important;background:linear-gradient(180deg,#1d293e,#050b17)!important;border:1px solid #b2802a!important;box-shadow:0 5px 10px #0a132426!important;color:#fff!important;font-size:12px!important}
+#statements .statement-generate-btn:hover{filter:brightness(1.12)}
+#statements .statement-simple-note{position:relative;margin-top:17px!important;padding:13px 16px!important;align-items:center!important;gap:12px!important;border-radius:13px!important;background:linear-gradient(105deg,#f4f8ff,#e9f1ff)!important;border:1px solid #cbdcff!important;color:#1952b4!important;font-size:12px!important;line-height:1.5!important}
+#statements .statement-note-icon{width:29px;height:29px;flex:0 0 29px;font-size:16px}
+#statements .hilen-statement-zoom-toolbar{background:linear-gradient(105deg,#fff,#fffbf4)!important;border:1px solid #ebdfce!important;border-radius:16px!important;padding:12px 16px!important;margin:13px 0 11px!important;box-shadow:0 5px 14px #59432b0d!important}
+#statements .hilen-statement-zoom-info{position:relative;padding-left:42px;min-height:35px;justify-content:center}
+#statements .hilen-statement-zoom-info:before{content:"";position:absolute;left:0;top:0;width:34px;height:34px;border-radius:11px;background:#fff0d4;border:1px solid #f3dfb7}
+#statements .hilen-statement-zoom-info:after{content:"";position:absolute;left:10px;top:13px;width:14px;height:8px;border:2px solid #ab761b;border-radius:75% 15%;transform:rotate(-45deg)}
+#statements .hilen-statement-zoom-info b{font-size:14px;color:#16213b}
+#statements .hilen-statement-zoom-info small{font-size:11px}
+#statements .hilen-statement-zoom-actions button{border-radius:11px!important;min-height:35px!important;background:linear-gradient(#fff,#fafafa)!important;color:#1b2b48!important;box-shadow:0 2px 4px #182b410e}
+#statements .hilen-statement-zoom-viewport{overflow-x:auto!important}
+#statements #statementPrintArea.statement-send{background:linear-gradient(145deg,#fff,#fffdfa)!important;border:1px solid #e4d8c5!important;border-radius:21px!important;box-shadow:0 9px 25px #4d36171a!important;padding:23px 28px!important;max-width:100%!important}
+#statements .statement-send-head{padding-bottom:14px!important;border-bottom:0!important;margin-bottom:12px!important}
+#statements .statement-send-head>div:first-child{position:relative;padding-left:14px}
+#statements .statement-send-head>div:first-child:before{content:"";position:absolute;left:0;top:2px;width:3px;height:47px;border-radius:6px;background:linear-gradient(#e6ac48,#98601a)}
+#statements .statement-send-brand{font-size:30px!important;letter-spacing:-1px!important;font-weight:900!important;color:#13203a!important}
+#statements .statement-send-title{font-weight:850!important;color:#13203a!important;font-size:16px!important;margin:0!important}
+#statements .statement-meta{color:#56647c!important;font-size:12px!important;margin-top:7px!important}
+#statements .statement-balance-box{min-width:195px!important;border-radius:14px!important;padding:14px 18px!important;border:1px solid #e8bd65!important;background:linear-gradient(120deg,#fff9ec,#fff0cf)!important}
+#statements .statement-balance-box.ok{background:linear-gradient(120deg,#f5fff7,#eaf7ef)!important;border-color:#b8e2ca!important}
+#statements .statement-balance-label{font-size:12px!important;color:#514831!important}
+#statements .statement-balance-value{color:#101d35!important;font-size:28px!important;font-variant-numeric:tabular-nums}
+#statements .statement-simple-balance{padding:11px 17px!important;border-radius:12px!important;background:linear-gradient(95deg,#fbfcfe,#f4f6fa)!important;border:1px solid #dce3eb!important;font-size:12px!important;margin-bottom:12px!important}
+#statements .statement-send>.notice.blue{margin:11px 0 15px!important;border-radius:11px!important;background:#eef5ff!important;border:1px solid #ccdcff!important;color:#2354ac!important;font-size:12px!important}
+#statements .statement-send h3{font-size:17px!important;color:#14223c!important;margin:17px 0 11px!important;letter-spacing:-.2px}
+#statements .statement-send .table-wrap{border:1px solid #e5dccf!important;border-radius:13px!important;overflow-x:auto!important;box-shadow:0 2px 6px #57402209}
+#statements .statement-send .table{border-collapse:separate!important;border-spacing:0!important;width:100%!important;min-width:700px!important}
+#statements .statement-send .table th{background:linear-gradient(#fff7ea,#f6ead7)!important;color:#624522!important;font-size:11px!important;padding:11px 12px!important;text-align:left!important;border-bottom:1px solid #e9dcc6!important}
+#statements .statement-send .table td{padding:10px 12px!important;border-bottom:1px solid #e8e9ed!important;font-size:11px!important;vertical-align:middle!important}
+#statements .statement-send .table tr:nth-child(even) td{background:#fcfcfd!important}
+#statements .statement-send .table .hilen-statement-amount{color:#152139!important;font-weight:870!important}
+#statements .statement-send .hilen-invoice-totals{background:linear-gradient(95deg,#fff2d4,#f7e7c5)!important;border:1px solid #f1dfb7!important;border-radius:12px!important;margin:12px 0 11px!important;padding:12px 16px!important}
+#statements .statement-send .hilen-invoice-totals span{font-size:13px!important;letter-spacing:.3px!important;color:#765012!important;font-weight:850}
+#statements .statement-send .hilen-invoice-totals b{color:#13213a!important;font-size:21px!important}
+#statements .statement-actions{margin-top:12px!important}
+#statements .statement-actions .primary{background:linear-gradient(#222,#050505)!important;border-radius:11px!important;box-shadow:0 4px 9px #080b1026!important;min-height:39px;padding:9px 16px!important;font-weight:800!important}
+@media(max-width:1190px){#statements .statement-toolbar-simple{grid-template-columns:minmax(0,1fr) minmax(130px,.5fr) minmax(130px,.5fr)!important}#statements .statement-toolbar-simple .statement-client-field{grid-column:1/-1!important}#statements .statement-generate-btn{grid-column:1/-1!important;justify-self:end}}
+@media(max-width:720px){#statements .statement-simple-card{padding:15px!important}#statements .statement-toolbar-simple{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}#statements .statement-toolbar-simple .statement-client-field{grid-column:1/-1!important}#statements .statement-generate-btn{grid-column:1/-1!important;width:100%!important;justify-self:stretch}#statements #statementPrintArea.statement-send{padding:16px!important}#statements .statement-send-head{flex-direction:column}#statements .statement-balance-box{width:100%}}
+@media print{#statements #statementPrintArea.statement-send{box-shadow:none!important;background:#fff!important;border:0!important}#statements .statement-send .table{min-width:0!important}}
 </style>
   <link rel="stylesheet" href="./hilen-date-fields.css">
 <link rel="stylesheet" href="./hilen-sale-zoom.css">
