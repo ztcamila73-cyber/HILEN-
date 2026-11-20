@@ -64,3 +64,72 @@
    por encima de la ficha emergente (z-index 9000). */
 body:has(#modal.hcf-modal:not(.hidden)) #customerPurchaseModal:not(.hidden){z-index:9100!important;}
 body:has(#modal.hcf-modal:not(.hidden)) #customerPurchaseModal:not(.hidden) .customer-purchase-dialog{position:relative;z-index:1;}
+
+
+/* HILEN · Clientes · Diseño de referencia 19-11-2026.
+   Solo presentación: los valores y la lógica de cartera continúan siendo dinámicos. */
+#customers.hilen-customers{--hc-ink:#07165d;--hc-line:#e0e6f9;--hc-shadow:0 7px 18px rgba(18,30,87,.10);color:var(--hc-ink)}
+#customers.hilen-customers .client-kpis-pro{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:10px!important;margin:10px 0 13px!important}
+#customers .client-kpis-pro>.client-kpi{--hc-accent:#f5a000;--hc-tint:#fff2d7;position:relative;isolation:isolate;min-width:0;min-height:82px;display:flex!important;align-items:center;gap:13px;padding:11px 14px!important;border:1px solid #fff!important;border-radius:15px!important;background:linear-gradient(145deg,#fff 34%,var(--hc-tint) 125%)!important;box-shadow:var(--hc-shadow)!important;overflow:hidden}
+#customers .client-kpis-pro>.client-kpi:nth-child(2){--hc-accent:#0ba8ff;--hc-tint:#d8efff}
+#customers .client-kpis-pro>.client-kpi:nth-child(3){--hc-accent:#00d73e;--hc-tint:#d9ffe2}
+#customers .client-kpis-pro>.client-kpi:nth-child(4){--hc-accent:#efa000;--hc-tint:#fff1bb}
+#customers .client-kpis-pro>.client-kpi:nth-child(5){--hc-accent:#f53f90;--hc-tint:#ffe0ef}
+#customers .client-kpis-pro>.client-kpi:nth-child(6){--hc-accent:#a64aff;--hc-tint:#eddcff}
+#customers .client-kpis-pro>.client-kpi::before{content:"";position:absolute;z-index:-1;right:-12px;bottom:-29px;width:145px;height:59px;border-radius:100% 0 0 0;transform:rotate(-14deg);background:linear-gradient(165deg,transparent 30%,var(--hc-accent) 82%,#fff 91%);opacity:.84}
+#customers .client-kpis-pro>.client-kpi::after{content:"";width:2px;height:41px;background:var(--hc-accent);order:1;flex:none}
+#customers .client-kpis-pro>.client-kpi>div{order:2;min-width:0;position:relative;z-index:1}
+#customers .client-kpis-pro>.client-kpi .kpi-round{order:0;flex:0 0 43px!important;width:43px!important;height:43px!important;border-radius:11px!important;color:#fff!important;background:linear-gradient(145deg,color-mix(in srgb,var(--hc-accent),white 28%),var(--hc-accent))!important;box-shadow:0 4px 9px color-mix(in srgb,var(--hc-accent),transparent 62%)!important}
+#customers .client-kpis-pro>.client-kpi .kpi-round svg{width:25px;height:25px;stroke:#fff;fill:none}
+#customers .client-kpis-pro>.client-kpi .label2{font-size:11px!important;line-height:1.2;font-weight:800!important;color:#07165d!important}
+#customers .client-kpis-pro>.client-kpi .value2{font-size:26px!important;line-height:1.05;font-weight:900!important;color:#07165d!important}
+#customers .client-kpis-pro>.client-kpi small{font-size:11px!important;color:#172765!important}
+#customers .hilen-client-collections,#customers .customer-registry-card{background:linear-gradient(120deg,#fff,#fbfbff)!important;border:1px solid #e5e7f7!important;border-radius:16px!important;box-shadow:var(--hc-shadow)!important;padding:16px 17px!important;margin-bottom:12px!important;overflow:hidden}
+#customers .hilen-client-collections .hilen-annual-heading{position:relative;display:flex;align-items:center;gap:12px;padding-left:59px;margin-bottom:12px!important;min-height:48px}
+#customers .hilen-client-collections .hilen-annual-heading::before{content:"▱";position:absolute;left:0;top:0;width:43px;height:43px;display:grid;place-items:center;font-size:29px;font-weight:700;color:white;background:linear-gradient(140deg,#ffb637,#ed8a00);border-radius:12px;box-shadow:0 3px 8px #da950061}
+#customers .hilen-annual-eyebrow{letter-spacing:.12em;color:#a76500!important;font-size:11px!important;font-weight:900!important}
+#customers .hilen-annual-heading h2,#customers .registry-head h2{font-size:21px!important;font-weight:850!important;letter-spacing:-.55px;color:#07165d!important;margin:1px 0 2px!important}
+#customers .hilen-annual-heading p,#customers .registry-head .muted{font-size:11px!important;color:#4c5b8e!important;margin:0!important}
+#customers .hilen-client-collections .hilen-annual-heading>.secondary,#customers .registry-head .new-client-btn{background:linear-gradient(#253b69,#071439)!important;color:white!important;border:0!important;border-radius:11px!important;font-weight:800!important;box-shadow:0 3px 7px #1827502a;padding:10px 20px!important}
+#customers .hilen-collection-kpis{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:11px!important;margin-bottom:10px!important}
+#customers .hilen-collection-kpis .hilen-collection-box{min-width:0;min-height:58px!important;border:1px solid #dfe5fa!important;border-radius:12px!important;background:linear-gradient(145deg,#fff 48%,#d5e7ff)!important;box-shadow:0 2px 5px #15234a14!important;padding:9px 17px!important;position:relative;overflow:hidden}
+#customers .hilen-collection-kpis .hilen-collection-box::after{content:"";position:absolute;right:-12px;bottom:-28px;width:130px;height:52px;transform:rotate(-15deg);border-radius:70% 0 0 0;background:linear-gradient(160deg,transparent,#54aafa 78%,white 90%);opacity:.7}
+#customers .hilen-collection-box:nth-child(3){background:linear-gradient(145deg,#fff,#fff2d6)!important;border-color:#ffe4bb!important}
+#customers .hilen-collection-box:nth-child(3)::after{background:linear-gradient(160deg,transparent,#ffcb00 78%,white 90%)}
+#customers .hilen-collection-box:nth-child(4){background:linear-gradient(145deg,#fff,#e1ffeb)!important;border-color:#d7f2e1!important}
+#customers .hilen-collection-box:nth-child(4)::after{background:linear-gradient(160deg,transparent,#34e86c 78%,white 90%)}
+#customers .hilen-collection-box small{display:block;position:relative;z-index:1;font-size:11px!important;color:#10215b!important}
+#customers .hilen-collection-box b{display:block;position:relative;z-index:1;font-size:23px!important;line-height:1.25;color:#08165b!important}
+#customers .hilen-collection-box.warn b{color:#9d3e00!important}
+#customers .hilen-collection-warning{background:#fff8e9!important;border:1px solid #ffcc7b!important;color:#743010!important;border-radius:11px!important;padding:10px 14px!important;font-size:12px!important}
+#customers .hilen-collection-warning .secondary{border:1px solid #d9e1f1!important;background:linear-gradient(#fff,#edf2ff)!important;border-radius:24px!important;padding:6px 19px!important;color:#0b1851!important;font-weight:800!important}
+#customers .hilen-collection-filter{display:flex;flex-wrap:wrap;gap:9px;margin-top:9px}
+#customers .hilen-collection-filter button{border-radius:22px!important;border:1px solid #dfe4f2!important;background:linear-gradient(#fff,#f0f3fb)!important;color:#101d52!important;padding:7px 21px!important;font-weight:750!important;box-shadow:0 2px 5px #101a4020!important}
+#customers .hilen-collection-filter button.active{background:linear-gradient(#ffb735,#ee9200)!important;color:#fff!important;border-color:#ffbc4b!important}
+#customers .customer-registry-card .registry-head{position:relative;min-height:43px;padding-left:59px;align-items:center!important}
+#customers .customer-registry-card .registry-head::before{content:"♧";position:absolute;left:0;top:0;width:43px;height:43px;display:grid;place-items:center;color:white;font-size:30px;background:linear-gradient(140deg,#ffb637,#ed8a00);border-radius:12px;box-shadow:0 3px 8px #da950061}
+#customers .registry-filters{display:block!important;margin:4px 0 10px!important}
+#customers .registry-filters>div{width:100%!important}
+#customers .registry-filters .label{margin-bottom:3px!important;color:#1b2b63!important;font-weight:700!important}
+#customers #customerSearch{height:35px!important;border:1px solid #cbd5f5!important;border-radius:9px!important;background:#fff!important;color:#111b52!important;padding:6px 14px 6px 37px!important;margin:0!important}
+#customers .registry-filters>div::after{content:"⌕";position:relative;display:block;height:0;left:14px;top:-30px;color:#ec9300;font-size:26px;line-height:26px;pointer-events:none}
+#customers .hc-table-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:linear-gradient(110deg,#fff7e9,#fff4e0);border:1px solid #ffefdb;border-radius:10px;padding:6px 12px;margin:8px 0 7px;color:#07165d;font-weight:800;font-size:12px}
+#customers .hc-zoom-actions{display:flex;gap:7px;align-items:center}
+#customers .hc-zoom-actions button{min-width:37px;padding:5px 10px;border:1px solid #d6dff5;border-radius:18px;background:linear-gradient(#fff,#edf2fc);color:#06124c;box-shadow:0 2px 5px #0b1a4c25;font-size:12px;font-weight:850}
+#customers .hc-zoom-actions output{font-size:11px;min-width:40px;text-align:center}
+#customers #customersTable{--hc-zoom:1}
+#customers #customersTable .table-fit-wrap{overflow-x:auto!important;border:1px solid #e3e8f5!important;border-radius:10px!important}
+#customers #customersTable table{width:100%;min-width:830px;zoom:var(--hc-zoom)}
+#customers #customersTable thead th{background:linear-gradient(#fff5e5,#f8e8cc)!important;color:#72330f!important;font-weight:850!important;font-size:12px!important}
+#customers #customersTable tbody td{border-bottom:1px solid #e2e8f5!important;color:#07165d!important;font-size:11px!important;vertical-align:middle!important;padding:5px 10px!important}
+#customers #customersTable tbody tr:nth-child(even){background:#f8faff!important}
+#customers #customersTable tbody tr:hover{background:#eef5ff!important}
+#customers #customersTable .badge{border-radius:100px!important;font-weight:800!important;font-size:10px!important;padding:4px 11px!important}
+#customers #customersTable .action-group{display:flex!important;gap:5px;flex-wrap:nowrap}
+#customers #customersTable .action-mini{width:30px!important;height:27px!important;border-radius:18px!important;box-shadow:0 2px 5px #06154a16!important}
+#customers #customersTable .action-mini.view{background:#e6f2ff!important;color:#0877e8!important;border:1px solid #b7dbff!important}
+#customers #customersTable .action-mini.edit{background:#fff2dc!important;color:#d37a00!important;border:1px solid #ffdbaf!important}
+#customers #customersTable .action-mini.danger{background:#ffe9ed!important;color:#ec3765!important;border:1px solid #ffd0dd!important}
+@media(max-width:1350px){#customers.hilen-customers .client-kpis-pro{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:850px){#customers.hilen-customers .client-kpis-pro{grid-template-columns:repeat(2,minmax(0,1fr))!important}#customers .hilen-collection-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}#customers .hilen-client-collections .hilen-annual-heading,#customers .customer-registry-card .registry-head{flex-wrap:wrap}}
+@media(max-width:510px){#customers.hilen-customers .client-kpis-pro{gap:8px!important}#customers .client-kpis-pro>.client-kpi{gap:7px;padding:10px 8px!important}#customers .client-kpis-pro>.client-kpi .kpi-round{width:35px!important;height:35px!important;flex-basis:35px!important}#customers .client-kpis-pro>.client-kpi .value2{font-size:21px!important}#customers .hilen-client-collections,#customers .customer-registry-card{padding:12px!important}#customers .hilen-collection-kpis{gap:8px!important}#customers .hilen-annual-heading h2,#customers .registry-head h2{font-size:18px!important}#customers .hc-table-tools{align-items:flex-start}#customers .hc-zoom-actions{width:100%;justify-content:flex-end}}
