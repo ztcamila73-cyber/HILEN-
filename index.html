@@ -5585,6 +5585,10 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 @media(max-width:1300px){#customers .client-kpis-pro{grid-template-columns:repeat(3,minmax(0,1fr))!important}#customers .client-kpi{min-height:78px}}
 @media(max-width:800px){#customers .hilen-collection-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}#customers .hilen-client-collections,#customers .customer-registry-card{padding:14px!important}#customers #customersTable table{min-width:870px!important}#customers .registry-head{flex-wrap:wrap}}
 @media(max-width:570px){#customers .client-kpis-pro{grid-template-columns:repeat(2,minmax(0,1fr))!important}#customers .client-kpi{padding:10px!important}#customers .hilen-annual-heading{flex-wrap:wrap}#customers .hilen-annual-heading .secondary{width:100%}}
+
+/* HILEN: icono exclusivo de Total de clientes · libreta de contactos */
+#customers .client-kpi:first-child .hilen-client-total-icon{background:linear-gradient(155deg,#ffd672 0%,#f1a51a 46%,#ba7300 100%)!important;color:#fff!important;border:1px solid #e9aa35!important;border-radius:14px!important;box-shadow:inset 0 1px 1px #ffffff99,0 4px 9px #bc7c2435!important}
+#customers .client-kpi:first-child .hilen-client-total-icon svg{width:25px!important;height:25px!important;stroke:#fff!important;fill:none!important;stroke-width:1.9!important;stroke-linecap:round;stroke-linejoin:round}
 </style>
   <link rel="stylesheet" href="./hilen-date-fields.css">
 <link rel="stylesheet" href="./hilen-sale-zoom.css">
@@ -5882,7 +5886,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
     <section id="customers" class="section hilen-view hilen-customers">
 
       <div class="client-kpis client-kpis-pro">
-        <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></span><div><div class="label2">Total de clientes</div><div id="clientKpiTotal" class="value2">0</div><small>registrados</small></div></div>
+        <div class="client-kpi"><span class="kpi-round gold hilen-client-total-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="16" height="18" rx="3"/><path d="M8 3v18M11.5 16.5c.2-1.7 1.3-2.5 2.9-2.5s2.7.8 2.9 2.5"/><circle cx="14.4" cy="10" r="2.1"/></svg></span><div><div class="label2">Total de clientes</div><div id="clientKpiTotal" class="value2">0</div><small>registrados</small></div></div>
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6M18 8v6M15 11h6"/></svg></span><div><div class="label2">Clientes nuevos</div><div id="clientKpiNew" class="value2">0</div><small>con una compra</small></div></div>
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><path d="M20 7h-5V2"/><path d="M20 7a8 8 0 1 0 1 8"/><path d="M4 17h5v5"/></svg></span><div><div class="label2">Clientes recurrentes</div><div id="clientKpiReturning" class="value2">0</div><small>compraron de nuevo</small></div></div>
         <div class="client-kpi"><span class="kpi-round gold"><svg viewBox="0 0 24 24"><path d="m3 21 2-11 5 4 2-8 4 8 5-4 1 11H3Z"/></svg></span><div><div class="label2">Clientes potenciales</div><div id="clientKpiPotential" class="value2">0</div><small>sin compras</small></div></div>
