@@ -10,7 +10,8 @@
  *
  * Zona horaria del proyecto Apps Script: America/Bogota
  * NO subir claves privadas a GitHub, nunca incluirlas en URLs o respuestas.
- * Lee únicamente users/<UID>/calendarFeed. No modifica ningún registro en Firebase.
+ * Lee únicamente users/<UID>/calendarFeed con la cuenta de servicio. No modifica datos del negocio.
+ * Opcional: publica un informe de estado en /calendarSyncStatus/<UID> mediante una cuenta Firebase Auth independiente.
  * Si no existe todavía, guarda un encargo desde HILEN para publicar el resumen.
  */
 var HILEN_PREFIX = 'HILEN_CAL_EVENT_';
@@ -151,18 +152,90 @@ function hilen_persistir(calendar,entry,props,previous){
   entry.alerts.forEach(function(minutes){event.addPopupReminder(minutes)});
   props.setProperty(entry.key,JSON.stringify({eventId:event.getId(),fingerprint:entry.fingerprint}));
 }
+
+/** Estado operativo privado. La cuenta técnica de Firebase Auth puede escribir
+ * únicamente /calendarSyncStatus/<UID autorizado> mediante las reglas.
+ * HILEN_CALENDAR_STATUS_AUTH_JSON: {"email":"...","password":"..."}
+ * No se solicita ningún permiso IAM adicional a la cuenta de servicio lectora.
+ */
+var HILEN_STATUS_API_KEY = "AIzaSyBMKv1F6Y4Nz2s0NdddgnswadqCx7UEC7c";
+function hilen_statusToken_() {
+  var raw=PropertiesService.getScriptProperties().getProperty('HILEN_CALENDAR_STATUS_AUTH_JSON');
+  if(!raw)return '';
+  var cfg;
+  try{cfg=JSON.parse(raw)}catch(e){throw Error('Credencial de estado inválida.')}
+  if(!cfg.email||!cfg.password)throw Error('Faltan los datos de la cuenta técnica de estado.');
+  var cache=CacheService.getScriptCache(),cacheKey='HILEN_STATUS_ID_TOKEN';
+  var cached=cache.get(cacheKey);
+  if(cached)return cached;
+  var r=UrlFetchApp.fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+encodeURIComponent(HILEN_STATUS_API_KEY),{
+    method:'post',contentType:'application/json',
+    payload:JSON.stringify({email:cfg.email,password:cfg.password,returnSecureToken:true}),
+    muteHttpExceptions:true
+  });
+  if(r.getResponseCode()!==200)throw Error('No se autorizó la cuenta técnica de estado.');
+  var body=JSON.parse(r.getContentText());
+  if(!body.idToken)throw Error('No se obtuvo un token de estado.');
+  cache.put(cacheKey,body.idToken,2700);
+  return body.idToken;
+}
+function hilen_publicarEstado_(report) {
+  // Es opcional: nunca interrumpir el calendario por un fallo de telemetría.
+  try{
+    var p=PropertiesService.getScriptProperties();
+    if(!p.getProperty('HILEN_CALENDAR_STATUS_AUTH_JSON'))return false;
+    var cfg=hilen_configuracion(),token=hilen_statusToken_();
+    if(!token)return false;
+    var endpoint=cfg.url+'/calendarSyncStatus/'+encodeURIComponent(cfg.uid)+'.json?auth='+encodeURIComponent(token);
+    var r=UrlFetchApp.fetch(endpoint,{method:'put',contentType:'application/json',payload:JSON.stringify(report),muteHttpExceptions:true});
+    if(r.getResponseCode()===401||r.getResponseCode()===403)CacheService.getScriptCache().remove('HILEN_STATUS_ID_TOKEN');
+    if(r.getResponseCode()!==200){console.warn('HILEN: calendario procesado; informe de estado no publicado (HTTP '+r.getResponseCode()+').');return false}
+    console.log('HILEN: informe de estado publicado.');
+    return true;
+  }catch(e){console.warn('HILEN: no se pudo publicar el informe de estado. Revisa la cuenta técnica, sus permisos y las propiedades privadas.');return false}
+}
+function hilen_estadoEjecucion_(state,stage,counts,revision){
+  var p=PropertiesService.getScriptProperties(),previous={};
+  try{previous=JSON.parse(p.getProperty('HILEN_LAST_STATUS_REPORT')||'{}')}catch(e){}
+  var installed=null;
+  try{installed=ScriptApp.getProjectTriggers().some(function(t){return t.getHandlerFunction()==='hilen_sincronizar'})}catch(e){}
+  var now=new Date().toISOString();
+  var report={
+    schema:1,state:state,lastAttemptAt:now,
+    lastSuccessAt:state==='ok'?now:(previous.lastSuccessAt||p.getProperty('HILEN_LAST_SUCCESS')||''),
+    sourceRevision:state==='ok'?Number(revision)||0:Number(previous.sourceRevision)||0,
+    synchronizedEncargos:state==='ok'?counts.encargos:(Number.isInteger(previous.synchronizedEncargos)?previous.synchronizedEncargos:-1),
+    synchronizedObligations:state==='ok'?counts.obligaciones:(Number.isInteger(previous.synchronizedObligations)?previous.synchronizedObligations:-1),
+    triggerInstalled:installed===true,
+    triggerKnown:installed!==null,frequencyMinutes:5,
+    errorCode:state==='ok'?'':stage
+  };
+  p.setProperty('HILEN_LAST_STATUS_REPORT',JSON.stringify(report));
+  hilen_publicarEstado_(report);
+}
+/** Publica únicamente el último resultado guardado, sin tocar eventos. */
+function hilen_comprobarPanelEstado(){
+  var p=PropertiesService.getScriptProperties(),raw=p.getProperty('HILEN_LAST_STATUS_REPORT');
+  if(!raw){console.log('Aún no hay un informe nuevo. Ejecuta hilen_sincronizar una sola vez.');return}
+  console.log(hilen_publicarEstado_(JSON.parse(raw))?'Panel de estado: publicación confirmada.':'Panel de estado: publicación pendiente. Revisa la autorización técnica.');
+}
+
 function hilen_sincronizar() {
   var lock=LockService.getScriptLock();
   if (!lock.tryLock(10000)) return;
+  var stage='configuration';
   try{
     var cfg=hilen_configuracion();
+    stage='calendar_access';
     var calendar=CalendarApp.getCalendarById(cfg.calendarId);
     if (!calendar) throw Error('No se encontró el calendario privado compartido de HILEN.');
+    stage='firebase_read';
     var state=hilen_estadoFirebase(cfg),encargos=hilen_lista(state.encargos),obligaciones=hilen_lista(state.obligations);
     if (encargos.length+obligaciones.length>300) {
       throw Error('Hay más de 300 registros: revisar paginación antes de sincronizar para evitar exceder cuotas.');
     }
-    var props=PropertiesService.getScriptProperties(), saved=props.getProperties(),desired={};
+    stage='calendar_update';
+    var props=PropertiesService.getScriptProperties(), saved=props.getProperties(),desired={},counts={encargos:0,obligaciones:0};
     var records=encargos.map(function(item){return {kind:'encargo',item:item}})
       .concat(obligaciones.map(function(item){return {kind:'obligacion',item:item}}));
     records.forEach(function(r){
@@ -172,6 +245,7 @@ function hilen_sincronizar() {
       var previous=null;
       if (saved[entry.key]){try{previous=JSON.parse(saved[entry.key])}catch(e){}}
       hilen_persistir(calendar,entry,props,previous);
+      counts[r.kind==='encargo'?'encargos':'obligaciones']++;
     });
     // Si una obligación se marcó pagada, un encargo se completó o se eliminó el
     // registro en HILEN, retirar solo el evento que este script administra.
@@ -187,6 +261,10 @@ function hilen_sincronizar() {
       });
     props.setProperty('HILEN_LAST_SUCCESS',new Date().toISOString());
     console.log('HILEN: sincronización completada. Activos: '+Object.keys(desired).length);
+    try{hilen_estadoEjecucion_('ok','',counts,state.sourceRevision)}catch(e){console.warn('HILEN: no se guardó el informe de estado. Los eventos se procesaron.');}
+  } catch(e){
+    try{hilen_estadoEjecucion_('error',stage,{},0)}catch(reportError){console.warn('HILEN: no se pudo publicar el error del calendario.');}
+    throw e;
   } finally {
     lock.releaseLock();
   }
