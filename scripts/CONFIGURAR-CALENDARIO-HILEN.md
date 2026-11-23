@@ -11,12 +11,21 @@ Este es el procedimiento para **activar** el sincronizador ya incluido en `scrip
 - No sincroniza cambios hechos manualmente **desde Google Calendar hacia HILEN**. Evita modificar esos eventos directamente en Google Calendar.
 - Las alertas pueden depender de los ajustes del calendario receptor y de las reglas de Google Calendar. No se garantiza aviso inmediato.
 
-## 1. Crear el calendario privado
+## Cuenta e identificador del calendario ya confirmados
+
+- Correo del negocio y del Android: **hilenb456@gmail.com**.
+- Calendario secundario creado: **HILEN · Encargos y obligaciones**.
+- ID del calendario: `e0896d89d5063bcc5b62a50d42f976838e3accbb80db82d2e982133124117f68@group.calendar.google.com`.
+- El ID ya está incorporado como valor predeterminado en el script; **no hace falta volverlo a copiar**.
+- Como el Android usa la **misma cuenta Google**, no hace falta compartirlo con otro correo. Solo habilita la visibilidad y notificaciones de ese calendario en Android.
+- Los permisos de Firebase siguen pendientes. **No hay sincronización automática activa todavía**.
+
+## 1. Crear el calendario privado (ya realizado)
 
 1. En una computadora abre [Google Calendar](https://calendar.google.com/) e inicia sesión con **la cuenta de Google del negocio**.
 2. Abre **Configuración → Agregar calendario → Crear un calendario**.
 3. Escribe el nombre **HILEN · Encargos y obligaciones** y selecciona zona horaria **Bogotá (GMT-5)**.
-4. En **Configuración de ese calendario → Compartir con determinadas personas o grupos**, agrega **la cuenta personal que está en el Android** con permiso **Ver todos los detalles de los eventos**. **No lo publiques** ni actives el acceso público.
+4. Si el Android utiliza **hilenb456@gmail.com**, no necesitas compartir el calendario con otra cuenta. **No lo publiques** ni actives acceso público.
 5. En el calendario nuevo, busca **Integrar calendario → ID del calendario**. Guarda ese identificador para la configuración privada.
 
 ## 2. Ver el calendario en Android
@@ -43,16 +52,16 @@ La lectura es de `users/<UID>/state/data`. No se hacen escrituras a Firebase. De
 1. Inicia sesión con **el mismo correo del calendario del negocio** en [script.google.com](https://script.google.com/).
 2. Crea un proyecto `HILEN · Sincronizador de calendario`. Ajusta la zona horaria del proyecto a **America/Bogota**.
 3. Copia el contenido de [google-calendar-auto-sync.gs](./google-calendar-auto-sync.gs) a un archivo `.gs` del proyecto.
-4. En **Configuración del proyecto → Propiedades del script**, crea estas cuatro propiedades **sin colocar los valores en el código fuente**:
+4. En **Configuración del proyecto → Propiedades del script**, crea las tres propiedades de Firebase **sin colocar sus valores en el código fuente**:
 
 | Nombre de propiedad | Valor (privado) |
 | --- | --- |
 | `HILEN_FIREBASE_SERVICE_ACCOUNT_JSON` | JSON de la cuenta de servicio con permisos seguros |
 | `HILEN_FIREBASE_DATABASE_URL` | URL HTTPS de Realtime Database |
 | `HILEN_FIREBASE_USER_ID` | UID real de Firebase de la cuenta de HILEN |
-| `HILEN_CALENDAR_ID` | ID del calendario privado **secundario** |
+| `HILEN_CALENDAR_ID` | **Opcional**: solo para utilizar un calendario diferente; el ID de HILEN ya está incorporado |
 
-5. Ejecuta **`hilen_diagnostico`** primero. Google te pedirá autorizar el script una sola vez. Verifica el ID del calendario, los recuentos y la lectura correcta de Firebase. Revisa errores antes de continuar.
+5. Como primer paso **sin configurar Firebase**, ejecuta **`hilen_comprobarCalendario`**. Google te pedirá autorizar la lectura de tu calendario. Debe devolver su nombre y zona horaria sin crear eventos. Después de añadir las propiedades privadas de Firebase, ejecuta **`hilen_diagnostico`** y comprueba lectura de datos y número de registros.
 6. Cuando los datos sean correctos y desees iniciar la creación de eventos, ejecuta **`hilen_instalarSincronizador`** una vez. Esto instala un activador de aproximadamente cada cinco minutos y ejecuta la primera sincronización.
 7. Consulta **Ejecuciones** en Apps Script para ver errores o confirmar sincronizaciones. Para revisar el estado vuelve a ejecutar `hilen_diagnostico`.
 
