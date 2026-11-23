@@ -596,3 +596,27 @@ body:has(#reports.active) .top #todayLabel{
  #encargos .he-alert-button-wrap{width:100%}
  #encargos .he-alert-button{width:100%!important}
 }
+
+
+/* Encargos: un único botón discreto, junto a Nuevo encargo.
+   Notificaciones activadas se gestionan desde Configuración. */
+#encargos #hilenEncargosAlertPanel{display:none!important}
+#encargos .encargos-head-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:11px!important;flex-wrap:wrap}
+#encargos .encargos-head-actions .he-alert-inline{
+ position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:43px!important;height:45px!important;width:auto!important;
+ padding:0 14px!important;border-radius:12px!important;
+ background:linear-gradient(#fff,#f8fff9)!important;
+ color:#197c42!important;border:1px solid #b7dfc4!important;
+ box-shadow:0 2px 6px rgba(13,91,44,.10)!important;
+ font-size:13px!important;font-weight:800!important;white-space:nowrap!important
+}
+#encargos .encargos-head-actions .he-alert-inline svg{width:18px;height:18px;flex:none;fill:none;stroke:#159447;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#encargos .encargos-head-actions .he-alert-inline:hover{background:#effbf3!important;border-color:#7bc99c!important}
+#encargos .encargos-head-actions .he-alert-inline[hidden]{display:none!important}
+#encargos .encargos-head-actions .primary{min-height:45px!important;height:45px!important}
+#encargos .he-settings-explain{font-size:12px!important;line-height:1.5!important;color:#62708c!important;margin:9px 0 0!important}
+#encargos .he-column-icon{display:inline-flex;align-items:center;vertical-align:middle;margin-right:7px;color:#df8500}
+#encargos .he-column-icon svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+#settings #hilenEncargosNotificationExplainer{font-size:12px;line-height:1.5;color:#60718e;margin:11px 0 0}
+@media(max-width:700px){#encargos .encargos-head-actions .he-alert-inline{font-size:12px!important;padding:0 10px!important}#encargos .encargos-head-actions{width:100%;justify-content:flex-end!important}}
