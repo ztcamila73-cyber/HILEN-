@@ -173,3 +173,111 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
+
+
+/* HILEN · Encargos visuales y Reportes inteligentes · 23/11/2026
+   Sólo lectura: calcula hallazgos usando el snapshot anual existente. */
+(function(){
+ 'use strict';
+ const glyphs={
+  bag:'<path d="M4 8h16l-1 12H5L4 8Zm4 0V6a4 4 0 0 1 8 0v2M4 12h16"/>',
+  list:'<circle cx="4" cy="5" r="1"/><path d="M9 5h12"/><circle cx="4" cy="12" r="1"/><path d="M9 12h12"/><circle cx="4" cy="19" r="1"/><path d="M9 19h12"/>',
+  bars:'<path d="M4 21V13M10 21V8M16 21V3M22 21V11"/>',
+  eye:'<path d="M2 12s4-6.5 10-6.5S22 12 22 12s-4 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+  edit:'<path d="m4 20 4-.8L20 7.2 16.8 4 4.8 16 4 20Z"/><path d="m14.5 6.3 3.2 3.2"/>',
+  delete:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>',
+  trend:'<path d="m3 18 7-7 4 4 7-8M16 7h5v5"/>',
+  alert:'<path d="M12 3 2 21h20L12 3ZM12 10v5M12 18h.01"/>'
+ };
+ const svg=name=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+glyphs[name]+'</svg>';
+ const moneyCO=n=>'$ '+Math.round(Number(n)||0).toLocaleString('es-CO');
+ const integer=n=>Number(n)||0;
+ const monthLabel=m=>m&&m.name?m.name:'mes';
+ const ratio=(n,d)=>d>0?Math.round(n/d*100):0;
+ function decorateOrders(){
+  const root=document.getElementById('encargos');if(!root)return;
+  const head=root.querySelector('.encargos-list-head > div:first-child');
+  if(head&&!head.querySelector('.hc-orders-head-icon')){
+   const box=document.createElement('span');box.className='hc-orders-head-icon';box.setAttribute('aria-hidden','true');box.innerHTML=svg('list');head.prepend(box);
+  }
+  const table=root.querySelector('#encargosTable');
+  if(table){
+   table.querySelectorAll('.action-mini.view,.action-mini.edit,.action-mini.danger').forEach(btn=>{
+    if(btn.querySelector('svg'))return;
+    const name=btn.classList.contains('view')?'eye':btn.classList.contains('edit')?'edit':'delete';
+    btn.setAttribute('aria-label',btn.textContent.trim()+' encargo');
+    btn.innerHTML=svg(name);
+   });
+  }
+ }
+ function decorateReports(){
+  const root=document.getElementById('reports');if(!root)return;
+  const head=root.querySelector('.hilen-annual-heading>div:first-child');
+  if(head&&!head.querySelector('.hr-report-heading-icon')){
+   const box=document.createElement('span');box.className='hr-report-heading-icon';box.setAttribute('aria-hidden','true');box.innerHTML=svg('bars');head.prepend(box);
+  }
+ }
+ function intelligentCards(snapshot){
+  const months=(snapshot.months||[]).filter(m=>/^\d{4}-\d{2}$/.test(String(m.month||'')));
+  const year=Number(snapshot.year),currentYear=Number(new Date().getFullYear());
+  const currentMonth=new Date().getMonth()+1;
+  const elapsed=months.filter(m=>year<currentYear||year===currentYear&&Number(m.month.slice(-2))<=currentMonth);
+  const t=snapshot.totals||{};
+  const findings=[];
+  const add=(level,title,body,action)=>findings.push({level,title,body,action});
+  // Comparar sólo meses con movimientos registrados y consecutivos; no interpretar ceros como caídas.
+  const valid=elapsed.filter(m=>integer(m.income)>0||integer(m.expense)>0||integer(m.salesTotal)>0||integer(m.abonos)>0);
+  if(valid.length>=2){
+   const newer=valid[valid.length-1],older=valid[valid.length-2];
+   const consecutive=(Number(newer.month.slice(-2))-Number(older.month.slice(-2)))===1;
+   if(consecutive&&integer(older.salesTotal)>0&&integer(newer.salesTotal)>0){
+    const delta=(integer(newer.salesTotal)-integer(older.salesTotal))/integer(older.salesTotal);
+    if(delta<=-.2)add('warning','Ventas en descenso',`Las ventas de ${monthLabel(newer)} fueron ${Math.round(-delta*100)} % menores que en ${monthLabel(older)} (${moneyCO(newer.salesTotal)} frente a ${moneyCO(older.salesTotal)}).`,'Revisa qué productos dejaron de venderse y prepara una campaña para recuperar clientes.');
+    else if(delta>=.2)add('positive','Crecimiento de ventas',`En ${monthLabel(newer)} las ventas aumentaron ${Math.round(delta*100)} % respecto a ${monthLabel(older)}.`,'Identifica cuáles productos tuvieron mayor demanda para planear nuevas compras.');
+   }
+  }
+  const bad=elapsed.filter(m=>integer(m.income)>0&&integer(m.expense)>integer(m.income));
+  if(bad.length){const m=bad[bad.length-1];add('warning','Egresos superiores al ingreso de caja',`En ${monthLabel(m)} se registraron ${moneyCO(m.expense)} en egresos y ${moneyCO(m.income)} en ingresos de caja.`,'Revisa los egresos del mes y las obligaciones antes de comprometer más dinero.');}
+  if(integer(t.debt)>0&&integer(t.payments)>0){
+   const debtShare=ratio(t.debt,integer(t.debt)+integer(t.payments));
+   if(debtShare>=40)add('warning','Cartera pendiente para seguimiento',`Al corte quedan ${moneyCO(t.debt)} por cobrar; representan ${debtShare} % de la suma de saldo pendiente y abonos registrados en el año.`,'Abre Clientes con deuda, revisa los últimos abonos y prioriza el contacto con los atrasados.');
+  }
+  const knownSales=integer(t.paid)+integer(t.credit);
+  if(knownSales>0&&ratio(integer(t.credit),knownSales)>=60)add('attention','Alta proporción de ventas a crédito',`${ratio(integer(t.credit),knownSales)} % del valor de ventas con forma de pago identificada corresponde a crédito.`,'Comprueba el ritmo de abonos antes de aumentar las ventas financiadas.');
+  if(integer(t.repeatClients)>0&&integer(t.newClients)>0)add('positive','Clientes que regresan',`Se contabilizaron ${integer(t.repeatClients)} participaciones de clientes recurrentes y ${integer(t.newClients)} de nuevos compradores durante los meses del año.`,'Prepara ofertas para quienes compraron más de una vez. Los conteos son mensuales, no personas únicas del año.');
+  if(integer(t.historicalUnclassified)>0)add('neutral','Datos históricos sin desglose',`Hay ${moneyCO(t.historicalUnclassified)} en ventas históricas sin tipo de pago detallado.`,'Las recomendaciones sobre contado y crédito se basan únicamente en movimientos con detalle.');
+  if(!findings.length){
+   if(!valid.length)add('neutral','Aún no hay movimientos suficientes','No se encontraron meses con movimientos detallados o totales registrados que permitan identificar tendencias.','Registra ventas, abonos y egresos para obtener observaciones útiles.');
+   else add('neutral','Sin variaciones destacadas','No se detectaron cambios que superen los umbrales definidos con la información disponible.','Consulta los movimientos mensuales y continúa revisando la evolución de tu cartera.');
+  }
+  const order={warning:0,attention:1,positive:2,neutral:3};
+  findings.sort((a,b)=>order[a.level]-order[b.level]);
+  const item=f=>'<article class="hri-card hri-'+f.level+'"><span class="hri-card-mark" aria-hidden="true">'+svg(f.level==='warning'?'alert':'trend')+'</span><div><h4>'+f.title+'</h4><p>'+f.body+'</p><small><b>Acción sugerida:</b> '+f.action+'</small></div></article>';
+  return '<section class="hri-panel" aria-labelledby="hriTitle"><div class="hri-head"><span class="hri-head-icon">'+svg('trend')+'</span><div><h3 id="hriTitle">Análisis inteligente de HILEN</h3><p>Patrones, alertas y oportunidades calculados a partir de los registros del año '+year+'.</p></div><span class="hri-count">'+findings.length+' hallazgo'+(findings.length===1?'':'s')+'</span></div><div class="hri-grid">'+findings.slice(0,6).map(item).join('')+'</div><p class="hri-method">Análisis automático orientativo, sin predicciones ni cifras inventadas. Los ingresos de caja, ventas a crédito y abonos son conceptos distintos. Los meses sin registros suficientes no se comparan como si fueran caídas.</p></section>';
+ }
+ function renderInsights(){
+  const root=document.getElementById('reports'),area=document.getElementById('hilenAnnualReportView');
+  if(!root||!area||!area.querySelector('.hilenviz-dashboard'))return;
+  let panel=area.querySelector('.hri-panel');
+  try{
+   const snap=typeof hilenvizRenderedSnapshots!=='undefined'?hilenvizRenderedSnapshots.reports:null;
+   if(!snap||!snap.months)return;
+   const holder=document.createElement('div');holder.innerHTML=intelligentCards(snap);
+   if(panel)panel.replaceWith(holder.firstElementChild);
+   else area.appendChild(holder.firstElementChild);
+  }catch(error){console.warn('HILEN: no se pudo calcular el análisis de reportes',error);}
+ }
+ function start(){
+  decorateOrders();decorateReports();renderInsights();
+  const orders=document.getElementById('encargosTable');
+  if(orders)new MutationObserver(decorateOrders).observe(orders,{childList:true});
+  const report=document.getElementById('hilenAnnualReportView');
+  if(report)new MutationObserver(()=>{if(!report.querySelector('.hri-panel'))renderInsights()}).observe(report,{childList:true});
+  document.querySelectorAll('[onclick^="section("]').forEach(btn=>btn.addEventListener('click',()=>requestAnimationFrame(()=>{decorateOrders();decorateReports();renderInsights()})));
+  const year=document.getElementById('hilenReportYear');
+  if(year)year.addEventListener('change',()=>requestAnimationFrame(renderInsights));
+  // La app puede cambiar el año desde controles ubicados dentro de las gráficas.
+  if(report)report.addEventListener('change',()=>requestAnimationFrame(renderInsights));
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
