@@ -463,3 +463,55 @@ body:has(#customers.active) .top .top-title-line{position:relative;z-index:1;ali
  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23df8800' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10' cy='10' r='6.5'/%3E%3Cpath d='m15 15 6 6'/%3E%3C/svg%3E")!important;
  background-size:21px 21px!important;background-position:14px center!important;background-repeat:no-repeat!important;
 }
+
+
+/* Encabezados de Encargos, Reportes e Historial con el mismo diseño de referencia. */
+body:has(#encargos.active) .top,
+body:has(#reports.active) .top,
+body:has(#history.active) .top{position:relative;isolation:isolate;min-height:105px}
+body:has(#encargos.active) .top .page-heading-copy,
+body:has(#reports.active) .top .page-heading-copy,
+body:has(#history.active) .top .page-heading-copy{
+ display:grid!important;grid-template-columns:74px minmax(0,1fr)!important;column-gap:18px!important;align-items:center!important;position:relative
+}
+body:has(#encargos.active) .top .hdaily-page-mark,
+body:has(#reports.active) .top .hdaily-page-mark,
+body:has(#history.active) .top .hdaily-page-mark{
+ grid-column:1;grid-row:1/span 2;display:grid!important;place-items:center!important;
+ width:70px;height:70px;border-radius:17px!important;background:linear-gradient(150deg,#ffc34a,#f09a00 75%,#ce7d00)!important;
+ box-shadow:0 5px 12px #a76b1841!important;border:1px solid #ffcf71!important;color:white!important
+}
+body:has(#encargos.active) .top .hdaily-page-mark svg,
+body:has(#reports.active) .top .hdaily-page-mark svg,
+body:has(#history.active) .top .hdaily-page-mark svg{
+ width:37px!important;height:37px!important;stroke:#fff!important;stroke-width:2!important;fill:none!important
+}
+body:has(#encargos.active) .top #pageTitle,
+body:has(#reports.active) .top #pageTitle,
+body:has(#history.active) .top #pageTitle{
+ grid-column:2;grid-row:1;align-self:end!important;margin:0!important;font-size:clamp(27px,2.35vw,39px)!important;
+ color:#09173e!important;font-weight:900!important;line-height:1.1!important;letter-spacing:-1px!important
+}
+body:has(#encargos.active) .top #pageSubtitle,
+body:has(#reports.active) .top #pageSubtitle,
+body:has(#history.active) .top #pageSubtitle{
+ grid-column:2;grid-row:2;align-self:start!important;margin:3px 0 0!important;
+ color:#354d7b!important;font-size:clamp(12px,1vw,15px)!important
+}
+body:has(#encargos.active) .top .top-title-line,
+body:has(#reports.active) .top .top-title-line,
+body:has(#history.active) .top .top-title-line{align-items:center!important}
+@media(max-width:700px){
+ body:has(#encargos.active) .top,body:has(#reports.active) .top,body:has(#history.active) .top{min-height:75px}
+ body:has(#encargos.active) .top .page-heading-copy,body:has(#reports.active) .top .page-heading-copy,body:has(#history.active) .top .page-heading-copy{grid-template-columns:49px minmax(0,1fr)!important;column-gap:10px!important}
+ body:has(#encargos.active) .top .hdaily-page-mark,body:has(#reports.active) .top .hdaily-page-mark,body:has(#history.active) .top .hdaily-page-mark{width:48px;height:48px;border-radius:13px!important}
+ body:has(#encargos.active) .top .hdaily-page-mark svg,body:has(#reports.active) .top .hdaily-page-mark svg,body:has(#history.active) .top .hdaily-page-mark svg{width:26px!important;height:26px!important}
+ body:has(#encargos.active) .top #pageTitle,body:has(#reports.active) .top #pageTitle,body:has(#history.active) .top #pageTitle{font-size:clamp(22px,5vw,29px)!important}
+}
+/* Tabla del Historial anual acorde a las muestras, sin alterar valores. */
+#history .history-payments-reference .hilen-global-zoom-toolbar,
+#history .history-month-reference .hilen-global-zoom-toolbar{background:linear-gradient(100deg,#f7faff,#edf5ff)!important;border:1px solid #dbe6f8!important;border-radius:11px!important}
+#history .history-payments-reference .table-wrap,#history .history-month-reference .table-wrap{border:1px solid #dce5f2!important;border-radius:11px!important;overflow-x:auto!important}
+#history .history-payments-reference th,#history .history-month-reference th{background:linear-gradient(100deg,#fff7e9,#fff0dd)!important;color:#6f3b0b!important;font-weight:850!important}
+#history .history-payments-reference tbody tr:nth-child(even),#history .history-month-reference tbody tr:nth-child(even){background:#f6f9ff!important}
+#history .history-payments-reference tbody td,#history .history-month-reference tbody td{border-color:#e0e8f4!important;color:#14264a!important}
