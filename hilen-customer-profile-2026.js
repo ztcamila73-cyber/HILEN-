@@ -284,3 +284,77 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
+
+
+/* HILEN · Encargos: panel destacado de alertas, cabecera y tabla.
+   Se traslada el botón existente para conservar la función original. */
+(function(){
+ 'use strict';
+ const paths={
+  bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>',
+  user:'<circle cx="12" cy="7" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>',
+  box:'<path d="m3 7 9-4 9 4-9 4-9-4Zm0 0v10l9 4 9-4V7M12 11v10"/>',
+  shop:'<path d="M3 10h18l-2-6H5l-2 6Zm2 0v10h14V10M9 20v-6h6v6"/>',
+  layers:'<path d="m3 7 9 5 9-5-9-5-9 5Zm0 5 9 5 9-5M3 17l9 5 9-5"/>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 2v6M17 2v6M3 10h18"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M10 2h4l.8 3 2.3 1.3 3-.9 2 3.5-2.2 2.2v2.7l2.2 2.2-2 3.5-3-.9-2.3 1.3L14 22h-4l-.8-3-2.3-1.3-3 .9-2-3.5 2.2-2.2v-2.7L2 8.9l2-3.5 3 .9L9.2 5z"/>'
+ };
+ const svg=k=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">'+paths[k]+'</svg>';
+ const status=()=>!('Notification' in window)?'unsupported':Notification.permission;
+ function refresh(){
+  const panel=document.getElementById('hilenEncargosAlertPanel');
+  const button=document.getElementById('hilenEncargosAlertButton');
+  if(!panel||!button)return;
+  const permission=status();
+  panel.dataset.permission=permission;
+  const title=panel.querySelector('.he-alert-title'),desc=panel.querySelector('.he-alert-description');
+  if(permission==='granted'){
+   title.textContent='Notificaciones del navegador activadas';
+   desc.textContent='HILEN puede avisarte mientras la aplicación esté abierta. Los recordatorios de Google Calendar se administran por separado.';
+   button.textContent='Alertas activadas';button.disabled=true;
+  }else{
+   button.disabled=false;button.textContent=permission==='denied'?'Revisar permisos':'Activar alertas';
+   title.textContent=permission==='denied'?'Avisos del navegador bloqueados':'Activa las notificaciones de tus encargos';
+   desc.textContent=permission==='denied'?'Habilita las notificaciones en los permisos del navegador para este sitio.':'Recibe avisos de seguimiento cuando HILEN esté abierto y recuerda contactar a tus clientes.';
+  }
+ }
+ function mount(){
+  const root=document.getElementById('encargos'),head=root?.querySelector('.encargos-head');
+  if(!head)return;
+  let panel=root.querySelector('#hilenEncargosAlertPanel');
+  if(!panel){
+   panel=document.createElement('section');
+   panel.id='hilenEncargosAlertPanel';panel.className='he-alert-panel';panel.setAttribute('aria-label','Activar notificaciones de encargos');
+   panel.innerHTML='<div class="he-alert-symbol">'+svg('bell')+'</div><div class="he-alert-copy"><strong class="he-alert-title"></strong><p class="he-alert-description"></p></div><div class="he-alert-button-wrap"></div>';
+   head.insertAdjacentElement('afterend',panel);
+  }
+  const button=root.querySelector('.encargos-head-actions button[onclick*="requestReminderPermission"]');
+  if(button){
+   button.classList.add('he-alert-button');button.id='hilenEncargosAlertButton';
+   panel.querySelector('.he-alert-button-wrap').appendChild(button);
+   button.addEventListener('click',()=>{setTimeout(refresh,150);setTimeout(refresh,1100)});
+  }
+  const table=root.querySelector('#encargosTable');
+  if(table){
+   const names=['user','box','shop','layers','bell','calendar','settings'];
+   table.querySelectorAll('thead th').forEach((th,i)=>{
+    if(!names[i]||th.querySelector('.he-column-icon'))return;
+    const wrap=document.createElement('span');wrap.className='he-column-icon';wrap.innerHTML=svg(names[i]);th.prepend(wrap);
+   });
+   const label=root.querySelector('[data-hilen-zoom-toolbar="encargos"] .hilen-global-zoom-title');
+   if(label){
+    const count=table.querySelectorAll('tbody tr').length;
+    label.textContent='Tabla de encargos · '+count+' registro'+(count===1?'':'s');
+   }
+  }
+  refresh();
+ }
+ function start(){
+  mount();
+  const table=document.getElementById('encargosTable');
+  if(table)new MutationObserver(mount).observe(table,{childList:true});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
+  document.querySelectorAll('[onclick^="section("]').forEach(btn=>btn.addEventListener('click',()=>requestAnimationFrame(mount)));
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
