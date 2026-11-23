@@ -620,3 +620,34 @@ body:has(#reports.active) .top #todayLabel{
 #encargos .he-column-icon svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
 #settings #hilenEncargosNotificationExplainer{font-size:12px;line-height:1.5;color:#60718e;margin:11px 0 0}
 @media(max-width:700px){#encargos .encargos-head-actions .he-alert-inline{font-size:12px!important;padding:0 10px!important}#encargos .encargos-head-actions{width:100%;justify-content:flex-end!important}}
+
+
+/* HILEN · Exportación gratuita al calendario del teléfono Android. */
+#encargos .hilen-phone-calendar-actions,
+#obligations .hilen-phone-calendar-actions,
+#modal .hilen-phone-calendar-actions{
+ display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:8px 0;
+}
+#encargos .hilen-phone-calendar-actions{margin:8px 0 3px}
+.hilen-phone-calendar-btn{
+ display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:32px;
+ padding:6px 11px;border-radius:10px;border:1px solid #b8dcc4;background:#effaf2;color:#08753d;
+ font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap;
+}
+.hilen-phone-calendar-btn svg{width:17px;height:17px;flex:none}
+.hilen-phone-calendar-file{
+ min-height:32px;padding:6px 9px;border-radius:10px;border:1px solid #e0d6c3;
+ background:#fffaf2;color:#77501d;font-size:11px;font-weight:750;cursor:pointer
+}
+.hilen-phone-calendar-btn:hover{background:#ddf5e5;border-color:#83c89e}
+.hilen-phone-calendar-file:hover{background:#fff0d4}
+#encargos .encargos-table td:last-child{min-width:195px}
+#encargos .encargos-table td:last-child .hilen-phone-calendar-actions{display:grid;grid-template-columns:1fr auto;gap:5px}
+#encargos .encargos-table td:last-child .hilen-phone-calendar-btn{white-space:normal;text-align:center;line-height:1.2}
+#obligations .ha2-event-ops .hilen-phone-calendar-actions{padding:5px 0 3px;border-top:1px solid #e7ebf3}
+#modal .encargo-modal>.hilen-phone-calendar-actions{justify-content:flex-end;margin-top:13px}
+@media(max-width:600px){
+ #encargos .encargos-table td:last-child{min-width:180px}
+ #obligations .hilen-phone-calendar-actions{align-items:stretch}
+ #obligations .hilen-phone-calendar-btn{white-space:normal}
+}
