@@ -543,3 +543,56 @@ body:has(#reports.active) .top #todayLabel{
 @media(max-width:800px){
  body:has(#reports.active) .top .hilen-save-top{width:100%;justify-content:flex-start!important}
 }
+
+
+/* Encargos · panel independiente de notificaciones y fidelidad a referencia. */
+#encargos .he-alert-panel{
+ display:flex!important;align-items:center!important;gap:17px!important;flex-wrap:wrap;
+ padding:20px 24px!important;margin:0 0 20px!important;
+ border:2px solid #f3b346!important;border-radius:18px!important;
+ background:linear-gradient(106deg,#fff9ec 0%,#fff5dd 53%,#ffe7b8 100%)!important;
+ box-shadow:0 8px 23px rgba(171,108,12,.16)!important;
+ position:relative;isolation:isolate;overflow:hidden
+}
+#encargos .he-alert-panel:after{
+ content:"";position:absolute;right:-42px;top:-70px;width:300px;height:180px;z-index:-1;
+ border-radius:0 0 0 100%;transform:rotate(-13deg);
+ background:linear-gradient(160deg,transparent 44%,#ffd277 53%,#f5a100 58%,#fff2d6 61%,transparent 66%);opacity:.8
+}
+#encargos .he-alert-symbol{
+ display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;
+ background:linear-gradient(145deg,#ffcb67,#ed8d00);border:1px solid #fcd083;
+ border-radius:15px;color:#fff;box-shadow:0 5px 13px rgba(156,94,10,.22)
+}
+#encargos .he-alert-symbol svg{width:31px;height:31px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#encargos .he-alert-copy{flex:1 1 310px;min-width:0}
+#encargos .he-alert-title{display:block;font-size:clamp(17px,1.65vw,23px)!important;color:#603100!important;font-weight:900!important;letter-spacing:-.4px}
+#encargos .he-alert-description{margin:5px 0 0!important;font-size:clamp(12px,1vw,14px)!important;line-height:1.5;color:#784e1b!important}
+#encargos .he-alert-button-wrap{display:flex;align-items:center;position:relative;z-index:1}
+#encargos .he-alert-button{
+ min-height:49px!important;padding:11px 23px!important;border-radius:12px!important;
+ background:linear-gradient(180deg,#2b3d61,#081737)!important;
+ color:#fff!important;border:1px solid #0b214b!important;
+ box-shadow:0 4px 12px #151d3d32!important;font-size:14px!important;font-weight:850!important;
+ white-space:nowrap!important
+}
+#encargos .he-alert-button:hover{filter:brightness(1.12)}
+#encargos .he-alert-button:disabled{opacity:1!important;background:linear-gradient(#e5fbed,#c8f2d8)!important;color:#087039!important;border-color:#b7e4c8!important;cursor:default!important}
+#encargos .he-alert-panel[data-permission="granted"]{background:linear-gradient(108deg,#f6fff9,#e6faed)!important;border-color:#b9e6c9!important;box-shadow:0 6px 17px #15723a15!important}
+#encargos .he-alert-panel[data-permission="granted"] .he-alert-title{color:#11683b!important}
+#encargos .he-alert-panel[data-permission="granted"] .he-alert-symbol{background:linear-gradient(#39c777,#0d9a4e);border-color:#42c67d}
+#encargos .he-alert-panel[data-permission="denied"]{border-color:#ffb0ac!important;background:linear-gradient(110deg,#fffaf9,#ffe8e5)!important}
+#encargos .he-alert-panel[data-permission="denied"] .he-alert-title{color:#a1242c!important}
+#encargos .he-alert-panel[data-permission="denied"] .he-alert-symbol{background:linear-gradient(#fc6e74,#d83045);border-color:#f98c95}
+#encargos .encargos-head-actions{justify-content:flex-end!important}
+#encargos .he-column-icon{display:inline-flex;vertical-align:middle;align-items:center;justify-content:center;color:#e38a00;margin-right:7px}
+#encargos .he-column-icon svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+#encargos .encargos-table th{white-space:nowrap!important}
+#encargos .encargos-table .action-group{display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:nowrap!important}
+@media(max-width:750px){
+ #encargos .he-alert-panel{padding:14px!important;gap:12px!important}
+ #encargos .he-alert-symbol{width:45px;height:45px;flex-basis:45px}
+ #encargos .he-alert-symbol svg{width:25px;height:25px}
+ #encargos .he-alert-button-wrap{width:100%}
+ #encargos .he-alert-button{width:100%!important}
+}
