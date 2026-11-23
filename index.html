@@ -5499,6 +5499,21 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 
 #hilenReminderSettings .hrs-sync-notify.is-active{border-color:#bce3c7!important;background:linear-gradient(115deg,#fffdf9,#fff 55%,#f2fbf4)!important}
 
+/* Estado operativo del calendario, dentro de su tarjeta existente. */
+#hilenSettingsCalendarCard{align-items:flex-start!important}
+#hilenSettingsCalendarCard .hcal-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+#hilenSettingsCalendarCard .hcal-metrics>div{background:#fff;border:1px solid #ecdfc8;border-radius:12px;padding:11px;min-width:0}
+#hilenSettingsCalendarCard .hcal-metrics span{display:block;color:#746d63;font-size:11px;line-height:1.4}
+#hilenSettingsCalendarCard .hcal-metrics strong{display:block;color:#40351f;font-size:16px;margin-top:5px;overflow-wrap:anywhere}
+#hilenSettingsCalendarCard .hcal-metrics>div:nth-child(n+3) strong{font-size:25px}
+#hilenSettingsCalendarCard .hcal-service{border-top:1px solid #ecdfc8;padding:12px 0}
+#hilenSettingsCalendarCard .hcal-service strong{font-size:13px;color:#8a641e}
+#hilenSettingsCalendarCard .hcal-service p{font-size:12px;color:#746d63;margin:5px 0;line-height:1.5}
+#hilenSettingsCalendarCard.is-connected .hcal-service strong{color:#087c2d}
+#hilenSettingsCalendarCard[data-mode="error"] .hcal-service strong,#hilenSettingsCalendarCard[data-mode="error"] .hrs-sync-verified{color:#a52b2b}
+#hilenSettingsCalendarCard[data-mode="error"] .hrs-sync-verified{background:#fce8e8}
+#hilenSettingsCalendarVerify{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+@media(max-width:650px){#hilenSettingsCalendarCard{flex-wrap:wrap}#hilenSettingsCalendarCard .hrs-sync-rule{display:none}#hilenSettingsCalendarCard .hrs-sync-content{flex-basis:100%}}
 /* Venta: calendario legible, selección rápida de mes y año. */
 #newSale .hilen-sale-date-wrap{position:relative;min-width:0}
 #newSale .hilen-date-control{display:flex;gap:8px;align-items:center}
@@ -6169,10 +6184,16 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
    <span class="hrs-sync-icon hrs-sync-calendar-icon"><img class="hrs-reference-calendar" src="data:image/webp;base64,UklGRv4BAABXRUJQVlA4IPIBAACwDQCdASpGAEYAPwF0slMrJqUipnM8YWAgCWgA0HVe/v4Hm2L52bTmd6OK+5nlh2Y7/fpSx4suhqRNykFO0b8sT0hhklF/i+L8mXArQ8gV4puJzIXAveVKs4lPZEDcwMlHVmVgdPiuqBWdp0mxGyE+iqTspbkAAP72AN4XB6/ODs1YMaaOBujf8mP2C0/UTKeT0MMIhsMQOhQdzQBOW6NRqxf97A3p/DioLibnvZrCcClFf1pNTgkg6vN0MNZiUyocahpDJaWy+mGhQCmYloo3dkKTwCjEJw96YDcJfgw5aFN86HS1Ph1TxXow0c1Q9OvdtYohNSuiOBIHX6Eq1UPfVhvIZ6mUwbQ/7mOArgQrmWeVOkjFRD6rAhZdEOdQWZX3r+PoK9U8L4gvIz8/xTfO5uXqsmI325kCn1pgRuctyYodp3S9Zf4AfHx2OovXvKFhjZ0XZuB4VWOhE+e3awR5pmY/aKWs6SraO1PN5vA8i9enK17gmSW+CJ3lS4iy+N4wRuSsMp6X4hVUR7xLS0RAlloeDpKHOy+nQShqa4l8phz7aJ4TeRO1yyTLMoobYF0XyUnHwlbznW5BfCoV90iG2mNvOeSZ3aSQIiImbgFv5k+ZVY0iO9a2ceZvlBDDwEHhmswdvzlscJnOzxUcNYmgAAA=" alt="Google Calendar" loading="eager"></span><div class="hrs-sync-rule"></div>
    <div class="hrs-sync-content">
     <div class="hrs-sync-heading"><h2>Google Calendar</h2><span class="hrs-sync-verified" id="hilenSettingsCalendarBadge">Pendiente de conexión</span></div>
-    <p id="hilenSettingsCalendarStatus">No conectado · requiere autorización</p>
+    <p>Sincronización automática de recordatorios</p>
+    <div class="hcal-metrics" aria-label="Estado de sincronización">
+      <div><span>Última sincronización</span><strong id="hcalLast">Sin confirmar</strong></div>
+      <div><span>Frecuencia automática</span><strong id="hcalFrequency">Sin confirmar</strong></div>
+      <div><span>Encargos sincronizados</span><strong id="hcalOrders">—</strong></div>
+      <div><span>Obligaciones sincronizadas</span><strong id="hcalObligations">—</strong></div>
+    </div>
+    <div class="hcal-service" role="status" aria-live="polite"><strong id="hcalService">Esperando informe de Apps Script</strong><p id="hilenSettingsCalendarStatus">Todavía no se ha recibido un informe verificable.</p></div>
     <div class="hrs-sync-actions">
-      <button type="button" class="hrs-sync-main" id="hilenSettingsCalendarAction" onclick="hilenConnectAgendaCalendar()">Conectar Google Calendar</button>
-      <button type="button" class="hrs-sync-outline" id="hilenSettingsCalendarVerify" onclick="hilenVerifyCalendarConnection()"><span aria-hidden="true">⟳</span> Verificar conexión</button>
+      <button type="button" class="hrs-sync-outline" id="hilenSettingsCalendarVerify" onclick="hcalVerifyStatus()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6 8a7 7 0 0 1 12-2l2 6M4 12l2 6a7 7 0 0 0 12-2"/></svg> Verificar estado de conexión</button>
     </div>
    </div>
    <div class="hrs-sync-decor"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="12" width="40" height="40" rx="7"/><path d="M21 7v11M43 7v11M12 24h40m-24 15 7 7 13-15"/></svg></div>
@@ -6190,7 +6211,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
    <div class="hrs-sync-decor"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 13c-10 0-16 8-16 19v8l-6 8h44l-6-8v-8c0-11-6-19-16-19zM25 53c2 6 12 6 14 0M32 5v4M11 13l-5-5M53 13l5-5"/></svg></div>
   </section>
  </div>
- <div class="hrs-sync-settings-link" role="status">El calendario del teléfono se sincronizará desde Apps Script cuando termine la activación segura.</div>
+ <div class="hrs-sync-settings-link" role="status">El calendario del teléfono se sincroniza desde Apps Script. Consulta el estado real en la tarjeta de Google Calendar.</div>
 </div>
 <div class="settings-grid settings-grid-reference">
         <div class="card settings-protection-card">
@@ -7108,6 +7129,7 @@ function applyBusinessState(state){
 function userCloudPath(uid,suffix=''){return `users/${uid}${suffix?'/'+suffix:''}`}
 
 function hilenStopLiveSync(){
+  hcalStopStatus();
   clearTimeout(hilenAutoVerifyTimer);hilenAutoVerifyTimer=null;hilenAutoVerifyUid='';
   clearTimeout(hilenLiveRefreshTimer);hilenLiveRefreshTimer=null;hilenLiveIncoming=null;
   if(hilenLiveStateRef&&hilenLiveStateHandler)hilenLiveStateRef.off('value',hilenLiveStateHandler);
@@ -10617,25 +10639,77 @@ function hilenCalendarOnForeground(){
 }
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)hilenCalendarOnForeground()});
 window.addEventListener('focus',hilenCalendarOnForeground);
+let hcalUid='',hcalReport=null,hcalReadError='',hcalStatusRef=null,hcalFeedRef=null,hcalFeedRevision=null,hcalFeedError=false,hcalBusy=false,hcalEpoch=0,hcalStatusReceived=false;
+function hcalStopStatus(){
+ hcalEpoch++;hcalStatusRef?.off();hcalFeedRef?.off();hcalStatusRef=null;hcalFeedRef=null;
+ hcalUid='';hcalReport=null;hcalReadError='';hcalFeedRevision=null;hcalFeedError=false;hcalBusy=false;hcalStatusReceived=false;
+}
+function hcalStartStatus(){
+ const uid=!localMode&&cloudDb&&cloudAuth?.currentUser?.uid===currentUser?.id?currentUser?.id:'';
+ if(uid===hcalUid)return;
+ hcalStopStatus();if(!uid)return;hcalUid=uid;
+ const epoch=hcalEpoch;
+ hcalStatusRef=cloudDb.ref('calendarSyncStatus/'+uid);
+ hcalFeedRef=cloudDb.ref('users/'+uid+'/calendarFeed');
+ hcalStatusRef.on('value',snap=>{if(epoch!==hcalEpoch)return;hcalReport=snap.val();hcalStatusReceived=true;hcalReadError='';hcalRenderStatus()},()=>{if(epoch!==hcalEpoch)return;hcalReadError='No se pudo consultar el informe. Revisa los permisos de Firebase para calendarSyncStatus.';hcalRenderStatus()});
+ hcalFeedRef.on('value',snap=>{if(epoch!==hcalEpoch)return;const value=snap.val();hcalFeedRevision=value?.ready===true&&Number.isFinite(Number(value.sourceRevision))?Number(value.sourceRevision):null;hcalFeedError=false;hcalRenderStatus()},()=>{if(epoch!==hcalEpoch)return;hcalFeedError=true;hcalRenderStatus()});
+}
+function hcalRenderStatus(){
+ const set=(id,value)=>{const e=document.getElementById(id);if(e&&e.textContent!==value)e.textContent=value};
+ const r=hcalReport?.schema===1?hcalReport:null;
+ const attempt=Date.parse(r?.lastAttemptAt||''),success=Date.parse(r?.lastSuccessAt||'');
+ const stale=!Number.isFinite(attempt)||Date.now()-attempt>15*60000||attempt-Date.now()>60000;
+ const validCount=n=>Number.isInteger(n)&&n>=0?String(n):'—';
+ const errors={configuration:'Revisa la configuración privada de Apps Script.',calendar_access:'Comprueba que el calendario de HILEN esté compartido con la cuenta correcta.',firebase_read:'Revisa la lectura del resumen de recordatorios en Firebase.',calendar_update:'Revisa las ejecuciones de Apps Script y los permisos para modificar el calendario.'};
+ let state='pending',service='Esperando informe de Apps Script',detail='Todavía no se ha recibido un informe verificable. Revisa la publicación del estado en Apps Script.';
+ if(!hcalUid){service='Sesión de Firebase no disponible';detail='Inicia sesión y comprueba la conexión de Firebase.'}
+ else if(hcalReadError||hcalFeedError){state='error';service='No se pudo verificar la conexión';detail=hcalReadError||'No se pudo leer el resumen de recordatorios en Firebase.'}
+ else if(r?.state==='error'){state='error';service='Error de sincronización';detail=errors[r.errorCode]||'Revisa el historial de ejecuciones de Apps Script.'}
+ else if(r?.state==='ok'){
+  if(stale){service='Informe desactualizado';detail='No se ha confirmado una ejecución reciente. Revisa el activador automático de Apps Script.'}
+  else if(!r.triggerKnown||!r.triggerInstalled){service='Automatización sin confirmar';detail='Revisa que exista el activador de sincronización en Apps Script.'}
+  else if(hcalFeedRevision===null||!Number.isFinite(Number(r.sourceRevision))){service='Resumen pendiente de verificar';detail='Aún no se ha confirmado la revisión de los recordatorios.'}
+  else if(hcalFeedRevision>Number(r.sourceRevision)){service='Recordatorios pendientes';detail='Hay cambios nuevos que Apps Script todavía no ha confirmado.'}
+  else if(Number.isFinite(success)&&validCount(r.synchronizedEncargos)!=='—'&&validCount(r.synchronizedObligations)!=='—'){state='ok';service='Servicio funcionando correctamente';detail='Última ejecución confirmada, sin errores de sincronización reportados.'}
+ }
+ set('hcalLast',Number.isFinite(success)?new Intl.DateTimeFormat('es-CO',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit',timeZone:'America/Bogota'}).format(new Date(success)):'Sin confirmar');
+ set('hcalFrequency',r?.triggerKnown&&r.triggerInstalled&&Number.isInteger(r.frequencyMinutes)&&r.frequencyMinutes>0?'Cada '+r.frequencyMinutes+' minutos':'Sin confirmar');
+ set('hcalOrders',validCount(r?.synchronizedEncargos));set('hcalObligations',validCount(r?.synchronizedObligations));
+ set('hcalService',service);set('hilenSettingsCalendarStatus',detail);
+ set('hilenSettingsCalendarBadge',state==='ok'?'Conectado':state==='error'?'Error de conexión':'Pendiente');
+ set('hrsCalendarState',state==='ok'?'Conectado':state==='error'?'Error':'Pendiente');
+ const card=document.getElementById('hilenSettingsCalendarCard');if(card){card.classList.toggle('is-connected',state==='ok');card.dataset.mode=state}
+ document.getElementById('hrsCalendarToggle')?.classList.toggle('connected',state==='ok');
+ const btn=document.getElementById('hilenSettingsCalendarVerify');if(btn){btn.hidden=false;btn.disabled=hcalBusy}
+ return state;
+}
+async function hcalVerifyStatus(){
+ hcalStartStatus();if(hcalBusy)return;
+ if(!hcalStatusRef||!hcalFeedRef){hcalRenderStatus();return}
+ const epoch=hcalEpoch;hcalBusy=true;hcalRenderStatus();
+ try{
+  const connection=await cloudDb.ref('.info/connected').once('value');
+  if(epoch!==hcalEpoch)return;
+  if(connection.val()!==true)throw Error('Firebase desconectado');
+  const timeout=new Promise((_,reject)=>setTimeout(()=>reject(Error('Tiempo de espera agotado')),12000));
+  const [status,feed]=await Promise.race([Promise.all([hcalStatusRef.once('value'),hcalFeedRef.once('value')]),timeout]);
+  if(epoch!==hcalEpoch)return;
+  hcalReport=status.val();hcalStatusReceived=true;hcalReadError='';hcalFeedError=false;
+  const value=feed.val();hcalFeedRevision=value?.ready===true&&Number.isFinite(Number(value.sourceRevision))?Number(value.sourceRevision):null;
+ }catch(e){if(epoch===hcalEpoch)hcalReadError='No se pudo verificar el informe en Firebase. Comprueba Internet y los permisos de lectura.'}
+ finally{if(epoch===hcalEpoch){hcalBusy=false;hcalRenderStatus()}}
+}
+setInterval(()=>{if(hcalUid)hcalRenderStatus()},60000);
 function hilenRefreshReminderSetupStates(){
  const notify='Notification' in window&&Notification.permission==='granted';
  const denied='Notification' in window&&Notification.permission==='denied';
  const set=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value};
- set('hrsCalendarState','Preparando');
  set('hrsNotificationsState',notify?'Activado':denied?'Bloqueado':'No activado');
- set('hilenSettingsCalendarStatus','Calendario HILEN identificado. Sincronización automática pendiente de activar y verificar en Apps Script. No necesitas añadir cada evento manualmente.');
- set('hilenSettingsCalendarBadge','Configuración pendiente');
  set('hilenSettingsNotificationStatus',notify?'Conectado · el navegador tiene las notificaciones autorizadas.':denied?'Las notificaciones están bloqueadas en el navegador.':'Activa los avisos para recibir recordatorios en tu navegador.');
  set('hilenSettingsNotificationBadge',notify?'✓ Conectado y activado':denied?'Notificaciones bloqueadas':'Notificaciones sin activar');
- const calendarCard=document.getElementById('hilenSettingsCalendarCard');
- if(calendarCard){calendarCard.classList.remove('is-connected','is-checking');calendarCard.dataset.mode='automatic-pending'}
- const verifyBtn=document.getElementById('hilenSettingsCalendarVerify');
- if(verifyBtn)verifyBtn.hidden=true;
- const btn=document.getElementById('hilenSettingsCalendarAction');
- if(btn){btn.textContent='Sincronización automática · pendiente';btn.disabled=true;btn.classList.remove('hrs-connected');btn.removeAttribute('onclick')}
  const nCard=document.getElementById('hilenSettingsNotificationCard');if(nCard)nCard.classList.toggle('is-active',notify);
- document.getElementById('hrsCalendarToggle')?.classList.remove('connected');
  document.getElementById('hrsNotificationsToggle')?.classList.toggle('connected',notify);
+ hcalStartStatus();hcalRenderStatus();
 }
 async function hilenManageReminderNotifications(){
  if(!('Notification' in window)){showToast('Notificaciones no disponibles','Este navegador no admite avisos. HILEN seguirá mostrando recordatorios dentro de la aplicación.','info');return}
