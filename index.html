@@ -6189,7 +6189,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
    <div class="hrs-sync-decor"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 13c-10 0-16 8-16 19v8l-6 8h44l-6-8v-8c0-11-6-19-16-19zM25 53c2 6 12 6 14 0M32 5v4M11 13l-5-5M53 13l5-5"/></svg></div>
   </section>
  </div>
- <button type="button" class="hrs-sync-settings-link" onclick="hilenShowReminderSetup(true)">Ver configuración de recordatorios</button>
+ <div class="hrs-sync-settings-link" role="status">El calendario del teléfono se sincronizará desde Apps Script cuando termine la activación segura.</div>
 </div>
 <div class="settings-grid settings-grid-reference">
         <div class="card settings-protection-card">
@@ -6276,7 +6276,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
         <aside class="card ha2-panel ha2-form-panel" id="hilenAgendaFormPanel" role="dialog" aria-modal="true" aria-labelledby="hilenAgendaFormHeading" tabindex="-1">
           <div class="ha2-formtop"><span class="ha2-formtop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><h3 id="hilenAgendaFormHeading">Agregar evento</h3><button type="button" onclick="hilenCloseObligationForm()" aria-label="Cerrar formulario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div>
           <div id="hilenAgendaInlineForm" class="ha2-inline"></div>
-          <div class="ha2-calendar-connect"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><div><b>Google Calendar</b><p id="hilenCalendarStatus">Conecta tu calendario para guardar eventos automáticamente.</p></div><button type="button" onclick="hilenConnectAgendaCalendar()">Conectar</button></div>
+          <div class="ha2-calendar-connect"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg></span><div><b>Google Calendar</b><p id="hilenCalendarStatus">Conecta tu calendario para guardar eventos automáticamente.</p></div></div>
         </aside>
       </div>
     </section>
@@ -10408,10 +10408,7 @@ function hilenCalendarAuthorized(){return !!hilenCalendarToken&&Date.now()<hilen
 
 function hilenRenderCalendarStatus(){
  const el=document.getElementById('hilenCalendarStatus');
- if(el)el.textContent=hilenCalendarCheckPending?'Verificando acceso con Google…':
- hilenCalendarAuthorized()&&hilenCalendarConnectionVerified?'Conectado y verificado. Los eventos se guardan directamente en Google Calendar.':
- hilenCalendarAuthorized()?'Google autorizó el acceso; falta comprobar el calendario.':
- hilenCalendarPreviouslyVerified()?'Google Calendar fue vinculado antes. Pulsa Reconectar para renovar el acceso.':'No conectado. Autoriza Google Calendar para sincronizar automáticamente.';
+ if(el)el.textContent='Calendario HILEN · sincronización automática pendiente de activación. Los registros se guardan en HILEN sin exportarlos manualmente.';
  hilenRefreshReminderSetupStates();
 }
 async function hilenVerifyCalendarConnection(quiet=false){
@@ -10606,34 +10603,23 @@ function hilenCalendarOnForeground(){
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)hilenCalendarOnForeground()});
 window.addEventListener('focus',hilenCalendarOnForeground);
 function hilenRefreshReminderSetupStates(){
- const hasToken=hilenCalendarAuthorized(),calendar=hasToken&&hilenCalendarConnectionVerified;
  const notify='Notification' in window&&Notification.permission==='granted';
  const denied='Notification' in window&&Notification.permission==='denied';
- const pendingEvents=Array.isArray(db?.obligations)?db.obligations.filter(o=>o.calendarChoice!==false&&o.dueDate&&o.calendarNeedsSync).length:0;
- const pendingEncargos=Array.isArray(db?.encargos)?db.encargos.filter(e=>e.reminderDate&&e.calendarNeedsSync).length:0;
- const pendingCount=pendingEvents+pendingEncargos;
- const status=hilenCalendarCheckPending?'Comprobando el acceso a Google Calendar…':
- calendar?(pendingCount?'Calendario conectado · '+pendingCount+' evento(s) pendientes de sincronizar':'Tu calendario de Google está conectado con HILEN.'):
- hilenCalendarConnectionError?'Error de conexión: '+hilenCalendarConnectionError:
- hasToken?'Autorizado · falta verificar Google Calendar':
- hilenCalendarPreviouslyVerified()?'Cuenta vinculada anteriormente · pulsa Reconectar':'No conectado · requiere autorización';
  const set=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value};
- set('hrsCalendarState',hilenCalendarCheckPending?'Verificando…':calendar?'Conectado':hilenCalendarPreviouslyVerified()?'Reconectar':'No conectado');
+ set('hrsCalendarState','Preparando');
  set('hrsNotificationsState',notify?'Activado':denied?'Bloqueado':'No activado');
- set('hilenSettingsCalendarStatus',status);
- set('hilenSettingsCalendarBadge',hilenCalendarCheckPending?'Verificando…':calendar?'✓ Verificado por Google':hilenCalendarPreviouslyVerified()?'Reconexión necesaria':'No verificado');
+ set('hilenSettingsCalendarStatus','Calendario HILEN identificado. Sincronización automática pendiente de activar y verificar en Apps Script. No necesitas añadir cada evento manualmente.');
+ set('hilenSettingsCalendarBadge','Configuración pendiente');
  set('hilenSettingsNotificationStatus',notify?'Conectado · el navegador tiene las notificaciones autorizadas.':denied?'Las notificaciones están bloqueadas en el navegador.':'Activa los avisos para recibir recordatorios en tu navegador.');
  set('hilenSettingsNotificationBadge',notify?'✓ Conectado y activado':denied?'Notificaciones bloqueadas':'Notificaciones sin activar');
  const calendarCard=document.getElementById('hilenSettingsCalendarCard');
- if(calendarCard){calendarCard.classList.toggle('is-connected',calendar);calendarCard.classList.toggle('is-checking',hilenCalendarCheckPending)}
- const verifyBtn=document.getElementById('hilenSettingsCalendarVerify');if(verifyBtn)verifyBtn.disabled=hilenCalendarCheckPending;
- const btn=document.getElementById('hilenSettingsCalendarAction');if(btn){
-  btn.textContent=calendar?(pendingCount?'✓ Conectado · sincronización pendiente':'✓ Conectado y sincronizado'):hilenCalendarPreviouslyVerified()?'Reconectar Google Calendar':'Conectar Google Calendar';
-  btn.classList.toggle('hrs-connected',calendar);
-  btn.disabled=calendar||hilenCalendarCheckPending;
- }
+ if(calendarCard){calendarCard.classList.remove('is-connected','is-checking');calendarCard.dataset.mode='automatic-pending'}
+ const verifyBtn=document.getElementById('hilenSettingsCalendarVerify');
+ if(verifyBtn)verifyBtn.hidden=true;
+ const btn=document.getElementById('hilenSettingsCalendarAction');
+ if(btn){btn.textContent='Sincronización automática · pendiente';btn.disabled=true;btn.classList.remove('hrs-connected');btn.removeAttribute('onclick')}
  const nCard=document.getElementById('hilenSettingsNotificationCard');if(nCard)nCard.classList.toggle('is-active',notify);
- document.getElementById('hrsCalendarToggle')?.classList.toggle('connected',calendar);
+ document.getElementById('hrsCalendarToggle')?.classList.remove('connected');
  document.getElementById('hrsNotificationsToggle')?.classList.toggle('connected',notify);
 }
 async function hilenManageReminderNotifications(){
@@ -10649,7 +10635,7 @@ function hilenShowReminderSetup(force=false){
  document.getElementById('hilenReminderSetup')?.classList.add('visible');
  document.body.classList.add('hilen-reminders-setup-open');
 }
-function hilenMaybePromptReminderSetup(){if(!hilenCalendarAuthorized()||!hilenCalendarConnectionVerified)hilenShowReminderSetup(false)}
+function hilenMaybePromptReminderSetup(){ /* El calendario compartido no requiere OAuth interactivo en la tablet. */ }
 function hilenCloseReminderSetup(){
  document.getElementById('hilenReminderSetup')?.classList.remove('visible');
  document.body.classList.remove('hilen-reminders-setup-open');
