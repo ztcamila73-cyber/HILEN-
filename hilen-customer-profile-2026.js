@@ -147,3 +147,29 @@ function start(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
+
+
+/* Icono contextual para el encabezado superior: Clientes y Estados de cuenta. */
+(function(){
+ 'use strict';
+ const symbols={
+  customers:'<path d="M16 20v-1.5a4.5 4.5 0 0 0-4.5-4.5h-5A4.5 4.5 0 0 0 2 18.5V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4.5 4.5 0 0 0-3.5-4.4M16.5 4.2a3.5 3.5 0 0 1 0 6.6"/>',
+  statements:'<path d="M6 2h9l4 4v16H6zM15 2v5h4M9 12h7M9 16h7M9 20h5"/>'
+ };
+ const el=()=>document.querySelector('.top .hdaily-page-mark svg');
+ const defaults={markup:null};
+ function update(){
+  const svg=el();if(!svg)return;
+  const section=document.querySelector('#statements.active')?'statements':document.querySelector('#customers.active')?'customers':null;
+  if(defaults.markup===null)defaults.markup=svg.innerHTML;
+  const wanted=section?symbols[section]:defaults.markup;
+  if(svg.innerHTML!==wanted){svg.innerHTML=wanted;svg.setAttribute('viewBox','0 0 24 24');}
+ }
+ function install(){
+  update();
+  const targets=['customers','statements'].map(id=>document.getElementById(id)).filter(Boolean);
+  for(const t of targets)new MutationObserver(update).observe(t,{attributes:true,attributeFilter:['class']});
+  document.querySelectorAll('[onclick^="section("]').forEach(b=>b.addEventListener('click',()=>requestAnimationFrame(update)));
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+})();
