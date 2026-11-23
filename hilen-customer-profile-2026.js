@@ -351,3 +351,31 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
+
+
+/* Agenda: conservar la campana de notificaciones y reflejar el permiso real. */
+(function(){
+ 'use strict';
+ function updateBell(){
+  const bell=document.getElementById('hilenAgendaNotificationsButton');
+  if(!bell)return;
+  const state=typeof Notification==='undefined'?'unsupported':Notification.permission;
+  const active=state==='granted';
+  bell.classList.toggle('hilen-agenda-alerts-active',active);
+  bell.classList.toggle('hilen-agenda-alerts-blocked',state==='denied');
+  bell.disabled=active||state==='unsupported';
+  bell.setAttribute('aria-label',active?'Notificaciones de HILEN activadas':state==='denied'?'Notificaciones bloqueadas, revisar permisos del navegador':'Activar alertas de HILEN');
+  bell.title=active?'Notificaciones activadas · HILEN y Encargos':state==='denied'?'Permisos bloqueados en el navegador':'Activar alertas de HILEN';
+ }
+ function start(){
+  const bell=document.getElementById('hilenAgendaNotificationsButton');
+  if(!bell)return;
+  updateBell();
+  bell.addEventListener('click',()=>{setTimeout(updateBell,100);setTimeout(updateBell,750)});
+  document.getElementById('hilenSettingsNotificationAction')?.addEventListener('click',()=>setTimeout(updateBell,600));
+  window.addEventListener('focus',updateBell);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)updateBell()});
+  if(navigator.permissions?.query)navigator.permissions.query({name:'notifications'}).then(p=>p.addEventListener?.('change',updateBell)).catch(()=>{});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
