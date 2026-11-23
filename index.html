@@ -7358,6 +7358,11 @@ async function cloudSaveNow(options={}){
         refreshAll();
       }
       void maybeDailyCloudBackup(committed.data).catch(e=>console.warn('Copia diaria pendiente',e));
+      // Publicar solamente el resumen de calendario después de la confirmación de Firebase.
+      // Si falla, las ventas y el guardado principal permanecen intactos.
+      if(typeof window.hilenPublishCalendarFeed==='function')
+        void window.hilenPublishCalendarFeed(uid,committed.data,committed.revision)
+          .catch(e=>console.warn('HILEN: calendario pendiente de sincronizar',e));
       if(hilenCloudSignature(businessState())!==hilenCloudSignature(committed.data)){
         setCloudStatus('work','Hay cambios más recientes…','Firebase confirmó una revisión; quedan modificaciones locales por enviar.');
         continue;
@@ -11571,6 +11576,7 @@ bootstrapApp();
 <script src="./hilen-sale-zoom.js"></script>
 <script src="./hilen-customer-profile-2026.js"></script>
 <script src="./hilen-phone-calendar.js"></script>
+<script src="./hilen-calendar-feed.js"></script>
 <script src="./hilen-daily-2026.js"></script>
 <script src="./hilen-product-suggestions.js"></script>
 <script src="./hilen-daily-calendar.js"></script>
