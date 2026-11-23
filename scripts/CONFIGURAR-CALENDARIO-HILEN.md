@@ -45,7 +45,9 @@ El script usa la **Firebase Realtime Database existente** y necesita:
 - credencial privada de cuenta de servicio con permiso de lectura en la base de datos;
 - ID del **calendario secundario privado** del negocio.
 
-La lectura es de `users/<UID>/state/data`. No se hacen escrituras a Firebase. Debido a cómo HILEN almacena actualmente todos los datos en un mismo estado, esa credencial debe protegerse especialmente: la lectura de ese nodo puede incluir información de ventas y clientes además de recordatorios.
+La lectura ahora es **únicamente** de `users/<UID>/calendarFeed`, una copia resumida que HILEN publica **después de que Firebase confirma el guardado principal**. El resumen incluye títulos, fechas, horas, estado y datos mínimos de los encargos; **no contiene ventas, abonos, movimientos de caja ni fichas completas de clientes**.
+
+**Advertencia de permisos:** separar los datos evita que el script solicite el respaldo completo, pero **no limita automáticamente lo que la credencial de servicio podría leer**. Verifica sus permisos reales de base de datos antes de crear claves o activar el proceso. Nunca publiques las reglas para solucionar errores de acceso.
 
 ## 4. Crear el sincronizador en Apps Script
 
@@ -62,7 +64,7 @@ La lectura es de `users/<UID>/state/data`. No se hacen escrituras a Firebase. De
 | `HILEN_CALENDAR_ID` | **Opcional**: solo para utilizar un calendario diferente; el ID de HILEN ya está incorporado |
 
 5. Como primer paso **sin configurar Firebase**, ejecuta **`hilen_comprobarCalendario`**. Google te pedirá autorizar la lectura de tu calendario. Debe devolver su nombre y zona horaria sin crear eventos. Después de añadir las propiedades privadas de Firebase, ejecuta **`hilen_diagnostico`** y comprueba lectura de datos y número de registros.
-6. Cuando los datos sean correctos y desees iniciar la creación de eventos, ejecuta **`hilen_instalarSincronizador`** una vez. Esto instala un activador de aproximadamente cada cinco minutos y ejecuta la primera sincronización.
+6. Antes de activar, registra o actualiza **un encargo de prueba** desde HILEN para que la aplicación publique `calendarFeed` después de confirmar el guardado en Firebase. Comprueba la existencia del resumen en Realtime Database → Datos. **No cambies Reglas** para hacerlo. Cuando los datos, permisos y la lectura de ese resumen estén correctos, ejecuta **`hilen_instalarSincronizador`** una vez. Esto instala un activador de aproximadamente cada cinco minutos y ejecuta la primera sincronización.
 7. Consulta **Ejecuciones** en Apps Script para ver errores o confirmar sincronizaciones. Para revisar el estado vuelve a ejecutar `hilen_diagnostico`.
 
 ### Precauciones
@@ -82,3 +84,12 @@ La lectura es de `users/<UID>/state/data`. No se hacen escrituras a Firebase. De
 5. Modifica la fecha del encargo en HILEN, confirma que el mismo evento se actualiza (no se crea uno duplicado).
 6. Márcalo como completado y verifica que se retire del calendario.
 7. Repite la prueba con una obligación. **No depender de este sistema para pagos críticos hasta superar estas pruebas.**
+
+## Estado de preparación (23 de noviembre de 2026)
+
+- Calendario HILEN y cuenta `hilenb456@gmail.com` comprobados desde `hilen_comprobarCalendario`.
+- Cuenta de servicio creada con rol **Visualizador de Firebase Realtime Database**; su acceso a los datos no ha sido probado.
+- UID y URL de Firebase configurados por la administradora en las propiedades privadas del script.
+- **Pendiente:** autorización de lectura comprobada, configuración segura de la credencial y prueba de extremo a extremo.
+- **Muy importante:** el código que se pegó antes en Apps Script necesita actualizarse con la versión actual de `google-calendar-auto-sync.gs`; la versión anterior leía `/state/data` y puede leer más información de la necesaria.
+- Hasta superar las pruebas, no ejecutar `hilen_instalarSincronizador`.
