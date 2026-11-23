@@ -161,3 +161,97 @@ body:has(#modal.hcf-modal:not(.hidden)) #customerPurchaseModal:not(.hidden) .cus
 @media(min-width:1351px){#customers.hilen-customers .client-kpis-pro{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
 @media(max-width:850px){#customers .hilen-client-collections .hilen-annual-heading>.secondary{margin-left:0!important}}
 @media(max-width:510px){#customers .hilen-client-collections .hilen-annual-heading,#customers .customer-registry-card .registry-head{padding-left:48px!important}#customers .hc-section-symbol{width:36px;height:36px}#customers .hc-section-symbol svg{width:21px;height:21px}#customers .hilen-collection-kpis .hilen-collection-box{padding:9px 10px!important}}
+
+
+/* HILEN · Estados de cuenta, adaptación fiel a la referencia 23-11-2026.
+   Visual únicamente: se conservan búsqueda/autocompletado, fechas, PDF y saldos. */
+#statements.hilen-statements{color:#091447}
+#statements.hilen-statements .statement-simple-card{
+ padding:24px 29px 25px!important;border-radius:18px!important;
+ border:1px solid #e0e3ee!important;
+ background:linear-gradient(120deg,#fff 65%,#fffdf9 100%)!important;
+ box-shadow:0 7px 17px rgba(22,34,73,.12)!important;
+ overflow:hidden!important;isolation:isolate;
+}
+#statements.hilen-statements .statement-simple-card::before{
+ content:"";position:absolute;right:-26px;top:-80px;width:38%;height:174px;
+ border-radius:0 0 0 100%;transform:rotate(-8deg);
+ background:linear-gradient(160deg,transparent 27%,#fff4d9 46%,#ffd46d 55%,#fff 59%,#ffe4a4 66%,transparent 78%);
+ pointer-events:none;opacity:.88;z-index:-1;
+}
+#statements.hilen-statements .statement-simple-head{gap:20px!important;padding-bottom:21px!important;align-items:center!important}
+#statements.hilen-statements .statement-simple-icon{
+ width:75px;height:75px;flex:0 0 75px;border-radius:17px!important;
+ background:linear-gradient(145deg,#fffaf0,#ffebc4)!important;color:#d78300!important;
+ box-shadow:0 4px 12px rgba(120,79,18,.12),inset 0 1px #fff!important;
+}
+#statements.hilen-statements .statement-simple-icon svg{width:34px!important;height:34px!important}
+#statements.hilen-statements .statement-simple-head h2{font-size:clamp(19px,1.62vw,27px)!important;font-weight:900!important;letter-spacing:-.8px!important;color:#07164d!important;line-height:1.15!important}
+#statements.hilen-statements .statement-simple-head p{max-width:none!important;font-size:clamp(12px,1.03vw,16px)!important;line-height:1.4!important;color:#35467f!important}
+#statements.hilen-statements .statement-toolbar-simple{
+ display:grid!important;grid-template-columns:minmax(280px,1fr) minmax(150px,245px) minmax(150px,245px) minmax(220px,330px)!important;
+ gap:clamp(11px,1.7vw,32px)!important;align-items:end!important;
+}
+#statements.hilen-statements .statement-toolbar-simple>div{position:relative;min-width:0}
+#statements.hilen-statements .statement-toolbar-simple .label{display:block;font-size:clamp(12px,1.05vw,16px)!important;color:#101831!important;font-weight:850!important;margin:0 0 7px!important}
+#statements.hilen-statements .statement-toolbar-simple .input{
+ width:100%!important;min-height:52px!important;height:52px!important;
+ margin:0!important;border-radius:13px!important;border:1px solid #d2d8ec!important;
+ box-shadow:0 2px 5px #152a5d12,inset 0 0 0 1px #e8ebf7!important;
+ background:linear-gradient(180deg,#fff,#fbfcff)!important;
+ font-size:clamp(13px,1.13vw,17px)!important;color:#18213b!important;font-weight:500!important;
+}
+#statements.hilen-statements #statementClientName{padding-left:52px!important}
+#statements.hilen-statements .statement-client-field::before{
+ content:"";position:absolute;left:19px;bottom:15px;width:22px;height:22px;
+ background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e88a00' stroke-width='2.3' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='7'/%3E%3Cpath d='m16 16 5 5'/%3E%3C/svg%3E");
+ pointer-events:none;z-index:2;
+}
+#statements.hilen-statements .statement-toolbar-simple input[type=date]{
+ min-width:0!important;padding:0 12px 0 15px!important;
+ color-scheme:light;
+}
+#statements.hilen-statements .statement-toolbar-simple input[type=date]::-webkit-calendar-picker-indicator{
+ opacity:1;cursor:pointer;width:23px;height:23px;
+ filter:invert(49%) sepia(92%) saturate(1515%) hue-rotate(8deg) brightness(96%) contrast(102%);
+ border-left:1px solid #e7dfd5;padding:9px 4px 9px 12px;
+}
+#statements.hilen-statements .statement-generate-btn{
+ height:52px!important;min-width:0!important;width:100%!important;
+ padding:0 14px!important;border-radius:12px!important;
+ background:linear-gradient(180deg,#272727,#050505)!important;
+ border:1.5px solid #e7a300!important;box-shadow:0 3px 8px #11111118!important;
+ font-size:clamp(12px,.99vw,16px)!important;color:#fff!important;font-weight:850!important;
+}
+#statements.hilen-statements .statement-btn-icon svg{height:22px!important;width:22px!important}
+#statements.hilen-statements .statement-simple-note{
+ margin-top:25px!important;padding:15px 18px!important;
+ border-radius:14px!important;min-height:63px;
+ border:1px solid #bbd4ff!important;background:linear-gradient(100deg,#e7f0ff,#e1eaff)!important;
+ color:#1142ba!important;font-weight:650!important;font-size:clamp(11px,.95vw,14px)!important;
+ line-height:1.6!important;gap:14px!important;
+}
+#statements.hilen-statements .statement-note-icon{
+ width:34px!important;height:34px!important;flex:0 0 34px!important;
+ border:2px solid #1475f7!important;border-radius:50%!important;
+ color:#1475f7!important;background:#e6f2ff!important;font-size:19px!important;font-family:Georgia,serif;
+}
+#statements.hilen-statements .statement-simple-note>div{border-left:2px solid #6da3ff;padding-left:15px}
+@media(max-width:1250px){
+ #statements.hilen-statements .statement-toolbar-simple{grid-template-columns:minmax(0,1fr) minmax(140px,220px) minmax(140px,220px)!important}
+ #statements.hilen-statements .statement-generate-btn{grid-column:1/-1!important;justify-self:end;width:min(100%,360px)!important}
+}
+@media(max-width:780px){
+ #statements.hilen-statements .statement-simple-card{padding:18px 15px!important}
+ #statements.hilen-statements .statement-simple-head{gap:12px!important}
+ #statements.hilen-statements .statement-simple-icon{width:50px;height:50px;flex-basis:50px;border-radius:13px!important}
+ #statements.hilen-statements .statement-simple-icon svg{width:26px!important;height:26px!important}
+ #statements.hilen-statements .statement-toolbar-simple{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important}
+ #statements.hilen-statements .statement-client-field{grid-column:1/-1!important}
+ #statements.hilen-statements .statement-generate-btn{grid-column:1/-1!important;width:100%!important}
+ #statements.hilen-statements .statement-simple-note{padding:12px!important;gap:10px!important}
+}
+@media(max-width:420px){
+ #statements.hilen-statements .statement-toolbar-simple{grid-template-columns:1fr!important}
+ #statements.hilen-statements .statement-simple-head h2{font-size:18px!important}
+}
