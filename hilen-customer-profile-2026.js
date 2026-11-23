@@ -136,3 +136,38 @@ function mount(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
+
+
+/* Símbolos vectoriales en las cabeceras del panel Clientes. Solo apariencia. */
+(function(){
+'use strict';
+const icons={
+ layers:'<path d="m12 2 9 5-9 5-9-5 9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/>',
+ users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+ female:'<circle cx="12" cy="8" r="5.5"/><path d="M12 13.5V22M8 18h8"/>',
+ male:'<circle cx="10" cy="14" r="5.5"/><path d="m14 10 7-7M15.5 3H21v5.5"/>'
+};
+const svg=name=>'<svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'+icons[name]+'</svg>';
+function decorate(){
+ const root=document.getElementById('customers');if(!root)return;
+ [['.hilen-client-collections .hilen-annual-heading','layers'],['.customer-registry-card .registry-head','users']].forEach(([selector,name])=>{
+   const el=root.querySelector(selector);
+   if(!el||el.querySelector('.hc-section-symbol'))return;
+   const icon=document.createElement('span');
+   icon.className='hc-section-symbol';icon.setAttribute('aria-hidden','true');icon.innerHTML=svg(name);
+   el.insertBefore(icon,el.firstChild);
+ });
+ const gender=root.querySelectorAll('.client-kpis-pro>.client-kpi:nth-child(5) .kpi-round,.client-kpis-pro>.client-kpi:nth-child(6) .kpi-round');
+ gender.forEach((el,i)=>{
+  if(el.classList.contains('hc-gender-icon'))return;
+  el.classList.add('hc-gender-icon');el.innerHTML=svg(i===0?'female':'male');
+ });
+}
+function start(){
+ const root=document.getElementById('customers');if(!root)return;
+ decorate();
+ const observer=new MutationObserver(decorate);
+ observer.observe(root,{childList:true,subtree:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
