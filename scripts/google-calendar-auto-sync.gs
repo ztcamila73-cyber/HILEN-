@@ -10,7 +10,8 @@
  *
  * Zona horaria del proyecto Apps Script: America/Bogota
  * NO subir claves privadas a GitHub, nunca incluirlas en URLs o respuestas.
- * No modifica ninguna venta, cliente, abono, egreso ni registro de Firebase.
+ * Lee únicamente users/<UID>/calendarFeed. No modifica ningún registro en Firebase.
+ * Si no existe todavía, guarda un encargo desde HILEN para publicar el resumen.
  */
 var HILEN_PREFIX = 'HILEN_CAL_EVENT_';
 var HILEN_TZ = 'America/Bogota';
@@ -77,7 +78,7 @@ function hilen_tokenFirebase(credential) {
 function hilen_estadoFirebase(cfg) {
   cfg = cfg || hilen_configuracion();
   var token = hilen_tokenFirebase(cfg.credential);
-  var url = cfg.url+'/users/'+encodeURIComponent(cfg.uid)+'/state/data.json';
+  var url = cfg.url+'/users/'+encodeURIComponent(cfg.uid)+'/calendarFeed.json';
   var response = UrlFetchApp.fetch(url,{
     method:'get',
     headers:{Authorization:'Bearer '+token},
@@ -87,9 +88,9 @@ function hilen_estadoFirebase(cfg) {
     throw Error('No fue posible leer los recordatorios en Firebase (HTTP '+response.getResponseCode()+'). No se modificó el calendario.');
   }
   var state = JSON.parse(response.getContentText());
-  if (!state || typeof state !== 'object' || Array.isArray(state) ||
-      !('encargos' in state) || !('obligations' in state)) {
-    throw Error('Los datos no tienen la estructura esperada; sincronización detenida para evitar borrar eventos.');
+  if (!state || typeof state !== 'object' || Array.isArray(state) || state.ready!==true || state.schema!==1 ||
+      !Array.isArray(state.encargos) || !Array.isArray(state.obligations)) {
+    throw Error('El resumen privado del calendario todavía no se ha publicado correctamente desde HILEN. No se modificaron eventos.');
   }
   return state;
 }
