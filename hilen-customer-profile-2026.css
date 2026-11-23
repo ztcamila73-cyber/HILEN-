@@ -133,3 +133,31 @@ body:has(#modal.hcf-modal:not(.hidden)) #customerPurchaseModal:not(.hidden) .cus
 @media(max-width:1350px){#customers.hilen-customers .client-kpis-pro{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:850px){#customers.hilen-customers .client-kpis-pro{grid-template-columns:repeat(2,minmax(0,1fr))!important}#customers .hilen-collection-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}#customers .hilen-client-collections .hilen-annual-heading,#customers .customer-registry-card .registry-head{flex-wrap:wrap}}
 @media(max-width:510px){#customers.hilen-customers .client-kpis-pro{gap:8px!important}#customers .client-kpis-pro>.client-kpi{gap:7px;padding:10px 8px!important}#customers .client-kpis-pro>.client-kpi .kpi-round{width:35px!important;height:35px!important;flex-basis:35px!important}#customers .client-kpis-pro>.client-kpi .value2{font-size:21px!important}#customers .hilen-client-collections,#customers .customer-registry-card{padding:12px!important}#customers .hilen-collection-kpis{gap:8px!important}#customers .hilen-annual-heading h2,#customers .registry-head h2{font-size:18px!important}#customers .hc-table-tools{align-items:flex-start}#customers .hc-zoom-actions{width:100%;justify-content:flex-end}}
+
+
+/* HILEN · Ajustes de fidelidad visual para Panel de Clientes — 23 nov 2026 */
+#customers.hilen-customers{--hc-shadow:0 5px 15px rgba(25,35,79,.12);padding-top:8px}
+#customers.hilen-customers .client-kpis-pro{margin-top:12px!important;margin-bottom:13px!important;align-items:stretch}
+#customers.hilen-customers .client-kpis-pro>.client-kpi{background:linear-gradient(124deg,#fff 34%,var(--hc-tint) 125%)!important;transition:box-shadow .18s ease,transform .18s ease}
+#customers.hilen-customers .client-kpis-pro>.client-kpi:hover{box-shadow:0 7px 19px rgba(26,43,86,.16)!important;transform:translateY(-1px)}
+#customers.hilen-customers .client-kpis-pro>.client-kpi::before{right:-5px;bottom:-26px;width:140px;height:62px;transform:rotate(-15deg);border-radius:96% 0 0 0;background:linear-gradient(165deg,transparent 24%,color-mix(in srgb,var(--hc-accent),white 30%) 65%,var(--hc-accent) 79%,#fff 89%,var(--hc-accent) 96%);opacity:.82}
+#customers .hilen-client-collections .hilen-annual-heading::before,#customers .customer-registry-card .registry-head::before{content:none!important}
+#customers .hc-section-symbol{position:absolute;left:0;top:0;display:grid;place-items:center;width:43px;height:43px;background:linear-gradient(145deg,#ffc044,#ed8b00);color:#fff;border:1px solid #ffe2a2;border-radius:12px;box-shadow:0 4px 9px #bd840050}
+#customers .hc-section-symbol svg{width:25px;height:25px;stroke:currentColor;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#customers .hilen-collection-kpis .hilen-collection-box{background:linear-gradient(112deg,#fff 39%,#deebff 108%)!important}
+#customers .hilen-collection-box:nth-child(3){background:linear-gradient(110deg,#fff,#fff3dc)!important}
+#customers .hilen-collection-box:nth-child(4){background:linear-gradient(110deg,#fff,#e8fff0)!important}
+#customers .hilen-collection-kpis .hilen-collection-box::after{border-radius:92% 0 0 0;transform:rotate(-13deg);background:linear-gradient(155deg,transparent 33%,#72b5ff 69%,white 85%,#62a9ff 94%);opacity:.75}
+#customers .hilen-collection-box:nth-child(3)::after{background:linear-gradient(155deg,transparent 33%,#ffd85a 69%,white 85%,#ffb400 94%)}
+#customers .hilen-collection-box:nth-child(4)::after{background:linear-gradient(155deg,transparent 33%,#90efa8 69%,white 85%,#56d978 94%)}
+#customers .hilen-client-collections,#customers .customer-registry-card{background:linear-gradient(120deg,#fff 65%,#fcfbff)!important}
+#customers .hilen-client-collections .hilen-annual-heading{padding-left:59px!important}
+#customers .customer-registry-card .registry-head{padding-left:59px!important}
+#customers .hc-table-tools{background:linear-gradient(108deg,#fff8ee,#fff0d9)!important}
+#customers #customerSearch{box-shadow:0 2px 7px #07165d0b!important}
+#customers #customersTable .table-fit-wrap{scrollbar-color:#d6c69d transparent}
+#customers .client-kpis-pro>.client-kpi .kpi-round svg{width:25px;height:25px;stroke-width:1.8}
+#customers .hc-gender-icon svg{width:26px;height:26px;stroke:#fff;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media(min-width:1351px){#customers.hilen-customers .client-kpis-pro{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+@media(max-width:850px){#customers .hilen-client-collections .hilen-annual-heading>.secondary{margin-left:0!important}}
+@media(max-width:510px){#customers .hilen-client-collections .hilen-annual-heading,#customers .customer-registry-card .registry-head{padding-left:48px!important}#customers .hc-section-symbol{width:36px;height:36px}#customers .hc-section-symbol svg{width:21px;height:21px}#customers .hilen-collection-kpis .hilen-collection-box{padding:9px 10px!important}}
