@@ -10307,7 +10307,8 @@ function saveEncargo(encargoId=''){
   if(savedEncargo?.reminderDate){
     savedEncargo.calendarNeedsSync=true;saveDB();
     if(hilenCalendarAuthorized())hilenSyncEncargoCalendar(savedEncargo.id);
-    else hilenConnectAgendaCalendar();
+    // Sin conexión OAuth activa, se puede agregar manualmente desde el teléfono
+    // sin abrir automáticamente Google ni interrumpir el guardado del encargo.
   }
   showToast(encargoId?'Encargo actualizado':'Encargo guardado',encargoId?'El seguimiento quedó actualizado.':'HILEN guardó el encargo y su recordatorio.','success');checkEncargoReminders(true);
 }
@@ -10823,7 +10824,8 @@ function hilenSaveObligation(oid=''){
     item.calendarNeedsSync=!!payload.calendarChoice;saveDB();
     if(payload.calendarChoice){
       if(hilenCalendarAuthorized())hilenSyncCalendarRecord(item.id);
-      else hilenConnectAgendaCalendar();
+      // La exportación al teléfono se realiza mediante el botón Agregar al calendario.
+      // No se solicita reconexión OAuth al guardar una obligación.
     }else if(item.calendarEventId)hilenRemoveCalendarRecord(item.id);
   }
 }
@@ -11568,6 +11570,7 @@ bootstrapApp();
   <script src="./hilen-date-fields.js"></script>
 <script src="./hilen-sale-zoom.js"></script>
 <script src="./hilen-customer-profile-2026.js"></script>
+<script src="./hilen-phone-calendar.js"></script>
 <script src="./hilen-daily-2026.js"></script>
 <script src="./hilen-product-suggestions.js"></script>
 <script src="./hilen-daily-calendar.js"></script>
