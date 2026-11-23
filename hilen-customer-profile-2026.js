@@ -154,20 +154,23 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  'use strict';
  const symbols={
   customers:'<path d="M16 20v-1.5a4.5 4.5 0 0 0-4.5-4.5h-5A4.5 4.5 0 0 0 2 18.5V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4.5 4.5 0 0 0-3.5-4.4M16.5 4.2a3.5 3.5 0 0 1 0 6.6"/>',
-  statements:'<path d="M6 2h9l4 4v16H6zM15 2v5h4M9 12h7M9 16h7M9 20h5"/>'
+  statements:'<path d="M6 2h9l4 4v16H6zM15 2v5h4M9 12h7M9 16h7M9 20h5"/>',
+  encargos:'<rect x="3" y="7" width="18" height="14" rx="3"/><path d="M3 11h18M8 7V4h8v3M10 14h4"/>',
+  reports:'<path d="M4 21v-8M10 21V9M16 21V4M22 21V12"/>',
+  history:'<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h6"/>'
  };
  const el=()=>document.querySelector('.top .hdaily-page-mark svg');
  const defaults={markup:null};
  function update(){
   const svg=el();if(!svg)return;
-  const section=document.querySelector('#statements.active')?'statements':document.querySelector('#customers.active')?'customers':null;
+  const section=document.querySelector('#statements.active')?'statements':document.querySelector('#customers.active')?'customers':document.querySelector('#encargos.active')?'encargos':document.querySelector('#reports.active')?'reports':document.querySelector('#history.active')?'history':null;
   if(defaults.markup===null)defaults.markup=svg.innerHTML;
   const wanted=section?symbols[section]:defaults.markup;
   if(svg.innerHTML!==wanted){svg.innerHTML=wanted;svg.setAttribute('viewBox','0 0 24 24');}
  }
  function install(){
   update();
-  const targets=['customers','statements'].map(id=>document.getElementById(id)).filter(Boolean);
+  const targets=['customers','statements','encargos','reports','history'].map(id=>document.getElementById(id)).filter(Boolean);
   for(const t of targets)new MutationObserver(update).observe(t,{attributes:true,attributeFilter:['class']});
   document.querySelectorAll('[onclick^="section("]').forEach(b=>b.addEventListener('click',()=>requestAnimationFrame(update)));
  }
@@ -238,9 +241,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
   const bad=elapsed.filter(m=>integer(m.income)>0&&integer(m.expense)>integer(m.income));
   if(bad.length){const m=bad[bad.length-1];add('warning','Egresos superiores al ingreso de caja',`En ${monthLabel(m)} se registraron ${moneyCO(m.expense)} en egresos y ${moneyCO(m.income)} en ingresos de caja.`,'Revisa los egresos del mes y las obligaciones antes de comprometer más dinero.');}
-  if(integer(t.debt)>0&&integer(t.payments)>0){
-   const debtShare=ratio(t.debt,integer(t.debt)+integer(t.payments));
-   if(debtShare>=40)add('warning','Cartera pendiente para seguimiento',`Al corte quedan ${moneyCO(t.debt)} por cobrar; representan ${debtShare} % de la suma de saldo pendiente y abonos registrados en el año.`,'Abre Clientes con deuda, revisa los últimos abonos y prioriza el contacto con los atrasados.');
+  if(integer(t.debt)>0){
+   const debtors=integer(snapshot.portfolio?.all?.debtors);
+   add('attention','Cartera pendiente para seguimiento',`Al corte quedan ${moneyCO(t.debt)} por cobrar${debtors?' entre '+debtors+' cliente'+(debtors===1?'':'s'):''}.`,'Consulta Clientes con deuda y revisa los últimos abonos antes de ofrecer nuevos créditos.');
   }
   const knownSales=integer(t.paid)+integer(t.credit);
   if(knownSales>0&&ratio(integer(t.credit),knownSales)>=60)add('attention','Alta proporción de ventas a crédito',`${ratio(integer(t.credit),knownSales)} % del valor de ventas con forma de pago identificada corresponde a crédito.`,'Comprueba el ritmo de abonos antes de aumentar las ventas financiadas.');
