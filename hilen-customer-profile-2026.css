@@ -430,3 +430,36 @@ body:has(#customers.active) .top .top-title-line{position:relative;z-index:1;ali
  #reports .hr-report-heading-icon svg{width:26px;height:26px}
  #reports .hilenviz-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
+
+
+/* Presentación de hallazgos detectados automáticamente en Reportes. */
+#reports .hri-panel{margin:20px 0 0;padding:22px;border-radius:20px;border:1px solid #e6dccd;background:linear-gradient(135deg,#fffdfa,#fff);box-shadow:0 5px 16px #65451f12}
+#reports .hri-head{display:flex;align-items:center;gap:15px;margin-bottom:17px}
+#reports .hri-head-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#fff2d8,#ffd89a);color:#bc7400;flex:none}
+#reports .hri-head-icon svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#reports .hri-head>div{flex:1;min-width:0}
+#reports .hri-head h3{margin:0 0 4px;font-size:clamp(18px,1.7vw,24px);color:#101d3e;font-weight:900}
+#reports .hri-head p{margin:0;color:#4e6080;font-size:12px}
+#reports .hri-count{border:1px solid #dfd9ca;background:#fffaf1;border-radius:22px;padding:7px 12px;font-size:11px;font-weight:800;color:#765021;white-space:nowrap}
+#reports .hri-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#reports .hri-card{display:flex;gap:13px;align-items:flex-start;padding:17px;border:1px solid #e0e7f2;border-radius:15px;background:linear-gradient(115deg,#fff,#f7faff);min-width:0}
+#reports .hri-card.hri-warning{border-color:#ffd7ba;background:linear-gradient(115deg,#fff,#fff4e8)}
+#reports .hri-card.hri-attention{border-color:#e6d7ff;background:linear-gradient(115deg,#fff,#f7f0ff)}
+#reports .hri-card.hri-positive{border-color:#c9eed9;background:linear-gradient(115deg,#fff,#effcf5)}
+#reports .hri-card-mark{width:36px;height:36px;display:grid;place-items:center;flex:0 0 36px;border-radius:12px;background:#e8f1ff;color:#2874db}
+#reports .hri-warning .hri-card-mark{background:#ffecd9;color:#c67900}
+#reports .hri-attention .hri-card-mark{background:#f0e8ff;color:#744bd0}
+#reports .hri-positive .hri-card-mark{background:#def8e8;color:#11905b}
+#reports .hri-card-mark svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;stroke-linecap:round}
+#reports .hri-card>div{min-width:0;flex:1}
+#reports .hri-card h4{margin:0 0 6px;font-weight:850;font-size:14px;color:#102147}
+#reports .hri-card p{margin:0 0 9px;font-size:12px;line-height:1.5;color:#31466d}
+#reports .hri-card small{display:block;font-size:11px;line-height:1.5;color:#3c587f}
+#reports .hri-card small b{color:#0f2b58}
+#reports .hri-method{margin:14px 0 0;border-top:1px solid #e8e7e2;padding-top:11px;color:#68758d;font-size:11px;line-height:1.55}
+@media(max-width:750px){#reports .hri-grid{grid-template-columns:1fr}#reports .hri-panel{padding:15px}#reports .hri-head{flex-wrap:wrap}#reports .hri-count{margin-left:66px}}
+/* Iconos discretos en las búsquedas de encargos. */
+#encargos #encargosSearch,#encargos #encargosRequestSearch{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23df8800' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10' cy='10' r='6.5'/%3E%3Cpath d='m15 15 6 6'/%3E%3C/svg%3E")!important;
+ background-size:21px 21px!important;background-position:14px center!important;background-repeat:no-repeat!important;
+}
