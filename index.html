@@ -7756,7 +7756,7 @@ function finishOpenApp(){
   ['dayDate','saleDate','payDate','paymentDay','cfDate','cashflowDay','stEnd'].forEach(x=>{if($(x))$(x).value=today()});
   ['stStart'].forEach(x=>{if($(x))$(x).value=monthStart()});
   if($('salesMonth'))$('salesMonth').value=today().slice(0,7);if($('salesYear'))$('salesYear').value=new Date().getFullYear();if($('paymentMonth'))$('paymentMonth').value=today().slice(0,7);if($('paymentYear'))$('paymentYear').value=new Date().getFullYear();if($('paymentChartYear'))$('paymentChartYear').value=new Date().getFullYear();if($('cashflowMonth'))$('cashflowMonth').value=today().slice(0,7);if($('cashflowYear'))$('cashflowYear').value=new Date().getFullYear();if($('cashflowChartYear'))$('cashflowChartYear').value=new Date().getFullYear();if($('clientChartYear'))$('clientChartYear').value=new Date().getFullYear();if($('historyYear')){const savedYear=Number(localStorage.getItem(historyYearStorageKey())||0);$('historyYear').value=(savedYear>=2000&&savedYear<=2100)?savedYear:getDefaultHistoryYear()}if($('inventoryYear'))$('inventoryYear').value=getDefaultHistoryYear();
-  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();void hilenCalendarRestoreExistingSession();maybePromptGoogleBackupOnboarding();if(backupOnboardingJustCreated)setTimeout(()=>hilenShowReminderSetup(false),1200);startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenStartObligationReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
+  $('saleTime').value=nowTime();if(!$('products').children.length)addProduct();if($('paymentDayWrap'))$('paymentDayWrap').classList.add('hidden');if($('paymentMonthWrap'))$('paymentMonthWrap').classList.add('hidden');if($('paymentYearWrap'))$('paymentYearWrap').classList.remove('hidden');refreshAll();renderGoogleSheetsStatus();renderGoogleDriveStatus();renderSettings();renderGoogleBackupReconnectAlert();void hilenCalendarRestoreExistingSession();maybePromptGoogleBackupOnboarding();startBackupHealthMonitor();hilenCheckDailyGoogleSheets();startEncargoReminderWatcher();hilenStartObligationReminderWatcher();hilenUpdateCollectionBell();hilenAutoArchiveCompletedYears();
 }
 function enterLocalMode(){
   localMode=true;currentUser={id:'local-device',email:'',name:'HILEN local'};
@@ -7823,7 +7823,7 @@ function hilenRestoreDesktopSidebar(){
   }catch(_){}
 }
 function closeSide(){const side=$('side'),backdrop=$('sideBackdrop');if(side)side.classList.remove('open');if(backdrop)backdrop.classList.remove('open')}
-function section(name,btn){if(name==='obligations')hilenMaybePromptReminderSetup();else{hilenCloseReminderSetup();hilenCloseObligationForm()}document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.body.classList.toggle('hilen-agenda-open',name==='obligations');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',obligations:'Agenda de recordatorios',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',obligations:'Programa fechas y recordatorios para proveedores, trámites, servicios y mantenimiento. No contabiliza egresos.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale'){if(!$('saleTime').value)$('saleTime').value=hilenSaleClock();hilenSaleDateSync()}const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,obligations:hilenRenderObligations,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
+function section(name,btn){if(name!=='obligations'){hilenCloseReminderSetup();hilenCloseObligationForm()}document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(name).classList.add('active');document.getElementById('hilenDailyTopPicker')?.classList.toggle('hidden',name!=='dailyActivity');document.body.classList.toggle('hilen-daily-open',name==='dailyActivity');document.body.classList.toggle('hilen-agenda-open',name==='obligations');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const names={home:'Inicio',dailyActivity:'Movimientos del día',day:'Ventas',newSale:'Registrar venta',customers:'Clientes',payments:'Abonos',cashflow:'Flujo de caja',statements:'Estados de cuenta',inventory:'Productos y demanda',history:'Historial anual',reports:'Reportes',monthlyRecords:'Registro mensual',encargos:'Encargos',obligations:'Agenda de recordatorios',settings:'Configuración'};const subtitles={home:'Resumen general de tu negocio.',dailyActivity:'Todo lo que ocurrió en tu negocio, en la fecha que elijas.',day:'Consulta exactamente qué pasó en ventas por día, mes o año.',newSale:'Registra una nueva venta en el sistema.',customers:'Gestiona y consulta todos tus clientes.',payments:'Registra abonos y consulta el estado de cuenta de tus clientes.',cashflow:'Controla el movimiento de tu dinero en un solo lugar.',statements:'Consulta y genera estados de cuenta de tus clientes.',inventory:'Conoce qué compran tus clientes, qué productos les interesan y cuáles tienen mayor o menor demanda.',history:'Revisa el comportamiento anual de tus clientes, abonos y deudas.',reports:'Revisa y conserva los reportes anuales de tu negocio.',monthlyRecords:'Guarda los totales mensuales históricos de ventas, abonos y egresos.',encargos:'Registra solicitudes de clientes y controla su seguimiento hasta darles respuesta.',obligations:'Programa fechas y recordatorios para proveedores, trámites, servicios y mantenimiento. No contabiliza egresos.',settings:'Aquí puedes revisar la protección de tus datos, tus copias de seguridad y las opciones para recuperar información.'};$('pageTitle').textContent=names[name];if($('pageSubtitle'))$('pageSubtitle').textContent=subtitles[name]||'';closeSide();if(name==='newSale'){if(!$('saleTime').value)$('saleTime').value=hilenSaleClock();hilenSaleDateSync()}const renders={cashflow:renderCashflow,dailyActivity:hilenRenderDailyActivity,day:renderSalesView,payments:renderPayments,customers:renderCustomers,inventory:renderInventory,history:renderHistory,reports:hilenRenderReports,monthlyRecords:()=>{initMonthlyRegister()},encargos:renderEncargos,obligations:hilenRenderObligations,settings:renderSettings,home:renderHome};if(renders[name])safeRender(name,renders[name])}
 function goSection(name){const btn=document.querySelector(`[onclick="section('${name}',this)"]`);if(btn)btn.click()}
 function toggleSide(){const side=$('side'),backdrop=$('sideBackdrop');if(!side)return;const willOpen=!side.classList.contains('open');side.classList.toggle('open',willOpen);if(backdrop)backdrop.classList.toggle('open',willOpen)}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSide()})
@@ -10308,13 +10308,7 @@ function saveEncargo(encargoId=''){
   const now=new Date().toISOString(),payload={clientName,phone:$('encPhone').value.trim(),request,supplier:$('encSupplier').value.trim(),status:$('encStatus').value,createdDate:$('encCreatedDate').value||today(),reminderDate:$('encReminderDate').value||'',reminderTime:$('encReminderTime').value||'09:00',notes:$('encNotes').value.trim(),updatedAt:now};
   if(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;Object.assign(e,payload)}else{db.encargos.unshift({id:id(),createdAt:now,...payload})}
   saveDB();closeModal();renderEncargos();
-  const savedEncargo=encargoId?db.encargos.find(x=>x.id===encargoId):db.encargos[0];
-  if(savedEncargo?.reminderDate){
-    savedEncargo.calendarNeedsSync=true;saveDB();
-    if(hilenCalendarAuthorized())hilenSyncEncargoCalendar(savedEncargo.id);
-    // Sin conexión OAuth activa, se puede agregar manualmente desde el teléfono
-    // sin abrir automáticamente Google ni interrumpir el guardado del encargo.
-  }
+  // El servidor de Apps Script sincroniza los eventos del feed después de guardar Firebase.
   showToast(encargoId?'Encargo actualizado':'Encargo guardado',encargoId?'El seguimiento quedó actualizado.':'HILEN guardó el encargo y su recordatorio.','success');checkEncargoReminders(true);
 }
 function changeEncargoStatus(encargoId,status){const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;e.status=status;e.updatedAt=new Date().toISOString();saveDB();renderEncargos();showToast('Estado actualizado',`${e.clientName}: ${encargoStatusLabel(status)}.`,'success');}
@@ -10322,10 +10316,9 @@ function viewEncargo(encargoId){const e=db.encargos.find(x=>x.id===encargoId);if
 function deleteEncargo(encargoId){
  const e=db.encargos.find(x=>x.id===encargoId);if(!e)return;
  confirmAction('Eliminar encargo',`Se eliminará el seguimiento de ${e.clientName}.`,()=>{
-   const removeLocal=()=>{db.encargos=db.encargos.filter(x=>x.id!==encargoId);saveDB();renderEncargos();showToast('Encargo eliminado','Seguimiento eliminado de HILEN.','info')};
-   if(!e.calendarEventId)return removeLocal();
-   if(!hilenCalendarAuthorized())return showToast('Conecta Google Calendar','Conecta Google para eliminar también el evento del encargo.','warning');
-   hilenCalendarRequest('/'+encodeURIComponent(e.calendarEventId),'DELETE').then(removeLocal).catch(err=>showToast('No se pudo eliminar el evento',String(err.message||err),'warning'));
+  db.encargos=db.encargos.filter(x=>x.id!==encargoId);
+  saveDB();renderEncargos();
+  showToast('Encargo eliminado','Cuando se sincronice con Firebase, el calendario compartido quitará este evento.','info');
  },{confirmText:'Eliminar',workingText:'Eliminando…'});
 }
 
@@ -10762,7 +10755,7 @@ function hilenRenderObligations(){
        '<div data-oid="'+esc(o.id)+'" class="ha2-event-ops '+(hilenAgendaEventOpen===o.id?'open':'')+'">'+
        '<button type="button" onclick="hilenOpenObligationForm(\''+esc(o.id)+'\')">Editar</button>'+
        '<button type="button" onclick="hilenMarkObligation(\''+esc(o.id)+'\','+(!hilenObligationIsPaid(o))+')">'+(hilenObligationIsPaid(o)?'Reabrir':'Marcar cumplido')+'</button>'+
-       '<button type="button" onclick="hilenSyncCalendarRecord(\''+esc(o.id)+'\')">Google Calendar</button>'+
+
        '<button type="button" onclick="hilenDeleteObligation(\''+esc(o.id)+'\')">Eliminar</button>'+
        '</div></div>';
    }).join('');
@@ -10824,15 +10817,7 @@ function hilenSaveObligation(oid=''){
   hilenObligationTab=payload.type;
   saveDB();hilenAgendaSelectedDate='';hilenAgendaMonthCursor=new Date(dueDate.slice(0,4),Number(dueDate.slice(5,7))-1,1);hilenResetObligationForm();hilenRenderObligations();hilenCheckObligationReminders();
   showToast('Obligación guardada','Comprueba Firebase para confirmar el guardado en la nube.','success');
-  const item=oid?db.obligations.find(x=>x.id===oid):db.obligations[0];
-  if(item){
-    item.calendarNeedsSync=!!payload.calendarChoice;saveDB();
-    if(payload.calendarChoice){
-      if(hilenCalendarAuthorized())hilenSyncCalendarRecord(item.id);
-      // La exportación al teléfono se realiza mediante el botón Agregar al calendario.
-      // No se solicita reconexión OAuth al guardar una obligación.
-    }else if(item.calendarEventId)hilenRemoveCalendarRecord(item.id);
-  }
+  // Apps Script recuperará los recordatorios del resumen confirmado en Firebase.
 }
 function hilenNextObligationDate(o){
   if(!o?.dueDate||!o.repeat||o.repeat==='none')return '';
@@ -10862,11 +10847,11 @@ function hilenMarkObligation(oid,paid){
           calendarEventId:'',calendarNeedsSync:item.calendarChoice!==false,
           createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
         db.obligations.unshift(created);
-        if(created.calendarChoice!==false)queueMicrotask(()=>hilenSyncCalendarRecord(created.id,true));
+        // El sincronizador automático detectará la próxima recurrencia en Firebase.
       }
     }
     saveDB();hilenRenderObligations();
-    if(item.calendarEventId||item.calendarChoice)hilenSyncCalendarRecord(item.id);
+
     showToast(paid?'Recordatorio atendido':'Recordatorio reabierto','Este cambio no registra pagos ni modifica Flujo de caja. Verifica Firebase.','info');
   };
   if(paid)confirmAction('Marcar recordatorio como atendido',
@@ -10875,22 +10860,14 @@ function hilenMarkObligation(oid,paid){
   else apply();
 }
 function hilenDeleteObligation(oid){
-  const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
-  confirmAction('Eliminar recordatorio','¿Eliminar '+item.title+'? Este aviso dejará de aparecer en la agenda.',()=>{
-    if(item.calendarEventId&&!hilenCalendarAuthorized()){
-      showToast('Conecta Google Calendar','Para eliminar también el evento de Google, conecta el calendario antes de borrar esta obligación.','warning');
-      return;
-    }
-    const removeLocal=()=>{
-      db.obligations=db.obligations.filter(x=>x.id!==oid);
-      saveDB();hilenRenderObligations();showToast('Recordatorio eliminado','Se eliminó de la agenda.','info');
-    };
-    if(item.calendarEventId){
-      hilenCalendarRequest('/'+encodeURIComponent(item.calendarEventId),'DELETE').then(removeLocal)
-        .catch(e=>showToast('No se eliminó','Google Calendar no confirmó la eliminación: '+String(e.message||e),'warning'));
-    }else removeLocal();
-  },{confirmText:'Eliminar',workingText:'Eliminando…',red:true});
+ const item=(db.obligations||[]).find(x=>x.id===oid);if(!item)return;
+ confirmAction('Eliminar recordatorio','¿Eliminar '+item.title+'? Este aviso dejará de aparecer en la agenda.',()=>{
+  db.obligations=db.obligations.filter(x=>x.id!==oid);
+  saveDB();hilenRenderObligations();
+  showToast('Recordatorio eliminado','Se actualizará el calendario compartido después de sincronizar con Firebase.','info');
+ },{confirmText:'Eliminar',workingText:'Eliminando…',red:true});
 }
+
 function hilenCheckObligationReminders(){
   if(!currentUser?.id)return;
   const now=new Date(),date=today();
@@ -11575,7 +11552,6 @@ bootstrapApp();
   <script src="./hilen-date-fields.js"></script>
 <script src="./hilen-sale-zoom.js"></script>
 <script src="./hilen-customer-profile-2026.js"></script>
-<script src="./hilen-phone-calendar.js"></script>
 <script src="./hilen-calendar-feed.js"></script>
 <script src="./hilen-daily-2026.js"></script>
 <script src="./hilen-product-suggestions.js"></script>
