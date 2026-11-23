@@ -651,3 +651,21 @@ body:has(#reports.active) .top #todayLabel{
  #obligations .hilen-phone-calendar-actions{align-items:stretch}
  #obligations .hilen-phone-calendar-btn{white-space:normal}
 }
+
+
+/* Agenda de recordatorios: la campana de avisos se conserva y muestra su estado. */
+#obligations #hilenAgendaNotificationsButton.hilen-agenda-alerts-active{
+  background:#e8f8ee!important;
+  border:1px solid #9bd9b5!important;
+  color:#11763e!important;
+  opacity:1!important;
+  cursor:default!important;
+  box-shadow:0 2px 7px rgba(15,107,53,.12)!important;
+}
+#obligations #hilenAgendaNotificationsButton.hilen-agenda-alerts-active svg{
+  stroke:#13874a!important;
+}
+#obligations #hilenAgendaNotificationsButton.hilen-agenda-alerts-blocked{
+  border-color:#efafaf!important;
+  color:#a74b4b!important;
+}
