@@ -26,10 +26,7 @@
   return {ready:true,schema:1,sourceRevision:Number(revision)||0,updatedAt:new Date().toISOString(),encargos:activeEncargos,obligations:activeObligations};
  }
  window.hilenPublishCalendarFeed=async function(uid,snapshot,revision){
-  if(!uid||!snapshot||!window.cloudDb||!window.currentUser) {
-   // Las variables cloudDb y currentUser existen como bindings léxicos globales.
-   // No comprobarlas vía window: pueden no estar expuestas allí.
-  }
+  if(!uid||!snapshot)return false;
   if(typeof cloudDb==='undefined'||!cloudDb||typeof currentUser==='undefined'||currentUser?.id!==uid||typeof localMode==='undefined'||localMode)return false;
   const payload=compact(snapshot,revision);
   const ref=cloudDb.ref('users/'+uid+'/calendarFeed');
