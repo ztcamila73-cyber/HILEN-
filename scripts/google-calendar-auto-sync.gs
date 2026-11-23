@@ -6,7 +6,7 @@
  * HILEN_FIREBASE_SERVICE_ACCOUNT_JSON   JSON privado de una cuenta de servicio con acceso de lectura
  * HILEN_FIREBASE_DATABASE_URL         URL RTDB del proyecto HILEN
  * HILEN_FIREBASE_USER_ID              UID Firebase de la cuenta del negocio
- * HILEN_CALENDAR_ID                   ID del calendario privado "HILEN"
+ * HILEN_CALENDAR_ID                   Opcional: ID de otro calendario (el de HILEN ya está integrado)
  *
  * Zona horaria del proyecto Apps Script: America/Bogota
  * NO subir claves privadas a GitHub, nunca incluirlas en URLs o respuestas.
@@ -14,15 +14,18 @@
  */
 var HILEN_PREFIX = 'HILEN_CAL_EVENT_';
 var HILEN_TZ = 'America/Bogota';
+// Identificador del calendario compartido suministrado por la administradora.
+// No es un secreto. No incluir aquí credenciales ni direcciones iCal privadas.
+var HILEN_DEFAULT_CALENDAR_ID = 'e0896d89d5063bcc5b62a50d42f976838e3accbb80db82d2e982133124117f68@group.calendar.google.com';
 
 function hilen_configuracion() {
   var p = PropertiesService.getScriptProperties();
   var json = p.getProperty('HILEN_FIREBASE_SERVICE_ACCOUNT_JSON');
   var databaseURL = p.getProperty('HILEN_FIREBASE_DATABASE_URL');
   var uid = p.getProperty('HILEN_FIREBASE_USER_ID');
-  var calendarId = p.getProperty('HILEN_CALENDAR_ID');
+  var calendarId = p.getProperty('HILEN_CALENDAR_ID') || HILEN_DEFAULT_CALENDAR_ID;
   if (!json || !databaseURL || !uid || !calendarId) {
-    throw Error('Configuración incompleta: revisa las cuatro propiedades privadas del script.');
+    throw Error('Configuración incompleta: revisa la cuenta de servicio, la URL de Firebase y el UID privado de la cuenta.');
   }
   var credential;
   try { credential = JSON.parse(json); }
@@ -209,4 +212,18 @@ function hilen_diagnostico() {
   };
   console.log(JSON.stringify(report));
   return report;
+}
+
+/** Primera prueba, sin Firebase ni credenciales privadas.
+ * Ejecutar manualmente desde la cuenta Google hilenb456@gmail.com en Apps Script.
+ * No escribe ni elimina eventos.
+ */
+function hilen_comprobarCalendario() {
+  var p = PropertiesService.getScriptProperties();
+  var calendarId = p.getProperty('HILEN_CALENDAR_ID') || HILEN_DEFAULT_CALENDAR_ID;
+  var calendar = CalendarApp.getCalendarById(calendarId);
+  if (!calendar) throw Error('Este calendario no es accesible. Abre Apps Script con la cuenta Google dueña del calendario HILEN.');
+  var result = {calendario:calendar.getName(),zonaHoraria:calendar.getTimeZone(),acceso:'confirmado'};
+  console.log(JSON.stringify(result));
+  return result;
 }
