@@ -515,3 +515,31 @@ body:has(#history.active) .top .top-title-line{align-items:center!important}
 #history .history-payments-reference th,#history .history-month-reference th{background:linear-gradient(100deg,#fff7e9,#fff0dd)!important;color:#6f3b0b!important;font-weight:850!important}
 #history .history-payments-reference tbody tr:nth-child(even),#history .history-month-reference tbody tr:nth-child(even){background:#f6f9ff!important}
 #history .history-payments-reference tbody td,#history .history-month-reference tbody td{border-color:#e0e8f4!important;color:#14264a!important}
+
+
+/* Reportes · evitar que la curva dorada tape el estado Firebase y la fecha.
+   La decoración dorada permanece en la tarjeta Reportes del negocio. */
+body:has(#reports.active) .top::before,
+body:has(#reports.active) .top::after{display:none!important}
+body:has(#reports.active) .top{isolation:auto!important;overflow:visible!important}
+body:has(#reports.active) .top .top-title-line{position:relative!important;z-index:2!important;overflow:visible!important}
+body:has(#reports.active) .top .hilen-save-top{
+ position:relative!important;z-index:5!important;isolation:isolate!important;
+ display:flex!important;align-items:center!important;justify-content:flex-end!important;
+ flex-wrap:wrap!important;gap:8px!important;
+}
+body:has(#reports.active) .top #hilenSaveIndicator{
+ position:relative!important;z-index:1!important;opacity:1!important;
+ box-shadow:0 2px 7px rgba(10,78,43,.12)!important;
+ font-weight:800!important;
+}
+body:has(#reports.active) .top #todayLabel{
+ position:relative!important;z-index:1!important;opacity:1!important;
+ background:#fff9ed!important;color:#944300!important;
+ border:1px solid #f2c57c!important;border-radius:100px!important;
+ box-shadow:0 2px 8px rgba(158,95,12,.11)!important;
+ font-weight:800!important;
+}
+@media(max-width:800px){
+ body:has(#reports.active) .top .hilen-save-top{width:100%;justify-content:flex-start!important}
+}
