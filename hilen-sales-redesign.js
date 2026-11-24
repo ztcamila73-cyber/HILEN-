@@ -131,3 +131,60 @@ function setup(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();
+
+/* HILEN: scoped Firebase diagnosis modal reference; presentation only. */
+(()=>{
+const svg=(p)=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+const info=svg('<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>');
+const check=svg('<path d="m5 12 5 5L19 7"/>');
+const network=svg('<circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="m10 8-4 8m8-8 4 8M8 19h8"/>');
+const scale=svg('<path d="M12 3v18M7 21h10M3 7h18M6 7l-4 9h8L6 7zm12 0-4 9h8l-4-9zM2 16c1 3 7 3 8 0m4 0c1 3 7 3 8 0"/>');
+const css=`
+#modal:has(.hcfg-diagnosis-reference) .modal-card{width:min(96vw,1440px)!important;max-width:1440px!important;background:#fbf8f3!important;border-radius:clamp(20px,2.5vw,38px)!important;padding:0!important;box-shadow:0 18px 55px #0006!important;max-height:92vh;overflow:auto}
+#modal:has(.hcfg-diagnosis-reference){backdrop-filter:blur(5px)}
+#modal .hcfg-diagnosis-reference{padding:clamp(20px,2.2vw,34px);color:#101c46;text-align:left}
+#modal .hcfg-diagnosis-reference .hcfg-popup-title{display:flex;align-items:center;gap:clamp(12px,1.7vw,26px);padding-bottom:20px;margin-bottom:24px;border-bottom:1px solid #e6d2af}
+#modal .hcfg-diagnosis-reference .hcfg-popup-title>span{display:grid;place-items:center;flex:none;width:clamp(52px,5.5vw,82px);height:clamp(48px,4.7vw,70px);padding:0;background:linear-gradient(135deg,#fff4df,#f3e2c2);border:1px solid #efddbd;border-radius:15px;color:#93600a}
+#modal .hcfg-diagnosis-reference .hcfg-popup-title>span svg{width:65%;height:65%}
+#modal .hcfg-diagnosis-reference .hcfg-popup-title h2{flex:1;border-left:2px solid #ad760f;padding:5px 0 5px clamp(12px,1.8vw,27px);font-size:clamp(20px,2.55vw,38px)!important;line-height:1.2;font-weight:800;letter-spacing:-.035em;color:#101c46!important;margin:0}
+#modal .hcfg-diagnosis-reference .hcfg-popup-title button{flex:none;display:grid;place-items:center;width:clamp(40px,4.7vw,67px);height:clamp(40px,4.7vw,67px);padding:0!important;border-radius:50%!important;background:#faf0df!important;border:1px solid #ead8b8!important;color:#93600a!important;font-size:clamp(28px,3vw,44px)!important;box-shadow:none!important}
+#modal .hcfg-diagnosis-reference .hcfg-popup-body{font-size:clamp(15px,1.65vw,24px);line-height:1.45}
+#modal .hcfg-diagnosis-reference .hcfg-diagnosis-banner{display:flex;align-items:center;gap:clamp(16px,1.8vw,28px);padding:clamp(16px,1.7vw,26px);border:1px solid #ead3a3;border-radius:20px;background:#fcf1da;color:#765019}
+#modal .hcfg-diagnosis-reference .hcfg-diagnosis-banner[data-state=ok]{background:#e7f7e4;border-color:#c6eac3;color:#103b18}
+#modal .hcfg-diagnosis-reference .hcfg-diagnosis-banner[data-state=error]{background:#fce9e7;border-color:#edc4c0;color:#912e29}
+#modal .hcfg-diagnosis-reference .hcfg-diagnosis-symbol{display:grid;place-items:center;flex:none;width:clamp(42px,3.7vw,56px);height:clamp(42px,3.7vw,56px);border-radius:50%;background:#c38924;color:white}
+#modal .hcfg-diagnosis-reference [data-state=ok] .hcfg-diagnosis-symbol{background:#2ca83d}
+#modal .hcfg-diagnosis-reference [data-state=error] .hcfg-diagnosis-symbol{background:#b53d35}
+#modal .hcfg-diagnosis-reference .hcfg-diagnosis-symbol svg{width:70%;height:70%;stroke-width:2.6}
+#modal .hcfg-diagnosis-reference #hcfgDiagnosisResult{flex:1;min-width:0;padding-left:clamp(12px,1.5vw,24px);border-left:2px solid currentColor;margin:0!important;color:inherit!important;overflow-wrap:anywhere}
+#modal .hcfg-diagnosis-reference .hcfg-diagnosis-note{display:flex;align-items:center;gap:12px;color:#354968;margin:16px 0 0!important}
+#modal .hcfg-diagnosis-reference .hcfg-diagnosis-note svg{width:30px;height:30px;flex:none;color:#7588a8}
+#modal .hcfg-diagnosis-reference .action-group{display:flex;justify-content:flex-start;gap:clamp(12px,1.6vw,24px);flex-wrap:wrap;margin:clamp(22px,2.7vw,40px) 0 5px!important}
+#modal .hcfg-diagnosis-reference .action-group button{display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:clamp(52px,5.2vw,76px);padding:12px clamp(18px,2.6vw,40px)!important;border-radius:17px!important;font-size:clamp(16px,1.8vw,27px)!important;font-weight:800!important;white-space:normal}
+#modal .hcfg-diagnosis-reference .action-group button svg{width:clamp(24px,2.5vw,36px);height:clamp(24px,2.5vw,36px);flex:none}
+#modal .hcfg-diagnosis-reference .action-group .primary{background:linear-gradient(#edb126,#996000)!important;color:white!important;border:1px solid #e5b344!important;box-shadow:0 4px 9px #9c690b28}
+#modal .hcfg-diagnosis-reference .action-group .secondary{background:linear-gradient(#fffdfa,#f8f0e2)!important;color:#101c46!important;border:1.5px solid #bd8a2c!important}
+#modal .hcfg-diagnosis-reference .action-group button[onclick="closeModal()"]{display:none!important}
+@media(max-width:600px){#modal .hcfg-diagnosis-reference .action-group button{width:100%}#modal .hcfg-diagnosis-reference .hcfg-popup-title{gap:10px}#modal .hcfg-diagnosis-reference .hcfg-diagnosis-banner{gap:10px}}
+`;
+function init(){
+if(document.getElementById('hcfg-diagnosis-reference-style'))return;
+const style=document.createElement('style');style.id='hcfg-diagnosis-reference-style';style.textContent=css;document.head.append(style);
+const root=document.getElementById('modalContent');if(!root)return;
+function render(){
+const result=root.querySelector('#hcfgDiagnosisResult'),popup=result?.closest('.hcfg-popup');if(!popup)return;
+if(!popup.classList.contains('hcfg-diagnosis-reference')){
+popup.classList.add('hcfg-diagnosis-reference');
+const heading=popup.querySelector('.hcfg-popup-title>span');if(heading)heading.innerHTML=info;
+const banner=document.createElement('div');banner.className='hcfg-diagnosis-banner';const symbol=document.createElement('span');symbol.className='hcfg-diagnosis-symbol';symbol.setAttribute('aria-hidden','true');banner.append(symbol);result.before(banner);banner.append(result);
+const note=popup.querySelector('.hcfg-popup-body>p');if(note){note.classList.add('hcfg-diagnosis-note');note.insertAdjacentHTML('afterbegin',info);}
+const buttons=popup.querySelectorAll('.action-group button');buttons.forEach(b=>{if(b.textContent.includes('Diagnosticar conexión'))b.insertAdjacentHTML('afterbegin',network);else if(b.textContent.includes('Revisar diferencias'))b.insertAdjacentHTML('afterbegin',scale);});
+}
+const banner=result.parentElement,symbol=banner.querySelector('.hcfg-diagnosis-symbol');const original=document.getElementById('hilenFirebaseDiagnosis');const kind=(result.dataset.kind||((original?.textContent===result.textContent)?original.className:'' )).toLowerCase();const msg=result.textContent.trim();const state=/\b(error|bad|danger|fail)\b/.test(kind)?'error':/\b(ok|good|success)\b/.test(kind)?'ok':'pending';
+if(banner.dataset.state!==state){banner.dataset.state=state;symbol.innerHTML=state==='ok'?check:info;}
+if(state==='ok'&&!result.querySelector('strong')){const match=msg.match(/^(Lectura de Realtime Database: correcta\.)([\s\S]*)$/i);if(match){const strong=document.createElement('strong');strong.textContent=match[1];result.replaceChildren(strong,document.createTextNode(match[2]));}}
+}
+new MutationObserver(render).observe(root,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['data-kind']});render();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
