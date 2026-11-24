@@ -10665,7 +10665,7 @@ function hcalStartStatus(){
 }
 function hcalRenderStatus(){
  const set=(id,value)=>{const e=document.getElementById(id);if(e&&e.textContent!==value)e.textContent=value};
- const r=hcalReport?.schema===1?hcalReport:null;
+ const r=hcalReport&&Number(hcalReport.schema)===1?hcalReport:null;
  const attempt=Date.parse(r?.lastAttemptAt||''),success=Date.parse(r?.lastSuccessAt||'');
  const stale=!Number.isFinite(attempt)||Date.now()-attempt>15*60000||attempt-Date.now()>60000;
  const validCount=n=>Number.isInteger(n)&&n>=0?String(n):'—';
@@ -10673,6 +10673,8 @@ function hcalRenderStatus(){
  let state='pending',service='Esperando informe de Apps Script',detail='Todavía no se ha recibido un informe verificable. Revisa la publicación del estado en Apps Script.';
  if(!hcalUid){service='Sesión de Firebase no disponible';detail='Inicia sesión y comprueba la conexión de Firebase.'}
  else if(hcalReadError||hcalFeedError){state='error';service='No se pudo verificar la conexión';detail=hcalReadError||'No se pudo leer el resumen de recordatorios en Firebase.'}
+ else if(hcalStatusReceived&&!hcalReport){service='Informe no encontrado para esta cuenta';detail='Firebase no devolvió un informe en calendarSyncStatus para tu sesión (UID terminado en '+hcalUid.slice(-6)+'). Comprueba que corresponda a la cuenta configurada en Apps Script.'}
+ else if(hcalStatusReceived&&!r){state='error';service='Formato de informe no reconocido';detail='Firebase devolvió un registro, pero su esquema no es compatible con HILEN.'}
  else if(r?.state==='error'){state='error';service='Error de sincronización';detail=errors[r.errorCode]||'Revisa el historial de ejecuciones de Apps Script.'}
  else if(r?.state==='ok'){
   if(stale){service='Informe desactualizado';detail='No se ha confirmado una ejecución reciente. Revisa el activador automático de Apps Script.'}
@@ -10697,7 +10699,7 @@ function hcalVerifyFeedback(state,message){
  const el=document.getElementById('hcalVerifyResult');
  if(el){el.hidden=false;el.dataset.state=state;el.textContent=message}
 }
-async function hcalVerifyStatus(){
+async function hcalVerifyStatus(quiet=false){
  if(hcalBusy)return;
  hcalVerifyFeedback('pending','Comprobando el último informe en Firebase…');
  let epoch=hcalEpoch, timer=null;
@@ -10706,32 +10708,37 @@ async function hcalVerifyStatus(){
   hcalVerifyFeedback('pending','Comprobando el último informe en Firebase…');
   if(!hcalStatusRef||!hcalFeedRef){hcalRenderStatus();hcalVerifyFeedback('error','No hay una sesión de Firebase activa. Inicia sesión con tu cuenta de HILEN.');showToast('No se pudo verificar','Inicia sesión con tu cuenta de HILEN.','error');return}
   hcalBusy=true;hcalRenderStatus();
-  const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('timeout')),12000)});
+  const controller=new AbortController();
+  const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>{reject(new Error('timeout'));controller.abort()},12000)});
+  const uid=hcalUid;
   const read=async()=>{
-   const connection=await cloudDb.ref('.info/connected').once('value');
-   if(connection.val()!==true)throw new Error('offline');
-   const readRef=ref=>typeof ref.get==='function'?ref.get():ref.once('value');
-   const result=await Promise.all([readRef(hcalStatusRef),readRef(hcalFeedRef)]);
-   const after=await cloudDb.ref('.info/connected').once('value');
-   if(after.val()!==true)throw new Error('offline');
-   return result;
+   const user=cloudAuth.currentUser;
+   if(!user||user.uid!==uid)throw new Error('session');
+   const token=await user.getIdToken();
+   const base=HILEN_FIREBASE_CONFIG.databaseURL.replace(/\/+$/,'');
+   const readPath=async path=>{
+    const response=await fetch(base+'/'+path+'.json?auth='+encodeURIComponent(token),{cache:'no-store',signal:controller.signal,referrerPolicy:'no-referrer'});
+    if(!response.ok)throw new Error(response.status===401||response.status===403?'permission':'http '+response.status);
+    return response.json();
+   };
+   return Promise.all([readPath('calendarSyncStatus/'+encodeURIComponent(uid)),readPath('users/'+encodeURIComponent(uid)+'/calendarFeed/sourceRevision')]);
   };
-  const [status,feed]=await Promise.race([read(),timeout]);
-  if(epoch!==hcalEpoch)return;
-  hcalReport=status.val();hcalStatusReceived=true;hcalReadError='';hcalFeedError=false;
-  const value=feed.val();hcalFeedRevision=value?.ready===true&&Number.isFinite(Number(value.sourceRevision))?Number(value.sourceRevision):null;
+  const [status,revision]=await Promise.race([read(),timeout]);
+  if(epoch!==hcalEpoch||cloudAuth.currentUser?.uid!==uid)return;
+  hcalReport=status;hcalStatusReceived=true;hcalReadError='';hcalFeedError=false;
+  const value=revision===null?null:{ready:true,sourceRevision:revision};hcalFeedRevision=value?.ready===true&&Number.isFinite(Number(value.sourceRevision))?Number(value.sourceRevision):null;
   const state=hcalRenderStatus(),detail=document.getElementById('hilenSettingsCalendarStatus')?.textContent||'';
   const checked=new Intl.DateTimeFormat('es-CO',{hour:'numeric',minute:'2-digit',second:'2-digit',timeZone:'America/Bogota'}).format(new Date());
   hcalVerifyFeedback(state,'Verificado a las '+checked+' · '+detail);
-  showToast(state==='ok'?'Google Calendar verificado':state==='error'?'Error de sincronización':'Verificación completada',detail,state==='ok'?'success':state==='error'?'error':'warning');
+  if(!quiet)showToast(state==='ok'?'Google Calendar verificado':state==='error'?'Error de sincronización':'Verificación completada',detail,state==='ok'?'success':state==='error'?'error':'warning');
  }catch(e){
   if(epoch!==hcalEpoch)return;
   const code=String(e?.code||e?.message||'').toLowerCase();
   hcalReadError=code.includes('permission')?'Firebase denegó la lectura del informe. Revisa las reglas y la cuenta de HILEN.':code.includes('timeout')?'Firebase no respondió en 12 segundos. Intenta nuevamente.':code.includes('offline')?'Firebase está desconectado. Comprueba tu conexión a Internet.':'No se pudo consultar Firebase. Comprueba la conexión y los permisos.';
-  hcalVerifyFeedback('error',hcalReadError);showToast('No se pudo verificar',hcalReadError,'error');
+  hcalVerifyFeedback('error',hcalReadError);if(!quiet)showToast('No se pudo verificar',hcalReadError,'error');
  }finally{if(timer!==null)clearTimeout(timer);if(epoch===hcalEpoch){hcalBusy=false;hcalRenderStatus()}}
 }
-setInterval(()=>{if(hcalUid)hcalRenderStatus()},60000);
+setInterval(()=>{if(hcalUid)hcalRenderStatus();if(document.getElementById('settings')?.classList.contains('active')&&!hcalBusy)hcalVerifyStatus(true)},60000);
 function hilenRefreshReminderSetupStates(){
  const notify='Notification' in window&&Notification.permission==='granted';
  const denied='Notification' in window&&Notification.permission==='denied';
