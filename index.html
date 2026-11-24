@@ -6208,6 +6208,23 @@ body > #app.app:not(.hidden) > #side.side > .nav > button,body.hilen-side-collap
 body > #app.app:not(.hidden) > #side.side > .hilen-brand-separator{margin:5px 8px!important}
 }
 </style>
+<style id="hilen-menu-zoom-style">
+#side .hilen-menu-zoom{display:flex;align-items:center;justify-content:center;flex:0 0 auto;gap:4px;margin:0 4px 7px;padding:3px;border:1px solid #b88c484f;border-radius:9px;background:#ffffff08}
+#side .hilen-menu-zoom button{appearance:none;display:flex;align-items:center;justify-content:center;min-width:29px;height:30px;padding:0 5px;border:1px solid transparent;border-radius:6px;background:#ffffff0b;color:#f5d393;font-size:12px;font-weight:700;cursor:pointer;line-height:1}
+#side .hilen-menu-zoom button:hover{background:#b88c4830;border-color:#b88c4860}
+#side .hilen-menu-zoom button:disabled{opacity:.35;cursor:default}
+#side .hilen-menu-zoom #hilenMenuZoomValue{font-size:10px;font-variant-numeric:tabular-nums;flex:1;max-width:55px}
+#side .hilen-menu-zoom button:focus-visible{outline:2px solid #e2b85e;outline-offset:1px}
+body.hilen-side-collapsed #side .hilen-menu-zoom{flex-wrap:wrap;gap:2px;padding:2px;margin:0 1px 4px}
+body.hilen-side-collapsed #side .hilen-menu-zoom #hilenMenuZoomValue{order:-1;flex-basis:100%;max-width:none;height:20px;background:transparent}
+body.hilen-side-collapsed #side .hilen-menu-zoom button{min-width:24px;height:26px;padding:0 2px}
+body #app:not(.hidden) #side.side > .nav,body.hilen-side-collapsed #app:not(.hidden) #side.side > .nav{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;grid-template-rows:none!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;touch-action:pan-y!important;overscroll-behavior-y:contain!important}
+body #app:not(.hidden) #side.side > .nav > button,body.hilen-side-collapsed #app:not(.hidden) #side.side > .nav > button{flex:0 0 auto!important;min-height:var(--hilen-nav-row,40px)!important;height:auto!important;max-height:none!important;padding-top:5px!important;padding-bottom:5px!important;line-height:1.2!important;white-space:normal!important;overflow-wrap:normal!important;box-sizing:border-box!important}
+body:not(.hilen-side-collapsed) #app:not(.hidden) #side.side > .nav > button{font-size:var(--hilen-nav-font,13px)!important}
+body.hilen-side-collapsed #app:not(.hidden) #side.side > .nav > button{font-size:0!important;line-height:0!important}
+body #app:not(.hidden) #side.side > .nav > button .ico,body.hilen-side-collapsed #app:not(.hidden) #side.side > .nav > button .ico{width:var(--hilen-nav-icon,21px)!important;height:var(--hilen-nav-icon,21px)!important;flex:0 0 var(--hilen-nav-icon,21px)!important}
+body #app:not(.hidden) #side.side > .nav > button .ico svg,body.hilen-side-collapsed #app:not(.hidden) #side.side > .nav > button .ico svg{width:100%!important;height:100%!important}
+</style>
 </head>
 <body>
 <!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
@@ -6285,6 +6302,7 @@ body > #app.app:not(.hidden) > #side.side > .hilen-brand-separator{margin:5px 8p
     <div id="cloudStatus" class="small muted" style="padding:0 12px 4px;display:flex;align-items:center;gap:7px"><span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="cloudStatusText">Comprobando nube…</span></div>
     <div id="cloudStatusDetail" class="small muted" style="padding:0 12px 12px;line-height:1.35">Tus datos se guardan automáticamente.</div>
     <div class="hilen-brand-separator" role="separator" aria-label="Separador entre logo y navegación"></div>
+    <div class="hilen-menu-zoom" role="group" aria-label="Tamaño del menú"><button type="button" id="hilenMenuZoomOut" onclick="hilenMenuZoomChange(-1)" aria-label="Reducir tamaño del menú" title="Reducir tamaño">A−</button><button type="button" id="hilenMenuZoomValue" onclick="hilenMenuZoomChange(0)" aria-label="Restablecer tamaño del menú" title="Restablecer tamaño">100%</button><button type="button" id="hilenMenuZoomIn" onclick="hilenMenuZoomChange(1)" aria-label="Aumentar tamaño del menú" title="Aumentar tamaño">A+</button></div>
     <nav class="nav">
       <button class="active" onclick="section('home',this)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span>Inicio</button>
       <button onclick="section('dailyActivity',this)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7 2v4M17 2v4M3 10h18M7 14h3M7 18h7"/></svg></span>Resumen diario</button>
@@ -12310,5 +12328,23 @@ bootstrapApp();
 <script src="./hilen-payments-redesign.js"></script>
 <script src="./hilen-sales-redesign.js"></script>
 <script src="./hilen-cashflow-redesign.js"></script>
+<script id="hilen-menu-zoom-script">
+(function(){
+  const levels=[90,100,110,120,130,140];let index=1;
+  try{const saved=Number(localStorage.getItem('HILEN_MENU_ZOOM_V1'));if(levels.includes(saved))index=levels.indexOf(saved)}catch(_){}
+  function apply(){
+    const side=document.getElementById('side');if(!side)return;
+    const n=levels[index],factor=n/100;
+    side.style.setProperty('--hilen-nav-font',(13*factor).toFixed(1)+'px');
+    side.style.setProperty('--hilen-nav-row',Math.round(40*factor)+'px');
+    side.style.setProperty('--hilen-nav-icon',Math.round(21*factor)+'px');
+    document.getElementById('hilenMenuZoomValue').textContent=n+'%';
+    document.getElementById('hilenMenuZoomOut').disabled=index===0;
+    document.getElementById('hilenMenuZoomIn').disabled=index===levels.length-1;
+  }
+  window.hilenMenuZoomChange=function(delta){index=delta===0?1:Math.max(0,Math.min(levels.length-1,index+delta));apply();try{localStorage.setItem('HILEN_MENU_ZOOM_V1',String(levels[index]))}catch(_){}};
+  apply();
+})();
+</script>
 </body>
 </html>
