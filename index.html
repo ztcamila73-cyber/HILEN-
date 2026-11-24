@@ -9147,7 +9147,7 @@ function statementPdfFile(client,start,end,sales,payments,balance){
       text('B I S U T E R Í A   F I N A  &  A C C E S O R I O S',M+2,51,6.5,false,'#dfdfdf');
       text('TU RESUMEN',R-2,20,10,true,C.white,'right');
       text('ESTADO DE CUENTA',R-2,38,15,true,C.white,'right');
-      text('Productos · Pagos · Saldo',R-2,63,8,false,'#d7dfe9','right');
+      text('Compras · Pagos · Saldo',R-2,63,8,false,'#d7dfe9','right');
       y=110;
     }else{
       rect(0,0,W,62,C.navy);rect(0,60,W,2,C.gold);
@@ -9179,7 +9179,7 @@ function statementPdfFile(client,start,end,sales,payments,balance){
   text(shortDate(start)+' a '+shortDate(end),M+277,y+28,10.5,true,C.ink);
   y+=62;
   const gap=10,w=(U-gap)/2;
-  cardSummary('PRODUCTOS DEL PERÍODO',sales.reduce((n,s)=>n+hilenSaleNetTotal(s),0),M,w,C.blueSoft,C.blue);
+  cardSummary('COMPRAS',sales.reduce((n,s)=>n+hilenSaleNetTotal(s),0),M,w,C.blueSoft,C.blue);
   cardSummary('PAGOS REALIZADOS (ABONOS)',payments.reduce((n,p)=>n+hilenNum(p.amount),0),M+w+gap,w,C.greenSoft,C.green);
   y+=68;
   cardSummary('SALDO PENDIENTE',balance.balance||0,M,U,C.goldSoft,C.navy);
@@ -9257,7 +9257,7 @@ function statementPdfFile(client,start,end,sales,payments,balance){
   text('- '+money(payments.reduce((n,p)=>n+hilenNum(p.amount),0)),R-16,y+33,9.2,true,C.green,'right');
   if(adjustment){text('Ajuste histórico de saldo',M+16,y+52,8.5,false,C.muted);text((adjustment<0?'- ':'')+money(Math.abs(adjustment)),R-16,y+51,9,true,C.ink,'right');}
   const separator=y+(adjustment?69:52);rule(separator,M+16,U-32);
-  text('SALDO PENDIENTE POR PAGAR',M+16,separator+12,10,true,C.ink);
+  text('SALDO PENDIENTE',M+16,separator+12,10,true,C.ink);
   text(money(balance.balance||0),R-16,separator+6,19,true,C.navy,'right');
   y+=boxHeight+8;
   // Cada página tiene pie y numeración propios. No se inventan operaciones ni valores.
