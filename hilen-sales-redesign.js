@@ -405,3 +405,43 @@ new MutationObserver(render).observe(root,{childList:true,subtree:true});for(con
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+
+
+/* HILEN: compact protection actions and modal sizing refinement. */
+(()=>{
+const css=`
+#settings .hilen-protection-links .hcfg-popup-link{border-radius:999px!important;padding:7px 16px!important;min-height:34px!important;font-size:12px!important;gap:8px!important}
+#settings .hilen-protection-links{gap:12px!important}
+#modal:has(.hilen-protection-detail) .modal-card{width:min(92vw,800px)!important;max-width:800px!important}
+#modal:has(.hilen-guide-reference) .modal-card{width:min(92vw,900px)!important;max-width:900px!important}
+#modal .hilen-protection-detail{padding:18px!important}
+#modal .hpd-head{gap:10px;padding-bottom:12px;margin-bottom:12px}
+#modal .hpd-head>span{width:46px;height:46px;border-radius:13px}
+#modal .hpd-head svg{width:26px;height:26px}
+#modal .hpd-head h2{font-size:22px!important}
+#modal .hpd-head p{font-size:13px!important}
+#modal .hpd-banner{font-size:13px;padding:9px;gap:9px}
+#modal .hpd-banner>span{width:36px;height:36px}
+#modal .hpd-banner svg{width:23px;height:23px}
+#modal .hpd-section{margin:15px 0 10px;padding-bottom:8px}
+#modal .hpd-section h3{font-size:19px!important}
+#modal .hpd-cards{gap:9px}
+#modal .hpd-card{grid-template-columns:56px minmax(0,1fr) auto;gap:10px;padding:10px;border-radius:14px}
+#modal .hpd-logo{width:52px;height:52px;border-radius:11px}
+#modal .hpd-logo svg{width:33px!important;height:33px!important}
+#modal .hpd-copy{padding-left:10px}
+#modal .hpd-copy h4{font-size:18px!important}
+#modal .hpd-copy p{font-size:13px!important;margin-bottom:4px}
+#modal .hpd-date{font-size:12px}
+#modal .hpd-badge{font-size:12px;padding:6px 10px}
+#modal .hilen-guide-head{padding:12px 15px}
+#modal .hilen-guide-head h2{font-size:21px!important}
+#modal .hilen-guide-grid{padding:14px;gap:10px}
+#modal .hilen-guide-item p{font-size:13px}
+#modal .hilen-guide-item>span{width:40px;height:40px}
+#modal .hilen-guide-item svg{width:25px;height:25px}
+@media(max-width:650px){#modal .hpd-card{grid-template-columns:44px minmax(0,1fr)}#modal .hpd-logo{width:40px;height:40px}#modal .hpd-badge{grid-column:2;justify-self:start}}
+`;
+const install=()=>{const style=document.createElement('style');style.id='hilen-protection-compact-v2';style.textContent=css;if(!document.getElementById(style.id))document.head.append(style);};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+})();
