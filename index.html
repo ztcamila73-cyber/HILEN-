@@ -6168,7 +6168,12 @@ body.hcfg-open .top{padding-top:0!important;padding-bottom:8px!important;margin-
 @keyframes hilenWelcomeName{0%,100%{text-shadow:none}50%{text-shadow:0 0 14px #d6a13b66}}
 @media(prefers-reduced-motion:reduce){#home.active .welcome h2,#home.active .welcome .muted,#home.active .welcome-wave,#home.active #homeUserName{animation:none!important}}
 </style>
-</head>
+<style>
+#home .hilen-home-highlight{display:flex;align-items:center;gap:10px;padding:12px 16px;margin:0 0 14px;border:1px solid #e7d8b9;border-radius:12px;background:linear-gradient(100deg,#fbf2df,#fffdf8);color:#634d28;font-size:14px;line-height:1.5}
+#home .hilen-home-highlight strong{color:#8b6222;font-weight:650}
+#home .hilen-home-highlight-icon{display:grid;place-items:center;width:30px;height:30px;flex:none;border-radius:50%;background:#f1e0bd;color:#a57727}
+#home .hilen-home-highlight-icon svg{width:19px;height:19px}
+</style></head>
 <body>
 <!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
 <div id="auth" class="auth">
@@ -6292,7 +6297,7 @@ body.hcfg-open .top{padding-top:0!important;padding-bottom:8px!important;margin-
     <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
 
     <section id="home" class="section active">
-      <div class="welcome-row"><div class="welcome"><h2><span class="welcome-wave" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 11V6.5a1.5 1.5 0 0 1 3 0V10"/><path d="M10 10V5a1.5 1.5 0 0 1 3 0v5"/><path d="M13 10V6a1.5 1.5 0 0 1 3 0v6"/><path d="M16 12V8.5a1.5 1.5 0 0 1 3 0v6.1c0 4-2.5 6.4-6.4 6.4H11c-2.2 0-3.7-1.1-4.8-2.8L4 14.8a1.6 1.6 0 0 1 2.7-1.7L9 16"/></svg></span> ¡Bienvenida, <span id="homeUserName">HILEN</span>!</h2><div class="muted">Resumen general de tu negocio. Todo en orden para seguir creciendo.</div></div><div id="homeDatePretty" class="date-pill"></div></div>
+      <div class="welcome-row"><div class="welcome"><h2><span class="welcome-wave" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 11V6.5a1.5 1.5 0 0 1 3 0V10"/><path d="M10 10V5a1.5 1.5 0 0 1 3 0v5"/><path d="M13 10V6a1.5 1.5 0 0 1 3 0v6"/><path d="M16 12V8.5a1.5 1.5 0 0 1 3 0v6.1c0 4-2.5 6.4-6.4 6.4H11c-2.2 0-3.7-1.1-4.8-2.8L4 14.8a1.6 1.6 0 0 1 2.7-1.7L9 16"/></svg></span> ¡Bienvenida, <span id="homeUserName">HILEN</span>!</h2></div><div id="homeDatePretty" class="date-pill"></div></div>
 
       <div class="home-dashboard-grid">
         <div class="quick-grid home-quick">
@@ -6304,6 +6309,7 @@ body.hcfg-open .top{padding-top:0!important;padding-bottom:8px!important;margin-
         </div>
 
         </div>
+      <div class="hilen-home-highlight"><span class="hilen-home-highlight-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></span><div>Resumen general de tu negocio. <strong>Todo en orden para seguir creciendo.</strong></div></div>
       <div class="home-kpis">
         <div class="kpi-card"><div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg></div><div class="kpi-text"><div class="kpi-caption">Ventas hoy</div><div id="sSales" class="kpi-value">$0</div><div id="sSalesCount" class="kpi-sub">0 transacciones</div></div></div>
         <div class="kpi-card"><div class="kpi-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></div><div class="kpi-text"><div class="kpi-caption">Clientes</div><div id="sClients" class="kpi-value">0</div><div class="kpi-sub">registrados</div></div></div>
