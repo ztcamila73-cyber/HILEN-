@@ -319,3 +319,89 @@ const subtle=document.createElement('style');subtle.textContent=`
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+
+
+/* HILEN: protection details cards and distinct information button. */
+(()=>{
+const svg=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+const layers=svg('<path d="m12 2 10 5-10 5L2 7zM2 12l10 5 10-5M2 17l10 5 10-5"/>');
+const info=svg('<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>');
+const warning=svg('<path d="M12 3 2 21h20L12 3zM12 9v5m0 3h.01"/>');
+const check=svg('<path d="m5 12 5 5L19 7"/>');
+const cal=svg('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/>');
+const css=`
+#settings .hilen-protect-open{display:inline-flex!important;width:auto!important;max-width:100%;min-height:36px!important;padding:8px 16px!important;margin-top:15px!important;border-radius:999px!important;background:#fffaf1!important;color:#845710!important;border:1px solid #dfc18a!important;font-size:13px!important;box-shadow:0 2px 5px #80550c0d!important;gap:8px!important}
+#settings .hilen-protect-open span:last-child{display:none!important}
+#settings .hilen-protect-open:hover{background:#f9edd8!important}
+#modal:has(.hilen-protection-detail) .modal-card{width:min(94vw,920px)!important;max-width:920px!important;background:#fff!important;padding:0!important;border-radius:24px!important;max-height:92vh;overflow:auto;box-shadow:0 14px 48px #0004!important}
+#modal:has(.hilen-protection-detail) button[data-hilen-extra-close]{display:none!important}
+#modal .hilen-protection-detail{padding:24px;color:#142047;text-align:left}
+#modal .hpd-head{display:flex;align-items:center;gap:14px;border-bottom:1px solid #e6e7eb;padding-bottom:15px;margin-bottom:17px}
+#modal .hpd-head>span{display:grid;place-items:center;width:58px;height:58px;flex:none;border-radius:16px;background:linear-gradient(#f8d47a,#a46b08);color:white;border:3px solid #f7e6bd}
+#modal .hpd-head svg{width:32px;height:32px}
+#modal .hpd-head>div{flex:1;min-width:0}
+#modal .hpd-head h2{font-size:26px!important;margin:0 0 3px;color:#142047!important}
+#modal .hpd-head p{font-size:15px;margin:0;color:#58627b}
+#modal .hpd-close{border-radius:50%!important;width:38px;height:38px;padding:0!important;background:#f7f8fa!important;color:#182039!important;border:1px solid #e3e5ea!important;font-size:26px!important;flex:none}
+#modal .hpd-banner{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:#fff5df;border:1px solid #f0d6a4;color:#69460e;font-size:15px;line-height:1.5}
+#modal .hpd-banner>span{display:grid;place-items:center;flex:none;width:45px;height:45px;background:#ffe8bd;border-radius:12px;color:#c77a08}
+#modal .hpd-banner svg{width:29px;height:29px}
+#modal .hpd-banner[data-state=ok]{background:#eaf7e9;border-color:#c9e4c8;color:#205b32}
+#modal .hpd-banner[data-state=ok]>span{background:#d5eed6;color:#23843b}
+#modal .hpd-banner[data-state=error]{background:#fceaea;border-color:#efc7c7;color:#962c2c}
+#modal .hpd-banner[data-state=error]>span{background:#f8d6d6;color:#a42a2a}
+#modal .hpd-section{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #e6e7eb;margin:20px 0 14px;padding-bottom:10px;flex-wrap:wrap}
+#modal .hpd-section h3{margin:0;color:#173568;font-size:22px!important}
+#modal .hpd-section small{color:#626b7e;font-size:12px}
+#modal .hpd-cards{display:grid;gap:12px}
+#modal .hpd-card{display:grid;grid-template-columns:76px minmax(0,1fr) auto;align-items:center;gap:14px;border:1px solid #e6d8b8;border-radius:17px;padding:14px;background:#fffbf2;color:#142047}
+#modal .hpd-card[data-state=ok]{border-color:#c2d9ce;background:linear-gradient(120deg,#fcfdfc,#f1f9f3)}
+#modal .hpd-card[data-state=error]{border-color:#e8caca;background:#fdf3f3}
+#modal .hpd-logo{display:grid;place-items:center;width:70px;height:70px;border-radius:14px;background:#faf0dc;color:#b77b14}
+#modal .hpd-card[data-state=ok] .hpd-logo{background:#e7f5e8}
+#modal .hpd-logo svg{width:43px!important;height:43px!important}
+#modal .hpd-copy{min-width:0;border-left:2px solid #c48b23;padding-left:14px}
+#modal .hpd-card[data-state=ok] .hpd-copy{border-color:#29904a}
+#modal .hpd-card[data-state=error] .hpd-copy{border-color:#b83e3e}
+#modal .hpd-copy h4{font-size:21px!important;margin:0 0 3px;color:#142047!important}
+#modal .hpd-copy p{font-size:15px;line-height:1.45;margin:0 0 5px;overflow-wrap:anywhere}
+#modal .hpd-date{display:flex;align-items:center;gap:6px;font-size:13px;color:#606776}
+#modal .hpd-date svg{width:17px;height:17px;flex:none}
+#modal .hpd-badge{border-radius:999px;padding:8px 13px;background:#f8eacb;color:#805710;font-size:14px;font-weight:750;white-space:nowrap}
+#modal .hpd-card[data-state=ok] .hpd-badge{background:#d9f0d9;color:#195e2c}
+#modal .hpd-card[data-state=error] .hpd-badge{background:#f6dada;color:#9a2929}
+@media(max-width:650px){#modal .hilen-protection-detail{padding:16px}#modal .hpd-head h2{font-size:21px!important}#modal .hpd-card{grid-template-columns:48px minmax(0,1fr);gap:9px;padding:10px}#modal .hpd-logo{width:46px;height:46px}#modal .hpd-logo svg{width:30px!important;height:30px!important}#modal .hpd-badge{grid-column:2;justify-self:start}#modal .hpd-copy h4{font-size:18px!important}}
+`;
+function init(){
+const root=document.getElementById('modalContent'),modal=document.getElementById('modal'),settings=document.getElementById('settings');if(!root||!modal||!settings)return;
+const style=document.createElement('style');style.textContent=css;document.head.append(style);
+const source=document.getElementById('hilenBackupProgress'),summary=document.getElementById('hilenSaveGuideStatus');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const state=t=>/error|desconectad|fallid|sin sincronizar/i.test(t)?'error':/^(?:✓\s*)?(?:operativo|protegido|conectado|confirmado|completo|sincronizado)$/i.test(t.trim())?'ok':'pending';
+function render(){
+const popup=root.querySelector('.hcfg-popup');if(popup?.querySelector('.hcfg-popup-title h2')?.textContent.trim()==='Detalles de protección'){
+root.innerHTML='<div class="hilen-protection-detail" role="dialog" aria-modal="true" aria-labelledby="hpdTitle"><header class="hpd-head"><span>'+layers+'</span><div><h2 id="hpdTitle">Detalles de protección</h2><p>Estado de tus datos, sincronización y copias de seguridad.</p></div><button type="button" class="hpd-close" aria-label="Cerrar" onclick="closeModal()">×</button></header><div class="hpd-banner" role="status"><span></span><div></div></div><div class="hpd-section"><h3>Estado de protección</h3><small>Los tiempos de espera no incluyen la subida.</small></div><div class="hpd-cards"></div></div>';
+}
+const detail=root.querySelector('.hilen-protection-detail');if(!detail)return;
+for(const b of modal.querySelectorAll('button')){if(root.contains(b))continue;const label=[b.getAttribute('aria-label'),b.title,b.getAttribute('onclick'),b.className].join(' ');if(/cerrar|closeModal|modal[-_]?close|close[-_]?modal/i.test(label)||/^(×|✕|✖|✗|x)$/i.test(b.textContent.trim()))b.setAttribute('data-hilen-extra-close','');}
+const banner=detail.querySelector('.hpd-banner'),message=summary?.textContent.trim()||'Revisando confirmaciones…',status=document.getElementById('hcfgProtected')?.textContent||'';
+const mode=state(status),icon=mode==='ok'?check:mode==='error'?warning:info;
+if(banner.dataset.state!==mode){banner.dataset.state=mode;banner.firstElementChild.innerHTML=icon;}
+if(banner.lastElementChild.textContent!==message)banner.lastElementChild.textContent=message;
+const rows=Array.from(source?.querySelectorAll('.hilen-backup-progress-row')||[]);
+const cards=rows.map(row=>{
+const name=row.querySelector('strong')?.textContent.trim()||'Servicio';
+const badge=row.querySelector('.hcfg-badge'),label=badge?.textContent.trim()||'Sin confirmar',mode=state(label);
+const date=row.querySelector('small')?.textContent.trim()||'Sin confirmar';
+const clone=row.cloneNode(true);clone.querySelectorAll('strong,small,.hcfg-badge,.hcfg-status-logo,svg').forEach(n=>n.remove());
+const description=clone.textContent.trim().replace(/\s+/g,' ')||'Sin información confirmada.';
+const logo=row.querySelector('.hcfg-status-logo svg,svg')?.outerHTML||info;
+return '<article class="hpd-card" data-state="'+mode+'"><div class="hpd-logo">'+logo+'</div><div class="hpd-copy"><h4>'+esc(name)+'</h4><p>'+esc(description)+'</p><div class="hpd-date">'+cal+esc(date)+'</div></div><span class="hpd-badge">'+esc(label)+'</span></article>';
+}).join('')||'<p>Consultando el estado de los servicios…</p>';
+const target=detail.querySelector('.hpd-cards');if(target.dataset.rendered!==cards){target.dataset.rendered=cards;target.innerHTML=cards;}
+}
+function label(){const btn=settings.querySelector('.hilen-protect-open span');if(btn&&btn.textContent!=='Ver cómo se protegen tus datos')btn.textContent='Ver cómo se protegen tus datos';}
+new MutationObserver(render).observe(root,{childList:true,subtree:true});for(const el of [source,summary,document.getElementById('hcfgProtected')])if(el)new MutationObserver(render).observe(el,{childList:true,subtree:true,characterData:true,attributes:true});new MutationObserver(label).observe(settings,{childList:true,subtree:true});label();render();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
