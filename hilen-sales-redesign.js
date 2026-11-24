@@ -188,3 +188,48 @@ new MutationObserver(render).observe(root,{childList:true,subtree:true,character
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+
+
+/* HILEN: protection explanation reference dialog (no data mutations). */
+(()=>{
+const svg=(p)=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+const shield=svg('<path d="M12 2 3 6v6c0 5 4 9 9 11 5-2 9-6 9-11V6z"/><path d="m7.5 12 3 3 6-6"/>');
+const cloud=svg('<path d="M6 20h12a5 5 0 0 0 1-10 7 7 0 0 0-14-1 5.5 5.5 0 0 0 1 11zM12 10v7m-3-3 3 3 3-3"/>');
+const sheets='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#00b83e" d="M5 1h10l6 6v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z"/><path fill="#79dca0" d="M15 1v6h6z"/><path fill="none" stroke="white" stroke-width="1.3" d="M7 11h10v7H7zM7 14.5h10M12 11v7"/></svg>';
+const drive='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#00a942" d="M8 2h8L7 18H0z"/><path fill="#ffba00" d="M16 2l8 16h-8L8 2z"/><path fill="#1683fc" d="M0 18h24l-4 5H4z"/><path fill="#167b36" d="M8 2h8l-4 7z"/><path fill="#ea4335" d="M16 18h8l-4 5z"/></svg>';
+const css=`
+#settings .hilen-protect-open{width:100%;display:flex!important;align-items:center;gap:9px;justify-content:flex-start;padding:10px 14px!important;border:1px solid #e6cc9f!important;border-radius:12px!important;background:linear-gradient(#fffdf8,#faf0e0)!important;color:#80550c!important;font-weight:750!important;text-align:left}
+#settings .hilen-protect-open svg{width:20px;height:20px;flex:none}#settings .hilen-protect-open span:last-child{margin-left:auto;font-size:20px}
+#modal:has(.hilen-protect-reference) .modal-card{width:min(96vw,1440px)!important;max-width:1440px!important;border-radius:30px!important;background:#fffdfa!important;padding:0!important;box-shadow:0 18px 50px #0004!important;max-height:92vh;overflow:auto}
+#modal:has(.hilen-protect-reference){backdrop-filter:blur(5px)}
+#modal .hilen-protect-reference{color:#10143b;text-align:left;overflow:hidden;border:1px solid #e9ded0;border-radius:inherit;background:#fffdfb}
+#modal .hilen-protect-head{display:flex;align-items:center;gap:clamp(12px,1.6vw,24px);padding:clamp(18px,2vw,30px);background:linear-gradient(#fffdfa,#f9efe1);border-bottom:1px solid #eadbcc}
+#modal .hilen-protect-head-icon{display:grid;place-items:center;flex:none;width:clamp(50px,5vw,68px);height:clamp(50px,5vw,68px);border-radius:17px;background:linear-gradient(#f5a600,#b96b00);color:white}
+#modal .hilen-protect-head-icon svg{width:65%;height:65%}
+#modal .hilen-protect-head h2{font-size:clamp(23px,2.6vw,38px)!important;line-height:1.15;font-weight:850;color:#10143b!important;margin:0;flex:none}
+#modal .hilen-protect-head p{border-left:3px solid #d68a0b;padding-left:clamp(16px,2.3vw,34px);font-size:clamp(15px,1.65vw,24px);line-height:1.4;margin:0;flex:1}
+#modal .hilen-protect-close{flex:none;width:40px;height:40px;border-radius:50%!important;padding:0!important;display:grid;place-items:center;background:#fff9ed!important;color:#94600c!important;border:1px solid #e8d6b7!important;font-size:28px!important;line-height:1}
+#modal .hilen-protect-rows{display:grid;gap:12px;padding:clamp(16px,1.8vw,26px)}
+#modal .hilen-protect-row{display:grid;grid-template-columns:clamp(90px,14vw,185px) minmax(0,1fr);align-items:center;gap:clamp(12px,1.8vw,26px);padding:clamp(10px,1.2vw,18px);border:1px solid #e8e2dc;border-radius:24px;background:linear-gradient(120deg,#fffdf9,#f7f7fa);box-shadow:0 1px 2px #00000008}
+#modal .hilen-protect-row-icon{min-height:clamp(74px,8vw,110px);display:flex;align-items:center;justify-content:center;gap:12px;background:linear-gradient(#fcfaf7,#f9f1e6);border-radius:19px;color:#cc8104}
+#modal .hilen-protect-row-icon svg{width:clamp(42px,5.3vw,77px);height:clamp(42px,5.3vw,77px)}
+#modal .hilen-protect-row-icon.dual svg{width:clamp(28px,4.5vw,64px);height:clamp(28px,4.5vw,64px)}
+#modal .hilen-protect-copy{border-left:3px solid #db930c;padding-left:clamp(14px,1.8vw,26px);min-width:0}
+#modal .hilen-protect-copy h3{font-size:clamp(18px,2vw,29px)!important;font-weight:850;color:#10143b!important;margin:0 0 5px;line-height:1.2}
+#modal .hilen-protect-copy p{font-size:clamp(14px,1.6vw,23px);line-height:1.45;margin:0;overflow-wrap:anywhere;color:#10143b}
+@media(max-width:760px){#modal .hilen-protect-head{flex-wrap:wrap;gap:12px}#modal .hilen-protect-head h2{flex:1}#modal .hilen-protect-head p{order:4;flex-basis:100%;padding-left:12px}#modal .hilen-protect-row{grid-template-columns:75px minmax(0,1fr);gap:10px;border-radius:16px}#modal .hilen-protect-row-icon.dual{gap:4px}#modal .hilen-protect-copy{padding-left:12px}}
+`;
+function open(){
+const root=document.getElementById('modalContent'),modal=document.getElementById('modal');if(!root||!modal)return;
+const row=(icon,title,copy,dual=false)=>'<article class="hilen-protect-row"><div class="hilen-protect-row-icon'+(dual?' dual':'')+'">'+icon+'</div><div class="hilen-protect-copy"><h3>'+title+'</h3><p>'+copy+'</p></div></article>';
+root.innerHTML='<div class="hilen-protect-reference" role="dialog" aria-modal="true" aria-labelledby="hilenProtectTitle"><header class="hilen-protect-head"><span class="hilen-protect-head-icon">'+shield+'</span><h2 id="hilenProtectTitle">¿Para qué sirve?</h2><p>HILEN protege tus datos y los mantiene actualizados mediante Firebase y copias adicionales en Google.</p><button type="button" class="hilen-protect-close" aria-label="Cerrar">×</button></header><div class="hilen-protect-rows">'+row(sheets+drive,'Sincronización de Google Sheets y Google Drive','Intentan actualizarse después de los cambios y al menos una vez al día, mientras HILEN está abierto, conectado a Internet y con autorización de Google vigente.',true)+row(cloud,'Copias de seguridad','Google Drive conserva un archivo de recuperación del día, actualizado con los cambios, y otro llamado <strong>HILEN_ultimo_respaldo.json</strong> dentro de <strong>HILEN - Respaldos</strong>, cuando se logra sincronizar.')+row(shield,'Importante','Si cierras HILEN o caduca la autorización, el navegador no puede garantizar el envío diario por sí solo.')+'</div></div>';
+const close=root.querySelector('.hilen-protect-close');close.addEventListener('click',()=>{if(typeof closeModal==='function')closeModal();else modal.classList.add('hidden');document.querySelector('.hilen-protect-open')?.focus();});modal.classList.remove('hidden');close.focus();
+}
+function init(){
+const settings=document.getElementById('settings');if(!settings)return;
+if(!document.getElementById('hilen-protect-reference-style')){const s=document.createElement('style');s.id='hilen-protect-reference-style';s.textContent=css;document.head.append(s);}
+function enhance(){for(const summary of settings.querySelectorAll('details > summary')){if(summary.textContent.trim()!=='Cómo se protegen tus datos')continue;const details=summary.parentElement;const btn=document.createElement('button');btn.type='button';btn.className='hilen-protect-open';btn.setAttribute('aria-haspopup','dialog');btn.innerHTML=shield+'<span>Cómo se protegen tus datos</span><span aria-hidden="true">›</span>';btn.addEventListener('click',open);details.replaceWith(btn);}}
+enhance();new MutationObserver(enhance).observe(settings,{childList:true,subtree:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
