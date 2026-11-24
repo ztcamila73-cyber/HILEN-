@@ -6350,7 +6350,8 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
           <div><label class="label">Hasta</label><input id="stEnd" class="input" type="date"></div>
           <button class="primary statement-generate-btn" onclick="generateStatement()"><span class="statement-btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6"/></svg></span>Generar estado de cuenta</button>
         </div>
-        <div class="notice blue statement-simple-note"><span class="statement-note-icon">i</span><div>El <b>saldo pendiente</b> se calcula hasta la fecha final seleccionada, aunque la deuda haya comenzado antes del período. HILEN también te avisará si ese mismo estado de cuenta ya fue descargado anteriormente, pero tú decides si deseas generarlo otra vez.</div></div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:13px"><button type="button" class="secondary" style="border:1px solid #d9b77a;color:#805c18;border-radius:10px" onclick="hilenStatementFullHistory()">Ver historial completo del cliente</button><span class="small muted">Incluye las compras a crédito y los abonos anteriores al mes seleccionado.</span></div>
+        <div class="notice blue statement-simple-note"><span class="statement-note-icon">i</span><div>El <b>saldo pendiente</b> se calcula hasta la fecha final seleccionada. La vista previa muestra el período elegido y su saldo anterior; el PDF incluye todo el historial hasta la fecha de corte. Puedes ampliar el período con «Ver historial completo del cliente».</div></div>
       </div>
       <div id="statementResult"></div>
     </section>
@@ -8554,10 +8555,24 @@ function hilenResetStatementZoom(){
   hilenApplyStatementZoom();
 }
 
+function hilenStatementFullHistory(){
+ const typed=$('statementClientName')?.value?.trim()||'',c=findClientByTypedName(typed);
+ if(!c)return showToast('Selecciona un cliente registrado','','error');
+ const end=$('stEnd')?.value||today();
+ const dates=(db.sales||[]).filter(s=>s?.clientId===c.id&&s.type==='credit').map(s=>s.date).concat((db.payments||[]).filter(p=>p?.clientId===c.id).map(p=>p.date)).filter(d=>typeof d==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d)&&d<=end).sort();
+ const adjustmentDate=c.balanceAdjustmentDate||String(c.balanceAdjustedAt||'').slice(0,10);
+ if(Number(c.balanceAdjustment)&&/^\d{4}-\d{2}-\d{2}$/.test(adjustmentDate)&&adjustmentDate<=end)dates.push(adjustmentDate);
+ dates.sort();
+ $('stStart').value=dates[0]||end;$('stEnd').value=end;
+ ['stStart','stEnd'].forEach(key=>$(key).dispatchEvent(new Event('change',{bubbles:true})));
+ window.hilenRefreshDateControls?.();
+ generateStatement();
+}
 function generateStatement(force=false){
   const typed=$('statementClientName')?.value?.trim()||'',c=findClientByTypedName(typed),a=$('stStart')?.value,z=$('stEnd')?.value;
   if(!typed)return showToast('Escribe el nombre del cliente','','error');
   if(!c)return showToast('Cliente no encontrado','El nombre debe coincidir con un cliente registrado.','error');
+  if(['stStart','stEnd'].some(key=>$(key)?.closest('.hilen-friendly-date')?.querySelector('[aria-invalid="true"]')))return showToast('Fecha inválida','Corrige las fechas escritas antes de generar el estado.','error');
   if(!a||!z||a>z)return showToast('Rango de fechas inválido','Revisa las fechas seleccionadas.','error');
   const previous=previousStatementDownload(c.id,a,z);
   if(previous&&!force){
@@ -11290,9 +11305,14 @@ function hilenTimelineHTML(cid,start='0000-01-01',end='9999-12-31'){
    date:p.date,time:p.time,createdAt:p.createdAt,id:p.id,kind:'pay',label:'Abono recibido',reference:'',
    detail:`Recibido en ${accountBadge(p.destination||'cash')}`,amount:hilenNum(p.amount)
  }))).sort(hilenCompare);
- let balance=0;
- const ledger=rows.map(m=>{balance+=m.kind==='sale'?m.amount:-m.amount;return {...m,running:Math.max(0,balance)}}).filter(m=>m.date>=start);
- return `<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Movimiento</th><th>Detalle</th><th>Valor del movimiento</th><th>Saldo restante</th><th>Detalle</th></tr></thead><tbody>${ledger.map(m=>`<tr><td>${hilenInvoiceDate(m.date)}${m.time?`<div class="small muted">${esc(m.time)}</div>`:''}</td><td><span class="hilen-statement-movement ${m.kind==='pay'?'pay':'sale'}"><span class="hilen-move-dot"></span>${esc(m.label)}</span><span class="hilen-movement-effect">${m.kind==='sale'?'Aumenta la deuda':'Reduce la deuda'}</span></td><td><div class="small">${m.reference?`<b>Factura ${esc(m.reference)}</b><br>`:''}${m.detail}</div></td><td class="hilen-statement-amount">${money(m.amount)}</td><td><b>${money(m.running)}</b></td><td>${m.kind==='sale'?`<button type="button" class="hilen-statement-eye" onclick="hilenStatementSaleDetail('${m.id}')" title="Ver productos y detalle de la compra" aria-label="Ver detalle de la factura ${esc(m.reference||'')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`:`<button type="button" class="hilen-statement-eye payment-eye" onclick="hilenStatementPaymentDetail('${m.id}')" title="Ver detalle del abono" aria-label="Ver detalle del abono del ${esc(hilenInvoiceDate(m.date))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`}</td></tr>`).join('')||'<tr><td colspan="6">No hay movimientos en este período.</td></tr>'}</tbody></table></div>${c?.balanceAdjustment?`<div class="notice warn" style="margin-top:10px">Ajuste histórico de saldo: ${money(c.balanceAdjustment)}. El saldo real al corte incorpora este ajuste; no corresponde a una factura individual.</div>`:''}<div class="hilen-invoice-totals"><span>SALDO GENERAL PENDIENTE</span><b>${money(clientBalance(cid,end).balance)}</b></div>`;
+ const adjustmentDate=c?.balanceAdjustmentDate||String(c?.balanceAdjustedAt||'').slice(0,10)||'0000-01-01';
+ const adjustment=adjustmentDate<=end?(Number(c?.balanceAdjustment)||0):0;
+ const earlier=rows.filter(m=>m.date&&m.date<start),opening=earlier.reduce((n,m)=>n+(m.kind==='sale'?m.amount:-m.amount),0)+(adjustmentDate<start?adjustment:0);
+ let balance=opening,adjusted=adjustmentDate<start;
+ const ledger=rows.filter(m=>m.date&&m.date>=start).map(m=>{if(!adjusted&&adjustmentDate<=m.date){balance+=adjustment;adjusted=true}balance+=m.kind==='sale'?m.amount:-m.amount;return {...m,running:Math.max(0,balance)}});
+ const openingRow=earlier.length||opening?'<tr><td>'+esc(hilenInvoiceDate(start))+'</td><td><b>Saldo anterior al período</b></td><td>'+earlier.length+' movimiento(s) anteriores al rango seleccionado.</td><td>—</td><td><b>'+money(Math.max(0,opening))+'</b></td><td>—</td></tr>':'';
+ const historyNote=earlier.length?'<div class="notice blue" style="margin:10px 0">Hay <b>'+earlier.length+'</b> movimiento(s) anteriores a este período. Para verlos individualmente, pulsa <b>Ver historial completo del cliente</b>.</div>':'';
+ return `${historyNote}<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Movimiento</th><th>Detalle</th><th>Valor del movimiento</th><th>Saldo restante</th><th>Detalle</th></tr></thead><tbody>${openingRow}${ledger.map(m=>`<tr><td>${hilenInvoiceDate(m.date)}${m.time?`<div class="small muted">${esc(m.time)}</div>`:''}</td><td><span class="hilen-statement-movement ${m.kind==='pay'?'pay':'sale'}"><span class="hilen-move-dot"></span>${esc(m.label)}</span><span class="hilen-movement-effect">${m.kind==='sale'?'Aumenta la deuda':'Reduce la deuda'}</span></td><td><div class="small">${m.reference?`<b>Factura ${esc(m.reference)}</b><br>`:''}${m.detail}</div></td><td class="hilen-statement-amount">${money(m.amount)}</td><td><b>${money(m.running)}</b></td><td>${m.kind==='sale'?`<button type="button" class="hilen-statement-eye" onclick="hilenStatementSaleDetail('${m.id}')" title="Ver productos y detalle de la compra" aria-label="Ver detalle de la factura ${esc(m.reference||'')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`:`<button type="button" class="hilen-statement-eye payment-eye" onclick="hilenStatementPaymentDetail('${m.id}')" title="Ver detalle del abono" aria-label="Ver detalle del abono del ${esc(hilenInvoiceDate(m.date))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`}</td></tr>`).join('')||'<tr><td colspan="6">No hay compras a crédito ni abonos nuevos en este período. Si existe saldo pendiente, consulta el historial completo.</td></tr>'}</tbody></table></div>${c?.balanceAdjustment?`<div class="notice warn" style="margin-top:10px">Ajuste histórico de saldo: ${money(c.balanceAdjustment)}. El saldo real al corte incorpora este ajuste; no corresponde a una factura individual.</div>`:''}<div class="hilen-invoice-totals"><span>SALDO GENERAL PENDIENTE</span><b>${money(clientBalance(cid,end).balance)}</b></div>`;
 }
 
 /* Dashboard anual, reportes y avisos de abono pendientes. Sin duplicar registros. */
