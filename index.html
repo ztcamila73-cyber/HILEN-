@@ -6231,6 +6231,20 @@ body > #app:not(.hidden) #side.side > .nav > button,body.hilen-side-collapsed > 
 body > #app:not(.hidden) #side.side > .nav > button .hilen-nav-label{display:block;flex:1 1 0;min-width:0;line-height:1.35!important;white-space:normal!important;overflow-wrap:anywhere;text-align:left}
 body.hilen-side-collapsed > #app:not(.hidden) #side.side > .nav > button .hilen-nav-label{display:none!important}
 </style>
+<style id="hilen-menu-clear-sections">
+body #app.app:not(.hidden) #side.side > .nav,body.hilen-side-collapsed #app.app:not(.hidden) #side.side > .nav{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:9px!important;grid-template-rows:none!important;overflow-y:auto!important;overflow-x:hidden!important;padding:5px 4px 12px!important}
+body #app.app:not(.hidden) #side.side > .nav > button,body.hilen-side-collapsed #app.app:not(.hidden) #side.side > .nav > button{position:relative!important;display:flex!important;flex:0 0 auto!important;height:auto!important;min-height:calc(var(--hilen-nav-row,40px) + 8px)!important;max-height:none!important;margin:0!important;padding:10px 8px!important;gap:9px!important;border:1px solid #c6a26838!important;border-radius:10px!important;background:#ffffff06!important;box-sizing:border-box!important;overflow:hidden!important;align-items:center!important;line-height:1.35!important;white-space:normal!important}
+body #app.app:not(.hidden) #side.side > .nav > button .hilen-nav-label{display:block!important;flex:1 1 0!important;min-width:0!important;white-space:normal!important;overflow-wrap:break-word!important;line-height:1.4!important;text-align:left!important;position:static!important}
+body #app.app:not(.hidden) #side.side > .nav > button.active{border-color:#d4a75c!important;background:linear-gradient(100deg,#b98b392e,#b98b3910)!important}
+body #app.app:not(.hidden) #side.side > .nav > button:hover{border-color:#d4a75c99!important}
+body.hilen-side-collapsed #app.app:not(.hidden) #side.side > .nav > button .hilen-nav-label{display:none!important}
+body.hilen-side-collapsed #app.app:not(.hidden) #side.side > .nav > button{justify-content:center!important}
+body.hilen-side-collapsed #app #side .hilen-menu-zoom{display:none!important}
+#home.active .welcome-wave{animation:hilenWelcomeRepeat 5s ease-in-out infinite!important}
+#home.active #homeUserName{animation:hilenWelcomeName 5s ease-in-out infinite!important}
+@keyframes hilenWelcomeRepeat{0%,52%,100%{transform:rotate(0)}7%,21%{transform:rotate(13deg)}14%,28%{transform:rotate(-9deg)}35%{transform:rotate(0)}}
+@media(prefers-reduced-motion:reduce){#home.active .welcome-wave,#home.active #homeUserName{animation:none!important}}
+</style>
 </head>
 <body>
 <!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
