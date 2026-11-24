@@ -12380,5 +12380,25 @@ bootstrapApp();
 window.hilenToggleMenuZoomPanel=function(btn){const panel=document.getElementById('hilenMenuZoomPanel');if(!panel)return;panel.hidden=!panel.hidden;btn.setAttribute('aria-expanded',String(!panel.hidden));};
 (function(){const side=document.getElementById('side'),panel=document.getElementById('hilenMenuZoomPanel'),trigger=side?.querySelector('.hilen-menu-zoom-trigger');if(!panel||!trigger)return;function close(){panel.hidden=true;trigger.setAttribute('aria-expanded','false')}document.addEventListener('click',e=>{if(!e.target.closest('.hilen-menu-zoom-disclosure'))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});new MutationObserver(()=>{if(document.body.classList.contains('hilen-side-collapsed'))close()}).observe(document.body,{attributes:true,attributeFilter:['class']});})();
 </script>
+<style id="hilen-white-menu-scroll">
+body #app.app:not(.hidden) #side.side > .nav,body.hilen-side-collapsed #app.app:not(.hidden) #side.side > .nav{scrollbar-width:thin!important;scrollbar-color:#ffffffb3 transparent!important;overscroll-behavior-y:contain!important}
+body #app.app:not(.hidden) #side.side > .nav::-webkit-scrollbar{display:block!important;width:4px!important}
+body #app.app:not(.hidden) #side.side > .nav::-webkit-scrollbar-thumb{background:#ffffffb3!important;border-radius:10px!important}
+#side.side > .hilen-nav-scroll-control{flex:0 0 30px!important;min-height:30px!important;display:flex!important;align-items:center;justify-content:center;width:100%;margin:0!important;padding:0!important;border:0!important;background:transparent!important;color:#fff!important;cursor:pointer;box-shadow:none!important}
+#side.side > .hilen-nav-scroll-control[hidden]{display:none!important}
+#side.side > .hilen-nav-scroll-control svg{width:26px;height:20px;display:block;border-radius:12px;background:#ffffff12;transition:background .15s}
+#side.side > .hilen-nav-scroll-control:hover svg{background:#ffffff30}
+#side.side > .hilen-nav-scroll-control:disabled{opacity:.28!important;cursor:default}
+#side.side > .hilen-nav-scroll-control:focus-visible{outline:1px solid white;outline-offset:-3px}
+</style>
+<script id="hilen-white-menu-scroll-script">
+(function(){
+const side=document.getElementById('side'),nav=side&&side.querySelector(':scope > .nav');if(!nav)return;
+function make(dir){const b=document.createElement('button');b.type='button';b.className='hilen-nav-scroll-control';b.hidden=true;b.setAttribute('aria-label',dir<0?'Subir en el menú':'Bajar en el menú');b.title=b.getAttribute('aria-label');b.innerHTML='<svg viewBox="0 0 26 20" fill="none" aria-hidden="true"><path d="'+(dir<0?'M8 12l5-5 5 5':'M8 8l5 5 5-5')+'" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';b.addEventListener('click',()=>nav.scrollBy({top:dir*Math.max(65,nav.clientHeight*.65),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));return b;}
+const up=make(-1),down=make(1);nav.before(up);nav.after(down);
+function sync(){const overflow=nav.clientHeight>0&&nav.scrollHeight-nav.clientHeight>2;up.hidden=down.hidden=!overflow;up.disabled=nav.scrollTop<=1;down.disabled=nav.scrollTop+nav.clientHeight>=nav.scrollHeight-2;}
+nav.addEventListener('scroll',sync,{passive:true});window.addEventListener('resize',sync);if(window.ResizeObserver){const ro=new ResizeObserver(sync);ro.observe(nav);ro.observe(side);Array.from(nav.children).forEach(el=>ro.observe(el));}sync();
+})();
+</script>
 </body>
 </html>
