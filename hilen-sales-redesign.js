@@ -475,3 +475,62 @@ for(const el of siblings)if(el.matches('svg,span')&&!el.textContent.trim()&&!el.
 function init(){clean();new MutationObserver(clean).observe(document.body,{childList:true,subtree:true});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+
+
+/* HILEN: Firebase review reference, preserving comparison output and actions. */
+(()=>{
+const svg=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+const database=svg('<ellipse cx="10" cy="5" rx="7" ry="3"/><path d="M3 5v13c0 2 4 3 7 3M17 5v6M3 11c0 2 4 3 7 3"/><circle cx="17" cy="17" r="5"/><path d="m15 17 1.5 1.5L19 16"/>');
+const check=svg('<path d="m5 12 5 5L19 7"/>');
+const warn=svg('<path d="M12 3 2 21h20L12 3zM12 9v5m0 3h.01"/>');
+const info=svg('<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>');
+const css=`
+#modal:has(.hilen-firebase-review-ref) .modal-card{width:min(94vw,920px)!important;max-width:920px!important;background:#fff!important;border-radius:25px!important;padding:0!important;box-shadow:0 16px 48px #0004!important;max-height:92vh;overflow:auto}
+#modal:has(.hilen-firebase-review-ref){backdrop-filter:blur(5px)}
+#modal:has(.hilen-firebase-review-ref) [data-hilen-review-extra-close]{display:none!important}
+#modal .hilen-firebase-review-ref{padding:clamp(18px,3vw,34px);color:#111c40;text-align:left}
+#modal .hfr-head{display:flex;align-items:center;gap:16px;margin-bottom:25px}
+#modal .hfr-head-icon{display:grid;place-items:center;width:60px;height:58px;border-radius:14px;background:linear-gradient(#f6e8c8,#eedbb3);color:#aa760e;flex:none}
+#modal .hfr-head-icon svg{width:40px;height:40px}
+#modal .hfr-head h2{border-left:3px solid #d9a638;padding:5px 0 5px 16px;margin:0;flex:1;color:#111c40!important;font-size:clamp(22px,2.5vw,32px)!important;font-weight:800;line-height:1.2}
+#modal .hfr-close{display:grid;place-items:center;width:42px;height:42px;border-radius:50%!important;background:#f6f7f9!important;border:1px solid #e0e3e9!important;color:#111c40!important;font-size:28px!important;padding:0!important;flex:none}
+#modal .hilen-firebase-review-ref .hfr-status{display:flex;align-items:center;gap:14px;padding:13px 17px!important;margin:0 0 14px!important;border-radius:13px!important;background:#fff2d9!important;border:1px solid #ecd3a3!important;color:#81530c!important;font-size:17px!important;font-weight:750;line-height:1.4}
+#modal .hilen-firebase-review-ref .hfr-status.good{background:#e0f5e7!important;border-color:#c0e7cb!important;color:#075b27!important}
+#modal .hilen-firebase-review-ref .hfr-status.bad,#modal .hilen-firebase-review-ref .hfr-status.error{background:#fce8e8!important;border-color:#edc0c0!important;color:#9e3030!important}
+#modal .hfr-status-icon{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#b77c13;color:white;flex:none}
+#modal .hfr-status.good .hfr-status-icon{background:#329350}
+#modal .hfr-status.bad .hfr-status-icon,#modal .hfr-status.error .hfr-status-icon{background:#ae3434}
+#modal .hfr-status-icon svg{width:21px;height:21px}
+#modal .hfr-account{font-size:14px!important;color:#52617b!important;margin:13px 0 20px!important;overflow-wrap:anywhere;line-height:1.5}
+#modal .hfr-count{display:grid;grid-template-columns:minmax(160px,27%) minmax(0,1fr);align-items:center;gap:18px;padding:13px 15px!important;border:1px solid #e5dfd5;border-radius:13px;background:#faf7f2;color:#111c40;margin:0 0 11px!important;font-size:16px!important;line-height:1.4}
+#modal .hfr-count b{border-left:4px solid #d9a638;border-right:1px solid #bfc2c9;padding:3px 10px 3px 12px;font-size:16px;font-weight:800}
+#modal .hfr-note{display:flex;align-items:flex-start;gap:10px;color:#586780!important;font-size:14px!important;line-height:1.5;margin:15px 0 3px!important}
+#modal .hfr-note svg{width:22px;height:22px;flex:none}
+@media(max-width:600px){#modal .hfr-head{gap:10px;margin-bottom:18px}#modal .hfr-head-icon{width:43px;height:43px}#modal .hfr-head-icon svg{width:28px;height:28px}#modal .hfr-count{grid-template-columns:1fr;gap:5px}#modal .hfr-count b{border-right:0}#modal .hfr-status{font-size:15px!important}}
+`;
+function init(){
+const root=document.getElementById('modalContent'),modal=document.getElementById('modal');if(!root||!modal)return;
+const style=document.createElement('style');style.textContent=css;document.head.append(style);
+function enhance(){
+const h=Array.from(root.children).find(e=>e.tagName==='H2'&&['Revisión de Firebase','Registros que requieren revisión'].includes(e.textContent.trim()));
+if(h&&!root.querySelector('.hilen-firebase-review-ref')){
+const wrap=document.createElement('div');wrap.className='hilen-firebase-review-ref';wrap.setAttribute('role','dialog');wrap.setAttribute('aria-modal','true');wrap.setAttribute('aria-labelledby','hfrTitle');
+const original=Array.from(root.children);const header=document.createElement('header');header.className='hfr-head';header.innerHTML='<span class="hfr-head-icon">'+database+'</span>';h.id='hfrTitle';header.append(h);
+const close=document.createElement('button');close.type='button';close.className='hfr-close';close.setAttribute('aria-label','Cerrar');close.textContent='×';close.addEventListener('click',()=>{if(typeof closeModal==='function')closeModal();else modal.classList.add('hidden');});header.append(close);wrap.append(header);
+for(const el of original){if(el===h)continue;
+if(el.matches('button')&&/cerrar/i.test(el.textContent.trim()))continue;
+if(el.matches('p.notice')){el.classList.add('hfr-status');const sym=document.createElement('span');sym.className='hfr-status-icon';sym.innerHTML=el.classList.contains('good')?check:warn;el.prepend(sym);}
+else if(el.matches('p')&&/^Cuenta:/i.test(el.textContent.trim()))el.classList.add('hfr-account');
+else if(el.matches('p')&&/^(En Firebase:|En este dispositivo:)/i.test(el.textContent.trim())){el.classList.add('hfr-count');const label=el.querySelector('b,strong');if(label){const content=document.createElement('span');for(const n of Array.from(el.childNodes))if(n!==label)content.append(n);el.append(content);}}
+else if(el.matches('p.small.muted')){el.classList.add('hfr-note');el.insertAdjacentHTML('afterbegin',info);}
+if(el.matches('.action-group')){for(const b of el.querySelectorAll('button'))if(/^Cerrar$/i.test(b.textContent.trim()))b.hidden=true,b.style.setProperty('display','none','important');}
+wrap.append(el);
+}root.replaceChildren(wrap);
+}
+if(!root.querySelector('.hilen-firebase-review-ref'))return;
+for(const b of modal.querySelectorAll('button')){if(root.contains(b))continue;const label=[b.getAttribute('aria-label'),b.title,b.getAttribute('onclick'),b.className].join(' ');if(/cerrar|closeModal|modal[-_]?close|close[-_]?modal/i.test(label)||/^(×|✕|✖|✗|x)$/i.test(b.textContent.trim()))b.setAttribute('data-hilen-review-extra-close','');}
+}
+new MutationObserver(enhance).observe(root,{childList:true,subtree:true});enhance();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
