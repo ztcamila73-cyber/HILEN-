@@ -6169,10 +6169,21 @@ body.hcfg-open .top{padding-top:0!important;padding-bottom:8px!important;margin-
 @media(prefers-reduced-motion:reduce){#home.active .welcome h2,#home.active .welcome .muted,#home.active .welcome-wave,#home.active #homeUserName{animation:none!important}}
 </style>
 <style>
-#home .hilen-home-highlight{display:block!important;margin:34px 0 20px!important;padding:20px 0 0!important;border:0!important;border-top:1px solid #e5dccb!important;border-radius:0!important;background:none!important;box-shadow:none!important}
-#home .hilen-home-highlight h2{font-size:clamp(23px,2.2vw,32px)!important;line-height:1.2!important;font-weight:800!important;letter-spacing:-.025em!important;color:#17213a!important;margin:0 0 6px!important}
-#home .hilen-home-highlight p{font-size:14px!important;line-height:1.5!important;color:#8b692f!important;font-weight:500!important;margin:0!important}
-@media(max-width:700px){#home .hilen-home-highlight{margin-top:26px!important;padding-top:17px!important;margin-bottom:16px!important}}
+#home .hilen-home-highlight{display:block!important;margin:38px 0 22px!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important}
+#home .hilen-home-divider{display:flex;align-items:center;gap:9px;width:100%;margin:0 0 24px;pointer-events:none}
+#home .hilen-home-divider i{display:block;height:1px;flex:1;background:linear-gradient(90deg,transparent,#c5a36a)}
+#home .hilen-home-divider i:last-child{background:linear-gradient(90deg,#c5a36a,transparent)}
+#home .hilen-home-divider span{width:7px;height:7px;transform:rotate(45deg);border:1px solid #b78a38;background:#e8cd94}
+#home .hilen-home-highlight h2{font-size:clamp(23px,2.2vw,32px)!important;line-height:1.2!important;font-weight:800!important;letter-spacing:-.025em!important;color:#17213a!important;margin:0 0 7px!important}
+#home .hilen-home-highlight p{font-size:15px!important;line-height:1.5!important;color:#69645b!important;font-weight:500!important;margin:0!important}
+#home .hilen-growing{display:inline-block;color:#956b25;font-weight:750;position:relative}
+#home.active .hilen-growing{animation:hilenGrowthReveal 1.2s .2s ease-out both}
+#home .hilen-growth-spark{display:inline-block;color:#b58b38;font-size:13px;transform-origin:center}
+#home.active .hilen-growth-spark{animation:hilenGrowthSpark 1.1s .6s ease-in-out 2}
+@keyframes hilenGrowthReveal{0%{opacity:.55;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes hilenGrowthSpark{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4) rotate(35deg);opacity:.55}}
+@media(max-width:700px){#home .hilen-home-highlight{margin-top:30px!important;margin-bottom:18px!important}#home .hilen-home-divider{margin-bottom:20px}}
+@media(prefers-reduced-motion:reduce){#home.active .hilen-growing,#home.active .hilen-growth-spark{animation:none!important}}
 </style></head>
 <body>
 <!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
@@ -6309,7 +6320,7 @@ body.hcfg-open .top{padding-top:0!important;padding-bottom:8px!important;margin-
         </div>
 
         </div>
-      <div class="hilen-home-highlight"><h2>Resumen general de tu negocio</h2><p>Todo en orden para seguir creciendo.</p></div>
+      <div class="hilen-home-highlight"><div class="hilen-home-divider" aria-hidden="true"><i></i><span></span><i></i></div><h2>Resumen general de tu negocio</h2><p>Todo en orden para <span class="hilen-growing">seguir creciendo<span class="hilen-growth-spark" aria-hidden="true"> ✦</span></span>.</p></div>
       <div class="home-kpis">
         <div class="kpi-card"><div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg></div><div class="kpi-text"><div class="kpi-caption">Ventas hoy</div><div id="sSales" class="kpi-value">$0</div><div id="sSalesCount" class="kpi-sub">0 transacciones</div></div></div>
         <div class="kpi-card"><div class="kpi-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8-.4 4.6 1.2 5 4.5"/></svg></div><div class="kpi-text"><div class="kpi-caption">Clientes</div><div id="sClients" class="kpi-value">0</div><div class="kpi-sub">registrados</div></div></div>
