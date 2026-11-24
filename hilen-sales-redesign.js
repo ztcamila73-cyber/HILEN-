@@ -233,3 +233,80 @@ enhance();new MutationObserver(enhance).observe(settings,{childList:true,subtree
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+
+
+/* HILEN settings: compact reference dialogs and horizontal protection actions. */
+(()=>{
+const icon=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+const shield=icon('<path d="M12 3 4 6v6c0 4 3 7 8 10 5-3 8-6 8-10V6z"/><path d="m8 12 3 3 5-6"/>');
+const power=icon('<path d="M12 2v10M6 5a9 9 0 1 0 12 0"/>');
+const refresh=icon('<path d="M20 4v6h-6M4 20v-6h6M5 9a8 8 0 0 1 15-2M4 17a8 8 0 0 0 15-2"/>');
+const cloud=icon('<path d="M6 20h12a4 4 0 0 0 1-8 7 7 0 0 0-13-2 5 5 0 0 0 0 10zM12 18v-7m-3 3 3-3 3 3"/>');
+const folder=icon('<path d="M3 6h7l2 3h9v12H3zM12 11v7m-3-3 3 3 3-3"/>');
+const scale=icon('<path d="M12 3v18M7 21h10M3 7h18M6 7l-4 9h8L6 7zm12 0-4 9h8l-4-9z"/>');
+const info=icon('<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>');
+const css=`
+#modal:has(.hcfg-diagnosis-reference,.hilen-protect-reference,.hilen-guide-reference) .modal-card{width:min(94vw,1080px)!important;max-width:1080px!important}
+#modal:has(.hcfg-diagnosis-reference,.hilen-protect-reference,.hilen-guide-reference) button[data-hilen-extra-close]{display:none!important}
+#modal .hcfg-diagnosis-reference{padding:24px!important}
+#modal .hcfg-diagnosis-reference .hcfg-popup-title h2{font-size:clamp(20px,2vw,28px)!important}
+#modal .hcfg-diagnosis-reference .hcfg-popup-body{font-size:clamp(14px,1.3vw,17px)!important}
+#modal .hcfg-diagnosis-reference .hcfg-popup-title>span{width:54px;height:50px}
+#modal .hcfg-diagnosis-reference .hcfg-popup-title button{width:44px;height:44px;font-size:28px!important}
+#modal .hcfg-diagnosis-reference .action-group{gap:14px!important;margin-top:22px!important}
+#modal .hcfg-diagnosis-reference .action-group button{font-size:17px!important;min-height:48px;padding:10px 20px!important}
+#modal .hcfg-diagnosis-reference .action-group button svg{width:24px;height:24px}
+#modal .hcfg-diagnosis-reference .hcfg-diagnosis-banner{padding:16px;gap:16px}
+#modal .hilen-protect-head{padding:18px;gap:14px}
+#modal .hilen-protect-head h2{font-size:clamp(20px,2vw,28px)!important}
+#modal .hilen-protect-head p,#modal .hilen-protect-copy p{font-size:clamp(14px,1.25vw,17px)!important}
+#modal .hilen-protect-copy h3{font-size:clamp(17px,1.6vw,21px)!important}
+#modal .hilen-protect-head-icon{width:48px;height:48px}
+#modal .hilen-protect-rows{padding:16px;gap:10px}
+#modal .hilen-protect-row{grid-template-columns:clamp(75px,11vw,130px) minmax(0,1fr);padding:10px;gap:14px;border-radius:18px}
+#modal .hilen-protect-row-icon{min-height:76px}
+#modal .hilen-protect-row-icon svg{width:48px;height:48px}
+#modal .hilen-protect-row-icon.dual svg{width:38px;height:38px}
+#settings .hilen-protection-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0 4px}
+#settings .hilen-protection-links .hcfg-popup-link{display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:9px!important;min-height:46px!important;padding:9px 12px!important;border:1px solid #e5cfa9!important;border-radius:12px!important;background:#fffaf1!important;color:#79500e!important;font-size:13px!important;line-height:1.3}
+#settings .hilen-protection-links .hcfg-popup-link:nth-child(2){background:linear-gradient(#eeb83f,#a86e08)!important;color:white!important;border-color:#c78c22!important}
+#settings .hilen-protection-links .hcfg-popup-link:nth-child(3){background:#f8f8fa!important;color:#17254b!important;border-color:#d9dce4!important}
+#settings .hilen-protection-links svg{width:20px;height:20px;flex:none}
+#settings .hilen-protection-links .hcfg-popup-link span:last-child{margin-left:0!important}
+#modal .hilen-guide-reference{background:#fffdfa;color:#111831;border:1px solid #e5cda2;border-radius:22px;overflow:hidden;text-align:left}
+#modal .hilen-guide-head{display:flex;align-items:center;gap:12px;padding:15px 18px;background:linear-gradient(#fffdfa,#f7e8d0);border-bottom:1px solid #eddcc0}
+#modal .hilen-guide-head h2{margin:0;flex:1;font-size:clamp(19px,2vw,26px)!important;color:#111831!important}
+#modal .hilen-guide-power{display:grid;place-items:center;width:45px;height:45px;border-radius:12px;color:white;background:linear-gradient(#f6b72a,#9c6100);flex:none}
+#modal .hilen-guide-power svg{width:30px;height:30px}
+#modal .hilen-guide-label{border:1px solid #e5c07b;border-radius:999px;padding:8px 12px;color:#79500e;font-weight:700;font-size:13px}
+#modal .hilen-guide-close{width:36px;height:36px;border-radius:50%!important;background:#fff8ed!important;color:#8e5b0a!important;border:1px solid #e7d3b1!important;padding:0!important;font-size:24px!important}
+#modal .hilen-guide-grid{display:grid;grid-template-columns:1fr 1.15fr 1.7fr;padding:18px;gap:14px}
+#modal .hilen-guide-item{display:flex;align-items:flex-start;gap:10px;padding-right:12px;border-right:1px solid #e5d2b3}
+#modal .hilen-guide-item:last-child{border:0;padding-right:0}
+#modal .hilen-guide-item>span{width:48px;height:48px;flex:none;display:grid;place-items:center;border-radius:13px;background:#fcf2e2;color:#ad760b}
+#modal .hilen-guide-item svg{width:30px;height:30px}
+#modal .hilen-guide-item p{margin:0;font-size:14px;line-height:1.5}
+@media(max-width:800px){#settings .hilen-protection-links{grid-template-columns:1fr}#modal .hilen-guide-grid{grid-template-columns:1fr}#modal .hilen-guide-item{border-right:0;border-bottom:1px solid #e5d2b3;padding:0 0 12px}#modal .hilen-guide-label{display:none}}
+`;
+function init(){
+const root=document.getElementById('modalContent'),modal=document.getElementById('modal'),settings=document.getElementById('settings');if(!root||!modal||!settings)return;
+const style=document.createElement('style');style.textContent=css;document.head.append(style);
+function links(){
+const buttons=['protection','diagnosis','guide'].map(t=>settings.querySelector('button[onclick="hcfgOpenDetails(\''+t+'\')"]'));
+if(buttons.some(b=>!b)||buttons[0].parentElement.classList.contains('hilen-protection-links'))return;
+const group=document.createElement('div');group.className='hilen-protection-links';buttons[0].before(group);
+buttons.forEach((b,i)=>{const label=b.textContent.replace(/[ⓘ›]/g,'').trim();b.innerHTML=[shield,scale,power][i]+'<span>'+label+'</span>';group.append(b);});
+}
+function guide(){
+const popup=root.querySelector('.hcfg-popup');if(!popup||popup.querySelector('.hcfg-popup-title h2')?.textContent.trim()!=='Antes de cerrar HILEN')return;
+const item=(i,t)=>'<div class="hilen-guide-item"><span>'+i+'</span><p>'+t+'</p></div>';
+root.innerHTML='<div class="hilen-guide-reference" role="dialog" aria-modal="true" aria-labelledby="hilenGuideTitle"><header class="hilen-guide-head"><span class="hilen-guide-power">'+power+'</span><h2 id="hilenGuideTitle">Antes de cerrar HILEN</h2><span class="hilen-guide-label">✓ Comprobación de guardado</span><button class="hilen-guide-close" type="button" aria-label="Cerrar" onclick="closeModal()">×</button></header><div class="hilen-guide-grid">'+item(cloud,'Verifica el estado de <strong>Firebase</strong> (Pendiente o Sin sincronizar) antes de cerrar.')+item(refresh,'<strong>Guarda y respalda tu información</strong> y confirma las copias en Firebase, Google Sheets y Google Drive.')+item(folder,'Si hay un <strong>conflicto, error de conexión o copia pendiente, no borres</strong> información ni restaures respaldos anteriores. Usa «Diagnosticar conexión» y descarga una copia JSON si es necesario.')+'</div></div>';
+}
+function clean(){
+guide();const custom=root.querySelector('.hcfg-diagnosis-reference,.hilen-protect-reference,.hilen-guide-reference');if(!custom)return;
+for(const b of modal.querySelectorAll('button')){if(root.contains(b))continue;const label=(b.getAttribute('aria-label')||'')+' '+(b.getAttribute('title')||'')+' '+(b.getAttribute('onclick')||'');if(/cerrar|closeModal/i.test(label)||/^(×|✕|✖|✗|x)$/i.test(b.textContent.trim())||/modal[-_]?close|close[-_]?modal/i.test(b.className)){b.setAttribute('data-hilen-extra-close','');}}
+}
+links();new MutationObserver(links).observe(settings,{childList:true,subtree:true});new MutationObserver(clean).observe(root,{childList:true,subtree:true});clean();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
