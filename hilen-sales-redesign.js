@@ -306,7 +306,16 @@ function clean(){
 guide();const custom=root.querySelector('.hcfg-diagnosis-reference,.hilen-protect-reference,.hilen-guide-reference');if(!custom)return;
 for(const b of modal.querySelectorAll('button')){if(root.contains(b))continue;const label=(b.getAttribute('aria-label')||'')+' '+(b.getAttribute('title')||'')+' '+(b.getAttribute('onclick')||'');if(/cerrar|closeModal/i.test(label)||/^(×|✕|✖|✗|x)$/i.test(b.textContent.trim())||/modal[-_]?close|close[-_]?modal/i.test(b.className)){b.setAttribute('data-hilen-extra-close','');}}
 }
-links();new MutationObserver(links).observe(settings,{childList:true,subtree:true});new MutationObserver(clean).observe(root,{childList:true,subtree:true});clean();
+links();new MutationObserver(links).observe(settings,{childList:true,subtree:true});
+const subtle=document.createElement('style');subtle.textContent=`
+#settings .hilen-protection-links{display:flex!important;flex-wrap:wrap;gap:10px!important;margin:12px 0 3px!important}
+#settings .hilen-protection-links button[onclick="hcfgOpenDetails('diagnosis')"]{display:none!important}
+#settings .hilen-protection-links .hcfg-popup-link{width:auto!important;min-height:34px!important;padding:7px 13px!important;border-radius:9px!important;box-shadow:none!important;font-size:12px!important;gap:7px!important;font-weight:650!important}
+#settings .hilen-protection-links .hcfg-popup-link:first-child{background:#fffaf3!important;color:#91601a!important;border:1px solid #e8d8be!important}
+#settings .hilen-protection-links .hcfg-popup-link:last-child{background:#f7f8fa!important;color:#3f4d68!important;border:1px solid #e0e3e9!important}
+#settings .hilen-protection-links .hcfg-popup-link svg{width:16px;height:16px}
+#settings .hilen-protection-links .hcfg-popup-link:hover{filter:brightness(.97)}
+`;document.head.append(subtle);new MutationObserver(clean).observe(root,{childList:true,subtree:true});clean();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
