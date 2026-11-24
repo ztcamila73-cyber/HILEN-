@@ -9138,8 +9138,7 @@ function statementPdfFile(client,start,end,sales,payments,balance){
   cardSummary('COMPRAS A CRÉDITO',sales.filter(s=>s.type==='credit').reduce((n,s)=>n+hilenSaleNetTotal(s),0),M,w,C.blueSoft,C.blue);
   cardSummary('COMPRAS DE CONTADO',sales.filter(s=>s.type==='paid').reduce((n,s)=>n+hilenSaleNetTotal(s),0),M+w+gap,w,C.light,C.navy);
   y+=68;
-  cardSummary('ABONOS DEL PERÍODO',payments.reduce((n,p)=>n+hilenNum(p.amount),0),M,w,C.greenSoft,C.green);
-  cardSummary('SALDO PENDIENTE',balance.balance||0,M+w+gap,w,C.goldSoft,C.navy);
+  cardSummary('SALDO PENDIENTE',balance.balance||0,M,U,C.goldSoft,C.navy);
   y+=75;
   text('MOVIMIENTOS DEL PERÍODO',M,y,12.2,true,C.ink);
   text('En orden de fecha',R,y+3,8,false,C.muted,'right');
@@ -9153,7 +9152,7 @@ function statementPdfFile(client,start,end,sales,payments,balance){
   let running=balance.opening;
   rounded(M,y,U,33,8,C.goldSoft,C.border);text('SALDO ANTERIOR AL PERÍODO',M+15,y+10,8.5,true,C.ink);text(money(running),R-15,y+10,10,true,C.ink,'right');y+=42;
   if(!chronological.length){
-    const emptyLines=wrap('Entre el '+shortDate(start)+' y el '+shortDate(end)+' no se encontraron compras de contado, a crédito ni abonos de este cliente. Esto no significa que no tenga historial. Amplía el rango de fechas o consulta el historial completo en HILEN.',U-30,9);
+    const emptyLines=wrap('Entre el '+shortDate(start)+' y el '+shortDate(end)+' no se registraron compras ni abonos. '+(balance.balance>0?'El saldo pendiente de '+money(balance.balance)+' corresponde a obligaciones anteriores y continúa pendiente de pago.':'A la fecha de corte no hay saldo pendiente por pagar.'),U-30,9);
     const emptyHeight=42+emptyLines.length*12;ensure(emptyHeight+10);
     rounded(M,y,U,emptyHeight,11,C.blueSoft,C.border);
     text('No hay movimientos en las fechas seleccionadas.',M+15,y+12,10,true,C.ink);
