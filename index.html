@@ -9216,7 +9216,7 @@ function generateStatement(force=false){
   const creditPeriod=bal.periodSales.filter(r=>r.type==='credit').reduce((n,r)=>n+hilenSaleNetTotal(r),0),cashPeriod=bal.periodSales.filter(r=>r.type==='paid').reduce((n,r)=>n+hilenSaleNetTotal(r),0),paidPeriod=bal.periodPayments.reduce((n,r)=>n+hilenNum(r.amount),0);
   const repeatNotice=previous?`<div class="notice warn" style="margin-bottom:16px"><b>Documento generado nuevamente.</b> Este mismo estado de cuenta ya se había descargado ${esc(statementDownloadedLabel(previous.downloadedAt))}.</div>`:'';
   lastGeneratedStatementMeta={clientId:c.id,clientName:c.name,start:a,end:z,key:statementDownloadKey(c.id,a,z),statementData:structuredClone(bal)};
-  $('statementResult').innerHTML=`<div class="hilen-statement-zoom-toolbar"><div class="hilen-statement-zoom-info hsr-preview-info"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><div><b>Vista previa del resumen</b><small>Amplía las letras para leer; el PDF se descargará con su tamaño original.</small></div></div><div class="hilen-statement-zoom-actions"><button type="button" id="hilenStatementZoomOut" onclick="hilenChangeStatementZoom(-1)" aria-label="Alejar vista previa" title="Alejar letras">A−</button><span class="hilen-statement-zoom-value" id="hilenStatementZoomValue" aria-live="polite">100 %</span><button type="button" id="hilenStatementZoomIn" onclick="hilenChangeStatementZoom(1)" aria-label="Ampliar vista previa" title="Ampliar letras">A+</button><button type="button" class="hilen-statement-reset" onclick="hilenResetStatementZoom()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5v6h-6M20 11a8 8 0 1 0-2 8"/></svg> Restablecer</button></div></div><div class="hilen-statement-zoom-viewport"><div id="statementPrintArea" class="statement-send hsr-reference">${repeatNotice}<div class="statement-send-head hsr-head"><div class="hsr-client"><span class="hsr-brand-name">HILEN</span><div class="statement-send-brand">${esc(c.name)}</div><div class="hsr-meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></svg><b>Período consultado:</b> ${a} → ${z}</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5"/></svg><b>Fecha de cálculo:</b> ${z}</span></div></div><div class="statement-balance-box hsr-balance ${isPaid?'ok':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8l-2 5c5 3 8 7 7 11-1 4-17 4-18 0-1-4 2-8 7-11zM12 11v9m3-7c-5-3-8 2-3 3s3 5-2 3"/></svg><div><div class="statement-balance-label">Valor pendiente por pagar</div><div class="statement-balance-value">${money(bal.balance)}</div>${isPaid?'<small>Cuenta al día a la fecha seleccionada</small>':''}</div></div></div><div class="statement-simple-balance hsr-metrics" aria-label="Resumen de compras y abonos"><div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l3 13h11l3-10H6M8 16l-1 3h12"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg></span><div><span>Compras a crédito del período</span><strong>${money(creditPeriod)}</strong></div></div><div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="14" cy="6" rx="7" ry="3"/><path d="M7 6v4c0 4 14 4 14 0V6M9 13c3 2 12 1 12-3v4c0 3-6 4-10 3"/><ellipse cx="7" cy="15" rx="5" ry="3"/><path d="M2 15v4c0 4 10 4 10 0v-4"/></svg></span><div><span>Abonos del período</span><strong>${money(paidPeriod)}</strong></div></div><div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5"/></svg></span><div><span>Saldo anterior</span><strong>${money(bal.opening)}</strong></div></div>${cashPeriod?`<div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l3 13h11l3-10H6M8 16l-1 3h12"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg></span><div><span>Compras de contado</span><strong>${money(cashPeriod)}</strong></div></div>`: ""}${bal.periodAdjustment?`<div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5"/></svg></span><div><span>Ajuste del período</span><strong>${money(bal.periodAdjustment)}</strong></div></div>`: ""}</div><h3 class="hsr-detail-title"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h9l5 5v15H5zM14 2v6h5M8 12h8M8 16h8"/></svg></span>Detalle de movimientos</h3>${hilenTimelineHTML(c.id,a,z,bal)}<div class="statement-actions"><button class="primary" onclick="downloadGeneratedStatement()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h9l5 5v15H5zM14 2v6h5M8 12h8M8 16h8"/></svg> Descargar estado de cuenta</button></div></div></div>`;
+  $('statementResult').innerHTML=`<div class="hilen-statement-zoom-toolbar"><div class="hilen-statement-zoom-info hsr-preview-info"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><div><b>Vista previa del resumen</b><small>Amplía las letras para leer; el PDF se descargará con su tamaño original.</small></div></div><div class="hilen-statement-zoom-actions"><button type="button" id="hilenStatementZoomOut" onclick="hilenChangeStatementZoom(-1)" aria-label="Alejar vista previa" title="Alejar letras">A−</button><span class="hilen-statement-zoom-value" id="hilenStatementZoomValue" aria-live="polite">100 %</span><button type="button" id="hilenStatementZoomIn" onclick="hilenChangeStatementZoom(1)" aria-label="Ampliar vista previa" title="Ampliar letras">A+</button><button type="button" class="hilen-statement-reset" onclick="hilenResetStatementZoom()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5v6h-6M20 11a8 8 0 1 0-2 8"/></svg> Restablecer</button></div></div><div class="hilen-statement-zoom-viewport"><div id="statementPrintArea" class="statement-send hsr-reference">${repeatNotice}<div class="statement-send-head hsr-head"><div class="hsr-client"><span class="hsr-brand-name">HILEN</span><div class="statement-send-brand">${esc(c.name)}</div><div class="hsr-meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></svg><b>Período consultado:</b> ${a} → ${z}</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5"/></svg><b>Fecha de cálculo:</b> ${z}</span></div></div><div class="statement-balance-box hsr-balance ${isPaid?'ok':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8l-2 5c5 3 8 7 7 11-1 4-17 4-18 0-1-4 2-8 7-11zM12 11v9m3-7c-5-3-8 2-3 3s3 5-2 3"/></svg><div><div class="statement-balance-label">Valor pendiente por pagar</div><div class="statement-balance-value">${money(bal.balance)}</div>${isPaid?'<small>Cuenta al día a la fecha seleccionada</small>':''}</div></div></div><div class="statement-simple-balance hsr-metrics" aria-label="Resumen de compras y abonos"><div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l3 13h11l3-10H6M8 16l-1 3h12"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg></span><div><span>Compras a crédito del período</span><strong>${money(creditPeriod)}</strong></div></div><div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="14" cy="6" rx="7" ry="3"/><path d="M7 6v4c0 4 14 4 14 0V6M9 13c3 2 12 1 12-3v4c0 3-6 4-10 3"/><ellipse cx="7" cy="15" rx="5" ry="3"/><path d="M2 15v4c0 4 10 4 10 0v-4"/></svg></span><div><span>Abonos del período</span><strong>${money(paidPeriod)}</strong></div></div><div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5"/></svg></span><div><span>Saldo anterior</span><strong>${money(bal.opening)}</strong></div></div>${cashPeriod?`<div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l3 13h11l3-10H6M8 16l-1 3h12"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg></span><div><span>Compras de contado</span><strong>${money(cashPeriod)}</strong></div></div>`: ""}${bal.periodAdjustment?`<div class="hsr-metric"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5"/></svg></span><div><span>Ajuste del período</span><strong>${money(bal.periodAdjustment)}</strong></div></div>`: ""}</div><h3 class="hsr-detail-title"><span class="hsr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h9l5 5v15H5zM14 2v6h5M8 12h8M8 16h8"/></svg></span>Detalle de movimientos</h3>${hilenTimelineHTML(c.id,a,z,bal)}<div class="statement-actions"><button type="button" class="primary" onclick="downloadGeneratedStatement('detailed')">Descargar PDF detallado</button><button type="button" class="primary" onclick="downloadGeneratedStatement('summary')">Descargar PDF resumido</button></div></div></div>`;
   hilenApplyStatementZoom();
 }
 
@@ -9229,12 +9229,12 @@ function recordStatementDownload(){
 }
 /* PDF A4 generado localmente: descarga directa sin diálogo de impresión ni dependencias externas. */
 /* Estado de cuenta descargable con diseño tipo factura, sin crear factura fiscal ni modificar operaciones. */
-function statementPdfFile(client,start,end,sales,payments,balance){
+function statementPdfFile(client,start,end,sales,payments,balance,variant="detailed"){
   /* Modelo del documento HILEN "Resumen de compras y abonos":
      encabezado azul marino, totales, movimientos intercalados y resumen final.
      El PDF se crea localmente y usa únicamente las operaciones existentes. */
   const W=595.28,H=841.89,M=32,R=W-M,U=R-M,pages=[];
-  const C={navy:'#171717',ink:'#191919',muted:'#718097',blue:'#a88a50',green:'#25845f',orange:'#b87b1e',gold:'#c8a05c',bg:'#ffffff',white:'#ffffff',border:'#dddddd',blueSoft:'#eef4ff',greenSoft:'#e6f4ed',goldSoft:'#fffaed',light:'#f2f5fa'};
+  const C={navy:'#171717',ink:'#191919',muted:'#6b6860',blue:'#a88a50',green:'#216a48',orange:'#b87b1e',gold:'#ad8b4e',bg:'#faf9f8',white:'#ffffff',border:'#ded4c4',blueSoft:'#eef4ff',greenSoft:'#e0f0e5',goldSoft:'#f2eee6',light:'#f2f5fa'};
   const fmt=n=>Number(n).toFixed(2);
   const safeText=s=>String(s??'').replace(/[\u2013\u2014\u2212]/g,'-').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/\u2022/g,'-').replace(/\u2192/g,' a ').replace(/\u00a0/g,' ').replace(/[^\x20-\xFF]/g,'?');
   const ps=s=>safeText(s).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
@@ -9274,132 +9274,91 @@ function statementPdfFile(client,start,end,sales,payments,balance){
     if(curr)lines.push(curr);return lines.length?lines:[''];
   }
   function newPage(continued=false){
-    commands=[];pages.push(commands);y=0;rect(0,0,W,H,C.bg);
-    if(!continued){
-      text('H I L E N',W/2,22,24,false,C.gold,'center');
-      text('B I S U T E R Í A   F I N A',W/2,53,8,false,C.muted,'center');
-      rule(75,M,U,C.gold);y=90;
-    }else{
-      text('H I L E N',M,20,18,false,C.gold);
-      text('RESUMEN DE TU CUENTA',R,23,10,true,C.ink,'right');
-      rule(50,M,U,C.gold);
-      text('MOVIMIENTOS DEL PERÍODO · CONTINUACIÓN',M,65,10,true,C.ink);y=90;
-    }
+    commands=[];pages.push(commands);rect(0,0,W,H,C.bg);
+    text('H I L E N',W/2,19,28,false,C.gold,'center');
+    text('B I S U T E R Í A   F I N A',W/2,52,7,false,C.muted,'center');
+    rule(68,W/2-49,98,C.gold);text('RESUMEN DE TU CUENTA',W/2,77,11,true,C.ink,'center');
+    y=101;
+    if(continued){text(name,M,y,10,true);text(shortDate(start)+' al '+shortDate(end),R,y,8,false,C.muted,'right');rule(116);text('Movimientos del período · continuación',M,123,10,true);y=140;}
   }
-  function ensure(height){if(y+height>H-43)newPage(true);}
-  function drawFooter(){
-    for(let i=0;i<pages.length;i++){
-      commands=pages[i];rule(H-29,M,U);
-      text('HILEN · La simplicidad es la clave de la verdadera elegancia.',M,H-24,7,false,C.muted);
-      text(`${i+1} / ${pages.length}`,R,H-24,7,false,C.muted,'right');
-    }
+  function ensure(height){if(y+height>H-38)newPage(true);}
+  function drawFooter(){for(let i=0;i<pages.length;i++){commands=pages[i];text('Gracias por elegir HILEN.',W/2,H-25,9,false,C.gold,'center');if(pages.length>1)text((i+1)+' / '+pages.length,R,H-24,7,false,C.muted,'right');}}
+  function row(label,value,top,fill=null,color=C.ink){
+    if(fill)rounded(M+10,top,U-20,20,5,fill);
+    text(label,M+16,top+4,9,false,fill===C.greenSoft?C.green:C.muted);
+    text(money(value),R-16,top+3,11,true,color,'right');
   }
-  function cardSummary(label,value,x,w,fill,accent){
-    rounded(x,y,w,58,11,fill,C.border);rect(x+12,y+14,3,8,accent);
-    text(label,x+22,y+11,7.1,true,C.muted);
-    text(money(value),x+14,y+31,17,true,accent===C.green?C.green:accent===C.blue?C.blue:C.ink);
+  function balanceRow(value,top,label='Saldo actualizado'){row(value<0?'Saldo a favor':label,Math.abs(value),top,C.goldSoft);}
+  function bag(x,top){
+    rounded(x,top,28,28,7,C.goldSoft);const xx=x+8,yy=H-top-21;
+    commands.push(rgb(C.gold)+' RG 1.1 w '+fmt(xx)+' '+fmt(yy)+' m '+fmt(xx+12)+' '+fmt(yy)+' l '+fmt(xx+12)+' '+fmt(yy+11)+' l '+fmt(xx)+' '+fmt(yy+11)+' l h S');
+    commands.push(rgb(C.gold)+' RG 1.1 w '+fmt(xx+3)+' '+fmt(yy+9)+' m '+fmt(xx+3)+' '+fmt(yy+19)+' '+fmt(xx+9)+' '+fmt(yy+19)+' '+fmt(xx+9)+' '+fmt(yy+9)+' c S');
   }
   newPage();
-  text('RESUMEN DE TU CUENTA',M,y,9,true,C.muted);y+=17;
-  const clientName=wrap(name,U,22,true);
-  clientName.forEach(line=>{text(line,M,y,22,true,C.ink);y+=27;});
-  text('Del '+shortDate(start)+' al '+shortDate(end),M,y,10,false,C.muted);y+=23;
-  const clear=balance.balance<=0;
-  rounded(M,y,U,76,11,clear?C.greenSoft:C.navy);
-  text(clear?'Estás al día':'Saldo pendiente',M+15,y+10,10,true,clear?C.green:'#d6bc85');
-  text(money(balance.balance||0),M+15,y+26,24,true,clear?C.green:C.white);
-  text('Fecha de corte: '+shortDate(end),M+15,y+57,8,false,clear?C.green:'#dddddd');
-  if(balance.credit)text('Saldo a favor: '+money(balance.credit),R-15,y+57,8,true,C.green,'right');
-  y+=90;
-  text('MOVIMIENTOS DEL PERÍODO',M,y,12.2,true,C.ink);
-  text('En orden de fecha',R,y+3,8,false,C.muted,'right');
-  y+=25;rule(y);y+=8;
-
+  text('CLIENTE',M,y,8,false,C.gold);text('PERÍODO SELECCIONADO',R,y,8,false,C.gold,'right');y+=12;
+  const clientLines=wrap(name,U*.57,20,false);clientLines.forEach((line,i)=>text(line,M,y+i*24,20,false));
+  text(shortDate(start)+' al '+shortDate(end),R,y+5,10,false,C.ink,'right');y+=Math.max(28,clientLines.length*24+4);rule(y);y+=7;
+  text('Movimiento del período',M,y,14,true);y+=23;
   const chronological=sales.map(s=>({kind:s.type==='paid'?'cash':'sale',date:s.date,time:s.time,createdAt:s.createdAt,id:s.id,sale:s,amount:hilenPrincipal(s)}))
-    .concat(payments.map(p=>({kind:'payment',date:p.date,time:p.time,createdAt:p.createdAt,id:p.id,payment:p,amount:hilenNum(p.amount)})));
+    .concat(payments.map(p=>({kind:'payment',date:p.date,time:p.time,createdAt:p.createdAt,id:p.id,amount:hilenNum(p.amount)})));
   const adjustment=Number(balance.periodAdjustment)||0;
   if(adjustment)chronological.push({kind:'adjustment',date:balance.adjustmentDate,time:'00:00:00',createdAt:'',id:'historical-balance',amount:adjustment});
   chronological.sort(hilenCompare);
-  let running=balance.opening;
-  rounded(M,y,U,33,8,C.goldSoft,C.border);text('SALDO ANTERIOR AL PERÍODO',M+15,y+10,8.5,true,C.ink);text(money(running),R-15,y+10,10,true,C.ink,'right');y+=42;
-  if(!chronological.length){
-    const emptyLines=wrap('No se registraron compras ni abonos en este período.',U-30,9);
-    const emptyHeight=42+emptyLines.length*12;ensure(emptyHeight+10);
-    rounded(M,y,U,emptyHeight,11,C.blueSoft,C.border);
-    text('No hay movimientos en las fechas seleccionadas.',M+15,y+12,10,true,C.ink);
-    emptyLines.forEach((line,i)=>text(line,M+15,y+29+i*12,9,false,C.muted));y+=emptyHeight+11;
-  }
+  let running=Number(balance.opening)||0,initialTotal=0,cashTotal=0,purchasesTotal=0;
+  if(!chronological.length){ensure(32);text('No hay movimientos en las fechas seleccionadas.',M,y,10,false,C.muted);y+=30;}
   for(const m of chronological){
-    const sale=m.sale,paid=m.kind==='payment',adjusted=m.kind==='adjustment';
-    if(m.kind==='sale'||adjusted)running+=m.amount;else if(paid)running-=m.amount;
-    const pending=Math.max(0,running);
-    let items=[];
-    if(sale){
-      const originals=Array.isArray(sale.items)&&sale.items.length?sale.items:[{name:sale.type==='paid'?'Compra de contado registrada':'Compra a crédito registrada',qty:1,price:hilenSaleNetTotal(sale)}];
-      items=originals.flatMap(it=>{const qty=Math.max(1,hilenNum(it.qty)||1),unit=hilenItemNetUnit(it),lineTotal=hilenItemLineTotal(it),label=qty===1?String(it.name||'Artículo'):`${qty} × ${it.name||'Artículo'}`;
-        return [{lines:wrap(label,U-135,10),price:qty*hilenNum(it.price),net:lineTotal,discount:hilenItemDiscount(it)*qty,qty,unit}];});
+    const sale=m.sale;
+    if(m.kind==='payment'){
+      running-=m.amount;ensure(74);rounded(M,y,U,66,10,C.greenSoft,'#9bbfa8');
+      rounded(M+12,y+10,27,27,7,C.green);text('OK',M+25.5,y+18,9,true,C.white,'center');
+      text('Abono recibido',M+50,y+8,13,true,C.green);text(dateLabel(m.date),M+50,y+25,9,false,C.green);
+      text(money(m.amount),R-14,y+7,21,true,C.green,'right');
+      row(running<0?'Saldo a favor':'Saldo después del abono',Math.abs(running),y+40,'#cde5d5',C.green);y+=74;continue;
     }
-    const lineCount=items.reduce((sum,i)=>sum+i.lines.length+(i.discount>0?1:0),0);
-    const extraSale=sale?((hilenSaleManualDiscount(sale)>0?12:0)+(hilenNum(sale.initialPaid)>0?12:0)):0;
-    const height=paid?76:adjusted?49:Math.max(125,124+lineCount*24+extraSale*2);
-    ensure(height+7);
-    if(paid){
-      rounded(M,y,U,height,10,C.greenSoft);rect(M,y+9,3,height-18,C.green);
-      text('ABONO RECIBIDO',M+12,y+12,11,true,C.green);
-      text('- '+money(m.amount),R-10,y+11,13,true,C.green,'right');
-      text(dateLabel(m.date),M+12,y+34,10,false,'#606060');
-      text((running<0?'Saldo a favor: ':'Saldo después del abono: ')+money(Math.abs(running)),M+12,y+54,10.5,true,C.ink);
-    }else if(adjusted){
-      rounded(M,y,U,height,10,C.goldSoft,C.border);rect(M,y+9,3,height-18,C.gold);
-      text('AJUSTE HISTÓRICO DE SALDO',M+15,y+10,8.9,true,C.orange);
-      text(dateLabel(m.date),R-14,y+11,8,false,C.muted,'right');
-      text((m.amount<0?'- ':'')+money(Math.abs(m.amount)),R-14,y+29,9.2,true,C.ink,'right');
-      text('Saldo: '+money(pending),M+15,y+29,9,true,C.ink);
-    }else{
-      rounded(M,y,U,height,10,C.white,C.border);
-      // Icono vectorial de bolsa: trazo dorado, sin fuentes ni imágenes externas.
-      const bx=M+12,by=H-y-25;
-      commands.push(rgb(C.gold)+' RG 1 w '+fmt(bx)+' '+fmt(by)+' m '+fmt(bx+9)+' '+fmt(by)+' l '+fmt(bx+8)+' '+fmt(by+8)+' l '+fmt(bx+1)+' '+fmt(by+8)+' l h S');
-      commands.push(rgb(C.gold)+' RG 1 w '+fmt(bx+3)+' '+fmt(by+6)+' m '+fmt(bx+2)+' '+fmt(by+12)+' '+fmt(bx+7)+' '+fmt(by+12)+' '+fmt(bx+6)+' '+fmt(by+6)+' c S');
-      text('COMPRA REALIZADA',M+28,y+13,11,true,C.ink);
-      text(dateLabel(m.date),R-10,y+13,10,false,'#606060','right');
-      text(sale.type==='credit'?'Factura N.º '+hilenInvoiceCode(sale):'Compra de contado · pagada',M+10,y+34,10,false,'#606060');
-      text('Producto',M+10,y+58,9.5,false,'#606060');
-      text('Valor',R-10,y+58,9.5,false,'#606060','right');
-      rule(y+75,M+10,U-20,'#eeeeee');
-      let lineY=y+81;
-      for(const item of items){
-        item.lines.forEach((l,j)=>{text(l,M+10,lineY,10,false,C.ink);if(j===0)text(money(item.price),R-10,lineY,10,false,C.ink,'right');lineY+=24;});
-        if(item.discount>0){text('Descuento del producto',M+20,lineY,9,false,'#606060');text('- '+money(item.discount),R-10,lineY,10,false,C.green,'right');lineY+=24;}
-        rule(lineY-7,M+10,U-20,'#eeeeee');
+    if(m.kind==='adjustment'){
+      running+=m.amount;ensure(64);rounded(M,y,U,56,9,C.white,C.border);
+      text('Ajuste de saldo',M+14,y+8,11,true);text(dateLabel(m.date),R-14,y+9,9,false,C.muted,'right');
+      text(money(m.amount),R-14,y+23,11,true,C.ink,'right');
+      text((running<0?'Saldo a favor: ':'Saldo actualizado: ')+money(Math.abs(running)),M+14,y+36,9);y+=64;continue;
+    }
+    const total=hilenSaleNetTotal(sale),initial=sale.type==='credit'?Math.min(total,Math.max(0,hilenNum(sale.initialPaid))):0;
+    purchasesTotal+=total;initialTotal+=initial;if(sale.type==='paid')cashTotal+=total;running+=m.amount;
+    const invoice='Factura N.º '+hilenInvoiceCode(sale),detail=variant!=='summary';let lines=[];
+    if(detail){
+      const originals=Array.isArray(sale.items)&&sale.items.length?sale.items:[{name:'Compra registrada',qty:1,price:total}];
+      for(const it of originals){const qty=hilenNum(it.qty)||1,label=(qty===1?'':qty+' x ')+(it.name||'Producto');wrap(label,U-145,9.5).forEach((part,i)=>lines.push({label:part,value:i===0?(sale.items?.length?hilenItemLineTotal(it):total):null}));}
+      const discount=hilenSaleManualDiscount(sale);if(discount>0&&sale.items?.length)lines.push({label:'Descuento de la compra',value:-discount});
+    }
+    const chunks=[];for(let i=0;i<lines.length;i+=28)chunks.push(lines.slice(i,i+28));if(!chunks.length)chunks.push([]);
+    chunks.forEach((part,index)=>{
+      const last=index===chunks.length-1;
+      const height=42+(detail?17+part.length*15:0)+(last?(detail?24:0)+(initial>0?23:0)+(sale.type==='paid'&&total>0?23:0)+24:0)+7;
+      ensure(height+8);rounded(M,y,U,height,10,C.white,C.border);bag(M+12,y+9);
+      text(index?'Compra · continuación':'Compra',M+50,y+8,12,true);text(invoice,M+50,y+23,9,false,C.muted);
+      text(dateLabel(m.date),R-14,y+8,9,false,C.muted,'right');if(!detail)text(money(total),R-14,y+21,17,true,C.ink,'right');
+      let lineY=y+42;
+      if(detail){text('PRODUCTOS',M+16,lineY,8,false,C.muted);text('VALOR',R-16,lineY,8,false,C.muted,'right');rule(lineY+13,M+16,U-32);lineY+=17;
+        part.forEach(item=>{text(item.label,M+16,lineY,9.5);if(item.value!==null)text(money(item.value),R-16,lineY,9.5,false,C.ink,'right');lineY+=15;});}
+      if(last){
+        if(detail){rule(lineY,M+16,U-32);lineY+=3;text('Total compra',M+16,lineY+2,10,true);text(money(total),R-16,lineY,15,true,C.ink,'right');lineY+=21;}
+        if(initial>0){row('Pago inicial de compra',initial,lineY,C.greenSoft,C.green);lineY+=23;}
+        if(sale.type==='paid'&&total>0){row('Pago de contado',total,lineY,C.greenSoft,C.green);lineY+=23;}
+        balanceRow(running,lineY);
       }
-      if(hilenSaleManualDiscount(sale)){text('Descuento general de la compra',M+10,lineY,9,false,'#606060');text('- '+money(hilenSaleManualDiscount(sale)),R-10,lineY,10,true,C.green,'right');lineY+=24;}
-      if(hilenNum(sale.initialPaid)){text('Pago inicial recibido',M+10,lineY,9,false,'#606060');text('- '+money(sale.initialPaid),R-10,lineY,10,true,C.green,'right');lineY+=24;}
-      text('Total de la compra',M+10,lineY+3,10.5,false,'#606060');
-      text(money(hilenSaleNetTotal(sale)),R-10,lineY+2,13,true,C.ink,'right');
-      text((running<0?'Saldo a favor: ':'Saldo actualizado: ')+money(Math.abs(running)),M+10,lineY+27,10.5,false,'#606060');
-
-    }
-    y+=height+10;
+      y+=height+8;
+    });
   }
-  // El recuadro final se mantiene completo en una misma página.
-  const boxHeight=128+(adjustment?17:0)+(balance.credit?17:0);
-  ensure(boxHeight+35);y+=12;
-  rounded(M,y,U,boxHeight,12,C.white,C.border);rect(M+12,y,U-24,3,C.gold);
-  text('RESUMEN FINAL DE TU CUENTA',M+16,y+12,10,true,C.ink);
-  text('Corte: '+shortDate(end),R-16,y+13,8,false,C.muted,'right');
-  let fy=y+33;
-  function summaryLine(label,value,color=C.ink){text(label,M+16,fy,8.7,false,C.muted);text(value,R-16,fy,9.2,true,color,'right');fy+=17;}
-  summaryLine('Saldo anterior',money(balance.opening));
-  summaryLine('Compras del período · valor financiado',money(sales.reduce((n,s)=>n+hilenPrincipal(s),0)));
-  summaryLine('Abonos del período','- '+money(payments.reduce((n,p)=>n+hilenNum(p.amount),0)),C.green);
-  if(adjustment)summaryLine('Ajuste de saldo',money(adjustment));
-  rule(fy+1,M+16,U-32);fy+=9;
-  text('SALDO PENDIENTE',M+16,fy+4,10,true,C.ink);
-  text(money(balance.balance||0),R-16,fy,19,true,C.navy,'right');
-  if(balance.credit){fy+=23;summaryLine('Saldo a favor',money(balance.credit),C.green);}
-  y+=boxHeight+13;
-  text('Gracias por elegirnos. Nos encanta ser parte de tu estilo.',W/2,y,9,false,C.gold,'center');
+  const summaryRows=[['Total compras',purchasesTotal,C.ink],['Pagos iniciales',initialTotal,C.green],['Abonos realizados',payments.reduce((n,p)=>n+hilenNum(p.amount),0),C.green]];
+  if(cashTotal)summaryRows.push(['Pagos de contado',cashTotal,C.green]);
+  if(balance.opening)summaryRows.push(['Saldo de períodos anteriores',balance.opening,C.ink]);
+  if(adjustment)summaryRows.push(['Ajuste de saldo',adjustment,C.ink]);
+  const boxHeight=73+summaryRows.length*17;ensure(boxHeight+14);rule(y+2,M,U,C.gold);y+=12;
+  rounded(M,y,U,boxHeight,10,C.white,C.border);text('Resumen de tu cuenta',M+16,y+9,13,true);
+  rule(y+27,M+16,U-32);let fy=y+32;
+  summaryRows.forEach(([label,value,color])=>{text(label,M+16,fy,10,false,C.muted);text(money(value),R-16,fy-1,12,true,color,'right');fy+=17;});
+  rounded(M+10,fy+2,U-20,34,6,C.goldSoft,C.border);
+  text(balance.credit?'Saldo a favor a la fecha':'Saldo actualizado a la fecha',M+18,fy+7,10,true);text('Al '+shortDate(end),M+18,fy+21,8,false,C.muted);
+  text(money(balance.credit||balance.balance||0),R-18,fy+7,20,true,C.ink,'right');y+=boxHeight;
   // Cada página tiene pie y numeración propios. No se inventan operaciones ni valores.
   drawFooter();
   const objects=[];
@@ -9419,17 +9378,17 @@ function statementPdfFile(client,start,end,sales,payments,balance){
   const bytes=new Uint8Array(pdf.length);for(let i=0;i<pdf.length;i++)bytes[i]=pdf.charCodeAt(i)&255;
   return new Blob([bytes],{type:'application/pdf'});
 }
-function downloadGeneratedStatement(){
+function downloadGeneratedStatement(variant="detailed"){
   const m=lastGeneratedStatementMeta,area=$('statementPrintArea');
   if(!m||!area)return showToast('Genera primero el estado de cuenta','','error');
   const client=db.clients.find(c=>String(c.id)===String(m.clientId));
   if(!client)return showToast('Cliente no encontrado','No se pudo preparar el PDF.','error');
   try{
     const data=m.statementData||hilenStatementData(client.id,m.start,m.end);
-    const pdf=statementPdfFile(client,m.start,m.end,data.periodSales,data.periodPayments,data);
+    const pdf=statementPdfFile(client,m.start,m.end,data.periodSales,data.periodPayments,data,variant);
     const url=URL.createObjectURL(pdf),link=document.createElement('a');
     const name=String(client.name||'Cliente').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9_-]+/gi,'_').replace(/^_+|_+$/g,'').slice(0,50)||'Cliente';
-    link.href=url;link.download=`HILEN_Resumen_de_tu_cuenta_${name}_${m.end}.pdf`;
+    link.href=url;link.download=`HILEN_Resumen_de_tu_cuenta_${variant==="summary"?"resumida":"detallada"}_${name}_${m.end}.pdf`;
     document.body.appendChild(link);link.click();link.remove();
     setTimeout(()=>URL.revokeObjectURL(url),60000);
     recordStatementDownload();
