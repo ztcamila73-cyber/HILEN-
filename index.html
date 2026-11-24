@@ -9145,14 +9145,14 @@ function statementPdfFile(client,start,end,sales,payments,balance){
       rect(0,0,W,101,C.navy);rect(0,99,W,2,C.gold);
       text('HILEN',M+2,19,23,true,C.white);
       text('B I S U T E R Í A   F I N A  &  A C C E S O R I O S',M+2,51,6.5,false,'#dfdfdf');
-      text('RESUMEN DE',R-2,20,10,true,C.white,'right');
-      text('COMPRAS Y ABONOS',R-2,38,15,true,C.white,'right');
-      text('Compras · Abonos · Saldo',R-2,63,8,false,'#d7dfe9','right');
+      text('TU RESUMEN',R-2,20,10,true,C.white,'right');
+      text('ESTADO DE CUENTA',R-2,38,15,true,C.white,'right');
+      text('Productos · Pagos · Saldo',R-2,63,8,false,'#d7dfe9','right');
       y=110;
     }else{
       rect(0,0,W,62,C.navy);rect(0,60,W,2,C.gold);
       text('HILEN',M+2,12,20,true,C.white);
-      text('RESUMEN DE COMPRAS Y ABONOS',R-2,18,10,true,C.white,'right');
+      text('RESUMEN DE ESTADO DE CUENTA',R-2,18,10,true,C.white,'right');
       text('HISTORIAL DE MOVIMIENTOS · CONTINUACIÓN',M+4,77,10,true,C.ink);
       y=105;
     }
@@ -9179,8 +9179,8 @@ function statementPdfFile(client,start,end,sales,payments,balance){
   text(shortDate(start)+' a '+shortDate(end),M+277,y+28,10.5,true,C.ink);
   y+=62;
   const gap=10,w=(U-gap)/2;
-  cardSummary('COMPRAS A CRÉDITO',sales.filter(s=>s.type==='credit').reduce((n,s)=>n+hilenSaleNetTotal(s),0),M,w,C.blueSoft,C.blue);
-  cardSummary('COMPRAS DE CONTADO',sales.filter(s=>s.type==='paid').reduce((n,s)=>n+hilenSaleNetTotal(s),0),M+w+gap,w,C.light,C.navy);
+  cardSummary('PRODUCTOS DEL PERÍODO',sales.reduce((n,s)=>n+hilenSaleNetTotal(s),0),M,w,C.blueSoft,C.blue);
+  cardSummary('PAGOS REALIZADOS (ABONOS)',payments.reduce((n,p)=>n+hilenNum(p.amount),0),M+w+gap,w,C.greenSoft,C.green);
   y+=68;
   cardSummary('SALDO PENDIENTE',balance.balance||0,M,U,C.goldSoft,C.navy);
   y+=75;
@@ -9194,7 +9194,7 @@ function statementPdfFile(client,start,end,sales,payments,balance){
   if(adjustment)chronological.push({kind:'adjustment',date:balance.adjustmentDate,time:'00:00:00',createdAt:'',id:'historical-balance',amount:adjustment});
   chronological.sort(hilenCompare);
   let running=balance.opening;
-  rounded(M,y,U,33,8,C.goldSoft,C.border);text('SALDO ANTERIOR AL PERÍODO',M+15,y+10,8.5,true,C.ink);text(money(running),R-15,y+10,10,true,C.ink,'right');y+=42;
+  rounded(M,y,U,33,8,C.goldSoft,C.border);text('SALDO ANTERIOR',M+15,y+10,8.5,true,C.ink);text(money(running),R-15,y+10,10,true,C.ink,'right');y+=42;
   if(!chronological.length){
     const emptyLines=wrap('Entre el '+shortDate(start)+' y el '+shortDate(end)+' no se registraron compras ni abonos. '+(balance.balance>0?'El saldo pendiente de '+money(balance.balance)+' corresponde a obligaciones anteriores y continúa pendiente de pago.':'A la fecha de corte no hay saldo pendiente por pagar.'),U-30,9);
     const emptyHeight=42+emptyLines.length*12;ensure(emptyHeight+10);
@@ -9253,7 +9253,7 @@ function statementPdfFile(client,start,end,sales,payments,balance){
   rounded(M,y,U,boxHeight,12,C.white,C.border);rect(M+12,y, U-24,3,C.gold);
   text('RESUMEN FINAL DE LA CUENTA',M+16,y+12,10,true,C.ink);
   text('Corte: '+shortDate(end),R-16,y+13,8,false,C.muted,'right');
-  text('Abonos del período',M+16,y+34,8.7,false,C.muted);
+  text('Pagos realizados (abonos)',M+16,y+34,8.7,false,C.muted);
   text('- '+money(payments.reduce((n,p)=>n+hilenNum(p.amount),0)),R-16,y+33,9.2,true,C.green,'right');
   if(adjustment){text('Ajuste histórico de saldo',M+16,y+52,8.5,false,C.muted);text((adjustment<0?'- ':'')+money(Math.abs(adjustment)),R-16,y+51,9,true,C.ink,'right');}
   const separator=y+(adjustment?69:52);rule(separator,M+16,U-32);
