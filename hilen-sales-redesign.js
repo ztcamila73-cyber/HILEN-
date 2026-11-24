@@ -445,3 +445,33 @@ const css=`
 const install=()=>{const style=document.createElement('style');style.id='hilen-protection-compact-v2';style.textContent=css;if(!document.getElementById(style.id))document.head.append(style);};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
+
+
+/* HILEN: avoid duplicate section headings without removing functional controls. */
+(()=>{
+const titles=new Set(['Reportes del negocio','Estado de cuenta para enviar al cliente','Encargos de clientes']);
+function clean(){
+for(const h of document.querySelectorAll('h2,h3')){
+if(!titles.has(h.textContent.trim())||h.dataset.hilenUniqueHeading)continue;
+if(h.closest('#modal'))continue;
+const section=h.closest('section');if(!section)continue;
+h.dataset.hilenUniqueHeading='1';
+const parent=h.parentElement;
+const description=parent.querySelector(':scope > p');
+const siblings=Array.from(parent.children).filter(e=>e!==h&&e!==description);
+if(!siblings.length&&parent!==section){
+const wrapper=parent.parentElement;
+const others=Array.from(wrapper.children).filter(e=>e!==parent);
+const decorative=e=>e.matches('svg,span')&&!e.querySelector('button,input,select,a')&&!e.textContent.trim();
+if(others.length&&others.every(decorative)&&wrapper!==section&&!wrapper.matches('.card'))wrapper.hidden=true,wrapper.style.setProperty('display','none','important');
+else{parent.hidden=true;parent.style.setProperty('display','none','important');}
+}else{
+h.hidden=true;h.style.setProperty('display','none','important');
+if(description){description.hidden=true;description.style.setProperty('display','none','important');}
+for(const el of siblings)if(el.matches('svg,span')&&!el.textContent.trim()&&!el.querySelector('button,input,select,a'))el.style.setProperty('display','none','important');
+}
+}
+}
+function init(){clean();new MutationObserver(clean).observe(document.body,{childList:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
