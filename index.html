@@ -9102,7 +9102,7 @@ function statementPdfFile(client,start,end,sales,payments,balance){
      encabezado azul marino, totales, movimientos intercalados y resumen final.
      El PDF se crea localmente y usa únicamente las operaciones existentes. */
   const W=595.28,H=841.89,M=32,R=W-M,U=R-M,pages=[];
-  const C={navy:'#171717',ink:'#191919',muted:'#718097',blue:'#a88a50',green:'#168861',orange:'#b87b1e',gold:'#c8a05c',bg:'#ffffff',white:'#ffffff',border:'#dfe5ee',blueSoft:'#eef4ff',greenSoft:'#eaf8f1',goldSoft:'#fffaed',light:'#f2f5fa'};
+  const C={navy:'#171717',ink:'#191919',muted:'#718097',blue:'#a88a50',green:'#25845f',orange:'#b87b1e',gold:'#c8a05c',bg:'#ffffff',white:'#ffffff',border:'#dddddd',blueSoft:'#eef4ff',greenSoft:'#e6f4ed',goldSoft:'#fffaed',light:'#f2f5fa'};
   const fmt=n=>Number(n).toFixed(2);
   const safeText=s=>String(s??'').replace(/[\u2013\u2014\u2212]/g,'-').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/\u2022/g,'-').replace(/\u2192/g,' a ').replace(/\u00a0/g,' ').replace(/[^\x20-\xFF]/g,'?');
   const ps=s=>safeText(s).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
@@ -9204,19 +9204,19 @@ function statementPdfFile(client,start,end,sales,payments,balance){
     let items=[];
     if(sale){
       const originals=Array.isArray(sale.items)&&sale.items.length?sale.items:[{name:sale.type==='paid'?'Compra de contado registrada':'Compra a crédito registrada',qty:1,price:hilenSaleNetTotal(sale)}];
-      items=originals.flatMap(it=>{const qty=Math.max(1,hilenNum(it.qty)||1),unit=hilenItemNetUnit(it),lineTotal=hilenItemLineTotal(it),label=`${qty} × ${it.name||'Artículo'}`;
-        return [{lines:wrap(label,U-135,8.7),price:qty*hilenNum(it.price),net:lineTotal,discount:hilenItemDiscount(it)*qty,qty,unit}];});
+      items=originals.flatMap(it=>{const qty=Math.max(1,hilenNum(it.qty)||1),unit=hilenItemNetUnit(it),lineTotal=hilenItemLineTotal(it),label=qty===1?String(it.name||'Artículo'):`${qty} × ${it.name||'Artículo'}`;
+        return [{lines:wrap(label,U-135,10),price:qty*hilenNum(it.price),net:lineTotal,discount:hilenItemDiscount(it)*qty,qty,unit}];});
     }
     const lineCount=items.reduce((sum,i)=>sum+i.lines.length+(i.discount>0?1:0),0);
     const extraSale=sale?((hilenSaleManualDiscount(sale)>0?12:0)+(hilenNum(sale.initialPaid)>0?12:0)):0;
-    const height=paid?42:adjusted?49:Math.max(61,47+lineCount*13+extraSale);
+    const height=paid?76:adjusted?49:Math.max(125,124+lineCount*24+extraSale*2);
     ensure(height+7);
     if(paid){
-      rounded(M,y,U,height,10,C.greenSoft,'#cde9dd');rect(M,y+9,3,height-18,C.green);
-      text('ABONO RECIBIDO',M+15,y+9,9.2,true,C.green);
-      text(dateLabel(m.date),M+141,y+10,8,false,C.muted);
-      text('- '+money(m.amount),R-13,y+10,10.6,true,C.green,'right');
-      text((running<0?'Saldo a favor: ':'Saldo después del abono: ')+money(Math.abs(running)),M+15,y+26,8.6,true,C.ink);
+      rounded(M,y,U,height,10,C.greenSoft);rect(M,y+9,3,height-18,C.green);
+      text('ABONO RECIBIDO',M+12,y+12,11,true,C.green);
+      text('- '+money(m.amount),R-10,y+11,13,true,C.green,'right');
+      text(dateLabel(m.date),M+12,y+34,10,false,'#606060');
+      text((running<0?'Saldo a favor: ':'Saldo después del abono: ')+money(Math.abs(running)),M+12,y+54,10.5,true,C.ink);
     }else if(adjusted){
       rounded(M,y,U,height,10,C.goldSoft,C.border);rect(M,y+9,3,height-18,C.gold);
       text('AJUSTE HISTÓRICO DE SALDO',M+15,y+10,8.9,true,C.orange);
@@ -9224,23 +9224,31 @@ function statementPdfFile(client,start,end,sales,payments,balance){
       text((m.amount<0?'- ':'')+money(Math.abs(m.amount)),R-14,y+29,9.2,true,C.ink,'right');
       text('Saldo: '+money(pending),M+15,y+29,9,true,C.ink);
     }else{
-      rounded(M,y,U,height,10,C.white,C.border);rect(M,y+9,3,height-18,C.blue);
-      text('COMPRA REALIZADA',M+15,y+9,9,true,C.ink);
-      text(sale.type==='credit'?'Factura '+hilenInvoiceCode(sale):'De contado · pagada',M+151,y+10,8,false,C.muted);
-      text(dateLabel(m.date),R-13,y+10,8,false,C.muted,'right');
-      rule(y+26,M+15,U-30,'#eff1f4');
-      let lineY=y+31;
+      rounded(M,y,U,height,10,C.white,C.border);
+      // Icono vectorial de bolsa: trazo dorado, sin fuentes ni imágenes externas.
+      const bx=M+12,by=H-y-25;
+      commands.push(rgb(C.gold)+' RG 1 w '+fmt(bx)+' '+fmt(by)+' m '+fmt(bx+9)+' '+fmt(by)+' l '+fmt(bx+8)+' '+fmt(by+8)+' l '+fmt(bx+1)+' '+fmt(by+8)+' l h S');
+      commands.push(rgb(C.gold)+' RG 1 w '+fmt(bx+3)+' '+fmt(by+6)+' m '+fmt(bx+2)+' '+fmt(by+12)+' '+fmt(bx+7)+' '+fmt(by+12)+' '+fmt(bx+6)+' '+fmt(by+6)+' c S');
+      text('COMPRA REALIZADA',M+28,y+13,11,true,C.ink);
+      text(dateLabel(m.date),R-10,y+13,10,false,'#606060','right');
+      text(sale.type==='credit'?'Factura N.º '+hilenInvoiceCode(sale):'Compra de contado · pagada',M+10,y+34,10,false,'#606060');
+      text('Producto',M+10,y+58,9.5,false,'#606060');
+      text('Valor',R-10,y+58,9.5,false,'#606060','right');
+      rule(y+75,M+10,U-20,'#eeeeee');
+      let lineY=y+81;
       for(const item of items){
-        item.lines.forEach((l,j)=>{text(l,M+17,lineY,8.6,false,C.ink);if(j===0)text(money(item.price),R-15,lineY,8.6,true,C.ink,'right');lineY+=13;});
-        if(item.discount>0){text('Descuento del producto',M+28,lineY,7.8,false,C.muted);text('- '+money(item.discount),R-15,lineY,8.2,true,C.green,'right');lineY+=13;}
+        item.lines.forEach((l,j)=>{text(l,M+10,lineY,10,false,C.ink);if(j===0)text(money(item.price),R-10,lineY,10,false,C.ink,'right');lineY+=24;});
+        if(item.discount>0){text('Descuento del producto',M+20,lineY,9,false,'#606060');text('- '+money(item.discount),R-10,lineY,10,false,C.green,'right');lineY+=24;}
+        rule(lineY-7,M+10,U-20,'#eeeeee');
       }
-      if(hilenSaleManualDiscount(sale)){text('Descuento general de la compra',M+17,lineY,8,false,C.muted);text('- '+money(hilenSaleManualDiscount(sale)),R-15,lineY,8,true,C.green,'right');lineY+=12;}
-      if(hilenNum(sale.initialPaid)){text('Pago inicial recibido',M+17,lineY,8,false,C.muted);text('- '+money(sale.initialPaid),R-15,lineY,8,true,C.green,'right');lineY+=12;}
-      const footerY=y+height-15;
-      text('Total de la compra: '+money(hilenSaleNetTotal(sale)),M+15,footerY-1,8.7,true,C.ink);
-      text((running<0?'Saldo a favor: ':'Saldo actualizado: ')+money(Math.abs(running)),R-15,footerY-1,8.7,true,C.ink,'right');
+      if(hilenSaleManualDiscount(sale)){text('Descuento general de la compra',M+10,lineY,9,false,'#606060');text('- '+money(hilenSaleManualDiscount(sale)),R-10,lineY,10,true,C.green,'right');lineY+=24;}
+      if(hilenNum(sale.initialPaid)){text('Pago inicial recibido',M+10,lineY,9,false,'#606060');text('- '+money(sale.initialPaid),R-10,lineY,10,true,C.green,'right');lineY+=24;}
+      text('Total de la compra',M+10,lineY+3,10.5,false,'#606060');
+      text(money(hilenSaleNetTotal(sale)),R-10,lineY+2,13,true,C.ink,'right');
+      text((running<0?'Saldo a favor: ':'Saldo actualizado: ')+money(Math.abs(running)),M+10,lineY+27,10.5,false,'#606060');
+
     }
-    y+=height+6;
+    y+=height+10;
   }
   // El recuadro final se mantiene completo en una misma página.
   const boxHeight=128+(adjustment?17:0)+(balance.credit?17:0);
