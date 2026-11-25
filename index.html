@@ -6263,17 +6263,19 @@ body.hilen-side-collapsed #app #side .hilen-menu-zoom-disclosure{display:none!im
 #statementPrintArea .hilen-invoice-totals{background:#171717!important;color:#dfbf7c!important;border:1px solid #c8a05c!important;border-radius:12px!important;padding:15px!important}
 #statementPrintArea .hilen-invoice-totals span,#statementPrintArea .hilen-invoice-totals b,#statementPrintArea .hilen-invoice-totals svg{color:#dfbf7c!important}
 </style><style id="hilen-section-reading-style">
-#hilen-section-reading-zoom{position:sticky;top:0;z-index:19;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 12px;padding:6px 10px;border:1px solid #e5ddcf;border-radius:12px;background:#fffdf9;box-shadow:0 3px 10px #211a1009;box-sizing:border-box}
-#hilen-section-reading-zoom .hsz-label{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:650;color:#655b4a}
-#hilen-section-reading-zoom .hsz-label svg{width:18px;height:18px;color:#a38248}
-#hilen-section-reading-zoom .hsz-controls{display:flex;align-items:center;gap:4px}
-#hilen-section-reading-zoom button{appearance:none;background:#fff!important;color:#222!important;border:1px solid #e5ddcf!important;border-radius:8px!important;min-width:40px;min-height:38px;padding:5px 9px!important;font-size:13px!important;font-weight:700!important;box-shadow:none!important;touch-action:manipulation}
-#hilen-section-reading-zoom button[data-step="0"]{min-width:65px;color:#8b6d38!important;font-variant-numeric:tabular-nums}
-#hilen-section-reading-zoom button:disabled{opacity:.35}
-#hilen-section-reading-zoom button:focus-visible{outline:2px solid #a38248;outline-offset:2px}
+#hilen-section-reading-zoom{position:fixed!important;top:0;right:0;z-index:24;display:flex;align-items:center;gap:6px;width:max-content;max-width:calc(100vw - 24px);margin:0;padding:3px 5px 3px 9px;border:1px solid #e3ddd2;border-radius:24px;background:#fffdf9f5;box-shadow:0 2px 9px #211a1010;box-sizing:border-box;transform:none!important;zoom:1!important}
+#hilen-section-reading-zoom .hsz-label{display:flex;align-items:center;color:#a38248}
+#hilen-section-reading-zoom .hsz-label svg{width:16px;height:16px}
+#hilen-section-reading-zoom .hsz-label span{display:none}
+#hilen-section-reading-zoom .hsz-controls{display:flex;align-items:center;gap:1px}
+#hilen-section-reading-zoom button{appearance:none;background:transparent!important;color:#37342e!important;border:0!important;border-radius:50%!important;min-width:36px;min-height:36px;padding:4px!important;font-size:15px!important;font-weight:600!important;box-shadow:none!important;touch-action:manipulation}
+#hilen-section-reading-zoom button[data-step="0"]{min-width:47px;border-radius:12px!important;color:#766442!important;font-size:11px!important;font-variant-numeric:tabular-nums}
+#hilen-section-reading-zoom button:hover:not(:disabled){background:#f2eee6!important}
+#hilen-section-reading-zoom button:disabled{opacity:.3}
+#hilen-section-reading-zoom button:focus-visible{outline:2px solid #a38248;outline-offset:-2px}
 #app .main > section.section[data-hilen-section-scale]{zoom:var(--hilen-section-scale,1)!important;width:auto!important;max-width:100%!important;min-width:0!important}
-@media(max-width:480px){#hilen-section-reading-zoom .hsz-label{font-size:11px}#hilen-section-reading-zoom button{min-width:36px;padding:5px 6px!important}}
-@media print{#hilen-section-reading-zoom{display:none!important}#app .main > section.section[data-hilen-section-scale]{zoom:1!important}}
+#app .main > .hsz-reserve{height:48px;pointer-events:none}
+@media print{#hilen-section-reading-zoom,.hsz-reserve{display:none!important}#app .main > section.section[data-hilen-section-scale]{zoom:1!important}}
 </style></head>
 <body>
 <!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
@@ -6398,7 +6400,7 @@ body.hilen-side-collapsed #app #side .hilen-menu-zoom-disclosure{display:none!im
     </div><div class="hilen-save-top"><button type="button" id="hilenSaveIndicator" class="hilen-save-indicator hilen-save-button" data-kind="work" onclick="hilenManualFirebaseSave()" title="Pulsar para guardar y comprobar los datos en Firebase">◷ Pendiente</button><div id="todayLabel" class="date-shell"></div></div></div></div>
     <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
 
-    <div id="hilen-section-reading-zoom" role="group" aria-label="Zoom de la sección">
+    <div class="hsz-reserve" aria-hidden="true"></div><div id="hilen-section-reading-zoom" role="group" aria-label="Zoom de la sección">
 <span class="hsz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6m-3-3v6"/></svg><span>Zoom de sección</span></span>
 <div class="hsz-controls"><button type="button" data-step="-10" aria-label="Reducir tamaño de sección">A−</button><button type="button" data-step="0" title="Restablecer tamaño" aria-label="Restablecer zoom a 100 por ciento"><output aria-live="polite">100 %</output></button><button type="button" data-step="10" aria-label="Ampliar tamaño de sección">A+</button></div>
 </div>
@@ -12383,7 +12385,14 @@ try{const saved=JSON.parse(localStorage.getItem(key)||'{}');sections.forEach(s=>
 function active(){return sections.find(s=>s.classList.contains('active'));}
 function sync(){const s=active();if(!s)return;const n=levels[s.id]||100;sections.forEach(el=>{if(el===s){el.dataset.hilenSectionScale='true';el.style.setProperty('--hilen-section-scale',String(n/100));}else if(el.hasAttribute('data-hilen-section-scale')){el.removeAttribute('data-hilen-section-scale');el.style.removeProperty('--hilen-section-scale');}});bar.querySelector('output').textContent=n+' %';bar.querySelector('[data-step="-10"]').disabled=n<=80;bar.querySelector('[data-step="10"]').disabled=n>=150;}
 bar.addEventListener('click',e=>{const btn=e.target.closest('button[data-step]'),s=active();if(!btn||!s)return;const step=Number(btn.dataset.step);levels[s.id]=step===0?100:Math.min(150,Math.max(80,(levels[s.id]||100)+step));try{localStorage.setItem(key,JSON.stringify(levels));}catch(_){}sync();});
-const observer=new MutationObserver(sync);sections.forEach(s=>observer.observe(s,{attributes:true,attributeFilter:['class']}));sync();
+const main=bar.closest('.main'),app=document.getElementById('app'),reserve=main?.querySelector('.hsz-reserve');
+if(!main||!app)return;
+document.body.appendChild(bar);
+let raf=0;
+function position(){raf=0;if(app.classList.contains('hidden')||!active()){bar.style.display='none';return;}bar.style.display='flex';const bounds=main.getBoundingClientRect(),slot=reserve.getBoundingClientRect(),header=main.querySelector('.top'),headerRect=header?.getBoundingClientRect();const shell=main.querySelector('.shell-toolbar'),shellHeight=shell?.offsetHeight||0;const top=Math.max(8,bounds.top+shellHeight+12);bar.style.top=Math.min(top,Math.max(8,window.innerHeight-bar.offsetHeight-8))+'px';bar.style.right=Math.max(8,window.innerWidth-bounds.right+12)+'px';}
+function schedule(){if(!raf)raf=requestAnimationFrame(position);}
+const observer=new MutationObserver(()=>{sync();schedule()});sections.forEach(s=>observer.observe(s,{attributes:true,attributeFilter:['class']}));observer.observe(app,{attributes:true,attributeFilter:['class']});observer.observe(document.body,{attributes:true,attributeFilter:['class']});
+window.addEventListener('resize',schedule);window.addEventListener('scroll',schedule,{passive:true});main.addEventListener('scroll',schedule,{passive:true});if(window.ResizeObserver){const ro=new ResizeObserver(schedule);ro.observe(main);if(main.querySelector('.top'))ro.observe(main.querySelector('.top'));}sync();position();
 })();
 </script></body>
 </html>
