@@ -5669,7 +5669,7 @@ body.hilen-agenda-open #app .top-title-line .page-heading-copy{display:none!impo
 @media print{#statements #statementPrintArea.statement-send{box-shadow:none!important;background:#fff!important;border:0!important}#statements .statement-send .table{min-width:0!important}}
 </style>
   <link rel="stylesheet" href="./hilen-date-fields.css">
-<link rel="stylesheet" href="./hilen-sale-zoom.css">
+
 <link rel="stylesheet" href="./hilen-daily-summary-reference.css">
 <link rel="stylesheet" href="./hilen-customer-profile-2026.css">
 <link rel="stylesheet" href="./hilen-encargos-table.css?v=20261123">
@@ -6263,14 +6263,14 @@ body.hilen-side-collapsed #app #side .hilen-menu-zoom-disclosure{display:none!im
 #statementPrintArea .hilen-invoice-totals{background:#171717!important;color:#dfbf7c!important;border:1px solid #c8a05c!important;border-radius:12px!important;padding:15px!important}
 #statementPrintArea .hilen-invoice-totals span,#statementPrintArea .hilen-invoice-totals b,#statementPrintArea .hilen-invoice-totals svg{color:#dfbf7c!important}
 </style><style id="hilen-section-reading-style">
-#app .main > .hsz-reserve{position:sticky!important;top:0;z-index:21;display:flex;justify-content:flex-end;align-items:center;min-height:47px;height:auto!important;padding:4px 0 7px;margin:0 0 7px;background:#faf9f6;pointer-events:auto;box-sizing:border-box}
-#hilen-section-reading-zoom{position:static!important;display:inline-flex;align-items:center;gap:7px;width:max-content;margin:0;padding:2px 4px 2px 9px;border:1px solid #e5ded2;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;transform:none!important;zoom:1!important}
+#app .main > .hsz-reserve{position:sticky!important;top:0;z-index:21;display:flex;justify-content:flex-end;align-items:center;min-height:57px;height:auto!important;padding:4px 0 7px;margin:0 0 7px;background:#faf9f6;pointer-events:auto;box-sizing:border-box}
+#hilen-section-reading-zoom{position:static!important;display:inline-flex;align-items:center;gap:10px;width:max-content;margin:0;padding:3px 6px 3px 12px;border:1px solid #e5ded2;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;transform:none!important;zoom:1!important}
 #hilen-section-reading-zoom .hsz-label{display:flex;align-items:center;color:#a38248}
-#hilen-section-reading-zoom .hsz-label svg{width:16px;height:16px}
+#hilen-section-reading-zoom .hsz-label svg{width:21px;height:21px}
 #hilen-section-reading-zoom .hsz-label span{display:none}
 #hilen-section-reading-zoom .hsz-controls{display:flex;align-items:center;gap:2px}
-#hilen-section-reading-zoom button{appearance:none;background:transparent!important;color:#37342e!important;border:0!important;border-radius:8px!important;min-width:36px;min-height:36px;padding:4px!important;font-size:15px!important;font-weight:600!important;box-shadow:none!important;touch-action:manipulation}
-#hilen-section-reading-zoom button[data-step="0"]{min-width:49px;border-inline:1px solid #eee8de!important;border-radius:0!important;color:#766442!important;font-size:11px!important;font-variant-numeric:tabular-nums}
+#hilen-section-reading-zoom button{appearance:none;background:transparent!important;color:#37342e!important;border:0!important;border-radius:8px!important;min-width:46px;min-height:44px;padding:4px!important;font-size:18px!important;font-weight:600!important;box-shadow:none!important;touch-action:manipulation}
+#hilen-section-reading-zoom button[data-step="0"]{min-width:68px;border-inline:1px solid #eee8de!important;border-radius:0!important;color:#766442!important;font-size:15px!important;font-variant-numeric:tabular-nums}
 #hilen-section-reading-zoom button:hover:not(:disabled){background:#f2eee6!important}
 #hilen-section-reading-zoom button:disabled{opacity:.3}
 #hilen-section-reading-zoom button:focus-visible{outline:2px solid #a38248;outline-offset:-2px}
@@ -12328,7 +12328,7 @@ hilenInstallAllTableZoom();
 bootstrapApp();
 </script>
   <script src="./hilen-date-fields.js"></script>
-<script src="./hilen-sale-zoom.js"></script>
+
 <script src="./hilen-customer-profile-2026.js"></script>
 <script src="./hilen-calendar-feed.js"></script>
 <script src="./hilen-daily-2026.js"></script>
@@ -12382,6 +12382,8 @@ const bar=document.getElementById('hilen-section-reading-zoom');if(!bar)return;
 const sections=Array.from(document.querySelectorAll('#app .main > section.section'));
 const levels=Object.create(null),key='HILEN_SECTION_READING_ZOOM_V1';
 try{const saved=JSON.parse(localStorage.getItem(key)||'{}');sections.forEach(s=>{const n=Number(saved[s.id]);if(Number.isFinite(n)&&n>=80&&n<=150)levels[s.id]=n;});}catch(_){}
+// Conservar el tamaño elegido en el antiguo zoom de Registrar venta, si no hay uno nuevo.
+try{if(levels.newSale===undefined){const old=Number(localStorage.getItem('HILEN_NEW_SALE_ZOOM_V1'));if(Number.isFinite(old)&&old>=80&&old<=140){levels.newSale=old;localStorage.setItem(key,JSON.stringify(levels));}}}catch(_){}
 function active(){return sections.find(s=>s.classList.contains('active'));}
 function sync(){const s=active();if(!s)return;const n=levels[s.id]||100;sections.forEach(el=>{if(el===s){el.dataset.hilenSectionScale='true';el.style.setProperty('--hilen-section-scale',String(n/100));}else if(el.hasAttribute('data-hilen-section-scale')){el.removeAttribute('data-hilen-section-scale');el.style.removeProperty('--hilen-section-scale');}});bar.querySelector('output').textContent=n+' %';bar.querySelector('[data-step="-10"]').disabled=n<=80;bar.querySelector('[data-step="10"]').disabled=n>=150;}
 bar.addEventListener('click',e=>{const btn=e.target.closest('button[data-step]'),s=active();if(!btn||!s)return;const step=Number(btn.dataset.step);levels[s.id]=step===0?100:Math.min(150,Math.max(80,(levels[s.id]||100)+step));try{localStorage.setItem(key,JSON.stringify(levels));}catch(_){}sync();});
