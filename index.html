@@ -6263,18 +6263,18 @@ body.hilen-side-collapsed #app #side .hilen-menu-zoom-disclosure{display:none!im
 #statementPrintArea .hilen-invoice-totals{background:#171717!important;color:#dfbf7c!important;border:1px solid #c8a05c!important;border-radius:12px!important;padding:15px!important}
 #statementPrintArea .hilen-invoice-totals span,#statementPrintArea .hilen-invoice-totals b,#statementPrintArea .hilen-invoice-totals svg{color:#dfbf7c!important}
 </style><style id="hilen-section-reading-style">
-#hilen-section-reading-zoom{position:fixed!important;top:0;right:0;z-index:24;display:flex;align-items:center;gap:6px;width:max-content;max-width:calc(100vw - 24px);margin:0;padding:3px 5px 3px 9px;border:1px solid #e3ddd2;border-radius:24px;background:#fffdf9f5;box-shadow:0 2px 9px #211a1010;box-sizing:border-box;transform:none!important;zoom:1!important}
+#app .main > .hsz-reserve{position:sticky!important;top:0;z-index:21;display:flex;justify-content:flex-end;align-items:center;min-height:47px;height:auto!important;padding:4px 0 7px;margin:0 0 7px;background:#faf9f6;pointer-events:auto;box-sizing:border-box}
+#hilen-section-reading-zoom{position:static!important;display:inline-flex;align-items:center;gap:7px;width:max-content;margin:0;padding:2px 4px 2px 9px;border:1px solid #e5ded2;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;transform:none!important;zoom:1!important}
 #hilen-section-reading-zoom .hsz-label{display:flex;align-items:center;color:#a38248}
 #hilen-section-reading-zoom .hsz-label svg{width:16px;height:16px}
 #hilen-section-reading-zoom .hsz-label span{display:none}
-#hilen-section-reading-zoom .hsz-controls{display:flex;align-items:center;gap:1px}
-#hilen-section-reading-zoom button{appearance:none;background:transparent!important;color:#37342e!important;border:0!important;border-radius:50%!important;min-width:36px;min-height:36px;padding:4px!important;font-size:15px!important;font-weight:600!important;box-shadow:none!important;touch-action:manipulation}
-#hilen-section-reading-zoom button[data-step="0"]{min-width:47px;border-radius:12px!important;color:#766442!important;font-size:11px!important;font-variant-numeric:tabular-nums}
+#hilen-section-reading-zoom .hsz-controls{display:flex;align-items:center;gap:2px}
+#hilen-section-reading-zoom button{appearance:none;background:transparent!important;color:#37342e!important;border:0!important;border-radius:8px!important;min-width:36px;min-height:36px;padding:4px!important;font-size:15px!important;font-weight:600!important;box-shadow:none!important;touch-action:manipulation}
+#hilen-section-reading-zoom button[data-step="0"]{min-width:49px;border-inline:1px solid #eee8de!important;border-radius:0!important;color:#766442!important;font-size:11px!important;font-variant-numeric:tabular-nums}
 #hilen-section-reading-zoom button:hover:not(:disabled){background:#f2eee6!important}
 #hilen-section-reading-zoom button:disabled{opacity:.3}
 #hilen-section-reading-zoom button:focus-visible{outline:2px solid #a38248;outline-offset:-2px}
 #app .main > section.section[data-hilen-section-scale]{zoom:var(--hilen-section-scale,1)!important;width:auto!important;max-width:100%!important;min-width:0!important}
-#app .main > .hsz-reserve{height:48px;pointer-events:none}
 @media print{#hilen-section-reading-zoom,.hsz-reserve{display:none!important}#app .main > section.section[data-hilen-section-scale]{zoom:1!important}}
 </style></head>
 <body>
@@ -12386,13 +12386,13 @@ function active(){return sections.find(s=>s.classList.contains('active'));}
 function sync(){const s=active();if(!s)return;const n=levels[s.id]||100;sections.forEach(el=>{if(el===s){el.dataset.hilenSectionScale='true';el.style.setProperty('--hilen-section-scale',String(n/100));}else if(el.hasAttribute('data-hilen-section-scale')){el.removeAttribute('data-hilen-section-scale');el.style.removeProperty('--hilen-section-scale');}});bar.querySelector('output').textContent=n+' %';bar.querySelector('[data-step="-10"]').disabled=n<=80;bar.querySelector('[data-step="10"]').disabled=n>=150;}
 bar.addEventListener('click',e=>{const btn=e.target.closest('button[data-step]'),s=active();if(!btn||!s)return;const step=Number(btn.dataset.step);levels[s.id]=step===0?100:Math.min(150,Math.max(80,(levels[s.id]||100)+step));try{localStorage.setItem(key,JSON.stringify(levels));}catch(_){}sync();});
 const main=bar.closest('.main'),app=document.getElementById('app'),reserve=main?.querySelector('.hsz-reserve');
-if(!main||!app)return;
-document.body.appendChild(bar);
+if(!main||!app||!reserve)return;
+reserve.removeAttribute('aria-hidden');reserve.appendChild(bar);
 let raf=0;
-function position(){raf=0;if(app.classList.contains('hidden')||!active()){bar.style.display='none';return;}bar.style.display='flex';const bounds=main.getBoundingClientRect(),slot=reserve.getBoundingClientRect(),header=main.querySelector('.top'),headerRect=header?.getBoundingClientRect();const shell=main.querySelector('.shell-toolbar'),shellHeight=shell?.offsetHeight||0;const top=Math.max(8,bounds.top+shellHeight+12);bar.style.top=Math.min(top,Math.max(8,window.innerHeight-bar.offsetHeight-8))+'px';bar.style.right=Math.max(8,window.innerWidth-bounds.right+12)+'px';}
+function position(){raf=0;const header=main.querySelector(':scope > .top');let offset=0;if(header){const style=getComputedStyle(header);if(style.position==='sticky'||style.position==='fixed'){offset=Math.max(0,parseFloat(style.top)||0)+header.offsetHeight+4;}}reserve.style.top=offset+'px';}
 function schedule(){if(!raf)raf=requestAnimationFrame(position);}
 const observer=new MutationObserver(()=>{sync();schedule()});sections.forEach(s=>observer.observe(s,{attributes:true,attributeFilter:['class']}));observer.observe(app,{attributes:true,attributeFilter:['class']});observer.observe(document.body,{attributes:true,attributeFilter:['class']});
-window.addEventListener('resize',schedule);window.addEventListener('scroll',schedule,{passive:true});main.addEventListener('scroll',schedule,{passive:true});if(window.ResizeObserver){const ro=new ResizeObserver(schedule);ro.observe(main);if(main.querySelector('.top'))ro.observe(main.querySelector('.top'));}sync();position();
+window.addEventListener('resize',schedule);if(window.ResizeObserver){const ro=new ResizeObserver(schedule);ro.observe(main);const header=main.querySelector(':scope > .top');if(header)ro.observe(header);}sync();position();
 })();
 </script></body>
 </html>
