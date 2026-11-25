@@ -6263,7 +6263,11 @@ body.hilen-side-collapsed #app #side .hilen-menu-zoom-disclosure{display:none!im
 #statementPrintArea .hilen-invoice-totals{background:#171717!important;color:#dfbf7c!important;border:1px solid #c8a05c!important;border-radius:12px!important;padding:15px!important}
 #statementPrintArea .hilen-invoice-totals span,#statementPrintArea .hilen-invoice-totals b,#statementPrintArea .hilen-invoice-totals svg{color:#dfbf7c!important}
 </style><style id="hilen-section-reading-style">
-#app .main > .hsz-reserve{position:sticky!important;top:0;z-index:21;display:flex;justify-content:flex-end;align-items:center;min-height:57px;height:auto!important;padding:4px 0 7px;margin:0 0 7px;background:#faf9f6;pointer-events:auto;box-sizing:border-box}
+body > #app.app:not(.hidden) > .main,body.hilen-side-collapsed > #app.app:not(.hidden) > .main{position:fixed!important;top:var(--hilen-zoom-dock-height,62px)!important;bottom:0!important;height:auto!important;max-height:none!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain!important;box-sizing:border-box!important}
+body > .hsz-reserve{position:fixed!important;top:0;left:0;right:0;z-index:25;display:flex;justify-content:flex-end;align-items:center;height:var(--hilen-zoom-dock-height,62px);padding:5px 14px;background:#faf9f6;border-bottom:1px solid #eae5dc;box-sizing:border-box}
+body > .hsz-reserve[hidden]{display:none!important}
+@media(max-width:767px){body > #app.app:not(.hidden) > .main{left:0!important;right:0!important}}
+@media print{body > #app.app:not(.hidden) > .main,body.hilen-side-collapsed > #app.app:not(.hidden) > .main{position:static!important;height:auto!important;overflow:visible!important}}
 #hilen-section-reading-zoom{position:static!important;display:inline-flex;align-items:center;gap:10px;width:max-content;margin:0;padding:3px 6px 3px 12px;border:1px solid #e5ded2;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;transform:none!important;zoom:1!important}
 #hilen-section-reading-zoom .hsz-label{display:flex;align-items:center;color:#a38248}
 #hilen-section-reading-zoom .hsz-label svg{width:21px;height:21px}
@@ -12389,12 +12393,12 @@ function sync(){const s=active();if(!s)return;const n=levels[s.id]||100;sections
 bar.addEventListener('click',e=>{const btn=e.target.closest('button[data-step]'),s=active();if(!btn||!s)return;const step=Number(btn.dataset.step);levels[s.id]=step===0?100:Math.min(150,Math.max(80,(levels[s.id]||100)+step));try{localStorage.setItem(key,JSON.stringify(levels));}catch(_){}sync();});
 const main=bar.closest('.main'),app=document.getElementById('app'),reserve=main?.querySelector('.hsz-reserve');
 if(!main||!app||!reserve)return;
-reserve.removeAttribute('aria-hidden');reserve.appendChild(bar);
+reserve.removeAttribute('aria-hidden');reserve.appendChild(bar);document.body.appendChild(reserve);
 let raf=0;
-function position(){raf=0;const header=main.querySelector(':scope > .top');let offset=0;if(header){const style=getComputedStyle(header);if(style.position==='sticky'||style.position==='fixed'){offset=Math.max(0,parseFloat(style.top)||0)+header.offsetHeight+4;}}reserve.style.top=offset+'px';}
+function position(){raf=0;const visible=!app.classList.contains('hidden')&&!!active();reserve.hidden=!visible;if(!visible)return;const bounds=main.getBoundingClientRect();reserve.style.left=Math.max(0,bounds.left)+'px';reserve.style.right=Math.max(0,window.innerWidth-bounds.right)+'px';}
 function schedule(){if(!raf)raf=requestAnimationFrame(position);}
 const observer=new MutationObserver(()=>{sync();schedule()});sections.forEach(s=>observer.observe(s,{attributes:true,attributeFilter:['class']}));observer.observe(app,{attributes:true,attributeFilter:['class']});observer.observe(document.body,{attributes:true,attributeFilter:['class']});
-window.addEventListener('resize',schedule);if(window.ResizeObserver){const ro=new ResizeObserver(schedule);ro.observe(main);const header=main.querySelector(':scope > .top');if(header)ro.observe(header);}sync();position();
+window.addEventListener('resize',schedule);if(window.ResizeObserver){const ro=new ResizeObserver(schedule);ro.observe(main);const side=document.getElementById('side');if(side)ro.observe(side);}sync();position();
 })();
 </script></body>
 </html>
