@@ -6256,8 +6256,8 @@ body.hilen-side-collapsed #app #side .hilen-menu-zoom{display:none!important}
 body.hilen-side-collapsed #app #side .hilen-menu-zoom-disclosure{display:none!important}
 </style>
 <style id="hilen-pdf-button-colors">
-#statementResult .hsr-reference .statement-actions button.hilen-pdf-summary-btn{background:linear-gradient(135deg,#e2c17d,#c49b52)!important;color:#211a10!important;border:1px solid #b68e49!important;box-shadow:0 3px 8px #b68e4926!important}
-#statementResult .hsr-reference .statement-actions button.hilen-pdf-summary-btn:hover{background:linear-gradient(135deg,#edce91,#d0a65d)!important}
+#statementResult .hsr-reference .statement-actions button.hilen-pdf-summary-btn{background:#5F6F52!important;color:#fff!important;border:1px solid #526348!important;box-shadow:0 3px 8px #5f6f5226!important}
+#statementResult .hsr-reference .statement-actions button.hilen-pdf-summary-btn:hover{background:#6F8061!important}
 </style>
 </head>
 <body>
@@ -9314,7 +9314,10 @@ function statementPdfFile(client,start,end,sales,payments,balance,variant="detai
     const sale=m.sale;
     if(m.kind==='payment'){
       running-=m.amount;ensure(74);rounded(M,y,U,66,10,C.greenSoft,'#9bbfa8');
-      rounded(M+12,y+10,27,27,7,C.green);text('OK',M+25.5,y+18,9,true,C.white,'center');
+      rounded(M+12,y+10,27,27,7,C.green);
+      const cx=M+25.5,cy=H-y-23.5;
+      commands.push('q '+rgb(C.white)+' RG 1.2 w 1 J 1 j '+fmt(cx-9)+' '+fmt(cy-6)+' 18 12 re S '+fmt(cx-6)+' '+fmt(cy+3)+' m '+fmt(cx-6)+' '+fmt(cy-3)+' l S '+fmt(cx+6)+' '+fmt(cy+3)+' m '+fmt(cx+6)+' '+fmt(cy-3)+' l S Q');
+      text('$',cx,y+17,10,true,C.white,'center');
       text('Abono recibido',M+50,y+8,13,true,C.green);text(dateLabel(m.date),M+50,y+25,9,false,C.green);
       text(money(m.amount),R-14,y+7,21,true,C.green,'right');
       row(running<0?'Saldo a favor':'Saldo después del abono',Math.abs(running),y+40,'#cde5d5',C.green);y+=74;continue;
