@@ -6259,7 +6259,10 @@ body.hilen-side-collapsed #app #side .hilen-menu-zoom-disclosure{display:none!im
 #statementResult .hsr-reference .statement-actions button.hilen-pdf-summary-btn{background:#5F6F52!important;color:#fff!important;border:1px solid #526348!important;box-shadow:0 3px 8px #5f6f5226!important}
 #statementResult .hsr-reference .statement-actions button.hilen-pdf-summary-btn:hover{background:#6F8061!important}
 </style>
-</head>
+<style id="hilen-statement-final-balance">
+#statementPrintArea .hilen-invoice-totals{background:#171717!important;color:#dfbf7c!important;border:1px solid #c8a05c!important;border-radius:12px!important;padding:15px!important}
+#statementPrintArea .hilen-invoice-totals span,#statementPrintArea .hilen-invoice-totals b,#statementPrintArea .hilen-invoice-totals svg{color:#dfbf7c!important}
+</style></head>
 <body>
 <!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
 <div id="auth" class="auth">
@@ -9339,7 +9342,7 @@ function statementPdfFile(client,start,end,sales,payments,balance,variant="detai
     const chunks=[];for(let i=0;i<lines.length;i+=28)chunks.push(lines.slice(i,i+28));if(!chunks.length)chunks.push([]);
     chunks.forEach((part,index)=>{
       const last=index===chunks.length-1;
-      const height=42+(detail?17+part.length*15:0)+(last?(detail?24:0)+(initial>0?23:0)+(sale.type==='paid'&&total>0?23:0)+24:0)+7;
+      const height=42+(detail?17+part.length*15:0)+(last?(detail?24:0)+(initial>0?46:0)+(sale.type==='paid'&&total>0?23:0)+24:0)+7;
       ensure(height+8);rounded(M,y,U,height,10,C.white,C.border);bag(M+12,y+9);
       text(index?'Compra · continuación':'Compra',M+50,y+8,12,true);text(invoice,M+50,y+23,9,false,C.muted);
       text(dateLabel(m.date),R-14,y+8,9,false,C.muted,'right');if(!detail)text(money(total),R-14,y+21,17,true,C.ink,'right');
@@ -9348,24 +9351,19 @@ function statementPdfFile(client,start,end,sales,payments,balance,variant="detai
         part.forEach(item=>{text(item.label,M+16,lineY,9.5);if(item.value!==null)text(money(item.value),R-16,lineY,9.5,false,C.ink,'right');lineY+=15;});}
       if(last){
         if(detail){rule(lineY,M+16,U-32);lineY+=3;text('Total compra',M+16,lineY+2,10,true);text(money(total),R-16,lineY,15,true,C.ink,'right');lineY+=21;}
-        if(initial>0){row('Pago inicial de compra',initial,lineY,C.greenSoft,C.green);lineY+=23;}
+        if(initial>0){row('Pago inicial de compra',initial,lineY,C.greenSoft,C.green);lineY+=23;row('Saldo de esta compra',Math.max(0,total-initial),lineY);lineY+=23;}
         if(sale.type==='paid'&&total>0){row('Pago de contado',total,lineY,C.greenSoft,C.green);lineY+=23;}
         balanceRow(running,lineY);
       }
       y+=height+8;
     });
   }
-  const summaryRows=[['Total compras',purchasesTotal,C.ink],['Pagos iniciales',initialTotal,C.green],['Abonos realizados',payments.reduce((n,p)=>n+hilenNum(p.amount),0),C.green]];
-  if(cashTotal)summaryRows.push(['Pagos de contado',cashTotal,C.green]);
-  if(balance.opening)summaryRows.push(['Saldo de períodos anteriores',balance.opening,C.ink]);
-  if(adjustment)summaryRows.push(['Ajuste de saldo',adjustment,C.ink]);
-  const boxHeight=73+summaryRows.length*17;ensure(boxHeight+14);rule(y+2,M,U,C.gold);y+=12;
-  rounded(M,y,U,boxHeight,10,C.white,C.border);text('Resumen de tu cuenta',M+16,y+9,13,true);
-  rule(y+27,M+16,U-32);let fy=y+32;
-  summaryRows.forEach(([label,value,color])=>{text(label,M+16,fy,10,false,C.muted);text(money(value),R-16,fy-1,12,true,color,'right');fy+=17;});
-  rounded(M+10,fy+2,U-20,34,6,C.goldSoft,C.border);
-  text(balance.credit?'Saldo a favor a la fecha':'Saldo actualizado a la fecha',M+18,fy+7,10,true);text('Al '+shortDate(end),M+18,fy+21,8,false,C.muted);
-  text(money(balance.credit||balance.balance||0),R-18,fy+7,20,true,C.ink,'right');y+=boxHeight;
+  ensure(80);y+=12;
+  rounded(M,y,U,62,10,C.navy,C.gold);
+  text(balance.credit?'Saldo a favor':'Saldo pendiente',M+16,y+12,12,true,'#dfbf7c');
+  text('Al '+shortDate(end),M+16,y+34,9,false,'#e9dfcd');
+  text(money(balance.credit||balance.balance||0),R-16,y+19,24,true,'#dfbf7c','right');
+  y+=62;
   // Cada página tiene pie y numeración propios. No se inventan operaciones ni valores.
   drawFooter();
   const objects=[];
@@ -11929,7 +11927,7 @@ function hilenTimelineHTML(cid,start='0000-01-01',end='9999-12-31',snapshot=null
  const data=snapshot||hilenStatementData(cid,start,end);
  const rows=data.sales.map(s=>({
    date:s.date,time:s.time,createdAt:s.createdAt,id:s.id,kind:s.type==='paid'?'cash':'sale',label:s.type==='paid'?'Compra de contado':'Compra a crédito',reference:s.type==='credit'?hilenInvoiceCode(s):'',
-   detail:((s.items||[]).map(i=>`${esc(i.name)} × ${hilenNum(i.qty)}`).join(', ')||'Compra registrada')+(s.type==='credit'&&hilenNum(s.initialPaid)>0?'<br>Pago inicial: '+money(hilenNum(s.initialPaid)):''),amount:hilenSaleNetTotal(s),debtEffect:hilenPrincipal(s)
+   detail:((s.items||[]).map(i=>`${esc(i.name)} × ${hilenNum(i.qty)}`).join(', ')||'Compra registrada')+(s.type==='credit'&&hilenNum(s.initialPaid)>0?'<br>Pago inicial: '+money(Math.min(hilenSaleNetTotal(s),hilenNum(s.initialPaid)))+'<br><strong>Saldo de esta compra: '+money(hilenPrincipal(s))+'</strong>':''),amount:hilenSaleNetTotal(s),debtEffect:hilenPrincipal(s)
  })).concat(data.payments.map(p=>({
    date:p.date,time:p.time,createdAt:p.createdAt,id:p.id,kind:'pay',label:'Abono recibido',reference:'',
    detail:`Recibido en ${accountBadge(p.destination||'cash')}`,amount:hilenNum(p.amount)
@@ -11940,7 +11938,7 @@ function hilenTimelineHTML(cid,start='0000-01-01',end='9999-12-31',snapshot=null
  const ledger=rows.filter(m=>m.date&&m.date>=start).map(m=>{if(!adjusted&&adjustmentDate<=m.date){balance+=adjustment;adjusted=true}balance+=m.kind==='sale'?m.debtEffect:m.kind==='pay'?-m.amount:0;return {...m,running:Math.max(0,balance)}});
  const openingRow='';
  const historyNote='';
- return `${historyNote}<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Movimiento</th><th>Detalle</th><th>Valor del movimiento</th><th>Saldo restante</th><th>Acción</th></tr></thead><tbody>${openingRow}${ledger.map(m=>`<tr><td>${hilenInvoiceDate(m.date)}${m.time?`<div class="small muted">${esc(m.time)}</div>`:''}</td><td><span class="hilen-statement-movement ${m.kind==='pay'?'pay':'sale'}"><span class="hilen-move-dot"></span>${esc(m.label)}</span><span class="hilen-movement-effect">${m.kind==='sale'?'Aumenta la deuda':m.kind==='cash'?'No modifica la deuda':'Reduce la deuda'}</span></td><td><div class="small">${m.reference?`<b>Factura ${esc(m.reference)}</b><br>`:''}${m.detail}</div></td><td class="hilen-statement-amount">${money(m.amount)}</td><td><b>${money(m.running)}</b></td><td>${m.kind==='cash'?'—':m.kind==='sale'?`<button type="button" class="hilen-statement-eye" onclick="hilenStatementSaleDetail('${m.id}')" title="Ver productos y detalle de la compra" aria-label="Ver detalle de la factura ${esc(m.reference||'')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`:`<button type="button" class="hilen-statement-eye payment-eye" onclick="hilenStatementPaymentDetail('${m.id}')" title="Ver detalle del abono" aria-label="Ver detalle del abono del ${esc(hilenInvoiceDate(m.date))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`}</td></tr>`).join('')||`<tr><td colspan="6"><div class="notice blue" role="status" style="margin:6px 0;padding:12px 14px;line-height:1.5"><b>No hay movimientos en las fechas seleccionadas.</b><br>Entre el ${esc(hilenInvoiceDate(start))} y el ${esc(hilenInvoiceDate(end))} no se encontraron compras de contado, a crédito ni abonos de este cliente. Esto no significa que el cliente no tenga historial. Para consultar movimientos de otras fechas, amplía el rango o pulsa «Ver historial completo del cliente».</div></td></tr>`}</tbody></table></div>${data.periodAdjustment?`<div class="notice warn" style="margin-top:10px">Ajuste de saldo del período: ${money(data.periodAdjustment)}. No corresponde a una factura individual.</div>`:''}<div class="hilen-invoice-totals"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="14" cy="6" rx="7" ry="3"/><path d="M7 6v4c0 4 14 4 14 0V6M9 13c3 2 12 1 12-3v4c0 3-6 4-10 3"/><ellipse cx="7" cy="15" rx="5" ry="3"/><path d="M2 15v4c0 4 10 4 10 0v-4"/></svg> Total pendiente por pagar</span><b>${money(data.balance)}</b></div>`;
+ return `${historyNote}<div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Movimiento</th><th>Detalle</th><th>Valor del movimiento</th><th>Saldo restante</th><th>Acción</th></tr></thead><tbody>${openingRow}${ledger.map(m=>`<tr><td>${hilenInvoiceDate(m.date)}${m.time?`<div class="small muted">${esc(m.time)}</div>`:''}</td><td><span class="hilen-statement-movement ${m.kind==='pay'?'pay':'sale'}"><span class="hilen-move-dot"></span>${esc(m.label)}</span><span class="hilen-movement-effect">${m.kind==='sale'?'Aumenta la deuda':m.kind==='cash'?'No modifica la deuda':'Reduce la deuda'}</span></td><td><div class="small">${m.reference?`<b>Factura ${esc(m.reference)}</b><br>`:''}${m.detail}</div></td><td class="hilen-statement-amount">${money(m.amount)}</td><td><b>${money(m.running)}</b></td><td>${m.kind==='cash'?'—':m.kind==='sale'?`<button type="button" class="hilen-statement-eye" onclick="hilenStatementSaleDetail('${m.id}')" title="Ver productos y detalle de la compra" aria-label="Ver detalle de la factura ${esc(m.reference||'')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`:`<button type="button" class="hilen-statement-eye payment-eye" onclick="hilenStatementPaymentDetail('${m.id}')" title="Ver detalle del abono" aria-label="Ver detalle del abono del ${esc(hilenInvoiceDate(m.date))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>`}</td></tr>`).join('')||`<tr><td colspan="6"><div class="notice blue" role="status" style="margin:6px 0;padding:12px 14px;line-height:1.5"><b>No hay movimientos en las fechas seleccionadas.</b><br>Entre el ${esc(hilenInvoiceDate(start))} y el ${esc(hilenInvoiceDate(end))} no se encontraron compras de contado, a crédito ni abonos de este cliente. Esto no significa que el cliente no tenga historial. Para consultar movimientos de otras fechas, amplía el rango o pulsa «Ver historial completo del cliente».</div></td></tr>`}</tbody></table></div>${data.periodAdjustment?`<div class="notice warn" style="margin-top:10px">Ajuste de saldo del período: ${money(data.periodAdjustment)}. No corresponde a una factura individual.</div>`:''}<div class="hilen-invoice-totals"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="14" cy="6" rx="7" ry="3"/><path d="M7 6v4c0 4 14 4 14 0V6M9 13c3 2 12 1 12-3v4c0 3-6 4-10 3"/><ellipse cx="7" cy="15" rx="5" ry="3"/><path d="M2 15v4c0 4 10 4 10 0v-4"/></svg> ${data.credit?'Saldo a favor':'Saldo pendiente'}</span><b>${money(data.credit||data.balance)}</b></div>`;
 }
 
 /* Dashboard anual, reportes y avisos de abono pendientes. Sin duplicar registros. */
