@@ -6280,6 +6280,13 @@ body > .hsz-reserve[hidden]{display:none!important}
 #hilen-section-reading-zoom button:focus-visible{outline:2px solid #a38248;outline-offset:-2px}
 #app .main > section.section[data-hilen-section-scale]{zoom:var(--hilen-section-scale,1)!important;width:auto!important;max-width:100%!important;min-width:0!important}
 @media print{#hilen-section-reading-zoom,.hsz-reserve{display:none!important}#app .main > section.section[data-hilen-section-scale]{zoom:1!important}}
+
+/* HILEN: fixed dock outside the scrolling and scaled section, including tablets. */
+@media screen {
+body > .hsz-reserve{position:fixed!important;inset:0 0 auto 0;z-index:45;transform:none!important;translate:none!important;animation:none!important;transition:none!important;zoom:1!important;contain:layout paint;}
+body > .hsz-reserve[hidden]{display:none!important}
+body > #app.app:not(.hidden) > .main,body.hilen-side-collapsed > #app.app:not(.hidden) > .main{top:var(--hilen-zoom-dock-height,62px)!important;bottom:0!important;}
+}
 </style></head>
 <body>
 <!-- HILEN VISUAL V3 · Ventas + Configuración + Productos y demanda -->
@@ -6345,6 +6352,10 @@ body > .hsz-reserve[hidden]{display:none!important}
   </div>
 </div>
 
+<div class="hsz-reserve" hidden><div id="hilen-section-reading-zoom" role="group" aria-label="Zoom de la sección">
+<span class="hsz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6m-3-3v6"/></svg><span>Zoom de sección</span></span>
+<div class="hsz-controls"><button type="button" data-step="-10" aria-label="Reducir tamaño de sección">A−</button><button type="button" data-step="0" title="Restablecer tamaño" aria-label="Restablecer zoom a 100 por ciento"><output aria-live="polite">100 %</output></button><button type="button" data-step="10" aria-label="Ampliar tamaño de sección">A+</button></div>
+</div></div>
 <div id="app" class="app hidden">
   <div id="hilenCloudConflictBanner" class="hilen-cloud-conflict hidden" role="alert">
     <div class="hilen-cloud-conflict-copy"><strong>Sincronización pausada para proteger tus registros.</strong><span> Hay datos diferentes entre este dispositivo y Firebase. No se reemplazará ninguna versión automáticamente.</span><div id="hilenConflictReason" class="small" style="margin-top:4px;max-width:720px;overflow-wrap:anywhere"></div></div>
@@ -6404,10 +6415,7 @@ body > .hsz-reserve[hidden]{display:none!important}
     </div><div class="hilen-save-top"><button type="button" id="hilenSaveIndicator" class="hilen-save-indicator hilen-save-button" data-kind="work" onclick="hilenManualFirebaseSave()" title="Pulsar para guardar y comprobar los datos en Firebase">◷ Pendiente</button><div id="todayLabel" class="date-shell"></div></div></div></div>
     <div id="googleBackupReconnectAlert" class="backup-reconnect-alert hidden" role="alert"><div class="backup-reconnect-main"><div class="backup-reconnect-icon">!</div><div><b>Tus copias de seguridad necesitan reconectarse</b><div class="small">Google Drive dejó de autorizar la sincronización. Tus datos de HILEN siguen guardados, pero la copia adicional de Google no se actualizará hasta reconectar.</div></div></div><button type="button" onclick="connectGoogleSheets()">Reconectar Google</button></div>
 
-    <div class="hsz-reserve" aria-hidden="true"></div><div id="hilen-section-reading-zoom" role="group" aria-label="Zoom de la sección">
-<span class="hsz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6m-3-3v6"/></svg><span>Zoom de sección</span></span>
-<div class="hsz-controls"><button type="button" data-step="-10" aria-label="Reducir tamaño de sección">A−</button><button type="button" data-step="0" title="Restablecer tamaño" aria-label="Restablecer zoom a 100 por ciento"><output aria-live="polite">100 %</output></button><button type="button" data-step="10" aria-label="Ampliar tamaño de sección">A+</button></div>
-</div>
+    
 <section id="home" class="section active">
       <div class="welcome-row"><div class="welcome"><h2><span class="welcome-wave" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 11V6.5a1.5 1.5 0 0 1 3 0V10"/><path d="M10 10V5a1.5 1.5 0 0 1 3 0v5"/><path d="M13 10V6a1.5 1.5 0 0 1 3 0v6"/><path d="M16 12V8.5a1.5 1.5 0 0 1 3 0v6.1c0 4-2.5 6.4-6.4 6.4H11c-2.2 0-3.7-1.1-4.8-2.8L4 14.8a1.6 1.6 0 0 1 2.7-1.7L9 16"/></svg></span> ¡Bienvenida, <span id="homeUserName">HILEN</span>!</h2></div><div id="homeDatePretty" class="date-pill"></div></div>
 
@@ -12391,9 +12399,8 @@ try{if(levels.newSale===undefined){const old=Number(localStorage.getItem('HILEN_
 function active(){return sections.find(s=>s.classList.contains('active'));}
 function sync(){const s=active();if(!s)return;const n=levels[s.id]||100;sections.forEach(el=>{if(el===s){el.dataset.hilenSectionScale='true';el.style.setProperty('--hilen-section-scale',String(n/100));}else if(el.hasAttribute('data-hilen-section-scale')){el.removeAttribute('data-hilen-section-scale');el.style.removeProperty('--hilen-section-scale');}});bar.querySelector('output').textContent=n+' %';bar.querySelector('[data-step="-10"]').disabled=n<=80;bar.querySelector('[data-step="10"]').disabled=n>=150;}
 bar.addEventListener('click',e=>{const btn=e.target.closest('button[data-step]'),s=active();if(!btn||!s)return;const step=Number(btn.dataset.step);levels[s.id]=step===0?100:Math.min(150,Math.max(80,(levels[s.id]||100)+step));try{localStorage.setItem(key,JSON.stringify(levels));}catch(_){}sync();});
-const main=bar.closest('.main'),app=document.getElementById('app'),reserve=main?.querySelector('.hsz-reserve');
+const app=document.getElementById('app'),main=app?.querySelector('.main'),reserve=bar.closest('.hsz-reserve');
 if(!main||!app||!reserve)return;
-reserve.removeAttribute('aria-hidden');reserve.appendChild(bar);document.body.appendChild(reserve);
 let raf=0;
 function position(){raf=0;const visible=!app.classList.contains('hidden')&&!!active();reserve.hidden=!visible;if(!visible)return;const bounds=main.getBoundingClientRect();reserve.style.left=Math.max(0,bounds.left)+'px';reserve.style.right=Math.max(0,window.innerWidth-bounds.right)+'px';}
 function schedule(){if(!raf)raf=requestAnimationFrame(position);}
